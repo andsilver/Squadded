@@ -30,6 +30,7 @@ export default {
   ** Global CSS
   */
   css: [
+    "~/assets/style/app.styl",
   ],
   /*
   ** Plugins to load before mounting the App
@@ -50,7 +51,7 @@ export default {
   */
   vuetify: {
     theme: {
-      primary: colors.blue.darken2,
+      primary: '#202020',
       accent: colors.grey.darken3,
       secondary: colors.amber.darken3,
       info: colors.teal.lighten1,

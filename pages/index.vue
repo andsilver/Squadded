@@ -4,28 +4,29 @@
 		justify-center
 		align-center
 	>
-		<v-flex
-			xs12
-			sm8
-			md6
-		>
-			<div class="text-xs-center">
-				<v-card>
-					<v-card-actions>
-						<v-btn
-							color="primary"
-							flat
-							nuxt
-							to="/inspire"
-						>
-							Continue
-						</v-btn>
-					</v-card-actions>
-				</v-card>
-			</div>
-		</v-flex>
+		<div class="text-xs-center full-width">
+			<v-btn
+				class="full-width"
+				color="primary"
+				depressed
+			>
+				Sign up
+			</v-btn>
+		</div>
 	</v-layout>
 </template>
+
+<style lang="stylus">
+.full-width {
+	width: 100%;
+	margin-left: 0;
+	margin-right: 0;
+}
+.v-btn {
+	font-weight normal
+	text-transform unset
+}
+</style>
 
 <script>
 export default {
