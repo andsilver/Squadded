@@ -10,7 +10,6 @@
 			md6
 		>
 			<div class="text-xs-center">
-				<logo />
 				<v-card>
 					<v-card-actions>
 						<v-btn
@@ -29,11 +28,6 @@
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
 export default {
-	components: {
-		Logo
-	}
 }
 </script>
