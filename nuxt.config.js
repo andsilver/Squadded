@@ -30,12 +30,16 @@ export default {
   ** Global CSS
   */
   css: [
-    "~/assets/style/app.styl",
+    '~/assets/style/app.styl',
   ],
+  router: {
+    middleware: 'i18n'
+  },
   /*
   ** Plugins to load before mounting the App
   */
   plugins: [
+    '~/plugins/i18n.js'
   ],
   /*
   ** Nuxt.js modules
@@ -69,5 +73,8 @@ export default {
     */
     extend(config, ctx) {
     }
+  },
+  generate: {
+    routes: ['/']
   }
 }
