@@ -30,8 +30,8 @@ export default {
 	},
 	data() {
 		return {
-			pageNotFound: '404 Not Found',
-			otherError: 'An error occurred'
+			pageNotFound: this.$t('error.404'),
+			otherError: this.$t('error.other')
 		}
 	}
 }

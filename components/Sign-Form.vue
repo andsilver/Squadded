@@ -4,22 +4,21 @@
 		v-model="valid"
 		lazy-validation
 	>
-		<div
-			v-if="!signup"
-			class="my-4"
-		>or</div>
+		<div v-if="!signup" class="my-4">
+			<span>{{ $t('or') }}</span>
+		</div>
 		<v-text-field
 			v-if="signup"
 			v-model="name"
 			:rules="nameRules"
-			label="Name"
+			:label="$t('form.name')"
 			required
 		/>
 
 		<v-text-field
 			v-model="email"
 			:rules="emailRules"
-			label="E-mail"
+			:label="$t('form.email')"
 			type="email"
 			required
 		/>
@@ -27,22 +26,22 @@
 		<v-text-field
 			v-model="password"
 			:rules="passwordRules"
-			label="Password"
+			:label="$t('form.password')"
 			type="password"
 			required
 		/>
 
 		<div v-if="!signup" class="text-xs-right">
 			<a nuxt to="forgot" class="normal">
-				Forgot password?
+				{{ $t('form.forgot') }}
 			</a>
 		</div>
 
 		<v-checkbox
 			v-if="signup"
 			v-model="terms"
-			:rules="[v => !!v || 'You must accept the Terms to continue!']"
-			label="I have read and accept the Terms"
+			:rules="[v => !!v || $t('form.terms.message')]"
+			:label="$t('form.terms.label')"
 			required
 			:hide-details="true"
 			class="small"
@@ -51,8 +50,8 @@
 		<v-checkbox
 			v-if="signup"
 			v-model="allowContact"
-			:rules="[v => !!v || 'You must allow us to contact you!']"
-			label="I allow Squad to contact me"
+			:rules="[v => !!v || $t('form.allowContact.message')]"
+			:label="$t('form.allowContact.label')"
 			required
 			:hide-details="true"
 			class="small"
@@ -61,8 +60,8 @@
 		<v-checkbox
 			v-if="signup"
 			v-model="above16"
-			:rules="[v => !!v || 'You must be older than 16 to continue!']"
-			label="I certify that I am 16 or older"
+			:rules="[v => !!v || $t('form.age.messsage')]"
+			:label="$t('form.age.label')"
 			required
 			:hide-details="true"
 			class="small"
@@ -74,11 +73,11 @@
 			depressed
 			@click="validate"
 		>
-			Sign up
+			{{ signup ? $t('form.signup') : $t('form.login') }}
 		</v-btn>
 		<div class="m2">
-			<span v-if="signup">Already onboard? <a @click="signup = !signup">Login</a></span>
-			<span v-if="!signup">Need an account? <a @click="signup = !signup">Sign up</a></span>
+			<span v-if="signup">Already onboard? <a @click="toggle">{{ $t('form.login') }}</a></span>
+			<span v-if="!signup">Need an account? <a @click="toggle">{{ $t('form.signup') }}</a></span>
 		</div>
 	</v-form>
 </template>
@@ -104,33 +103,39 @@
 
 <script>
 export default {
-	data: () => ({
-		valid: true,
-		signup: true,
-		name: '',
-		nameRules: [
-			v => !!v || 'Name is required',
-		],
-		email: '',
-		emailRules: [
-			v => !!v || 'E-mail is required',
-			v => /.+@.+/.test(v) || 'E-mail must be valid'
-		],
-		password: '',
-		passwordRules: [
-			v => !!v || 'Password is required',
-			v => (v && v.length >= 8) || 'Name must contain more than 8 characters',
-		],
-		terms: false,
-		allowContact: false,
-		above16: false,
-	}),
+	data: function () {
+		return {
+			valid: true,
+			signup: true,
+			name: '',
+			nameRules: [
+				v => !!v || this.$t('form.rules.name.required'),
+			],
+			email: '',
+			emailRules: [
+				v => !!v || this.$t('form.rules.email.required'),
+				v => /.+@.+/.test(v) || this.$t('form.rules.email.valid')
+			],
+			password: '',
+			passwordRules: [
+				v => !!v || this.$t('form.rules.password.required'),
+				v => (v && v.length >= 8) || this.$tc('form.rules.password.length', 8),
+			],
+			terms: false,
+			allowContact: false,
+			above16: false,
+		}
+	},
 	methods: {
 		validate () {
 			if (this.$refs.form.validate()) {
 				this.snackbar = true
 			}
 		},
+		toggle () {
+			this.signup = !this.signup;
+			this.$refs.form.reset();
+		}
 	}
 }
 </script>
