@@ -1,5 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
-
 export default {
   mode: 'spa',
   /*
@@ -39,7 +37,8 @@ export default {
   ** Plugins to load before mounting the App
   */
   plugins: [
-    '~/plugins/i18n.js'
+    '@plugins/i18n.js',
+    '@plugins/vuetify',
   ],
   /*
   ** Nuxt.js modules
@@ -49,21 +48,6 @@ export default {
     '@nuxtjs/pwa',
     '@nuxtjs/eslint-module'
   ],
-  /*
-  ** vuetify module configuration
-  ** https://github.com/nuxt-community/vuetify-module
-  */
-  vuetify: {
-    theme: {
-      primary: '#202020',
-      accent: colors.grey.darken3,
-      secondary: colors.amber.darken3,
-      info: colors.teal.lighten1,
-      warning: colors.amber.base,
-      error: colors.deepOrange.accent4,
-      success: colors.green.accent3
-    }
-  },
   /*
   ** Build configuration
   */

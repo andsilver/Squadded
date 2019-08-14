@@ -70,6 +70,7 @@
 		<v-btn
 			class="full-width my-4"
 			color="primary"
+			large
 			depressed
 			@click="validate"
 		>
@@ -95,9 +96,6 @@
 
 	.v-btn
 		font-size 16px
-		height 50px
-		border-radius 4px
-		font-weight normal
 		text-transform unset
 </style>
 

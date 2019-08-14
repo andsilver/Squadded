@@ -5,7 +5,7 @@
 		align-center
 	>
 		<div class="full-width">
-			<div class="text-xs-center my-2">
+			<div class="text-center my-2">
 				<span>{{ $t('getStarted') }}</span>
 			</div>
 			<div class="my-3 social">
