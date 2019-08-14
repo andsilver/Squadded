@@ -11,7 +11,22 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "yarn uglifylib && nuxt generate",
-    "uglifylib": "npx babel ./lib/squad-widget.js | npx uglifyjs -o ./lib/squad-widget.min.js && cp ./lib/squad-widget.min.js ./static/lib/squad-widget.min.js"
+    "uglifylib": "npx babel ./lib/squad-widget.js | npx uglifyjs -o ./lib/squad-widget.min.js && cp ./lib/squad-widget.min.js ./static/lib/squad-widget.min.js",
+    "test": "jest --no-cache"
+  },
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/test/jest.setup.js"
+    ],
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "vue"
+    ],
+    "transform": {
+      "^.+\\.js$": "babel-jest",
+      ".*\\.(vue)$": "vue-jest"
+    }
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.0.0-beta.16",
