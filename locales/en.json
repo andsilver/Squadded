@@ -1,0 +1,46 @@
+{
+  "getStarted": "Get started with",
+  "or": "or",
+  "form": {
+    "name": "Name",
+    "email": "E-mail",
+    "password": "Password",
+    "forgot": "Forgot password?",
+    "terms": {
+      "label": "I have read and accept the Terms",
+      "message": "You must accept the Terms to continue!"
+    },
+    "allowContact": {
+      "label": "I allow Squad to contact me",
+      "message": "You must allow us to contact you!"
+    },
+    "age": {
+      "label": "I certify that I am 16 or older",
+      "messsage": "You must be older than 16 to continue!"
+    },
+    "rules": {
+      "name": {
+        "required": "Name is required"
+      },
+      "email": {
+        "required": "E-mail is required",
+        "valid": "E-mail must be valid"
+      },
+      "password": {
+        "required": "Password is required",
+        "length": "Name must contain more than {n} characters"
+      }
+    },
+    "signup": "Sign up",
+    "login": "Login",
+    "onboard": "Already onboard?",
+    "needAnAccount": "Need an account?"
+  },
+  "feed": {
+    "isEmpty": "There is no items yet"
+  },
+  "error": {
+    "404": "404 Not Found",
+    "other": "An error occurred"
+  }
+}
