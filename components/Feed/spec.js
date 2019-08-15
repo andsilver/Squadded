@@ -6,6 +6,18 @@ describe('FeedComponent', () => {
 		$t: msg => msg,
 	};
 
+	const propsData = {
+		items: [{
+			name: 'singleItemPost',
+			data: {
+				title: 'Title',
+				price: '9.99$',
+				img: 'http://mock/img.png',
+				url: 'http://mock/item',
+			},
+		}],
+	};
+
 	it('sets the correct default props', () => {
 		expect(FeedComponent.props.items).toEqual(jasmine.any(Object));
 		const wrapper = shallowMount(FeedComponent, {
@@ -21,4 +33,12 @@ describe('FeedComponent', () => {
 		});
 		expect(wrapper.vm.$el.textContent).toBe('feed.isEmpty');
 	});
-})
+
+	it('accepts items props', () => {
+		// at least should not throw errors
+		shallowMount(FeedComponent, {
+			mocks,
+			propsData,
+		});
+	});
+});
