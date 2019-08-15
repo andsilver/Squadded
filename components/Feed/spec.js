@@ -1,7 +1,7 @@
 import { shallowMount } from '@vue/test-utils'
 import FeedComponent from './index.vue';
 
-describe('FeedComponent', () => {
+describe('FeedComponent Empty State', () => {
 	const mocks = {
 		$t: msg => msg,
 	};
@@ -27,18 +27,18 @@ describe('FeedComponent', () => {
 		expect(wrapper.vm.items.length).toBe(0);
 	});
 
-	it('renders the correct message', () => {
+	it('renders the correct message for empty Feed', () => {
 		const wrapper = shallowMount(FeedComponent, {
 			mocks,
 		});
 		expect(wrapper.vm.$el.textContent).toBe('feed.isEmpty');
 	});
 
-	it('accepts items props', () => {
-		// at least should not throw errors
-		shallowMount(FeedComponent, {
+	it('accepts items list as props and do not render message for empty Feed', () => {
+		const wrapper = shallowMount(FeedComponent, {
 			mocks,
 			propsData,
 		});
+		expect(wrapper.vm.$el.textContent).not.toBe('feed.isEmpty');
 	});
 });
