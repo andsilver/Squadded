@@ -36,6 +36,9 @@
     "onboard": "Already onboard?",
     "needAnAccount": "Need an account?"
   },
+  "feed": {
+    "isEmpty": "There is no items yet"
+  },
   "error": {
     "404": "404 Not Found",
     "other": "An error occurred"

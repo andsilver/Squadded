@@ -1,7 +1,7 @@
 <template lang="html">
 
 	<section class="feed">
-		<h1>{{ message }}</h1>
+		<span v-if="!items.length">{{ $t('feed.isEmpty') }}</span>
 	</section>
 
 </template>
@@ -9,13 +9,17 @@
 <script lang="js">
 	export default  {
 		name: 'feed',
-		props: [],
+		props: {
+			items: {
+				type: Array,
+				default: [],
+			}
+		},
 		mounted() {
 
 		},
 		data() {
 			return {
-				message: 'hello!'
 			}
 		},
 		methods: {
@@ -23,9 +27,6 @@
 		},
 		computed: {
 
-		},
-		created () {
-			this.message = 'bye!';
 		}
 }
 </script>
