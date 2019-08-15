@@ -32,7 +32,9 @@
       }
     },
     "signup": "Sign up",
-    "login": "Login"
+    "login": "Login",
+    "onboard": "Already onboard?",
+    "needAnAccount": "Need an account?"
   },
   "error": {
     "404": "404 Not Found",

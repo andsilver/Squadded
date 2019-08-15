@@ -77,8 +77,8 @@
 			{{ signup ? $t('form.signup') : $t('form.login') }}
 		</v-btn>
 		<div class="m2">
-			<span v-if="signup">Already onboard? <a @click="toggle">{{ $t('form.login') }}</a></span>
-			<span v-if="!signup">Need an account? <a @click="toggle">{{ $t('form.signup') }}</a></span>
+			<span v-if="signup">{{ $t('form.onboard') }} <a @click="toggle">{{ $t('form.login') }}</a></span>
+			<span v-if="!signup">{{ $t('form.needAnAccount') }} <a @click="toggle">{{ $t('form.signup') }}</a></span>
 		</div>
 	</v-form>
 </template>
