@@ -112,7 +112,7 @@ export default {
 			email: '',
 			emailRules: [
 				v => !!v || this.$t('form.rules.email.required'),
-				v => /.+@.+/.test(v) || this.$t('form.rules.email.valid')
+				v => /.+@.+/.test(v) || this.$t('form.rules.email.valid'),
 			],
 			password: '',
 			passwordRules: [
@@ -122,18 +122,18 @@ export default {
 			terms: false,
 			allowContact: false,
 			above16: false,
-		}
+		};
 	},
 	methods: {
 		validate () {
 			if (this.$refs.form.validate()) {
-				this.snackbar = true
+				this.snackbar = true;
 			}
 		},
 		toggle () {
 			this.signup = !this.signup;
 			this.$refs.form.reset();
-		}
-	}
-}
+		},
+	},
+};
 </script>

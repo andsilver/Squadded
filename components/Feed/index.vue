@@ -28,12 +28,12 @@ export default {
 			type: Array,
 			default() {
 				return [];
-			}
-		}
+			},
+		},
 	},
 	data() {
 		return {
-		}
+		};
 	},
 	computed: {
 
@@ -44,7 +44,7 @@ export default {
 	methods: {
 
 	},
-}
+};
 </script>
 
 <style scoped lang="scss">

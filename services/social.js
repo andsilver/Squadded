@@ -3,7 +3,7 @@ const OAUTH = {
 		endpoint: 'https://www.facebook.com/v3.3/dialog/oauth?',
 		id: '675899836211443',
 		scope: 'public_profile,email',
-		display: 'popup'
+		display: 'popup',
 	},
 };
 
@@ -13,7 +13,7 @@ function generateState () {
 
 export default class Social {
 	static redirectUrl (providerName) {
-		return `https://api.squad-shopping.com/auth/${providerName}/callback`
+		return `https://api.squad-shopping.com/auth/${providerName}/callback`;
 	}
 
 	static oauth (providerName) {
