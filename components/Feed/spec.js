@@ -1,4 +1,4 @@
-import { shallowMount } from '@vue/test-utils'
+import { shallowMount } from '@vue/test-utils';
 import FeedComponent from './index.vue';
 
 describe('FeedComponent Empty State', () => {
@@ -15,7 +15,7 @@ describe('FeedComponent Empty State', () => {
 				img: 'http://mock/img.png',
 				url: 'http://mock/item',
 			},
-		}],
+		} ],
 	};
 
 	it('sets the correct default props', () => {

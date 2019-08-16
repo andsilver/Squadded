@@ -13,10 +13,10 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    "comma-dangle": "off",
+    "comma-dangle": ["error", "always-multiline"],
     "no-tabs": "off",
     "object-shorthand": "off",
-    "semi": "off",
+    "semi": ["error", "always"],
     "space-before-function-paren": "off",
     "vue/html-indent": ["error", "tab"],
     "indent": [
@@ -27,4 +27,4 @@ module.exports = {
       }
     ],
   },
-}
+};

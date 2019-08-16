@@ -18,23 +18,23 @@ export default {
 	props: {
 		error: {
 			type: Object,
-			default: null
-		}
+			default: null,
+		},
 	},
 	head() {
 		const title =
-			this.error.statusCode === 404 ? this.pageNotFound : this.otherError
+			this.error.statusCode === 404 ? this.pageNotFound : this.otherError;
 		return {
-			title
-		}
+			title,
+		};
 	},
 	data() {
 		return {
 			pageNotFound: this.$t('error.404'),
-			otherError: this.$t('error.other')
-		}
-	}
-}
+			otherError: this.$t('error.other'),
+		};
+	},
+};
 </script>
 
 <style scoped>

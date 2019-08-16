@@ -26,5 +26,4 @@ jobs:
             - package.json
           key: v1-dist-{{ .Environment.CIRCLE_BRANCH }}-{{ .Environment.CIRCLE_SHA1 }} 
 
-      - run: yarn run test 
-
+      - run: yarn test

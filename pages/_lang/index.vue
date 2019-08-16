@@ -35,13 +35,13 @@
 </style>
 
 <script>
-import SocialBtn from '~/components/Social-Button.vue'
-import SignForm from '~/components/Sign-Form.vue'
+import SocialBtn from '~/components/Social-Button.vue';
+import SignForm from '~/components/Sign-Form.vue';
 
 export default {
 	components: {
 		'social-btn': SocialBtn,
 		'sign-form': SignForm,
-	}
-}
+	},
+};
 </script>
