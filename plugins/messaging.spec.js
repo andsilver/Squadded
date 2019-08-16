@@ -1,3 +1,4 @@
+import item from '../test/feed.item.mock';
 import messaging, { parseMessage } from './messaging';
 
 describe('Message listener', () => {
@@ -19,15 +20,7 @@ describe('Message listener', () => {
 
 		const data = {
 			type: 'FEED_ITEM',
-			item: {
-				name: 'singleItemPost',
-				data: {
-					title: 'Title',
-					price: '9.99$',
-					img: 'http://mock/img.png',
-					url: 'http://mock/item',
-				},
-			},
+			item: item(),
 		};
 
 		parseMessage({ data: JSON.stringify(data) });
