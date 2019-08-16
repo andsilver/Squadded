@@ -1,3 +1,5 @@
+import feed from './feed';
+
 export const state = () => ({
 	locales: ['en'],
 	locale: 'en',
@@ -9,4 +11,8 @@ export const mutations = {
 			state.locale = locale;
 		}
 	},
+};
+
+export const modules = {
+	feed,
 };
