@@ -60,6 +60,6 @@ export default {
 		},
 	},
 	generate: {
-		routes: ['/'],
+		routes: ['/', '/feed'],
 	},
 };
