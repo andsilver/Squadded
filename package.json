@@ -49,6 +49,7 @@
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
     "babel-plugin-transform-css-import-to-string": "^0.0.2",
+    "chance": "^1.0.18",
     "eslint": "^6.1.0",
     "eslint-config-standard": ">=13.0.1",
     "eslint-plugin-import": ">=2.18.2",

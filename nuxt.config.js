@@ -39,6 +39,7 @@ export default {
 	plugins: [
 		'@plugins/i18n.js',
 		'@plugins/vuetify',
+		'@plugins/messaging',
 	],
 	/*
 	** Nuxt.js modules

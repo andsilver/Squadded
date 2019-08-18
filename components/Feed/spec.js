@@ -1,4 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
+import item from '../../test/feed.item.mock';
 import FeedComponent from './index.vue';
 
 describe('FeedComponent Empty State', () => {
@@ -7,15 +8,7 @@ describe('FeedComponent Empty State', () => {
 	};
 
 	const propsData = {
-		items: [{
-			name: 'singleItemPost',
-			data: {
-				title: 'Title',
-				price: '9.99$',
-				img: 'http://mock/img.png',
-				url: 'http://mock/item',
-			},
-		} ],
+		items: [item()],
 	};
 
 	it('sets the correct default props', () => {

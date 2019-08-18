@@ -11,6 +11,9 @@ module.exports = {
     '@nuxtjs',
     'plugin:nuxt/recommended'
   ],
+  globals: {
+    "spyOn": true,
+  },
   // add your custom rules here
   rules: {
     "comma-dangle": ["error", "always-multiline"],
