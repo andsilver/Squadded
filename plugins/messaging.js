@@ -10,7 +10,7 @@ export const parseMessage = function (event) {
 	}
 
 	if (data.type === 'FEED_ITEM') {
-		vStore.dispatch('feed/saveItem', data.item);
+		vStore.dispatch('feed/saveItem', data);
 	} else {
 		// TODO gracefull report
 		// console.warn('Uknonwn message type', data);

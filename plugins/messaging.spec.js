@@ -26,6 +26,6 @@ describe('Message listener', () => {
 		parseMessage({ data: JSON.stringify(data) });
 
 		expect(store.dispatch).toHaveBeenCalledTimes(1);
-		expect(store.dispatch.calls.argsFor(0)).toEqual(['feed/saveItem', data.item]);
+		expect(store.dispatch.calls.argsFor(0)).toEqual(['feed/saveItem', data]);
 	});
 });
