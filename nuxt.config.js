@@ -1,5 +1,13 @@
+const { WS_LINK } = process.env;
+if (!WS_LINK) {
+	throw new Error('WS_LINK environment variable is must!');
+}
+
 export default {
 	mode: 'spa',
+	env: {
+		wsLink: process.env.WS_LINK,
+	},
 	/*
 	** Headers of the page
 	*/
