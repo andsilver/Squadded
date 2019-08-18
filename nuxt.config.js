@@ -45,9 +45,10 @@ export default {
 	** Plugins to load before mounting the App
 	*/
 	plugins: [
-		'@plugins/i18n.js',
+		'@plugins/i18n',
 		'@plugins/vuetify',
 		'@plugins/messaging',
+		{ src: '@plugins/ws', ssr: false },
 	],
 	/*
 	** Nuxt.js modules

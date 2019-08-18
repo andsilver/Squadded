@@ -46,6 +46,7 @@ export default {
 		]),
 	},
 	mounted() {
+		this.$connect(); // TODO move to auth
 		// this.$store.dispatch('feed/get');
 	},
 };
