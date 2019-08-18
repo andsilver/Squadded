@@ -23,8 +23,7 @@ export default ({ app, store }) => {
 
 	store.subscribe((mutation, state) => {
 		if (mutation.type === 'SOCKET_ONOPEN') {
-			Vue.prototype.$ws = event.currentTarget; // to be used in components
-			state.socket.$ws = event.currentTarget; // to be used in store modules
+			Vue.prototype.$ws = state.socket.$ws; // to be used in components
 			return;
 		}
 
