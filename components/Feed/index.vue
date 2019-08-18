@@ -4,7 +4,7 @@
 		<v-list v-else three-line>
 			<template v-for="item in items">
 				<v-list-item
-					:key="item.guid"
+					:key="item.id"
 				>
 					<v-list-item-avatar>
 						<v-img :src="item.data.img" />
