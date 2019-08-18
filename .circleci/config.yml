@@ -28,6 +28,10 @@ jobs:
 
       - run: yarn test
 
+      - run:
+          name: Prepare prod env file
+          command: echo "WS_LINK=${WS_LINK}" > .prod.env
+
       - run: yarn build
       
       - persist_to_workspace:
@@ -62,3 +66,4 @@ workflows:
           filters:
             branches:
               only: master
+
