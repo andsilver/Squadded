@@ -29,6 +29,11 @@ jobs:
       - run: yarn test
 
       - run: yarn build
+      
+      - persist_to_workspace:
+          root: ~/repo
+          paths:
+            - dist
 
   deploy:
     docker:
@@ -38,9 +43,13 @@ jobs:
       - run:
           name: Install awscli
           command: sudo pip install awscli
+          
+      - attach_workspace:
+          at: ~/repo
+
       - run:
           name: Deploy to S3
-          command: aws s3 sync dist/ s3://squad-widget/ --delete
+          command: aws s3 sync ~/repo/dist s3://squad-widget/ --delete
 
 workflows:
   version: 2
