@@ -1,5 +1,13 @@
+const { WS_LINK } = process.env;
+if (!WS_LINK) {
+	throw new Error('WS_LINK environment variable is must!');
+}
+
 export default {
 	mode: 'spa',
+	env: {
+		wsLink: process.env.WS_LINK,
+	},
 	/*
 	** Headers of the page
 	*/
@@ -37,9 +45,10 @@ export default {
 	** Plugins to load before mounting the App
 	*/
 	plugins: [
-		'@plugins/i18n.js',
+		'@plugins/i18n',
 		'@plugins/vuetify',
 		'@plugins/messaging',
+		{ src: '@plugins/ws', ssr: false },
 	],
 	/*
 	** Nuxt.js modules
@@ -60,6 +69,6 @@ export default {
 		},
 	},
 	generate: {
-		routes: ['/'],
+		routes: ['/', '/feed'],
 	},
 };

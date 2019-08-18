@@ -1,8 +1,16 @@
+import { Chance } from 'chance';
+import item from '../test/feed.item.mock';
 import { mutations, actions } from './feed';
+
+const chance = new Chance();
 
 describe('Feed store module', () => {
 	describe('mutations', () => {
-		const { setItems, addItem } = mutations;
+		const {
+			setItems,
+			addItem,
+			itemLoaded,
+		} = mutations;
 
 		it('should set all items in store', () => {
 			const state = {
@@ -27,23 +35,83 @@ describe('Feed store module', () => {
 			expect(state.items.length).toBe(1);
 			expect(state.items[state.items.length - 1]).toBe(newItem);
 		});
+
+		it('should update item guid on load', () => {
+			const pendingItem = item();
+			const state = {
+				items: [pendingItem],
+			};
+
+			const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid() });
+			itemLoaded(state, loadedItem);
+			expect(state.items.length).toBe(1);
+			expect(pendingItem.guid).toBe(loadedItem.guid);
+		});
 	});
 
 	describe('actions', () => {
-		const { saveItem } = actions;
+		const {
+			saveItem,
+			receiveItem,
+		} = actions;
+		let ctx;
 
-		it('should commit addItem on save', () => {
-			const ctx = {
+		beforeEach(() => {
+			ctx = {
 				commit: function () {}, // do not use arrow function
+				rootState: {
+					socket: {
+						isConnected: true,
+						$ws: {
+							sendObj: function () {},
+						},
+					},
+				},
 			};
+		});
+
+		it('should send item and commit addItem on save', () => {
 			spyOn(ctx, 'commit');
+			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
-			const mockItem = {};
+			const mockData = {
+				type: 'FEED_ITEM',
+				item: item(),
+			};
 
-			saveItem(ctx, mockItem);
+			saveItem(ctx, mockData);
 
+			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
+			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledWith(mockData);
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith('addItem', mockItem);
+			expect(ctx.commit).toHaveBeenCalledWith('addItem', mockData.item);
+		});
+
+		it('should not send item or commit addItem on save while WS disconnected', () => {
+			ctx.rootState.socket.isConnected = false;
+			spyOn(ctx, 'commit');
+			spyOn(ctx.rootState.socket.$ws, 'sendObj');
+
+			saveItem(ctx, {});
+
+			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
+			expect(ctx.commit).toHaveBeenCalledTimes(0);
+		});
+
+		it('should commit addItem when receive loaded item', () => {
+			spyOn(ctx, 'commit');
+			spyOn(ctx.rootState.socket.$ws, 'sendObj');
+
+			const mockData = {
+				type: 'FEED_ITEM',
+				item: item(),
+			};
+
+			receiveItem(ctx, mockData.item);
+
+			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
+			expect(ctx.commit).toHaveBeenCalledTimes(1);
+			expect(ctx.commit).toHaveBeenCalledWith('itemLoaded', mockData.item);
 		});
 	});
 });

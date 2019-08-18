@@ -15,6 +15,14 @@ export const mutations = {
 	addItem: (state, payload) => {
 		state.items.push(payload);
 	},
+	itemLoaded: (state, payload) => {
+		const item = state.items.find(i => i.id === payload.id);
+		if (!item) {
+			// was removed before load finish
+			return;
+		}
+		item.guid = payload.guid;
+	},
 };
 
 export const actions = {
@@ -22,12 +30,18 @@ export const actions = {
 	/* get: async (ctx) => {
 		http fetch or websocket
 	}, */
-	saveItem: ({ commit }, payload) => {
-		/* TODO
-			pending status
-			push to websocket
-		*/
-		commit('addItem', payload);
+	saveItem: ({ rootState, commit }, payload) => {
+		if (!rootState.socket.isConnected) {
+			// TODO? add some queue for sync after reconnect
+			return;
+		}
+		rootState.socket.$ws.sendObj(payload);
+
+		payload.item.guid = null;
+		commit('addItem', payload.item);
+	},
+	receiveItem: ({ commit }, payload) => {
+		commit('itemLoaded', payload);
 	},
 };
 
