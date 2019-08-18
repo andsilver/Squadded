@@ -3,6 +3,5 @@
 		"@babel/env"
 	],
 	"plugins": [
-		"transform-css-import-to-string"
 	]
 }
