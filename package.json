@@ -11,7 +11,6 @@
     "build": "env-cmd -f .prod.env nuxt build",
     "start": "nuxt start",
     "generate": "yarn uglifylib && env-cmd -f .prod.env nuxt generate",
-    "uglifylib": "npx babel ./lib/squad-widget.js | npx uglifyjs -o ./lib/squad-widget.min.js && cp ./lib/squad-widget.min.js ./static/lib/squad-widget.min.js",
     "test": "yarn lint && jest --no-cache"
   },
   "jest": {
@@ -49,7 +48,6 @@
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
-    "babel-plugin-transform-css-import-to-string": "^0.0.2",
     "chance": "^1.0.18",
     "env-cmd": "^9.0.3",
     "eslint": "^6.1.0",

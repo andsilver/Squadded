@@ -18,6 +18,7 @@ export const mutations = {
 	},
 	SOCKET_ONOPEN (state, event) {
 		state.socket.isConnected = true;
+		state.socket.$ws = event.currentTarget; // to be used in store modules
 	},
 	SOCKET_ONCLOSE (state, event) {
 		state.socket.isConnected = false;
