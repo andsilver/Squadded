@@ -53,7 +53,7 @@ jobs:
 
       - run:
           name: Deploy to S3
-          command: aws s3 sync ~/repo/dist s3://squad-widget/ --delete
+          command: aws s3 sync ~/repo/dist s3://squad-widget/widget/ --delete
 
 workflows:
   version: 2
