@@ -39,6 +39,7 @@ export default {
 		'~/assets/style/app.styl',
 	],
 	router: {
+		base: '/widget/',
 		middleware: 'i18n',
 	},
 	/*
@@ -66,6 +67,8 @@ export default {
 		** You can extend webpack config here
 		*/
 		extend(config, ctx) {
+			config.output.publicPath = './_nuxt/';
+			return config;
 		},
 	},
 	generate: {

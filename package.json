@@ -10,7 +10,7 @@
     "dev": "env-cmd -f .dev.env nuxt --hostname 0.0.0.0",
     "build": "env-cmd -f .prod.env nuxt build",
     "start": "nuxt start",
-    "generate": "yarn uglifylib && env-cmd -f .prod.env nuxt generate",
+    "generate": "env-cmd -f .prod.env nuxt generate",
     "test": "yarn lint && jest --no-cache"
   },
   "jest": {
