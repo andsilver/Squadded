@@ -20,7 +20,7 @@ export default {
 	},
 	data: function () {
 		return {
-			src: `/img/${this.for}-btn.svg`,
+			src: `./img/${this.for}-btn.svg`,
 			alt: `${fullname[this.for]} logo button`,
 		};
 	},
