@@ -60,6 +60,7 @@
     "eslint-plugin-standard": ">=4.0.0",
     "eslint-plugin-vue": "^5.2.3",
     "jest": "^24.8.0",
+    "jest-tap-reporter": "^1.9.0",
     "nodemon": "^1.19.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",

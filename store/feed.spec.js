@@ -87,15 +87,20 @@ describe('Feed store module', () => {
 			expect(ctx.commit).toHaveBeenCalledWith('addItem', mockData.item);
 		});
 
-		it('should not send item or commit addItem on save while WS disconnected', () => {
+		it('should not send item on save while WS disconnected', () => {
 			ctx.rootState.socket.isConnected = false;
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
-			saveItem(ctx, {});
+			const mockData = {
+				type: 'FEED_ITEM',
+				item: item(),
+			};
+
+			saveItem(ctx, mockData);
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
-			expect(ctx.commit).toHaveBeenCalledTimes(0);
+			expect(ctx.commit).toHaveBeenCalledTimes(1);
 		});
 
 		it('should commit addItem when receive loaded item', () => {

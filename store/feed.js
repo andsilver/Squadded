@@ -31,14 +31,13 @@ export const actions = {
 		http fetch or websocket
 	}, */
 	saveItem: ({ rootState, commit }, payload) => {
-		if (!rootState.socket.isConnected) {
-			// TODO? add some queue for sync after reconnect
-			return;
-		}
-		rootState.socket.$ws.sendObj(payload);
-
 		payload.item.guid = null;
 		commit('addItem', payload.item);
+
+		if (rootState.socket.isConnected) {
+			// TODO? add some queue for sync after reconnect
+			rootState.socket.$ws.sendObj(payload);
+		}
 	},
 	receiveItem: ({ commit }, payload) => {
 		commit('itemLoaded', payload);
