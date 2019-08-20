@@ -1,12 +1,20 @@
-const { WS_LINK } = process.env;
+const {
+	WS_LINK,
+	BASE,
+} = process.env;
+
 if (!WS_LINK) {
 	throw new Error('WS_LINK environment variable is must!');
+}
+
+if (!BASE) {
+	throw new Error('BASE environment variable is must!');
 }
 
 export default {
 	mode: 'spa',
 	env: {
-		wsLink: process.env.WS_LINK,
+		wsLink: WS_LINK,
 	},
 	/*
 	** Headers of the page
@@ -39,7 +47,7 @@ export default {
 		'~/assets/style/app.styl',
 	],
 	router: {
-		base: '/widget/',
+		base: BASE,
 		middleware: 'i18n',
 	},
 	/*
