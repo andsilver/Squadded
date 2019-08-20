@@ -57,7 +57,7 @@ jobs:
 
       - run:
           name: Deploy to S3
-          command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; aws s3 sync ~/repo/dist s3://squad-widget/widget/${DEPLOY_VERSION} --delete)
+          command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; aws s3 sync ~/repo/dist s3://squad-widget/widget/${DEPLOY_VERSION} )
 
 workflows:
   version: 2
