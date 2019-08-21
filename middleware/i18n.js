@@ -3,7 +3,7 @@ export default function ({ isHMR, app, store, route, params, error, redirect }) 
 	// If middleware is called from hot module replacement, ignore it
 	if (isHMR) { return; }
 	// Get locale from params
-	const locale = params.lang || defaultLocale;
+	const locale = params.lang === 'index.html' ? defaultLocale : params.lang || defaultLocale;
 	if (!store.state.locales.includes(locale)) {
 		return error({ message: 'This page could not be found.', statusCode: 404 });
 	}

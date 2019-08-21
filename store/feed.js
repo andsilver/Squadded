@@ -16,7 +16,7 @@ export const mutations = {
 		state.items.push(payload);
 	},
 	itemLoaded: (state, payload) => {
-		const item = state.items.find(i => i.id === payload.id);
+		const item = state.items.find(i => i.itemId === payload.itemId);
 		if (!item) {
 			// was removed before load finish
 			return;
@@ -31,8 +31,8 @@ export const actions = {
 		http fetch or websocket
 	}, */
 	saveItem: ({ rootState, commit }, payload) => {
-		payload.item.guid = null;
-		commit('addItem', payload.item);
+		payload.data.guid = null;
+		commit('addItem', payload.data);
 
 		if (rootState.socket.isConnected) {
 			// TODO? add some queue for sync after reconnect
