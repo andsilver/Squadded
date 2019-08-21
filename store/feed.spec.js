@@ -30,7 +30,7 @@ describe('Feed store module', () => {
 				items: [],
 			};
 
-			const newItem = {};
+			const newItem = item();
 			addItem(state, newItem);
 			expect(state.items.length).toBe(1);
 			expect(state.items[state.items.length - 1]).toBe(newItem);
@@ -74,17 +74,17 @@ describe('Feed store module', () => {
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
-			const mockData = {
+			const mockItem = {
 				type: 'FEED_ITEM',
-				item: item(),
+				data: item(),
 			};
 
-			saveItem(ctx, mockData);
+			saveItem(ctx, mockItem);
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledWith(mockData);
+			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledWith(mockItem);
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith('addItem', mockData.item);
+			expect(ctx.commit).toHaveBeenCalledWith('addItem', mockItem.data);
 		});
 
 		it('should not send item on save while WS disconnected', () => {
@@ -92,12 +92,12 @@ describe('Feed store module', () => {
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
-			const mockData = {
+			const mockItem = {
 				type: 'FEED_ITEM',
-				item: item(),
+				data: item(),
 			};
 
-			saveItem(ctx, mockData);
+			saveItem(ctx, mockItem);
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
@@ -107,16 +107,16 @@ describe('Feed store module', () => {
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
-			const mockData = {
+			const mockItem = {
 				type: 'FEED_ITEM',
-				item: item(),
+				data: item(),
 			};
 
-			receiveItem(ctx, mockData.item);
+			receiveItem(ctx, mockItem.data);
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith('itemLoaded', mockData.item);
+			expect(ctx.commit).toHaveBeenCalledWith('itemLoaded', mockItem.data);
 		});
 	});
 });

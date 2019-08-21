@@ -18,14 +18,14 @@ describe('Message listener', () => {
 		spyOn(store, 'dispatch');
 		messaging({ store });
 
-		const data = {
+		const mockItem = {
 			type: 'FEED_ITEM',
-			item: item(),
+			data: item(),
 		};
 
-		parseMessage({ data: JSON.stringify(data) });
+		parseMessage({ data: JSON.stringify(mockItem) });
 
 		expect(store.dispatch).toHaveBeenCalledTimes(1);
-		expect(store.dispatch.calls.argsFor(0)).toEqual(['feed/saveItem', data]);
+		expect(store.dispatch.calls.argsFor(0)).toEqual(['feed/saveItem', mockItem]);
 	});
 });
