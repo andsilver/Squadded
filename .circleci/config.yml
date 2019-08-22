@@ -63,9 +63,14 @@ jobs:
           name: Prepare Index Redirection
           command: |
             (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; \ 
-              echo "<html><head><meta http-equiv=\"refresh\" content=\"0;URL=${DEPLOY_VERSION}/\"/></head></html>" > /tmp/index.html ) ; \
-            aws s3 cp /tmp/index.html s3://${SQUAD_BUCKET}/widget/index.html &&
-            aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/index.html"
+              echo "<html><head><meta http-equiv=\"refresh\" content=\"0;URL=${DEPLOY_VERSION}/\"/></head></html>" > /tmp/index.html )
+      - run:
+          name: Upload index
+          command: aws s3 cp /tmp/index.html s3://${SQUAD_BUCKET}/widget/index.html
+
+      - run:
+          name: Invalidate CloudFront cache
+          run: aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/index.html"
 
 
 workflows:
