@@ -2,8 +2,8 @@ import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
 
 export const dispatch = function (store, message) {
-	if (message.type === 'FEED_ITEM' && message.data) {
-		store.dispatch('feed/receiveItem', message.data);
+	if (message.type === 'FEED_POST' && message.post) {
+		store.dispatch('feed/receiveItem', message.post);
 	} else {
 		// TODO report
 	}

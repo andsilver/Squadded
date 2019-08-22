@@ -19,6 +19,8 @@ export const mutations = {
 		const item = state.items.find(i => i.itemId === payload.itemId);
 		if (!item) {
 			// was removed before load finish
+			// or received from another user
+			state.items.push(payload);
 			return;
 		}
 		item.guid = payload.guid;
