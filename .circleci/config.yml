@@ -57,7 +57,15 @@ jobs:
 
       - run:
           name: Deploy to S3
-          command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; aws s3 sync ~/repo/dist s3://squad-widget/widget/${DEPLOY_VERSION} )
+          command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; aws s3 sync ~/repo/dist s3://${SQUAD_BUCKET}/widget/${DEPLOY_VERSION} )
+
+      - run:
+          name: Prepare Index Redirection
+          command: |
+            echo "<html><head><meta http-equiv=\"refresh\" content=\"0;URL=${DEPLOY_VERSION}/\"/></head></html>" > /tmp/index.html && \
+            aws s3 sync /tmp/index.html s3://${SQUAD_BUCKET}/widget/index.html &&
+            aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/index.html"
+
 
 workflows:
   version: 2
