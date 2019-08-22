@@ -70,7 +70,7 @@ jobs:
 
       - run:
           name: Invalidate CloudFront cache
-          run: aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/index.html"
+          command: aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/index.html"
 
 
 workflows:
