@@ -29,11 +29,18 @@ jobs:
       - run: yarn test -- --reporters="jest-tap-reporter"
 
       - run:
+          name: Prepare DEPLOY_VERSION
+          command: (DEPLOY_VERSION=$(date +%s) ; echo ${DEPLOY_VERSION} >.deploy_version ; echo "export DEPLOY_VERSION=${DEPLOY_VERSION}" >> $BASH_ENV)
+
+      - run:
           name: Prepare prod env file
           command: |
-            (DEPLOY_VERSION=$(date +%s) ; echo ${DEPLOY_VERSION} >.deploy_version ; \
-            echo "WS_LINK=${WS_LINK}" > .prod.env ; \
-            echo "BASE=/widget/${DEPLOY_VERSION}/" >> .prod.env )
+            echo "DEPLOY_VERSION is: ${DEPLOY_VERSION}"
+            echo "WS_LINK is: ${WS_LINK}"
+            echo "WS_LINK=${WS_LINK}" > .prod.env
+            echo "export WS_LINK=${WS_LINK}" >> $BASH_ENV
+            echo "export BASE=/widget/${DEPLOY_VERSION}/" >> $BASH_ENV 
+            echo "BASE=/widget/${DEPLOY_VERSION}/" >> .prod.env 
 
       - run: yarn build
       
