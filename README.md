@@ -20,3 +20,7 @@ $ yarn generate
 ```
 
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+
+## Build Env Vars
+- `WS_LINK`: fully qualified URL (with port) of the Websocket endpoint
+- `BASE`: Base URL of the HTML document in the iframe
