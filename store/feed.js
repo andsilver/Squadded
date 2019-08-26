@@ -1,3 +1,5 @@
+import { Chance } from 'chance';
+
 export const state = () => {
 	return {
 		items: [],
@@ -16,7 +18,7 @@ export const mutations = {
 		state.items.push(payload);
 	},
 	itemLoaded: (state, payload) => {
-		const item = state.items.find(i => i.itemId === payload.itemId);
+		const item = state.items.find(i => i.correlationId === payload.correlationId);
 		if (!item) {
 			// was removed before load finish
 			// or received from another user
@@ -33,8 +35,9 @@ export const actions = {
 		http fetch or websocket
 	}, */
 	saveItem: ({ rootState, commit }, payload) => {
-		payload.data.guid = null;
-		commit('addItem', payload.data);
+		payload.guid = null;
+		payload.correlationId = new Chance().guid();
+		commit('addItem', payload);
 
 		if (rootState.socket.isConnected) {
 			// TODO? add some queue for sync after reconnect

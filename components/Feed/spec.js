@@ -1,5 +1,5 @@
 import { shallowMount } from '@vue/test-utils';
-import item from '../../test/feed.item.mock';
+import { aDefaultSingleItemMsgBuilder } from '../../test/feed.item.mock';
 import FeedComponent from './index.vue';
 
 describe('FeedComponent Empty State', () => {
@@ -8,7 +8,7 @@ describe('FeedComponent Empty State', () => {
 	};
 
 	const propsData = {
-		items: [item()],
+		items: [aDefaultSingleItemMsgBuilder().get()],
 	};
 
 	it('sets the correct default props', () => {

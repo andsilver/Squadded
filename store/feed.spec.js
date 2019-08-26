@@ -1,5 +1,5 @@
 import { Chance } from 'chance';
-import item from '../test/feed.item.mock';
+import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
 import { mutations, actions } from './feed';
 
 const chance = new Chance();
@@ -30,14 +30,19 @@ describe('Feed store module', () => {
 				items: [],
 			};
 
-			const newItem = item();
+			const newItem = aDefaultSingleItemMsgBuilder()
+				.withId(chance.string())
+				.get();
 			addItem(state, newItem);
 			expect(state.items.length).toBe(1);
 			expect(state.items[state.items.length - 1]).toBe(newItem);
 		});
 
 		it('should update item guid on load', () => {
-			const pendingItem = item();
+			const pendingItem = aDefaultSingleItemMsgBuilder()
+				.withId(chance.string())
+				.get();
+
 			const state = {
 				items: [pendingItem],
 			};
@@ -74,17 +79,14 @@ describe('Feed store module', () => {
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
-			const mockItem = {
-				type: 'FEED_ITEM',
-				data: item(),
-			};
+			const msg = aDefaultSingleItemMsgBuilder().get();
 
-			saveItem(ctx, mockItem);
+			saveItem(ctx, msg);
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledWith(mockItem);
+			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledWith(msg);
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith('addItem', mockItem.data);
+			expect(ctx.commit).toHaveBeenCalledWith('addItem', msg);
 		});
 
 		it('should not send item on save while WS disconnected', () => {
@@ -92,12 +94,9 @@ describe('Feed store module', () => {
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
-			const mockItem = {
-				type: 'FEED_ITEM',
-				data: item(),
-			};
+			const msg = aDefaultSingleItemMsgBuilder().get();
 
-			saveItem(ctx, mockItem);
+			saveItem(ctx, msg);
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
@@ -107,16 +106,13 @@ describe('Feed store module', () => {
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
-			const mockItem = {
-				type: 'FEED_ITEM',
-				data: item(),
-			};
+			const msg = aDefaultSingleItemMsgBuilder().get();
 
-			receiveItem(ctx, mockItem.data);
+			receiveItem(ctx, msg);
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith('itemLoaded', mockItem.data);
+			expect(ctx.commit).toHaveBeenCalledWith('itemLoaded', msg);
 		});
 	});
 });

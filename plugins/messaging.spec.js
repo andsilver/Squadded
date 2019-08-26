@@ -1,4 +1,3 @@
-import item from '../test/feed.item.mock';
 import messaging, { parseMessage } from './messaging';
 
 describe('Message listener', () => {
@@ -18,14 +17,28 @@ describe('Message listener', () => {
 		spyOn(store, 'dispatch');
 		messaging({ store });
 
-		const mockItem = {
-			type: 'FEED_ITEM',
-			data: item(),
+		const msg = {
+			type: 'singleItemPost',
+			data: {
+				merchantId: 'aMerchantId',
+				item: {
+					itemId: 'anItemId',
+					title: 'aTitle',
+					price: 'aPrice',
+					origPrice: 'anOrigPrice',
+					img: 'anImgUrl',
+					url: 'aProductUrl',
+				},
+			},
 		};
 
-		parseMessage({ data: JSON.stringify(mockItem) });
+		const event = {
+			data: JSON.stringify(msg),
+		};
+
+		parseMessage(event);
 
 		expect(store.dispatch).toHaveBeenCalledTimes(1);
-		expect(store.dispatch.calls.argsFor(0)).toEqual(['feed/saveItem', mockItem]);
+		expect(store.dispatch.calls.argsFor(0)).toEqual(['feed/saveItem', msg]);
 	});
 });

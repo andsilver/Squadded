@@ -1,19 +1,19 @@
 let vStore;
 
 export const parseMessage = function (event) {
-	let data;
+	let msg;
 	try {
-		data = JSON.parse(event.data);
+		msg = JSON.parse(event.data);
 	} catch (error) {
 		// TODO gracefull report
 		return;
 	}
 
-	if (data.type === 'FEED_ITEM') {
-		vStore.dispatch('feed/saveItem', data);
+	if (msg.type === 'singleItemPost') {
+		vStore.dispatch('feed/saveItem', msg);
 	} else {
 		// TODO gracefull report
-		// console.warn('Uknonwn message type', data);
+		// console.warn('Uknonwn message type', msg);
 	}
 };
 
