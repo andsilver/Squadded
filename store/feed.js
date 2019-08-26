@@ -18,7 +18,7 @@ export const mutations = {
 		state.items.push(payload);
 	},
 	itemLoaded: (state, payload) => {
-		const item = state.items.find(i => i.correlationId === payload.correlationId);
+		const item = state.items.find(i => payload.correlationId && i.correlationId === payload.correlationId);
 		if (!item) {
 			// was removed before load finish
 			// or received from another user

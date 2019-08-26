@@ -21,8 +21,8 @@ const aDefaultSingleItemMsgBuilder = () => {
 	};
 
 	const builder = {
-		withId: (id) => {
-			msg.id = id;
+		withCorrelationId: (id) => {
+			msg.correlationId = id;
 			return builder;
 		},
 		get: () => msg,

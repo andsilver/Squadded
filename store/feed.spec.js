@@ -31,7 +31,7 @@ describe('Feed store module', () => {
 			};
 
 			const newItem = aDefaultSingleItemMsgBuilder()
-				.withId(chance.string())
+				.withCorrelationId(chance.string())
 				.get();
 			addItem(state, newItem);
 			expect(state.items.length).toBe(1);
@@ -40,7 +40,7 @@ describe('Feed store module', () => {
 
 		it('should update item guid on load', () => {
 			const pendingItem = aDefaultSingleItemMsgBuilder()
-				.withId(chance.string())
+				.withCorrelationId(chance.guid())
 				.get();
 
 			const state = {
