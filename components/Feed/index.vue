@@ -2,33 +2,23 @@
 	<section class="feed">
 		<span v-if="!items.length">{{ $t('feed.isEmpty') }}</span>
 		<v-list v-else three-line>
-			<template v-for="post in items">
-				<v-list-item
-					:key="post.correlationId || post.guid"
-				>
-					<v-list-item-avatar>
-						<v-img :src="post.data.item.img" />
-					</v-list-item-avatar>
-
-					<v-list-item-content>
-						<v-list-item-title v-text="post.data.item.title" />
-						<v-list-item-subtitle v-text="post.data.item.price" />
-					</v-list-item-content>
-					<v-progress-circular
-						v-if="!post.guid"
-						:width="3"
-						color="primary"
-						indeterminate
-					/>
-				</v-list-item>
-			</template>
+			<feed-post
+				v-for="post in items"
+				:key="post.correlationId || post.guid"
+				:post="post"
+			/>
 		</v-list>
 	</section>
 </template>
 
 <script lang="js">
+import FeedPost from './Post';
+
 export default {
 	name: 'Feed',
+	components: {
+		'feed-post': FeedPost,
+	},
 	props: {
 		items: {
 			type: Array,
