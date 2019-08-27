@@ -9,12 +9,34 @@ export const dispatch = function (store, message) {
 	}
 };
 
-export default ({ app, store }) => {
-	const { wsLink } = process.env;
-	if (!wsLink) {
+export class WSToken {
+	constructor(ws) {
+		this._ws = ws;
+	}
+
+	/**
+	 * Append user JWT to Web Socket message
+	 *
+	 * @paarm {object} data
+	 */
+	sendObj (data) {
+		const _jwt = localStorage.getItem('userToken');
+		Object.assign(data, { _jwt });
+		this._ws.sendObj(data);
+	}
+}
+
+export default ({ store }) => {
+	const { WS_LINK } = process.env;
+	if (!WS_LINK) {
 		throw new Error('WebSocket connection link is not provided.');
 	}
-	Vue.use(VueNativeSock, wsLink, {
+	const wsLink = new URL(WS_LINK);
+	// pass user token in search params of connection url
+	// due to no other way to pass data while connecting
+	// Headers and Cookies are not supported by browsers
+	wsLink.searchParams.set('userToken', localStorage.getItem('userToken'));
+	Vue.use(VueNativeSock, wsLink.toString(), {
 		store,
 		format: 'json',
 		connectManually: true,
@@ -23,7 +45,9 @@ export default ({ app, store }) => {
 
 	store.subscribe((mutation, state) => {
 		if (mutation.type === 'SOCKET_ONOPEN') {
-			Vue.prototype.$ws = state.socket.$ws; // to be used in components
+			const $ws = new WSToken(state.socket._ws);
+			Vue.prototype.$ws = $ws; // to be used in components
+			state.socket.$ws = $ws; // to be used in store modules
 			return;
 		}
 

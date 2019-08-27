@@ -14,7 +14,7 @@ if (!BASE) {
 export default {
 	mode: 'spa',
 	env: {
-		wsLink: WS_LINK,
+		WS_LINK,
 	},
 	/*
 	** Headers of the page

@@ -6,7 +6,8 @@ export const state = () => ({
 	socket: {
 		isConnected: false,
 		reconnectError: false,
-		ws: null,
+		$ws: null,
+		_ws: null,
 	},
 });
 
@@ -18,7 +19,7 @@ export const mutations = {
 	},
 	SOCKET_ONOPEN (state, event) {
 		state.socket.isConnected = true;
-		state.socket.$ws = event.currentTarget; // to be used in store modules
+		state.socket._ws = event.currentTarget; // to be used internally
 	},
 	SOCKET_ONCLOSE (state, event) {
 		state.socket.isConnected = false;
