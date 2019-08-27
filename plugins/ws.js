@@ -47,7 +47,7 @@ export default ({ store }) => {
 		if (mutation.type === 'SOCKET_ONOPEN') {
 			const $ws = new WSToken(state.socket._ws);
 			Vue.prototype.$ws = $ws; // to be used in components
-			state.socket.$ws = $ws; // to be used in store modules
+			store.commit('jSocket', $ws);
 			return;
 		}
 

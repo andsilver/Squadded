@@ -21,6 +21,9 @@ export const mutations = {
 		state.socket.isConnected = true;
 		state.socket._ws = event.currentTarget; // to be used internally
 	},
+	jSocket (state, $ws) {
+		state.socket.$ws = $ws;
+	},
 	SOCKET_ONCLOSE (state, event) {
 		state.socket.isConnected = false;
 	},
