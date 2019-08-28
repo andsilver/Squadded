@@ -1,3 +1,6 @@
+[![CircleCI](https://circleci.com/gh/cyrilcs-squad/squad-widget/tree/master.svg?style=svg&circle-token=2025ce5fc3b5de9246280fb68da07286c0534bb6)](https://circleci.com/gh/cyrilcs-squad/squad-widget/tree/master)
+
+
 # squad-widget
 
 >
