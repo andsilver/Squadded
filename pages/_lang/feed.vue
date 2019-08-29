@@ -30,7 +30,7 @@
 import { createNamespacedHelpers } from 'vuex';
 import Feed from '~/components/Feed';
 
-const { mapState } = createNamespacedHelpers('feed');
+const { mapGetters } = createNamespacedHelpers('feed');
 
 export default {
 	components: {
@@ -41,7 +41,7 @@ export default {
 		};
 	},
 	computed: {
-		...mapState([
+		...mapGetters([
 			'items',
 		]),
 	},

@@ -7,7 +7,7 @@ export const state = () => {
 };
 
 export const getters = {
-	items: state => state.items,
+	items: state => Array.from(state.items).sort((a, b) => b.ts - a.ts),
 };
 
 export const mutations = {
@@ -36,6 +36,7 @@ export const actions = {
 	}, */
 	saveItem: ({ rootState, commit }, payload) => {
 		payload.guid = null;
+		payload.ts = Date.now();
 		payload.correlationId = uuid();
 		commit('addItem', payload);
 
