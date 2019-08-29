@@ -13,17 +13,18 @@ export const mutations = {
 		state.items = payload;
 	},
 	addItem: (state, payload) => {
-		state.items.push(payload);
+		state.items.unshift(payload);
 	},
 	itemLoaded: (state, payload) => {
 		const item = state.items.find(i => payload.correlationId && i.correlationId === payload.correlationId);
 		if (!item) {
 			// was removed before load finish
 			// or received from another user
-			state.items.push(payload);
+			state.items.unshift(payload);
 			return;
 		}
 		item.guid = payload.guid;
+		item.ts = payload.ts;
 		delete item.correlationId;
 	},
 };
@@ -39,8 +40,8 @@ export const actions = {
 	}, */
 	saveItem: ({ rootState, commit }, payload) => {
 		payload.guid = null;
-		payload.ts = Date.now();
-		payload.correlationId = `${payload.ts}${suffix()}`;
+		payload.ts = Number.MAX_SAFE_INTEGER; // pending posts always on top
+		payload.correlationId = `${Date.now()}${suffix()}`;
 		commit('addItem', payload);
 
 		if (rootState.socket.isConnected) {

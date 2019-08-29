@@ -38,7 +38,7 @@ describe('Feed store module', () => {
 			expect(state.items[state.items.length - 1]).toBe(newItem);
 		});
 
-		it('should update item guid on load', () => {
+		it('should update item guid and ts on load', () => {
 			const pendingItem = aDefaultSingleItemMsgBuilder()
 				.withCorrelationId(chance.guid())
 				.get();
@@ -47,10 +47,11 @@ describe('Feed store module', () => {
 				items: [pendingItem],
 			};
 
-			const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid() });
+			const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid(), ts: Date.now() });
 			itemLoaded(state, loadedItem);
 			expect(state.items.length).toBe(1);
 			expect(pendingItem.guid).toBe(loadedItem.guid);
+			expect(pendingItem.ts).toBe(loadedItem.ts);
 		});
 	});
 
