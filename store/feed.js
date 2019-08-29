@@ -1,4 +1,4 @@
-import { Chance } from 'chance';
+import uuid from '../helpers/uuid';
 
 export const state = () => {
 	return {
@@ -36,7 +36,7 @@ export const actions = {
 	}, */
 	saveItem: ({ rootState, commit }, payload) => {
 		payload.guid = null;
-		payload.correlationId = new Chance().guid();
+		payload.correlationId = uuid();
 		commit('addItem', payload);
 
 		if (rootState.socket.isConnected) {
