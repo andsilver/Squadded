@@ -1,5 +1,3 @@
-import uuid from '../helpers/uuid';
-
 export const state = () => {
 	return {
 		items: [],
@@ -26,8 +24,13 @@ export const mutations = {
 			return;
 		}
 		item.guid = payload.guid;
+		delete item.correlationId;
 	},
 };
+
+function suffix () {
+	return Math.random().toString(36).slice(2);
+}
 
 export const actions = {
 	// TODO get all on init
@@ -37,7 +40,7 @@ export const actions = {
 	saveItem: ({ rootState, commit }, payload) => {
 		payload.guid = null;
 		payload.ts = Date.now();
-		payload.correlationId = uuid();
+		payload.correlationId = `${payload.ts}${suffix()}`;
 		commit('addItem', payload);
 
 		if (rootState.socket.isConnected) {
