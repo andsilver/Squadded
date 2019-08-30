@@ -33,6 +33,8 @@ function suffix () {
 	return Math.random().toString(36).slice(2);
 }
 
+const INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP = Number.MAX_SAFE_INTEGER;
+
 export const actions = {
 	// TODO get all on init
 	/* get: async (ctx) => {
@@ -40,7 +42,7 @@ export const actions = {
 	}, */
 	saveItem: ({ rootState, commit }, payload) => {
 		payload.guid = null;
-		payload.ts = Number.MAX_SAFE_INTEGER; // pending posts always on top
+		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
 		payload.correlationId = `${Date.now()}${suffix()}`;
 		commit('addItem', payload);
 
