@@ -19,16 +19,14 @@ describe('Message listener', () => {
 
 		const msg = {
 			type: 'singleItemPost',
-			data: {
-				merchantId: 'aMerchantId',
-				item: {
-					itemId: 'anItemId',
-					title: 'aTitle',
-					price: 'aPrice',
-					origPrice: 'anOrigPrice',
-					img: 'anImgUrl',
-					url: 'aProductUrl',
-				},
+			merchantId: 'aMerchantId',
+			item: {
+				itemId: 'anItemId',
+				title: 'aTitle',
+				price: 'aPrice',
+				origPrice: 'anOrigPrice',
+				img: 'anImgUrl',
+				url: 'aProductUrl',
 			},
 		};
 

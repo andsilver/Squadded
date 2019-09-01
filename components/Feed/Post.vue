@@ -1,12 +1,12 @@
 <template>
 	<v-list-item>
 		<v-list-item-avatar>
-			<v-img :src="post.data.item.img" />
+			<v-img :src="post.item.img" />
 		</v-list-item-avatar>
 
 		<v-list-item-content>
-			<v-list-item-title v-text="post.data.item.title" />
-			<v-list-item-subtitle v-text="post.data.item.price" />
+			<v-list-item-title v-text="post.item.title" />
+			<v-list-item-subtitle v-text="post.item.price" />
 		</v-list-item-content>
 		<v-progress-circular
 			v-if="!post.guid"
