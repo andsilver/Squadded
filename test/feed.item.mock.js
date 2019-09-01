@@ -6,6 +6,8 @@ const aDefaultSingleItemMsgBuilder = () => {
 	const msg = {
 		type: 'singleItemPost',
 		guid: null,
+		error: null,
+		ts: null,
 		correlationId: null,
 		merchantId: chance.natural(),
 		item: {

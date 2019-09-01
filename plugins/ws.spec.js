@@ -17,4 +17,30 @@ describe('WSToken wrapper', () => {
 		expect(_ws.sendObj).toHaveBeenCalledTimes(1);
 		expect(_ws.sendObj.calls.argsFor(0)).toEqual([ { _jwt: mockJWT } ]);
 	});
+
+	it('should remove error, guid and ts from sending object', () => {
+		const mockJWT = 'some.user.jwt';
+		const _ws = {
+			sendObj: function () {},
+		};
+		const $ws = new WSToken(_ws);
+		localStorage.setItem('userToken', mockJWT);
+
+		spyOn(_ws, 'sendObj');
+
+		expect($ws.sendObj).toEqual(jasmine.any(Function));
+		$ws.sendObj({
+			item: {},
+			guid: null,
+			error: null,
+			ts: 1234567890123,
+		});
+
+		expect(_ws.sendObj).toHaveBeenCalledTimes(1);
+		const payload = _ws.sendObj.calls.argsFor(0)[0];
+		expect(payload).not.toHaveProperty('guid');
+		expect(payload).not.toHaveProperty('error');
+		expect(payload).not.toHaveProperty('ts');
+		expect(payload).toHaveProperty('item');
+	});
 });

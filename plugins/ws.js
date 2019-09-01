@@ -21,8 +21,10 @@ export class WSToken {
 	 */
 	sendObj (data) {
 		const _jwt = localStorage.getItem('userToken');
-		Object.assign(data, { _jwt });
-		this._ws.sendObj(data);
+		const { error, guid, ts, ...clean } = data;
+		this._ws.sendObj(Object.assign(clean, {
+			_jwt,
+		}));
 	}
 }
 
