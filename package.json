@@ -9,6 +9,7 @@
     "precommit": "yarn lint",
     "dev": "env-cmd -f .dev.env nuxt --hostname 0.0.0.0",
     "build": "env-cmd -f .prod.env nuxt build",
+    "local:build": "env-cmd -f .dev.env nuxt build",
     "start": "nuxt start",
     "generate": "env-cmd -f .prod.env nuxt generate",
     "test": "yarn lint && jest --no-cache"
