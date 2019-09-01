@@ -9,11 +9,26 @@
 			<v-list-item-subtitle v-text="post.item.price" />
 		</v-list-item-content>
 		<v-progress-circular
-			v-if="!post.guid"
+			v-if="!post.guid && !post.error"
 			:width="3"
 			color="primary"
 			indeterminate
 		/>
+		<v-tooltip
+			v-if="post.error"
+			left
+		>
+			<template v-slot:activator="{ on }">
+				<v-icon
+					color="red"
+					dark
+					v-on="on"
+				>
+					mdi-alert
+				</v-icon>
+			</template>
+			<span>{{ post.error }}</span>
+		</v-tooltip>
 	</v-list-item>
 </template>
 

@@ -23,6 +23,10 @@ export const mutations = {
 			state.items.unshift(payload);
 			return;
 		}
+		if (payload.error) {
+			item.error = payload.error;
+			return;
+		}
 		item.guid = payload.guid;
 		item.ts = payload.ts;
 		delete item.correlationId;
@@ -41,6 +45,7 @@ export const actions = {
 		http fetch or websocket
 	}, */
 	saveItem: ({ rootState, commit }, payload) => {
+		payload.error = null;
 		payload.guid = null;
 		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
 		payload.correlationId = `${Date.now()}${suffix()}`;
