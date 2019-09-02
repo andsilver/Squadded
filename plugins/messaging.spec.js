@@ -1,4 +1,4 @@
-import messaging, { parseMessage } from './messaging';
+import messaging, { context } from './messaging';
 
 describe('Message listener', () => {
 	it('should add event listener', () => {
@@ -6,8 +6,10 @@ describe('Message listener', () => {
 
 		messaging({ store: {} });
 
+		const func = window.addEventListener.calls.argsFor(0)[1];
 		expect(window.addEventListener).toHaveBeenCalledTimes(1);
-		expect(window.addEventListener).toHaveBeenCalledWith('message', parseMessage);
+		expect(window.addEventListener).toHaveBeenCalledWith('message', jasmine.any(Function));
+		expect(func.name).toBe('parseMessage');
 	});
 
 	it('should dispatch save on receive new Feed item', () => {
@@ -15,7 +17,6 @@ describe('Message listener', () => {
 			dispatch: function () {}, // do not use arrow function
 		};
 		spyOn(store, 'dispatch');
-		messaging({ store });
 
 		const msg = {
 			type: 'singleItemPost',
@@ -34,9 +35,10 @@ describe('Message listener', () => {
 			data: JSON.stringify(msg),
 		};
 
-		parseMessage(event);
+		context({ store })(event);
 
 		expect(store.dispatch).toHaveBeenCalledTimes(1);
 		expect(store.dispatch.calls.argsFor(0)).toEqual(['feed/saveItem', msg]);
 	});
+
 });

@@ -1,23 +1,22 @@
-let vStore;
+export const context = function ({ store, redirect }) {
+	return function parseMessage (event) {
+		let msg;
+		try {
+			msg = JSON.parse(event.data);
+		} catch (error) {
+			// TODO gracefull report
+			return;
+		}
 
-export const parseMessage = function (event) {
-	let msg;
-	try {
-		msg = JSON.parse(event.data);
-	} catch (error) {
-		// TODO gracefull report
-		return;
-	}
-
-	if (msg.type === 'singleItemPost') {
-		vStore.dispatch('feed/saveItem', msg);
-	} else {
-		// TODO gracefull report
-		// console.warn('Uknonwn message type', msg);
-	}
+		if (msg.type === 'singleItemPost') {
+			store.dispatch('feed/saveItem', msg);
+		} else {
+			// TODO gracefull report
+			// console.warn('Uknonwn message type', msg);
+		}
+	};
 };
 
-export default function ({ store }) {
-	vStore = store;
-	window.addEventListener('message', parseMessage);
+export default function (ctx) {
+	window.addEventListener('message', context(ctx));
 };
