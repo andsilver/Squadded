@@ -48,6 +48,7 @@ export const actions = {
 		payload.error = null;
 		payload.guid = null;
 		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
+		payload.merchantId = rootState.merchantId;
 		payload.correlationId = `${Date.now()}${suffix()}`;
 		commit('addItem', payload);
 

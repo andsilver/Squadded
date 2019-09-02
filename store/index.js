@@ -9,6 +9,10 @@ export const state = () => ({
 		$ws: null,
 		_ws: null,
 	},
+	merchant: {
+		id: null,
+		forbidden: false,
+	},
 });
 
 export const mutations = {
@@ -34,6 +38,12 @@ export const mutations = {
 	SOCKET_RECONNECT (state, event) {
 	},
 	SOCKET_RECONNECT_ERROR (state, event) {
+	},
+	SET_MERCHANT_ID (state, id) {
+		state.merchant.id = id;
+	},
+	SET_MERCHANT_FORBIDDEN (state, flag) {
+		state.merchant.forbidden = flag;
 	},
 };
 

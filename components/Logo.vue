@@ -10,6 +10,7 @@
 	display: flex;
 	flex: 1 1 auto;
 	max-width: 100%;
+	flex-grow: 0;
 }
 .logo {
 	margin: auto;

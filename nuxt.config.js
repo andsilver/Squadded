@@ -1,20 +1,26 @@
 const {
+	API_LINK,
 	WS_LINK,
 	BASE,
 } = process.env;
 
 if (!WS_LINK) {
-	throw new Error('WS_LINK environment variable is must!');
+	throw new Error('WS_LINK environment variable is required!');
 }
 
 if (!BASE) {
-	throw new Error('BASE environment variable is must!');
+	throw new Error('BASE environment variable is required!');
+}
+
+if (!API_LINK) {
+	throw new Error('API_LINK environment variable is required!');
 }
 
 export default {
 	mode: 'spa',
 	env: {
 		WS_LINK,
+		API_LINK,
 	},
 	/*
 	** Headers of the page

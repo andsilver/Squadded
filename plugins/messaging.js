@@ -1,4 +1,6 @@
-export const context = function ({ store, redirect }) {
+import merchant from '../services/merchant';
+
+export const context = function ({ store }) {
 	return function parseMessage (event) {
 		let msg;
 		try {
@@ -10,6 +12,15 @@ export const context = function ({ store, redirect }) {
 
 		if (msg.type === 'singleItemPost') {
 			store.dispatch('feed/saveItem', msg);
+		} else if (msg.type === 'injectMerchantId') {
+			const { merchantId } = msg;
+			return merchant.validateAllowedOrigins(merchantId)
+				.then(() => {
+					store.commit('SET_MERCHANT_ID', merchantId);
+				})
+				.catch(() => {
+					store.commit('SET_MERCHANT_FORBIDDEN', true);
+				});
 		} else {
 			// TODO gracefull report
 			// console.warn('Uknonwn message type', msg);
@@ -19,4 +30,11 @@ export const context = function ({ store, redirect }) {
 
 export default function (ctx) {
 	window.addEventListener('message', context(ctx));
+
+	const { ancestorOrigins } = window.location;
+	if (!ancestorOrigins || (ancestorOrigins && !ancestorOrigins.length)) {
+		return;
+	}
+	const parentOrigin = ancestorOrigins[ancestorOrigins.length - 1];
+	window.parent.postMessage('SquadWidgetIsReady', parentOrigin);
 };
