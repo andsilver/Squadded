@@ -76,16 +76,27 @@ describe('Feed store module', () => {
 			};
 		});
 
-		it('should send item and commit addItem on save', () => {
+		it('should send item to socket with merchantId when saveItem', () => {
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
+			const aDummyMerchantId = 'aDummyMerchantId';
+			ctx.rootState.merchantId = aDummyMerchantId;
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			saveItem(ctx, msg);
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledWith(msg);
+			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledWith({ ...msg, merchantId: aDummyMerchantId });
+		});
+
+		it('should commit addItem on saveItem', () => {
+			spyOn(ctx, 'commit');
+
+			const msg = aDefaultSingleItemMsgBuilder().get();
+
+			saveItem(ctx, msg);
+
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
 			expect(ctx.commit).toHaveBeenCalledWith('addItem', msg);
 		});
