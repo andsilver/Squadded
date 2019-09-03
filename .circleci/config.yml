@@ -30,7 +30,7 @@ jobs:
 
       - run:
           name: Prepare DEPLOY_VERSION
-          command: (DEPLOY_VERSION=$(date +%s) ; echo ${DEPLOY_VERSION} >.deploy_version ; echo "export DEPLOY_VERSION=${DEPLOY_VERSION}" >> $BASH_ENV)
+          command: (DEPLOY_VERSION="$(date +%Y%m%d%H%M)-${CIRCLE_BUILD_NUM}" ; echo ${DEPLOY_VERSION} >.deploy_version ; echo "export DEPLOY_VERSION=${DEPLOY_VERSION}" >> $BASH_ENV)
 
       - run:
           name: Prepare prod env file
@@ -52,32 +52,23 @@ jobs:
 
   deploy:
     docker:
-      - image: circleci/python:3.7-stretch
+      - image: atlassian/pipelines-awscli:1.16.185
     working_directory: ~/repo
     steps:
-      - run:
-          name: Install awscli
-          command: sudo pip install awscli
-          
       - attach_workspace:
           at: ~/repo
-
       - run:
           name: Deploy to S3
           command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; aws s3 sync ~/repo/dist s3://${SQUAD_BUCKET}/widget/${DEPLOY_VERSION} )
-
       - run:
           name: Prepare Index Redirection
           command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; echo "<html><head><meta http-equiv=\"refresh\" content=\"0;URL=${DEPLOY_VERSION}/\"/></head></html>" > /tmp/index.html )
-
       - run:
           name: Upload index
           command: aws s3 cp /tmp/index.html s3://${SQUAD_BUCKET}/widget/index.html
-
       - run:
           name: Invalidate CloudFront cache
           command: aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/index.html"
-
 
 workflows:
   version: 2
@@ -90,4 +81,3 @@ workflows:
           filters:
             branches:
               only: master
-
