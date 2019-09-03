@@ -74,15 +74,9 @@ describe('Listen merchant id', () => {
 			},
 		});
 		const promise = context({ store })(event);
+		await promise;
 
 		expect(merchant.validateAllowedOrigins).toHaveBeenCalledTimes(1);
-
-		try {
-			await promise;
-		} catch (error) {
-			expect(error).toEqual(new Error('Forbidden'));
-		}
-
 		expect(store.commit).toHaveBeenCalledTimes(1);
 		expect(store.commit.calls.argsFor(0)).toEqual(['SET_MERCHANT_FORBIDDEN', true]);
 
@@ -100,15 +94,9 @@ describe('Listen merchant id', () => {
 		});
 
 		const promise = context({ store })(event);
+		await promise;
 
 		expect(merchant.validateAllowedOrigins).toHaveBeenCalledTimes(1);
-
-		try {
-			await promise;
-		} catch (error) {
-			expect(error).not.toEqual(new Error('Forbidden'));
-		}
-
 		expect(store.commit).toHaveBeenCalledTimes(1);
 		expect(store.commit.calls.argsFor(0)).toEqual(['SET_MERCHANT_ID', msg.merchantId]);
 
