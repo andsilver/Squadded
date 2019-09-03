@@ -8,14 +8,19 @@ export const getters = {
 	items: state => Array.from(state.items).sort((a, b) => b.ts - a.ts),
 };
 
+export const FeedMutations = {
+	addItem: 'addItem',
+	itemLoaded: 'itemLoaded',
+};
+
 export const mutations = {
 	setItems: (state, payload) => {
 		state.items = payload;
 	},
-	addItem: (state, payload) => {
+	[FeedMutations.addItem]: (state, payload) => {
 		state.items.unshift(payload);
 	},
-	itemLoaded: (state, payload) => {
+	[FeedMutations.itemLoaded]: (state, payload) => {
 		const item = state.items.find(i => payload.correlationId && i.correlationId === payload.correlationId);
 		if (!item) {
 			// was removed before load finish
@@ -50,7 +55,7 @@ export const actions = {
 		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
 		payload.merchantId = rootState.merchantId;
 		payload.correlationId = `${Date.now()}${suffix()}`;
-		commit('addItem', payload);
+		commit(FeedMutations.addItem, payload);
 
 		if (rootState.socket.isConnected) {
 			// TODO? add some queue for sync after reconnect
@@ -58,7 +63,7 @@ export const actions = {
 		}
 	},
 	receiveItem: ({ commit }, payload) => {
-		commit('itemLoaded', payload);
+		commit(FeedMutations.itemLoaded, payload);
 	},
 };
 

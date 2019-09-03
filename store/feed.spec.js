@@ -1,6 +1,6 @@
 import { Chance } from 'chance';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
-import { mutations, actions } from './feed';
+import { FeedMutations, mutations, actions } from './feed';
 
 const chance = new Chance();
 
@@ -98,7 +98,7 @@ describe('Feed store module', () => {
 			saveItem(ctx, msg);
 
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith('addItem', msg);
+			expect(ctx.commit).toHaveBeenCalledWith(FeedMutations.addItem, msg);
 		});
 
 		it('should not send item on save while WS disconnected', () => {
@@ -124,7 +124,7 @@ describe('Feed store module', () => {
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith('itemLoaded', msg);
+			expect(ctx.commit).toHaveBeenCalledWith(FeedMutations.itemLoaded, msg);
 		});
 	});
 });
