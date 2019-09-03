@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
+import { FeedStore, FeedActions } from '../store/feed';
 
 export const dispatch = function (store, message) {
 	if (message.type === 'singleItemPost') {
-		store.dispatch('feed/receiveItem', message);
+		store.dispatch(`${FeedStore}/${FeedActions.receiveItem}`, message);
 	} else {
 		// TODO report
 	}

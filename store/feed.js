@@ -8,9 +8,15 @@ export const getters = {
 	items: state => Array.from(state.items).sort((a, b) => b.ts - a.ts),
 };
 
+export const FeedStore = 'feed';
+
 export const FeedMutations = {
 	addItem: 'addItem',
 	itemLoaded: 'itemLoaded',
+};
+
+export const FeedActions = {
+	receiveItem: 'receiveItem',
 };
 
 export const mutations = {
@@ -53,7 +59,7 @@ export const actions = {
 		payload.error = null;
 		payload.guid = null;
 		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
-		payload.merchantId = rootState.merchantId;
+		payload.merchantId = rootState.merchant.id;
 		payload.correlationId = `${Date.now()}${suffix()}`;
 		commit(FeedMutations.addItem, payload);
 
@@ -62,7 +68,7 @@ export const actions = {
 			rootState.socket.$ws.sendObj(payload);
 		}
 	},
-	receiveItem: ({ commit }, payload) => {
+	[FeedActions.receiveItem]: ({ commit }, payload) => {
 		commit(FeedMutations.itemLoaded, payload);
 	},
 };

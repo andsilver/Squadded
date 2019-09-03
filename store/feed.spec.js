@@ -62,6 +62,8 @@ describe('Feed store module', () => {
 		} = actions;
 		let ctx;
 
+		const aDummyMerchantId = 'aDummyMerchantId';
+
 		beforeEach(() => {
 			ctx = {
 				commit: function () {}, // do not use arrow function
@@ -72,6 +74,9 @@ describe('Feed store module', () => {
 							sendObj: function () {},
 						},
 					},
+					merchant: {
+						id: aDummyMerchantId,
+					},
 				},
 			};
 		});
@@ -80,8 +85,6 @@ describe('Feed store module', () => {
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
-			const aDummyMerchantId = 'aDummyMerchantId';
-			ctx.rootState.merchantId = aDummyMerchantId;
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			saveItem(ctx, msg);
