@@ -1,6 +1,6 @@
 import { Chance } from 'chance';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
-import { FeedMutations, mutations, actions } from './feed';
+import { FeedStore, FeedMutations, mutations, actions } from './feed';
 
 const chance = new Chance();
 
@@ -10,7 +10,12 @@ describe('Feed store module', () => {
 			setItems,
 			addItem,
 			itemLoaded,
+			restoreSession,
 		} = mutations;
+
+		afterEach(() => {
+			sessionStorage.clear();
+		});
 
 		it('should set all items in store', () => {
 			const state = {
@@ -52,6 +57,33 @@ describe('Feed store module', () => {
 			expect(state.items.length).toBe(1);
 			expect(pendingItem.guid).toBe(loadedItem.guid);
 			expect(pendingItem.ts).toBe(loadedItem.ts);
+		});
+
+		it('should restore from sessionStore on reload', () => {
+			const state = {
+				items: [],
+			};
+			const storred = aDefaultSingleItemMsgBuilder().get();
+			sessionStorage.setItem(FeedStore, JSON.stringify(storred));
+
+			restoreSession(state);
+			expect(state.items[0]).toEqual(storred);
+		});
+
+		it('should not restore from sessionStore on jump', () => {
+			const current = aDefaultSingleItemMsgBuilder().get();
+			const state = {
+				items: [current],
+			};
+
+			const storred = aDefaultSingleItemMsgBuilder().get();
+			sessionStorage.setItem(FeedStore, JSON.stringify(storred));
+
+			spyOn(Storage.prototype, 'getItem');
+
+			restoreSession(state);
+			expect(sessionStorage.getItem).toHaveBeenCalledTimes(0);
+			expect(state.items[0]).toEqual(current);
 		});
 	});
 

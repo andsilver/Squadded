@@ -13,6 +13,7 @@ export const FeedStore = 'feed';
 export const FeedMutations = {
 	addItem: 'addItem',
 	itemLoaded: 'itemLoaded',
+	restoreSession: 'restoreSession',
 };
 
 export const FeedActions = {
@@ -25,6 +26,10 @@ function suffix () {
 
 function storeInSession (post) {
 	sessionStorage.setItem(`${FeedStore}-${post.correlationId || post.guid}`, JSON.stringify(post));
+}
+
+function removeFromSession (id) {
+	sessionStorage.removeItem(`${FeedStore}-${id}`);
 }
 
 export const mutations = {
@@ -47,7 +52,25 @@ export const mutations = {
 		}
 		item.guid = payload.guid;
 		item.ts = payload.ts;
+		removeFromSession(item.correlationId);
 		delete item.correlationId;
+		storeInSession(item);
+	},
+	[FeedMutations.restoreSession]: (state) => {
+		if (state.items.length) {
+			return;
+		}
+		const items = [];
+		const { length } = sessionStorage;
+		for (let i = 0; i < length; i++) {
+			const key = sessionStorage.key(i);
+			if (!key.startsWith(FeedStore)) {
+				continue;
+			}
+			items.push(JSON.parse(sessionStorage.getItem(key)));
+		}
+		items.sort((a, b) => b.ts - a.ts);
+		state.items = items;
 	},
 };
 

@@ -29,6 +29,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import Feed from '~/components/Feed';
+import { FeedStore, FeedMutations } from '~/store/feed';
 
 const { mapGetters } = createNamespacedHelpers('feed');
 
@@ -45,7 +46,8 @@ export default {
 			'items',
 		]),
 	},
-	mounted() {
+	created() {
+		this.$store.commit(`${FeedStore}/${FeedMutations.restoreSession}`);
 		this.$connect(); // TODO move to auth
 		// this.$store.dispatch('feed/get');
 	},
