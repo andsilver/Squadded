@@ -1,4 +1,4 @@
-import merchant from '../services/merchant';
+// import merchant from '../services/merchant';
 
 export const context = function ({ store }) {
 	return function parseMessage (event) {
@@ -14,13 +14,14 @@ export const context = function ({ store }) {
 			store.dispatch('feed/saveItem', msg);
 		} else if (msg.type === 'injectMerchantId') {
 			const { merchantId } = msg;
-			return merchant.validateAllowedOrigins(merchantId)
+			store.commit('SET_MERCHANT_ID', merchantId);
+			/* return merchant.validateAllowedOrigins(merchantId)
 				.then(() => {
 					store.commit('SET_MERCHANT_ID', merchantId);
 				})
 				.catch(() => {
 					store.commit('SET_MERCHANT_FORBIDDEN', true);
-				});
+				}); */
 		} else {
 			// TODO gracefull report
 			// console.warn('Uknonwn message type', msg);

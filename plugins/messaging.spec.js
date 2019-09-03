@@ -2,7 +2,7 @@ import fetchMock from 'fetch-mock';
 import merchant from '../services/merchant';
 import messaging, { context } from './messaging';
 
-const { API_LINK } = process.env;
+// const { API_LINK } = process.env;
 
 describe('Message listener', () => {
 	it('should add event listener', () => {
@@ -64,7 +64,7 @@ describe('Listen merchant id', () => {
 	});
 	afterEach(fetchMock.reset);
 
-	it('should set state forbidden if origin not allowed for merchantId', async (done) => {
+	/* it('should set state forbidden if origin not allowed for merchantId', async (done) => {
 		window.location.ancestorOrigins = ['http://not.allowed.com'];
 
 		fetchMock.get(`${API_LINK}/merchant/${msg.merchantId}/origins`, {
@@ -101,5 +101,13 @@ describe('Listen merchant id', () => {
 		expect(store.commit.calls.argsFor(0)).toEqual(['SET_MERCHANT_ID', msg.merchantId]);
 
 		done();
+	}); */
+
+	it('should commit merchant id', () => {
+		context({ store })(event);
+
+		expect(merchant.validateAllowedOrigins).toHaveBeenCalledTimes(0);
+		expect(store.commit).toHaveBeenCalledTimes(1);
+		expect(store.commit.calls.argsFor(0)).toEqual(['SET_MERCHANT_ID', msg.merchantId]);
 	});
 });
