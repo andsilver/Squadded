@@ -25,17 +25,17 @@ describe('Feed store module', () => {
 			expect(state.items.length).toBe(length);
 		});
 
-		it('should push new item to existing list', () => {
+		it('addItem should push any item to existing list and sessionStorage', () => {
 			const state = {
 				items: [],
 			};
+			const newItem = aDefaultSingleItemMsgBuilder().get();
+			const length = sessionStorage.length;
 
-			const newItem = aDefaultSingleItemMsgBuilder()
-				.withCorrelationId(chance.string())
-				.get();
 			addItem(state, newItem);
 			expect(state.items.length).toBe(1);
-			expect(state.items[state.items.length - 1]).toBe(newItem);
+			expect(state.items[0]).toBe(newItem);
+			expect(sessionStorage.length).toBe(length + 1);
 		});
 
 		it('should update item guid and ts on load', () => {
@@ -117,7 +117,7 @@ describe('Feed store module', () => {
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
 		});
 
-		it('should commit addItem when receive loaded item', () => {
+		it('should commit addItem when receive new item', () => {
 			spyOn(ctx, 'commit');
 			spyOn(ctx.rootState.socket.$ws, 'sendObj');
 
@@ -127,7 +127,27 @@ describe('Feed store module', () => {
 
 			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
 			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith(FeedMutations.itemLoaded, msg);
+			expect(ctx.commit).toHaveBeenCalledWith(FeedMutations.addItem, msg);
+		});
+
+		it('should commit itemLoaded when receive pending item', () => {
+			const pendingItem = aDefaultSingleItemMsgBuilder()
+				.withCorrelationId(chance.guid())
+				.get();
+
+			ctx.state = {
+				items: [pendingItem],
+			};
+
+			spyOn(ctx, 'commit');
+			spyOn(ctx.rootState.socket.$ws, 'sendObj');
+
+			const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid(), ts: Date.now() });
+			receiveItem(ctx, loadedItem);
+
+			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
+			expect(ctx.commit).toHaveBeenCalledTimes(1);
+			expect(ctx.commit).toHaveBeenCalledWith(FeedMutations.itemLoaded, loadedItem);
 		});
 	});
 });

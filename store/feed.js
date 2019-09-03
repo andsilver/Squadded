@@ -19,19 +19,26 @@ export const FeedActions = {
 	receiveItem: 'receiveItem',
 };
 
+function suffix () {
+	return Math.random().toString(36).slice(2);
+}
+
+function storeInSession (post) {
+	sessionStorage.setItem(`${FeedStore}-${post.correlationId || post.guid}`, JSON.stringify(post));
+}
+
 export const mutations = {
 	setItems: (state, payload) => {
 		state.items = payload;
 	},
 	[FeedMutations.addItem]: (state, payload) => {
 		state.items.unshift(payload);
+		storeInSession(payload);
 	},
 	[FeedMutations.itemLoaded]: (state, payload) => {
-		const item = state.items.find(i => payload.correlationId && i.correlationId === payload.correlationId);
+		const item = state.items.find(i => i.correlationId === payload.correlationId);
 		if (!item) {
 			// was removed before load finish
-			// or received from another user
-			state.items.unshift(payload);
 			return;
 		}
 		if (payload.error) {
@@ -43,10 +50,6 @@ export const mutations = {
 		delete item.correlationId;
 	},
 };
-
-function suffix () {
-	return Math.random().toString(36).slice(2);
-}
 
 const INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP = Number.MAX_SAFE_INTEGER;
 
@@ -69,6 +72,12 @@ export const actions = {
 		}
 	},
 	[FeedActions.receiveItem]: ({ commit }, payload) => {
+		if (!payload.correlationId) {
+			// received from another user
+			commit(FeedMutations.addItem, payload);
+			return;
+		}
+
 		commit(FeedMutations.itemLoaded, payload);
 	},
 };
