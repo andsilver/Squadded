@@ -1,10 +1,8 @@
 const { FEED_STORE_LIMIT } = process.env;
 
-export const state = () => {
-	return {
-		items: [],
-	};
-};
+export const state = () => ({
+	items: [],
+});
 
 export const getters = {
 	items: state => Array.from(state.items).sort((a, b) => b.ts - a.ts),

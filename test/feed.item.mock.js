@@ -22,7 +22,7 @@ const aDefaultSingleItemMsgBuilder = () => {
 
 	const builder = {
 		withCorrelationId: (id) => {
-			msg.correlationId = id;
+			msg.correlationId = id || chance.guid();
 			return builder;
 		},
 		get: () => msg,

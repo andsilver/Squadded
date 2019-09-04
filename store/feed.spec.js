@@ -1,8 +1,13 @@
 import { Chance } from 'chance';
+import Vuex from 'vuex';
+import { createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
-import { FeedStore, FeedMutations, mutations, actions } from './feed';
+import feed, { FeedStore, FeedActions, mutations } from './feed';
+import { state } from './index';
 
 const chance = new Chance();
+const localVue = createLocalVue();
+localVue.use(Vuex);
 
 describe('Feed store module', () => {
 	describe('mutations', () => {
@@ -30,17 +35,15 @@ describe('Feed store module', () => {
 			expect(state.items.length).toBe(length);
 		});
 
-		it('addItem should push any item to existing list and sessionStorage', () => {
+		it('addItem should push any item to existing list', () => {
 			const state = {
 				items: [],
 			};
 			const newItem = aDefaultSingleItemMsgBuilder().get();
-			const length = sessionStorage.length;
 
 			addItem(state, newItem);
 			expect(state.items.length).toBe(1);
 			expect(state.items[0]).toBe(newItem);
-			expect(sessionStorage.length).toBe(length + 1);
 		});
 
 		it('should update item guid and ts on load', () => {
@@ -88,98 +91,116 @@ describe('Feed store module', () => {
 	});
 
 	describe('actions', () => {
-		const {
-			saveItem,
-			receiveItem,
-		} = actions;
-		let ctx;
+		let root;
+		let feedStore;
 
 		const aDummyMerchantId = 'aDummyMerchantId';
 
 		beforeEach(() => {
-			ctx = {
-				commit: function () {}, // do not use arrow function
-				rootState: {
-					socket: {
-						isConnected: true,
-						$ws: {
-							sendObj: function () {},
-						},
-					},
-					merchant: {
-						id: aDummyMerchantId,
-					},
+			feedStore = new Vuex.Store(feed);
+			root = new Vuex.Store({
+				state,
+				modules: {
+					feed,
 				},
-			};
+			});
+			root.state.socket.isConnected = true;
+			root.state.merchant.id = aDummyMerchantId;
+			root.state.socket.$ws = { sendObj: function () {} };
 		});
 
-		it('should send item to socket with merchantId when saveItem', () => {
-			spyOn(ctx, 'commit');
-			spyOn(ctx.rootState.socket.$ws, 'sendObj');
+		afterEach(() => {
+			sessionStorage.clear();
+		});
+
+		it('should commit addItem on saveItem', async (done) => {
+			const msg = aDefaultSingleItemMsgBuilder().get();
+
+			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
+			expect(root.state.feed.items).toEqual([ msg ]);
+
+			done();
+		});
+
+		it('should commit addItem when receive new item', async (done) => {
+			const msg = aDefaultSingleItemMsgBuilder().get();
+
+			await feedStore.dispatch(`${FeedActions.receiveItem}`, msg);
+			expect(feedStore.state.items).toEqual([ msg ]);
+
+			done();
+		});
+
+		it('should send item to socket with merchantId when saveItem', async (done) => {
+			spyOn(root.state.socket.$ws, 'sendObj');
 
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
-			saveItem(ctx, msg);
+			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
+			// saveItem(ctx, msg);
 
-			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledWith({ ...msg, merchantId: aDummyMerchantId });
+			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
+			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({ ...msg, merchantId: aDummyMerchantId });
+			done();
 		});
 
-		it('should commit addItem on saveItem', () => {
-			spyOn(ctx, 'commit');
+		it('should not send item on save while WS disconnected', async (done) => {
+			root.state.socket.isConnected = false;
+			spyOn(root.state.socket.$ws, 'sendObj');
 
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
-			saveItem(ctx, msg);
+			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
+			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
 
-			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith(FeedMutations.addItem, msg);
+			done();
 		});
 
-		it('should not send item on save while WS disconnected', () => {
-			ctx.rootState.socket.isConnected = false;
-			spyOn(ctx, 'commit');
-			spyOn(ctx.rootState.socket.$ws, 'sendObj');
-
-			const msg = aDefaultSingleItemMsgBuilder().get();
-
-			saveItem(ctx, msg);
-
-			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
-			expect(ctx.commit).toHaveBeenCalledTimes(1);
-		});
-
-		it('should commit addItem when receive new item', () => {
-			spyOn(ctx, 'commit');
-			spyOn(ctx.rootState.socket.$ws, 'sendObj');
-
-			const msg = aDefaultSingleItemMsgBuilder().get();
-
-			receiveItem(ctx, msg);
-
-			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
-			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith(FeedMutations.addItem, msg);
-		});
-
-		it('should commit itemLoaded when receive pending item', () => {
+		it('should update pending item', async (done) => {
 			const pendingItem = aDefaultSingleItemMsgBuilder()
 				.withCorrelationId(chance.guid())
 				.get();
 
-			ctx.state = {
-				items: [pendingItem],
-			};
-
-			spyOn(ctx, 'commit');
-			spyOn(ctx.rootState.socket.$ws, 'sendObj');
+			feedStore.state.items = [pendingItem];
 
 			const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid(), ts: Date.now() });
-			receiveItem(ctx, loadedItem);
+			await feedStore.dispatch(`${FeedActions.receiveItem}`, loadedItem);
 
-			expect(ctx.rootState.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
-			expect(ctx.commit).toHaveBeenCalledTimes(1);
-			expect(ctx.commit).toHaveBeenCalledWith(FeedMutations.itemLoaded, loadedItem);
+			expect(pendingItem).not.toHaveProperty('correlationId');
+			expect(pendingItem.guid).toBe(loadedItem.guid);
+			expect(pendingItem.ts).toBe(loadedItem.ts);
+
+			done();
+		});
+
+		it('should add any item when store', async (done) => {
+			const msg = aDefaultSingleItemMsgBuilder().get();
+			const length = sessionStorage.length;
+
+			await feedStore.dispatch(`${FeedActions.storeItem}`, msg);
+
+			expect(feedStore.state.items).toEqual([ msg ]);
+			expect(sessionStorage.length).toBe(length + 1);
+
+			done();
+		});
+
+		it('should add any item and keep limit', async (done) => {
+			function item() {
+				return aDefaultSingleItemMsgBuilder()
+					.withCorrelationId()
+					.get();
+			}
+
+			await feedStore.dispatch(`${FeedActions.storeItem}`, item());
+			await feedStore.dispatch(`${FeedActions.storeItem}`, item());
+			await feedStore.dispatch(`${FeedActions.storeItem}`, item());
+			await feedStore.dispatch(`${FeedActions.storeItem}`, item());
+
+			expect(feedStore.state.items.length).toBe(4);
+			expect(sessionStorage.length).toBe(3);
+
+			done();
 		});
 	});
 });
