@@ -66,7 +66,7 @@ export default {
 		'@plugins/vuetify',
 		'@plugins/messaging',
 		'@plugins/init/restoreFeed',
-		{ src: '@plugins/ws', ssr: false },
+		{ src: '@plugins/init/ws', ssr: false },
 	],
 	/*
 	** Nuxt.js modules

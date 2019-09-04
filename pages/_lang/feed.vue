@@ -46,7 +46,7 @@ export default {
 		]),
 	},
 	created() {
-		this.$connect(); // TODO move to auth
+		// this.$connect(); // TODO move to auth
 		// this.$store.dispatch('feed/get');
 	},
 };
