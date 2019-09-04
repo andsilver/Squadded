@@ -173,8 +173,20 @@ describe('Feed store module', () => {
 			done();
 		});
 
-		it('should add any item when store', async (done) => {
+		it('should not add pending item when store', async (done) => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
+			const length = sessionStorage.length;
+
+			await feedStore.dispatch(`${FeedActions.storeItem}`, msg);
+
+			expect(feedStore.state.items).toEqual([ msg ]);
+			expect(sessionStorage.length).toBe(length);
+
+			done();
+		});
+
+		it('should add only acknowledged item when store', async (done) => {
+			const msg = aDefaultSingleItemMsgBuilder().withGUID().get();
 			const length = sessionStorage.length;
 
 			await feedStore.dispatch(`${FeedActions.storeItem}`, msg);
@@ -188,7 +200,7 @@ describe('Feed store module', () => {
 		it('should add any item and keep limit', async (done) => {
 			function item() {
 				return aDefaultSingleItemMsgBuilder()
-					.withCorrelationId()
+					.withGUID()
 					.get();
 			}
 

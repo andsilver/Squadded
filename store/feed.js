@@ -15,7 +15,10 @@ function suffix () {
 }
 
 function storeInSession (post) {
-	sessionStorage.setItem(`${FeedStore}-${post.correlationId || post.guid}`, JSON.stringify(post));
+	if (!post.guid) {
+		return;
+	}
+	sessionStorage.setItem(`${FeedStore}-${post.guid}`, JSON.stringify(post));
 }
 
 function removeFromSession (id) {
