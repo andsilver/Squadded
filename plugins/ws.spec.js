@@ -1,4 +1,5 @@
-import { WSToken } from './ws';
+import Vue from 'vue';
+import ws, { WSToken } from './ws';
 
 describe('WSToken wrapper', () => {
 	it('should append _jwt from localStorage to sending object', () => {
@@ -42,5 +43,19 @@ describe('WSToken wrapper', () => {
 		expect(payload).not.toHaveProperty('error');
 		expect(payload).not.toHaveProperty('ts');
 		expect(payload).toHaveProperty('item');
+	});
+
+	it('should user token in localStorage as search query param for WS connection', () => {
+		const mockToken = 'head.payload.sign';
+		localStorage.setItem('userToken', mockToken);
+		const store = {
+			subscribe: function () {},
+		};
+		spyOn(Vue, 'use');
+
+		ws({ store });
+
+		expect(Vue.use).toHaveBeenCalledTimes(1);
+		expect(Vue.use.calls.argsFor(0)[1].includes(`userToken=${mockToken}`)).toBe(true);
 	});
 });
