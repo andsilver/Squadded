@@ -1,5 +1,6 @@
 import fetchMock from 'fetch-mock';
 import merchant from '../services/merchant';
+import { FeedStore, FeedActions } from '../store/feed';
 import messaging, { context } from './messaging';
 
 // const { API_LINK } = process.env;
@@ -42,7 +43,7 @@ describe('Message listener', () => {
 		context({ store })(event);
 
 		expect(store.dispatch).toHaveBeenCalledTimes(1);
-		expect(store.dispatch.calls.argsFor(0)).toEqual(['feed/saveItem', msg]);
+		expect(store.dispatch.calls.argsFor(0)).toEqual([`${FeedStore}/${FeedActions.saveItem}`, msg]);
 	});
 });
 

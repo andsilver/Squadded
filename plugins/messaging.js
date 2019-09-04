@@ -1,4 +1,5 @@
 // import merchant from '../services/merchant';
+import { FeedStore, FeedActions } from '../store/feed';
 
 export const context = function ({ store }) {
 	return function parseMessage (event) {
@@ -11,7 +12,7 @@ export const context = function ({ store }) {
 		}
 
 		if (msg.type === 'singleItemPost') {
-			store.dispatch('feed/saveItem', msg);
+			store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 		} else if (msg.type === 'injectMerchantId') {
 			const { merchantId } = msg;
 			store.commit('SET_MERCHANT_ID', merchantId);

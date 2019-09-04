@@ -10,16 +10,6 @@ export const getters = {
 
 export const FeedStore = 'feed';
 
-export const FeedMutations = {
-	addItem: 'addItem',
-	itemLoaded: 'itemLoaded',
-	restoreSession: 'restoreSession',
-};
-
-export const FeedActions = {
-	receiveItem: 'receiveItem',
-};
-
 function suffix () {
 	return Math.random().toString(36).slice(2);
 }
@@ -31,6 +21,12 @@ function storeInSession (post) {
 function removeFromSession (id) {
 	sessionStorage.removeItem(`${FeedStore}-${id}`);
 }
+
+export const FeedMutations = {
+	addItem: 'addItem',
+	itemLoaded: 'itemLoaded',
+	restoreSession: 'restoreSession',
+};
 
 export const mutations = {
 	setItems: (state, payload) => {
@@ -76,12 +72,17 @@ export const mutations = {
 
 const INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP = Number.MAX_SAFE_INTEGER;
 
+export const FeedActions = {
+	receiveItem: 'receiveItem',
+	saveItem: 'saveItem',
+};
+
 export const actions = {
 	// TODO get all on init
 	/* get: async (ctx) => {
 		http fetch or websocket
 	}, */
-	saveItem: ({ rootState, commit }, payload) => {
+	[FeedActions.saveItem]: ({ rootState, commit }, payload) => {
 		payload.error = null;
 		payload.guid = null;
 		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
