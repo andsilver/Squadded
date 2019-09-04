@@ -2,6 +2,7 @@ const {
 	// API_LINK,
 	WS_LINK,
 	BASE,
+	FEED_STORE_LIMIT = 100,
 } = process.env;
 
 if (!WS_LINK) {
@@ -21,6 +22,7 @@ export default {
 	env: {
 		WS_LINK,
 		// API_LINK,
+		FEED_STORE_LIMIT,
 	},
 	/*
 	** Headers of the page

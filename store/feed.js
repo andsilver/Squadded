@@ -1,3 +1,5 @@
+const { FEED_STORE_LIMIT } = process.env;
+
 export const state = () => {
 	return {
 		items: [],
@@ -34,7 +36,6 @@ export const mutations = {
 	},
 	[FeedMutations.addItem]: (state, payload) => {
 		state.items.unshift(payload);
-		storeInSession(payload);
 	},
 	[FeedMutations.itemLoaded]: (state, payload) => {
 		const item = state.items.find(i => i.correlationId === payload.correlationId);
@@ -73,6 +74,7 @@ export const mutations = {
 const INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP = Number.MAX_SAFE_INTEGER;
 
 export const FeedActions = {
+	storeItem: 'storeItem',
 	receiveItem: 'receiveItem',
 	saveItem: 'saveItem',
 };
@@ -82,23 +84,32 @@ export const actions = {
 	/* get: async (ctx) => {
 		http fetch or websocket
 	}, */
-	[FeedActions.saveItem]: ({ rootState, commit }, payload) => {
+	[FeedActions.storeItem]: ({ getters, commit }, payload) => {
+		commit(FeedMutations.addItem, payload);
+		if (getters.items.length > FEED_STORE_LIMIT) {
+			const overflowItem = getters.items[FEED_STORE_LIMIT];
+			const overflowId = overflowItem.correlationId || overflowItem.guid;
+			removeFromSession(overflowId);
+		}
+		storeInSession(payload);
+	},
+	[FeedActions.saveItem]: ({ rootState, dispatch }, payload) => {
 		payload.error = null;
 		payload.guid = null;
 		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
 		payload.merchantId = rootState.merchant.id;
 		payload.correlationId = `${Date.now()}${suffix()}`;
-		commit(FeedMutations.addItem, payload);
+		dispatch(FeedActions.storeItem, payload);
 
 		if (rootState.socket.isConnected) {
 			// TODO? add some queue for sync after reconnect
 			rootState.socket.$ws.sendObj(payload);
 		}
 	},
-	[FeedActions.receiveItem]: ({ commit }, payload) => {
+	[FeedActions.receiveItem]: ({ commit, dispatch }, payload) => {
 		if (!payload.correlationId) {
 			// received from another user
-			commit(FeedMutations.addItem, payload);
+			dispatch(FeedActions.storeItem, payload);
 			return;
 		}
 
