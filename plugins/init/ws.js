@@ -22,10 +22,10 @@ export class WSToken {
 	 */
 	sendObj (data) {
 		const _jwt = localStorage.getItem('userToken');
-		const { error, guid, ts, ...clean } = data;
-		this._ws.sendObj(Object.assign(clean, {
-			_jwt,
-		}));
+		if (_jwt) {
+			const { error, guid, ts, userId, _jwt, ...clean } = data;
+			this._ws.sendObj(clean);
+		}
 	}
 }
 
@@ -38,11 +38,13 @@ export default ({ store, redirect }) => {
 	// pass user token in search params of connection url
 	// due to no other way to pass data while connecting
 	// Headers and Cookies are not supported by browsers
-	wsLink.searchParams.set('userToken', localStorage.getItem('userToken'));
+	const userToken = localStorage.getItem('userToken');
+	wsLink.searchParams.set('userToken', userToken);
 	Vue.use(VueNativeSock, wsLink.toString(), {
 		store,
 		format: 'json',
 		reconnection: true,
+		connectManually: !userToken,
 	});
 
 	store.subscribe((mutation, state) => {
