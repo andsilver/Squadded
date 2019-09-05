@@ -32,11 +32,5 @@ export const context = function ({ store }) {
 
 export default function (ctx) {
 	window.addEventListener('message', context(ctx));
-
-	const { ancestorOrigins } = window.location;
-	if (!ancestorOrigins || (ancestorOrigins && !ancestorOrigins.length)) {
-		return;
-	}
-	const parentOrigin = ancestorOrigins[ancestorOrigins.length - 1];
-	window.parent.postMessage('SquadWidgetIsReady', parentOrigin);
+	window.parent.postMessage('SquadWidgetIsReady', '*');
 };
