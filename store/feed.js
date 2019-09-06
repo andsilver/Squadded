@@ -98,11 +98,10 @@ export const actions = {
 		payload.error = null;
 		payload.guid = null;
 		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
-		payload.merchantId = rootState.merchant.id;
 		payload.correlationId = `${Date.now()}${suffix()}`;
 		dispatch(FeedActions.storeItem, payload);
 
-		if (rootState.socket.isConnected) {
+		if (rootState.socket.isConnected && rootState.socket.isAuth) {
 			// TODO? add some queue for sync after reconnect
 			rootState.socket.$ws.sendObj(payload);
 		}

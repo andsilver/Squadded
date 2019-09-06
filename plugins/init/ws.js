@@ -29,22 +29,25 @@ export class WSToken {
 	}
 }
 
+export const connect = function (store) {
+	const merchantId = store.state.merchant.id;
+	const userToken = localStorage.getItem('userToken');
+	if (!userToken || !merchantId) {
+		return;
+	}
+	Vue.prototype.$connect();
+};
+
 export default ({ store, redirect }) => {
 	const { WS_LINK } = process.env;
 	if (!WS_LINK) {
 		throw new Error('WebSocket connection link is not provided.');
 	}
-	const wsLink = new URL(WS_LINK);
-	// pass user token in search params of connection url
-	// due to no other way to pass data while connecting
-	// Headers and Cookies are not supported by browsers
-	const userToken = localStorage.getItem('userToken');
-	wsLink.searchParams.set('userToken', userToken);
-	Vue.use(VueNativeSock, wsLink.toString(), {
+	Vue.use(VueNativeSock, WS_LINK, {
 		store,
 		format: 'json',
 		reconnection: true,
-		connectManually: !userToken,
+		connectManually: true,
 	});
 
 	store.subscribe((mutation, state) => {
@@ -57,7 +60,35 @@ export default ({ store, redirect }) => {
 		}
 
 		if (mutation.type === 'SOCKET_ONMESSAGE') {
-			dispatch(store, mutation.payload);
+			const message = mutation.payload;
+			if (message.type === 'authRequest') {
+				state.socket._ws.sendObj({
+					type: 'authResponse',
+					userToken: localStorage.getItem('userToken'),
+					merchantId: store.state.merchant.id,
+				});
+				return;
+			} else if (message.type === 'authOk') {
+				store.commit('SET_SOCKET_AUTH', true);
+			}
+
+			if (!state.socket.isAuth) {
+				return;
+			}
+
+			dispatch(store, message);
+			return;
+		}
+
+		if (mutation.type === 'SOCKET_ONCLOSE') {
+			if (mutation.payload.reason) {
+				Vue.prototype.$disconnect();
+			}
+			return;
+		}
+
+		if (mutation.type === 'SET_MERCHANT_ID') {
+			connect(store);
 		}
 	});
 };

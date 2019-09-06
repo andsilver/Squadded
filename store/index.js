@@ -5,6 +5,7 @@ export const state = () => ({
 	locale: 'en',
 	socket: {
 		isConnected: false,
+		isAuth: false,
 		reconnectError: false,
 		$ws: null,
 		_ws: null,
@@ -44,6 +45,9 @@ export const mutations = {
 	},
 	SET_MERCHANT_FORBIDDEN (state, flag) {
 		state.merchant.forbidden = flag;
+	},
+	SET_SOCKET_AUTH (state, flag) {
+		state.socket.isAuth = flag;
 	},
 };
 
