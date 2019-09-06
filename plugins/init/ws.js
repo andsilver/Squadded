@@ -43,6 +43,8 @@ export const initSocket = (link, store) => {
 		store,
 		format: 'json',
 		reconnection: true,
+		reconnectionAttempts: 10,
+		reconnectionDelay: 5000,
 		connectManually: true,
 	});
 };
@@ -94,9 +96,17 @@ export default ({ store, redirect }) => {
 	if (!WS_LINK) {
 		throw new Error('WebSocket connection link is not provided.');
 	}
-	initSocket(WS_LINK, store);
 
-	store.subscribe(mutationListener(store, redirect));
+	// to be able to spyOn >.<
+	let initSocketShadow = initSocket;
+	let mutationListenerShadow = mutationListener;
+	if (module.exports) {
+		initSocketShadow = module.exports.initSocket;
+		mutationListenerShadow = module.exports.mutationListener;
+	}
+	initSocketShadow(WS_LINK, store);
+
+	store.subscribe(mutationListenerShadow(store, redirect));
 
 	connect(store);
 };

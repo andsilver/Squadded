@@ -1,7 +1,17 @@
 import Vue from 'vue';
-import * as wsPlugin from './ws';
+import ws, * as wsPlugin from './ws';
 
 describe('WS Plugin', () => {
+	const { WS_LINK } = process.env;
+	const STORE = {
+		subscribe: function () {},
+		state: {
+			merchant: {
+				id: null,
+			},
+		},
+	};
+
 	describe('WSToken class', () => {
 		const { WSToken } = wsPlugin;
 		beforeEach(() => {
@@ -61,14 +71,7 @@ describe('WS Plugin', () => {
 
 		beforeEach(() => {
 			localStorage.clear();
-			store = {
-				subscribe: function () {},
-				state: {
-					merchant: {
-						id: null,
-					},
-				},
-			};
+			store = Object.assign({}, STORE);
 			spyOn(Vue, 'use');
 		});
 
@@ -96,6 +99,35 @@ describe('WS Plugin', () => {
 
 			expect(Vue.use).toHaveBeenCalledTimes(1);
 			expect(Vue.use.calls.argsFor(0)[2].connectManually).toBe(true);
+		});
+	});
+
+	describe('default', () => {
+		let ctx;
+		beforeEach(() => {
+			localStorage.clear();
+			ctx = {
+				store: Object.assign({}, STORE),
+				redirect: function () {},
+			};
+		});
+
+		it('should invoke proper init sequence', () => {
+			spyOn(wsPlugin, 'initSocket');
+			spyOn(wsPlugin, 'mutationListener').and.callThrough();
+			spyOn(ctx.store, 'subscribe');
+
+			ws(ctx);
+
+			expect(wsPlugin.initSocket).toHaveBeenCalledTimes(1);
+			expect(wsPlugin.initSocket.calls.argsFor(0)).toEqual([ WS_LINK, ctx.store ]);
+
+			expect(wsPlugin.mutationListener).toHaveBeenCalledTimes(1);
+			expect(wsPlugin.mutationListener.calls.argsFor(0)).toEqual([ ctx.store, ctx.redirect ]);
+
+			expect(ctx.store.subscribe).toHaveBeenCalledTimes(1);
+			const func = ctx.store.subscribe.calls.argsFor(0)[0];
+			expect(func.name).toBe('mutationDispatcher');
 		});
 	});
 });
