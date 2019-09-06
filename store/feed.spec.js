@@ -131,16 +131,16 @@ describe('Feed store module', () => {
 			done();
 		});
 
-		it('should send item to socket with merchantId when saveItem', async (done) => {
+		it('should send item to socket with no merchantId when saveItem', async (done) => {
 			spyOn(root.state.socket.$ws, 'sendObj');
 
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
+			root.state.socket.isAuth = true;
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			// saveItem(ctx, msg);
 
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({ ...msg, merchantId: aDummyMerchantId });
+			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith(msg);
 			done();
 		});
 

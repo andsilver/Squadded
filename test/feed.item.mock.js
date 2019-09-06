@@ -9,7 +9,6 @@ const aDefaultSingleItemMsgBuilder = () => {
 		error: null,
 		ts: null,
 		correlationId: null,
-		merchantId: chance.natural(),
 		item: {
 			itemId: chance.natural(),
 			title: chance.sentence({ words: 5 }),

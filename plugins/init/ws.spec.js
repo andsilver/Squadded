@@ -2,8 +2,18 @@ import Vue from 'vue';
 import ws, { WSToken } from './ws';
 
 describe('WSToken wrapper', () => {
+	let store;
+
 	beforeEach(() => {
 		localStorage.clear();
+		store = {
+			subscribe: function () {},
+			state: {
+				merchant: {
+					id: null,
+				},
+			},
+		};
 	});
 
 	it('should remove error, userId, _jwt, guid and ts from sending object', () => {
@@ -51,25 +61,19 @@ describe('WSToken wrapper', () => {
 		expect(_ws.sendObj).toHaveBeenCalledTimes(0);
 	});
 
-	it('should add user token from localStorage as search query param for WS connection', () => {
+	it('should not add user token from localStorage as search query param for WS connection', () => {
 		const mockToken = 'head.payload.sign';
 		localStorage.setItem('userToken', mockToken);
-		const store = {
-			subscribe: function () {},
-		};
 		spyOn(Vue, 'use');
 
 		ws({ store });
 
 		expect(Vue.use).toHaveBeenCalledTimes(1);
-		expect(Vue.use.calls.argsFor(0)[1].includes(`userToken=${mockToken}`)).toBe(true);
-		expect(Vue.use.calls.argsFor(0)[2].connectManually).toBe(false);
+		expect(Vue.use.calls.argsFor(0)[1].includes(`userToken=${mockToken}`)).toBe(false);
+		expect(Vue.use.calls.argsFor(0)[2].connectManually).toBe(true);
 	});
 
 	it('should not auto-connect WS if no user token', () => {
-		const store = {
-			subscribe: function () {},
-		};
 		spyOn(Vue, 'use');
 
 		ws({ store });
