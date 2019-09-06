@@ -38,57 +38,65 @@ export const connect = function (store) {
 	Vue.prototype.$connect();
 };
 
-export default ({ store, redirect }) => {
-	const { WS_LINK } = process.env;
-	if (!WS_LINK) {
-		throw new Error('WebSocket connection link is not provided.');
-	}
-	Vue.use(VueNativeSock, WS_LINK, {
+export const initSocket = (link, store) => {
+	Vue.use(VueNativeSock, link, {
 		store,
 		format: 'json',
 		reconnection: true,
 		connectManually: true,
 	});
+};
 
-	store.subscribe((mutation, state) => {
-		if (mutation.type === 'SOCKET_ONOPEN') {
-			const $ws = new WSToken(state.socket._ws);
-			Vue.prototype.$ws = $ws; // to be used in components
-			store.commit('jSocket', $ws);
-			redirect({ path: '/feed' });
+export const mutationListener = (store, redirect) => function mutationDispatcher (mutation, state) {
+	if (mutation.type === 'SOCKET_ONOPEN') {
+		const $ws = new WSToken(state.socket._ws);
+		Vue.prototype.$ws = $ws; // to be used in components
+		store.commit('jSocket', $ws);
+		redirect({ path: '/feed' });
+		return;
+	}
+
+	if (mutation.type === 'SOCKET_ONMESSAGE') {
+		const message = mutation.payload;
+		if (message.type === 'authRequest') {
+			state.socket._ws.sendObj({
+				type: 'authResponse',
+				userToken: localStorage.getItem('userToken'),
+				merchantId: store.state.merchant.id,
+			});
+			return;
+		} else if (message.type === 'authOk') {
+			store.commit('SET_SOCKET_AUTH', true);
+		}
+
+		if (!state.socket.isAuth) {
 			return;
 		}
 
-		if (mutation.type === 'SOCKET_ONMESSAGE') {
-			const message = mutation.payload;
-			if (message.type === 'authRequest') {
-				state.socket._ws.sendObj({
-					type: 'authResponse',
-					userToken: localStorage.getItem('userToken'),
-					merchantId: store.state.merchant.id,
-				});
-				return;
-			} else if (message.type === 'authOk') {
-				store.commit('SET_SOCKET_AUTH', true);
-			}
+		dispatch(store, message);
+		return;
+	}
 
-			if (!state.socket.isAuth) {
-				return;
-			}
-
-			dispatch(store, message);
-			return;
+	if (mutation.type === 'SOCKET_ONCLOSE') {
+		if (mutation.payload.reason) {
+			Vue.prototype.$disconnect();
 		}
+		return;
+	}
 
-		if (mutation.type === 'SOCKET_ONCLOSE') {
-			if (mutation.payload.reason) {
-				Vue.prototype.$disconnect();
-			}
-			return;
-		}
+	if (mutation.type === 'SET_MERCHANT_ID') {
+		connect(store);
+	}
+};
 
-		if (mutation.type === 'SET_MERCHANT_ID') {
-			connect(store);
-		}
-	});
+export default ({ store, redirect }) => {
+	const { WS_LINK } = process.env;
+	if (!WS_LINK) {
+		throw new Error('WebSocket connection link is not provided.');
+	}
+	initSocket(WS_LINK, store);
+
+	store.subscribe(mutationListener(store, redirect));
+
+	connect(store);
 };
