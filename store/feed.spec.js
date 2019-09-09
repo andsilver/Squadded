@@ -156,6 +156,17 @@ describe('Feed store module', () => {
 			done();
 		});
 
+		it('should not send item on save while WS not auth', async (done) => {
+			spyOn(root.state.socket.$ws, 'sendObj');
+
+			const msg = aDefaultSingleItemMsgBuilder().get();
+
+			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
+			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
+
+			done();
+		});
+
 		it('should update pending item', async (done) => {
 			const pendingItem = aDefaultSingleItemMsgBuilder()
 				.withCorrelationId(chance.guid())

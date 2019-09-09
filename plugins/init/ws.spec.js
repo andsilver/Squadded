@@ -1,9 +1,13 @@
 import Vue from 'vue';
+import { FeedStore, FeedActions } from '../../store/feed';
 import ws, * as wsPlugin from './ws';
 
 describe('WS Plugin', () => {
+	const mockToken = 'head.payload.sign';
 	const { WS_LINK } = process.env;
 	const STORE = {
+		commit: function () {},
+		dispatch: function () {},
 		subscribe: function () {},
 		state: {
 			merchant: {
@@ -19,12 +23,11 @@ describe('WS Plugin', () => {
 		});
 
 		it('should remove error, userId, _jwt, guid and ts from sending object', () => {
-			const mockJWT = 'some.user.jwt';
 			const _ws = {
 				sendObj: function () {},
 			};
 			const $ws = new WSToken(_ws);
-			localStorage.setItem('userToken', mockJWT);
+			localStorage.setItem('userToken', mockToken);
 
 			spyOn(_ws, 'sendObj');
 
@@ -84,7 +87,6 @@ describe('WS Plugin', () => {
 		});
 
 		it('should not add user token from localStorage as search query param for WS connection', () => {
-			const mockToken = 'head.payload.sign';
 			localStorage.setItem('userToken', mockToken);
 
 			initSocket(link, store);
@@ -99,6 +101,110 @@ describe('WS Plugin', () => {
 
 			expect(Vue.use).toHaveBeenCalledTimes(1);
 			expect(Vue.use.calls.argsFor(0)[2].connectManually).toBe(true);
+		});
+	});
+
+	describe('mutation listener', () => {
+		let ctx;
+		let state;
+		let _ws;
+		let mutationDispatcher;
+
+		function clear () {
+			localStorage.clear();
+			_ws = {
+				sendObj: function () {},
+			};
+			state = {
+				socket: { _ws },
+				merchant: { id: null },
+			};
+			ctx = {
+				store: Object.assign({}, STORE),
+				redirect: function () {},
+			};
+			mutationDispatcher = wsPlugin.mutationListener(ctx.store, ctx.redirect);
+		};
+
+		describe('auth sequence', () => {
+			beforeEach(clear);
+
+			it('should do web socket response on authRequest', () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authRequest' },
+				};
+				state.merchant.id = 'someMerchantId';
+				localStorage.setItem('userToken', mockToken);
+
+				spyOn(_ws, 'sendObj');
+
+				mutationDispatcher(mutation, state);
+
+				expect(_ws.sendObj).toHaveBeenCalledTimes(1);
+				expect(_ws.sendObj.calls.argsFor(0)).toEqual([{
+					type: 'authResponse',
+					userToken: mockToken,
+					merchantId: state.merchant.id,
+				}]);
+			});
+
+			it('should set socket auth true on authOk', () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+				spyOn(ctx.store, 'commit');
+
+				mutationDispatcher(mutation, state);
+
+				expect(ctx.store.commit).toHaveBeenCalledTimes(1);
+				expect(ctx.store.commit.calls.argsFor(0)).toEqual([ 'SET_SOCKET_AUTH', true ]);
+			});
+
+			it('should not dispatch socket messages while not auth', () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'singleItemPost' },
+				};
+				spyOn(ctx.store, 'dispatch');
+
+				mutationDispatcher(mutation, state);
+
+				expect(ctx.store.dispatch).toHaveBeenCalledTimes(0);
+			});
+
+			it('should dispatch socket messages while auth Ok', () => {
+				state.socket.isAuth = true;
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'singleItemPost' },
+				};
+				spyOn(ctx.store, 'dispatch');
+
+				mutationDispatcher(mutation, state);
+
+				expect(ctx.store.dispatch).toHaveBeenCalledTimes(1);
+				expect(ctx.store.dispatch.calls.argsFor(0)).toEqual([ `${FeedStore}/${FeedActions.receiveItem}`, mutation.payload ]);
+			});
+
+			it('should disconnect when socket close', () => {
+				const mutation = {
+					type: 'SOCKET_ONCLOSE',
+					payload: { reason: 'non empty' },
+				};
+				Vue.prototype.$disconnect = function () {};
+
+				spyOn(ctx.store, 'commit');
+				spyOn(Vue.prototype, '$disconnect');
+
+				mutationDispatcher(mutation, state);
+
+				expect(ctx.store.commit).toHaveBeenCalledTimes(1);
+				expect(ctx.store.commit.calls.argsFor(0)).toEqual([ 'SET_SOCKET_AUTH', false ]);
+
+				expect(Vue.prototype.$disconnect).toHaveBeenCalledTimes(1);
+			});
 		});
 	});
 

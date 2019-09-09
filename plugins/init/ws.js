@@ -64,7 +64,7 @@ export const mutationListener = (store, redirect) => function mutationDispatcher
 			state.socket._ws.sendObj({
 				type: 'authResponse',
 				userToken: localStorage.getItem('userToken'),
-				merchantId: store.state.merchant.id,
+				merchantId: state.merchant.id,
 			});
 			return;
 		} else if (message.type === 'authOk') {
