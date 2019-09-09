@@ -107,6 +107,7 @@ describe('WS Plugin', () => {
 	describe('mutation listener', () => {
 		let ctx;
 		let state;
+		let route;
 		let _ws;
 		let mutationDispatcher;
 
@@ -119,11 +120,15 @@ describe('WS Plugin', () => {
 				socket: { _ws },
 				merchant: { id: null },
 			};
+			route = {
+				name: 'index',
+			};
 			ctx = {
 				store: Object.assign({}, STORE),
-				redirect: function () {},
+				redirect: jest.fn(),
+				route,
 			};
-			mutationDispatcher = wsPlugin.mutationListener(ctx.store, ctx.redirect);
+			mutationDispatcher = wsPlugin.mutationListener(ctx.store, ctx.redirect, ctx.route);
 		};
 
 		describe('auth sequence', () => {
@@ -206,6 +211,35 @@ describe('WS Plugin', () => {
 				expect(Vue.prototype.$disconnect).toHaveBeenCalledTimes(1);
 			});
 		});
+
+		describe('redirect', () => {
+			beforeEach(clear);
+
+			it('should redirect to feed from home on auth', () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+
+				mutationDispatcher(mutation, state);
+
+				expect(ctx.redirect).toHaveBeenCalledTimes(1);
+				expect(ctx.redirect.mock.calls[0]).toEqual([ { path: '/feed' } ]);
+			});
+
+			it('should redirect to home from any on unauth', () => {
+				const mutation = {
+					type: 'SOCKET_ONCLOSE',
+					payload: { reason: 'non empty' },
+				};
+				route.name = 'notHome';
+
+				mutationDispatcher(mutation, state);
+
+				expect(ctx.redirect).toHaveBeenCalledTimes(1);
+				expect(ctx.redirect.mock.calls[0]).toEqual([ { path: '/' } ]);
+			});
+		});
 	});
 
 	describe('default', () => {
@@ -215,6 +249,7 @@ describe('WS Plugin', () => {
 			ctx = {
 				store: Object.assign({}, STORE),
 				redirect: function () {},
+				route: {},
 			};
 		});
 
@@ -229,7 +264,7 @@ describe('WS Plugin', () => {
 			expect(wsPlugin.initSocket.calls.argsFor(0)).toEqual([ WS_LINK, ctx.store ]);
 
 			expect(wsPlugin.mutationListener).toHaveBeenCalledTimes(1);
-			expect(wsPlugin.mutationListener.calls.argsFor(0)).toEqual([ ctx.store, ctx.redirect ]);
+			expect(wsPlugin.mutationListener.calls.argsFor(0)).toEqual([ ctx.store, ctx.redirect, ctx.route ]);
 
 			expect(ctx.store.subscribe).toHaveBeenCalledTimes(1);
 			const func = ctx.store.subscribe.calls.argsFor(0)[0];
