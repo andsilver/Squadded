@@ -81,6 +81,7 @@ export const mutationListener = (store, redirect) => function mutationDispatcher
 
 	if (mutation.type === 'SOCKET_ONCLOSE') {
 		if (mutation.payload.reason) {
+			store.commit('SET_SOCKET_AUTH', false);
 			Vue.prototype.$disconnect();
 		}
 		return;
