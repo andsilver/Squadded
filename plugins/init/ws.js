@@ -50,6 +50,10 @@ export const initSocket = (link, store) => {
 };
 
 export const mutationListener = (store, redirect, route) => function mutationDispatcher (mutation, state) {
+	function getMostRecentStoredPost () {
+		return store.getters[`${FeedStore}/${FeedGetters.items}`][0];
+	}
+
 	if (mutation.type === 'SOCKET_ONOPEN') {
 		const $ws = new WSToken(state.socket._ws);
 		Vue.prototype.$ws = $ws; // to be used in components
@@ -72,8 +76,9 @@ export const mutationListener = (store, redirect, route) => function mutationDis
 				redirect({ path: '/feed' });
 			}
 			const msg = { type: 'fetchPosts' };
-			if (store.getters[`${FeedStore}/${FeedGetters.items}`][0]) {
-				msg.ts = store.getters[`${FeedStore}/${FeedGetters.items}`][0].ts;
+			const mostRecentPost = getMostRecentStoredPost();
+			if (mostRecentPost) {
+				msg.ts = mostRecentPost.ts;
 			}
 			state.socket.$ws.sendObj(msg);
 		}
