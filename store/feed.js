@@ -4,8 +4,12 @@ export const state = () => ({
 	items: [],
 });
 
+export const FeedGetters = {
+	items: 'items',
+};
+
 export const getters = {
-	items: state => Array.from(state.items).sort((a, b) => b.ts - a.ts),
+	[FeedGetters.items]: state => Array.from(state.items).sort((a, b) => b.ts - a.ts),
 };
 
 export const FeedStore = 'feed';

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
-import { FeedStore, FeedActions } from '../../store/feed';
+import { FeedStore, FeedActions, FeedGetters } from '../../store/feed';
 
 export const dispatch = function (store, message) {
 	if (message.type === 'singleItemPost') {
@@ -23,7 +23,7 @@ export class WSToken {
 	sendObj (data) {
 		const _jwt = localStorage.getItem('userToken');
 		if (_jwt) {
-			const { error, guid, ts, userId, _jwt, ...clean } = data;
+			const { error, guid, userId, _jwt, ...clean } = data;
 			this._ws.sendObj(clean);
 		}
 	}
@@ -71,6 +71,11 @@ export const mutationListener = (store, redirect, route) => function mutationDis
 			if (route.name === 'index' || route.name === 'lang') {
 				redirect({ path: '/feed' });
 			}
+			const msg = { type: 'fetchPosts' };
+			if (store.getters[`${FeedStore}/${FeedGetters.items}`][0]) {
+				msg.ts = store.getters[`${FeedStore}/${FeedGetters.items}`][0].ts;
+			}
+			state.socket.$ws.sendObj(msg);
 		}
 
 		if (!state.socket.isAuth) {
