@@ -1,6 +1,9 @@
 import Vue from 'vue';
-import { FeedStore, FeedActions } from '../../store/feed';
+import { Chance } from 'chance';
+import { FeedStore, FeedActions, FeedGetters } from '../../store/feed';
 import ws, * as wsPlugin from './ws';
+
+const chance = new Chance();
 
 describe('WS Plugin', () => {
 	const mockToken = 'head.payload.sign';
@@ -9,20 +12,23 @@ describe('WS Plugin', () => {
 		commit: function () {},
 		dispatch: function () {},
 		subscribe: function () {},
+		getters: {
+			[`${FeedStore}/${FeedGetters.items}`]: [],
+		},
 		state: {
 			merchant: {
 				id: null,
 			},
 		},
 	};
+	const { WSToken } = wsPlugin;
 
 	describe('WSToken class', () => {
-		const { WSToken } = wsPlugin;
 		beforeEach(() => {
 			localStorage.clear();
 		});
 
-		it('should remove error, userId, _jwt, guid and ts from sending object', () => {
+		it('should remove error, userId, _jwt and guid from sending object', () => {
 			const _ws = {
 				sendObj: function () {},
 			};
@@ -44,7 +50,6 @@ describe('WS Plugin', () => {
 			const payload = _ws.sendObj.calls.argsFor(0)[0];
 			expect(payload).not.toHaveProperty('guid');
 			expect(payload).not.toHaveProperty('error');
-			expect(payload).not.toHaveProperty('ts');
 			expect(payload).not.toHaveProperty('userId');
 			expect(payload).not.toHaveProperty('_jwt');
 			expect(payload).toHaveProperty('item');
@@ -117,7 +122,10 @@ describe('WS Plugin', () => {
 				sendObj: function () {},
 			};
 			state = {
-				socket: { _ws },
+				socket: {
+					_ws,
+					$ws: _ws,
+				},
 				merchant: { id: null },
 			};
 			route = {
@@ -209,6 +217,41 @@ describe('WS Plugin', () => {
 				expect(ctx.store.commit.calls.argsFor(0)).toEqual([ 'SET_SOCKET_AUTH', false ]);
 
 				expect(Vue.prototype.$disconnect).toHaveBeenCalledTimes(1);
+			});
+
+			it('should fetch latest posts', () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+
+				spyOn(_ws, 'sendObj');
+
+				mutationDispatcher(mutation, state);
+
+				expect(_ws.sendObj).toHaveBeenCalledTimes(1);
+				expect(_ws.sendObj.calls.argsFor(0)).toEqual([{
+					type: 'fetchPosts',
+				}]);
+			});
+
+			it('should fetch posts later than storred', () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+				const latestItem = { ts: new Date(chance.date()).getTime() };
+				ctx.store.getters[`${FeedStore}/${FeedGetters.items}`].push(latestItem);
+
+				spyOn(_ws, 'sendObj');
+
+				mutationDispatcher(mutation, state);
+
+				expect(_ws.sendObj).toHaveBeenCalledTimes(1);
+				expect(_ws.sendObj.calls.argsFor(0)).toEqual([{
+					type: 'fetchPosts',
+					ts: latestItem.ts,
+				}]);
 			});
 		});
 
