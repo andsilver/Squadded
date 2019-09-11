@@ -9,6 +9,7 @@ const aDefaultSingleItemMsgBuilder = () => {
 		error: null,
 		ts: null,
 		correlationId: null,
+		likes: 0,
 		item: {
 			itemId: chance.natural(),
 			title: chance.sentence({ words: 5 }),
@@ -26,6 +27,10 @@ const aDefaultSingleItemMsgBuilder = () => {
 		},
 		withGUID: (id) => {
 			msg.guid = id || chance.guid();
+			return builder;
+		},
+		withLikes: (likes = chance.natural()) => {
+			msg.likes = likes;
 			return builder;
 		},
 		get: () => msg,

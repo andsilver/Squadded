@@ -29,6 +29,10 @@
 			</template>
 			<span>{{ post.error }}</span>
 		</v-tooltip>
+		<span class="likes">
+			<span v-if="post.likes" class="count">{{ post.likes }}</span>
+			<v-icon color="red" size="30">mdi-heart</v-icon>
+		</span>
 	</v-list-item>
 </template>
 
@@ -43,3 +47,15 @@ export default {
 	},
 };
 </script>
+
+<style lang="stylus" scoped>
+.likes .count
+	position absolute
+	width 100%
+	line-height 30px
+	text-align center
+	font-size 13px
+
+.likes
+	position relative
+</style>
