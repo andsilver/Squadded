@@ -31,7 +31,7 @@
 		</v-tooltip>
 		<span class="likes">
 			<span v-if="post.likes.count" class="count" data-auto-id="likes-count">{{ post.likes.count }}</span>
-			<v-icon color="red" size="30" data-auto-id="likes-icon">mdi-heart</v-icon>
+			<v-icon :color="post.likes.count && 'red'" size="30" data-auto-id="likes-icon">mdi-heart{{ post.likes.count ? '' : '-outline' }}</v-icon>
 		</span>
 	</v-list-item>
 </template>
@@ -49,13 +49,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.likes .count
-	position absolute
-	width 100%
-	line-height 30px
-	text-align center
-	font-size 13px
-
 .likes
 	position relative
+
+	.count
+		position absolute
+		width 100%
+		line-height 30px
+		text-align center
+		font-size 13px
 </style>

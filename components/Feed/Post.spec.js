@@ -22,7 +22,10 @@ describe('Feed Post', () => {
 		});
 
 		expect(wrapper.getByAutoId(COUNTER_ID).text()).toBe(post.likes.count.toString());
-		expect(wrapper.getByAutoId(ICON_ID).text()).toBe('mdi-heart');
+
+		const icon = wrapper.getByAutoId(ICON_ID);
+		expect(icon.text()).toBe('mdi-heart');
+		expect(icon.attributes('color')).toBe('red');
 	});
 
 	it('shoud display heart but no likes counter', () => {
@@ -35,6 +38,9 @@ describe('Feed Post', () => {
 		});
 
 		expect(wrapper.getByAutoId(COUNTER_ID).exists()).toBe(false);
-		expect(wrapper.getByAutoId(ICON_ID).text()).toBe('mdi-heart');
+
+		const icon = wrapper.getByAutoId(ICON_ID);
+		expect(icon.text()).toBe('mdi-heart-outline');
+		expect(icon.attributes('color')).not.toBe('red');
 	});
 });
