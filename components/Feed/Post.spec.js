@@ -15,7 +15,7 @@ describe('Feed Post', () => {
 		});
 
 		const likes = wrapper.find('.likes');
-		expect(likes.find('.count').text()).toBe(post.likes.toString());
+		expect(likes.find('.count').text()).toBe(post.likes.count.toString());
 		expect(likes.find('v-icon').text()).toBe('mdi-heart');
 	});
 

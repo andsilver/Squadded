@@ -116,8 +116,13 @@ describe('Feed store module', () => {
 		it('should commit addItem on saveItem', async (done) => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
+			const saved = Object.assign({}, msg, {
+				likes: {},
+				correlationId: jasmine.any(String),
+				ts: Number.MAX_SAFE_INTEGER,
+			});
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.feed.items).toEqual([ msg ]);
+			expect(root.state.feed.items).toEqual([ saved ]);
 
 			done();
 		});

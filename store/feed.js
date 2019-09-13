@@ -99,6 +99,7 @@ export const actions = {
 		storeInSession(payload);
 	},
 	[FeedActions.saveItem]: ({ rootState, dispatch }, payload) => {
+		payload.likes = {};
 		payload.error = null;
 		payload.guid = null;
 		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
