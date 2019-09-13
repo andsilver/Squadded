@@ -30,8 +30,8 @@
 			<span>{{ post.error }}</span>
 		</v-tooltip>
 		<span class="likes">
-			<span v-if="post.likes.count" class="count">{{ post.likes.count }}</span>
-			<v-icon color="red" size="30">mdi-heart</v-icon>
+			<span v-if="post.likes.count" class="count" data-auto-id="likes-count">{{ post.likes.count }}</span>
+			<v-icon color="red" size="30" data-auto-id="likes-icon">mdi-heart</v-icon>
 		</span>
 	</v-list-item>
 </template>
