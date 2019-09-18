@@ -5,6 +5,8 @@ import { FeedStore, FeedActions, FeedGetters } from '../../store/feed';
 export const dispatch = function (store, message) {
 	if (message.type === 'singleItemPost') {
 		store.dispatch(`${FeedStore}/${FeedActions.receiveItem}`, message);
+	} else if (message.type === 'like') {
+		store.dispatch(`${FeedStore}/${FeedActions.updateLike}`, message);
 	} else {
 		// TODO report
 	}
@@ -23,7 +25,7 @@ export class WSToken {
 	sendObj (data) {
 		const _jwt = localStorage.getItem('userToken');
 		if (_jwt) {
-			const { error, guid, userId, _jwt, ...clean } = data;
+			const { error, userId, _jwt, ...clean } = data;
 			this._ws.sendObj(clean);
 		}
 	}

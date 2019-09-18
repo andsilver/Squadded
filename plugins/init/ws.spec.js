@@ -23,12 +23,40 @@ describe('WS Plugin', () => {
 	};
 	const { WSToken } = wsPlugin;
 
+	describe('dispatch', () => {
+		const { dispatch } = wsPlugin;
+		let store;
+
+		beforeEach(() => {
+			store = Object.assign({}, STORE);
+			spyOn(store, 'dispatch');
+		});
+
+		it(`should dispatch singleItemPost to ${FeedStore}/${FeedActions.receiveItem}`, () => {
+			const msg = {
+				type: 'singleItemPost',
+			};
+
+			dispatch(store, msg);
+			expect(store.dispatch.calls.argsFor(0)).toEqual([ `${FeedStore}/${FeedActions.receiveItem}`, msg ]);
+		});
+
+		it(`should dispatch like to ${FeedStore}/${FeedActions.updateLike}`, () => {
+			const msg = {
+				type: 'like',
+			};
+
+			dispatch(store, msg);
+			expect(store.dispatch.calls.argsFor(0)).toEqual([ `${FeedStore}/${FeedActions.updateLike}`, msg ]);
+		});
+	});
+
 	describe('WSToken class', () => {
 		beforeEach(() => {
 			localStorage.clear();
 		});
 
-		it('should remove error, userId, _jwt and guid from sending object', () => {
+		it('should remove error, userId and _jwt from sending object', () => {
 			const _ws = {
 				sendObj: function () {},
 			};
@@ -48,7 +76,6 @@ describe('WS Plugin', () => {
 
 			expect(_ws.sendObj).toHaveBeenCalledTimes(1);
 			const payload = _ws.sendObj.calls.argsFor(0)[0];
-			expect(payload).not.toHaveProperty('guid');
 			expect(payload).not.toHaveProperty('error');
 			expect(payload).not.toHaveProperty('userId');
 			expect(payload).not.toHaveProperty('_jwt');
