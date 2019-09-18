@@ -9,38 +9,56 @@ Wrapper.prototype.getByAutoId = function (id) {
 };
 
 describe('Feed Post', () => {
-	const COUNTER_ID = 'likes-count';
-	const ICON_ID = 'likes-icon';
+	describe('Likes', () => {
+		const COUNTER_ID = 'likes-count';
+		const ICON_ID = 'likes-icon';
 
-	it('shoud display heart and likes counter', () => {
-		const post = aDefaultSingleItemMsgBuilder().withGUID().withLikes().get();
-		const wrapper = shallowMount(FeedPost, {
-			localVue,
-			propsData: {
-				post,
-			},
+		it('shoud display heart and likes counter', () => {
+			const post = aDefaultSingleItemMsgBuilder().withGUID().withLikes().get();
+			const wrapper = shallowMount(FeedPost, {
+				localVue,
+				propsData: {
+					post,
+				},
+			});
+
+			expect(wrapper.getByAutoId(COUNTER_ID).text()).toBe(post.likes.count.toString());
+
+			const icon = wrapper.getByAutoId(ICON_ID);
+			expect(icon.text()).toBe('mdi-heart');
+			expect(icon.attributes('color')).not.toBe('red');
 		});
 
-		expect(wrapper.getByAutoId(COUNTER_ID).text()).toBe(post.likes.count.toString());
+		it('shoud display red heart when liked by me', () => {
+			const post = aDefaultSingleItemMsgBuilder().withGUID().withLikes(1, true).get();
+			const wrapper = shallowMount(FeedPost, {
+				localVue,
+				propsData: {
+					post,
+				},
+			});
 
-		const icon = wrapper.getByAutoId(ICON_ID);
-		expect(icon.text()).toBe('mdi-heart');
-		expect(icon.attributes('color')).toBe('red');
-	});
+			expect(wrapper.getByAutoId(COUNTER_ID).text()).toBe(post.likes.count.toString());
 
-	it('shoud display heart but no likes counter', () => {
-		const post = aDefaultSingleItemMsgBuilder().withGUID().withLikes(0).get();
-		const wrapper = shallowMount(FeedPost, {
-			localVue,
-			propsData: {
-				post,
-			},
+			const icon = wrapper.getByAutoId(ICON_ID);
+			expect(icon.text()).toBe('mdi-heart');
+			expect(icon.attributes('color')).toBe('red');
 		});
 
-		expect(wrapper.getByAutoId(COUNTER_ID).exists()).toBe(false);
+		it('shoud display heart but no likes counter', () => {
+			const post = aDefaultSingleItemMsgBuilder().withGUID().withLikes(0).get();
+			const wrapper = shallowMount(FeedPost, {
+				localVue,
+				propsData: {
+					post,
+				},
+			});
 
-		const icon = wrapper.getByAutoId(ICON_ID);
-		expect(icon.text()).toBe('mdi-heart-outline');
-		expect(icon.attributes('color')).not.toBe('red');
+			expect(wrapper.getByAutoId(COUNTER_ID).exists()).toBe(false);
+
+			const icon = wrapper.getByAutoId(ICON_ID);
+			expect(icon.text()).toBe('mdi-heart-outline');
+			expect(icon.attributes('color')).not.toBe('red');
+		});
 	});
 });

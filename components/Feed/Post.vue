@@ -29,20 +29,27 @@
 			</template>
 			<span>{{ post.error }}</span>
 		</v-tooltip>
-		<span class="likes">
+		<span class="likes" @click="toggleLike">
 			<span v-if="post.likes.count" class="count" data-auto-id="likes-count">{{ post.likes.count }}</span>
-			<v-icon :color="post.likes.count && 'red'" size="30" data-auto-id="likes-icon">mdi-heart{{ post.likes.count ? '' : '-outline' }}</v-icon>
+			<v-icon :color="post.likes.byMe ? 'red' : ''" size="30" data-auto-id="likes-icon">mdi-heart{{ post.likes.count ? '' : '-outline' }}</v-icon>
 		</span>
 	</v-list-item>
 </template>
 
 <script lang="js">
+import { FeedStore, FeedActions } from '../../store/feed';
+
 export default {
 	name: 'FeedPost',
 	props: {
 		post: {
 			type: Object,
 			required: true,
+		},
+	},
+	methods: {
+		toggleLike () {
+			this.$store.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, this.post);
 		},
 	},
 };
