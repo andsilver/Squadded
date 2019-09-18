@@ -33,6 +33,7 @@ export const FeedMutations = {
 	addItem: 'addItem',
 	itemLoaded: 'itemLoaded',
 	restoreSession: 'restoreSession',
+	setPostLike: 'setPostLike',
 };
 
 export const mutations = {
@@ -42,8 +43,17 @@ export const mutations = {
 	[FeedMutations.addItem]: (state, payload) => {
 		state.items.unshift(payload);
 	},
+	[FeedMutations.setPostLike]: (state, payload) => {
+		const { post } = payload;
+		if (payload.hasOwnProperty('byMe')) {
+			post.likes.byMe = payload.byMe;
+		}
+		if (payload.hasOwnProperty('count')) {
+			post.likes.count = payload.count;
+		}
+	},
 	[FeedMutations.itemLoaded]: (state, payload) => {
-		const item = state.items.find(i => i.correlationId === payload.correlationId);
+		const item = state.items.find(i => i.guid === payload.guid || (i.correlationId && i.correlationId === payload.correlationId));
 		if (!item) {
 			// was removed before load finish
 			return;
@@ -82,6 +92,8 @@ export const FeedActions = {
 	storeItem: 'storeItem',
 	receiveItem: 'receiveItem',
 	saveItem: 'saveItem',
+	toggleLike: 'toggleLike',
+	updateLike: 'updateLike',
 };
 
 export const actions = {
@@ -108,17 +120,40 @@ export const actions = {
 
 		if (rootState.socket.isConnected && rootState.socket.isAuth) {
 			// TODO? add some queue for sync after reconnect
-			rootState.socket.$ws.sendObj(payload);
+			const { guid, ...clean } = payload;
+			rootState.socket.$ws.sendObj(clean);
 		}
 	},
-	[FeedActions.receiveItem]: ({ commit, dispatch }, payload) => {
-		if (!payload.correlationId) {
+	[FeedActions.receiveItem]: ({ state, commit, dispatch }, payload) => {
+		const post = state.items.find(i => i.guid === payload.guid);
+		if (!payload.correlationId && !post) {
 			// received from another user
 			dispatch(FeedActions.storeItem, payload);
 			return;
 		}
 
 		commit(FeedMutations.itemLoaded, payload);
+	},
+	[FeedActions.toggleLike]: ({ commit, rootState }, post) => {
+		const byMe = !post.likes.byMe;
+		commit(FeedMutations.setPostLike, {
+			post,
+			count: post.likes.count + (byMe ? 1 : -1),
+			byMe,
+		});
+		rootState.socket.$ws.sendObj({
+			type: 'like',
+			guid: post.guid,
+			iLike: byMe,
+		});
+		storeInSession(post);
+	},
+	[FeedActions.updateLike]: ({ commit, state }, payload) => {
+		const post = state.items.find(i => i.guid === payload.guid);
+		commit(FeedMutations.setPostLike, {
+			post,
+			...payload.likes,
+		});
 	},
 };
 

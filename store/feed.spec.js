@@ -16,17 +16,22 @@ describe('Feed store module', () => {
 			addItem,
 			itemLoaded,
 			restoreSession,
+			setPostLike,
 		} = mutations;
+
+		let state;
+
+		beforeEach(() => {
+			state = {
+				items: [],
+			};
+		});
 
 		afterEach(() => {
 			sessionStorage.clear();
 		});
 
 		it('should set all items in store', () => {
-			const state = {
-				items: [],
-			};
-
 			const length = Math.floor(Math.random() * 100 + 1);
 			const newItems = Array(length);
 
@@ -36,9 +41,6 @@ describe('Feed store module', () => {
 		});
 
 		it('addItem should push any item to existing list', () => {
-			const state = {
-				items: [],
-			};
 			const newItem = aDefaultSingleItemMsgBuilder().get();
 
 			addItem(state, newItem);
@@ -51,9 +53,7 @@ describe('Feed store module', () => {
 				.withCorrelationId(chance.guid())
 				.get();
 
-			const state = {
-				items: [pendingItem],
-			};
+			state.items = [pendingItem];
 
 			const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid(), ts: Date.now() });
 			itemLoaded(state, loadedItem);
@@ -63,9 +63,6 @@ describe('Feed store module', () => {
 		});
 
 		it('should restore from sessionStore on reload', () => {
-			const state = {
-				items: [],
-			};
 			const storred = aDefaultSingleItemMsgBuilder().get();
 			sessionStorage.setItem(FeedStore, JSON.stringify(storred));
 
@@ -75,9 +72,7 @@ describe('Feed store module', () => {
 
 		it('should not restore from sessionStore on jump', () => {
 			const current = aDefaultSingleItemMsgBuilder().get();
-			const state = {
-				items: [current],
-			};
+			state.items = [current];
 
 			const storred = aDefaultSingleItemMsgBuilder().get();
 			sessionStorage.setItem(FeedStore, JSON.stringify(storred));
@@ -87,6 +82,37 @@ describe('Feed store module', () => {
 			restoreSession(state);
 			expect(sessionStorage.getItem).toHaveBeenCalledTimes(0);
 			expect(state.items[0]).toEqual(current);
+		});
+
+		it('should update post like count', () => {
+			const post = aDefaultSingleItemMsgBuilder().get();
+
+			state.items = [post];
+
+			const count = chance.natural();
+			setPostLike(state, {
+				post,
+				count,
+			});
+
+			expect(state.items.length).toBe(1);
+			expect(post.likes.count).toBe(count);
+			expect(post.likes.byMe).toBe(undefined);
+		});
+
+		it('should update post like byMe', () => {
+			const post = aDefaultSingleItemMsgBuilder().get();
+
+			state.items = [post];
+
+			setPostLike(state, {
+				post,
+				byMe: true,
+			});
+
+			expect(state.items.length).toBe(1);
+			expect(post.likes.count).toBe(undefined);
+			expect(post.likes.byMe).toBe(true);
 		});
 	});
 
@@ -113,7 +139,7 @@ describe('Feed store module', () => {
 			sessionStorage.clear();
 		});
 
-		it('should commit addItem on saveItem', async (done) => {
+		it('should commit addItem on saveItem', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			const saved = Object.assign({}, msg, {
@@ -123,20 +149,16 @@ describe('Feed store module', () => {
 			});
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 			expect(root.state.feed.items).toEqual([ saved ]);
-
-			done();
 		});
 
-		it('should commit addItem when receive new item', async (done) => {
+		it('should commit addItem when receive new item', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			await feedStore.dispatch(`${FeedActions.receiveItem}`, msg);
 			expect(feedStore.state.items).toEqual([ msg ]);
-
-			done();
 		});
 
-		it('should send item to socket with no merchantId when saveItem', async (done) => {
+		it('should send item to socket with no merchantId when saveItem', async () => {
 			spyOn(root.state.socket.$ws, 'sendObj');
 
 			const msg = aDefaultSingleItemMsgBuilder().get();
@@ -145,11 +167,62 @@ describe('Feed store module', () => {
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith(msg);
-			done();
+			const { merchantId, guid, ...clean } = msg;
+			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith(clean);
 		});
 
-		it('should not send item on save while WS disconnected', async (done) => {
+		it('should toggle like state of post, send message, store', async () => {
+			spyOn(root.state.socket.$ws, 'sendObj');
+
+			const count = chance.natural();
+			const post = aDefaultSingleItemMsgBuilder()
+				.withGUID()
+				.withLikes(count, true)
+				.get();
+
+			await root.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, post);
+
+			// commited
+			expect(post.likes.count).toBe(count - 1);
+			expect(post.likes.byMe).toBe(false);
+
+			// send ws message
+			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
+				type: 'like',
+				guid: post.guid,
+				iLike: false,
+			});
+
+			const key = sessionStorage.key(0);
+			const storedPost = sessionStorage.getItem(key);
+			expect(post).toEqual(JSON.parse(storedPost));
+		});
+
+		it('should update post likes', async () => {
+			const guid = chance.guid();
+			const count = chance.natural();
+			const post = aDefaultSingleItemMsgBuilder()
+				.withGUID(guid)
+				.withLikes(count, true)
+				.get();
+
+			feedStore.state.items = [post];
+
+			const likes = {
+				count: chance.natural(),
+				byMe: false,
+			};
+			await feedStore.dispatch(`${FeedActions.updateLike}`, {
+				type: 'like',
+				guid,
+				likes,
+			});
+
+			expect(post.likes.count).toBe(likes.count);
+			expect(post.likes.byMe).toBe(likes.byMe);
+		});
+
+		it('should not send item on save while WS disconnected', async () => {
 			root.state.socket.isConnected = false;
 			spyOn(root.state.socket.$ws, 'sendObj');
 
@@ -157,22 +230,18 @@ describe('Feed store module', () => {
 
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
-
-			done();
 		});
 
-		it('should not send item on save while WS not auth', async (done) => {
+		it('should not send item on save while WS not auth', async () => {
 			spyOn(root.state.socket.$ws, 'sendObj');
 
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
-
-			done();
 		});
 
-		it('should update pending item', async (done) => {
+		it('should update pending item', async () => {
 			const pendingItem = aDefaultSingleItemMsgBuilder()
 				.withCorrelationId(chance.guid())
 				.get();
@@ -185,11 +254,9 @@ describe('Feed store module', () => {
 			expect(pendingItem).not.toHaveProperty('correlationId');
 			expect(pendingItem.guid).toBe(loadedItem.guid);
 			expect(pendingItem.ts).toBe(loadedItem.ts);
-
-			done();
 		});
 
-		it('should not add pending item when store', async (done) => {
+		it('should not add pending item when store', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 			const length = sessionStorage.length;
 
@@ -197,11 +264,9 @@ describe('Feed store module', () => {
 
 			expect(feedStore.state.items).toEqual([ msg ]);
 			expect(sessionStorage.length).toBe(length);
-
-			done();
 		});
 
-		it('should add only acknowledged item when store', async (done) => {
+		it('should add only acknowledged item when store', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().withGUID().get();
 			const length = sessionStorage.length;
 
@@ -209,11 +274,9 @@ describe('Feed store module', () => {
 
 			expect(feedStore.state.items).toEqual([ msg ]);
 			expect(sessionStorage.length).toBe(length + 1);
-
-			done();
 		});
 
-		it('should add any item and keep limit', async (done) => {
+		it('should add any item and keep limit', async () => {
 			function item() {
 				return aDefaultSingleItemMsgBuilder()
 					.withGUID()
@@ -227,8 +290,6 @@ describe('Feed store module', () => {
 
 			expect(feedStore.state.items.length).toBe(4);
 			expect(sessionStorage.length).toBe(3);
-
-			done();
 		});
 	});
 });
