@@ -135,6 +135,10 @@ export const actions = {
 		commit(FeedMutations.itemLoaded, payload);
 	},
 	[FeedActions.toggleLike]: ({ commit, rootState }, post) => {
+		if (!post.guid) {
+			return;
+		}
+
 		const byMe = !post.likes.byMe;
 		commit(FeedMutations.setPostLike, {
 			post,

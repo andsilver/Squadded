@@ -198,6 +198,23 @@ describe('Feed store module', () => {
 			expect(post).toEqual(JSON.parse(storedPost));
 		});
 
+		it('should prevent send like message while pending upload', async () => {
+			spyOn(root.state.socket.$ws, 'sendObj');
+
+			const post = aDefaultSingleItemMsgBuilder().get();
+
+			await root.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, post);
+
+			// commited
+			expect(post.likes).not.toHaveProperty('count');
+			expect(post.likes).not.toHaveProperty('byMe');
+
+			// send ws message
+			expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
+
+			expect(sessionStorage.length).toBe(0);
+		});
+
 		it('should update post likes', async () => {
 			const guid = chance.guid();
 			const count = chance.natural();
