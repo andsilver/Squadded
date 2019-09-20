@@ -62,6 +62,7 @@ export const mutations = {
 			item.error = payload.error;
 			return;
 		}
+		item.user = payload.user;
 		item.guid = payload.guid;
 		item.ts = payload.ts;
 		removeFromSession(item.correlationId);
@@ -112,6 +113,12 @@ export const actions = {
 	},
 	[FeedActions.saveItem]: ({ rootState, dispatch }, payload) => {
 		payload.likes = {};
+
+		// TODO get user props.
+		payload.user = {
+			avatar: '',
+			screenName: '',
+		};
 		payload.error = null;
 		payload.guid = null;
 		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;

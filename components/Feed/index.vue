@@ -1,13 +1,11 @@
 <template lang="html">
 	<section class="feed">
-		<span v-if="!items.length">{{ $t('feed.isEmpty') }}</span>
-		<v-list v-else three-line>
-			<feed-post
-				v-for="post in items"
-				:key="post.correlationId || post.guid"
-				:post="post"
-			/>
-		</v-list>
+		<span v-if="!items.length" data-auto-id="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
+		<feed-post
+			v-for="post in items"
+			:key="post.correlationId || post.guid"
+			:post="post"
+		/>
 	</section>
 </template>
 
@@ -42,9 +40,3 @@ export default {
 	},
 };
 </script>
-
-<style scoped lang="scss">
-	.feed {
-
-	}
-</style>

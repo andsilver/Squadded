@@ -10,6 +10,10 @@ const aDefaultSingleItemMsgBuilder = () => {
 		ts: null,
 		correlationId: null,
 		likes: {},
+		user: {
+			avatar: '',
+			screenName: '',
+		},
 		item: {
 			itemId: chance.natural(),
 			title: chance.sentence({ words: 5 }),

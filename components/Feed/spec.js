@@ -1,6 +1,10 @@
-import { shallowMount } from '@vue/test-utils';
+import { Wrapper, shallowMount } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../../test/feed.item.mock';
 import FeedComponent from './index.vue';
+
+Wrapper.prototype.getByAutoId = function (id) {
+	return this.find(`[data-auto-id="${id}"]`);
+};
 
 describe('FeedComponent Empty State', () => {
 	const mocks = {
@@ -24,7 +28,8 @@ describe('FeedComponent Empty State', () => {
 		const wrapper = shallowMount(FeedComponent, {
 			mocks,
 		});
-		expect(wrapper.vm.$el.textContent).toBe('feed.isEmpty');
+		expect(wrapper.getByAutoId('empty-feed-text').exists()).toBe(true);
+		expect(wrapper.getByAutoId('empty-feed-text').text()).toBe('feed.isEmpty');
 	});
 
 	it('accepts items list as props and do not render message for empty Feed', () => {
@@ -32,6 +37,6 @@ describe('FeedComponent Empty State', () => {
 			mocks,
 			propsData,
 		});
-		expect(wrapper.vm.$el.textContent).not.toBe('feed.isEmpty');
+		expect(wrapper.getByAutoId('empty-feed-text').exists()).toBe(false);
 	});
 });

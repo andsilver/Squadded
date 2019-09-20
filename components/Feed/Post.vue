@@ -1,39 +1,37 @@
 <template>
-	<v-list-item>
-		<v-list-item-avatar>
-			<v-img :src="post.item.img" />
-		</v-list-item-avatar>
-
-		<v-list-item-content>
-			<v-list-item-title v-text="post.item.title" />
-			<v-list-item-subtitle v-text="post.item.price" />
-		</v-list-item-content>
-		<v-progress-circular
-			v-if="!post.guid && !post.error"
-			:width="3"
-			color="primary"
-			indeterminate
-		/>
-		<v-tooltip
-			v-if="post.error"
-			left
+	<div>
+		<h3 class="my-2">
+			<v-avatar>
+				<img :src="post.user.avatar" :alt="post.user.screenName">
+			</v-avatar>
+			{{ post.user.screenName }}
+		</h3>
+		<v-card
+			class="mx-auto mb-6"
+			:loading="!post.guid && !post.error"
+			:elevation="1"
 		>
-			<template v-slot:activator="{ on }">
-				<v-icon
-					color="red"
-					dark
-					v-on="on"
-				>
-					mdi-alert
-				</v-icon>
-			</template>
-			<span>{{ post.error }}</span>
-		</v-tooltip>
-		<span class="likes" @click="toggleLike">
-			<span v-if="post.likes.count" class="count" data-auto-id="likes-count">{{ post.likes.count }}</span>
-			<v-icon :color="post.likes.byMe ? 'red' : ''" size="30" data-auto-id="likes-icon">mdi-heart{{ post.likes.count ? '' : '-outline' }}</v-icon>
-		</span>
-	</v-list-item>
+			<v-img
+				class="white--text"
+				height="200px"
+				:src="post.item.img"
+			>
+				<v-card-title class="align-end fill-height">
+					{{ post.item.title }}
+				</v-card-title>
+			</v-img>
+
+			<v-card-actions>
+				<v-card-text>{{ post.item.price }}</v-card-text>
+				<v-btn icon class="likes" @click="toggleLike">
+					<span v-if="post.likes.count" class="count" data-auto-id="likes-count">{{ post.likes.count }}</span>
+					<v-icon :color="post.likes.byMe ? 'red' : ''" size="30" data-auto-id="likes-icon">
+						mdi-heart{{ post.likes.count ? '' : '-outline' }}
+					</v-icon>
+				</v-btn>
+			</v-card-actions>
+		</v-card>
+	</div>
 </template>
 
 <script lang="js">
