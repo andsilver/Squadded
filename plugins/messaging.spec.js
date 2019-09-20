@@ -1,7 +1,7 @@
 import fetchMock from 'fetch-mock';
 import merchant from '../services/merchant';
 import { FeedStore, FeedActions } from '../store/feed';
-import messaging, { context } from './messaging';
+import messaging, { dispatch } from './messaging';
 
 // const { API_LINK } = process.env;
 
@@ -36,11 +36,7 @@ describe('Message listener', () => {
 			},
 		};
 
-		const event = {
-			data: JSON.stringify(msg),
-		};
-
-		context({ store })(event);
+		dispatch(store, msg);
 
 		expect(store.dispatch).toHaveBeenCalledTimes(1);
 		expect(store.dispatch.calls.argsFor(0)).toEqual([`${FeedStore}/${FeedActions.saveItem}`, msg]);
@@ -54,9 +50,6 @@ describe('Listen merchant id', () => {
 	const msg = {
 		type: 'injectMerchantId',
 		merchantId: 'aMerchantId',
-	};
-	const event = {
-		data: JSON.stringify(msg),
 	};
 
 	beforeEach(() => {
@@ -74,7 +67,7 @@ describe('Listen merchant id', () => {
 				list: ['http://allowed.com'],
 			},
 		});
-		const promise = context({ store })(event);
+		const promise = dispatch(store, msg);
 		await promise;
 
 		expect(merchant.validateAllowedOrigins).toHaveBeenCalledTimes(1);
@@ -94,7 +87,7 @@ describe('Listen merchant id', () => {
 			},
 		});
 
-		const promise = context({ store })(event);
+		const promise = dispatch(store, msg);
 		await promise;
 
 		expect(merchant.validateAllowedOrigins).toHaveBeenCalledTimes(1);
@@ -105,7 +98,7 @@ describe('Listen merchant id', () => {
 	}); */
 
 	it('should commit merchant id', () => {
-		context({ store })(event);
+		dispatch(store, msg);
 
 		expect(merchant.validateAllowedOrigins).toHaveBeenCalledTimes(0);
 		expect(store.commit).toHaveBeenCalledTimes(1);

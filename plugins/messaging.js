@@ -1,15 +1,8 @@
 // import merchant from '../services/merchant';
 import { FeedStore, FeedActions } from '../store/feed';
+import { connect } from './init/ws';
 
-export const context = ({ store }) => function parseMessage (event) {
-	let msg;
-	try {
-		msg = JSON.parse(event.data);
-	} catch (error) {
-		// TODO gracefull report
-		return;
-	}
-
+export const dispatch = (store, msg) => {
 	if (msg.type === 'singleItemPost') {
 		store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 	} else if (msg.type === 'injectMerchantId') {
@@ -29,6 +22,19 @@ export const context = ({ store }) => function parseMessage (event) {
 };
 
 export default function (ctx) {
-	window.addEventListener('message', context(ctx));
+	function parseMessage (event) {
+		let msg;
+		try {
+			msg = JSON.parse(event.data);
+		} catch (error) {
+			// TODO gracefull report
+			return;
+		}
+
+		const { store } = ctx;
+		dispatch(store, msg);
+	}
+
+	window.addEventListener('message', parseMessage);
 	window.parent.postMessage('SquadWidgetIsReady', '*');
 };
