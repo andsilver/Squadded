@@ -12,7 +12,8 @@
     "local:build": "env-cmd -f .dev.env nuxt build",
     "start": "nuxt start",
     "generate": "env-cmd -f .prod.env nuxt generate",
-    "test": "yarn lint && env-cmd -f ./test/.env jest --no-cache"
+    "test": "yarn lint && env-cmd -f ./test/.env jest --no-cache",
+    "test:tap": "yarn lint && env-cmd -f ./test/.env jest --no-cache --reporters=jest-tap-reporter"
   },
   "jest": {
     "setupFiles": [
