@@ -63,7 +63,7 @@ describe('Feed store module', () => {
 		});
 
 		it('should restore from sessionStore on reload', () => {
-			const storred = aDefaultSingleItemMsgBuilder().get();
+			const { type, ...storred } = aDefaultSingleItemMsgBuilder().get();
 			sessionStorage.setItem(FeedStore, JSON.stringify(storred));
 
 			restoreSession(state);
@@ -142,20 +142,18 @@ describe('Feed store module', () => {
 		it('should commit addItem on saveItem', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
-			const saved = Object.assign({}, msg, {
-				likes: {},
-				correlationId: jasmine.any(String),
-				ts: Number.MAX_SAFE_INTEGER,
-			});
+			const { type, ...cleanPost } = msg;
+			cleanPost.correlationId = jasmine.any(String);
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.feed.items).toEqual([ saved ]);
+			expect(root.state.feed.items).toEqual([ cleanPost ]);
 		});
 
 		it('should commit addItem when receive new item', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			await feedStore.dispatch(`${FeedActions.receiveItem}`, msg);
-			expect(feedStore.state.items).toEqual([ msg ]);
+			const { type, ...cleanPost } = msg;
+			expect(feedStore.state.items).toEqual([ cleanPost ]);
 		});
 
 		it('should send item to socket with no merchantId when saveItem', async () => {
@@ -168,6 +166,7 @@ describe('Feed store module', () => {
 
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
 			const { merchantId, guid, ...clean } = msg;
+			clean.correlationId = jasmine.any(String);
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith(clean);
 		});
 
@@ -195,7 +194,7 @@ describe('Feed store module', () => {
 
 			const key = sessionStorage.key(0);
 			const storedPost = sessionStorage.getItem(key);
-			expect(post).toEqual(JSON.parse(storedPost));
+			expect(post.toStore()).toEqual(JSON.parse(storedPost));
 		});
 
 		it('should prevent send like message while pending upload', async () => {
@@ -307,6 +306,20 @@ describe('Feed store module', () => {
 
 			expect(feedStore.state.items.length).toBe(4);
 			expect(sessionStorage.length).toBe(3);
+		});
+
+		it('should store with no comments', async () => {
+			const msg = aDefaultSingleItemMsgBuilder()
+				.withGUID()
+				.withComment()
+				.get();
+
+			await feedStore.dispatch(`${FeedActions.storeItem}`, msg);
+
+			const key = sessionStorage.key(0);
+			const storedPost = JSON.parse(sessionStorage.getItem(key));
+			const noComments = msg.toStore();
+			expect(storedPost).toEqual(noComments);
 		});
 	});
 });

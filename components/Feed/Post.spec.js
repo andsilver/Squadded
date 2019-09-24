@@ -9,6 +9,43 @@ Wrapper.prototype.getByAutoId = function (id) {
 };
 
 describe('Feed Post', () => {
+	describe('Comments', () => {
+		const COUNTER_ID = 'comments-count';
+		const ICON_ID = 'comments-icon';
+
+		it('should display chat icon only when no comments', () => {
+			const post = aDefaultSingleItemMsgBuilder().withGUID().get();
+			const wrapper = shallowMount(FeedPost, {
+				localVue,
+				propsData: {
+					post,
+				},
+			});
+
+			expect(wrapper.getByAutoId(COUNTER_ID).exists()).toBe(false);
+
+			const icon = wrapper.getByAutoId(ICON_ID);
+			expect(icon.text()).toBe('mdi-chat-outline');
+		});
+
+		it('should display chat icon only when no comments', () => {
+			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
+			const wrapper = shallowMount(FeedPost, {
+				localVue,
+				propsData: {
+					post,
+				},
+			});
+
+			const counter = wrapper.getByAutoId(COUNTER_ID);
+			expect(counter.exists()).toBe(true);
+			expect(counter.text()).toBe(post.comments.length.toString());
+
+			const icon = wrapper.getByAutoId(ICON_ID);
+			expect(icon.text()).toBe('mdi-chat-outline');
+		});
+	});
+
 	describe('Likes', () => {
 		const COUNTER_ID = 'likes-count';
 		const ICON_ID = 'likes-icon';

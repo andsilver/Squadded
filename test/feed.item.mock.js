@@ -1,28 +1,19 @@
 import { Chance } from 'chance';
+import FeedPost from '../services/FeedPost';
 
 const chance = new Chance();
 
 const aDefaultSingleItemMsgBuilder = () => {
-	const msg = {
-		type: 'singleItemPost',
-		guid: null,
-		error: null,
-		ts: null,
-		correlationId: null,
-		likes: {},
-		user: {
-			avatar: '',
-			screenName: '',
-		},
-		item: {
-			itemId: chance.natural(),
-			title: chance.sentence({ words: 5 }),
-			origPrice: chance.euro(),
-			price: chance.euro(),
-			img: chance.url({ extensions: ['jpg', 'png'] }),
-			url: chance.url(),
-		},
+	const item = {
+		itemId: chance.natural(),
+		title: chance.sentence({ words: 5 }),
+		origPrice: chance.euro(),
+		price: chance.euro(),
+		img: chance.url({ extensions: ['jpg', 'png'] }),
+		url: chance.url(),
 	};
+	const msg = new FeedPost({ item });
+	msg.type = 'singleItemPost';
 
 	const builder = {
 		withCorrelationId: (id) => {
@@ -38,6 +29,10 @@ const aDefaultSingleItemMsgBuilder = () => {
 				count,
 				byMe,
 			};
+			return builder;
+		},
+		withComment: (comments = [chance.sentence()]) => {
+			msg.comments = comments;
 			return builder;
 		},
 		get: () => msg,

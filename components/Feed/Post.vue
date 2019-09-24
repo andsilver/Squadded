@@ -23,7 +23,11 @@
 
 			<v-card-actions>
 				<v-card-text>{{ post.item.price }}</v-card-text>
-				<v-btn icon class="likes" @click="toggleLike">
+				<v-btn icon class="counter-icon">
+					<span v-if="post.comments.length" class="count" data-auto-id="comments-count">{{ post.comments.length }}</span>
+					<v-icon size="30" data-auto-id="comments-icon">mdi-chat-outline</v-icon>
+				</v-btn>
+				<v-btn icon class="counter-icon" @click="toggleLike">
 					<span v-if="post.likes.count" class="count" data-auto-id="likes-count">{{ post.likes.count }}</span>
 					<v-icon :color="post.likes.byMe ? 'red' : ''" size="30" data-auto-id="likes-icon">
 						mdi-heart{{ post.likes.count ? '' : '-outline' }}
@@ -54,7 +58,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.likes
+.counter-icon
 	position relative
 
 	.count

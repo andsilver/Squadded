@@ -1,3 +1,5 @@
+import FeedPost from '../services/FeedPost';
+
 const { FEED_STORE_LIMIT } = process.env;
 
 export const state = () => ({
@@ -22,7 +24,7 @@ function storeInSession (post) {
 	if (!post.guid) {
 		return;
 	}
-	sessionStorage.setItem(`${FeedStore}-${post.guid}`, JSON.stringify(post));
+	sessionStorage.setItem(`${FeedStore}-${post.guid}`, JSON.stringify(post.toStore()));
 }
 
 function removeFromSession (id) {
@@ -53,21 +55,19 @@ export const mutations = {
 		}
 	},
 	[FeedMutations.itemLoaded]: (state, payload) => {
-		const item = state.items.find(i => i.guid === payload.guid || (i.correlationId && i.correlationId === payload.correlationId));
-		if (!item) {
+		const post = state.items.find(i => i.guid === payload.guid || (i.correlationId && i.correlationId === payload.correlationId));
+		if (!post) {
 			// was removed before load finish
 			return;
 		}
 		if (payload.error) {
-			item.error = payload.error;
+			post.error = payload.error;
 			return;
 		}
-		item.user = payload.user;
-		item.guid = payload.guid;
-		item.ts = payload.ts;
-		removeFromSession(item.correlationId);
-		delete item.correlationId;
-		storeInSession(item);
+		Object.assign(post, payload);
+		removeFromSession(post.correlationId);
+		post.unsetCorrelationId();
+		storeInSession(post);
 	},
 	[FeedMutations.restoreSession]: (state) => {
 		if (state.items.length) {
@@ -80,14 +80,13 @@ export const mutations = {
 			if (!key.startsWith(FeedStore)) {
 				continue;
 			}
-			items.push(JSON.parse(sessionStorage.getItem(key)));
+			const post = new FeedPost(JSON.parse(sessionStorage.getItem(key)));
+			items.push(post);
 		}
 		items.sort((a, b) => b.ts - a.ts);
 		state.items = items;
 	},
 };
-
-const INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP = Number.MAX_SAFE_INTEGER;
 
 export const FeedActions = {
 	storeItem: 'storeItem',
@@ -102,40 +101,30 @@ export const actions = {
 	/* get: async (ctx) => {
 		http fetch or websocket
 	}, */
-	[FeedActions.storeItem]: ({ getters, commit }, payload) => {
-		commit(FeedMutations.addItem, payload);
+	[FeedActions.storeItem]: ({ getters, commit }, post) => {
+		commit(FeedMutations.addItem, post);
 		if (getters.items.length > FEED_STORE_LIMIT) {
 			const overflowItem = getters.items[FEED_STORE_LIMIT];
 			const overflowId = overflowItem.correlationId || overflowItem.guid;
 			removeFromSession(overflowId);
 		}
-		storeInSession(payload);
+		storeInSession(post);
 	},
 	[FeedActions.saveItem]: ({ rootState, dispatch }, payload) => {
-		payload.likes = {};
+		const post = new FeedPost({ ...payload, correlationId: `${Date.now()}${suffix()}` });
 
-		// TODO get user props.
-		payload.user = {
-			avatar: '',
-			screenName: '',
-		};
-		payload.error = null;
-		payload.guid = null;
-		payload.ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP;
-		payload.correlationId = `${Date.now()}${suffix()}`;
-		dispatch(FeedActions.storeItem, payload);
-
+		dispatch(FeedActions.storeItem, post);
 		if (rootState.socket.isConnected && rootState.socket.isAuth) {
 			// TODO? add some queue for sync after reconnect
-			const { guid, ...clean } = payload;
-			rootState.socket.$ws.sendObj(clean);
+			rootState.socket.$ws.sendObj(post.toMessage());
 		}
 	},
 	[FeedActions.receiveItem]: ({ state, commit, dispatch }, payload) => {
 		const post = state.items.find(i => i.guid === payload.guid);
 		if (!payload.correlationId && !post) {
 			// received from another user
-			dispatch(FeedActions.storeItem, payload);
+			const post = new FeedPost(payload);
+			dispatch(FeedActions.storeItem, post);
 			return;
 		}
 
