@@ -1,6 +1,6 @@
 const INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP = Number.MAX_SAFE_INTEGER;
 
-export default class FeedPot {
+export class FeedPost {
 	constructor(props) {
 		const {
 			item = {},

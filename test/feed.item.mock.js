@@ -1,5 +1,5 @@
 import { Chance } from 'chance';
-import FeedPost from '../services/FeedPost';
+import { FeedPost } from '../services/FeedPost';
 
 const chance = new Chance();
 

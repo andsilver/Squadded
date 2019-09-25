@@ -1,4 +1,4 @@
-import FeedPost from '../services/FeedPost';
+import { FeedPost } from '../services/FeedPost';
 
 const { FEED_STORE_LIMIT } = process.env;
 

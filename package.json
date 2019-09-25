@@ -13,7 +13,7 @@
     "start": "nuxt start",
     "generate": "env-cmd -f .prod.env nuxt generate",
     "test": "yarn lint && env-cmd -f ./test/.env jest --no-cache",
-    "test:tap": "yarn lint && env-cmd -f ./test/.env jest --no-cache --reporters=jest-tap-reporter"
+    "test:tap": "yarn test --reporters=jest-tap-reporter --coverage"
   },
   "jest": {
     "setupFiles": [

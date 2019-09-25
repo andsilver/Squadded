@@ -2,7 +2,7 @@
 	<div>
 		<h3 class="my-2">
 			<v-avatar>
-				<img :src="post.user.avatar" :alt="post.user.screenName">
+				<img :src="post.user && post.user.avatar" :alt="post.user && post.user.screenName">
 			</v-avatar>
 			{{ post.user.screenName }}
 		</h3>
@@ -25,7 +25,9 @@
 				<v-card-text>{{ post.item.price }}</v-card-text>
 				<v-btn icon class="counter-icon">
 					<span v-if="post.comments.length" class="count" data-auto-id="comments-count">{{ post.comments.length }}</span>
-					<v-icon size="30" data-auto-id="comments-icon">mdi-chat-outline</v-icon>
+					<v-icon size="30" data-auto-id="comments-icon">
+						mdi-chat-outline
+					</v-icon>
 				</v-btn>
 				<v-btn icon class="counter-icon" @click="toggleLike">
 					<span v-if="post.likes.count" class="count" data-auto-id="likes-count">{{ post.likes.count }}</span>
