@@ -28,7 +28,7 @@ describe('Feed Post', () => {
 			expect(icon.text()).toBe('mdi-chat-outline');
 		});
 
-		it('should display chat icon only when no comments', () => {
+		it('should display chat icon and number of comments', () => {
 			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
 			const wrapper = shallowMount(FeedPost, {
 				localVue,
