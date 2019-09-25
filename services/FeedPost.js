@@ -38,7 +38,7 @@ export class FeedPost {
 	}
 
 	toMessage () {
-		const { guid, ...clean } = this;
+		const { guid, user, ...clean } = this;
 		clean.type = 'singleItemPost';
 		return clean;
 	}

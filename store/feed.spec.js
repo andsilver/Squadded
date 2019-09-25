@@ -9,7 +9,17 @@ const chance = new Chance();
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
+let spy = null;
+
 describe('Feed store module', () => {
+	afterEach(() => {
+		sessionStorage.clear();
+		if (spy) {
+			spy.calls.reset();
+			spy = null;
+		}
+	});
+
 	describe('mutations', () => {
 		const {
 			setItems,
@@ -25,10 +35,6 @@ describe('Feed store module', () => {
 			state = {
 				items: [],
 			};
-		});
-
-		afterEach(() => {
-			sessionStorage.clear();
 		});
 
 		it('should set all items in store', () => {
@@ -77,7 +83,7 @@ describe('Feed store module', () => {
 			const storred = aDefaultSingleItemMsgBuilder().get();
 			sessionStorage.setItem(FeedStore, JSON.stringify(storred));
 
-			spyOn(Storage.prototype, 'getItem');
+			spy = spyOn(Storage.prototype, 'getItem');
 
 			restoreSession(state);
 			expect(sessionStorage.getItem).toHaveBeenCalledTimes(0);
@@ -135,10 +141,6 @@ describe('Feed store module', () => {
 			root.state.socket.$ws = { sendObj: function () {} };
 		});
 
-		afterEach(() => {
-			sessionStorage.clear();
-		});
-
 		it('should commit addItem on saveItem', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
@@ -156,8 +158,8 @@ describe('Feed store module', () => {
 			expect(feedStore.state.items).toEqual([ cleanPost ]);
 		});
 
-		it('should send item to socket with no merchantId when saveItem', async () => {
-			spyOn(root.state.socket.$ws, 'sendObj');
+		it('should strip user and merchantId when sending singleItemPost to socket', async () => {
+			spy = spyOn(root.state.socket.$ws, 'sendObj');
 
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
@@ -165,13 +167,13 @@ describe('Feed store module', () => {
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			const { merchantId, guid, ...clean } = msg;
+			const { merchantId, guid, user, ...clean } = msg;
 			clean.correlationId = jasmine.any(String);
-			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith(clean);
+			expect(spy.calls.argsFor(0)[0]).toMatchObject(clean);
 		});
 
 		it('should toggle like state of post, send message, store', async () => {
-			spyOn(root.state.socket.$ws, 'sendObj');
+			spy = spyOn(root.state.socket.$ws, 'sendObj');
 
 			const count = chance.natural();
 			const post = aDefaultSingleItemMsgBuilder()
@@ -198,7 +200,7 @@ describe('Feed store module', () => {
 		});
 
 		it('should prevent send like message while pending upload', async () => {
-			spyOn(root.state.socket.$ws, 'sendObj');
+			spy = spyOn(root.state.socket.$ws, 'sendObj');
 
 			const post = aDefaultSingleItemMsgBuilder().get();
 
@@ -240,7 +242,7 @@ describe('Feed store module', () => {
 
 		it('should not send item on save while WS disconnected', async () => {
 			root.state.socket.isConnected = false;
-			spyOn(root.state.socket.$ws, 'sendObj');
+			spy = spyOn(root.state.socket.$ws, 'sendObj');
 
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
@@ -249,7 +251,7 @@ describe('Feed store module', () => {
 		});
 
 		it('should not send item on save while WS not auth', async () => {
-			spyOn(root.state.socket.$ws, 'sendObj');
+			spy = spyOn(root.state.socket.$ws, 'sendObj');
 
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
