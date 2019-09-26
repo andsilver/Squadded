@@ -23,7 +23,7 @@
 
 			<v-card-actions>
 				<v-card-text>{{ post.item.price }}</v-card-text>
-				<v-btn icon class="counter-icon">
+				<v-btn icon class="counter-icon" @click="toggleComments">
 					<span v-if="post.comments.length" class="count" data-auto-id="comments-count">{{ post.comments.length }}</span>
 					<v-icon size="30" data-auto-id="comments-icon">
 						mdi-chat-outline
@@ -37,14 +37,28 @@
 				</v-btn>
 			</v-card-actions>
 		</v-card>
+		<v-list v-if="showComments && post.comments.length" data-auto-id="comments-list">
+			<post-comment
+				v-for="comment in post.comments"
+				:key="comment.correlationId || comment.id"
+				:comment="comment"
+			/>
+		</v-list>
 	</div>
 </template>
 
 <script lang="js">
 import { FeedStore, FeedActions } from '../../store/feed';
+import Comment from './Comment';
 
 export default {
 	name: 'FeedPost',
+	components: {
+		'post-comment': Comment,
+	},
+	data: () => ({
+		showComments: false,
+	}),
 	props: {
 		post: {
 			type: Object,
@@ -54,6 +68,13 @@ export default {
 	methods: {
 		toggleLike () {
 			this.$store.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, this.post);
+		},
+		toggleComments () {
+			this.showComments = !this.showComments;
+			this.$ws.sendObj({
+				type: 'fetchComments',
+				guid: this.post.guid,
+			});
 		},
 	},
 };

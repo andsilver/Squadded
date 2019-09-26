@@ -34,6 +34,7 @@ function removeFromSession (id) {
 export const FeedMutations = {
 	addItem: 'addItem',
 	itemLoaded: 'itemLoaded',
+	receiveComments: 'receiveComments',
 	restoreSession: 'restoreSession',
 	setPostLike: 'setPostLike',
 };
@@ -68,6 +69,14 @@ export const mutations = {
 		removeFromSession(post.correlationId);
 		post.unsetCorrelationId();
 		storeInSession(post);
+	},
+	[FeedMutations.receiveComments]: (state, msg) => {
+		const post = state.items.find(i => i.guid === msg.guid);
+		if (!post) {
+			return;
+		}
+
+		post.comments = msg.comments;
 	},
 	[FeedMutations.restoreSession]: (state) => {
 		if (state.items.length) {

@@ -1,12 +1,14 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
-import { FeedStore, FeedActions, FeedGetters } from '../../store/feed';
+import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '../../store/feed';
 
 export const dispatch = function (store, message) {
 	if (message.type === 'singleItemPost') {
 		store.dispatch(`${FeedStore}/${FeedActions.receiveItem}`, message);
 	} else if (message.type === 'like') {
 		store.dispatch(`${FeedStore}/${FeedActions.updateLike}`, message);
+	} else if (message.type === 'comments') {
+		store.commit(`${FeedStore}/${FeedMutations.receiveComments}`, message);
 	} else {
 		// TODO report
 	}

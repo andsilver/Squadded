@@ -2,6 +2,7 @@ import { Chance } from 'chance';
 import Vuex from 'vuex';
 import { createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
+import { commentsMsgBuilder } from '../test/comment.mock';
 import feed, { FeedStore, FeedActions, mutations } from './feed';
 import { state } from './index';
 
@@ -25,6 +26,7 @@ describe('Feed store module', () => {
 			setItems,
 			addItem,
 			itemLoaded,
+			receiveComments,
 			restoreSession,
 			setPostLike,
 		} = mutations;
@@ -119,6 +121,18 @@ describe('Feed store module', () => {
 			expect(state.items.length).toBe(1);
 			expect(post.likes.count).toBe(undefined);
 			expect(post.likes.byMe).toBe(true);
+		});
+
+		it('should update post comments', () => {
+			const post = aDefaultSingleItemMsgBuilder().get();
+			const commentMsg = commentsMsgBuilder(post.guid).get();
+
+			state.items = [post];
+
+			receiveComments(state, commentMsg);
+
+			expect(post.comments.length).toBe(1);
+			expect(post.comments).toBe(commentMsg.comments);
 		});
 	});
 

@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import { Chance } from 'chance';
-import { FeedStore, FeedActions, FeedGetters } from '../../store/feed';
+import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '../../store/feed';
 import ws, * as wsPlugin from './ws';
 
 const chance = new Chance();
@@ -30,6 +30,7 @@ describe('WS Plugin', () => {
 		beforeEach(() => {
 			store = Object.assign({}, STORE);
 			spyOn(store, 'dispatch');
+			spyOn(store, 'commit');
 		});
 
 		it(`should dispatch singleItemPost to ${FeedStore}/${FeedActions.receiveItem}`, () => {
@@ -48,6 +49,15 @@ describe('WS Plugin', () => {
 
 			dispatch(store, msg);
 			expect(store.dispatch.calls.argsFor(0)).toEqual([ `${FeedStore}/${FeedActions.updateLike}`, msg ]);
+		});
+
+		it(`should commit comments to ${FeedStore}/${FeedMutations.receiveComments}`, () => {
+			const msg = {
+				type: 'comments',
+			};
+
+			dispatch(store, msg);
+			expect(store.commit.calls.argsFor(0)).toEqual([ `${FeedStore}/${FeedMutations.receiveComments}`, msg ]);
 		});
 	});
 
