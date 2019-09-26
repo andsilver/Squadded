@@ -56,15 +56,15 @@ export default {
 	components: {
 		'post-comment': Comment,
 	},
-	data: () => ({
-		showComments: false,
-	}),
 	props: {
 		post: {
 			type: Object,
 			required: true,
 		},
 	},
+	data: () => ({
+		showComments: false,
+	}),
 	methods: {
 		toggleLike () {
 			this.$store.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, this.post);

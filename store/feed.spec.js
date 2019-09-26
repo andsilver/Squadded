@@ -172,7 +172,7 @@ describe('Feed store module', () => {
 			expect(feedStore.state.items).toEqual([ cleanPost ]);
 		});
 
-		it('should strip user and merchantId when sending singleItemPost to socket', async () => {
+		it('should strip ts, user and merchantId when sending singleItemPost to socket', async () => {
 			spy = spyOn(root.state.socket.$ws, 'sendObj');
 
 			const msg = aDefaultSingleItemMsgBuilder().get();
@@ -181,9 +181,11 @@ describe('Feed store module', () => {
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			const { merchantId, guid, user, ...clean } = msg;
+			const { merchantId, guid, user, ts, ...clean } = msg;
 			clean.correlationId = jasmine.any(String);
-			expect(spy.calls.argsFor(0)[0]).toMatchObject(clean);
+			const sendObjInvocationArg = spy.calls.argsFor(0)[0];
+			expect(sendObjInvocationArg).toMatchObject(clean);
+			expect(sendObjInvocationArg).not.toHaveProperty('ts');
 		});
 
 		it('should toggle like state of post, send message, store', async () => {
