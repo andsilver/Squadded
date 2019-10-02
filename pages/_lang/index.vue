@@ -5,11 +5,6 @@
 		align-center
 	>
 		<div class="full-width">
-			<nuxt-link
-				to="/feed"
-			>
-				feed
-			</nuxt-link>
 			<div class="text-center my-2">
 				<span>{{ $t('getStarted') }}</span>
 			</div>
