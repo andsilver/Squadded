@@ -24,20 +24,20 @@
 			<v-card-actions>
 				<v-card-text>{{ post.item.price }}</v-card-text>
 				<v-btn icon class="counter-icon" @click="toggleComments">
-					<span v-if="post.comments.length" class="count" data-auto-id="comments-count">{{ post.comments.length }}</span>
-					<v-icon size="30" data-auto-id="comments-icon">
+					<span v-if="post.comments.length" ref="comments-count" class="count">{{ post.comments.length }}</span>
+					<v-icon ref="comments-icon" size="30">
 						mdi-chat-outline
 					</v-icon>
 				</v-btn>
 				<v-btn icon class="counter-icon" @click="toggleLike">
-					<span v-if="post.likes.count" class="count" data-auto-id="likes-count">{{ post.likes.count }}</span>
-					<v-icon :color="post.likes.byMe ? 'red' : ''" size="30" data-auto-id="likes-icon">
+					<span v-if="post.likes.count" ref="likes-count" class="count">{{ post.likes.count }}</span>
+					<v-icon ref="likes-icon" :color="post.likes.byMe ? 'red' : ''" size="30">
 						mdi-heart{{ post.likes.count ? '' : '-outline' }}
 					</v-icon>
 				</v-btn>
 			</v-card-actions>
 		</v-card>
-		<v-list v-if="showComments && post.comments.length" data-auto-id="comments-list">
+		<v-list v-if="showComments && post.comments.length" ref="comments-list">
 			<post-comment
 				v-for="comment in post.comments"
 				:key="comment.correlationId || comment.id"

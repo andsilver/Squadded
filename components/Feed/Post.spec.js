@@ -2,8 +2,8 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../../test/feed.item.mock';
 import FeedPost from './Post.vue';
 
-Wrapper.prototype.getByAutoId = function (id) {
-	return this.find(`[data-auto-id="${id}"]`);
+Wrapper.prototype.ref = function (id) {
+	return this.find({ ref: id });
 };
 
 describe('Feed Post', () => {
@@ -31,9 +31,9 @@ describe('Feed Post', () => {
 				},
 			});
 
-			expect(wrapper.getByAutoId(COUNTER_ID).exists()).toBe(false);
+			expect(wrapper.ref(COUNTER_ID).exists()).toBe(false);
 
-			const icon = wrapper.getByAutoId(ICON_ID);
+			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('mdi-chat-outline');
 		});
 
@@ -46,11 +46,11 @@ describe('Feed Post', () => {
 				},
 			});
 
-			const counter = wrapper.getByAutoId(COUNTER_ID);
+			const counter = wrapper.ref(COUNTER_ID);
 			expect(counter.exists()).toBe(true);
 			expect(counter.text()).toBe(post.comments.length.toString());
 
-			const icon = wrapper.getByAutoId(ICON_ID);
+			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('mdi-chat-outline');
 		});
 
@@ -63,7 +63,7 @@ describe('Feed Post', () => {
 				},
 			});
 
-			const comments = wrapper.getByAutoId(COMMENTS_LIST);
+			const comments = wrapper.ref(COMMENTS_LIST);
 			expect(comments.exists()).toBe(false);
 		});
 
@@ -80,7 +80,7 @@ describe('Feed Post', () => {
 				showComments: true,
 			});
 
-			const comments = wrapper.getByAutoId(COMMENTS_LIST);
+			const comments = wrapper.ref(COMMENTS_LIST);
 			expect(comments.exists()).toBe(false);
 		});
 
@@ -97,7 +97,7 @@ describe('Feed Post', () => {
 				showComments: true,
 			});
 
-			const comments = wrapper.getByAutoId(COMMENTS_LIST);
+			const comments = wrapper.ref(COMMENTS_LIST);
 			expect(comments.exists()).toBe(true);
 		});
 
@@ -144,9 +144,9 @@ describe('Feed Post', () => {
 				},
 			});
 
-			expect(wrapper.getByAutoId(COUNTER_ID).text()).toBe(post.likes.count.toString());
+			expect(wrapper.ref(COUNTER_ID).text()).toBe(post.likes.count.toString());
 
-			const icon = wrapper.getByAutoId(ICON_ID);
+			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('mdi-heart');
 			expect(icon.attributes('color')).not.toBe('red');
 		});
@@ -160,9 +160,9 @@ describe('Feed Post', () => {
 				},
 			});
 
-			expect(wrapper.getByAutoId(COUNTER_ID).text()).toBe(post.likes.count.toString());
+			expect(wrapper.ref(COUNTER_ID).text()).toBe(post.likes.count.toString());
 
-			const icon = wrapper.getByAutoId(ICON_ID);
+			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('mdi-heart');
 			expect(icon.attributes('color')).toBe('red');
 		});
@@ -176,9 +176,9 @@ describe('Feed Post', () => {
 				},
 			});
 
-			expect(wrapper.getByAutoId(COUNTER_ID).exists()).toBe(false);
+			expect(wrapper.ref(COUNTER_ID).exists()).toBe(false);
 
-			const icon = wrapper.getByAutoId(ICON_ID);
+			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('mdi-heart-outline');
 			expect(icon.attributes('color')).not.toBe('red');
 		});

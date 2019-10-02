@@ -1,6 +1,6 @@
 <template lang="html">
 	<section class="feed">
-		<span v-if="!items.length" data-auto-id="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
+		<span v-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 		<feed-post
 			v-for="post in items"
 			:key="post.correlationId || post.guid"
