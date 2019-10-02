@@ -1,6 +1,7 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../../test/feed.item.mock';
 import FeedPost from './Post.vue';
+import { FeedStore, FeedActions } from '@/store/feed';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -17,6 +18,7 @@ describe('Feed Post', () => {
 		const COUNTER_ID = 'comments-count';
 		const ICON_ID = 'comments-icon';
 		const COMMENTS_LIST = 'comments-list';
+		const COMMENT_INPUT = 'comment-input';
 
 		beforeEach(() => {
 			initLocalVue();
@@ -124,6 +126,25 @@ describe('Feed Post', () => {
 				type: 'fetchComments',
 				guid: post.guid,
 			});
+		});
+
+		it('should display input comment element and set correct props', () => {
+			const post = aDefaultSingleItemMsgBuilder().withGUID().get();
+			const wrapper = shallowMount(FeedPost, {
+				localVue,
+				propsData: {
+					post,
+				},
+			});
+
+			wrapper.setData({
+				showComments: true,
+			});
+
+			const comments = wrapper.ref(COMMENT_INPUT);
+			expect(comments.exists()).toBe(true);
+			expect(comments.attributes('guid')).toBe(post.guid);
+			expect(comments.attributes('action')).toBe(`${FeedStore}/${FeedActions.sendComment}`);
 		});
 	});
 

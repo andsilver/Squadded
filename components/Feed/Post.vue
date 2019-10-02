@@ -44,28 +44,48 @@
 				:comment="comment"
 			/>
 		</v-list>
+		<message-input
+			v-if="showComments"
+			ref="comment-input"
+			:guid="post.guid"
+			:action="action"
+		/>
 	</div>
 </template>
 
 <script lang="js">
-import { FeedStore, FeedActions } from '../../store/feed';
+import MessageInput from '../MessageInput';
 import Comment from './Comment';
+import { FeedStore, FeedActions } from '@/store/feed';
+import { FeedPost } from '@/services/FeedPost';
 
 export default {
 	name: 'FeedPost',
 	components: {
 		'post-comment': Comment,
+		'message-input': MessageInput,
 	},
 	props: {
 		post: {
-			type: Object,
+			type: FeedPost,
 			required: true,
 		},
 	},
 	data: () => ({
 		showComments: false,
+		action: `${FeedStore}/${FeedActions.sendComment}`,
 	}),
 	methods: {
+		scroll () {
+			setTimeout(() => {
+				if (this.showComments) {
+					this.$el.scrollIntoView({
+						block: 'end',
+						behavior: 'smooth',
+					});
+				}
+			}, 10);
+		},
 		toggleLike () {
 			this.$store.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, this.post);
 		},
@@ -75,6 +95,7 @@ export default {
 				type: 'fetchComments',
 				guid: this.post.guid,
 			});
+			this.scroll();
 		},
 	},
 };
@@ -90,4 +111,9 @@ export default {
 		line-height 30px
 		text-align center
 		font-size 13px
+
+.v-input
+	position sticky
+	bottom 0
+	background white
 </style>

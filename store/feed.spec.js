@@ -139,10 +139,12 @@ describe('Feed store module', () => {
 	describe('actions', () => {
 		let root;
 		let feedStore;
+		let $ws;
 
 		const aDummyMerchantId = 'aDummyMerchantId';
 
 		beforeEach(() => {
+			$ws = { sendObj: jest.fn() };
 			feedStore = new Vuex.Store(feed);
 			root = new Vuex.Store({
 				state,
@@ -152,7 +154,7 @@ describe('Feed store module', () => {
 			});
 			root.state.socket.isConnected = true;
 			root.state.merchant.id = aDummyMerchantId;
-			root.state.socket.$ws = { sendObj: function () {} };
+			root.state.socket.$ws = $ws;
 		});
 
 		it('should commit addItem on saveItem', async () => {
@@ -173,8 +175,6 @@ describe('Feed store module', () => {
 		});
 
 		it('should strip ts, user, comments, likes and merchantId when sending singleItemPost to socket', async () => {
-			spy = spyOn(root.state.socket.$ws, 'sendObj');
-
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			root.state.socket.isAuth = true;
@@ -183,14 +183,12 @@ describe('Feed store module', () => {
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
 			const { merchantId, guid, user, ts, comments, likes, ...clean } = msg;
 			clean.correlationId = jasmine.any(String);
-			const sendObjInvocationArg = spy.calls.argsFor(0)[0];
+			const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
 			expect(sendObjInvocationArg).toMatchObject(clean);
 			expect(sendObjInvocationArg).not.toHaveProperty('ts');
 		});
 
 		it('should toggle like state of post, send message, store', async () => {
-			spy = spyOn(root.state.socket.$ws, 'sendObj');
-
 			const count = chance.natural();
 			const post = aDefaultSingleItemMsgBuilder()
 				.withGUID()
@@ -216,8 +214,6 @@ describe('Feed store module', () => {
 		});
 
 		it('should prevent send like message while pending upload', async () => {
-			spy = spyOn(root.state.socket.$ws, 'sendObj');
-
 			const post = aDefaultSingleItemMsgBuilder().get();
 
 			await root.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, post);
@@ -258,21 +254,17 @@ describe('Feed store module', () => {
 
 		it('should not send item on save while WS disconnected', async () => {
 			root.state.socket.isConnected = false;
-			spy = spyOn(root.state.socket.$ws, 'sendObj');
-
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
+			expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
 		});
 
 		it('should not send item on save while WS not auth', async () => {
-			spy = spyOn(root.state.socket.$ws, 'sendObj');
-
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(0);
+			expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
 		});
 
 		it('should update pending item', async () => {
@@ -338,6 +330,36 @@ describe('Feed store module', () => {
 			const storedPost = JSON.parse(sessionStorage.getItem(key));
 			const noComments = msg.toStore();
 			expect(storedPost).toEqual(noComments);
+		});
+
+		it('should send comment to ws and push to list', async () => {
+			const guid = chance.guid();
+			const post = aDefaultSingleItemMsgBuilder()
+				.withGUID(guid)
+				.get();
+
+			root.state.feed.items = [post];
+
+			const comment = {
+				guid,
+				text: chance.sentence(),
+			};
+
+			await root.dispatch(`${FeedStore}/${FeedActions.sendComment}`, comment);
+
+			const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
+			expect(sendObjInvocationArg).toMatchObject({
+				type: 'addComment',
+				...comment,
+			});
+			expect(post.comments).toEqual([ {
+				author: {
+					name: jasmine.any(String),
+					avatar: jasmine.any(String),
+				},
+				ts: jasmine.any(Number),
+				text: comment.text,
+			} ]);
 		});
 	});
 });

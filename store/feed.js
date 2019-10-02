@@ -32,6 +32,7 @@ function removeFromSession (id) {
 }
 
 export const FeedMutations = {
+	addComment: 'addComment',
 	addItem: 'addItem',
 	itemLoaded: 'itemLoaded',
 	receiveComments: 'receiveComments',
@@ -70,6 +71,21 @@ export const mutations = {
 		post.unsetCorrelationId();
 		storeInSession(post);
 	},
+	[FeedMutations.addComment]: (state, comment) => {
+		const post = state.items.find(i => i.guid === comment.guid);
+		if (!post) {
+			return;
+		}
+
+		post.comments.push({
+			author: {
+				name: '',
+				avatar: '',
+			},
+			ts: Date.now(),
+			text: comment.text,
+		});
+	},
 	[FeedMutations.receiveComments]: (state, msg) => {
 		const post = state.items.find(i => i.guid === msg.guid);
 		if (!post) {
@@ -101,6 +117,7 @@ export const FeedActions = {
 	storeItem: 'storeItem',
 	receiveItem: 'receiveItem',
 	saveItem: 'saveItem',
+	sendComment: 'sendComment',
 	toggleLike: 'toggleLike',
 	updateLike: 'updateLike',
 };
@@ -127,6 +144,14 @@ export const actions = {
 			// TODO? add some queue for sync after reconnect
 			rootState.socket.$ws.sendObj(post.toMessage());
 		}
+	},
+	[FeedActions.sendComment]: ({ rootState, commit }, comment) => {
+		rootState.socket.$ws.sendObj({
+			type: 'addComment',
+			...comment,
+		});
+
+		commit(FeedMutations.addComment, comment);
 	},
 	[FeedActions.receiveItem]: ({ state, commit, dispatch }, payload) => {
 		const post = state.items.find(i => i.guid === payload.guid);
