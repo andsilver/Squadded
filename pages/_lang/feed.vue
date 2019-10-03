@@ -1,5 +1,7 @@
 <template>
 	<v-layout
+		v-if="isVisible"
+		ref="feed-layout"
 		column
 		justify-center
 		align-center
@@ -27,7 +29,7 @@
 </style>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 
 const { mapGetters } = createNamespacedHelpers('feed');
@@ -36,18 +38,21 @@ export default {
 	components: {
 		'feed': Feed,
 	},
-	data() {
-		return {
-		};
-	},
 	computed: {
 		...mapGetters([
 			'items',
 		]),
+		...mapState([
+			'socket',
+		]),
+		isVisible () {
+			return !this.socket.isPendingAuth && this.socket.isAuth;
+		},
 	},
-	created() {
-		// this.$connect(); // TODO move to auth
-		// this.$store.dispatch('feed/get');
+	mounted() {
+		if (this.socket.isAuth) {
+			this.$store.commit('SET_PENDING', false);
+		}
 	},
 };
 </script>

@@ -212,6 +212,20 @@ describe('WS Plugin', () => {
 				expect(ctx.store.commit.calls.argsFor(0)).toEqual([ 'SET_SOCKET_AUTH', true ]);
 			});
 
+			it('should set pending false if authOk occur after destination page was mounted', () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+				spyOn(ctx.store, 'commit');
+				route.name = 'notHome';
+
+				mutationDispatcher(mutation, state);
+
+				expect(ctx.store.commit).toHaveBeenCalledTimes(2);
+				expect(ctx.store.commit.calls.argsFor(1)).toEqual([ 'SET_PENDING', false ]);
+			});
+
 			it('should not dispatch socket messages while not auth', () => {
 				const mutation = {
 					type: 'SOCKET_ONMESSAGE',
@@ -250,8 +264,9 @@ describe('WS Plugin', () => {
 
 				mutationDispatcher(mutation, state);
 
-				expect(ctx.store.commit).toHaveBeenCalledTimes(1);
+				expect(ctx.store.commit).toHaveBeenCalledTimes(2);
 				expect(ctx.store.commit.calls.argsFor(0)).toEqual([ 'SET_SOCKET_AUTH', false ]);
+				expect(ctx.store.commit.calls.argsFor(1)).toEqual([ 'SET_PENDING', false ]);
 
 				expect(Vue.prototype.$disconnect).toHaveBeenCalledTimes(1);
 			});

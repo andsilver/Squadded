@@ -1,5 +1,6 @@
 <template>
 	<v-layout
+		v-if="!socket.isPendingAuth"
 		column
 		justify-center
 		align-center
@@ -35,6 +36,7 @@
 </style>
 
 <script>
+import { mapState } from 'vuex';
 import SocialBtn from '~/components/Social-Button.vue';
 import SignForm from '~/components/Sign-Form.vue';
 
@@ -42,6 +44,11 @@ export default {
 	components: {
 		'social-btn': SocialBtn,
 		'sign-form': SignForm,
+	},
+	computed: {
+		...mapState([
+			'socket',
+		]),
 	},
 };
 </script>

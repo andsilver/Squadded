@@ -6,6 +6,7 @@ export const state = () => ({
 	socket: {
 		isConnected: false,
 		isAuth: false,
+		isPendingAuth: true,
 		reconnectError: false,
 		$ws: null,
 		_ws: null,
@@ -49,8 +50,17 @@ export const mutations = {
 	SET_SOCKET_AUTH (state, flag) {
 		state.socket.isAuth = flag;
 	},
+	SET_PENDING (state, flag) {
+		state.socket.isPendingAuth = flag;
+	},
 };
 
 export const modules = {
 	feed,
+};
+
+export default {
+	state,
+	mutations,
+	modules,
 };

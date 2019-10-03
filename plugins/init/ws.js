@@ -34,9 +34,13 @@ export class WSToken {
 }
 
 export const connect = function (store) {
-	const merchantId = store.state.merchant.id;
 	const userToken = localStorage.getItem('userToken');
-	if (!userToken || !merchantId) {
+	if (!userToken) {
+		return store.commit('SET_PENDING', false);
+	}
+
+	const merchantId = store.state.merchant.id;
+	if (!merchantId) {
 		return;
 	}
 	Vue.prototype.$connect();
@@ -52,6 +56,10 @@ export const initSocket = (link, store) => {
 		connectManually: true,
 	});
 };
+
+function isHome (routeName) {
+	return routeName === 'index' || routeName === 'lang';
+}
 
 export const mutationListener = (store, redirect, route) => function mutationDispatcher (mutation, state) {
 	function getMostRecentStoredPost () {
@@ -76,8 +84,10 @@ export const mutationListener = (store, redirect, route) => function mutationDis
 			return;
 		} else if (message.type === 'authOk') {
 			store.commit('SET_SOCKET_AUTH', true);
-			if (route.name === 'index' || route.name === 'lang') {
+			if (isHome(route.name)) {
 				redirect({ path: '/feed' });
+			} else {
+				store.commit('SET_PENDING', false);
 			}
 			const msg = { type: 'fetchPosts' };
 			const mostRecentPost = getMostRecentStoredPost();
@@ -98,8 +108,9 @@ export const mutationListener = (store, redirect, route) => function mutationDis
 	if (mutation.type === 'SOCKET_ONCLOSE') {
 		if (mutation.payload.reason) {
 			store.commit('SET_SOCKET_AUTH', false);
+			store.commit('SET_PENDING', false);
 			Vue.prototype.$disconnect();
-			if (!(route.name === 'index' || route.name === 'lang')) {
+			if (!isHome(route.name)) {
 				redirect({ path: '/' });
 			}
 		}

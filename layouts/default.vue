@@ -1,20 +1,13 @@
 <template>
 	<v-app>
-		<v-content :class="{ flex: !merchant.id }">
+		<v-content :class="{ flex: socket.isPendingAuth }">
 			<logo />
-			<v-container :class="{ flex: !merchant.id }">
-				<nuxt v-if="merchant.id" />
-				<div v-else-if="merchant.forbidden">
+			<v-container :class="{ flex: socket.isPendingAuth }">
+				<nuxt ref="main-content" />
+				<!-- <div v-else-if="merchant.forbidden">
 					{{ $t('Forbidden') }}
-				</div>
-				<div v-else class="suspense">
-					<v-progress-circular
-						color="primary"
-						size="150"
-						indeterminate
-						class="progress"
-					/>
-				</div>
+				</div> -->
+				<Preloader v-if="socket.isPendingAuth"  ref="preloader" />
 			</v-container>
 		</v-content>
 	</v-app>
@@ -25,32 +18,24 @@
 .container.flex
 	display flex
 	flex-direction column
-
-.suspense
-	display flex
-	flex-grow 1
-
-	.progress
-		margin auto
-
 </style>
 
 <script>
 import { mapState } from 'vuex';
 import Logo from '~/components/Logo.vue';
+import Preloader from '~/components/Preloader.vue';
 
 export default {
 	components: {
 		Logo,
+		Preloader,
 	},
-	data() {
-		return {
-			title: 'Squad Widget',
-		};
-	},
+	data: () => ({
+		title: 'Squad Widget',
+	}),
 	computed: {
 		...mapState([
-			'merchant',
+			'socket',
 		]),
 	},
 };

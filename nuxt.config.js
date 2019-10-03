@@ -47,7 +47,9 @@ export default {
 	/*
 	** Customize the progress-bar color
 	*/
-	loading: { color: '#fff' },
+	loading: {
+		loading: false,
+	},
 	/*
 	** Global CSS
 	*/
@@ -56,7 +58,10 @@ export default {
 	],
 	router: {
 		base: BASE,
-		middleware: 'i18n',
+		middleware: [
+			'checkAuth',
+			'i18n',
+		],
 	},
 	/*
 	** Plugins to load before mounting the App
