@@ -9,14 +9,20 @@ Wrapper.prototype.ref = function (id) {
 describe('Message Input', () => {
 	const MAIN = 'main-content';
 	const PRELOADER = 'preloader';
+	const TAB_BAR = 'tab-bar';
 
 	let localVue;
 	let store;
 	let wrapper;
+	let $route;
 
 	beforeEach(() => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
+		$route = {
+			name: 'index',
+			path: '/',
+		};
 
 		store = new Vuex.Store({
 			state: {
@@ -29,7 +35,21 @@ describe('Message Input', () => {
 		wrapper = shallowMount(Default, {
 			store,
 			localVue,
+			mocks: {
+				$route,
+			},
 		});
+	});
+
+	it('should not display tabs at home', () => {
+		const tabs = wrapper.ref(TAB_BAR);
+		expect(tabs.exists()).toBe(false);
+	});
+
+	it('should display tabs not at home', () => {
+		$route.name = 'protected';
+		const tabs = wrapper.ref(TAB_BAR);
+		expect(tabs.exists()).toBe(true);
 	});
 
 	it('should display preloader spinner while pending auth', () => {

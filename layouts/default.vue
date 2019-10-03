@@ -9,11 +9,14 @@
 				</div> -->
 				<Preloader v-if="socket.isPendingAuth"  ref="preloader" />
 			</v-container>
+			<TabBar v-if="showTabs" ref="tab-bar" />
 		</v-content>
 	</v-app>
 </template>
 
 <style lang="stylus">
+.v-content
+	padding-bottom 48px !important
 .v-content.flex .v-content__wrap,
 .container.flex
 	display flex
@@ -24,11 +27,14 @@
 import { mapState } from 'vuex';
 import Logo from '~/components/Logo.vue';
 import Preloader from '~/components/Preloader.vue';
+import TabBar from '~/components/TabBar.vue';
+import { isHome } from '~/helpers';
 
 export default {
 	components: {
 		Logo,
 		Preloader,
+		TabBar,
 	},
 	data: () => ({
 		title: 'Squad Widget',
@@ -37,6 +43,9 @@ export default {
 		...mapState([
 			'socket',
 		]),
+		showTabs () {
+			return !isHome(this.$route.name);
+		},
 	},
 };
 </script>
