@@ -59,6 +59,11 @@ import Comment from './Comment';
 import { FeedStore, FeedActions } from '@/store/feed';
 import { FeedPost } from '@/services/FeedPost';
 
+const TAB_BAR_HEIGHT = 50;
+const GAP = 5;
+
+const getScroll = $el => $el.offsetTop - window.innerHeight + $el.offsetHeight + TAB_BAR_HEIGHT + GAP;
+
 export default {
 	name: 'FeedPost',
 	components: {
@@ -79,8 +84,9 @@ export default {
 		scroll () {
 			setTimeout(() => {
 				if (this.showComments) {
-					this.$el.scrollIntoView({
-						block: 'end',
+					const { $el } = this;
+					window.scroll({
+						top: getScroll($el),
 						behavior: 'smooth',
 					});
 				}
