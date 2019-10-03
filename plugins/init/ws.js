@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
-import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '../../store/feed';
+import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '~/store/feed';
+import { isHome } from '~/helpers';
 
 export const dispatch = function (store, message) {
 	if (message.type === 'singleItemPost') {
@@ -56,10 +57,6 @@ export const initSocket = (link, store) => {
 		connectManually: true,
 	});
 };
-
-function isHome (routeName) {
-	return routeName === 'index' || routeName === 'lang';
-}
 
 export const mutationListener = ctx => function mutationDispatcher (mutation, state) {
 	const { store, redirect } = ctx;

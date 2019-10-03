@@ -1,6 +1,4 @@
-function isHome (routeName) {
-	return routeName === 'index' || routeName === 'lang';
-}
+import { isHome } from '~/helpers';
 
 export default function ({ route, redirect }) {
 	const userToken = localStorage.getItem('userToken');
