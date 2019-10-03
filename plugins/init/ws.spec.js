@@ -173,7 +173,7 @@ describe('WS Plugin', () => {
 				redirect: jest.fn(),
 				route,
 			};
-			mutationDispatcher = wsPlugin.mutationListener(ctx.store, ctx.redirect, ctx.route);
+			mutationDispatcher = wsPlugin.mutationListener(ctx);
 		};
 
 		describe('auth sequence', () => {
@@ -356,10 +356,10 @@ describe('WS Plugin', () => {
 			ws(ctx);
 
 			expect(wsPlugin.initSocket).toHaveBeenCalledTimes(1);
-			expect(wsPlugin.initSocket.calls.argsFor(0)).toEqual([ WS_LINK, ctx.store ]);
+			expect(wsPlugin.initSocket).toHaveBeenCalledWith(WS_LINK, ctx.store);
 
 			expect(wsPlugin.mutationListener).toHaveBeenCalledTimes(1);
-			expect(wsPlugin.mutationListener.calls.argsFor(0)).toEqual([ ctx.store, ctx.redirect, ctx.route ]);
+			expect(wsPlugin.mutationListener).toHaveBeenCalledWith(ctx);
 
 			expect(ctx.store.subscribe).toHaveBeenCalledTimes(1);
 			const func = ctx.store.subscribe.calls.argsFor(0)[0];

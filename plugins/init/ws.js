@@ -61,7 +61,8 @@ function isHome (routeName) {
 	return routeName === 'index' || routeName === 'lang';
 }
 
-export const mutationListener = (store, redirect, route) => function mutationDispatcher (mutation, state) {
+export const mutationListener = ctx => function mutationDispatcher (mutation, state) {
+	const { store, redirect } = ctx;
 	function getMostRecentStoredPost () {
 		return store.getters[`${FeedStore}/${FeedGetters.items}`][0];
 	}
@@ -84,7 +85,7 @@ export const mutationListener = (store, redirect, route) => function mutationDis
 			return;
 		} else if (message.type === 'authOk') {
 			store.commit('SET_SOCKET_AUTH', true);
-			if (isHome(route.name)) {
+			if (isHome(ctx.route.name)) {
 				redirect({ path: '/feed' });
 			} else {
 				store.commit('SET_PENDING', false);
@@ -110,7 +111,7 @@ export const mutationListener = (store, redirect, route) => function mutationDis
 			store.commit('SET_SOCKET_AUTH', false);
 			store.commit('SET_PENDING', false);
 			Vue.prototype.$disconnect();
-			if (!isHome(route.name)) {
+			if (!isHome(ctx.route.name)) {
 				redirect({ path: '/' });
 			}
 		}
@@ -122,7 +123,8 @@ export const mutationListener = (store, redirect, route) => function mutationDis
 	}
 };
 
-export default ({ store, redirect, route }) => {
+export default (ctx) => {
+	const { store } = ctx;
 	const { WS_LINK } = process.env;
 	if (!WS_LINK) {
 		throw new Error('WebSocket connection link is not provided.');
@@ -137,7 +139,7 @@ export default ({ store, redirect, route }) => {
 	}
 	initSocketShadow(WS_LINK, store);
 
-	store.subscribe(mutationListenerShadow(store, redirect, route));
+	store.subscribe(mutationListenerShadow(ctx));
 
 	connect(store);
 };
