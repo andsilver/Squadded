@@ -1,7 +1,9 @@
+const { FB_APP_ID } = process.env;
+
 const OAUTH = {
 	facebook: {
 		endpoint: 'https://www.facebook.com/v3.3/dialog/oauth?',
-		id: '675899836211443',
+		id: FB_APP_ID,
 		scope: 'public_profile,email',
 		display: 'popup',
 	},

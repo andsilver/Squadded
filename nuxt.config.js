@@ -3,6 +3,7 @@ const {
 	WS_LINK,
 	BASE,
 	FEED_STORE_LIMIT = 100,
+	FB_APP_ID,
 } = process.env;
 
 if (!WS_LINK) {
@@ -13,6 +14,10 @@ if (!BASE) {
 	throw new Error('BASE environment variable is required!');
 }
 
+if (!FB_APP_ID) {
+	throw new Error('FB_APP_ID environment variable is required!');
+}
+
 /* if (!API_LINK) {
 	throw new Error('API_LINK environment variable is required!');
 } */
@@ -20,9 +25,10 @@ if (!BASE) {
 export default {
 	mode: 'spa',
 	env: {
-		WS_LINK,
 		// API_LINK,
+		FB_APP_ID,
 		FEED_STORE_LIMIT,
+		WS_LINK,
 	},
 	/*
 	** Headers of the page
