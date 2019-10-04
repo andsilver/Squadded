@@ -1,1 +1,1 @@
-export const isHome = routeName => (routeName === 'index' || routeName === 'lang');
+export const isHome = routeName => (routeName === 'index');

@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
+import en from '~/locales/en.json';
 
 Vue.use(VueI18n);
 
@@ -10,7 +11,7 @@ export default ({ app, store }) => {
 		locale: store.state.locale,
 		fallbackLocale: 'en',
 		messages: {
-			'en': require('~/locales/en.json'),
+			en,
 		},
 	});
 
@@ -19,6 +20,6 @@ export default ({ app, store }) => {
 			return `/${link}`;
 		}
 
-		return `/${app.i18n.locale}/${link}`;
+		return `/${link}?lang=${app.i18n.locale}`;
 	};
 };
