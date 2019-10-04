@@ -85,7 +85,7 @@ export default {
 			setTimeout(() => {
 				if (this.showComments) {
 					const { $el } = this;
-					window.scroll({
+					$el.closest('.v-content__wrap').scroll({
 						top: getScroll($el),
 						behavior: 'smooth',
 					});

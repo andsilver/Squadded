@@ -23,9 +23,3 @@ export default {
 	}),
 };
 </script>
-
-<style lang="stylus">
-.v-tabs
-	position fixed
-	bottom 0
-</style>

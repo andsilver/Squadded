@@ -6,14 +6,21 @@
 				<nuxt ref="main-content" />
 				<Preloader v-if="socket.isPendingAuth"  ref="preloader" />
 			</v-container>
-			<TabBar v-if="showTabs" ref="tab-bar" />
 		</v-content>
+		<v-footer absolute padless>
+			<TabBar v-if="showTabs" ref="tab-bar" />
+		</v-footer>
 	</v-app>
 </template>
 
 <style lang="stylus">
+.v-application--wrap
+	max-height 100vh
 .v-content
 	padding-bottom 48px !important
+	max-height 100%
+.v-content__wrap
+	overflow auto
 .v-content.flex .v-content__wrap,
 .container.flex
 	display flex
