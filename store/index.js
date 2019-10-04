@@ -13,7 +13,6 @@ export const state = () => ({
 	},
 	merchant: {
 		id: null,
-		forbidden: false,
 	},
 });
 
@@ -43,9 +42,6 @@ export const mutations = {
 	},
 	SET_MERCHANT_ID (state, id) {
 		state.merchant.id = id;
-	},
-	SET_MERCHANT_FORBIDDEN (state, flag) {
-		state.merchant.forbidden = flag;
 	},
 	SET_SOCKET_AUTH (state, flag) {
 		state.socket.isAuth = flag;

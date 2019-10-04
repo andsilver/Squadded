@@ -1,11 +1,9 @@
 import { Chance } from 'chance';
 import fetchMock from 'fetch-mock';
 import Vue from 'vue';
-import merchant from '../services/merchant';
 import { FeedStore, FeedActions } from '../store/feed';
 import messaging, { dispatch } from './messaging';
 
-// const { API_LINK } = process.env;
 const chance = new Chance();
 
 describe('Message listener', () => {
@@ -82,53 +80,12 @@ describe('Listen merchant id', () => {
 
 	beforeEach(() => {
 		spyOn(store, 'commit');
-		spyOn(merchant, 'validateAllowedOrigins').and.callThrough();
 	});
 	afterEach(fetchMock.reset);
-
-	/* it('should set state forbidden if origin not allowed for merchantId', async (done) => {
-		window.location.ancestorOrigins = ['http://not.allowed.com'];
-
-		fetchMock.get(`${API_LINK}/merchant/${msg.merchantId}/origins`, {
-			status: 200,
-			body: {
-				list: ['http://allowed.com'],
-			},
-		});
-		const promise = dispatch(store, msg);
-		await promise;
-
-		expect(merchant.validateAllowedOrigins).toHaveBeenCalledTimes(1);
-		expect(store.commit).toHaveBeenCalledTimes(1);
-		expect(store.commit.calls.argsFor(0)).toEqual(['SET_MERCHANT_FORBIDDEN', true]);
-
-		done();
-	});
-
-	it('should not forbidden if origin not allowed for merchantId', async (done) => {
-		window.location.ancestorOrigins = ['http://allowed.com'];
-
-		fetchMock.get(`${API_LINK}/merchant/${msg.merchantId}/origins`, {
-			status: 200,
-			body: {
-				list: ['http://allowed.com'],
-			},
-		});
-
-		const promise = dispatch(store, msg);
-		await promise;
-
-		expect(merchant.validateAllowedOrigins).toHaveBeenCalledTimes(1);
-		expect(store.commit).toHaveBeenCalledTimes(1);
-		expect(store.commit.calls.argsFor(0)).toEqual(['SET_MERCHANT_ID', msg.merchantId]);
-
-		done();
-	}); */
 
 	it('should commit merchant id', () => {
 		dispatch(store, msg);
 
-		expect(merchant.validateAllowedOrigins).toHaveBeenCalledTimes(0);
 		expect(store.commit).toHaveBeenCalledTimes(1);
 		expect(store.commit.calls.argsFor(0)).toEqual(['SET_MERCHANT_ID', msg.merchantId]);
 	});

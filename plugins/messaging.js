@@ -11,13 +11,6 @@ export const dispatch = (store, msg) => {
 	} else if (msg.type === 'injectMerchantId') {
 		const { merchantId } = msg;
 		store.commit('SET_MERCHANT_ID', merchantId);
-		/* return merchant.validateAllowedOrigins(merchantId)
-			.then(() => {
-				store.commit('SET_MERCHANT_ID', merchantId);
-			})
-			.catch(() => {
-				store.commit('SET_MERCHANT_FORBIDDEN', true);
-			}); */
 	} else {
 		// TODO gracefull report
 		// console.warn('Uknonwn message type', msg);

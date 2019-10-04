@@ -4,9 +4,6 @@
 			<logo />
 			<v-container :class="{ flex: socket.isPendingAuth }">
 				<nuxt ref="main-content" />
-				<!-- <div v-else-if="merchant.forbidden">
-					{{ $t('Forbidden') }}
-				</div> -->
 				<Preloader v-if="socket.isPendingAuth"  ref="preloader" />
 			</v-container>
 			<TabBar v-if="showTabs" ref="tab-bar" />

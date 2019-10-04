@@ -1,5 +1,4 @@
 const {
-	// API_LINK,
 	WS_LINK,
 	BASE,
 	FEED_STORE_LIMIT = 100,
@@ -18,14 +17,9 @@ if (!FB_APP_ID) {
 	throw new Error('FB_APP_ID environment variable is required!');
 }
 
-/* if (!API_LINK) {
-	throw new Error('API_LINK environment variable is required!');
-} */
-
 export default {
 	mode: 'spa',
 	env: {
-		// API_LINK,
 		FB_APP_ID,
 		FEED_STORE_LIMIT,
 		WS_LINK,
