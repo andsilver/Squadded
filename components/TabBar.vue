@@ -1,5 +1,5 @@
 <template>
-	<v-tabs>
+	<v-tabs centered>
 		<v-tab v-for="tab in tabs" :key="tab.uri">
 			<nuxt-link :to="tab.uri">
 				<v-icon>
