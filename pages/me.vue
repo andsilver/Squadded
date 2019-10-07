@@ -1,10 +1,4 @@
-<template>
-	<v-layout>
-		<h2>Your profile</h2>
-	</v-layout>
-</template>
-
 <script>
-export default {
-};
+import Me from '~/components/User';
+export default Me;
 </script>

@@ -4,7 +4,7 @@
 			<logo />
 			<v-container :class="{ flex: socket.isPendingAuth }">
 				<nuxt ref="main-content" />
-				<Preloader v-if="socket.isPendingAuth"  ref="preloader" />
+				<Preloader v-if="socket.isPendingAuth" ref="preloader" />
 			</v-container>
 		</v-content>
 		<v-footer absolute padless>

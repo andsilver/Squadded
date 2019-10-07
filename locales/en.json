@@ -39,6 +39,13 @@
   "feed": {
     "isEmpty": "There is no items yet"
   },
+  "user": {
+    "Following": "Following",
+    "Followers": "Followers",
+    "Likes": "Likes",
+    "Unfollow": "Unfollow",
+    "Follow": "Follow"
+  },
   "error": {
     "404": "404 Not Found",
     "other": "An error occurred"
