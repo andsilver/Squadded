@@ -35,26 +35,27 @@
   },
   "dependencies": {
     "@nuxtjs/pwa": "^3.0.0-beta.16",
-    "nuxt": "^2.8.1",
+    "nuxt": "^2.10.0",
     "vue": "^2.6.10",
     "vue-i18n": "^8.14.0",
     "vue-native-websocket": "^2.0.13",
     "vue-template-compiler": "^2.6.10",
-    "webpack": "^4.39.2"
+    "webpack": "^4.41.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.5.5",
     "@babel/core": "^7.5.5",
     "@babel/plugin-transform-runtime": "^7.5.5",
     "@babel/preset-env": "^7.5.5",
-    "@mdi/font": "^4.0.96",
+    "@mdi/font": "^4.4.95",
     "@nuxtjs/eslint-config": "^1.1.2",
     "@nuxtjs/eslint-module": "^1.0.0",
-    "@nuxtjs/vuetify": "^1.2.1",
+    "@nuxtjs/vuetify": "^1.9.0",
     "@vue/test-utils": "^1.0.0-beta.29",
     "babel-core": "7.0.0-bridge.0",
     "babel-eslint": "^10.0.2",
     "babel-jest": "^24.8.0",
+    "css-loader": "^3.2.0",
     "chance": "^1.0.18",
     "env-cmd": "^9.0.3",
     "eslint": "^6.1.0",
@@ -69,9 +70,11 @@
     "fetch-mock": "^7.3.9",
     "jest": "^24.8.0",
     "jest-tap-reporter": "^1.9.0",
+    "material-design-icons": "^3.0.1",
     "nodemon": "^1.19.1",
     "stylus": "^0.54.5",
     "stylus-loader": "^3.0.2",
+    "vue-loader": "^15.7.1",
     "vue-jest": "^3.0.4",
     "ws": "^7.1.2"
   }
