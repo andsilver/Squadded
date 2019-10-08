@@ -1,7 +1,9 @@
 import Vue from 'vue';
 import { Chance } from 'chance';
-import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '../../store/feed';
 import ws, * as wsPlugin from './ws';
+import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '~/store/feed';
+import { UserStore, UserMutations } from '~/store/user';
+import { userMockBuilder } from '~/test/user.mock';
 
 const chance = new Chance();
 
@@ -9,9 +11,6 @@ describe('WS Plugin', () => {
 	const mockToken = 'head.payload.sign';
 	const { WS_LINK } = process.env;
 	const STORE = {
-		commit: function () {},
-		dispatch: function () {},
-		subscribe: function () {},
 		getters: {
 			[`${FeedStore}/${FeedGetters.items}`]: [],
 		},
@@ -28,9 +27,11 @@ describe('WS Plugin', () => {
 		let store;
 
 		beforeEach(() => {
-			store = Object.assign({}, STORE);
-			spyOn(store, 'dispatch');
-			spyOn(store, 'commit');
+			store = Object.assign({
+				commit: jest.fn(),
+				dispatch: jest.fn(),
+				subscribe: jest.fn(),
+			}, STORE);
 		});
 
 		it(`should dispatch singleItemPost to ${FeedStore}/${FeedActions.receiveItem}`, () => {
@@ -39,7 +40,7 @@ describe('WS Plugin', () => {
 			};
 
 			dispatch(store, msg);
-			expect(store.dispatch.calls.argsFor(0)).toEqual([ `${FeedStore}/${FeedActions.receiveItem}`, msg ]);
+			expect(store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.receiveItem}`, msg);
 		});
 
 		it(`should dispatch like to ${FeedStore}/${FeedActions.updateLike}`, () => {
@@ -48,7 +49,7 @@ describe('WS Plugin', () => {
 			};
 
 			dispatch(store, msg);
-			expect(store.dispatch.calls.argsFor(0)).toEqual([ `${FeedStore}/${FeedActions.updateLike}`, msg ]);
+			expect(store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.updateLike}`, msg);
 		});
 
 		it(`should commit comments to ${FeedStore}/${FeedMutations.receiveComments}`, () => {
@@ -57,7 +58,7 @@ describe('WS Plugin', () => {
 			};
 
 			dispatch(store, msg);
-			expect(store.commit.calls.argsFor(0)).toEqual([ `${FeedStore}/${FeedMutations.receiveComments}`, msg ]);
+			expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.receiveComments}`, msg);
 		});
 	});
 
@@ -68,12 +69,10 @@ describe('WS Plugin', () => {
 
 		it('should remove error, userId and _jwt from sending object', () => {
 			const _ws = {
-				sendObj: function () {},
+				sendObj: jest.fn(),
 			};
 			const $ws = new WSToken(_ws);
 			localStorage.setItem('userToken', mockToken);
-
-			spyOn(_ws, 'sendObj');
 
 			expect($ws.sendObj).toEqual(jasmine.any(Function));
 			$ws.sendObj({
@@ -85,7 +84,7 @@ describe('WS Plugin', () => {
 			});
 
 			expect(_ws.sendObj).toHaveBeenCalledTimes(1);
-			const payload = _ws.sendObj.calls.argsFor(0)[0];
+			const payload = _ws.sendObj.mock.calls[0][0];
 			expect(payload).not.toHaveProperty('error');
 			expect(payload).not.toHaveProperty('userId');
 			expect(payload).not.toHaveProperty('_jwt');
@@ -95,11 +94,9 @@ describe('WS Plugin', () => {
 		it('should not send WS message if no user token', () => {
 			localStorage.removeItem('userToken');
 			const _ws = {
-				sendObj: function () {},
+				sendObj: jest.fn(),
 			};
 			const $ws = new WSToken(_ws);
-
-			spyOn(_ws, 'sendObj');
 
 			$ws.sendObj({
 				item: {},
@@ -116,7 +113,11 @@ describe('WS Plugin', () => {
 
 		beforeEach(() => {
 			localStorage.clear();
-			store = Object.assign({}, STORE);
+			store = Object.assign({
+				commit: jest.fn(),
+				dispatch: jest.fn(),
+				subscribe: jest.fn(),
+			}, STORE);
 			spyOn(Vue, 'use');
 		});
 
@@ -156,7 +157,7 @@ describe('WS Plugin', () => {
 		function clear () {
 			localStorage.clear();
 			_ws = {
-				sendObj: function () {},
+				sendObj: jest.fn(),
 			};
 			state = {
 				socket: {
@@ -169,7 +170,11 @@ describe('WS Plugin', () => {
 				name: 'index',
 			};
 			ctx = {
-				store: Object.assign({}, STORE),
+				store: Object.assign({
+					commit: jest.fn(),
+					dispatch: jest.fn(),
+					subscribe: jest.fn(),
+				}, STORE),
 				redirect: jest.fn(),
 				route,
 			};
@@ -187,16 +192,14 @@ describe('WS Plugin', () => {
 				state.merchant.id = 'someMerchantId';
 				localStorage.setItem('userToken', mockToken);
 
-				spyOn(_ws, 'sendObj');
-
 				mutationDispatcher(mutation, state);
 
 				expect(_ws.sendObj).toHaveBeenCalledTimes(1);
-				expect(_ws.sendObj.calls.argsFor(0)).toEqual([{
+				expect(_ws.sendObj).toHaveBeenCalledWith({
 					type: 'authResponse',
 					userToken: mockToken,
 					merchantId: state.merchant.id,
-				}]);
+				});
 			});
 
 			it('should set socket auth true on authOk', () => {
@@ -249,7 +252,7 @@ describe('WS Plugin', () => {
 				mutationDispatcher(mutation, state);
 
 				expect(ctx.store.dispatch).toHaveBeenCalledTimes(1);
-				expect(ctx.store.dispatch.calls.argsFor(0)).toEqual([ `${FeedStore}/${FeedActions.receiveItem}`, mutation.payload ]);
+				expect(ctx.store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.receiveItem}`, mutation.payload);
 			});
 
 			it('should disconnect when socket close', () => {
@@ -277,14 +280,12 @@ describe('WS Plugin', () => {
 					payload: { type: 'authOk' },
 				};
 
-				spyOn(_ws, 'sendObj');
-
 				mutationDispatcher(mutation, state);
 
-				expect(_ws.sendObj).toHaveBeenCalledTimes(1);
-				expect(_ws.sendObj.calls.argsFor(0)).toEqual([{
+				expect(_ws.sendObj).toHaveBeenCalledTimes(2);
+				expect(_ws.sendObj).toHaveBeenCalledWith({
 					type: 'fetchPosts',
-				}]);
+				});
 			});
 
 			it('should fetch posts later than storred', () => {
@@ -295,15 +296,13 @@ describe('WS Plugin', () => {
 				const latestItem = { ts: new Date(chance.date()).getTime() };
 				ctx.store.getters[`${FeedStore}/${FeedGetters.items}`].push(latestItem);
 
-				spyOn(_ws, 'sendObj');
-
 				mutationDispatcher(mutation, state);
 
-				expect(_ws.sendObj).toHaveBeenCalledTimes(1);
-				expect(_ws.sendObj.calls.argsFor(0)).toEqual([{
+				expect(_ws.sendObj).toHaveBeenCalledTimes(2);
+				expect(_ws.sendObj).toHaveBeenCalledWith({
 					type: 'fetchPosts',
 					ts: latestItem.ts,
-				}]);
+				});
 			});
 		});
 
@@ -342,7 +341,11 @@ describe('WS Plugin', () => {
 		beforeEach(() => {
 			localStorage.clear();
 			ctx = {
-				store: Object.assign({}, STORE),
+				store: Object.assign({
+					commit: jest.fn(),
+					dispatch: jest.fn(),
+					subscribe: jest.fn(),
+				}, STORE),
 				redirect: function () {},
 				route: {},
 			};
@@ -351,7 +354,6 @@ describe('WS Plugin', () => {
 		it('should invoke proper init sequence', () => {
 			spyOn(wsPlugin, 'initSocket');
 			spyOn(wsPlugin, 'mutationListener').and.callThrough();
-			spyOn(ctx.store, 'subscribe');
 
 			ws(ctx);
 
@@ -362,7 +364,7 @@ describe('WS Plugin', () => {
 			expect(wsPlugin.mutationListener).toHaveBeenCalledWith(ctx);
 
 			expect(ctx.store.subscribe).toHaveBeenCalledTimes(1);
-			const func = ctx.store.subscribe.calls.argsFor(0)[0];
+			const func = ctx.store.subscribe.mock.calls[0][0];
 			expect(func.name).toBe('mutationDispatcher');
 		});
 	});
