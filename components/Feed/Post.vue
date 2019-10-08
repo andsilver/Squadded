@@ -1,11 +1,6 @@
 <template>
 	<div>
-		<h3 class="my-2">
-			<v-avatar>
-				<img :src="post.user && post.user.avatar" :alt="post.user && post.user.screenName">
-			</v-avatar>
-			{{ post.user.screenName }}
-		</h3>
+		<UserLink ref="user-link" :link="getUserLink()" :user="post.user" />
 		<v-card
 			class="mx-auto mb-6"
 			:loading="!post.guid && !post.error"
@@ -54,10 +49,14 @@
 </template>
 
 <script lang="js">
+import { createNamespacedHelpers } from 'vuex';
 import MessageInput from '../MessageInput';
 import Comment from './Comment';
+import UserLink from './UserLink';
 import { FeedStore, FeedActions } from '@/store/feed';
 import { FeedPost } from '@/services/FeedPost';
+
+const { mapState } = createNamespacedHelpers('user');
 
 const TAB_BAR_HEIGHT = 50;
 const GAP = 5;
@@ -69,6 +68,7 @@ export default {
 	components: {
 		'post-comment': Comment,
 		'message-input': MessageInput,
+		UserLink,
 	},
 	props: {
 		post: {
@@ -80,6 +80,11 @@ export default {
 		showComments: false,
 		action: `${FeedStore}/${FeedActions.sendComment}`,
 	}),
+	computed: {
+		...mapState([
+			'me',
+		]),
+	},
 	methods: {
 		scroll () {
 			setTimeout(() => {
@@ -102,6 +107,11 @@ export default {
 				guid: this.post.guid,
 			});
 			this.scroll();
+		},
+		getUserLink() {
+			return (this.post.user.guid === this.me.userId ? { name: 'me' }
+				: { name: 'user', query: { id: this.post.user.guid } }
+			);
 		},
 	},
 };
