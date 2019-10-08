@@ -1,5 +1,5 @@
 <template>
-	<v-layout flex-column>
+	<v-layout v-if="user && user.name" flex-column>
 		<v-toolbar dense flat>
 			<v-btn icon @click="goBack">
 				<v-icon>
@@ -71,16 +71,41 @@
 </template>
 
 <script>
-import { userMockBuilder } from '~/test/user.mock.js';
-import { shortNumber } from '~/helpers';
+import { createNamespacedHelpers } from 'vuex';
+import { UserStore, UserMutations } from '~/store/user';
+import { shortNumber, onStoreMutation } from '~/helpers';
+
+const { mapState } = createNamespacedHelpers('user');
+
+export async function fetch(guid, store) {
+	if (!store.state.socket.$ws) {
+		await onStoreMutation(store, 'SET_SOCKET_AUTH', true);
+	}
+	store.state.socket.$ws.sendObj({ type: 'fetchUser', guid });
+	return onStoreMutation(store, `${UserStore}/${UserMutations.setOther}`);
+}
 
 export default {
 	data: () => ({
 		userId: null,
-		user: userMockBuilder().get(),
+		other: null,
 	}),
+	computed: {
+		...mapState([
+			'me',
+		]),
+		user () {
+			return this.userId ? this.other : this.me;
+		},
+	},
+	asyncData ({ store, query }) {
+		if (!query.id) {
+			return;
+		}
+		return fetch(query.id, store).then(user => ({ other: user }));
+	},
 	created() {
-		this.userId = this.$route.params.id;
+		this.userId = this.$route.query.id;
 	},
 	methods: {
 		goBack() {

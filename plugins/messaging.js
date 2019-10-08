@@ -1,12 +1,13 @@
 // import merchant from '../services/merchant';
 import { FeedStore, FeedActions } from '../store/feed';
 import { connect } from './init/ws';
+import { UserStore, UserMutations } from '~/store/user';
 
 export const dispatch = (store, msg) => {
 	if (msg.type === 'singleItemPost') {
 		store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 	} else if (msg.type === 'loggedIn') {
-		localStorage.setItem('userToken', msg.userToken);
+		store.commit(`${UserStore}/${UserMutations.setToken}`, msg.userToken);
 		connect(store);
 	} else if (msg.type === 'injectMerchantId') {
 		const { merchantId } = msg;

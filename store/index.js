@@ -1,4 +1,5 @@
 import feed from './feed';
+import user from './user';
 
 export const state = () => ({
 	locales: ['en'],
@@ -24,7 +25,7 @@ export const mutations = {
 	},
 	SOCKET_ONOPEN (state, event) {
 		state.socket.isConnected = true;
-		state.socket._ws = event.currentTarget; // to be used internally
+		state.socket._ws = event.currentTarget;
 	},
 	jSocket (state, $ws) {
 		state.socket.$ws = $ws;
@@ -53,6 +54,7 @@ export const mutations = {
 
 export const modules = {
 	feed,
+	user,
 };
 
 export default {

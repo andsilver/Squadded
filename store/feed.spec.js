@@ -4,7 +4,7 @@ import { createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
 import { commentsMsgBuilder } from '../test/comment.mock';
 import feed, { FeedStore, FeedActions, mutations } from './feed';
-import { state } from './index';
+import store from './index';
 
 const chance = new Chance();
 const localVue = createLocalVue();
@@ -146,12 +146,7 @@ describe('Feed store module', () => {
 		beforeEach(() => {
 			$ws = { sendObj: jest.fn() };
 			feedStore = new Vuex.Store(feed);
-			root = new Vuex.Store({
-				state,
-				modules: {
-					feed,
-				},
-			});
+			root = new Vuex.Store(store);
 			root.state.socket.isConnected = true;
 			root.state.merchant.id = aDummyMerchantId;
 			root.state.socket.$ws = $ws;

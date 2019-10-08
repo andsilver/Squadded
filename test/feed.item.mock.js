@@ -1,6 +1,7 @@
 import { Chance } from 'chance';
 import { FeedPost } from '../services/FeedPost';
 import { commentMockBuilder } from './comment.mock';
+import { userMockBuilder } from './user.mock';
 
 const chance = new Chance();
 
@@ -34,6 +35,10 @@ const aDefaultSingleItemMsgBuilder = () => {
 		},
 		withComment: (comments = [commentMockBuilder().get()]) => {
 			msg.comments = comments;
+			return builder;
+		},
+		withUser: (user = userMockBuilder().short()) => {
+			msg.user = user;
 			return builder;
 		},
 		get: () => msg,

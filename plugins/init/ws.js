@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
 import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '~/store/feed';
+import { UserStore, UserMutations } from '~/store/user';
 import { isHome } from '~/helpers';
 
 export const dispatch = function (store, message) {
@@ -10,6 +11,11 @@ export const dispatch = function (store, message) {
 		store.dispatch(`${FeedStore}/${FeedActions.updateLike}`, message);
 	} else if (message.type === 'comments') {
 		store.commit(`${FeedStore}/${FeedMutations.receiveComments}`, message);
+	} else if (message.type === 'userProfile') {
+		if (message.user.userId === store.state.user.me.userId) {
+			return store.commit(`${UserStore}/${UserMutations.setMe}`, message.user);
+		}
+		store.commit(`${UserStore}/${UserMutations.setOther}`, message.user);
 	} else {
 		// TODO report
 	}
@@ -35,7 +41,7 @@ export class WSToken {
 }
 
 export const connect = function (store) {
-	const userToken = localStorage.getItem('userToken');
+	const userToken = store.state.user.me.userId;
 	if (!userToken) {
 		return store.commit('SET_PENDING', false);
 	}
@@ -64,6 +70,19 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 		return store.getters[`${FeedStore}/${FeedGetters.items}`][0];
 	}
 
+	function fetchUser() {
+		state.socket.$ws.sendObj({ type: 'fetchUser' });
+	}
+
+	function fetchPosts() {
+		const msg = { type: 'fetchPosts' };
+		const mostRecentPost = getMostRecentStoredPost();
+		if (mostRecentPost) {
+			msg.ts = mostRecentPost.ts;
+		}
+		state.socket.$ws.sendObj(msg);
+	}
+
 	if (mutation.type === 'SOCKET_ONOPEN') {
 		const $ws = new WSToken(state.socket._ws);
 		Vue.prototype.$ws = $ws; // to be used in components
@@ -87,12 +106,8 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 			} else {
 				store.commit('SET_PENDING', false);
 			}
-			const msg = { type: 'fetchPosts' };
-			const mostRecentPost = getMostRecentStoredPost();
-			if (mostRecentPost) {
-				msg.ts = mostRecentPost.ts;
-			}
-			state.socket.$ws.sendObj(msg);
+			fetchUser();
+			fetchPosts();
 		}
 
 		if (!state.socket.isAuth) {

@@ -1,10 +1,16 @@
 import { Chance } from 'chance';
 import fetchMock from 'fetch-mock';
+import jwt from 'jsonwebtoken';
 import Vue from 'vue';
+import Vuex from 'vuex';
+import { createLocalVue } from '@vue/test-utils';
 import { FeedStore, FeedActions } from '../store/feed';
 import messaging, { dispatch } from './messaging';
+import store from '@/store/index';
 
 const chance = new Chance();
+const localVue = createLocalVue();
+localVue.use(Vuex);
 
 describe('Message listener', () => {
 	beforeEach(() => {
@@ -48,19 +54,13 @@ describe('Message listener', () => {
 	});
 
 	it('should connect after login', () => {
-		const store = {
-			state: {
-				merchant: {
-					id: 'someMerchantId',
-				},
-			},
-		};
-		const userToken = chance.guid();
+		const root = new Vuex.Store(store);
+		const userToken = jwt.sign({ sub: chance.guid() }, 'supersecret', { expiresIn: '1h' });
 
-		Vue.prototype.$connect = function () {};
-		spyOn(Vue.prototype, '$connect');
+		Vue.prototype.$connect = jest.fn();
 
-		dispatch(store, {
+		root.state.merchant.id = 'someMerchantId';
+		dispatch(root, {
 			type: 'loggedIn',
 			userToken,
 		});
@@ -71,22 +71,19 @@ describe('Message listener', () => {
 
 describe('Listen merchant id', () => {
 	const store = {
-		commit: function () {},
+		commit: jest.fn(),
 	};
 	const msg = {
 		type: 'injectMerchantId',
 		merchantId: 'aMerchantId',
 	};
 
-	beforeEach(() => {
-		spyOn(store, 'commit');
-	});
 	afterEach(fetchMock.reset);
 
 	it('should commit merchant id', () => {
 		dispatch(store, msg);
 
 		expect(store.commit).toHaveBeenCalledTimes(1);
-		expect(store.commit.calls.argsFor(0)).toEqual(['SET_MERCHANT_ID', msg.merchantId]);
+		expect(store.commit).toHaveBeenCalledWith('SET_MERCHANT_ID', msg.merchantId);
 	});
 });

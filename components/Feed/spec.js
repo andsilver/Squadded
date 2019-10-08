@@ -1,6 +1,6 @@
 import { Wrapper, shallowMount } from '@vue/test-utils';
-import { aDefaultSingleItemMsgBuilder } from '../../test/feed.item.mock';
 import FeedComponent from './index.vue';
+import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });

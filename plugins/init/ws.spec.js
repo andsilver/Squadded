@@ -18,6 +18,9 @@ describe('WS Plugin', () => {
 			merchant: {
 				id: null,
 			},
+			user: {
+				me: {},
+			},
 		},
 	};
 	const { WSToken } = wsPlugin;
@@ -59,6 +62,30 @@ describe('WS Plugin', () => {
 
 			dispatch(store, msg);
 			expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.receiveComments}`, msg);
+		});
+
+		it(`should commit visitor user to ${UserStore}/${UserMutations.setMe}`, () => {
+			const user = userMockBuilder().get();
+			const msg = {
+				type: 'userProfile',
+				user,
+			};
+			store.state.user.me.userId = user.userId;
+
+			dispatch(store, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${UserStore}/${UserMutations.setMe}`, user);
+		});
+
+		it(`should commit other user to ${UserStore}/${UserMutations.setOther}`, () => {
+			const user = userMockBuilder().get();
+			const msg = {
+				type: 'userProfile',
+				user,
+			};
+			store.state.user.me.userId = 'myUserId';
+
+			dispatch(store, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${UserStore}/${UserMutations.setOther}`, user);
 		});
 	});
 
@@ -285,6 +312,20 @@ describe('WS Plugin', () => {
 				expect(_ws.sendObj).toHaveBeenCalledTimes(2);
 				expect(_ws.sendObj).toHaveBeenCalledWith({
 					type: 'fetchPosts',
+				});
+			});
+
+			it('should fetch current user', () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+
+				mutationDispatcher(mutation, state);
+
+				expect(_ws.sendObj).toHaveBeenCalledTimes(2);
+				expect(_ws.sendObj).toHaveBeenCalledWith({
+					type: 'fetchUser',
 				});
 			});
 
