@@ -1,11 +1,13 @@
 <template>
 	<v-tabs centered>
-		<v-tab v-for="tab in tabs" :key="tab.uri">
-			<nuxt-link :to="tab.uri">
-				<v-icon>
-					{{ tab.icon }}
-				</v-icon>
-			</nuxt-link>
+		<v-tab
+			v-for="tab in tabs"
+			:key="tab.uri"
+			:to="tab.uri"
+		>
+			<v-icon>
+				{{ tab.icon }}
+			</v-icon>
 		</v-tab>
 	</v-tabs>
 </template>
