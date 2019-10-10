@@ -7,6 +7,12 @@ const OAUTH = {
 		scope: 'public_profile,email',
 		display: 'popup',
 	},
+	instagram: {
+		endpoint: 'https://api.instagram.com/oauth/authorize?',
+		id: '675899836211443',
+		scope: 'basic',
+		display: 'popup',
+	},
 };
 
 function generateState () {
