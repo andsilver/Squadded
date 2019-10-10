@@ -8,10 +8,11 @@
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --ignore-pattern *.dev.js .",
     "precommit": "yarn lint",
     "dev": "env-cmd -f .dev.env nuxt --hostname 0.0.0.0",
-    "build": "env-cmd -f .prod.env nuxt build",
+    "build": "nuxt build",
     "local:build": "env-cmd -f .dev.env nuxt build",
     "start": "nuxt start",
-    "generate": "env-cmd -f .prod.env nuxt generate",
+    "local:generate": "env-cmd -f .dev.env nuxt generate",
+    "generate": "nuxt generate",
     "test": "yarn lint && env-cmd -f ./test/.env jest --no-cache",
     "test:tap": "yarn test --reporters=jest-tap-reporter --coverage"
   },
