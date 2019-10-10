@@ -93,7 +93,4 @@ export default {
 			return config;
 		},
 	},
-	generate: {
-		routes: ['/', '/feed'],
-	},
 };
