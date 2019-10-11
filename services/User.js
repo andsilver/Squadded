@@ -3,9 +3,11 @@ export class User {
 		const {
 			avatar,
 			bio,
-			following,
-			followers,
-			likes,
+			followers = {
+				count: 0,
+			},
+			following = 0,
+			likes = 0,
 			mention,
 			name,
 			screenName,
@@ -14,8 +16,8 @@ export class User {
 
 		this.avatar = avatar;
 		this.bio = bio;
+		this.followers = followers;
 		this.following = following;
-		this.followers = followers || {};
 		this.likes = likes;
 		this.mention = mention;
 		this.name = name || screenName;
