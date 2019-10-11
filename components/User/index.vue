@@ -44,8 +44,8 @@
 				<v-list-item-subtitle>{{ $t('user.Likes') }}</v-list-item-subtitle>
 			</v-list-item-content>
 		</v-list-item>
-		<v-row justify="center" class="my-3">
-			<v-btn>{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}</v-btn>
+		<v-row v-if="me.userId !== user.userId" justify="center" class="my-3">
+			<v-btn ref="foloow-btn">{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}</v-btn>
 		</v-row>
 		<p align="center">
 			{{ user.bio }}
