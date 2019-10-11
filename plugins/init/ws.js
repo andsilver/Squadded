@@ -7,6 +7,8 @@ import { isHome } from '~/helpers';
 export const dispatch = function (store, message) {
 	if (message.type === 'singleItemPost') {
 		store.dispatch(`${FeedStore}/${FeedActions.receiveItem}`, message);
+	} else if (message.type === 'ping') {
+		store.state.socket._ws.sendObj({ type: 'pong' });
 	} else if (message.type === 'like') {
 		store.dispatch(`${FeedStore}/${FeedActions.updateLike}`, message);
 	} else if (message.type === 'comments') {

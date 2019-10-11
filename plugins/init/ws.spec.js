@@ -10,6 +10,9 @@ const chance = new Chance();
 describe('WS Plugin', () => {
 	const mockToken = 'head.payload.sign';
 	const { WS_LINK } = process.env;
+	const _ws = {
+		sendObj: jest.fn(),
+	};
 	const STORE = {
 		getters: {
 			[`${FeedStore}/${FeedGetters.items}`]: [],
@@ -20,6 +23,10 @@ describe('WS Plugin', () => {
 			},
 			user: {
 				me: {},
+			},
+			socket: {
+				_ws,
+				$ws: _ws,
 			},
 		},
 	};
@@ -35,6 +42,15 @@ describe('WS Plugin', () => {
 				dispatch: jest.fn(),
 				subscribe: jest.fn(),
 			}, STORE);
+		});
+
+		it(`should pong`, () => {
+			const msg = {
+				type: 'ping',
+			};
+
+			dispatch(store, msg);
+			expect(_ws.sendObj).toHaveBeenCalledWith({ type: 'pong' });
 		});
 
 		it(`should dispatch singleItemPost to ${FeedStore}/${FeedActions.receiveItem}`, () => {
