@@ -3,6 +3,7 @@ import jwt from 'jsonwebtoken';
 import Vuex from 'vuex';
 import { createLocalVue } from '@vue/test-utils';
 import user, { UserMutations } from './user';
+import { userMockBuilder } from '~/test/user.mock';
 
 const chance = new Chance();
 
@@ -16,6 +17,20 @@ describe('User Store module', () => {
 		localVue.use(Vuex);
 
 		store = new Vuex.Store(user);
+	});
+
+	it('should set me', () => {
+		const me = userMockBuilder().get();
+		store.commit(UserMutations.setMe, me);
+
+		expect(store.state.me).toEqual(me);
+	});
+
+	it('should set other', () => {
+		const other = userMockBuilder().get();
+		store.commit(UserMutations.setOther, other);
+
+		expect(store.state.other).toEqual(other);
 	});
 
 	it('should set token', () => {

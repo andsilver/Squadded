@@ -8,6 +8,7 @@ export class User {
 			likes,
 			mention,
 			name,
+			screenName,
 			userId,
 		} = props;
 
@@ -17,7 +18,7 @@ export class User {
 		this.followers = followers || {};
 		this.likes = likes;
 		this.mention = mention;
-		this.name = name;
+		this.name = name || screenName;
 		this.userId = userId;
 	}
 }

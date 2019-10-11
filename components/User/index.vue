@@ -82,7 +82,8 @@ export async function fetch(guid, store) {
 		await onStoreMutation(store, 'SET_SOCKET_AUTH', true);
 	}
 	store.state.socket.$ws.sendObj({ type: 'fetchUser', guid });
-	return onStoreMutation(store, `${UserStore}/${UserMutations.setOther}`);
+	return onStoreMutation(store, `${UserStore}/${UserMutations.setOther}`)
+		.then(() => store.state.user.other);
 }
 
 export default {

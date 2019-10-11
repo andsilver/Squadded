@@ -15,7 +15,7 @@ export const state = () => ({
 	me: new User({
 		userId: getUserId(localStorage.getItem('userToken')),
 	}),
-	user: null,
+	other: null,
 });
 
 export const UserMutations = {
@@ -29,7 +29,7 @@ export const mutations = {
 		state.me = new User(me);
 	},
 	[UserMutations.setOther]: (state, user) => {
-		state.user = new User(user);
+		state.other = new User(user);
 	},
 	[UserMutations.setToken]: (state, token) => {
 		localStorage.setItem('userToken', token);

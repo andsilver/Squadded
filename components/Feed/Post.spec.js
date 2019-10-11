@@ -75,7 +75,7 @@ describe('Feed Post', () => {
 			expect(userLink.props('link')).toEqual({
 				name: 'user',
 				query: {
-					id: user.guid,
+					id: user.userId,
 				},
 			});
 			expect(userLink.props('user')).toEqual(user);

@@ -21,6 +21,7 @@ export const userMockBuilder = () => {
 		get: () => user,
 		short: () => ({
 			guid: user.userId,
+			userId: user.userId,
 			screenName: user.name,
 			avatar: user.avatar,
 		}),
