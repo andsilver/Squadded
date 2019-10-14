@@ -34,6 +34,9 @@ export default {
 			otherError: this.$t('error.other'),
 		};
 	},
+	mounted() {
+		this.$store.commit('SET_PENDING', false);
+	},
 };
 </script>
 
