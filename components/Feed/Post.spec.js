@@ -109,7 +109,7 @@ describe('Feed Post', () => {
 
 			const counter = wrapper.ref(COUNTER_ID);
 			expect(counter.exists()).toBe(true);
-			expect(counter.text()).toBe(post.comments.length.toString());
+			expect(counter.text()).toBe(post.comments.messages.length.toString());
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('mdi-chat-outline');

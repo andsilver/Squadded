@@ -131,8 +131,7 @@ describe('Feed store module', () => {
 
 			receiveComments(state, commentMsg);
 
-			expect(post.comments.length).toBe(1);
-			expect(post.comments).toBe(commentMsg.comments);
+			expect(post.comments.messages).toBe(commentMsg.comments);
 		});
 	});
 
@@ -347,14 +346,17 @@ describe('Feed store module', () => {
 				type: 'addComment',
 				...comment,
 			});
-			expect(post.comments).toEqual([ {
-				author: {
-					name: jasmine.any(String),
-					avatar: jasmine.any(String),
-				},
-				ts: jasmine.any(Number),
-				text: comment.text,
-			} ]);
+			expect(post.comments).toEqual({
+				count: 1,
+				messages: [ {
+					author: {
+						name: jasmine.any(String),
+						avatar: jasmine.any(String),
+					},
+					ts: jasmine.any(Number),
+					text: comment.text,
+				} ],
+			});
 		});
 	});
 });

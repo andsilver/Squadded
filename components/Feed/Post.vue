@@ -19,7 +19,7 @@
 			<v-card-actions>
 				<v-card-text>{{ post.item.price }}</v-card-text>
 				<v-btn icon class="counter-icon" @click="toggleComments">
-					<span v-if="post.comments.length" ref="comments-count" class="count">{{ post.comments.length }}</span>
+					<span v-if="commentsCount" ref="comments-count" class="count">{{ commentsCount }}</span>
 					<v-icon ref="comments-icon" size="30">
 						mdi-chat-outline
 					</v-icon>
@@ -32,10 +32,10 @@
 				</v-btn>
 			</v-card-actions>
 		</v-card>
-		<v-list v-if="showComments && post.comments.length" ref="comments-list">
+		<v-list v-if="showComments && post.comments.messages.length" ref="comments-list">
 			<post-comment
-				v-for="comment in post.comments"
-				:key="comment.correlationId || comment.id"
+				v-for="comment in post.comments.messages"
+				:key="comment.correlationId || comment._id"
 				:comment="comment"
 			/>
 		</v-list>
@@ -84,6 +84,9 @@ export default {
 		...mapState([
 			'me',
 		]),
+		commentsCount() {
+			return this.post.comments.messages.length || this.post.comments.count;
+		},
 	},
 	methods: {
 		scroll () {

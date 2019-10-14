@@ -34,7 +34,10 @@ const aDefaultSingleItemMsgBuilder = () => {
 			return builder;
 		},
 		withComment: (comments = [commentMockBuilder().get()]) => {
-			msg.comments = comments;
+			msg.comments = {
+				count: comments.length,
+				messages: comments,
+			};
 			return builder;
 		},
 		withUser: (user = userMockBuilder().short()) => {

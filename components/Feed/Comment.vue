@@ -5,7 +5,7 @@
 		</v-list-item-avatar>
 
 		<v-list-item-content>
-			<v-list-item-title v-text="comment.author.name" />
+			<v-list-item-title v-text="comment.author.name || comment.author.screenName" />
 			<v-list-item-subtitle v-text="comment.text" />
 		</v-list-item-content>
 	</v-list-item>

@@ -5,7 +5,7 @@ export class FeedPost {
 		const {
 			item = {},
 			likes = {},
-			comments = [],
+			comments = {},
 
 			// TODO get user props.
 			user = {
@@ -20,7 +20,10 @@ export class FeedPost {
 
 		this.item = item;
 		this.likes = likes;
-		this.comments = comments;
+		this.comments = {
+			count: comments.count || 0,
+			messages: comments.messages || [],
+		};
 		this.user = user;
 		this.error = error;
 		this.guid = guid;
@@ -28,8 +31,10 @@ export class FeedPost {
 		this.correlationId = correlationId;
 	}
 
-	unsetCorrelationId () {
-		delete this.correlationId;
+	toMessage () {
+		const { guid, user, ts, comments, likes, ...clean } = this;
+		clean.type = 'singleItemPost';
+		return clean;
 	}
 
 	toStore () {
@@ -37,9 +42,13 @@ export class FeedPost {
 		return store;
 	}
 
-	toMessage () {
-		const { guid, user, ts, comments, likes, ...clean } = this;
-		clean.type = 'singleItemPost';
-		return clean;
+	update(freshPost) {
+		const { comments, ...other } = freshPost;
+		Object.assign(this, other);
+		this.comments.count = comments.count;
+	}
+
+	unsetCorrelationId () {
+		delete this.correlationId;
 	}
 }

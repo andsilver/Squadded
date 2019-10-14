@@ -66,7 +66,7 @@ export const mutations = {
 			post.error = payload.error;
 			return;
 		}
-		Object.assign(post, payload);
+		post.update(payload);
 		removeFromSession(post.correlationId);
 		post.unsetCorrelationId();
 		storeInSession(post);
@@ -77,7 +77,7 @@ export const mutations = {
 			return;
 		}
 
-		post.comments.push({
+		post.comments.messages.push({
 			author: {
 				name: '',
 				avatar: '',
@@ -85,6 +85,7 @@ export const mutations = {
 			ts: Date.now(),
 			text: comment.text,
 		});
+		post.comments.count = post.comments.messages.length;
 	},
 	[FeedMutations.receiveComments]: (state, msg) => {
 		const post = state.items.find(i => i.guid === msg.guid);
@@ -92,7 +93,8 @@ export const mutations = {
 			return;
 		}
 
-		post.comments = msg.comments;
+		post.comments.messages = msg.comments;
+		post.comments.count = msg.comments.length;
 	},
 	[FeedMutations.restoreSession]: (state) => {
 		if (state.items.length) {
