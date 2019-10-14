@@ -45,7 +45,9 @@
 			</v-list-item-content>
 		</v-list-item>
 		<v-row v-if="me.userId !== user.userId" justify="center" class="my-3">
-			<v-btn ref="foloow-btn">{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}</v-btn>
+			<v-btn ref="foloow-btn">
+				{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
+			</v-btn>
 		</v-row>
 		<p align="center">
 			{{ user.bio }}
