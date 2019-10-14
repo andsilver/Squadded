@@ -14,8 +14,12 @@
 </template>
 
 <style lang="stylus">
+html
+	overflow-y unset !important
 .v-application--wrap
 	max-height 100vh
+	.v-application--wrap
+		min-height unset
 .v-content
 	padding-bottom 48px !important
 	max-height 100%
