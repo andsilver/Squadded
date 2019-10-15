@@ -67,6 +67,32 @@ describe('User component', () => {
 		});
 	});
 
+	it('should redirect myself to /me', () => {
+		const me = userMockBuilder().get();
+
+		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
+
+		const query = {
+			id: me.userId,
+		};
+		const redirect = jest.fn();
+		wrapper = shallowMount(User, {
+			localVue,
+			store,
+			mocks: {
+				$route: { query },
+				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
+			},
+		});
+
+		wrapper.vm.$options.asyncData({ store, query, redirect });
+
+		expect(redirect).toHaveBeenCalledWith('/me');
+	});
+
 	it('should not allow follow to myself', () => {
 		const me = userMockBuilder().get();
 
