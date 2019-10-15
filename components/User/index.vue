@@ -79,7 +79,7 @@ import { shortNumber, onStoreMutation } from '~/helpers';
 
 const { mapState } = createNamespacedHelpers('user');
 
-export async function fetch(guid, store) {
+export async function fetchOther(guid, store) {
 	if (!store.state.socket.$ws) {
 		await onStoreMutation(store, 'SET_SOCKET_AUTH', true);
 	}
@@ -101,11 +101,14 @@ export default {
 			return this.userId ? this.other : this.me;
 		},
 	},
-	asyncData ({ store, query }) {
+	asyncData ({ store, query, redirect }) {
 		if (!query.id) {
 			return;
 		}
-		return fetch(query.id, store).then(user => ({ other: user }));
+		if (query.id === store.state.user.me.userId) {
+			redirect('/me');
+		}
+		return fetchOther(query.id, store).then(user => ({ other: user }));
 	},
 	created() {
 		this.userId = this.$route.query.id;

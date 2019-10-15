@@ -14,10 +14,11 @@ export const dispatch = function (store, message) {
 	} else if (message.type === 'comments') {
 		store.commit(`${FeedStore}/${FeedMutations.receiveComments}`, message);
 	} else if (message.type === 'userProfile') {
-		if (message.user.userId === store.state.user.me.userId) {
-			return store.commit(`${UserStore}/${UserMutations.setMe}`, message.user);
+		const { user } = message;
+		if (user.userId === store.state.user.me.userId) {
+			return store.commit(`${UserStore}/${UserMutations.setMe}`, user);
 		}
-		store.commit(`${UserStore}/${UserMutations.setOther}`, message.user);
+		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
 	} else {
 		// TODO report
 	}
