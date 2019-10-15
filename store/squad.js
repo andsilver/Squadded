@@ -1,7 +1,9 @@
 export const SquadStore = 'squad';
 
+export const DEFAULT_LANDING = '/feed';
+
 export const state = () => ({
-	route: { path: '/feed' },
+	route: { path: DEFAULT_LANDING },
 });
 
 const SearchParamName = {

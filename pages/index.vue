@@ -39,6 +39,7 @@
 import { mapState } from 'vuex';
 import SocialBtn from '~/components/Social-Button.vue';
 import SignForm from '~/components/Sign-Form.vue';
+import { DEFAULT_LANDING } from '~/store/squad';
 
 export default {
 	components: {
@@ -49,6 +50,11 @@ export default {
 		...mapState([
 			'socket',
 		]),
+	},
+	asyncData ({ store, redirect }) {
+		if (store.state.socket.isAuth) {
+			redirect(DEFAULT_LANDING);
+		}
 	},
 };
 </script>
