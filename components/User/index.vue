@@ -118,5 +118,10 @@ export default {
 			return shortNumber(number, this._i18n.locale);
 		},
 	},
+	mounted() {
+		if (this.$store.state.socket.isAuth) {
+			this.$store.commit('SET_PENDING', false);
+		}
+	},
 };
 </script>

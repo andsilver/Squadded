@@ -1,5 +1,6 @@
 import feed from './feed';
 import user from './user';
+import squad from './squad';
 
 export const state = () => ({
 	locales: ['en'],
@@ -55,6 +56,7 @@ export const mutations = {
 export const modules = {
 	feed,
 	user,
+	squad,
 };
 
 export default {

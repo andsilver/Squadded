@@ -2,6 +2,7 @@
 import { FeedStore, FeedActions } from '../store/feed';
 import { connect } from './init/ws';
 import { UserStore, UserMutations } from '~/store/user';
+import { SquadStore, SquadMutations } from '~/store/squad';
 
 export const dispatch = (store, msg) => {
 	if (msg.type === 'singleItemPost') {
@@ -12,6 +13,9 @@ export const dispatch = (store, msg) => {
 	} else if (msg.type === 'injectMerchantId') {
 		const { merchantId } = msg;
 		store.commit('SET_MERCHANT_ID', merchantId);
+	} else if (msg.type === 'injectSquadParams') {
+		const { squad } = msg;
+		store.commit(`${SquadStore}/${SquadMutations.setSquadParams}`, squad);
 	} else {
 		// TODO gracefull report
 		// console.warn('Uknonwn message type', msg);

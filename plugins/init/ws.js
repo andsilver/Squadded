@@ -104,7 +104,8 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 		} else if (message.type === 'authOk') {
 			store.commit('SET_SOCKET_AUTH', true);
 			if (isHome(ctx.route.name)) {
-				redirect({ path: '/feed' });
+				const { route } = state.squad;
+				redirect(route);
 			} else {
 				store.commit('SET_PENDING', false);
 			}

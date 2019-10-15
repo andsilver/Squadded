@@ -7,10 +7,7 @@ import { createLocalVue } from '@vue/test-utils';
 import { FeedStore, FeedActions } from '../store/feed';
 import messaging, { dispatch } from './messaging';
 import store from '@/store/index';
-
-const chance = new Chance();
-const localVue = createLocalVue();
-localVue.use(Vuex);
+import { SquadStore, SquadMutations } from '~/store/squad';
 
 describe('Message listener', () => {
 	beforeEach(() => {
@@ -27,13 +24,22 @@ describe('Message listener', () => {
 		expect(window.addEventListener).toHaveBeenCalledWith('message', jasmine.any(Function));
 		expect(func.name).toBe('parseMessage');
 	});
+});
+
+describe('Dispatcher', () => {
+	let store;
+
+	beforeEach(() => {
+		localStorage.clear();
+		store = {
+			commit: jest.fn(),
+			dispatch: jest.fn(),
+		};
+	});
+
+	afterEach(fetchMock.reset);
 
 	it('should dispatch save on receive new Feed item', () => {
-		const store = {
-			dispatch: function () {}, // do not use arrow function
-		};
-		spyOn(store, 'dispatch');
-
 		const msg = {
 			type: 'singleItemPost',
 			merchantId: 'aMerchantId',
@@ -50,8 +56,38 @@ describe('Message listener', () => {
 		dispatch(store, msg);
 
 		expect(store.dispatch).toHaveBeenCalledTimes(1);
-		expect(store.dispatch.calls.argsFor(0)).toEqual([`${FeedStore}/${FeedActions.saveItem}`, msg]);
+		expect(store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.saveItem}`, msg);
 	});
+
+	it('should commit merchant id', () => {
+		const msg = {
+			type: 'injectMerchantId',
+			merchantId: 'aMerchantId',
+		};
+
+		dispatch(store, msg);
+
+		expect(store.commit).toHaveBeenCalledTimes(1);
+		expect(store.commit).toHaveBeenCalledWith('SET_MERCHANT_ID', msg.merchantId);
+	});
+
+	it('should commit squad params', () => {
+		const msg = {
+			type: 'injectSquadParams',
+			squad: 'user:someId',
+		};
+
+		dispatch(store, msg);
+
+		expect(store.commit).toHaveBeenCalledTimes(1);
+		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setSquadParams}`, msg.squad);
+	});
+});
+
+describe('Login', () => {
+	const chance = new Chance();
+	const localVue = createLocalVue();
+	localVue.use(Vuex);
 
 	it('should connect after login', () => {
 		const root = new Vuex.Store(store);
@@ -66,24 +102,5 @@ describe('Message listener', () => {
 		});
 		expect(Vue.prototype.$connect).toHaveBeenCalledTimes(1);
 		expect(localStorage.getItem('userToken')).toBe(userToken);
-	});
-});
-
-describe('Listen merchant id', () => {
-	const store = {
-		commit: jest.fn(),
-	};
-	const msg = {
-		type: 'injectMerchantId',
-		merchantId: 'aMerchantId',
-	};
-
-	afterEach(fetchMock.reset);
-
-	it('should commit merchant id', () => {
-		dispatch(store, msg);
-
-		expect(store.commit).toHaveBeenCalledTimes(1);
-		expect(store.commit).toHaveBeenCalledWith('SET_MERCHANT_ID', msg.merchantId);
 	});
 });

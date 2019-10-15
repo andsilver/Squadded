@@ -10,9 +10,6 @@ const chance = new Chance();
 describe('WS Plugin', () => {
 	const mockToken = 'head.payload.sign';
 	const { WS_LINK } = process.env;
-	const _ws = {
-		sendObj: jest.fn(),
-	};
 	const STORE = {
 		getters: {
 			[`${FeedStore}/${FeedGetters.items}`]: [],
@@ -24,9 +21,8 @@ describe('WS Plugin', () => {
 			user: {
 				me: {},
 			},
-			socket: {
-				_ws,
-				$ws: _ws,
+			squad: {
+				path: '/default',
 			},
 		},
 	};
@@ -34,14 +30,23 @@ describe('WS Plugin', () => {
 
 	describe('dispatch', () => {
 		const { dispatch } = wsPlugin;
+		let _ws;
 		let store;
 
 		beforeEach(() => {
+			const deepStore = JSON.parse(JSON.stringify(STORE));
 			store = Object.assign({
 				commit: jest.fn(),
 				dispatch: jest.fn(),
 				subscribe: jest.fn(),
-			}, STORE);
+			}, deepStore);
+			_ws = {
+				sendObj: jest.fn(),
+			};
+			store.state.socket = {
+				_ws,
+				$ws: _ws,
+			};
 		});
 
 		it(`should pong`, () => {
@@ -156,11 +161,12 @@ describe('WS Plugin', () => {
 
 		beforeEach(() => {
 			localStorage.clear();
+			const deepStore = JSON.parse(JSON.stringify(STORE));
 			store = Object.assign({
 				commit: jest.fn(),
 				dispatch: jest.fn(),
 				subscribe: jest.fn(),
-			}, STORE);
+			}, deepStore);
 			spyOn(Vue, 'use');
 		});
 
@@ -199,16 +205,11 @@ describe('WS Plugin', () => {
 
 		function clear () {
 			localStorage.clear();
+			const deepStore = JSON.parse(JSON.stringify(STORE));
 			_ws = {
 				sendObj: jest.fn(),
 			};
-			state = {
-				socket: {
-					_ws,
-					$ws: _ws,
-				},
-				merchant: { id: null },
-			};
+			state = deepStore.state;
 			route = {
 				name: 'index',
 			};
@@ -217,9 +218,13 @@ describe('WS Plugin', () => {
 					commit: jest.fn(),
 					dispatch: jest.fn(),
 					subscribe: jest.fn(),
-				}, STORE),
+				}, deepStore),
 				redirect: jest.fn(),
 				route,
+			};
+			ctx.store.state.socket = {
+				_ws,
+				$ws: _ws,
 			};
 			mutationDispatcher = wsPlugin.mutationListener(ctx);
 		};
@@ -375,7 +380,7 @@ describe('WS Plugin', () => {
 				mutationDispatcher(mutation, state);
 
 				expect(ctx.redirect).toHaveBeenCalledTimes(1);
-				expect(ctx.redirect.mock.calls[0]).toEqual([ { path: '/feed' } ]);
+				expect(ctx.redirect).toHaveBeenCalledWith(state.squad.route);
 			});
 
 			it('should redirect to home from any on unauth', () => {
@@ -388,7 +393,7 @@ describe('WS Plugin', () => {
 				mutationDispatcher(mutation, state);
 
 				expect(ctx.redirect).toHaveBeenCalledTimes(1);
-				expect(ctx.redirect.mock.calls[0]).toEqual([ { path: '/' } ]);
+				expect(ctx.redirect).toHaveBeenCalledWith({ path: '/' });
 			});
 		});
 	});
@@ -397,13 +402,14 @@ describe('WS Plugin', () => {
 		let ctx;
 		beforeEach(() => {
 			localStorage.clear();
+			const deepStore = JSON.parse(JSON.stringify(STORE));
 			ctx = {
 				store: Object.assign({
 					commit: jest.fn(),
 					dispatch: jest.fn(),
 					subscribe: jest.fn(),
-				}, STORE),
-				redirect: function () {},
+				}, deepStore),
+				redirect: jest.fn(),
 				route: {},
 			};
 		});
