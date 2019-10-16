@@ -5,6 +5,7 @@ import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
 import { commentsMsgBuilder } from '../test/comment.mock';
 import feed, { FeedStore, FeedActions, mutations } from './feed';
 import store from './index';
+import { userMockBuilder } from '~/test/user.mock';
 
 const chance = new Chance();
 const localVue = createLocalVue();
@@ -153,11 +154,13 @@ describe('Feed store module', () => {
 
 		it('should commit addItem on saveItem', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
+			const me = userMockBuilder();
+			root.state.user.me = me;
 
 			const { type, ...cleanPost } = msg;
 			cleanPost.correlationId = jasmine.any(String);
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.feed.items).toEqual([ cleanPost ]);
+			expect(root.state.feed.items).toEqual([ { ...cleanPost, user: me.short() } ]);
 		});
 
 		it('should commit addItem when receive new item', async () => {
