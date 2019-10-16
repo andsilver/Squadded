@@ -41,4 +41,36 @@ describe('User Store module', () => {
 		expect(localStorage.getItem('userToken')).toBe(userToken);
 		expect(store.state.me.userId).toBe(userId);
 	});
+
+	it('should set my wishlist', () => {
+		const me = userMockBuilder().get();
+		store.commit(UserMutations.setMe, me);
+		const msg = {
+			type: 'wishlist',
+			userId: me.userId,
+			wishlist: ['someposts'],
+		};
+
+		store.commit(UserMutations.setWishlist, msg);
+
+		expect(store.state.me.wishlist).toEqual(msg.wishlist);
+	});
+
+	it('should set other user wishlist', () => {
+		const me = userMockBuilder().get();
+		store.commit(UserMutations.setMe, me);
+
+		const other = userMockBuilder().get();
+		store.commit(UserMutations.setOther, other);
+
+		const msg = {
+			type: 'wishlist',
+			userId: other.userId,
+			wishlist: ['someposts'],
+		};
+
+		store.commit(UserMutations.setWishlist, msg);
+
+		expect(store.state.other.wishlist).toEqual(msg.wishlist);
+	});
 });

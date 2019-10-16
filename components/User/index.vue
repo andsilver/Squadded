@@ -52,7 +52,10 @@
 		<p align="center">
 			{{ user.bio }}
 		</p>
-		<v-tabs centered>
+		<v-tabs
+			v-model="tabs"
+			centered
+		>
 			<v-tab>
 				<v-icon size="32">
 					mdi-chevron-triple-down
@@ -69,6 +72,14 @@
 				</v-icon>
 			</v-tab>
 		</v-tabs>
+		<v-tabs-items v-model="tabs">
+			<v-tab-item>
+				<!--   -->
+			</v-tab-item>
+			<v-tab-item>
+				<Whishlist />
+			</v-tab-item>
+		</v-tabs-items>
 	</v-layout>
 </template>
 
@@ -76,13 +87,18 @@
 import { createNamespacedHelpers } from 'vuex';
 import { UserStore, UserMutations } from '~/store/user';
 import { shortNumber, prefetch } from '~/helpers';
+import Whishlist from '~/components/Whishlist';
 
 const { mapState } = createNamespacedHelpers('user');
 
 export default {
+	components: {
+		Whishlist,
+	},
 	data: () => ({
-		userId: null,
 		other: null,
+		userId: null,
+		tabs: null,
 	}),
 	computed: {
 		...mapState([
@@ -109,6 +125,11 @@ export default {
 	created() {
 		this.userId = this.$route.query.id;
 	},
+	mounted() {
+		if (this.$store.state.socket.isAuth) {
+			this.$store.commit('SET_PENDING', false);
+		}
+	},
 	methods: {
 		goBack() {
 			history.back();
@@ -116,11 +137,6 @@ export default {
 		short(number) {
 			return shortNumber(number, this._i18n.locale);
 		},
-	},
-	mounted() {
-		if (this.$store.state.socket.isAuth) {
-			this.$store.commit('SET_PENDING', false);
-		}
 	},
 };
 </script>

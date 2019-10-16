@@ -19,6 +19,8 @@ export const dispatch = function (store, message) {
 			return store.commit(`${UserStore}/${UserMutations.setMe}`, user);
 		}
 		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
+	} else if (message.type === 'wishlist') {
+		store.commit(`${UserStore}/${UserMutations.setWishlist}`, message);
 	} else {
 		// TODO report
 	}
