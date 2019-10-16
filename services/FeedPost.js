@@ -45,7 +45,9 @@ export class FeedPost {
 	update(freshPost) {
 		const { comments, ...other } = freshPost;
 		Object.assign(this, other);
-		this.comments.count = comments.count;
+		if (comments) {
+			this.comments.count = comments.count;
+		}
 	}
 
 	unsetCorrelationId () {
