@@ -13,3 +13,11 @@ export const onStoreMutation = (store, type, value) => new Promise((resolve) => 
 		}
 	});
 });
+
+export async function prefetch({ guid, mutation, store, type }) {
+	if (!store.state.socket.$ws) {
+		await onStoreMutation(store, 'SET_SOCKET_AUTH', true);
+	}
+	store.state.socket.$ws.sendObj({ type, guid });
+	return onStoreMutation(store, mutation);
+}

@@ -75,18 +75,9 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import { UserStore, UserMutations } from '~/store/user';
-import { shortNumber, onStoreMutation } from '~/helpers';
+import { shortNumber, prefetch } from '~/helpers';
 
 const { mapState } = createNamespacedHelpers('user');
-
-export async function fetchOther(guid, store) {
-	if (!store.state.socket.$ws) {
-		await onStoreMutation(store, 'SET_SOCKET_AUTH', true);
-	}
-	store.state.socket.$ws.sendObj({ type: 'fetchUser', guid });
-	return onStoreMutation(store, `${UserStore}/${UserMutations.setOther}`)
-		.then(() => store.state.user.other);
-}
 
 export default {
 	data: () => ({
@@ -108,7 +99,12 @@ export default {
 		if (query.id === store.state.user.me.userId) {
 			redirect('/me');
 		}
-		return fetchOther(query.id, store).then(user => ({ other: user }));
+		return prefetch({
+			guid: query.id,
+			mutation: `${UserStore}/${UserMutations.setOther}`,
+			store,
+			type: 'fetchUser',
+		}).then(() => ({ other: store.state.user.other }));
 	},
 	created() {
 		this.userId = this.$route.query.id;
