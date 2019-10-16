@@ -23,4 +23,12 @@ export class User {
 		this.name = name || screenName;
 		this.userId = userId;
 	}
+
+	short () {
+		return {
+			guid: this.userId,
+			screenName: this.name,
+			avatar: this.avatar,
+		};
+	}
 }

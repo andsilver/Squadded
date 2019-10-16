@@ -139,7 +139,11 @@ export const actions = {
 		storeInSession(post);
 	},
 	[FeedActions.saveItem]: ({ rootState, dispatch }, payload) => {
-		const post = new FeedPost({ ...payload, correlationId: `${Date.now()}${suffix()}` });
+		const post = new FeedPost({
+			...payload,
+			correlationId: `${Date.now()}${suffix()}`,
+			user: rootState.user.me.short(),
+		});
 
 		dispatch(FeedActions.storeItem, post);
 		if (rootState.socket.isConnected && rootState.socket.isAuth) {
