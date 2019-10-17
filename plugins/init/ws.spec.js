@@ -117,6 +117,15 @@ describe('WS Plugin', () => {
 			dispatch(store, msg);
 			expect(store.commit).toHaveBeenCalledWith(`${UserStore}/${UserMutations.setWishlist}`, msg);
 		});
+
+		it(`should commit blog to ${UserStore}/${UserMutations.setBlog}`, () => {
+			const msg = {
+				type: 'blog',
+			};
+
+			dispatch(store, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${UserStore}/${UserMutations.setBlog}`, msg);
+		});
 	});
 
 	describe('WSToken class', () => {

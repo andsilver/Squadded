@@ -73,4 +73,36 @@ describe('User Store module', () => {
 
 		expect(store.state.other.wishlist).toEqual(msg.wishlist);
 	});
+
+	it('should set my blog', () => {
+		const me = userMockBuilder().get();
+		store.commit(UserMutations.setMe, me);
+		const msg = {
+			type: 'blog',
+			userId: me.userId,
+			blog: ['someposts'],
+		};
+
+		store.commit(UserMutations.setBlog, msg);
+
+		expect(store.state.me.blog).toEqual(msg.blog);
+	});
+
+	it('should set other user blog', () => {
+		const me = userMockBuilder().get();
+		store.commit(UserMutations.setMe, me);
+
+		const other = userMockBuilder().get();
+		store.commit(UserMutations.setOther, other);
+
+		const msg = {
+			type: 'blog',
+			userId: other.userId,
+			blog: ['someposts'],
+		};
+
+		store.commit(UserMutations.setBlog, msg);
+
+		expect(store.state.other.blog).toEqual(msg.blog);
+	});
 });

@@ -1,9 +1,9 @@
 <template lang="html">
 	<section>
 		<Preloader v-if="!posts" ref="preloader" class="mt-8" />
-		<span v-else-if="!posts.length" ref="empty-whishlist-text">{{ $t('feed.isEmpty') }}</span>
-		<WhishlistItem
-			v-for="post in wishlist"
+		<span v-else-if="!posts.length" ref="empty-blog-text">{{ $t('feed.isEmpty') }}</span>
+		<Post
+			v-for="post in blogFeed"
 			:key="post.guid"
 			:post="post"
 		/>
@@ -11,34 +11,34 @@
 </template>
 
 <script lang="js">
-import WhishlistItem from './item';
 import { prefetch } from '~/helpers';
 import { UserStore, UserMutations } from '~/store/user';
 import { FeedPost } from '~/services/FeedPost';
+import Post from '~/components/Post';
 import Preloader from '~/components/Preloader.vue';
 
 export default {
-	name: 'Whishlist',
+	name: 'Blog',
 	components: {
+		Post,
 		Preloader,
-		WhishlistItem,
 	},
 	data: () => ({
 		posts: null,
 	}),
 	computed: {
-		wishlist () {
+		blogFeed () {
 			return this.posts ? this.posts.map(post => new FeedPost(post)) : [];
 		},
 	},
 	mounted () {
 		return prefetch({
 			guid: this.$route.query.id,
-			mutation: `${UserStore}/${UserMutations.setWishlist}`,
+			mutation: `${UserStore}/${UserMutations.setBlog}`,
 			store: this.$store,
-			type: 'fetchWishlist',
+			type: 'fetchBlog',
 		}).then((payload) => {
-			this.posts = payload.wishlist;
+			this.posts = payload.blog;
 		});
 	},
 };

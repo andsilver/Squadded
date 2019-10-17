@@ -1,6 +1,6 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import Whishlist from './index.vue';
+import Blog from './index.vue';
 import Store from '~/store';
 import { UserStore, UserMutations } from '~/store/user';
 
@@ -12,8 +12,8 @@ function flushPromises() {
 	return new Promise(resolve => setImmediate(resolve));
 }
 
-describe('Whishlist Component', () => {
-	const EMPTY_FEED_TEXT = 'empty-whishlist-text';
+describe('Blog Component', () => {
+	const EMPTY_FEED_TEXT = 'empty-blog-text';
 	const PRELOADER = 'preloader';
 	let query;
 	let mocks;
@@ -43,7 +43,7 @@ describe('Whishlist Component', () => {
 	});
 
 	it('sets the correct default props', () => {
-		const wrapper = shallowMount(Whishlist, {
+		const wrapper = shallowMount(Blog, {
 			localVue,
 			store,
 			mocks,
@@ -51,12 +51,12 @@ describe('Whishlist Component', () => {
 		expect(wrapper.vm.posts).toBe(null);
 
 		expect(store.state.socket.$ws.sendObj).toHaveBeenCalledWith({
-			type: 'fetchWishlist',
+			type: 'fetchBlog',
 		});
 	});
 
 	it('should render preloader', () => {
-		const wrapper = shallowMount(Whishlist, {
+		const wrapper = shallowMount(Blog, {
 			localVue,
 			store,
 			mocks,
@@ -65,18 +65,18 @@ describe('Whishlist Component', () => {
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
 
-	it('renders the correct message for empty Whishlist', async () => {
+	it('renders the correct message for empty Blog', async () => {
 		expect.assertions(2);
 
-		const wrapper = shallowMount(Whishlist, {
+		const wrapper = shallowMount(Blog, {
 			localVue,
 			store,
 			mocks,
 		});
 
 		store.state.user.other = {};
-		store.commit(`${UserStore}/${UserMutations.setWishlist}`, {
-			wishlist: [],
+		store.commit(`${UserStore}/${UserMutations.setBlog}`, {
+			blog: [],
 		});
 
 		await flushPromises();

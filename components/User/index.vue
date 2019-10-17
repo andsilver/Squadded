@@ -74,7 +74,7 @@
 		</v-tabs>
 		<v-tabs-items v-model="tabs">
 			<v-tab-item>
-				<!--   -->
+				<Blog />
 			</v-tab-item>
 			<v-tab-item>
 				<Whishlist />
@@ -87,12 +87,14 @@
 import { createNamespacedHelpers } from 'vuex';
 import { UserStore, UserMutations } from '~/store/user';
 import { shortNumber, prefetch } from '~/helpers';
+import Blog from '~/components/Blog';
 import Whishlist from '~/components/Whishlist';
 
 const { mapState } = createNamespacedHelpers('user');
 
 export default {
 	components: {
+		Blog,
 		Whishlist,
 	},
 	data: () => ({

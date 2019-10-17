@@ -19,6 +19,7 @@ export const state = () => ({
 });
 
 export const UserMutations = {
+	setBlog: 'setBlog',
 	setMe: 'setMe',
 	setOther: 'setOther',
 	setToken: 'setToken',
@@ -42,6 +43,13 @@ export const mutations = {
 			return;
 		}
 		state.other.wishlist = msg.wishlist;
+	},
+	[UserMutations.setBlog]: (state, msg) => {
+		if (state.me.userId === msg.userId) {
+			state.me.blog = msg.blog;
+			return;
+		}
+		state.other.blog = msg.blog;
 	},
 };
 
