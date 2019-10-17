@@ -1,6 +1,6 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import FeedPost from './Post.vue';
+import FeedPost from './index.vue';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { userMockBuilder } from '~/test/user.mock';
 import { FeedStore, FeedActions } from '~/store/feed';

@@ -1,8 +1,8 @@
 import { Chance } from 'chance';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import Post from '../Feed/Post.vue';
 import MessageInput from './index.vue';
+import Post from '~/components/Post';
 
 const chance = new Chance();
 

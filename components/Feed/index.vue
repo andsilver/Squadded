@@ -10,7 +10,7 @@
 </template>
 
 <script lang="js">
-import FeedPost from './Post';
+import FeedPost from '~/components/Post';
 
 export default {
 	name: 'Feed',
