@@ -45,7 +45,7 @@
 			</v-list-item-content>
 		</v-list-item>
 		<v-row v-if="me.userId !== user.userId" justify="center" class="my-3">
-			<v-btn ref="foloow-btn">
+			<v-btn ref="foloow-btn" @click="toggleFollow">
 				{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
 			</v-btn>
 		</v-row>
@@ -138,6 +138,19 @@ export default {
 		},
 		short(number) {
 			return shortNumber(number, this._i18n.locale);
+		},
+		toggleFollow() {
+			if (!this.other) {
+				return;
+			}
+			const flag = !this.other.followers.me;
+			this.$ws.sendObj({
+				type: 'follow',
+				guid: this.other.userId,
+				flag,
+			});
+			this.other.followers.me = flag;
+			this.$forceUpdate();
 		},
 	},
 };

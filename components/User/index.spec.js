@@ -170,4 +170,106 @@ describe('User component', () => {
 		expect(followBtn.exists()).toBe(true);
 		expect(followBtn.text()).toBe('user.Unfollow');
 	});
+
+	it('should not follow myself', () => {
+		const me = userMockBuilder().get();
+
+		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
+
+		const $ws = {
+			sendObj: jest.fn(),
+		};
+
+		wrapper = shallowMount(User, {
+			localVue,
+			store,
+			mocks: {
+				$route: { query: {} },
+				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
+				$ws,
+			},
+		});
+
+		wrapper.vm.toggleFollow();
+		expect($ws.sendObj).not.toHaveBeenCalled();
+	});
+
+	it('should follow other user', () => {
+		const me = userMockBuilder().get();
+		const user = userMockBuilder().get();
+		user.followers.me = false;
+
+		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
+		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
+
+		const $ws = {
+			sendObj: jest.fn(),
+		};
+
+		wrapper = shallowMount(User, {
+			localVue,
+			store,
+			mocks: {
+				$route: { query: {
+					id: user.userId,
+				} },
+				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
+				$ws,
+			},
+		});
+
+		wrapper.setData({ other: user });
+
+		wrapper.vm.toggleFollow();
+		expect($ws.sendObj).toHaveBeenCalledWith({
+			type: 'follow',
+			guid: user.userId,
+			flag: true,
+		});
+		expect(user.followers.me).toBe(true);
+	});
+
+	it('should unfollow other user', () => {
+		const me = userMockBuilder().get();
+		const user = userMockBuilder().get();
+		user.followers.me = true;
+
+		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
+		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
+
+		const $ws = {
+			sendObj: jest.fn(),
+		};
+
+		wrapper = shallowMount(User, {
+			localVue,
+			store,
+			mocks: {
+				$route: { query: {
+					id: user.userId,
+				} },
+				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
+				$ws,
+			},
+		});
+
+		wrapper.setData({ other: user });
+
+		wrapper.vm.toggleFollow();
+		expect($ws.sendObj).toHaveBeenCalledWith({
+			type: 'follow',
+			guid: user.userId,
+			flag: false,
+		});
+		expect(user.followers.me).toBe(false);
+	});
 });
