@@ -2,9 +2,7 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import FeedPost from './index.vue';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
-import { userMockBuilder } from '~/test/user.mock';
 import { FeedStore, FeedActions } from '~/store/feed';
-import { UserStore, UserMutations } from '~/store/user';
 import Store from '~/store';
 
 Wrapper.prototype.ref = function (id) {
@@ -12,6 +10,7 @@ Wrapper.prototype.ref = function (id) {
 };
 
 describe('Feed Post', () => {
+	const USER_LINK = 'user-link';
 	let localVue;
 	let wrapper;
 	let store;
@@ -32,54 +31,15 @@ describe('Feed Post', () => {
 		});
 	}
 
-	describe('User link', () => {
-		const USER_LINK = 'user-link';
-		beforeEach(initLocalVue);
+	beforeEach(() => {
+		initLocalVue();
+	});
 
-		it('should have user link', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().get();
+	it('should have user link', () => {
+		const post = aDefaultSingleItemMsgBuilder().withGUID().get();
 
-			wrapper.setProps({ post });
-			expect(wrapper.ref(USER_LINK).exists()).toBe(true);
-		});
-
-		it('should link to user\'s own profile', () => {
-			const me = userMockBuilder();
-			const post = aDefaultSingleItemMsgBuilder()
-				.withGUID()
-				.withUser(me.short())
-				.get();
-
-			wrapper.setProps({ post });
-			store.commit(`${UserStore}/${UserMutations.setMe}`, me.get());
-
-			const userLink = wrapper.ref(USER_LINK);
-			expect(userLink.props('link')).toEqual({
-				name: 'me',
-			});
-			expect(userLink.props('user')).toEqual(me.short());
-		});
-
-		it('should link to post user\'s profile', () => {
-			const me = userMockBuilder().get();
-			const user = userMockBuilder().short();
-			const post = aDefaultSingleItemMsgBuilder()
-				.withGUID()
-				.withUser(user)
-				.get();
-
-			wrapper.setProps({ post });
-			store.commit(`${UserStore}/${UserMutations.setMe}`, me);
-
-			const userLink = wrapper.ref(USER_LINK);
-			expect(userLink.props('link')).toEqual({
-				name: 'user',
-				query: {
-					id: user.userId,
-				},
-			});
-			expect(userLink.props('user')).toEqual(user);
-		});
+		wrapper.setProps({ post });
+		expect(wrapper.ref(USER_LINK).exists()).toBe(true);
 	});
 
 	describe('Comments', () => {
@@ -87,10 +47,6 @@ describe('Feed Post', () => {
 		const ICON_ID = 'comments-icon';
 		const COMMENTS_LIST = 'comments-list';
 		const COMMENT_INPUT = 'comment-input';
-
-		beforeEach(() => {
-			initLocalVue();
-		});
 
 		it('should display chat icon only when no comments', () => {
 			const post = aDefaultSingleItemMsgBuilder().withGUID().get();
@@ -185,10 +141,6 @@ describe('Feed Post', () => {
 	describe('Likes', () => {
 		const COUNTER_ID = 'likes-count';
 		const ICON_ID = 'likes-icon';
-
-		beforeEach(() => {
-			initLocalVue();
-		});
 
 		it('shoud display heart and likes counter', () => {
 			const post = aDefaultSingleItemMsgBuilder().withGUID().withLikes().get();
