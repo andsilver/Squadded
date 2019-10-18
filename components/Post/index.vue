@@ -33,13 +33,13 @@
 			</v-card-actions>
 		</v-card>
 		<v-list v-if="showComments && post.comments.messages.length" ref="comments-list">
-			<post-comment
+			<Comment
 				v-for="comment in post.comments.messages"
 				:key="comment.correlationId || comment._id"
 				:comment="comment"
 			/>
 		</v-list>
-		<message-input
+		<MessageInput
 			v-if="showComments"
 			ref="comment-input"
 			:guid="post.guid"
@@ -66,8 +66,8 @@ const getScroll = $el => $el.offsetTop - window.innerHeight + $el.offsetHeight +
 export default {
 	name: 'FeedPost',
 	components: {
-		'post-comment': Comment,
-		'message-input': MessageInput,
+		Comment,
+		MessageInput,
 		UserLink,
 	},
 	props: {
