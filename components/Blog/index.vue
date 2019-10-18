@@ -1,12 +1,14 @@
 <template lang="html">
 	<section>
-		<Preloader v-if="!posts" ref="preloader" class="mt-8" />
-		<span v-else-if="!posts.length" ref="empty-blog-text">{{ $t('feed.isEmpty') }}</span>
-		<Post
-			v-for="post in blogFeed"
-			:key="post.guid"
-			:post="post"
-		/>
+		<Preloader v-if="!blog" ref="preloader" class="mt-8" />
+		<span v-else-if="!blog.length" ref="empty-blog-text">{{ $t('feed.isEmpty') }}</span>
+		<div v-else>
+			<Post
+				v-for="post in blog"
+				:key="post.guid"
+				:post="post"
+			/>
+		</div>
 	</section>
 </template>
 
@@ -24,13 +26,8 @@ export default {
 		Preloader,
 	},
 	data: () => ({
-		posts: null,
+		blog: null,
 	}),
-	computed: {
-		blogFeed () {
-			return this.posts ? this.posts.map(post => new FeedPost(post)) : [];
-		},
-	},
 	mounted () {
 		return prefetch({
 			guid: this.$route.query.id,
@@ -38,7 +35,7 @@ export default {
 			store: this.$store,
 			type: 'fetchBlog',
 		}).then((payload) => {
-			this.posts = payload.blog;
+			this.blog = payload.blog.map(post => new FeedPost(post));
 		});
 	},
 };

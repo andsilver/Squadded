@@ -48,7 +48,7 @@ describe('Whishlist Component', () => {
 			store,
 			mocks,
 		});
-		expect(wrapper.vm.posts).toBe(null);
+		expect(wrapper.vm.wishlist).toBe(null);
 
 		expect(store.state.socket.$ws.sendObj).toHaveBeenCalledWith({
 			type: 'fetchWishlist',

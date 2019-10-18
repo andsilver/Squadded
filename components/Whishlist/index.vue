@@ -1,12 +1,14 @@
 <template lang="html">
 	<section>
-		<Preloader v-if="!posts" ref="preloader" class="mt-8" />
-		<span v-else-if="!posts.length" ref="empty-whishlist-text">{{ $t('feed.isEmpty') }}</span>
-		<WhishlistItem
-			v-for="post in wishlist"
-			:key="post.guid"
-			:post="post"
-		/>
+		<Preloader v-if="!wishlist" ref="preloader" class="mt-8" />
+		<span v-else-if="!wishlist.length" ref="empty-whishlist-text">{{ $t('feed.isEmpty') }}</span>
+		<div v-else>
+			<WhishlistItem
+				v-for="post in wishlist"
+				:key="post.guid"
+				:post="post"
+			/>
+		</div>
 	</section>
 </template>
 
@@ -24,13 +26,8 @@ export default {
 		WhishlistItem,
 	},
 	data: () => ({
-		posts: null,
+		wishlist: null,
 	}),
-	computed: {
-		wishlist () {
-			return this.posts ? this.posts.map(post => new FeedPost(post)) : [];
-		},
-	},
 	mounted () {
 		return prefetch({
 			guid: this.$route.query.id,
@@ -38,7 +35,7 @@ export default {
 			store: this.$store,
 			type: 'fetchWishlist',
 		}).then((payload) => {
-			this.posts = payload.wishlist;
+			this.wishlist = payload.wishlist.map(post => new FeedPost(post));
 		});
 	},
 };

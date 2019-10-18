@@ -48,7 +48,7 @@ describe('Blog Component', () => {
 			store,
 			mocks,
 		});
-		expect(wrapper.vm.posts).toBe(null);
+		expect(wrapper.vm.blog).toBe(null);
 
 		expect(store.state.socket.$ws.sendObj).toHaveBeenCalledWith({
 			type: 'fetchBlog',
