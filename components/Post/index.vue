@@ -42,8 +42,8 @@
 		<MessageInput
 			v-if="showComments"
 			ref="comment-input"
-			:guid="post.guid"
 			:action="action"
+			:post="post"
 		/>
 	</div>
 </template>

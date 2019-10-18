@@ -7,7 +7,6 @@ export class FeedPost {
 			likes = {},
 			comments = {},
 
-			// TODO get user props.
 			user = {
 				avatar: '',
 				screenName: '',

@@ -8,7 +8,7 @@ const chance = new Chance();
 
 describe('Message Input', () => {
 	let localVue;
-	let guid;
+	let post;
 	let sendComment;
 	let actions;
 	let store;
@@ -18,7 +18,9 @@ describe('Message Input', () => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 
-		guid = chance.guid();
+		post = {
+			guid: chance.guid(),
+		};
 		sendComment = 'sendComment';
 		actions = {
 			[sendComment]: jest.fn(),
@@ -32,7 +34,7 @@ describe('Message Input', () => {
 			localVue,
 			parentComponent: Post,
 			propsData: {
-				guid,
+				post,
 				action: sendComment,
 			},
 		});
@@ -47,6 +49,6 @@ describe('Message Input', () => {
 		wrapper.vm.send();
 		expect(actions[sendComment]).toHaveBeenCalled();
 		const payload = actions[sendComment].mock.calls[0][1];
-		expect(payload).toMatchObject({ guid, text });
+		expect(payload).toMatchObject({ post, text });
 	});
 });

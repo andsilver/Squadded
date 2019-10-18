@@ -71,20 +71,8 @@ export const mutations = {
 		post.unsetCorrelationId();
 		storeInSession(post);
 	},
-	[FeedMutations.addComment]: (state, comment) => {
-		const post = state.items.find(i => i.guid === comment.guid);
-		if (!post) {
-			return;
-		}
-
-		post.comments.messages.push({
-			author: {
-				name: '',
-				avatar: '',
-			},
-			ts: Date.now(),
-			text: comment.text,
-		});
+	[FeedMutations.addComment]: (state, { comment, post }) => {
+		post.comments.messages.push(comment);
 		post.comments.count = post.comments.messages.length;
 	},
 	[FeedMutations.receiveComments]: (state, msg) => {
@@ -151,13 +139,19 @@ export const actions = {
 			rootState.socket.$ws.sendObj(post.toMessage());
 		}
 	},
-	[FeedActions.sendComment]: ({ rootState, commit }, comment) => {
+	[FeedActions.sendComment]: ({ rootState, commit }, { text, post }) => {
 		rootState.socket.$ws.sendObj({
+			guid: post.guid,
+			text,
 			type: 'addComment',
-			...comment,
 		});
 
-		commit(FeedMutations.addComment, comment);
+		const comment = {
+			author: rootState.user.me.short(),
+			ts: Date.now(),
+			text,
+		};
+		commit(FeedMutations.addComment, { comment, post });
 	},
 	[FeedActions.receiveItem]: ({ state, commit, dispatch }, payload) => {
 		const post = state.items.find(i => i.guid === payload.guid);

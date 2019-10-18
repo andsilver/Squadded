@@ -10,8 +10,8 @@
 export default {
 	name: 'MessageInput',
 	props: {
-		guid: {
-			type: String,
+		post: {
+			type: Object,
 			required: true,
 		},
 		action: {
@@ -24,9 +24,9 @@ export default {
 	}),
 	methods: {
 		send () {
-			const { action, guid, text } = this;
+			const { action, post, text } = this;
 			this.$store.dispatch(action, {
-				guid,
+				post,
 				text,
 			});
 			this.$parent.scroll();

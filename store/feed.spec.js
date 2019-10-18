@@ -329,33 +329,33 @@ describe('Feed store module', () => {
 			expect(storedPost).toEqual(noComments);
 		});
 
-		it('should send comment to ws and push to list', async () => {
+		it('should send comment to ws and update post', async () => {
+			const me = userMockBuilder();
+			root.state.user.me = me;
+
 			const guid = chance.guid();
 			const post = aDefaultSingleItemMsgBuilder()
 				.withGUID(guid)
 				.get();
 
-			root.state.feed.items = [post];
-
+			const text = chance.sentence();
 			const comment = {
-				guid,
-				text: chance.sentence(),
+				post,
+				text,
 			};
 
 			await root.dispatch(`${FeedStore}/${FeedActions.sendComment}`, comment);
 
 			const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
 			expect(sendObjInvocationArg).toMatchObject({
+				guid,
+				text,
 				type: 'addComment',
-				...comment,
 			});
 			expect(post.comments).toEqual({
 				count: 1,
 				messages: [ {
-					author: {
-						name: jasmine.any(String),
-						avatar: jasmine.any(String),
-					},
+					author: me.short(),
 					ts: jasmine.any(Number),
 					text: comment.text,
 				} ],

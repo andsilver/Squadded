@@ -133,8 +133,8 @@ describe('Feed Post', () => {
 
 			const comments = wrapper.ref(COMMENT_INPUT);
 			expect(comments.exists()).toBe(true);
-			expect(comments.attributes('guid')).toBe(post.guid);
-			expect(comments.attributes('action')).toBe(`${FeedStore}/${FeedActions.sendComment}`);
+			expect(comments.props('post')).toBe(post);
+			expect(comments.props('action')).toBe(`${FeedStore}/${FeedActions.sendComment}`);
 		});
 	});
 
