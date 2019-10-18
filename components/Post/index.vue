@@ -61,7 +61,7 @@ const { mapState } = createNamespacedHelpers('user');
 const TAB_BAR_HEIGHT = 50;
 const GAP = 5;
 
-const getScroll = $el => $el.offsetTop - window.innerHeight + $el.offsetHeight + TAB_BAR_HEIGHT + GAP;
+const getScroll = (rect, scrollTop) => rect.top + scrollTop - window.innerHeight + rect.height + TAB_BAR_HEIGHT + GAP;
 
 export default {
 	name: 'FeedPost',
@@ -93,8 +93,9 @@ export default {
 			setTimeout(() => {
 				if (this.showComments) {
 					const { $el } = this;
-					$el.closest('.v-content__wrap').scroll({
-						top: getScroll($el),
+					const content = $el.closest('.v-content__wrap');
+					content.scroll({
+						top: getScroll($el.getBoundingClientRect(), content.scrollTop),
 						behavior: 'smooth',
 					});
 				}
