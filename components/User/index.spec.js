@@ -230,7 +230,7 @@ describe('User component', () => {
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'follow',
 			guid: user.userId,
-			flag: true,
+			follow: true,
 		});
 		expect(user.followers.me).toBe(true);
 	});
@@ -268,7 +268,7 @@ describe('User component', () => {
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'follow',
 			guid: user.userId,
-			flag: false,
+			follow: false,
 		});
 		expect(user.followers.me).toBe(false);
 	});

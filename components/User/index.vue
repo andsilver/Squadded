@@ -143,13 +143,13 @@ export default {
 			if (!this.other) {
 				return;
 			}
-			const flag = !this.other.followers.me;
+			const follow = !this.other.followers.me;
 			this.$ws.sendObj({
 				type: 'follow',
 				guid: this.other.userId,
-				flag,
+				follow,
 			});
-			this.other.followers.me = flag;
+			this.other.followers.me = follow;
 			this.$forceUpdate();
 		},
 	},
