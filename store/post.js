@@ -4,6 +4,7 @@ export const PostMutations = {
 	addComment: 'addComment',
 	receiveComments: 'receiveComments',
 	resetComments: 'resetComments',
+	setPostLike: 'setPostLike',
 };
 
 export const mutations = {
@@ -17,10 +18,20 @@ export const mutations = {
 		post.comments.messages = comments;
 		post.comments.count = comments.length;
 	},
+	[PostMutations.setPostLike]: (state, payload) => {
+		const { post } = payload;
+		if (payload.hasOwnProperty('byMe')) {
+			post.likes.byMe = payload.byMe;
+		}
+		if (payload.hasOwnProperty('count')) {
+			post.likes.count = payload.count;
+		}
+	},
 };
 
 export const PostActions = {
 	sendComment: 'sendComment',
+	toggleLike: 'toggleLike',
 };
 
 export const actions = {
@@ -37,6 +48,23 @@ export const actions = {
 			text,
 		};
 		commit(PostMutations.addComment, { comment, post });
+	},
+	[PostActions.toggleLike]: ({ commit, rootState }, post) => {
+		if (!post.guid) {
+			return;
+		}
+
+		const byMe = !post.likes.byMe;
+		commit(PostMutations.setPostLike, {
+			post,
+			count: post.likes.count + (byMe ? 1 : -1),
+			byMe,
+		});
+		rootState.socket.$ws.sendObj({
+			type: 'like',
+			guid: post.guid,
+			iLike: byMe,
+		});
 	},
 };
 

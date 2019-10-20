@@ -53,7 +53,6 @@ import MessageInput from '../MessageInput';
 import Comment from './Comment';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
-import { FeedStore, FeedActions } from '~/store/feed';
 import { FeedPost } from '~/services/FeedPost';
 import { prefetch } from '~/helpers';
 
@@ -98,7 +97,7 @@ export default {
 			}, 10);
 		},
 		toggleLike () {
-			this.$store.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, this.post);
+			this.$store.dispatch(`${PostStore}/${PostActions.toggleLike}`, this.post);
 		},
 		toggleComments () {
 			this.showComments = !this.showComments;

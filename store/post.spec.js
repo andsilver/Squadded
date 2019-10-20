@@ -10,8 +10,9 @@ import { userMockBuilder } from '~/test/user.mock';
 const chance = new Chance();
 
 describe('Comment store module', () => {
-	const { resetComments } = mutations;
+	const { resetComments, setPostLike } = mutations;
 	let root;
+	let state;
 	let $ws;
 
 	beforeEach(() => {
@@ -22,6 +23,9 @@ describe('Comment store module', () => {
 		root.state.socket.isConnected = true;
 		root.state.merchant.id = 'aDummyMerchantId';
 		root.state.socket.$ws = $ws;
+		state = {
+			items: [],
+		};
 	});
 
 	it('should update post comments', () => {
@@ -64,5 +68,72 @@ describe('Comment store module', () => {
 				text: comment.text,
 			} ],
 		});
+	});
+
+	it('should update post like count', () => {
+		const post = aDefaultSingleItemMsgBuilder().get();
+
+		state.items = [post];
+
+		const count = chance.natural();
+		setPostLike(state, {
+			post,
+			count,
+		});
+
+		expect(state.items.length).toBe(1);
+		expect(post.likes.count).toBe(count);
+		expect(post.likes.byMe).toBe(undefined);
+	});
+
+	it('should update post like byMe', () => {
+		const post = aDefaultSingleItemMsgBuilder().get();
+
+		state.items = [post];
+
+		setPostLike(state, {
+			post,
+			byMe: true,
+		});
+
+		expect(state.items.length).toBe(1);
+		expect(post.likes.count).toBe(undefined);
+		expect(post.likes.byMe).toBe(true);
+	});
+
+	it('should toggle like state of post, send message', async () => {
+		const count = chance.natural();
+		const post = aDefaultSingleItemMsgBuilder()
+			.withGUID()
+			.withLikes(count, true)
+			.get();
+
+		await root.dispatch(`${PostStore}/${PostActions.toggleLike}`, post);
+
+		// commited
+		expect(post.likes.count).toBe(count - 1);
+		expect(post.likes.byMe).toBe(false);
+
+		// send ws message
+		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
+			type: 'like',
+			guid: post.guid,
+			iLike: false,
+		});
+	});
+
+	it('should prevent send like message while pending upload', async () => {
+		const post = aDefaultSingleItemMsgBuilder().get();
+
+		await root.dispatch(`${PostStore}/${PostActions.toggleLike}`, post);
+
+		// commited
+		expect(post.likes).not.toHaveProperty('count');
+		expect(post.likes).not.toHaveProperty('byMe');
+
+		// send ws message
+		expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
+
+		expect(sessionStorage.length).toBe(0);
 	});
 });

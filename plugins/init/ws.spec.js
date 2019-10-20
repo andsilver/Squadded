@@ -68,13 +68,20 @@ describe('WS Plugin', () => {
 			expect(store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.receiveItem}`, msg);
 		});
 
-		it(`should dispatch like to ${FeedStore}/${FeedActions.updateLike}`, () => {
+		it(`should commit like to ${PostStore}/${PostMutations.setPostLike}`, () => {
+			const guid = chance.guid();
+			const byMe = true;
+			const count = chance.natural();
 			const msg = {
+				guid,
+				likes: { byMe, count },
 				type: 'like',
 			};
+			const post = { type: 'sinleItemPost' };
+			store.getters[`${FeedStore}/${FeedGetters.getPostById}`] = jest.fn().mockReturnValue(post);
 
 			dispatch(store, msg);
-			expect(store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.updateLike}`, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPostLike}`, { byMe, count, post });
 		});
 
 		it(`should commit comments to ${FeedStore}/${FeedMutations.receiveComments}`, () => {

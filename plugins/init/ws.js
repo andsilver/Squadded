@@ -11,7 +11,9 @@ export const dispatch = function (store, message) {
 	} else if (message.type === 'ping') {
 		store.state.socket._ws.sendObj({ type: 'pong' });
 	} else if (message.type === 'like') {
-		store.dispatch(`${FeedStore}/${FeedActions.updateLike}`, message);
+		const { guid, likes } = message;
+		const post = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](guid);
+		store.commit(`${PostStore}/${PostMutations.setPostLike}`, { ...likes, post });
 	} else if (message.type === 'comments') {
 		store.commit(`${PostStore}/${PostMutations.receiveComments}`, message.comments);
 	} else if (message.type === 'userProfile') {

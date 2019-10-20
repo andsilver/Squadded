@@ -27,7 +27,6 @@ describe('Feed store module', () => {
 			addItem,
 			itemLoaded,
 			restoreSession,
-			setPostLike,
 		} = mutations;
 
 		let state;
@@ -90,37 +89,6 @@ describe('Feed store module', () => {
 			expect(sessionStorage.getItem).toHaveBeenCalledTimes(0);
 			expect(state.items[0]).toEqual(current);
 		});
-
-		it('should update post like count', () => {
-			const post = aDefaultSingleItemMsgBuilder().get();
-
-			state.items = [post];
-
-			const count = chance.natural();
-			setPostLike(state, {
-				post,
-				count,
-			});
-
-			expect(state.items.length).toBe(1);
-			expect(post.likes.count).toBe(count);
-			expect(post.likes.byMe).toBe(undefined);
-		});
-
-		it('should update post like byMe', () => {
-			const post = aDefaultSingleItemMsgBuilder().get();
-
-			state.items = [post];
-
-			setPostLike(state, {
-				post,
-				byMe: true,
-			});
-
-			expect(state.items.length).toBe(1);
-			expect(post.likes.count).toBe(undefined);
-			expect(post.likes.byMe).toBe(true);
-		});
 	});
 
 	describe('actions', () => {
@@ -170,70 +138,6 @@ describe('Feed store module', () => {
 			const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
 			expect(sendObjInvocationArg).toMatchObject(clean);
 			expect(sendObjInvocationArg).not.toHaveProperty('ts');
-		});
-
-		it('should toggle like state of post, send message, store', async () => {
-			const count = chance.natural();
-			const post = aDefaultSingleItemMsgBuilder()
-				.withGUID()
-				.withLikes(count, true)
-				.get();
-
-			await root.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, post);
-
-			// commited
-			expect(post.likes.count).toBe(count - 1);
-			expect(post.likes.byMe).toBe(false);
-
-			// send ws message
-			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
-				type: 'like',
-				guid: post.guid,
-				iLike: false,
-			});
-
-			const key = sessionStorage.key(0);
-			const storedPost = sessionStorage.getItem(key);
-			expect(post.toStore()).toEqual(JSON.parse(storedPost));
-		});
-
-		it('should prevent send like message while pending upload', async () => {
-			const post = aDefaultSingleItemMsgBuilder().get();
-
-			await root.dispatch(`${FeedStore}/${FeedActions.toggleLike}`, post);
-
-			// commited
-			expect(post.likes).not.toHaveProperty('count');
-			expect(post.likes).not.toHaveProperty('byMe');
-
-			// send ws message
-			expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
-
-			expect(sessionStorage.length).toBe(0);
-		});
-
-		it('should update post likes', async () => {
-			const guid = chance.guid();
-			const count = chance.natural();
-			const post = aDefaultSingleItemMsgBuilder()
-				.withGUID(guid)
-				.withLikes(count, true)
-				.get();
-
-			feedStore.state.items = [post];
-
-			const likes = {
-				count: chance.natural(),
-				byMe: false,
-			};
-			await feedStore.dispatch(`${FeedActions.updateLike}`, {
-				type: 'like',
-				guid,
-				likes,
-			});
-
-			expect(post.likes.count).toBe(likes.count);
-			expect(post.likes.byMe).toBe(likes.byMe);
 		});
 
 		it('should not send item on save while WS disconnected', async () => {
