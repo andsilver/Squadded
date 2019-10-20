@@ -7,6 +7,7 @@ export const userMockBuilder = () => {
 		name: chance.name(),
 		avatar: chance.avatar(),
 		bio: 'Fassion is my obsession',
+		blog: [],
 		following: chance.natural({ max: 10e5 }),
 		followers: {
 			count: chance.natural({ max: 10e6 }),

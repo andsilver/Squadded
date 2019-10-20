@@ -9,6 +9,9 @@ export const PostMutations = {
 
 export const mutations = {
 	[PostMutations.addComment]: (state, { comment, post }) => {
+		if (!post) {
+			return;
+		}
 		post.comments.messages.push(comment);
 		post.comments.count = post.comments.messages.length;
 	},
@@ -32,6 +35,7 @@ export const mutations = {
 export const PostActions = {
 	sendComment: 'sendComment',
 	toggleLike: 'toggleLike',
+	modifyLike: 'modifyLike',
 };
 
 export const actions = {
@@ -65,6 +69,13 @@ export const actions = {
 			guid: post.guid,
 			iLike: byMe,
 		});
+	},
+	[PostActions.modifyLike]: ({ commit }, { mod, post }) => {
+		if (!post) {
+			return;
+		}
+		const count = post.likes.count + mod;
+		commit(PostMutations.setPostLike, { count, post });
 	},
 };
 

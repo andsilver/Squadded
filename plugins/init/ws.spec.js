@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import { Chance } from 'chance';
 import ws, * as wsPlugin from './ws';
-import { PostStore, PostMutations } from '~/store/post';
+import { PostActions, PostStore, PostMutations } from '~/store/post';
 import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '~/store/feed';
-import { UserStore, UserMutations } from '~/store/user';
+import { UserGetters, UserStore, UserMutations } from '~/store/user';
 import { userMockBuilder } from '~/test/user.mock';
 
 const chance = new Chance();
@@ -82,6 +82,60 @@ describe('WS Plugin', () => {
 
 			dispatch(store, msg);
 			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPostLike}`, { byMe, count, post });
+		});
+
+		it(`should increment likes counter on notifLike`, () => {
+			const postId = chance.guid();
+			const iLike = true;
+			const msg = {
+				iLike,
+				postId,
+				type: 'notifLike',
+			};
+			const feedPost = { type: 'sinleItemPost' };
+			const userBlogPost = { type: 'sinleItemPost' };
+			store.getters[`${FeedStore}/${FeedGetters.getPostById}`] = jest.fn().mockReturnValue(feedPost);
+			store.getters[`${UserStore}/${UserGetters.getPostById}`] = jest.fn().mockReturnValue(userBlogPost);
+
+			dispatch(store, msg);
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: 1, post: feedPost });
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: 1, post: userBlogPost });
+		});
+
+		it(`should decrement likes counter on notifLike`, () => {
+			const postId = chance.guid();
+			const iLike = false;
+			const msg = {
+				iLike,
+				postId,
+				type: 'notifLike',
+			};
+			const feedPost = { type: 'sinleItemPost' };
+			const userBlogPost = { type: 'sinleItemPost' };
+			store.getters[`${FeedStore}/${FeedGetters.getPostById}`] = jest.fn().mockReturnValue(feedPost);
+			store.getters[`${UserStore}/${UserGetters.getPostById}`] = jest.fn().mockReturnValue(userBlogPost);
+
+			dispatch(store, msg);
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: -1, post: feedPost });
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: -1, post: userBlogPost });
+		});
+
+		it(`should add comment on notifLike`, () => {
+			const postId = chance.guid();
+			const comment = { text: 'text' };
+			const msg = {
+				comment,
+				postId,
+				type: 'notifComment',
+			};
+			const feedPost = { type: 'sinleItemPost' };
+			const userBlogPost = { type: 'sinleItemPost' };
+			store.getters[`${FeedStore}/${FeedGetters.getPostById}`] = jest.fn().mockReturnValue(feedPost);
+			store.getters[`${UserStore}/${UserGetters.getPostById}`] = jest.fn().mockReturnValue(userBlogPost);
+
+			dispatch(store, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.addComment}`, { comment, post: feedPost });
+			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.addComment}`, { comment, post: userBlogPost });
 		});
 
 		it(`should commit comments to ${FeedStore}/${FeedMutations.receiveComments}`, () => {

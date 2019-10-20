@@ -1,30 +1,46 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
-import { PostStore, PostMutations } from '~/store/post';
+import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { FeedStore, FeedActions, FeedGetters } from '~/store/feed';
-import { UserStore, UserMutations } from '~/store/user';
+import { UserGetters, UserStore, UserMutations } from '~/store/user';
 import { isHome } from '~/helpers';
 
 export const dispatch = function (store, message) {
-	if (message.type === 'singleItemPost') {
+	const { type } = message;
+	if (type === 'singleItemPost') {
 		store.dispatch(`${FeedStore}/${FeedActions.receiveItem}`, message);
-	} else if (message.type === 'ping') {
+	} else if (type === 'ping') {
 		store.state.socket._ws.sendObj({ type: 'pong' });
-	} else if (message.type === 'like') {
+	} else if (type === 'like') {
 		const { guid, likes } = message;
 		const post = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](guid);
 		store.commit(`${PostStore}/${PostMutations.setPostLike}`, { ...likes, post });
-	} else if (message.type === 'comments') {
+	} else if (type === 'notifLike') {
+		const { postId, iLike } = message;
+		const mod = (iLike ? 1 : -1);
+		const feedPost = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](postId);
+		store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post: feedPost });
+
+		const myBlogPost = store.getters[`${UserStore}/${UserGetters.getPostById}`](postId);
+		store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post: myBlogPost });
+	} else if (type === 'notifComment') {
+		const { comment, postId } = message;
+		const feedPost = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](postId);
+		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post: feedPost });
+
+		const myBlogPost = store.getters[`${UserStore}/${UserGetters.getPostById}`](postId);
+		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post: myBlogPost });
+	} else if (type === 'comments') {
 		store.commit(`${PostStore}/${PostMutations.receiveComments}`, message.comments);
-	} else if (message.type === 'userProfile') {
+	} else if (type === 'userProfile') {
 		const { user } = message;
 		if (user.userId === store.state.user.me.userId) {
 			return store.commit(`${UserStore}/${UserMutations.setMe}`, user);
 		}
 		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
-	} else if (message.type === 'wishlist') {
+	} else if (type === 'wishlist') {
 		store.commit(`${UserStore}/${UserMutations.setWishlist}`, message);
-	} else if (message.type === 'blog') {
+	} else if (type === 'blog') {
 		store.commit(`${UserStore}/${UserMutations.setBlog}`, message);
 	} else {
 		// TODO report

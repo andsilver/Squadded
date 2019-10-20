@@ -18,6 +18,14 @@ export const state = () => ({
 	other: null,
 });
 
+export const UserGetters = {
+	getPostById: 'getPostById',
+};
+
+export const getters = {
+	[UserGetters.getPostById]: state => id => state.me.blog.find(i => i.guid === id),
+};
+
 export const UserMutations = {
 	setBlog: 'setBlog',
 	setMe: 'setMe',
@@ -54,6 +62,7 @@ export const mutations = {
 };
 
 export default {
+	getters,
 	mutations,
 	namespaced: true,
 	state,
