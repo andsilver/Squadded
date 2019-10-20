@@ -43,6 +43,12 @@ export default {
 					'https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons',
 			},
 		],
+		script: [
+			{
+				type: 'text/javascript',
+				src: 'vendor/moment.fr.min.js',
+			},
+		],
 	},
 	/*
 	** Customize the progress-bar color

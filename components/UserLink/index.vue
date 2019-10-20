@@ -5,9 +5,12 @@
 				<img :src="user && user.avatar" :alt="user && user.screenName">
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
-				<v-list-item-title class="headline">
+				<v-list-item-title>
 					{{ user.screenName }}
 				</v-list-item-title>
+				<v-list-item-subtitle>
+					{{ timeString }}
+				</v-list-item-subtitle>
 			</v-list-item-content>
 		</v-list-item>
 		<v-list-item-title v-else>
@@ -36,6 +39,10 @@ export default {
 			type: String,
 			default: '40',
 		},
+		ts: {
+			type: Number,
+			default: 0,
+		},
 		user: {
 			type: Object,
 			required: true,
@@ -45,6 +52,10 @@ export default {
 		...mapState([
 			'me',
 		]),
+		timeString () {
+			window.moment.locale(this._i18n.locale);
+			return this.ts && window.moment(this.ts).fromNow();
+		},
 	},
 	methods: {
 		getUserLink() {

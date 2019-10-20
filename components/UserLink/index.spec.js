@@ -15,6 +15,9 @@ describe('User link', () => {
 		localVue.use(Vuex);
 
 		store = new Vuex.Store(Store);
+
+		window.moment = jest.fn();
+		window.moment.locale = jest.fn();
 	}
 
 	beforeEach(initLocalVue);
@@ -26,6 +29,11 @@ describe('User link', () => {
 			localVue,
 			propsData: { user: me.short() },
 			store,
+			mocks: {
+				_i18n: {
+					locale: 'en',
+				},
+			},
 		});
 		store.commit(`${UserStore}/${UserMutations.setMe}`, me.get());
 
@@ -48,6 +56,11 @@ describe('User link', () => {
 			localVue,
 			propsData: { user },
 			store,
+			mocks: {
+				_i18n: {
+					locale: 'en',
+				},
+			},
 		});
 		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 

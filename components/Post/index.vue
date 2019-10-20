@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<UserLink ref="user-link" :user="post.user" />
+		<UserLink ref="user-link" :user="post.user" :ts="post.ts" />
 		<v-card
 			class="mx-auto mb-6"
 			:loading="!post.guid && !post.error"
