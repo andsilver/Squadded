@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
-import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '~/store/feed';
+import { PostStore, PostMutations } from '~/store/post';
+import { FeedStore, FeedActions, FeedGetters } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import { isHome } from '~/helpers';
 
@@ -12,7 +13,7 @@ export const dispatch = function (store, message) {
 	} else if (message.type === 'like') {
 		store.dispatch(`${FeedStore}/${FeedActions.updateLike}`, message);
 	} else if (message.type === 'comments') {
-		store.commit(`${FeedStore}/${FeedMutations.receiveComments}`, message);
+		store.commit(`${PostStore}/${PostMutations.receiveComments}`, message.comments);
 	} else if (message.type === 'userProfile') {
 		const { user } = message;
 		if (user.userId === store.state.user.me.userId) {

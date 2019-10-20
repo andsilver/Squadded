@@ -52,8 +52,10 @@
 import MessageInput from '../MessageInput';
 import Comment from './Comment';
 import UserLink from '~/components/UserLink';
+import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { FeedStore, FeedActions } from '~/store/feed';
 import { FeedPost } from '~/services/FeedPost';
+import { prefetch } from '~/helpers';
 
 const TAB_BAR_HEIGHT = 50;
 const GAP = 5;
@@ -75,7 +77,7 @@ export default {
 	},
 	data: () => ({
 		showComments: false,
-		action: `${FeedStore}/${FeedActions.sendComment}`,
+		action: `${PostStore}/${PostActions.sendComment}`,
 	}),
 	computed: {
 		commentsCount() {
@@ -100,11 +102,16 @@ export default {
 		},
 		toggleComments () {
 			this.showComments = !this.showComments;
-			this.$ws.sendObj({
-				type: 'fetchComments',
+			return prefetch({
 				guid: this.post.guid,
+				mutation: `${PostStore}/${PostMutations.receiveComments}`,
+				store: this.$store,
+				type: 'fetchComments',
+			}).then((comments) => {
+				const { post } = this;
+				this.$store.commit(`${PostStore}/${PostMutations.resetComments}`, { comments, post });
+				this.scroll();
 			});
-			this.scroll();
 		},
 	},
 };

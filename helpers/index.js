@@ -21,3 +21,7 @@ export async function prefetch({ guid, mutation, store, type }) {
 	store.state.socket.$ws.sendObj({ type, guid });
 	return onStoreMutation(store, mutation);
 }
+
+export function flushPromises() {
+	return new Promise(resolve => setImmediate(resolve));
+}

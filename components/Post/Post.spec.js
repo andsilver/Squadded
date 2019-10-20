@@ -1,9 +1,10 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import FeedPost from './index.vue';
-import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
-import { FeedStore, FeedActions } from '~/store/feed';
+import { flushPromises } from '~/helpers';
+import { PostStore, PostActions, PostMutations } from '~/store/post';
 import Store from '~/store';
+import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -103,24 +104,28 @@ describe('Feed Post', () => {
 			expect(comments.exists()).toBe(true);
 		});
 
-		it('should toggle list and fetch comments', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
+		it('should toggle list and fetch comments', async () => {
+			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment([]).get();
 			wrapper.setProps({ post });
 
 			expect(wrapper.vm.showComments).toBe(false);
 
+			const comments = [{ text: 'text' }];
 			const $ws = {
 				sendObj: jest.fn(),
 			};
-			wrapper.vm.$ws = $ws;
+			store.state.socket.$ws = $ws;
+
 			wrapper.vm.toggleComments();
+			store.commit(`${PostStore}/${PostMutations.receiveComments}`, comments);
+			await flushPromises();
 
 			expect(wrapper.vm.showComments).toBe(true);
-			const actualArgs = $ws.sendObj.mock.calls[0];
-			expect(actualArgs[0]).toMatchObject({
+			expect($ws.sendObj).toHaveBeenCalledWith({
 				type: 'fetchComments',
 				guid: post.guid,
 			});
+			expect(post.comments.messages).toEqual(comments);
 		});
 
 		it('should display input comment element and set correct props', () => {
@@ -134,7 +139,7 @@ describe('Feed Post', () => {
 			const comments = wrapper.ref(COMMENT_INPUT);
 			expect(comments.exists()).toBe(true);
 			expect(comments.props('post')).toBe(post);
-			expect(comments.props('action')).toBe(`${FeedStore}/${FeedActions.sendComment}`);
+			expect(comments.props('action')).toBe(`${PostStore}/${PostActions.sendComment}`);
 		});
 	});
 

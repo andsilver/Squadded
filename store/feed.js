@@ -32,10 +32,8 @@ function removeFromSession (id) {
 }
 
 export const FeedMutations = {
-	addComment: 'addComment',
 	addItem: 'addItem',
 	itemLoaded: 'itemLoaded',
-	receiveComments: 'receiveComments',
 	restoreSession: 'restoreSession',
 	setPostLike: 'setPostLike',
 };
@@ -71,19 +69,6 @@ export const mutations = {
 		post.unsetCorrelationId();
 		storeInSession(post);
 	},
-	[FeedMutations.addComment]: (state, { comment, post }) => {
-		post.comments.messages.push(comment);
-		post.comments.count = post.comments.messages.length;
-	},
-	[FeedMutations.receiveComments]: (state, msg) => {
-		const post = state.items.find(i => i.guid === msg.guid);
-		if (!post) {
-			return;
-		}
-
-		post.comments.messages = msg.comments;
-		post.comments.count = msg.comments.length;
-	},
 	[FeedMutations.restoreSession]: (state) => {
 		if (state.items.length) {
 			return;
@@ -107,16 +92,11 @@ export const FeedActions = {
 	storeItem: 'storeItem',
 	receiveItem: 'receiveItem',
 	saveItem: 'saveItem',
-	sendComment: 'sendComment',
 	toggleLike: 'toggleLike',
 	updateLike: 'updateLike',
 };
 
 export const actions = {
-	// TODO get all on init
-	/* get: async (ctx) => {
-		http fetch or websocket
-	}, */
 	[FeedActions.storeItem]: ({ getters, commit }, post) => {
 		commit(FeedMutations.addItem, post);
 		if (getters.items.length > FEED_STORE_LIMIT) {
@@ -138,20 +118,6 @@ export const actions = {
 			// TODO? add some queue for sync after reconnect
 			rootState.socket.$ws.sendObj(post.toMessage());
 		}
-	},
-	[FeedActions.sendComment]: ({ rootState, commit }, { text, post }) => {
-		rootState.socket.$ws.sendObj({
-			guid: post.guid,
-			text,
-			type: 'addComment',
-		});
-
-		const comment = {
-			author: rootState.user.me.short(),
-			ts: Date.now(),
-			text,
-		};
-		commit(FeedMutations.addComment, { comment, post });
 	},
 	[FeedActions.receiveItem]: ({ state, commit, dispatch }, payload) => {
 		const post = state.items.find(i => i.guid === payload.guid);

@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { Chance } from 'chance';
 import ws, * as wsPlugin from './ws';
+import { PostStore, PostMutations } from '~/store/post';
 import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import { userMockBuilder } from '~/test/user.mock';
@@ -77,12 +78,14 @@ describe('WS Plugin', () => {
 		});
 
 		it(`should commit comments to ${FeedStore}/${FeedMutations.receiveComments}`, () => {
+			const comments = [{ text: 'text' }];
 			const msg = {
 				type: 'comments',
+				comments,
 			};
 
 			dispatch(store, msg);
-			expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.receiveComments}`, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.receiveComments}`, comments);
 		});
 
 		it(`should commit visitor user to ${UserStore}/${UserMutations.setMe}`, () => {

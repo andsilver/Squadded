@@ -2,7 +2,6 @@ import { Chance } from 'chance';
 import Vuex from 'vuex';
 import { createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
-import { commentsMsgBuilder } from '../test/comment.mock';
 import feed, { FeedStore, FeedActions, mutations } from './feed';
 import store from './index';
 import { userMockBuilder } from '~/test/user.mock';
@@ -27,7 +26,6 @@ describe('Feed store module', () => {
 			setItems,
 			addItem,
 			itemLoaded,
-			receiveComments,
 			restoreSession,
 			setPostLike,
 		} = mutations;
@@ -122,17 +120,6 @@ describe('Feed store module', () => {
 			expect(state.items.length).toBe(1);
 			expect(post.likes.count).toBe(undefined);
 			expect(post.likes.byMe).toBe(true);
-		});
-
-		it('should update post comments', () => {
-			const post = aDefaultSingleItemMsgBuilder().get();
-			const commentMsg = commentsMsgBuilder(post.guid).get();
-
-			state.items = [post];
-
-			receiveComments(state, commentMsg);
-
-			expect(post.comments.messages).toBe(commentMsg.comments);
 		});
 	});
 
@@ -327,39 +314,6 @@ describe('Feed store module', () => {
 			const storedPost = JSON.parse(sessionStorage.getItem(key));
 			const noComments = msg.toStore();
 			expect(storedPost).toEqual(noComments);
-		});
-
-		it('should send comment to ws and update post', async () => {
-			const me = userMockBuilder();
-			root.state.user.me = me;
-
-			const guid = chance.guid();
-			const post = aDefaultSingleItemMsgBuilder()
-				.withGUID(guid)
-				.get();
-
-			const text = chance.sentence();
-			const comment = {
-				post,
-				text,
-			};
-
-			await root.dispatch(`${FeedStore}/${FeedActions.sendComment}`, comment);
-
-			const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
-			expect(sendObjInvocationArg).toMatchObject({
-				guid,
-				text,
-				type: 'addComment',
-			});
-			expect(post.comments).toEqual({
-				count: 1,
-				messages: [ {
-					author: me.short(),
-					ts: jasmine.any(Number),
-					text: comment.text,
-				} ],
-			});
 		});
 	});
 });

@@ -1,16 +1,13 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Blog from './index.vue';
+import { flushPromises } from '~/helpers';
 import Store from '~/store';
 import { UserStore, UserMutations } from '~/store/user';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
-
-function flushPromises() {
-	return new Promise(resolve => setImmediate(resolve));
-}
 
 describe('Blog Component', () => {
 	const EMPTY_FEED_TEXT = 'empty-blog-text';
