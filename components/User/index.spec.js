@@ -10,7 +10,7 @@ Wrapper.prototype.ref = function (id) {
 };
 
 describe('User component', () => {
-	const FOLLOW_BTN = 'foloow-btn';
+	const FOLLOW_BTN = 'follow-btn';
 
 	let localVue;
 	let wrapper;
