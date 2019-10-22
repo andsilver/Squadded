@@ -1,8 +1,8 @@
 <template>
 	<v-list-item>
-		<UserLink size="36" :user="comment.author" hideName />
+		<UserLink size="36" :user="comment.author" hide-name />
 		<v-list-item-content>
-			<UserLink :user="comment.author" hideAvatar />
+			<UserLink :user="comment.author" hide-avatar />
 			<v-list-item-subtitle v-text="comment.text" />
 		</v-list-item-content>
 	</v-list-item>
