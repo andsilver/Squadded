@@ -1,7 +1,6 @@
 <template>
 	<v-app>
 		<v-content :class="{ flex: socket.isPendingAuth }">
-			<logo />
 			<v-container :class="{ flex: socket.isPendingAuth }">
 				<nuxt ref="main-content" />
 				<Preloader v-if="socket.isPendingAuth" ref="preloader" />
@@ -33,14 +32,12 @@ html
 
 <script>
 import { mapState } from 'vuex';
-import Logo from '~/components/Logo.vue';
 import Preloader from '~/components/Preloader.vue';
 import TabBar from '~/components/TabBar.vue';
 import { isHome } from '~/helpers';
 
 export default {
 	components: {
-		Logo,
 		Preloader,
 		TabBar,
 	},

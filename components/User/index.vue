@@ -1,75 +1,30 @@
 <template>
 	<v-layout v-if="user && user.name" flex-column>
-		<v-toolbar dense flat>
-			<v-btn icon @click="goBack">
-				<v-icon>
-					mdi-arrow-left
-				</v-icon>
-			</v-btn>
-			<div class="flex-grow-1" />
-			<v-btn icon>
-				<v-icon>
-					mdi-dots-vertical
-				</v-icon>
-			</v-btn>
-		</v-toolbar>
-		<v-list-item>
+		<userToolbar v-if="!scrolled" class="user_toolbar" />
+		<v-list-item class="px-0">
 			<v-list-item-content align="center">
-				<v-list-item-title class="headline">
-					{{ user.name }}
-				</v-list-item-title>
-				<v-avatar size="100" class="my-3">
-					<img :src="user.avatar" alt="">
-				</v-avatar>
-				<v-list-item-subtitle>{{ user.mention }}</v-list-item-subtitle>
+				<userAvatar :align="scrolled === true ? 'left' : 'center' " class="user_avatar my-0" :user="user" />
+				<userName class="mt-3" :name="user.name" />
+				<userMention v-if="!scrolled" class="mt-1 caption mention" :mention="user.mention ? user.mention : 'Love my parents and they like me too'" />
 			</v-list-item-content>
 		</v-list-item>
-		<v-list-item align="center">
-			<v-list-item-content>
-				<v-list-item-title class="headline">
-					{{ short(user.following) }}
-				</v-list-item-title>
-				<v-list-item-subtitle>{{ $t('user.Following') }}</v-list-item-subtitle>
-			</v-list-item-content>
-			<v-list-item-content>
-				<v-list-item-title class="headline">
-					{{ short(user.followers.count) }}
-				</v-list-item-title>
-				<v-list-item-subtitle>{{ $t('user.Followers') }}</v-list-item-subtitle>
-			</v-list-item-content>
-			<v-list-item-content>
-				<v-list-item-title class="headline">
-					{{ short(user.likes) }}
-				</v-list-item-title>
-				<v-list-item-subtitle>{{ $t('user.Likes') }}</v-list-item-subtitle>
-			</v-list-item-content>
-		</v-list-item>
-		<v-row v-if="me.userId !== user.userId" justify="center" class="my-3">
-			<v-btn ref="follow-btn" @click="toggleFollow">
-				{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
-			</v-btn>
-		</v-row>
+		<userStatistics class="pt-0" :user="user" />
+		<userFollowButton v-if="me.userId !== user.userId" ref="follow-btn">
+			{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
+		</userFollowButton>
 		<p align="center">
 			{{ user.bio }}
 		</p>
 		<v-tabs
 			v-model="tabs"
+			fixed-tabs
 			centered
 		>
-			<v-tab>
-				<v-icon size="32">
-					mdi-chevron-triple-down
-				</v-icon>
+			<v-tab class="tabs pt-3">
+				<span style="text-transform: capitalize;">Activities</span>
 			</v-tab>
-			<v-divider
-				class="mx-4"
-				inset
-				vertical
-			/>
-			<v-tab>
-				<v-icon size="32">
-					mdi-heart-multiple-outline
-				</v-icon>
+			<v-tab class="tabs pt-3">
+				<span style="text-transform: capitalize">Wishlist</span>
 			</v-tab>
 		</v-tabs>
 		<v-tabs-items v-model="tabs">
@@ -85,9 +40,15 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import userAvatar from './userAvatar';
+import userName from './userName';
+import userMention from './userMention';
+import userFollowButton from './userFollowButton';
+import userStatistics from './userStatistics';
+import userToolbar from './userToolbar';
 import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
-import { shortNumber, prefetch } from '~/helpers';
+import { prefetch } from '~/helpers';
 import Blog from '~/components/Blog';
 import Whishlist from '~/components/Whishlist';
 
@@ -96,6 +57,12 @@ const { mapState } = createNamespacedHelpers('user');
 export default {
 	name: 'User',
 	components: {
+		userAvatar,
+		userName,
+		userMention,
+		userFollowButton,
+		userStatistics,
+		userToolbar,
 		Blog,
 		Whishlist,
 	},
@@ -103,6 +70,7 @@ export default {
 		other: null,
 		userId: null,
 		tabs: null,
+		scrolled: false,
 	}),
 	computed: {
 		...mapState([
@@ -138,9 +106,6 @@ export default {
 		goBack() {
 			history.back();
 		},
-		short(number) {
-			return shortNumber(number, this._i18n.locale);
-		},
 		toggleFollow() {
 			const { other } = this;
 			if (!other) {
@@ -160,3 +125,23 @@ export default {
 	},
 };
 </script>
+
+<style scoped>
+	.user_toolbar {
+		background-color: transparent;
+	}
+
+	.mention {
+		color: rgba(0,0,0,.54);
+	}
+
+	.tabs {
+		border-bottom: 2px solid rgba(0,0,0,.1);
+		font-size: 1em;
+	}
+
+	.user_avatar {
+		left: 0;
+	}
+
+</style>
