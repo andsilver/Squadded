@@ -74,7 +74,6 @@ export default {
 		'@plugins/i18n',
 		'@plugins/vuetify',
 		'@plugins/messaging',
-		'@plugins/init/restoreFeed',
 		{ src: '@plugins/init/ws', ssr: false },
 	],
 	/*

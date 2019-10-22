@@ -23,7 +23,6 @@ function suffix () {
 export const FeedMutations = {
 	addItem: 'addItem',
 	itemLoaded: 'itemLoaded',
-	restoreSession: 'restoreSession',
 };
 
 export const mutations = {
