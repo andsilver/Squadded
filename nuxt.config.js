@@ -1,7 +1,6 @@
 const {
 	WS_LINK,
 	BASE,
-	FEED_STORE_LIMIT = 100,
 	FB_APP_ID,
 } = process.env;
 
@@ -21,7 +20,6 @@ export default {
 	mode: 'spa',
 	env: {
 		FB_APP_ID,
-		FEED_STORE_LIMIT,
 		WS_LINK,
 	},
 	/*

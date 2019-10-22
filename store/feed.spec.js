@@ -14,7 +14,6 @@ let spy = null;
 
 describe('Feed store module', () => {
 	afterEach(() => {
-		sessionStorage.clear();
 		if (spy) {
 			spy.calls.reset();
 			spy = null;
@@ -26,7 +25,6 @@ describe('Feed store module', () => {
 			setItems,
 			addItem,
 			itemLoaded,
-			restoreSession,
 		} = mutations;
 
 		let state;
@@ -66,28 +64,6 @@ describe('Feed store module', () => {
 			expect(state.items.length).toBe(1);
 			expect(pendingItem.guid).toBe(loadedItem.guid);
 			expect(pendingItem.ts).toBe(loadedItem.ts);
-		});
-
-		it('should restore from sessionStore on reload', () => {
-			const { type, ...storred } = aDefaultSingleItemMsgBuilder().get();
-			sessionStorage.setItem(FeedStore, JSON.stringify(storred));
-
-			restoreSession(state);
-			expect(state.items[0]).toEqual(storred);
-		});
-
-		it('should not restore from sessionStore on jump', () => {
-			const current = aDefaultSingleItemMsgBuilder().get();
-			state.items = [current];
-
-			const storred = aDefaultSingleItemMsgBuilder().get();
-			sessionStorage.setItem(FeedStore, JSON.stringify(storred));
-
-			spy = spyOn(Storage.prototype, 'getItem');
-
-			restoreSession(state);
-			expect(sessionStorage.getItem).toHaveBeenCalledTimes(0);
-			expect(state.items[0]).toEqual(current);
 		});
 	});
 
@@ -170,27 +146,7 @@ describe('Feed store module', () => {
 			expect(pendingItem.ts).toBe(loadedItem.ts);
 		});
 
-		it('should not add pending item when store', async () => {
-			const msg = aDefaultSingleItemMsgBuilder().get();
-			const length = sessionStorage.length;
-
-			await feedStore.dispatch(`${FeedActions.storeItem}`, msg);
-
-			expect(feedStore.state.items).toEqual([ msg ]);
-			expect(sessionStorage.length).toBe(length);
-		});
-
-		it('should add only acknowledged item when store', async () => {
-			const msg = aDefaultSingleItemMsgBuilder().withGUID().get();
-			const length = sessionStorage.length;
-
-			await feedStore.dispatch(`${FeedActions.storeItem}`, msg);
-
-			expect(feedStore.state.items).toEqual([ msg ]);
-			expect(sessionStorage.length).toBe(length + 1);
-		});
-
-		it('should add any item and keep limit', async () => {
+		it('should add any item', async () => {
 			function item() {
 				return aDefaultSingleItemMsgBuilder()
 					.withGUID()
@@ -203,21 +159,6 @@ describe('Feed store module', () => {
 			await feedStore.dispatch(`${FeedActions.storeItem}`, item());
 
 			expect(feedStore.state.items.length).toBe(4);
-			expect(sessionStorage.length).toBe(3);
-		});
-
-		it('should store with no comments', async () => {
-			const msg = aDefaultSingleItemMsgBuilder()
-				.withGUID()
-				.withComment()
-				.get();
-
-			await feedStore.dispatch(`${FeedActions.storeItem}`, msg);
-
-			const key = sessionStorage.key(0);
-			const storedPost = JSON.parse(sessionStorage.getItem(key));
-			const noComments = msg.toStore();
-			expect(storedPost).toEqual(noComments);
 		});
 	});
 });

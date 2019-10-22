@@ -1,7 +1,5 @@
 import { FeedPost } from '../services/FeedPost';
 
-const { FEED_STORE_LIMIT } = process.env;
-
 export const state = () => ({
 	items: [],
 });
@@ -20,17 +18,6 @@ export const FeedStore = 'feed';
 
 function suffix () {
 	return Math.random().toString(36).slice(2);
-}
-
-function storeInSession (post) {
-	if (!post.guid) {
-		return;
-	}
-	sessionStorage.setItem(`${FeedStore}-${post.guid}`, JSON.stringify(post.toStore()));
-}
-
-function removeFromSession (id) {
-	sessionStorage.removeItem(`${FeedStore}-${id}`);
 }
 
 export const FeedMutations = {
@@ -57,26 +44,7 @@ export const mutations = {
 			return;
 		}
 		post.update(payload);
-		removeFromSession(post.correlationId);
 		post.unsetCorrelationId();
-		storeInSession(post);
-	},
-	[FeedMutations.restoreSession]: (state) => {
-		if (state.items.length) {
-			return;
-		}
-		const items = [];
-		const { length } = sessionStorage;
-		for (let i = 0; i < length; i++) {
-			const key = sessionStorage.key(i);
-			if (!key.startsWith(FeedStore)) {
-				continue;
-			}
-			const post = new FeedPost(JSON.parse(sessionStorage.getItem(key)));
-			items.push(post);
-		}
-		items.sort((a, b) => b.ts - a.ts);
-		state.items = items;
 	},
 };
 
@@ -89,12 +57,6 @@ export const FeedActions = {
 export const actions = {
 	[FeedActions.storeItem]: ({ getters, commit }, post) => {
 		commit(FeedMutations.addItem, post);
-		if (getters.items.length > FEED_STORE_LIMIT) {
-			const overflowItem = getters.items[FEED_STORE_LIMIT];
-			const overflowId = overflowItem.correlationId || overflowItem.guid;
-			removeFromSession(overflowId);
-		}
-		storeInSession(post);
 	},
 	[FeedActions.saveItem]: ({ rootState, dispatch }, payload) => {
 		const post = new FeedPost({

@@ -133,7 +133,5 @@ describe('Comment store module', () => {
 
 		// send ws message
 		expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
-
-		expect(sessionStorage.length).toBe(0);
 	});
 });
