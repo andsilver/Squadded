@@ -44,7 +44,7 @@ export default {
 		script: [
 			{
 				type: 'text/javascript',
-				src: 'vendor/moment.fr.min.js',
+				src: `${BASE}vendor/moment.fr.min.js`,
 			},
 		],
 	},
@@ -92,7 +92,7 @@ export default {
 		** You can extend webpack config here
 		*/
 		extend(config, ctx) {
-			config.output.publicPath = './_nuxt/';
+			config.output.publicPath = `${BASE}_nuxt/`;
 			return config;
 		},
 	},
