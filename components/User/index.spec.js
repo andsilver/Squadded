@@ -29,11 +29,11 @@ describe('User component', () => {
 		expect.assertions(3);
 
 		const user = userMockBuilder().get();
-		const query = {
+		const params = {
 			id: user.userId,
 		};
 		const $route = {
-			query,
+			params,
 		};
 		store.commit('jSocket', {
 			sendObj: jest.fn(),
@@ -51,7 +51,7 @@ describe('User component', () => {
 			},
 		});
 
-		const asyncPromise = wrapper.vm.$options.asyncData({ store, query });
+		const asyncPromise = wrapper.vm.$options.asyncData({ store, params });
 
 		expect(store.state.socket.$ws.sendObj).toHaveBeenCalledWith({
 			type: 'fetchUser',
@@ -72,7 +72,7 @@ describe('User component', () => {
 
 		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 
-		const query = {
+		const params = {
 			id: me.userId,
 		};
 		const redirect = jest.fn();
@@ -80,7 +80,7 @@ describe('User component', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { query },
+				$route: { params },
 				$t: msg => msg,
 				_i18n: {
 					locale: 'en',
@@ -88,7 +88,7 @@ describe('User component', () => {
 			},
 		});
 
-		wrapper.vm.$options.asyncData({ store, query, redirect });
+		wrapper.vm.$options.asyncData({ store, params, redirect });
 
 		expect(redirect).toHaveBeenCalledWith('/me');
 	});
@@ -102,7 +102,7 @@ describe('User component', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { query: {} },
+				$route: { params: {} },
 				$t: msg => msg,
 				_i18n: {
 					locale: 'en',
@@ -125,7 +125,7 @@ describe('User component', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { query: {
+				$route: { params: {
 					id: user.userId,
 				} },
 				$t: msg => msg,
@@ -154,7 +154,7 @@ describe('User component', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { query: {
+				$route: { params: {
 					id: user.userId,
 				} },
 				$t: msg => msg,
@@ -184,7 +184,7 @@ describe('User component', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { query: {} },
+				$route: { params: {} },
 				$t: msg => msg,
 				_i18n: {
 					locale: 'en',
@@ -213,7 +213,7 @@ describe('User component', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { query: {
+				$route: { params: {
 					id: user.userId,
 				} },
 				$t: msg => msg,
@@ -251,7 +251,7 @@ describe('User component', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { query: {
+				$route: { params: {
 					id: user.userId,
 				} },
 				$t: msg => msg,

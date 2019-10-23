@@ -93,6 +93,7 @@ import Whishlist from '~/components/Whishlist';
 const { mapState } = createNamespacedHelpers('user');
 
 export default {
+	name: 'User',
 	components: {
 		Blog,
 		Whishlist,
@@ -110,22 +111,22 @@ export default {
 			return this.userId ? this.other : this.me;
 		},
 	},
-	asyncData ({ store, query, redirect }) {
-		if (!query.id) {
+	asyncData ({ store, params, redirect }) {
+		if (!params.id) {
 			return;
 		}
-		if (query.id === store.state.user.me.userId) {
+		if (params.id === store.state.user.me.userId) {
 			redirect('/me');
 		}
 		return prefetch({
-			guid: query.id,
+			guid: params.id,
 			mutation: `${UserStore}/${UserMutations.setOther}`,
 			store,
 			type: 'fetchUser',
 		}).then(() => ({ other: store.state.user.other }));
 	},
 	created() {
-		this.userId = this.$route.query.id;
+		this.userId = this.$route.params.id;
 	},
 	mounted() {
 		if (this.$store.state.socket.isAuth) {

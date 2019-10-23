@@ -66,8 +66,8 @@ describe('User link', () => {
 
 		const userLink = wrapper.vm.$children[0];
 		expect(userLink.$attrs.to).toEqual({
-			name: 'user',
-			query: {
+			name: 'user-id',
+			params: {
 				id: user.userId,
 			},
 		});

@@ -60,7 +60,7 @@ export default {
 	methods: {
 		getUserLink() {
 			return (this.user.guid === this.me.userId ? { name: 'me' }
-				: { name: 'user', query: { id: this.user.guid } }
+				: { name: 'user-id', params: { id: this.user.guid } }
 			);
 		},
 	},

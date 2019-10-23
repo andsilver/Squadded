@@ -30,7 +30,7 @@ export default {
 	}),
 	mounted () {
 		return prefetch({
-			guid: this.$route.query.id,
+			guid: this.$route.params.id,
 			mutation: `${UserStore}/${UserMutations.setBlog}`,
 			store: this.$store,
 			type: 'fetchBlog',

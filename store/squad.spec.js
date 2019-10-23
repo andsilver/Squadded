@@ -23,8 +23,8 @@ describe('Squad Store module', () => {
 		store.commit(SquadMutations.setSquadParams, squadParam);
 
 		expect(store.state.route).toEqual({
-			name: 'user',
-			query: {
+			name: 'user-id',
+			params: {
 				id,
 			},
 		});

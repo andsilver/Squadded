@@ -12,7 +12,7 @@ Wrapper.prototype.ref = function (id) {
 describe('Blog Component', () => {
 	const EMPTY_FEED_TEXT = 'empty-blog-text';
 	const PRELOADER = 'preloader';
-	let query;
+	let params;
 	let mocks;
 
 	let localVue;
@@ -30,11 +30,11 @@ describe('Blog Component', () => {
 
 	beforeEach(() => {
 		initLocalVue();
-		query = {};
+		params = {};
 		mocks = {
 			$t: msg => msg,
 			$route: {
-				query,
+				params,
 			},
 		};
 	});

@@ -6,16 +6,16 @@ export const state = () => ({
 	route: { path: DEFAULT_LANDING },
 });
 
-const SearchParamName = {
+const ParamName = {
 	user: 'id',
 };
 
 function getRoute (squadParam) {
 	const [ name, value ] = squadParam.split(':');
 	return {
-		name,
-		query: {
-			[SearchParamName[name]]: value,
+		name: `${name}-${ParamName[name]}`,
+		params: {
+			[ParamName[name]]: value,
 		},
 	};
 }

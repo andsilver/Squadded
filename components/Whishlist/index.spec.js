@@ -15,7 +15,7 @@ function flushPromises() {
 describe('Whishlist Component', () => {
 	const EMPTY_FEED_TEXT = 'empty-whishlist-text';
 	const PRELOADER = 'preloader';
-	let query;
+	let params;
 	let mocks;
 
 	let localVue;
@@ -33,11 +33,11 @@ describe('Whishlist Component', () => {
 
 	beforeEach(() => {
 		initLocalVue();
-		query = {};
+		params = {};
 		mocks = {
 			$t: msg => msg,
 			$route: {
-				query,
+				params,
 			},
 		};
 	});
