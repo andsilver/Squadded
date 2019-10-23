@@ -92,21 +92,12 @@ export const initSocket = (link, store) => {
 
 export const mutationListener = ctx => function mutationDispatcher (mutation, state) {
 	const { store, redirect } = ctx;
-	function getMostRecentStoredPost () {
-		return store.getters[`${FeedStore}/${FeedGetters.items}`][0];
-	}
-
 	function fetchUser() {
 		state.socket.$ws.sendObj({ type: 'fetchUser' });
 	}
 
 	function fetchPosts() {
-		const msg = { type: 'fetchPosts' };
-		const mostRecentPost = getMostRecentStoredPost();
-		if (mostRecentPost) {
-			msg.ts = mostRecentPost.ts;
-		}
-		state.socket.$ws.sendObj(msg);
+		store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 	}
 
 	if (mutation.type === 'SOCKET_ONOPEN') {

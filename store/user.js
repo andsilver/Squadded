@@ -28,6 +28,7 @@ export const getters = {
 
 export const UserMutations = {
 	setBlog: 'setBlog',
+	setFollow: 'setFollow',
 	setMe: 'setMe',
 	setOther: 'setOther',
 	setToken: 'setToken',
@@ -35,6 +36,9 @@ export const UserMutations = {
 };
 
 export const mutations = {
+	[UserMutations.setFollow]: (state, { follow, other }) => {
+		other.followers.me = follow;
+	},
 	[UserMutations.setMe]: (state, me) => {
 		state.me = new User(me);
 	},

@@ -1,6 +1,7 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import User from './index.vue';
+import { FeedStore, FeedMutations } from '~/store/feed';
 import { userMockBuilder } from '~/test/user.mock';
 import { UserStore, UserMutations } from '~/store/user';
 import Store from '~/store';
@@ -15,12 +16,17 @@ describe('User component', () => {
 	let localVue;
 	let wrapper;
 	let store;
+	let $ws;
 
 	function initLocalVue () {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 
 		store = new Vuex.Store(Store);
+		$ws = {
+			sendObj: jest.fn(),
+		};
+		store.commit('jSocket', $ws);
 	}
 
 	beforeEach(initLocalVue);
@@ -35,9 +41,6 @@ describe('User component', () => {
 		const $route = {
 			params,
 		};
-		store.commit('jSocket', {
-			sendObj: jest.fn(),
-		});
 
 		wrapper = shallowMount(User, {
 			localVue,
@@ -53,7 +56,7 @@ describe('User component', () => {
 
 		const asyncPromise = wrapper.vm.$options.asyncData({ store, params });
 
-		expect(store.state.socket.$ws.sendObj).toHaveBeenCalledWith({
+		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'fetchUser',
 			guid: user.userId,
 		});
@@ -205,10 +208,6 @@ describe('User component', () => {
 		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
 
-		const $ws = {
-			sendObj: jest.fn(),
-		};
-
 		wrapper = shallowMount(User, {
 			localVue,
 			store,
@@ -226,11 +225,17 @@ describe('User component', () => {
 
 		wrapper.setData({ other: user });
 
+		spyOn(store, 'commit').and.callThrough();
+
 		wrapper.vm.toggleFollow();
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'follow',
 			guid: user.userId,
 			follow: true,
+		});
+		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.clear}`);
+		expect($ws.sendObj).toHaveBeenCalledWith({
+			type: 'fetchPosts',
 		});
 		expect(user.followers.me).toBe(true);
 	});

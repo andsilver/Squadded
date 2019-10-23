@@ -85,6 +85,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import { shortNumber, prefetch } from '~/helpers';
 import Blog from '~/components/Blog';
@@ -141,16 +142,19 @@ export default {
 			return shortNumber(number, this._i18n.locale);
 		},
 		toggleFollow() {
-			if (!this.other) {
+			const { other } = this;
+			if (!other) {
 				return;
 			}
-			const follow = !this.other.followers.me;
+			const follow = !other.followers.me;
 			this.$ws.sendObj({
 				type: 'follow',
-				guid: this.other.userId,
+				guid: other.userId,
 				follow,
 			});
-			this.other.followers.me = follow;
+			this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
+			this.$store.commit(`${UserStore}/${UserMutations.setFollow}`, { follow, other });
+			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 			this.$forceUpdate();
 		},
 	},

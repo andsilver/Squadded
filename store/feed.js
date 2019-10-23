@@ -22,6 +22,7 @@ function suffix () {
 
 export const FeedMutations = {
 	addItem: 'addItem',
+	clear: 'clear',
 	itemLoaded: 'itemLoaded',
 };
 
@@ -31,6 +32,9 @@ export const mutations = {
 	},
 	[FeedMutations.addItem]: (state, payload) => {
 		state.items.unshift(payload);
+	},
+	[FeedMutations.clear]: (state, payload) => {
+		state.items = [];
 	},
 	[FeedMutations.itemLoaded]: (state, payload) => {
 		const post = state.items.find(i => i.guid === payload.guid || (i.correlationId && i.correlationId === payload.correlationId));
@@ -54,6 +58,14 @@ export const FeedActions = {
 };
 
 export const actions = {
+	[FeedActions.fetch]: ({ commit, getters, rootState }) => {
+		const msg = { type: 'fetchPosts' };
+		const mostRecentPost = getters[FeedGetters.items][0];
+		if (mostRecentPost) {
+			msg.ts = mostRecentPost.ts;
+		}
+		rootState.socket.$ws.sendObj(msg);
+	},
 	[FeedActions.storeItem]: ({ getters, commit }, post) => {
 		commit(FeedMutations.addItem, post);
 	},

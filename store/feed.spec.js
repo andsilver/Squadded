@@ -83,6 +83,18 @@ describe('Feed store module', () => {
 			root.state.socket.$ws = $ws;
 		});
 
+		it('should fetch posts later than storred', () => {
+			const latestItem = { ts: new Date(chance.date()).getTime() };
+			root.state.feed.items = [latestItem];
+
+			root.dispatch(`${FeedStore}/${FeedActions.fetch}`);
+
+			expect($ws.sendObj).toHaveBeenCalledWith({
+				type: 'fetchPosts',
+				ts: latestItem.ts,
+			});
+		});
+
 		it('should commit addItem on saveItem', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 			const me = userMockBuilder();

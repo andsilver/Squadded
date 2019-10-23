@@ -337,12 +337,11 @@ describe('WS Plugin', () => {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },
 				};
-				spyOn(ctx.store, 'commit');
 
 				mutationDispatcher(mutation, state);
 
 				expect(ctx.store.commit).toHaveBeenCalledTimes(1);
-				expect(ctx.store.commit.calls.argsFor(0)).toEqual([ 'SET_SOCKET_AUTH', true ]);
+				expect(ctx.store.commit).toHaveBeenCalledWith('SET_SOCKET_AUTH', true);
 			});
 
 			it('should set pending false if authOk occur after destination page was mounted', () => {
@@ -350,13 +349,12 @@ describe('WS Plugin', () => {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },
 				};
-				spyOn(ctx.store, 'commit');
 				route.name = 'notHome';
 
 				mutationDispatcher(mutation, state);
 
 				expect(ctx.store.commit).toHaveBeenCalledTimes(2);
-				expect(ctx.store.commit.calls.argsFor(1)).toEqual([ 'SET_PENDING', false ]);
+				expect(ctx.store.commit).toHaveBeenCalledWith('SET_PENDING', false);
 			});
 
 			it('should not dispatch socket messages while not auth', () => {
@@ -364,7 +362,6 @@ describe('WS Plugin', () => {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'singleItemPost' },
 				};
-				spyOn(ctx.store, 'dispatch');
 
 				mutationDispatcher(mutation, state);
 
@@ -377,7 +374,6 @@ describe('WS Plugin', () => {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'singleItemPost' },
 				};
-				spyOn(ctx.store, 'dispatch');
 
 				mutationDispatcher(mutation, state);
 
@@ -392,19 +388,18 @@ describe('WS Plugin', () => {
 				};
 				Vue.prototype.$disconnect = function () {};
 
-				spyOn(ctx.store, 'commit');
 				spyOn(Vue.prototype, '$disconnect');
 
 				mutationDispatcher(mutation, state);
 
 				expect(ctx.store.commit).toHaveBeenCalledTimes(2);
-				expect(ctx.store.commit.calls.argsFor(0)).toEqual([ 'SET_SOCKET_AUTH', false ]);
-				expect(ctx.store.commit.calls.argsFor(1)).toEqual([ 'SET_PENDING', false ]);
+				expect(ctx.store.commit).toHaveBeenCalledWith('SET_SOCKET_AUTH', false);
+				expect(ctx.store.commit).toHaveBeenCalledWith('SET_PENDING', false);
 
 				expect(Vue.prototype.$disconnect).toHaveBeenCalledTimes(1);
 			});
 
-			it('should fetch latest posts', () => {
+			it('should fetch latest posts and user', () => {
 				const mutation = {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },
@@ -412,41 +407,10 @@ describe('WS Plugin', () => {
 
 				mutationDispatcher(mutation, state);
 
-				expect(_ws.sendObj).toHaveBeenCalledTimes(2);
-				expect(_ws.sendObj).toHaveBeenCalledWith({
-					type: 'fetchPosts',
-				});
-			});
-
-			it('should fetch current user', () => {
-				const mutation = {
-					type: 'SOCKET_ONMESSAGE',
-					payload: { type: 'authOk' },
-				};
-
-				mutationDispatcher(mutation, state);
-
-				expect(_ws.sendObj).toHaveBeenCalledTimes(2);
 				expect(_ws.sendObj).toHaveBeenCalledWith({
 					type: 'fetchUser',
 				});
-			});
-
-			it('should fetch posts later than storred', () => {
-				const mutation = {
-					type: 'SOCKET_ONMESSAGE',
-					payload: { type: 'authOk' },
-				};
-				const latestItem = { ts: new Date(chance.date()).getTime() };
-				ctx.store.getters[`${FeedStore}/${FeedGetters.items}`].push(latestItem);
-
-				mutationDispatcher(mutation, state);
-
-				expect(_ws.sendObj).toHaveBeenCalledTimes(2);
-				expect(_ws.sendObj).toHaveBeenCalledWith({
-					type: 'fetchPosts',
-					ts: latestItem.ts,
-				});
+				expect(ctx.store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.fetch}`);
 			});
 		});
 
