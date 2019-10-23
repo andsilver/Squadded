@@ -9,9 +9,9 @@
 			</v-list-item-content>
 		</v-list-item>
 		<userStatistics class="pt-0" :user="user" />
-		<Button v-if="me.userId !== user.userId" ref="follow-btn" @click="toggleFollow">
+		<userFollowButton v-if="me.userId !== user.userId" ref="follow-btn">
 			{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
-		</Button>
+		</userFollowButton>
 		<p align="center">
 			{{ user.bio }}
 		</p>
@@ -43,9 +43,9 @@ import { createNamespacedHelpers } from 'vuex';
 import userAvatar from './userAvatar';
 import userName from './userName';
 import userMention from './userMention';
+import userFollowButton from './userFollowButton';
 import userStatistics from './userStatistics';
 import userToolbar from './userToolbar';
-import Button from '~/components/common/Button';
 import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
@@ -57,10 +57,10 @@ const { mapState } = createNamespacedHelpers('user');
 export default {
 	name: 'User',
 	components: {
-		Button,
 		userAvatar,
 		userName,
 		userMention,
+		userFollowButton,
 		userStatistics,
 		userToolbar,
 		Blog,
