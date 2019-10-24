@@ -9,7 +9,7 @@
 			</v-list-item-content>
 		</v-list-item>
 		<userStatistics class="pt-0" :user="user" />
-		<Button v-if="me.userId !== user.userId" ref="follow-btn" @click="toggleFollow">
+		<Button v-if="me.userId !== user.userId" ref="follow-btn" @click.native="toggleFollow">
 			{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
 		</Button>
 		<p align="center">
