@@ -13,6 +13,7 @@ export class FeedPost {
 			},
 			error = null,
 			guid = null,
+			postId = null,
 			ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP,
 			correlationId,
 		} = props;
@@ -25,7 +26,8 @@ export class FeedPost {
 		};
 		this.user = user;
 		this.error = error;
-		this.guid = guid;
+		this.guid = postId || guid;
+		this.postId = postId || guid;
 		this.ts = ts;
 		this.correlationId = correlationId;
 	}
