@@ -7,7 +7,9 @@ export class User {
 			followers = {
 				count: 0,
 			},
-			following = 0,
+			following = {
+				count: 0,
+			},
 			likes = 0,
 			mention,
 			name,

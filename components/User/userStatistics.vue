@@ -16,7 +16,7 @@
 		<v-divider class="mx-0" inset vertical />
 		<v-list-item-content class="text-left px-5 py-0">
 			<v-list-item-title class="title">
-				{{ short(user.following) }}
+				{{ short(user.following.count) }}
 			</v-list-item-title>
 			<v-list-item-subtitle class="subtitle">
 				{{ $t('user.Following') }}
