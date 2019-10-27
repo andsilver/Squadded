@@ -2,6 +2,8 @@ const {
 	WS_LINK,
 	BASE,
 	FB_APP_ID,
+	IG_CLIENT_ID,
+	AUTH_REDIRECT_ROOT,
 } = process.env;
 
 if (!WS_LINK) {
@@ -16,10 +18,20 @@ if (!FB_APP_ID) {
 	throw new Error('FB_APP_ID environment variable is required!');
 }
 
+if (!IG_CLIENT_ID) {
+	throw new Error('IG_CLIENT_ID environment variable is required!');
+}
+
+if (!AUTH_REDIRECT_ROOT) {
+	throw new Error('AUTH_REDIRECT_ROOT environment variable is required!');
+}
+
 export default {
 	mode: 'spa',
 	env: {
 		FB_APP_ID,
+		IG_CLIENT_ID,
+		AUTH_REDIRECT_ROOT,
 		WS_LINK,
 	},
 	/*

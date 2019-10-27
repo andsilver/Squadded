@@ -1,4 +1,4 @@
-const { FB_APP_ID } = process.env;
+const { FB_APP_ID, IG_CLIENT_ID, AUTH_REDIRECT_ROOT } = process.env;
 
 const OAUTH = {
 	facebook: {
@@ -9,7 +9,7 @@ const OAUTH = {
 	},
 	instagram: {
 		endpoint: 'https://api.instagram.com/oauth/authorize?',
-		id: '675899836211443',
+		id: IG_CLIENT_ID,
 		scope: 'basic',
 		display: 'popup',
 	},
@@ -21,7 +21,7 @@ function generateState () {
 
 export default class Social {
 	static redirectUrl (providerName) {
-		return `https://api.squad-shopping.com/auth/${providerName}/callback`;
+		return `${AUTH_REDIRECT_ROOT}${providerName}/callback`;
 	}
 
 	static oauth (providerName) {
