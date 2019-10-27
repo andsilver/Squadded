@@ -41,12 +41,8 @@ jobs:
           command: |
             echo "DEPLOY_VERSION is: ${DEPLOY_VERSION}"
             echo "" > .prod.env
-            echo "WS_LINK=${WS_LINK}" >> .prod.env
-            echo "export WS_LINK=${WS_LINK}" >> $BASH_ENV
             echo "BASE=/widget/${DEPLOY_VERSION}/" >> .prod.env
             echo "export BASE=/widget/${DEPLOY_VERSION}/" >> $BASH_ENV
-            echo "FB_APP_ID=${FB_APP_ID}" >> .prod.env
-            echo "export FB_APP_ID=${FB_APP_ID}" >> $BASH_ENV
 
       - run: yarn generate
 
