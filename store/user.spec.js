@@ -19,6 +19,39 @@ describe('User Store module', () => {
 		store = new Vuex.Store(user);
 	});
 
+	it('should set follow', () => {
+		const other = userMockBuilder().get();
+		other.followers.me = false;
+		const { count } = other.followers;
+
+		store.commit(UserMutations.setFollow, { follow: true, other });
+
+		expect(other.followers.me).toBe(true);
+		expect(other.followers.count).toBe(count + 1);
+	});
+
+	it('should unset follow', () => {
+		const other = userMockBuilder().get();
+		other.followers.me = true;
+		const { count } = other.followers;
+
+		store.commit(UserMutations.setFollow, { follow: false, other });
+
+		expect(other.followers.me).toBe(false);
+		expect(other.followers.count).toBe(count - 1);
+	});
+
+	it('should not decrement below zero', () => {
+		const other = userMockBuilder().get();
+		other.followers.me = true;
+		other.followers.count = 0;
+
+		store.commit(UserMutations.setFollow, { follow: false, other });
+
+		expect(other.followers.me).toBe(false);
+		expect(other.followers.count).toBe(0);
+	});
+
 	it('should set me', () => {
 		const me = userMockBuilder().get();
 		store.commit(UserMutations.setMe, me);

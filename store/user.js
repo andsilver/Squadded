@@ -37,7 +37,12 @@ export const UserMutations = {
 
 export const mutations = {
 	[UserMutations.setFollow]: (state, { follow, other }) => {
+		if (!other) {
+			return;
+		}
 		other.followers.me = follow;
+		const mod = (follow ? 1 : -1);
+		other.followers.count = Math.max(0, other.followers.count + mod);
 	},
 	[UserMutations.setMe]: (state, me) => {
 		state.me = new User(me);
