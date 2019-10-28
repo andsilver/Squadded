@@ -1,6 +1,16 @@
-const FB_APP_ID = process.env.FB_APP_ID;
-const IG_CLIENT_ID = process.env.IG_CLIENT_ID;
-const AUTH_REDIRECT_ROOT = process.env.AUTH_REDIRECT_ROOT;
+function extractNonWorkingDestruct() {
+	const FB_APP_ID = process.env.FB_APP_ID;
+	const IG_CLIENT_ID = process.env.IG_CLIENT_ID;
+	const AUTH_REDIRECT_ROOT = process.env.AUTH_REDIRECT_ROOT;
+
+	return {
+		FB_APP_ID,
+		IG_CLIENT_ID,
+		AUTH_REDIRECT_ROOT,
+	};
+}
+
+const { FB_APP_ID, IG_CLIENT_ID, AUTH_REDIRECT_ROOT } = extractNonWorkingDestruct();
 
 const OAUTH = {
 	facebook: {
