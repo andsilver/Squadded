@@ -1,4 +1,6 @@
-const { FB_APP_ID, IG_CLIENT_ID, AUTH_REDIRECT_ROOT } = process.env;
+const FB_APP_ID = process.env.FB_APP_ID;
+const IG_CLIENT_ID = process.env.IG_CLIENT_ID;
+const AUTH_REDIRECT_ROOT = process.env.AUTH_REDIRECT_ROOT;
 
 const OAUTH = {
 	facebook: {
