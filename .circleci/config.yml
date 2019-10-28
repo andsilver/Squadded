@@ -37,11 +37,9 @@ jobs:
             echo "DEPLOY_VERSION=${DEPLOY_VERSION}")
 
       - run:
-          name: Prepare prod env file
+          name: Prepare env
           command: |
             echo "DEPLOY_VERSION is: ${DEPLOY_VERSION}"
-            echo "" > .prod.env
-            echo "BASE=/widget/${DEPLOY_VERSION}/" >> .prod.env
             echo "export BASE=/widget/${DEPLOY_VERSION}/" >> $BASH_ENV
 
       - run: yarn generate
