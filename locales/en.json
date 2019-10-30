@@ -40,6 +40,7 @@
     "isEmpty": "There is no items yet"
   },
   "post": {
+    "textPlaceholder": "Input your message for this post",
     "viewAllComments": "View all {n} comments"
   },
   "wishlist": {

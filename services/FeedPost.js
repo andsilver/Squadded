@@ -14,6 +14,7 @@ export class FeedPost {
 			error = null,
 			guid = null,
 			postId = null,
+			text,
 			ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP,
 			correlationId,
 		} = props;
@@ -28,12 +29,13 @@ export class FeedPost {
 		this.error = error;
 		this.guid = postId || guid;
 		this.postId = postId || guid;
+		this.text = text || '';
 		this.ts = ts;
 		this.correlationId = correlationId;
 	}
 
 	toMessage () {
-		const { guid, user, ts, comments, likes, ...clean } = this;
+		const { error, user, ts, comments, likes, ...clean } = this;
 		clean.type = 'singleItemPost';
 		return clean;
 	}

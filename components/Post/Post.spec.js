@@ -2,9 +2,11 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import FeedPost from './index.vue';
 import { flushPromises } from '~/helpers';
-import { PostStore, PostActions, PostMutations } from '~/store/post';
 import Store from '~/store';
+import { PostStore, PostActions, PostMutations } from '~/store/post';
+import { UserStore, UserMutations } from '~/store/user';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
+import { userMockBuilder } from '~/test/user.mock';
 
 const mocks = {
 	$t: msg => msg,
@@ -29,8 +31,8 @@ describe('Feed Post', () => {
 		store = new Vuex.Store(Store);
 
 		wrapper = shallowMount(FeedPost, {
-			mocks,
 			localVue,
+			mocks,
 			propsData: {
 				post,
 			},
@@ -47,6 +49,68 @@ describe('Feed Post', () => {
 
 		wrapper.setProps({ post });
 		expect(wrapper.ref(USER_LINK).exists()).toBe(true);
+	});
+
+	describe('Text', () => {
+		const POST_TEXT = 'post-text';
+		const POST_TEXT_INPUT = 'post-text-input';
+
+		it('should display text', () => {
+			const post = aDefaultSingleItemMsgBuilder()
+				.withGUID()
+				.withText()
+				.get();
+
+			wrapper.setProps({ post });
+
+			const postText = wrapper.ref(POST_TEXT);
+			expect(postText.exists()).toBe(true);
+			expect(postText.text()).toBe(post.text);
+		});
+
+		it('should not display empty text', () => {
+			const post = aDefaultSingleItemMsgBuilder()
+				.withGUID()
+				.get();
+
+			wrapper.setProps({ post });
+
+			expect(wrapper.ref(POST_TEXT).exists()).toBe(false);
+		});
+
+		it('should display placeholder for author', () => {
+			const me = userMockBuilder();
+			const post = aDefaultSingleItemMsgBuilder()
+				.withGUID()
+				.withUser(me.short())
+				.get();
+
+			store.commit(`${UserStore}/${UserMutations.setMe}`, me.get());
+			wrapper.setProps({ post });
+
+			expect(wrapper.ref(POST_TEXT).text()).toBe('post.textPlaceholder');
+		});
+
+		it('should toggle text input for author', () => {
+			const me = userMockBuilder();
+			const post = aDefaultSingleItemMsgBuilder()
+				.withGUID()
+				.withUser(me.short())
+				.withText()
+				.get();
+
+			expect(wrapper.ref(POST_TEXT_INPUT).exists()).toBe(false);
+
+			store.commit(`${UserStore}/${UserMutations.setMe}`, me.get());
+			wrapper.setProps({ post });
+			wrapper.setData({ showTextEditor: true });
+
+			expect(wrapper.ref(POST_TEXT).exists()).toBe(false);
+			const textInput = wrapper.ref(POST_TEXT_INPUT);
+			expect(textInput.exists()).toBe(true);
+			expect(textInput.props('action')).toBe(`${PostStore}/${PostActions.editText}`);
+			expect(textInput.props('text')).toBe(post.text);
+		});
 	});
 
 	describe('Comments', () => {

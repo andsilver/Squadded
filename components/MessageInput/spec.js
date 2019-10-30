@@ -36,19 +36,37 @@ describe('Message Input', () => {
 			localVue,
 			parentComponent: Post,
 			propsData: {
-				post,
 				action: sendComment,
+				post,
 			},
 		});
 	});
 
-	it('should dispatch action set in props', () => {
+	it('should accept text prop', () => {
 		const text = chance.sentence();
+
+		wrapper = shallowMount(MessageInput, {
+			mocks,
+			store,
+			localVue,
+			parentComponent: Post,
+			propsData: {
+				action: sendComment,
+				post,
+				text,
+			},
+		});
+
+		expect(wrapper.vm.textValue).toBe(text);
+	});
+
+	it('should dispatch action with text from input', () => {
+		const textValue = chance.sentence();
 		wrapper.setData({
-			text,
+			textValue,
 		});
 
 		wrapper.vm.send();
-		expect(store.dispatch).toHaveBeenCalledWith(sendComment, { post, text });
+		expect(store.dispatch).toHaveBeenCalledWith(sendComment, { post, text: textValue });
 	});
 });

@@ -114,14 +114,14 @@ describe('Feed store module', () => {
 			expect(feedStore.state.items).toEqual([ cleanPost ]);
 		});
 
-		it('should strip ts, user, comments, likes and merchantId when sending singleItemPost to socket', async () => {
+		it('should strip error, ts, user, comments, likes and merchantId when sending singleItemPost to socket', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			root.state.socket.isAuth = true;
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			const { merchantId, guid, user, ts, comments, likes, ...clean } = msg;
+			const { comments, error, likes, merchantId, ts, user, ...clean } = msg;
 			clean.correlationId = jasmine.any(String);
 			const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
 			expect(sendObjInvocationArg).toMatchObject(clean);

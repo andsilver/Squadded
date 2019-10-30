@@ -5,6 +5,7 @@ export const PostMutations = {
 	receiveComments: 'receiveComments',
 	resetComments: 'resetComments',
 	setPostLike: 'setPostLike',
+	setText: 'setText',
 };
 
 export const mutations = {
@@ -30,15 +31,23 @@ export const mutations = {
 			post.likes.count = payload.count;
 		}
 	},
+	[PostMutations.setText]: (state, { text, post }) => {
+		post.text = text;
+	},
 };
 
 export const PostActions = {
+	editText: 'editText',
 	sendComment: 'sendComment',
 	toggleLike: 'toggleLike',
 	modifyLike: 'modifyLike',
 };
 
 export const actions = {
+	[PostActions.editText]: ({ rootState, commit }, { text, post }) => {
+		commit(PostMutations.setText, { text, post });
+		rootState.socket.$ws.sendObj(post.toMessage());
+	},
 	[PostActions.sendComment]: ({ rootState, commit }, { text, post }) => {
 		rootState.socket.$ws.sendObj({
 			guid: post.guid,

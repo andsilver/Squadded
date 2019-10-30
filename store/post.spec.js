@@ -101,7 +101,7 @@ describe('Comment store module', () => {
 		expect(post.likes.byMe).toBe(true);
 	});
 
-	it('should toggle like state of post, send message', async () => {
+	it('should toggle like state of post and send message', async () => {
 		const count = chance.natural();
 		const post = aDefaultSingleItemMsgBuilder()
 			.withGUID()
@@ -133,5 +133,17 @@ describe('Comment store module', () => {
 
 		// send ws message
 		expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
+	});
+
+	it('should set text of post and send message', async () => {
+		const post = aDefaultSingleItemMsgBuilder()
+			.withGUID()
+			.get();
+		const text = chance.sentence();
+
+		await root.dispatch(`${PostStore}/${PostActions.editText}`, { text, post });
+
+		expect(post.text).toBe(text);
+		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith(post.toMessage());
 	});
 });

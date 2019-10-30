@@ -1,9 +1,25 @@
 <template>
 	<div class="full_post">
 		<UserLink ref="user-link" class="post_user_link" :user="post.user" :ts="post.ts" />
-		<h3 class="card_title">
-			I just added 3 items to my wishlist.
+		<h3
+			v-if="isTextVisible"
+			ref="post-text"
+			:class="{card_title: true, placeholder: isPlaceHolder}"
+			@click="toggleTextEditor"
+		>
+			{{ post.text || (isPlaceHolder && $t('post.textPlaceholder')) }}
 		</h3>
+		<MessageInput
+			v-if="showTextEditor"
+			ref="post-text-input"
+			class="mb-3"
+			:action="editPostText"
+			:placeholder="$t('post.textPlaceholder')"
+			:post="post"
+			:text="post.text"
+			@send="toggleTextEditor"
+			@cancel="toggleTextEditor"
+		/>
 		<section class="px-11">
 			<v-card
 				class="mx-auto mb-6 pa-4 product_card"
@@ -58,13 +74,17 @@
 			v-if="showComments"
 			ref="comment-input"
 			class="post_comment_input"
-			:action="action"
+			:action="sendComment"
+			:placeholder="$t('input.placeholder')"
 			:post="post"
+			user-link
+			@send="scroll"
 		/>
 	</div>
 </template>
 
 <script lang="js">
+import { createNamespacedHelpers } from 'vuex';
 import MessageInput from '../MessageInput';
 import Comment from './Comment';
 import UserLink from '~/components/UserLink';
@@ -76,6 +96,8 @@ const TAB_BAR_HEIGHT = 50;
 const GAP = 5;
 
 const getScroll = (rect, scrollTop) => rect.top + scrollTop - window.innerHeight + rect.height + TAB_BAR_HEIGHT + GAP;
+
+const { mapState } = createNamespacedHelpers('user');
 
 export default {
 	name: 'FeedPost',
@@ -92,11 +114,22 @@ export default {
 	},
 	data: () => ({
 		showComments: false,
-		action: `${PostStore}/${PostActions.sendComment}`,
+		showTextEditor: false,
+		editPostText: `${PostStore}/${PostActions.editText}`,
+		sendComment: `${PostStore}/${PostActions.sendComment}`,
 	}),
 	computed: {
-		commentsCount() {
+		...mapState([
+			'me',
+		]),
+		commentsCount () {
 			return this.post.comments.messages.length || this.post.comments.count;
+		},
+		isTextVisible () {
+			return this.post.user.guid === this.me.userId ? !this.showTextEditor : this.post.text;
+		},
+		isPlaceHolder () {
+			return (this.post.user.guid === this.me.userId && !this.post.text);
 		},
 	},
 	methods: {
@@ -128,6 +161,12 @@ export default {
 				this.scroll();
 			});
 		},
+		toggleTextEditor () {
+			if (this.post.user.guid !== this.me.userId) {
+				return;
+			}
+			this.showTextEditor = !this.showTextEditor;
+		},
 	},
 };
 </script>
@@ -143,11 +182,6 @@ export default {
 	margin-left: 3%;
 }
 
-.v-input
-	position sticky
-	bottom 0
-	background white
-
 .full_post {
 	margin-top 4%;
 }
@@ -157,6 +191,9 @@ export default {
 	font-weight 500;
 	margin-bottom: 3%;
 }
+
+.placeholder
+	color #757575;
 
 .product_card {
 	border-radius 0 !important;
@@ -260,9 +297,10 @@ export default {
 		padding-left: 0;
 	}
 
-	.post_comment_input {
-		font-size: .7em;
-	}
+.post_comment_input
+	font-size .7em
+	position sticky
+	bottom 0
 
 .double_heart_button.sqdi-squadded-icon:before {
 	text-align center;

@@ -44,6 +44,10 @@ const aDefaultSingleItemMsgBuilder = () => {
 			msg.user = user;
 			return builder;
 		},
+		withText: (text = chance.sentence()) => {
+			msg.text = text;
+			return builder;
+		},
 		get: () => msg,
 	};
 
