@@ -1,7 +1,7 @@
 <template>
 	<v-layout v-if="user && user.name" flex-column>
 		<section class="profile_background_image">
-			<v-img height="122" src="https://github.com/squadded/widget/blob/feed-page/assets/img/Background.jpg?raw=true" />
+			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
 		</section>
 		<userToolbar class="user_toolbar" />
 		<v-list-item class="px-0 user_info">

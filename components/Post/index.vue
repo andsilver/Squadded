@@ -232,7 +232,7 @@ export default {
 	.post_title {
 		margin-top: 1%;
 		padding: 0;
-		width: 90%;
+		width: 85%;
 	}
 
 	.post_title span{
@@ -241,7 +241,7 @@ export default {
 		word-break normal;
 		overflow: hidden;
 		font-size: .5em;
-		line-height .9em;
+		line-height 1em;
 		font-weight: 500;
 		color: #B8B8BA;
 	}

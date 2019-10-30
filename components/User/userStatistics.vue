@@ -49,6 +49,7 @@ export default {
 
 	.title {
 		font-weight: 600;
+		font-family: 'Montserrat', sans-serif !important;
 	}
 
 	.subtitle {
