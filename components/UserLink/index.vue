@@ -1,21 +1,22 @@
 <template>
 	<nuxt-link ref="user-link" :to="getUserLink()">
-		<v-list-item v-if="!hideAvatar">
-			<v-list-item-avatar :size="size">
+		<v-list-item v-if="!hideAvatar" class="pa-0 user_link_header">
+			<v-list-item-avatar class="mr-3" :size="size">
 				<img :src="user && user.avatar" :alt="user && user.screenName">
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
-				<v-list-item-title>
+				<v-list-item-title class="user_name">
 					{{ user.screenName }}
 				</v-list-item-title>
-				<v-list-item-subtitle>
+				<button class="button_more sqdi-more" />
+				<v-list-item-subtitle class="user_timestamp">
 					{{ timeString }}
 				</v-list-item-subtitle>
 			</v-list-item-content>
 		</v-list-item>
-		<v-list-item-title v-else>
+		<span v-else>
 			{{ user.screenName }}
-		</v-list-item-title>
+		</span>
 	</nuxt-link>
 </template>
 
@@ -66,3 +67,34 @@ export default {
 	},
 };
 </script>
+
+<style scoped>
+	.user_name {
+		font-size: .8em;
+		font-weight: 600;
+	}
+
+	.user_timestamp {
+		font-size: .7em;
+		font-weight: 400;
+		color: #B8B8BA;
+	}
+
+	.button_more {
+		position: absolute;
+		right: 1%;
+		top: 34%;
+		height: 5%;
+		color: #B8B8BA;
+	}
+
+	.sqdi-more:before {
+		height: 18px;
+		line-height: 18px;
+		font-size: 18px;
+	}
+
+	.user_link_header {
+		position: relative;
+	}
+</style>

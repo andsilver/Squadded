@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<img :src="user.avatar" :class=" user.scrolled === true ? 'fixed_profile' : 'basic_img' " alt="user avatar">
+		<img :src="user.avatar" alt="user avatar">
 	</section>
 </template>
 
@@ -17,15 +17,14 @@ export default {
 </script>
 
 <style scoped>
+	section{
+		position: relative;
+	}
 	img {
+		width: 28%;
 		border-radius: 50%;
-	}
+		border: 3px solid white;
 
-	.fixed_profile {
-		width: 15%;
-	}
-
-	.basic_img {
-		width: 30%;
+		box-sizing: content-box;
 	}
 </style>

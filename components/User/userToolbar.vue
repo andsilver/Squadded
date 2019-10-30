@@ -1,18 +1,23 @@
 <template>
 	<section>
-		<button class="button_more icon-more" />
-		<button class="button_add_user icon-add-user" />
-		<button class="button_bag icon-shopping-bag">
+		<button class="button_more sqdi-more" :class="{whiteText: isBgExist}" />
+		<button class="button_add_user sqdi-add-user" :class="{whiteText: isBgExist}" />
+		<button class="button_bag sqdi-shopping-bag" :class="{whiteText: isBgExist}">
 			<div class="shopping_bag_count">
-				<span>1</span>
+				<span>4</span>
 			</div>
 		</button>
-		<span>Profile</span>
+		<span v-if="!isBgExist">Profile</span>
 	</section>
 </template>
 
 <script>
 export default {
+	data: () => {
+		return {
+			isBgExist: true,
+		};
+	},
 };
 </script>
 
@@ -44,7 +49,11 @@ export default {
 		left: 0;
 		text-align: center;
 
-		font-weight: 700;
+		font-weight: 900;
+	}
+
+	.whiteText {
+		color: white;
 	}
 
 	.shopping_bag_count {
@@ -53,13 +62,13 @@ export default {
 		bottom: 0;
 		right: 4px;
 
-		width: 14px;
-		height: 14px;
-		font-size: 10px;
+		width: 12px;
+		height: 12px;
+		font-size: 8px;
 		line-height: 12px;
 
 		color: #fff;
-		background-color: orangered;
+		background-color: #FD6256;
 		border-radius: 50%;
 	}
 </style>

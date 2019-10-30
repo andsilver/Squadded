@@ -1,28 +1,28 @@
 <template>
-	<v-list-item align="center" class="px-5 py-2">
-		<v-list-item-content v-if="!user.scrolled" class="px-3">
-			<v-list-item-title class="font-weight-bold">
-				My Squad:
-			</v-list-item-title>
-		</v-list-item-content>
-		<v-list-item-content class="text-left py-0">
-			<v-list-item-title class="title">
-				{{ short(user.followers.count) }}
-			</v-list-item-title>
-			<v-list-item-subtitle class="subtitle">
-				{{ $t('user.Followers') }}
-			</v-list-item-subtitle>
-		</v-list-item-content>
-		<v-divider class="mx-0" inset vertical />
-		<v-list-item-content class="text-left px-5 py-0">
-			<v-list-item-title class="title">
-				{{ short(user.following.count) }}
-			</v-list-item-title>
-			<v-list-item-subtitle class="subtitle">
-				{{ $t('user.Following') }}
-			</v-list-item-subtitle>
-		</v-list-item-content>
-	</v-list-item>
+	<section class="user_statistics">
+		<h4 class="px-3 my_squad_title">
+			My Squad:
+		</h4>
+		<section class="statistic">
+			<section>
+				<v-list-item-title class="title">
+					{{ short(user.followers.count) }}
+				</v-list-item-title>
+				<v-list-item-subtitle class="subtitle">
+					{{ $t('user.Followers') }}
+				</v-list-item-subtitle>
+			</section>
+			<v-divider class="divider" inset vertical />
+			<section>
+				<v-list-item-title class="title">
+					{{ short(user.following.count) }}
+				</v-list-item-title>
+				<v-list-item-subtitle class="subtitle">
+					{{ $t('user.Following') }}
+				</v-list-item-subtitle>
+			</section>
+		</section>
+	</section>
 </template>
 
 <script>
@@ -47,7 +47,36 @@ export default {
 		font-family: 'Montserrat', sans-serif;
 	}
 
+	.title {
+		font-weight: 600;
+	}
+
 	.subtitle {
 		color: #B8B8BA !important;
+		font-weight: 500;
+	}
+
+	.my_squad_title {
+		width: 100%;
+		padding: 0;
+		margin-bottom: 2%;
+		text-align: center;
+		color: #B8B8BA !important;
+		font-weight: 600;
+	}
+
+	.statistic {
+		display: flex;
+		justify-content: space-around;
+		padding: 0 20%;
+		text-align: center;
+	}
+
+	.user_statistics {
+		width: 100%;
+	}
+
+	.divider {
+		height: 40px !important;
 	}
 </style>

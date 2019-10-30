@@ -39,12 +39,21 @@
   "feed": {
     "isEmpty": "There is no items yet"
   },
+  "post": {
+    "viewAllComments": "View all {n} comments"
+  },
+  "wishlist": {
+    "purchase": "PURCHASE"
+  },
   "user": {
     "Following": "Following",
     "Followers": "Followers",
     "Likes": "Likes",
     "Unfollow": "Unfollow",
     "Follow": "Follow"
+  },
+  "input": {
+    "placeholder": "Write a comment"
   },
   "error": {
     "404": "404 Not Found",

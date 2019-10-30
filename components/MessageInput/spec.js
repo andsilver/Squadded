@@ -3,6 +3,8 @@ import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import MessageInput from './index.vue';
 import Post from '~/components/Post';
+import Store from '~/store';
+import { PostStore, PostActions } from '~/store/post';
 
 const chance = new Chance();
 
@@ -10,9 +12,12 @@ describe('Message Input', () => {
 	let localVue;
 	let post;
 	let sendComment;
-	let actions;
 	let store;
 	let wrapper;
+
+	const mocks = {
+		$t: msg => msg,
+	};
 
 	beforeEach(() => {
 		localVue = createLocalVue();
@@ -21,15 +26,12 @@ describe('Message Input', () => {
 		post = {
 			guid: chance.guid(),
 		};
-		sendComment = 'sendComment';
-		actions = {
-			[sendComment]: jest.fn(),
-		};
-		store = new Vuex.Store({
-			actions,
-		});
+		sendComment = `${PostStore}/${PostActions.sendComment}`;
+		store = new Vuex.Store(Store);
+		store.dispatch = jest.fn();
 
 		wrapper = shallowMount(MessageInput, {
+			mocks,
 			store,
 			localVue,
 			parentComponent: Post,
@@ -47,8 +49,6 @@ describe('Message Input', () => {
 		});
 
 		wrapper.vm.send();
-		expect(actions[sendComment]).toHaveBeenCalled();
-		const payload = actions[sendComment].mock.calls[0][1];
-		expect(payload).toMatchObject({ post, text });
+		expect(store.dispatch).toHaveBeenCalledWith(sendComment, { post, text });
 	});
 });

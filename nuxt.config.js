@@ -50,7 +50,7 @@ export default {
 			{
 				rel: 'stylesheet',
 				href:
-					'https://fonts.googleapis.com/css?family=Montserrat|Material+Icons',
+				'https://fonts.google.com/specimen/Montserrat?selection.family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i',
 			},
 		],
 		script: [

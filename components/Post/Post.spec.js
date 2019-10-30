@@ -6,6 +6,11 @@ import { PostStore, PostActions, PostMutations } from '~/store/post';
 import Store from '~/store';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 
+const mocks = {
+	$t: msg => msg,
+	$tc: msg => msg,
+};
+
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
@@ -24,6 +29,7 @@ describe('Feed Post', () => {
 		store = new Vuex.Store(Store);
 
 		wrapper = shallowMount(FeedPost, {
+			mocks,
 			localVue,
 			propsData: {
 				post,
@@ -57,7 +63,7 @@ describe('Feed Post', () => {
 			expect(wrapper.ref(COUNTER_ID).exists()).toBe(false);
 
 			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('mdi-chat-outline');
+			expect(icon.text()).toBe('sqdi-chat-message-oval-outlined-speech-bubble');
 		});
 
 		it('should display chat icon and number of comments', () => {
@@ -69,7 +75,7 @@ describe('Feed Post', () => {
 			expect(counter.text()).toBe(post.comments.messages.length.toString());
 
 			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('mdi-chat-outline');
+			expect(icon.text()).toBe('sqdi-chat-message-oval-outlined-speech-bubble');
 		});
 
 		it('should not display comments list on init', () => {
@@ -154,7 +160,7 @@ describe('Feed Post', () => {
 			expect(wrapper.ref(COUNTER_ID).text()).toBe(post.likes.count.toString());
 
 			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('mdi-heart');
+			expect(icon.text()).toBe('sqdi-favorite-heart-button');
 			expect(icon.attributes('color')).not.toBe('red');
 		});
 
@@ -165,7 +171,7 @@ describe('Feed Post', () => {
 			expect(wrapper.ref(COUNTER_ID).text()).toBe(post.likes.count.toString());
 
 			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('mdi-heart');
+			expect(icon.text()).toBe('sqdi-favorite-heart-button');
 			expect(icon.attributes('color')).toBe('red');
 		});
 
@@ -176,7 +182,7 @@ describe('Feed Post', () => {
 			expect(wrapper.ref(COUNTER_ID).exists()).toBe(false);
 
 			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('mdi-heart-outline');
+			expect(icon.text()).toBe('sqdi-favorite-heart-button-outline');
 			expect(icon.attributes('color')).not.toBe('red');
 		});
 	});

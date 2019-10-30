@@ -15,7 +15,7 @@ export default {
 
 <style scoped>
 	p {
-		font-weight: 700;
+		font-weight: 400;
 		margin-bottom: 1%;
 		color: #B8B8BA;
 	}

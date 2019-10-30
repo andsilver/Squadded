@@ -1,11 +1,16 @@
 <template>
-	<v-list-item>
-		<UserLink size="36" :user="comment.author" hide-name />
-		<v-list-item-content>
-			<UserLink :user="comment.author" hide-avatar />
-			<v-list-item-subtitle v-text="comment.text" />
-		</v-list-item-content>
-	</v-list-item>
+	<section class="comment">
+		<UserLink size="30" :user="comment.author" hide-name />
+		<p class="comment_text_row">
+			<UserLink class="comment_user_name" :user="comment.author" hide-avatar />:
+			<span class="comment_text">{{ comment.text }}</span>
+		</p>
+		<button class="comment_like_button">
+			<v-icon class="comment_buttons_icon" color="#B8B8BA" size="22">
+				mdi-heart{{ '-outline' }}
+			</v-icon>
+		</button>
+	</section>
 </template>
 
 <script lang="js">
@@ -24,3 +29,41 @@ export default {
 	},
 };
 </script>
+<style>
+	.comment{
+		display: flex;
+	}
+
+	.comment_user_name {
+		font-weight: 500;
+	}
+
+	.comment_user_name span {
+		color: black;
+	}
+
+	.comment_text_row{
+		width: 75%;
+		font-size: .7em;
+		line-height: 1.2em;
+		margin-bottom: 0 !important;
+		padding-top: 5%;
+	}
+
+	.comment_text {
+		color: #B8B8BA;
+		font-weight: 400;
+	}
+
+	.comment_like_button {
+		width: 36px;
+		position: relative;
+	}
+
+	.comment_buttons_icon {
+		position: absolute;
+		left: 7px;
+		top: 50%;
+		margin-top: -25%;
+	}
+</style>

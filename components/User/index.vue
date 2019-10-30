@@ -1,11 +1,14 @@
 <template>
 	<v-layout v-if="user && user.name" flex-column>
-		<userToolbar v-if="!scrolled" class="user_toolbar" />
-		<v-list-item class="px-0">
+		<section class="profile_background_image">
+			<v-img height="122" src="https://github.com/squadded/widget/blob/feed-page/assets/img/Background.jpg?raw=true" />
+		</section>
+		<userToolbar class="user_toolbar" />
+		<v-list-item class="px-0 user_info">
 			<v-list-item-content align="center">
-				<userAvatar :align="scrolled === true ? 'left' : 'center' " class="user_avatar my-0" :user="user" />
-				<userName class="mt-3" :name="user.name" />
-				<userMention v-if="!scrolled" class="mt-1 caption mention" :mention="user.mention ? user.mention : 'Love my parents and they like me too'" />
+				<userAvatar align="center" class="user_avatar my-0" :user="user" />
+				<userName class="mt-2" :name="user.name" />
+				<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : 'Love my parents and they like me too'" />
 			</v-list-item-content>
 		</v-list-item>
 		<userStatistics class="pt-0" :user="user" />
@@ -17,6 +20,7 @@
 		</p>
 		<v-tabs
 			v-model="tabs"
+			class="px-5"
 			fixed-tabs
 			centered
 		>
@@ -70,7 +74,6 @@ export default {
 		other: null,
 		userId: null,
 		tabs: null,
-		scrolled: false,
 	}),
 	computed: {
 		...mapState([
@@ -136,12 +139,36 @@ export default {
 	}
 
 	.tabs {
+		padding-bottom: 6%;
 		border-bottom: 2px solid rgba(0,0,0,.1);
 		font-size: 1em;
+		font-weight: 600;
+		opacity: .9;
+		color: #B8B8BA;
 	}
 
 	.user_avatar {
 		left: 0;
 	}
 
+	.user_info {
+		background-color: transparent;
+		margin-top: 3%;
+	}
+
+	.v-tab--active {
+		color: black;
+		background-color: white;
+	}
+
+	.v-tab--active:before {
+		background-color: white;
+	}
+
+	.profile_background_image {
+		position: absolute;
+		width: 100%;
+		left: 0;
+		top: 0;
+	}
 </style>
