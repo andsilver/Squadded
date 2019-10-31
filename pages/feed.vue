@@ -12,22 +12,6 @@
 	</v-layout>
 </template>
 
-<style lang="stylus">
-.full-width {
-	width 100%
-	margin-left 0
-	margin-right 0
-}
-.social {
-	display flex
-	justify-content space-between
-
-	span {
-		line-height 50px
-	}
-}
-</style>
-
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';

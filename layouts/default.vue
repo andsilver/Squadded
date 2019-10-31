@@ -20,7 +20,7 @@ html
 	.v-application--wrap
 		min-height unset
 .v-content
-	padding-bottom 48px !important
+	padding-bottom 65px !important
 	max-height 100%
 .v-content__wrap
 	overflow auto

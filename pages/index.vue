@@ -20,19 +20,12 @@
 </template>
 
 <style lang="stylus">
-.full-width {
-	width 100%
-	margin-left 0
-	margin-right 0
-}
-.social {
+.social
 	display flex
 	justify-content space-between
 
-	span {
+	span
 		line-height 50px
-	}
-}
 </style>
 
 <script>

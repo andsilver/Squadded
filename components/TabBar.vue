@@ -31,7 +31,7 @@ export default {
 			icon: 'sqdi-magnifying-glass-finder',
 			text: 'Explore',
 		}, {
-			uri: '/plus',
+			uri: '/poll/new',
 			icon: 'sqdi-plus',
 			text: '',
 			specialClass: 'plus_icon',
@@ -56,7 +56,6 @@ export default {
 		font-weight: 600;
 		text-transform: capitalize;
 		bottom: 20%;
-		font-family: 'Montserrat', sans-serif !important;
 		color: #B8B8BA;
 	}
 

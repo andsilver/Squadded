@@ -106,9 +106,6 @@ export default {
 		}
 	},
 	methods: {
-		goBack() {
-			history.back();
-		},
 		toggleFollow() {
 			const { other } = this;
 			if (!other) {

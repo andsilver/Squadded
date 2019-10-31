@@ -1,6 +1,7 @@
 {
   "getStarted": "Get started with",
   "or": "or",
+  "Done": "Done",
   "form": {
     "name": "Name",
     "email": "E-mail",
@@ -38,6 +39,10 @@
   },
   "feed": {
     "isEmpty": "There is no items yet"
+  },
+  "poll": {
+    "create": "Create Poll",
+    "textPlaceholder": "Type a question (optioanl)"
   },
   "post": {
     "textPlaceholder": "Input your message for this post",
