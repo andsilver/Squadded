@@ -1,34 +1,23 @@
 <template>
-	<v-container v-if="isVisible" class="layout-padding">
-		<TopBar ref="top-bar" />
+	<v-container>
 		<v-layout
+			v-if="isVisible"
 			column
 			justify-center
 			align-center
 		>
 			<div class="full-width">
-				<Feed ref="feed-layout" :items="items" />
+				Under construction
 			</div>
 		</v-layout>
 	</v-container>
 </template>
 
 <script>
-import { createNamespacedHelpers, mapState } from 'vuex';
-import Feed from '~/components/Feed';
-import TopBar from '~/components/common/TopBar.vue';
-
-const { mapGetters } = createNamespacedHelpers('feed');
+import { mapState } from 'vuex';
 
 export default {
-	components: {
-		Feed,
-		TopBar,
-	},
 	computed: {
-		...mapGetters([
-			'items',
-		]),
 		...mapState([
 			'socket',
 		]),

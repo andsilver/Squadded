@@ -9,6 +9,7 @@ Wrapper.prototype.ref = function (id) {
 
 describe('Message Input', () => {
 	const MAIN = 'feed-layout';
+	const TOP_BAR = 'top-bar';
 
 	let localVue;
 	let store;
@@ -50,5 +51,6 @@ describe('Message Input', () => {
 		store.commit('SET_SOCKET_AUTH', true);
 		feed = wrapper.ref(MAIN);
 		expect(feed.exists()).toBe(true);
+		expect(wrapper.ref(TOP_BAR).exists()).toBe(true);
 	});
 });

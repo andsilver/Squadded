@@ -2,7 +2,6 @@
 	<v-tabs
 		grow
 		height="65"
-		class="tab_list_bot"
 	>
 		<v-tab
 			v-for="tab in tabs"
@@ -54,7 +53,6 @@ export default {
 		position: absolute;
 		font-size: .7em;
 		font-weight: 600;
-		text-transform: capitalize;
 		bottom: 20%;
 		color: #B8B8BA;
 	}

@@ -1,7 +1,7 @@
 <template>
 	<section class="user_statistics">
 		<h4 class="px-3 my_squad_title">
-			My Squad:
+			{{ $t('My Squad') }}:
 		</h4>
 		<section class="statistic">
 			<section>
@@ -43,13 +43,8 @@ export default {
 </script>
 
 <style scoped>
-	* {
-		font-family: 'Montserrat', sans-serif;
-	}
-
 	.title {
 		font-weight: 600;
-		font-family: 'Montserrat', sans-serif !important;
 	}
 
 	.subtitle {

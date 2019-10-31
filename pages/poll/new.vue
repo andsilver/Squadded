@@ -1,29 +1,30 @@
 <template>
-	<v-layout
-		v-if="isVisible"
-		column
-		justify-center
-		align-center
-	>
-		<div class="full-width">
-			<h2>
-				<GoBackBtn ref="goback-button" />
-				{{ $t('poll.create') }}
-			</h2>
-			<v-text-field
-				ref="text-field"
-				v-model="textValue"
-				hide-details
-				:placeholder="$t('poll.textPlaceholder')"
-			/>
-			<Poll ref="select-items" />
-			<section align="center">
-				<Button ref="done-button">
-					{{ $t('Done') }}
-				</Button>
-			</section>
-		</div>
-	</v-layout>
+	<v-container v-if="isVisible">
+		<h2>
+			<GoBackBtn ref="goback-button" />
+			{{ $t('poll.create') }}
+		</h2>
+		<v-layout
+			column
+			justify-center
+			align-center
+		>
+			<div class="full-width">
+				<v-text-field
+					ref="text-field"
+					v-model="textValue"
+					hide-details
+					:placeholder="$t('poll.textPlaceholder')"
+				/>
+				<Poll ref="select-items" />
+				<section align="center">
+					<Button ref="done-button">
+						{{ $t('Done') }}
+					</Button>
+				</section>
+			</div>
+		</v-layout>
+	</v-container>
 </template>
 
 <script>

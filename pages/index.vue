@@ -1,22 +1,24 @@
 <template>
-	<v-layout
-		v-if="!socket.isPendingAuth"
-		column
-		justify-center
-		align-center
-	>
-		<div class="full-width">
-			<div class="text-center my-2">
-				<span>{{ $t('getStarted') }}</span>
+	<v-container>
+		<v-layout
+			v-if="!socket.isPendingAuth"
+			column
+			justify-center
+			align-center
+		>
+			<div class="full-width">
+				<div class="text-center my-2">
+					<span>{{ $t('getStarted') }}</span>
+				</div>
+				<div class="my-3 social">
+					<social-btn for="fb" />
+					<span>{{ $t('or') }}</span>
+					<social-btn for="inst" />
+				</div>
+				<sign-form />
 			</div>
-			<div class="my-3 social">
-				<social-btn for="fb" />
-				<span>{{ $t('or') }}</span>
-				<social-btn for="inst" />
-			</div>
-			<sign-form />
-		</div>
-	</v-layout>
+		</v-layout>
+	</v-container>
 </template>
 
 <style lang="stylus">

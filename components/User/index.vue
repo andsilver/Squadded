@@ -1,45 +1,47 @@
 <template>
-	<v-layout v-if="user && user.name" flex-column>
+	<v-container v-if="user && user.name">
 		<section class="profile_background_image">
 			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
 		</section>
 		<userToolbar class="user_toolbar" />
-		<v-list-item class="px-0 user_info">
-			<v-list-item-content align="center">
-				<userAvatar align="center" class="user_avatar my-0" :user="user" />
-				<userName class="mt-2" :name="user.name" />
-				<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : 'Love my parents and they like me too'" />
-			</v-list-item-content>
-		</v-list-item>
-		<userStatistics class="pt-0" :user="user" />
-		<Button v-if="me.userId !== user.userId" ref="follow-btn" @click.native="toggleFollow">
-			{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
-		</Button>
-		<p align="center">
-			{{ user.bio }}
-		</p>
-		<v-tabs
-			v-model="tabs"
-			class="px-5"
-			fixed-tabs
-			centered
-		>
-			<v-tab class="tabs pt-3">
-				<span style="text-transform: capitalize;">Activities</span>
-			</v-tab>
-			<v-tab class="tabs pt-3">
-				<span style="text-transform: capitalize">Wishlist</span>
-			</v-tab>
-		</v-tabs>
-		<v-tabs-items v-model="tabs">
-			<v-tab-item>
-				<Blog />
-			</v-tab-item>
-			<v-tab-item>
-				<Whishlist />
-			</v-tab-item>
-		</v-tabs-items>
-	</v-layout>
+		<v-layout flex-column>
+			<v-list-item class="px-0 user_info">
+				<v-list-item-content align="center">
+					<userAvatar align="center" class="user_avatar my-0" :user="user" />
+					<userName class="mt-2" :name="user.name" />
+					<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : 'Love my parents and they like me too'" />
+				</v-list-item-content>
+			</v-list-item>
+			<userStatistics class="pt-0" :user="user" />
+			<Button v-if="me.userId !== user.userId" ref="follow-btn" @click.native="toggleFollow">
+				{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
+			</Button>
+			<p align="center">
+				{{ user.bio }}
+			</p>
+			<v-tabs
+				v-model="tabs"
+				class="px-5"
+				fixed-tabs
+				centered
+			>
+				<v-tab class="tabs pt-3">
+					<span style="text-transform: capitalize;">Activities</span>
+				</v-tab>
+				<v-tab class="tabs pt-3">
+					<span style="text-transform: capitalize">Wishlist</span>
+				</v-tab>
+			</v-tabs>
+			<v-tabs-items v-model="tabs">
+				<v-tab-item>
+					<Blog />
+				</v-tab-item>
+				<v-tab-item>
+					<Whishlist />
+				</v-tab-item>
+			</v-tabs-items>
+		</v-layout>
+	</v-container>
 </template>
 
 <script>

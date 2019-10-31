@@ -1,3 +1,5 @@
+import colors from 'vuetify/es5/util/colors';
+
 const {
 	WS_LINK,
 	BASE,
@@ -70,8 +72,27 @@ export default {
 	** Global CSS
 	*/
 	css: [
+		'~/assets/style/sqdi.css',
 		'~/assets/style/app.styl',
 	],
+	vuetify: {
+		treeShake: true,
+		customVariables: ['~/assets/style/variables.scss'],
+		theme: {
+			dark: false,
+			themes: {
+				light: {
+					primary: '#202020',
+					accent: colors.grey.darken3,
+					secondary: colors.amber.darken3,
+					info: colors.teal.lighten1,
+					warning: colors.amber.base,
+					error: colors.deepOrange.accent4,
+					success: colors.green.accent3,
+				},
+			},
+		},
+	},
 	router: {
 		base: BASE,
 		middleware: [
@@ -84,7 +105,6 @@ export default {
 	*/
 	plugins: [
 		'@plugins/i18n',
-		'@plugins/vuetify',
 		'@plugins/messaging',
 		{ src: '@plugins/init/ws', ssr: false },
 	],
