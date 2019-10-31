@@ -240,8 +240,8 @@ export default {
 		max-height: 20px;
 		word-break normal;
 		overflow: hidden;
-		font-size: .5em;
-		line-height 1em;
+		font-size: 10px;
+		line-height 10px;
 		font-weight: 500;
 		color: #B8B8BA;
 	}
