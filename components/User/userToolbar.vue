@@ -3,9 +3,7 @@
 		<button class="button_more sqdi-more" :class="{whiteText: isBgExist}" />
 		<button class="button_add_user sqdi-add-user" :class="{whiteText: isBgExist}" />
 		<button class="button_bag sqdi-shopping-bag" :class="{whiteText: isBgExist}">
-			<div class="shopping_bag_count">
-				<span>4</span>
-			</div>
+			<span class="shopping_bag_count">4</span>
 		</button>
 		<span v-if="!isBgExist">Profile</span>
 	</section>
@@ -40,18 +38,6 @@ export default {
 		margin-left: auto;
 	}
 
-	span {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-
-		padding-top: 2%;
-		left: 0;
-		text-align: center;
-
-		font-weight: 900;
-	}
-
 	.whiteText {
 		color: white;
 	}
@@ -59,8 +45,8 @@ export default {
 	.shopping_bag_count {
 		position: absolute;
 
-		bottom: 0;
-		right: 4px;
+		bottom: 2px;
+		right: 6px;
 
 		width: 12px;
 		height: 12px;
@@ -70,5 +56,6 @@ export default {
 		color: #fff;
 		background-color: #FD6256;
 		border-radius: 50%;
+		font-weight: 900;
 	}
 </style>

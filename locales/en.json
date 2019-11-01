@@ -3,7 +3,11 @@
   "or": "or",
   "Done": "Done",
   "My Squad": "My Squad",
-  "Community": "Community",
+  "Community": "The Community",
+  "Home": "Home",
+  "Explore": "Explore",
+  "Messages": "Messages",
+  "Profile": "Profile",
   "form": {
     "name": "Name",
     "email": "E-mail",

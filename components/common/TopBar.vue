@@ -1,6 +1,11 @@
 <template>
-	<v-toolbar dense flat>
-		<v-tabs>
+	<v-toolbar
+		dense
+		flat
+		height="40"
+		class="px-3 mt-3"
+	>
+		<v-tabs class="tabs_block">
 			<v-tab to="/feed">
 				{{ $t('My Squad') }}
 			</v-tab>
@@ -18,6 +23,7 @@
 			<v-icon>
 				sqdi-shopping-bag
 			</v-icon>
+			<span class="shopping_bag_count">4</span>
 		</v-btn>
 	</v-toolbar>
 </template>
@@ -26,3 +32,41 @@
 export default {
 };
 </script>
+<style lang="stylus" scoped>
+	.v-tab
+		min-width auto
+		padding 0
+		margin-right 5%
+
+		font-size .75em
+		font-weight 700
+		text-align left !important
+		color #B8B8BA !important
+
+	.v-tab--active
+		color black !important
+
+	.v-btn
+		color black !important
+		width 40px !important
+		height 40px !important
+
+	.v-btn i
+		background-color transparent
+
+	.shopping_bag_count
+		position absolute
+
+		bottom -6px
+		right 6px
+
+		width 14px
+		height 14px
+		font-size 9px
+		line-height 14px
+
+		color #fff
+		background-color #FD6256
+		border-radius 50%
+		font-weight 900
+</style>

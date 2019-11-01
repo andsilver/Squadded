@@ -20,26 +20,24 @@
 			@send="toggleTextEditor"
 			@cancel="toggleTextEditor"
 		/>
-		<section class="px-11">
-			<v-card
-				class="mx-auto mb-6 pa-4 product_card"
-				:loading="!post.guid && !post.error"
-				:elevation="1"
-			>
-				<v-img :src="post.item.img">
-					<button class="double_heart_button sqdi-squadded-icon" />
-				</v-img>
-				<section class="card_bottom">
-					<v-card-text class="post_price">
-						<span>{{ post.item.price }}</span>
-					</v-card-text>
-					<v-card-title class="post_title">
-						<span>{{ post.item.title }}</span>
-					</v-card-title>
-					<button class="buy_button sqdi-shopping-bag-2" />
-				</section>
-			</v-card>
-		</section>
+		<v-card
+			class="mx-auto mb-6 pa-4 product_card"
+			:loading="!post.guid && !post.error"
+			:elevation="1"
+		>
+			<v-img :src="post.item.img">
+				<button class="double_heart_button sqdi-squadded-icon" />
+			</v-img>
+			<section class="card_bottom">
+				<v-card-text class="post_price">
+					<span>{{ post.item.price }}</span>
+				</v-card-text>
+				<v-card-title class="post_title">
+					<span>{{ post.item.title }}</span>
+				</v-card-title>
+				<button class="buy_button sqdi-shopping-bag-2" />
+			</section>
+		</v-card>
 		<section class="post_buttons">
 			<v-btn class="counter-icon like_button" @click="toggleLike">
 				<v-icon ref="likes-icon" class="buttons_icon" :color="post.likes.byMe ? 'red' : '#B8B8BA'" size="22">
@@ -198,6 +196,7 @@ export default {
 .product_card {
 	border-radius 0 !important;
 	box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
+	width 78%
 }
 
 .double_heart_button {
