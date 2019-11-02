@@ -1,12 +1,14 @@
 <template lang="html">
 	<v-card class="wishlist_item">
-		<div class="d-flex flex-no-wrap justify-space-between">
-			<div>
-				<v-card-text class="price">
+		<div class="d-flex">
+			<div class="flex-grow-1">
+				<v-card-text ref="item-price" class="price" @click="openProduct">
 					{{ post.item.price }}
 				</v-card-text>
 				<v-card-title
+					ref="item-title"
 					class=" item_title"
+					@click="openProduct"
 					v-text="post.item.title"
 				/>
 				<v-btn
@@ -21,7 +23,7 @@
 				height="120"
 				tile
 			>
-				<v-img :src="post.item.img" />
+				<v-img ref="item-image" :src="post.item.img" @click="openProduct" />
 				<button class="double_heart_button sqdi-squadded-icon" />
 			</v-avatar>
 		</div>
@@ -30,6 +32,7 @@
 
 <script lang="js">
 import { FeedPost } from '~/services/FeedPost';
+import { SquadAPI } from '~/services/SquadAPI';
 
 export default {
 	name: 'WhishlistItem',
@@ -37,6 +40,11 @@ export default {
 		post: {
 			type: FeedPost,
 			required: true,
+		},
+	},
+	methods: {
+		openProduct () {
+			SquadAPI.openProduct(this.post.item);
 		},
 	},
 };

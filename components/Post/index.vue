@@ -25,14 +25,13 @@
 			:loading="!post.guid && !post.error"
 			:elevation="1"
 		>
-			<v-img :src="post.item.img">
-				<button class="double_heart_button sqdi-squadded-icon" />
-			</v-img>
+			<v-img ref="item-image" :src="post.item.img" @click="openProduct" />
+			<button class="double_heart_button sqdi-squadded-icon" />
 			<section class="card_bottom">
-				<v-card-text class="post_price">
+				<v-card-text ref="item-price" class="post_price" @click="openProduct">
 					<span>{{ post.item.price }}</span>
 				</v-card-text>
-				<v-card-title class="post_title">
+				<v-card-title ref="item-title" class="post_title" @click="openProduct">
 					<span>{{ post.item.title }}</span>
 				</v-card-title>
 				<button class="buy_button sqdi-shopping-bag-2" />
@@ -88,6 +87,7 @@ import Comment from './Comment';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { FeedPost } from '~/services/FeedPost';
+import { SquadAPI } from '~/services/SquadAPI';
 import { prefetch } from '~/helpers';
 
 const TAB_BAR_HEIGHT = 50;
@@ -131,6 +131,9 @@ export default {
 		},
 	},
 	methods: {
+		openProduct () {
+			SquadAPI.openProduct(this.post.item);
+		},
 		scroll () {
 			setTimeout(() => {
 				if (this.showComments) {
@@ -206,8 +209,8 @@ export default {
 
 	opacity .5;
 
-	right: 4%;
-	top: 4%;
+	right: 8%;
+	top: 8%;
 	color: white;
 	background-color: #707070;
 

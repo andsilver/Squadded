@@ -7,6 +7,13 @@ import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { UserStore, UserMutations } from '~/store/user';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { userMockBuilder } from '~/test/user.mock';
+import { SquadAPI } from '~/services/SquadAPI';
+
+jest.mock('~/services/SquadAPI', () => ({
+	SquadAPI: {
+		openProduct: jest.fn(),
+	},
+}));
 
 const mocks = {
 	$t: msg => msg,
@@ -20,14 +27,16 @@ Wrapper.prototype.ref = function (id) {
 describe('Feed Post', () => {
 	const USER_LINK = 'user-link';
 	let localVue;
-	let wrapper;
+	let post;
 	let store;
+	let wrapper;
 
 	function initLocalVue () {
+		SquadAPI.openProduct.mockClear();
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 
-		const post = aDefaultSingleItemMsgBuilder().withGUID().get();
+		post = aDefaultSingleItemMsgBuilder().withGUID().get();
 		store = new Vuex.Store(Store);
 
 		wrapper = shallowMount(FeedPost, {
@@ -49,6 +58,25 @@ describe('Feed Post', () => {
 
 		wrapper.setProps({ post });
 		expect(wrapper.ref(USER_LINK).exists()).toBe(true);
+	});
+
+	describe('Product', () => {
+		const IAMGE = 'item-image';
+		const PRICE = 'item-price';
+		const TITLE = 'item-title';
+
+		it('should open product on click', () => {
+			const triggerElements = [IAMGE, PRICE, TITLE];
+			expect.assertions(4);
+
+			triggerElements.forEach((el) => {
+				const element = wrapper.ref(el);
+				wrapper.vm.openProduct = jest.fn();
+				element.trigger('click');
+				expect(SquadAPI.openProduct).toHaveBeenCalledWith(post.item);
+			});
+			expect(SquadAPI.openProduct).toHaveBeenCalledTimes(3);
+		});
 	});
 
 	describe('Text', () => {
