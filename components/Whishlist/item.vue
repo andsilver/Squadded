@@ -24,18 +24,24 @@
 				tile
 			>
 				<v-img ref="item-image" :src="post.item.img" @click="openProduct" />
-				<button class="double_heart_button sqdi-squadded-icon" />
+				<ReSquaddButton
+					:post="post"
+				/>
 			</v-avatar>
 		</div>
 	</v-card>
 </template>
 
-<script lang="js">
+<script>
+import ReSquaddButton from '~/components/ReSquaddButton';
 import { FeedPost } from '~/services/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
 
 export default {
 	name: 'WhishlistItem',
+	components: {
+		ReSquaddButton,
+	},
 	props: {
 		post: {
 			type: FeedPost,
@@ -99,24 +105,6 @@ export default {
 		font-weight: 900;
 
 		text-align: center;
-	}
-
-	.double_heart_button {
-		position: absolute;
-		width: 30px;
-		height: 30px;
-
-		right: 5%;
-		top: 5%;
-		color: white;
-		background-color: black;
-		border-radius: 50%;
-	}
-
-	.sqdi-squadded-icon:before {
-		font-size: 1.15em !important;
-		margin-left: 17%;
-		margin-top: 1%;
 	}
 
 	.sqdi-shopping-bag-2:before {

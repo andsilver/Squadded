@@ -26,7 +26,9 @@
 			:elevation="1"
 		>
 			<v-img ref="item-image" :src="post.item.img" @click="openProduct" />
-			<button class="double_heart_button sqdi-squadded-icon" />
+			<ReSquaddButton
+				:post="post"
+			/>
 			<section class="card_bottom">
 				<v-card-text ref="item-price" class="post_price" @click="openProduct">
 					<span>{{ post.item.price }}</span>
@@ -80,10 +82,11 @@
 	</div>
 </template>
 
-<script lang="js">
+<script>
 import { createNamespacedHelpers } from 'vuex';
-import MessageInput from '../MessageInput';
 import Comment from './Comment';
+import ReSquaddButton from '~/components/ReSquaddButton';
+import MessageInput from '~/components/MessageInput';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { FeedPost } from '~/services/FeedPost';
@@ -103,6 +106,7 @@ export default {
 		Comment,
 		MessageInput,
 		UserLink,
+		ReSquaddButton,
 	},
 	props: {
 		post: {
@@ -202,22 +206,6 @@ export default {
 	width 78%
 }
 
-.double_heart_button {
-	position: absolute;
-	width: 30px;
-	height: 30px;
-
-	opacity .5;
-
-	right: 8%;
-	top: 8%;
-	color: white;
-	background-color: #707070;
-
-	border-radius: 50%;
-	text-align center
-}
-
 	.card_bottom {
 		margin-top 2%;
 	}
@@ -303,11 +291,4 @@ export default {
 	font-size .7em
 	position sticky
 	bottom 0
-
-.double_heart_button.sqdi-squadded-icon:before {
-	text-align center;
-	width: 30px
-	margin 0
-	margin-top 5%;
-}
 </style>
