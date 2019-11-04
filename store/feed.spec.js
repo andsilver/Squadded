@@ -100,18 +100,16 @@ describe('Feed store module', () => {
 			const me = userMockBuilder();
 			root.state.user.me = me;
 
-			const { type, ...cleanPost } = msg;
-			cleanPost.correlationId = jasmine.any(String);
+			msg.correlationId = jasmine.any(String);
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.feed.items).toEqual([ { ...cleanPost, user: me.short() } ]);
+			expect(root.state.feed.items).toEqual([ { ...msg, user: me.short() } ]);
 		});
 
 		it('should commit addItem when receive new item', async () => {
 			const msg = aDefaultSingleItemMsgBuilder().get();
 
 			await feedStore.dispatch(`${FeedActions.receiveItem}`, msg);
-			const { type, ...cleanPost } = msg;
-			expect(feedStore.state.items).toEqual([ cleanPost ]);
+			expect(feedStore.state.items).toEqual([ msg ]);
 		});
 
 		it('should strip error, ts, user, comments, likes and merchantId when sending singleItemPost to socket', async () => {

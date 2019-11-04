@@ -7,7 +7,7 @@ import { isHome } from '~/helpers';
 
 export const dispatch = function (store, message) {
 	const { type } = message;
-	if (type === 'singleItemPost') {
+	if (type === 'singleItemPost' || type === 'pollPost') {
 		store.dispatch(`${FeedStore}/${FeedActions.receiveItem}`, message);
 	} else if (type === 'ping') {
 		store.state.socket._ws.sendObj({ type: 'pong' });

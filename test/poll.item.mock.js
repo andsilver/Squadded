@@ -5,8 +5,8 @@ import { userMockBuilder } from './user.mock';
 
 const chance = new Chance();
 
-const aDefaultSingleItemMsgBuilder = () => {
-	const item = {
+const aDefaultPollMsgBuilder = () => {
+	const item1 = {
 		itemId: chance.natural(),
 		title: chance.sentence({ words: 5 }),
 		origPrice: chance.euro(),
@@ -14,7 +14,19 @@ const aDefaultSingleItemMsgBuilder = () => {
 		img: chance.url({ extensions: ['jpg', 'png'] }),
 		url: chance.url(),
 	};
-	const msg = new FeedPost({ item, type: 'singleItemPost' });
+	const item2 = {
+		itemId: chance.natural(),
+		title: chance.sentence({ words: 5 }),
+		origPrice: chance.euro(),
+		price: chance.euro(),
+		img: chance.url({ extensions: ['jpg', 'png'] }),
+		url: chance.url(),
+	};
+	const msg = new FeedPost({
+		item1,
+		item2,
+		type: 'pollPost',
+	});
 
 	const builder = {
 		withCorrelationId: (id) => {
@@ -53,4 +65,4 @@ const aDefaultSingleItemMsgBuilder = () => {
 	return builder;
 };
 
-export { aDefaultSingleItemMsgBuilder };
+export { aDefaultPollMsgBuilder };

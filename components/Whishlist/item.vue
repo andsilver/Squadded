@@ -25,7 +25,7 @@
 			>
 				<v-img ref="item-image" :src="post.item.img" @click="openProduct" />
 				<ReSquaddButton
-					:post="post"
+					:item="post.item"
 				/>
 			</v-avatar>
 		</div>
@@ -34,7 +34,7 @@
 
 <script>
 import ReSquaddButton from '~/components/ReSquaddButton';
-import { FeedPost } from '~/services/FeedPost';
+import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
 
 export default {

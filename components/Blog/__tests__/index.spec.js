@@ -1,6 +1,6 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import Blog from './index.vue';
+import Blog from '../index.vue';
 import { flushPromises } from '~/helpers';
 import Store from '~/store';
 import { UserStore, UserMutations } from '~/store/user';
@@ -77,6 +77,10 @@ describe('Blog Component', () => {
 		});
 
 		await flushPromises();
+
+		wrapper.setData({
+			blog: [],
+		});
 
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');

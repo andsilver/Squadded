@@ -21,6 +21,7 @@ import TopBar from '~/components/common/TopBar.vue';
 const { mapGetters } = createNamespacedHelpers('feed');
 
 export default {
+	name: 'FeedPage',
 	components: {
 		Feed,
 		TopBar,

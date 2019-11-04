@@ -1,6 +1,6 @@
 import { shallowMount, createLocalVue, Wrapper } from '@vue/test-utils';
 import Vuex from 'vuex';
-import ReSquaddButton from './index.vue';
+import ReSquaddButton from '../index.vue';
 import Store from '~/store';
 import { FeedStore, FeedActions } from '~/store/feed';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
@@ -30,7 +30,7 @@ describe('ReSquadd Button', () => {
 			store,
 			localVue,
 			propsData: {
-				post,
+				item: post.item,
 			},
 		});
 	});

@@ -13,7 +13,7 @@ import { FeedStore, FeedActions } from '~/store/feed';
 export default {
 	name: 'ReSquaddButton',
 	props: {
-		post: {
+		item: {
 			type: Object,
 			default: () => {},
 		},
@@ -23,7 +23,7 @@ export default {
 	}),
 	methods: {
 		async reSquaddPost () {
-			await this.$store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, { item: this.post.item });
+			await this.$store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, { item: this.item });
 			this.setIsReSquadded(true);
 		},
 		setIsReSquadded (state) {
@@ -36,8 +36,8 @@ export default {
 <style scoped lang="stylus">
 .double_heart_button
 	position absolute
-	right 5%
-	top 5%
+	right 8%
+	top 8%
 	width 30px
 	height 30px
 	border-radius 50%

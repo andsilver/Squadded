@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Social from '../services/social';
+import Social from '~/classes/social';
 
 const fullname = {
 	fb: 'facebook',

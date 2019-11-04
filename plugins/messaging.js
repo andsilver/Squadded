@@ -1,24 +1,33 @@
-// import merchant from '../services/merchant';
 import { FeedStore, FeedActions } from '../store/feed';
 import { connect } from './init/ws';
 import { UserStore, UserMutations } from '~/store/user';
 import { SquadStore, SquadMutations } from '~/store/squad';
 
 export const dispatch = (store, msg) => {
-	if (msg.type === 'singleItemPost') {
+	switch (true) {
+	case msg.type === 'singleItemPost' || msg.type === 'pollPost':
 		store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-	} else if (msg.type === 'loggedIn') {
+		break;
+
+	case msg.type === 'loggedIn':
 		store.commit(`${UserStore}/${UserMutations.setToken}`, msg.userToken);
 		connect(store);
-	} else if (msg.type === 'injectMerchantId') {
+		break;
+
+	case msg.type === 'injectMerchantId':
 		const { merchantId } = msg;
 		store.commit('SET_MERCHANT_ID', merchantId);
-	} else if (msg.type === 'injectSquadParams') {
+		break;
+
+	case msg.type === 'injectSquadParams':
 		const { squad } = msg;
 		store.commit(`${SquadStore}/${SquadMutations.setSquadParams}`, squad);
-	} else {
+		break;
+
+	default:
 		// TODO gracefull report
 		// console.warn('Uknonwn message type', msg);
+		break;
 	}
 };
 

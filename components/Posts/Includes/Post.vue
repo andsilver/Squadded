@@ -20,25 +20,7 @@
 			@send="toggleTextEditor"
 			@cancel="toggleTextEditor"
 		/>
-		<v-card
-			class="mx-auto mb-6 pa-4 product_card"
-			:loading="!post.guid && !post.error"
-			:elevation="1"
-		>
-			<v-img ref="item-image" :src="post.item.img" @click="openProduct" />
-			<ReSquaddButton
-				:item="post.item"
-			/>
-			<section class="card_bottom">
-				<v-card-text ref="item-price" class="post_price" @click="openProduct">
-					<span>{{ post.item.price }}</span>
-				</v-card-text>
-				<v-card-title ref="item-title" class="post_title" @click="openProduct">
-					<span>{{ post.item.title }}</span>
-				</v-card-title>
-				<button class="buy_button sqdi-shopping-bag-2" />
-			</section>
-		</v-card>
+		<slot />
 		<section class="post_buttons">
 			<v-btn class="counter-icon like_button" @click="toggleLike">
 				<v-icon ref="likes-icon" class="buttons_icon" :color="post.likes.byMe ? 'red' : '#B8B8BA'" size="22">
@@ -85,12 +67,9 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import Comment from './Comment';
-import ReSquaddButton from '~/components/ReSquaddButton';
 import MessageInput from '~/components/MessageInput';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
-import { FeedPost } from '~/classes/FeedPost';
-import { SquadAPI } from '~/services/SquadAPI';
 import { prefetch } from '~/helpers';
 
 const TAB_BAR_HEIGHT = 50;
@@ -101,17 +80,17 @@ const getScroll = (rect, scrollTop) => rect.top + scrollTop - window.innerHeight
 const { mapState } = createNamespacedHelpers('user');
 
 export default {
-	name: 'FeedPost',
+	name: 'Post',
 	components: {
 		Comment,
 		MessageInput,
 		UserLink,
-		ReSquaddButton,
 	},
 	props: {
 		post: {
-			type: FeedPost,
+			type: Object,
 			required: true,
+			default: () => {},
 		},
 	},
 	data: () => ({
@@ -135,9 +114,6 @@ export default {
 		},
 	},
 	methods: {
-		openProduct () {
-			SquadAPI.openProduct(this.post.item);
-		},
 		scroll () {
 			setTimeout(() => {
 				if (this.showComments) {
@@ -180,115 +156,62 @@ export default {
 .counter-icon
 	position relative
 
-.count {
-	line-height 22px;
-	font-size .8em;
-	font-weight 600;
-	margin-left: 3%;
-}
+.count
+	line-height 22px
+	font-size .8em
+	font-weight 600
+	margin-left 3%
 
-.full_post {
-	margin-top 4%;
-}
+.full_post
+	margin-top 4%
 
-.card_title {
-	font-size .75em;
-	font-weight 500;
-	margin-bottom: 3%;
-}
+.card_title
+	font-size .75em
+	font-weight 500
+	margin-bottom 3%
 
 .placeholder
-	color #757575;
+	color #757575
 
-.product_card {
-	border-radius 0 !important;
-	box-shadow: 0 2px 4px rgba(0,0,0,0.1) !important;
-	width 78%
-}
+.post_buttons
+	display flex
+	border-radius 10px
+	border 1px solid #DBDBDB
+	overflow hidden
 
-	.card_bottom {
-		margin-top 2%;
-	}
+.like_button,
+.comments_button,
+.hanger_button
+	flex-grow 2
+	padding 2% 0 !important
+	height 100% !important
+	box-shadow none !important
+	border-radius 0 !important
+	background-color transparent !important
 
-	.post_price {
-		padding: 0;
-	}
+.comments_button
+	border-left 1px solid #DBDBDB
+	border-right 1px solid #DBDBDB
 
-	.post_price span {
-		font-size .9em;
-		font-weight 700;
-	}
+.buttons_icon
+	background-color transparent
 
-	.post_title {
-		margin-top: 1%;
-		padding: 0;
-		width: 85%;
-	}
-
-	.post_title span{
-		min-height 12px;
-		max-height: 20px;
-		word-break normal;
-		overflow: hidden;
-		font-size: 10px;
-		line-height 10px;
-		font-weight: 500;
-		color: #B8B8BA;
-	}
-
-	.buy_button {
-		width: 30px;
-		height: 30px;
-		position: absolute;
-		right: 5%;
-		bottom: 4%;
-	}
-
-	.sqdi-shopping-bag-2:before {
-		position: absolute;
-		font-size: 1.3em;
-		right: -30%;
-		top: 10%;
-	}
-
-	.post_buttons {
-		display: flex;
-		border-radius 10px;
-		border 1px solid #DBDBDB;
-		overflow: hidden;
-	}
-
-	.like_button,
-	.comments_button,
-	.hanger_button {
-		flex-grow 2;
-		padding 2% 0 !important;
-		height: 100% !important;
-		box-shadow: none !important;
-		border-radius: 0 !important;
-
-		background-color transparent !important;
-	}
-
-	.comments_button {
-		border-left: 1px solid #DBDBDB;
-		border-right: 1px solid #DBDBDB;
-	}
-
-	.buttons_icon {
-		background-color transparent;
-	}
-
-	.show_all_comments {
-		font-size: .65em;
-		font-weight: 600;
-		margin-left: 42px;
-		padding: 2%;
-		padding-left: 0;
-	}
+.show_all_comments
+	font-size .65em
+	font-weight 600
+	margin-left 42px
+	padding 2%
+	padding-left 0
 
 .post_comment_input
 	font-size .7em
 	position sticky
 	bottom 0
+
+.double_heart_button.sqdi-squadded-icon:before
+	text-align center
+	width 30px
+	margin 0
+	margin-top 5%
+
 </style>

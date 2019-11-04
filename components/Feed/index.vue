@@ -1,21 +1,32 @@
-<template lang="html">
+<template>
 	<section class="feed">
 		<span v-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
-		<FeedPost
+		<template
 			v-for="post in items"
-			:key="post.correlationId || post.guid"
-			:post="post"
-		/>
+		>
+			<SingleItemPost
+				v-if="post.type === 'singleItemPost'"
+				:key="post.correlationId || post.guid"
+				:post="post"
+			/>
+			<PollPost
+				v-else-if="post.type === 'pollPost'"
+				:key="post.correlationId || post.guid"
+				:post="post"
+			/>
+		</template>
 	</section>
 </template>
 
-<script lang="js">
-import FeedPost from '~/components/Post';
+<script>
+import SingleItemPost from '~/components/Posts/SingleItemPost';
+import PollPost from '~/components/Posts/PollPost';
 
 export default {
 	name: 'Feed',
 	components: {
-		FeedPost,
+		SingleItemPost,
+		PollPost,
 	},
 	props: {
 		items: {

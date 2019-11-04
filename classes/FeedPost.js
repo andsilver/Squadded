@@ -3,7 +3,10 @@ const INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP = Number.MAX_SAFE_INTEGER;
 export class FeedPost {
 	constructor(props) {
 		const {
+			type,
 			item = {},
+			item1 = {},
+			item2 = {},
 			likes = {},
 			comments = {},
 
@@ -19,7 +22,7 @@ export class FeedPost {
 			correlationId,
 		} = props;
 
-		this.item = item;
+		this.type = type;
 		this.likes = likes;
 		this.comments = {
 			count: comments.count || 0,
@@ -32,16 +35,24 @@ export class FeedPost {
 		this.text = text || '';
 		this.ts = ts;
 		this.correlationId = correlationId;
+
+		if (type === 'pollPost') {
+			this.item1 = item1;
+			this.item2 = item2;
+		} else {
+			this.item = item;
+		}
 	}
 
 	toMessage () {
 		const { error, user, ts, comments, likes, ...clean } = this;
-		clean.type = 'singleItemPost';
+
 		return clean;
 	}
 
 	toStore () {
 		const { comments, error, ...store } = this;
+
 		return store;
 	}
 

@@ -1,4 +1,4 @@
-import { User } from '~/services/User';
+import { User } from '~/classes/User';
 
 export const UserStore = 'user';
 
@@ -71,8 +71,8 @@ export const mutations = {
 };
 
 export default {
-	getters,
-	mutations,
 	namespaced: true,
 	state,
+	getters,
+	mutations,
 };

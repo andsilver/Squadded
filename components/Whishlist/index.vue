@@ -16,7 +16,7 @@
 import WhishlistItem from './item';
 import { prefetch } from '~/helpers';
 import { UserStore, UserMutations } from '~/store/user';
-import { FeedPost } from '~/services/FeedPost';
+import { FeedPost } from '~/classes/FeedPost';
 import Preloader from '~/components/Preloader.vue';
 
 export default {

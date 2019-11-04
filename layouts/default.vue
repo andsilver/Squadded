@@ -17,6 +17,7 @@ import TabBar from '~/components/common/TabBar.vue';
 import { isHome } from '~/helpers';
 
 export default {
+	name: 'DefaultLayout',
 	components: {
 		Preloader,
 		TabBar,

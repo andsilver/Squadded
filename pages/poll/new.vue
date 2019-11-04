@@ -34,6 +34,7 @@ import Button from '~/components/common/Button';
 import Poll from '~/components/Poll';
 
 export default {
+	name: 'NewPollPage',
 	components: {
 		Button,
 		GoBackBtn,

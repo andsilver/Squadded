@@ -1,4 +1,4 @@
-import { FeedPost } from '../services/FeedPost';
+import { FeedPost } from '../classes/FeedPost';
 
 export const state = () => ({
 	items: [],
@@ -84,10 +84,12 @@ export const actions = {
 	},
 	[FeedActions.receiveItem]: ({ commit, dispatch, getters }, payload) => {
 		const post = getters[FeedGetters.getPostById](payload.guid);
+
 		if (!payload.correlationId && !post) {
 			// received from another user
 			const post = new FeedPost(payload);
 			dispatch(FeedActions.storeItem, post);
+
 			return;
 		}
 
