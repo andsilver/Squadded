@@ -86,4 +86,5 @@ export default {
 <style lang="stylus" scoped>
 .v-text-field
 	padding-top 0
+	font-size 10px
 </style>

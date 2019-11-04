@@ -3,10 +3,10 @@
 		<section class="profile_background_image">
 			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
 		</section>
-		<userToolbar class="user_toolbar" />
+		<ProfileToolbar />
 		<v-layout flex-column>
 			<v-list-item class="px-0 user_info">
-				<v-list-item-content align="center">
+				<v-list-item-content align="center" class="py-1">
 					<userAvatar align="center" class="user_avatar my-0" :user="user" />
 					<userName class="mt-2" :name="user.name" />
 					<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : 'Love my parents and they like me too'" />
@@ -46,11 +46,11 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import ProfileToolbar from '../common/ProfileToolbar';
 import userAvatar from './userAvatar';
 import userName from './userName';
 import userMention from './userMention';
 import userStatistics from './userStatistics';
-import userToolbar from './userToolbar';
 import Button from '~/components/common/Button';
 import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
@@ -68,7 +68,7 @@ export default {
 		userName,
 		userMention,
 		userStatistics,
-		userToolbar,
+		ProfileToolbar,
 		Blog,
 		Whishlist,
 	},
@@ -129,10 +129,6 @@ export default {
 </script>
 
 <style scoped>
-	.user_toolbar {
-		background-color: transparent;
-	}
-
 	.mention {
 		color: rgba(0,0,0,.54);
 	}

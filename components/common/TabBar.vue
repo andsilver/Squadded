@@ -13,7 +13,7 @@
 			<v-icon class="tab_icon" :class="tab.specialClass ? tab.specialClass : '' ">
 				{{ tab.icon }}
 			</v-icon>
-			<span class="tab_text">{{ tab.text }}</span>
+			<span class="tab_text">{{ $t(tab.text) }}</span>
 		</v-tab>
 	</v-tabs>
 </template>

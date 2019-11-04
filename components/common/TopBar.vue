@@ -3,7 +3,7 @@
 		dense
 		flat
 		height="40"
-		class="px-3 mt-3"
+		class="px-3 toolbar"
 	>
 		<v-tabs class="tabs_block">
 			<v-tab to="/feed">
@@ -13,18 +13,19 @@
 				{{ $t('Community') }}
 			</v-tab>
 		</v-tabs>
-		<div class="flex-grow-1" />
-		<v-btn icon>
-			<v-icon>
-				sqdi-add-user
-			</v-icon>
-		</v-btn>
-		<v-btn icon>
-			<v-icon>
-				sqdi-shopping-bag
-			</v-icon>
-			<span class="shopping_bag_count">4</span>
-		</v-btn>
+		<section class="buttons">
+			<v-btn icon class>
+				<v-icon>
+					sqdi-add-user
+				</v-icon>
+			</v-btn>
+			<v-btn icon class="bag_btn">
+				<v-icon>
+					sqdi-shopping-bag
+				</v-icon>
+				<span class="shopping_bag_count">4</span>
+			</v-btn>
+		</section>
 	</v-toolbar>
 </template>
 
@@ -33,6 +34,9 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
+	.toolbar
+		margin-top 3.4%
+
 	.v-tab
 		min-width auto
 		padding 0
@@ -53,6 +57,7 @@ export default {
 
 	.v-btn i
 		background-color transparent
+		font-size 1.5em !important
 
 	.shopping_bag_count
 		position absolute
@@ -69,4 +74,9 @@ export default {
 		background-color #FD6256
 		border-radius 50%
 		font-weight 900
+
+	.buttons
+		display flex
+		width 20%
+		margin-left auto
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<v-container v-if="isVisible" class="layout-padding">
-		<TopBar ref="top-bar" />
+		<TopBar ref="top-bar" class="topBar" />
 		<v-layout
 			column
 			justify-center
@@ -44,3 +44,9 @@ export default {
 	},
 };
 </script>
+<style lang="stylus">
+	.topBar
+		position sticky
+		top 0
+		z-index 5
+</style>
