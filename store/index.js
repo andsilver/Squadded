@@ -1,3 +1,4 @@
+import activity from './activity';
 import feed from './feed';
 import post from './post';
 import squad from './squad';
@@ -55,6 +56,7 @@ export const mutations = {
 };
 
 export const modules = {
+	activity,
 	feed,
 	post,
 	squad,

@@ -12,12 +12,14 @@
 	</section>
 </template>
 
-<script lang="js">
+<script>
+import { createNamespacedHelpers } from 'vuex';
 import WhishlistItem from './item';
 import { prefetch } from '~/helpers';
-import { UserStore, UserMutations } from '~/store/user';
-import { FeedPost } from '~/classes/FeedPost';
 import Preloader from '~/components/Preloader.vue';
+import { ActivityStore } from '~/store/activity';
+
+const { mapState } = createNamespacedHelpers(ActivityStore);
 
 export default {
 	name: 'Whishlist',
@@ -25,17 +27,16 @@ export default {
 		Preloader,
 		WhishlistItem,
 	},
-	data: () => ({
-		wishlist: null,
-	}),
-	mounted () {
+	computed: {
+		...mapState([
+			'wishlist',
+		]),
+	},
+	created () {
 		return prefetch({
 			guid: this.$route.params.id,
-			mutation: `${UserStore}/${UserMutations.setWishlist}`,
 			store: this.$store,
 			type: 'fetchWishlist',
-		}).then((payload) => {
-			this.wishlist = payload.wishlist.map(post => new FeedPost(post));
 		});
 	},
 };

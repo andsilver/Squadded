@@ -1,9 +1,7 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Blog from '../index.vue';
-import { flushPromises } from '~/helpers';
 import Store from '~/store';
-import { UserStore, UserMutations } from '~/store/user';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -62,24 +60,15 @@ describe('Blog Component', () => {
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
 
-	it('renders the correct message for empty Blog', async () => {
+	it('renders the correct message for empty Blog', () => {
 		expect.assertions(2);
+
+		store.state.activity.blog = [];
 
 		const wrapper = shallowMount(Blog, {
 			localVue,
 			store,
 			mocks,
-		});
-
-		store.state.user.other = {};
-		store.commit(`${UserStore}/${UserMutations.setBlog}`, {
-			blog: [],
-		});
-
-		await flushPromises();
-
-		wrapper.setData({
-			blog: [],
 		});
 
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);

@@ -1,9 +1,17 @@
 <template>
-	<button><slot /></button>
+	<button :disabled="disabled">
+		<slot />
+	</button>
 </template>
 
 <script>
 export default {
+	props: {
+		disabled: {
+			type: Boolean,
+			default: false,
+		},
+	},
 };
 </script>
 
@@ -23,4 +31,6 @@ button
 	font-weight 700
 	letter-spacing 1px
 	outline none
+	&:disabled
+		background-color #bbbbbb
 </style>

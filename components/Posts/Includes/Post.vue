@@ -21,7 +21,7 @@
 			@cancel="toggleTextEditor"
 		/>
 		<slot />
-		<section class="post_buttons">
+		<section class="mt-6 post_buttons">
 			<v-btn class="counter-icon like_button" @click="toggleLike">
 				<v-icon ref="likes-icon" class="buttons_icon" :color="post.likes.byMe ? 'red' : '#B8B8BA'" size="22">
 					sqdi-favorite-heart-button{{ post.likes.count ? '' : '-outline' }}

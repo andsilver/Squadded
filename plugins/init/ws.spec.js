@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import { Chance } from 'chance';
 import ws, * as wsPlugin from './ws';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PostActions, PostStore, PostMutations } from '~/store/post';
 import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '~/store/feed';
 import { UserGetters, UserStore, UserMutations } from '~/store/user';
@@ -173,22 +174,22 @@ describe('WS Plugin', () => {
 			expect(store.commit).toHaveBeenCalledWith(`${UserStore}/${UserMutations.setOther}`, user);
 		});
 
-		it(`should commit wishlist to ${UserStore}/${UserMutations.setWishlist}`, () => {
+		it(`should commit wishlist to ${ActivityStore}/${ActivityMutations.setWishlist}`, () => {
 			const msg = {
 				type: 'wishlist',
 			};
 
 			dispatch(store, msg);
-			expect(store.commit).toHaveBeenCalledWith(`${UserStore}/${UserMutations.setWishlist}`, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setWishlist}`, msg);
 		});
 
-		it(`should commit blog to ${UserStore}/${UserMutations.setBlog}`, () => {
+		it(`should commit blog to ${ActivityStore}/${ActivityMutations.setBlog}`, () => {
 			const msg = {
 				type: 'blog',
 			};
 
 			dispatch(store, msg);
-			expect(store.commit).toHaveBeenCalledWith(`${UserStore}/${UserMutations.setBlog}`, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setBlog}`, msg);
 		});
 	});
 

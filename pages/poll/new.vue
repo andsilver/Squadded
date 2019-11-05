@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="isVisible">
+	<v-container v-if="socket.isAuth">
 		<h2>
 			<GoBackBtn ref="goback-button" />
 			{{ $t('poll.create') }}
@@ -12,49 +12,79 @@
 			<div class="full-width">
 				<v-text-field
 					ref="text-field"
-					v-model="textValue"
+					v-model="text"
 					hide-details
 					:placeholder="$t('poll.textPlaceholder')"
 				/>
-				<Poll ref="select-items" />
+				<Poll
+					ref="select-items"
+					:item1="item1"
+					:item2="item2"
+					@click.native="show = true"
+				/>
 				<section align="center">
-					<Button ref="done-button">
-						{{ $t('Done') }}
+					<Button
+						ref="done-button"
+						:disabled="!complete"
+						@click.native="create"
+					>
+						{{ $t('Create') }}
 					</Button>
 				</section>
 			</div>
 		</v-layout>
+		<v-dialog v-model="show">
+			<ChooseDialog @choose="choose" />
+		</v-dialog>
 	</v-container>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import GoBackBtn from '~/components/common/GoBackBtn';
 import Button from '~/components/common/Button';
+import ChooseDialog from '~/components/Poll/chooseDialog';
+import GoBackBtn from '~/components/common/GoBackBtn';
 import Poll from '~/components/Poll';
+import { FeedStore, FeedActions } from '~/store/feed';
 
 export default {
 	name: 'NewPollPage',
 	components: {
 		Button,
+		ChooseDialog,
 		GoBackBtn,
 		Poll,
 	},
 	data: () => ({
-		textValue: '',
+		show: false,
+		text: '',
+		item1: null,
+		item2: null,
 	}),
 	computed: {
 		...mapState([
 			'socket',
 		]),
-		isVisible () {
-			return !this.socket.isPendingAuth && this.socket.isAuth;
+		complete () {
+			return !!(this.text && this.item1 && this.item2);
 		},
 	},
-	mounted() {
-		if (this.socket.isAuth) {
-			this.$store.commit('SET_PENDING', false);
-		}
+	methods: {
+		choose (data) {
+			this.show = false;
+			this.item1 = data[0].item;
+			this.item2 = data[1].item;
+		},
+		create () {
+			const { item1, item2, text } = this;
+			this.$store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, {
+				item1,
+				item2,
+				text,
+				type: 'pollPost',
+			});
+			this.$router.push('/feed');
+		},
 	},
 };
 </script>

@@ -1,6 +1,5 @@
 <template>
 	<section class="feed">
-		<span v-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 		<template
 			v-for="post in items"
 		>

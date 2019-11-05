@@ -1,5 +1,5 @@
-import { FeedStore, FeedActions } from '../store/feed';
 import { connect } from './init/ws';
+import { FeedStore, FeedActions } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import { SquadStore, SquadMutations } from '~/store/squad';
 

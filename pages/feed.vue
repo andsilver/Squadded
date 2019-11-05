@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="isVisible" class="layout-padding">
+	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout
 			column
@@ -7,6 +7,7 @@
 			align-center
 		>
 			<div class="full-width">
+				<span v-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 				<Feed ref="feed-layout" :items="items" />
 			</div>
 		</v-layout>
@@ -33,14 +34,6 @@ export default {
 		...mapState([
 			'socket',
 		]),
-		isVisible () {
-			return !this.socket.isPendingAuth && this.socket.isAuth;
-		},
-	},
-	mounted() {
-		if (this.socket.isAuth) {
-			this.$store.commit('SET_PENDING', false);
-		}
 	},
 };
 </script>

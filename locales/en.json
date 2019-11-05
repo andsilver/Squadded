@@ -1,11 +1,13 @@
 {
   "getStarted": "Get started with",
   "or": "or",
-  "Done": "Done",
-  "My Squad": "My Squad",
-  "Community": "The Community",
-  "Home": "Home",
   "Explore": "Explore",
+  "Choose": "Choose",
+  "Community": "The Community",
+  "Create": "Create",
+  "Home": "Home",
+  "My Squad": "My Squad",
+  "Search": "Search",
   "Messages": "Messages",
   "Profile": "Profile",
   "form": {
@@ -48,6 +50,7 @@
   },
   "poll": {
     "create": "Create Poll",
+    "dialogTitle": "Choose items for poll",
     "textPlaceholder": "Type a question (optioanl)"
   },
   "post": {

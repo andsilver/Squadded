@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { FeedStore, FeedActions, FeedGetters } from '~/store/feed';
 import { UserGetters, UserStore, UserMutations } from '~/store/user';
@@ -39,9 +40,9 @@ export const dispatch = function (store, message) {
 		}
 		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
 	} else if (type === 'wishlist') {
-		store.commit(`${UserStore}/${UserMutations.setWishlist}`, message);
+		store.commit(`${ActivityStore}/${ActivityMutations.setWishlist}`, message);
 	} else if (type === 'blog') {
-		store.commit(`${UserStore}/${UserMutations.setBlog}`, message);
+		store.commit(`${ActivityStore}/${ActivityMutations.setBlog}`, message);
 	} else {
 		// TODO report
 	}

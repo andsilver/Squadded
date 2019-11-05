@@ -8,6 +8,7 @@ Wrapper.prototype.ref = function (id) {
 };
 
 describe('Message Input', () => {
+	const EMPTY_FEED_TEXT = 'empty-feed-text';
 	const MAIN = 'feed-layout';
 	const TOP_BAR = 'top-bar';
 
@@ -24,18 +25,10 @@ describe('Message Input', () => {
 		wrapper = shallowMount(Feed, {
 			store,
 			localVue,
+			mocks: {
+				$t: msg => msg,
+			},
 		});
-	});
-
-	it('should set pending false if already auth on mount', () => {
-		store.commit('SET_SOCKET_AUTH', true);
-		spyOn(store, 'commit');
-
-		wrapper = shallowMount(Feed, {
-			store,
-			localVue,
-		});
-		expect(store.commit).toHaveBeenCalledWith('SET_PENDING', false);
 	});
 
 	it('should not display content while pending auth', () => {
@@ -52,5 +45,11 @@ describe('Message Input', () => {
 		feed = wrapper.ref(MAIN);
 		expect(feed.exists()).toBe(true);
 		expect(wrapper.ref(TOP_BAR).exists()).toBe(true);
+	});
+
+	it('renders the correct message for empty Feed', () => {
+		store.commit('SET_SOCKET_AUTH', true);
+		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
+		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
 	});
 });

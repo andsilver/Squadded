@@ -1,7 +1,6 @@
 <template>
 	<v-card
-		class="mx-auto mb-6 pa-4 product_card"
-		:elevation="1"
+		class="product_card"
 		:loading="loading"
 	>
 		<v-img
@@ -10,6 +9,7 @@
 			@click="openProduct"
 		/>
 		<ReSquaddButton
+			v-if="!nonClickable"
 			:item="item"
 		/>
 		<section class="card_bottom">
@@ -28,6 +28,7 @@
 				<span>{{ item.title }}</span>
 			</v-card-title>
 			<button
+				v-if="!nonClickable"
 				ref="buy-button"
 				class="buy_button sqdi-shopping-bag-2"
 			/>
@@ -47,16 +48,20 @@ export default {
 	props: {
 		item: {
 			type: Object,
-			default: () => {},
+			required: true,
 		},
 		loading: {
+			type: Boolean,
+			default: false,
+		},
+		nonClickable: {
 			type: Boolean,
 			default: false,
 		},
 	},
 	methods: {
 		openProduct () {
-			SquadAPI.openProduct(this.item);
+			!this.nonClickable && SquadAPI.openProduct(this.item);
 		},
 	},
 };
@@ -64,9 +69,8 @@ export default {
 
 <style lang="stylus" scoped>
 	.product_card
-		width 78%
 		border-radius 0 !important
-		box-shadow 0 2px 4px rgba(0, 0, 0, 0.1) !important
+		box-shadow 0 2px 4px rgba(0, 0, 0, 0.1)
 
 		.card_bottom
 			margin-top 2%

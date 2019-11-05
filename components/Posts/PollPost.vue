@@ -2,19 +2,15 @@
 	<Post
 		:post="post"
 	>
-		<div class="poll-post">
-			<div class="poll-post__item">
-				<PollItem
-					ref="poll-item1"
-					:item="post.item1"
-				/>
-			</div>
-			<div class="poll-post__item">
-				<PollItem
-					ref="poll-item2"
-					:item="post.item2"
-				/>
-			</div>
+		<div class="poll-post grid">
+			<PollItem
+				ref="poll-item1"
+				:item="post.item1"
+			/>
+			<PollItem
+				ref="poll-item2"
+				:item="post.item2"
+			/>
 		</div>
 	</Post>
 </template>
@@ -40,11 +36,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-	.poll-post
-		display flex
-		margin 12px -10px
-		&__item
-			width 50%
-			padding-left 10px
-			padding-right 10px
+.poll-post
+	grid-template-columns 1fr 1fr
+	grid-gap 20px
 </style>

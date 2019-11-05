@@ -19,7 +19,7 @@ export async function prefetch({ guid, mutation, store, type }) {
 		await onStoreMutation(store, 'SET_SOCKET_AUTH', true);
 	}
 	store.state.socket.$ws.sendObj({ type, guid });
-	return onStoreMutation(store, mutation);
+	return mutation ? onStoreMutation(store, mutation) : Promise.resolve();
 }
 
 export function flushPromises() {

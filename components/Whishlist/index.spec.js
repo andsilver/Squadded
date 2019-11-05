@@ -2,15 +2,10 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Whishlist from './index.vue';
 import Store from '~/store';
-import { UserStore, UserMutations } from '~/store/user';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
-
-function flushPromises() {
-	return new Promise(resolve => setImmediate(resolve));
-}
 
 describe('Whishlist Component', () => {
 	const EMPTY_FEED_TEXT = 'empty-whishlist-text';
@@ -65,21 +60,16 @@ describe('Whishlist Component', () => {
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
 
-	it('renders the correct message for empty Whishlist', async () => {
+	it('renders the correct message for empty Whishlist', () => {
 		expect.assertions(2);
+
+		store.state.activity.wishlist = [];
 
 		const wrapper = shallowMount(Whishlist, {
 			localVue,
 			store,
 			mocks,
 		});
-
-		store.state.user.other = {};
-		store.commit(`${UserStore}/${UserMutations.setWishlist}`, {
-			wishlist: [],
-		});
-
-		await flushPromises();
 
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');

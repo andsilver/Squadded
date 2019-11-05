@@ -27,12 +27,10 @@ export const getters = {
 };
 
 export const UserMutations = {
-	setBlog: 'setBlog',
 	setFollow: 'setFollow',
 	setMe: 'setMe',
 	setOther: 'setOther',
 	setToken: 'setToken',
-	setWishlist: 'setWishlist',
 };
 
 export const mutations = {
@@ -53,20 +51,6 @@ export const mutations = {
 	[UserMutations.setToken]: (state, token) => {
 		localStorage.setItem('userToken', token);
 		state.me.userId = getUserId(token);
-	},
-	[UserMutations.setWishlist]: (state, msg) => {
-		if (state.me.userId === msg.userId) {
-			state.me.wishlist = msg.wishlist;
-			return;
-		}
-		state.other.wishlist = msg.wishlist;
-	},
-	[UserMutations.setBlog]: (state, msg) => {
-		if (state.me.userId === msg.userId) {
-			state.me.blog = msg.blog;
-			return;
-		}
-		state.other.blog = msg.blog;
 	},
 };
 
