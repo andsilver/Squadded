@@ -55,7 +55,8 @@ export default {
 		]),
 		timeString () {
 			window.moment.locale(this._i18n.locale);
-			return this.ts && window.moment(this.ts).fromNow();
+			const isNewPost = this.ts === Number.MAX_SAFE_INTEGER;
+			return isNewPost ? this.$t('post.sending') : this.ts && window.moment(this.ts).fromNow();
 		},
 	},
 	methods: {

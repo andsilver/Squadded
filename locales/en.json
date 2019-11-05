@@ -52,7 +52,8 @@
   },
   "post": {
     "textPlaceholder": "Input your message for this post",
-    "viewAllComments": "View all {n} comments"
+    "viewAllComments": "View all {n} comments",
+    "sending": "sending…"
   },
   "wishlist": {
     "purchase": "PURCHASE"
