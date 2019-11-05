@@ -6,24 +6,25 @@
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
 				<v-list-item-title class="user_name">
-					{{ user.screenName }}
+					{{ user.name || user.screenName }}
 				</v-list-item-title>
 				<button class="button_more sqdi-more" />
-				<v-list-item-subtitle class="user_timestamp">
+				<v-list-item-subtitle v-if="ts" class="user_timestamp">
 					{{ timeString }}
 				</v-list-item-subtitle>
 			</v-list-item-content>
 		</v-list-item>
 		<span v-else>
-			{{ user.screenName }}
+			{{ user.name || user.screenName }}
 		</span>
 	</nuxt-link>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import { UserStore } from '~/store/user';
 
-const { mapState } = createNamespacedHelpers('user');
+const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	name: 'UserLink',

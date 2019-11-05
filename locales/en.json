@@ -64,6 +64,8 @@
   "user": {
     "Following": "Following",
     "Followers": "Followers",
+    "followers": "{n} followers",
+    "following": "{n} following",
     "Likes": "Likes",
     "Unfollow": "Unfollow",
     "Follow": "Follow"

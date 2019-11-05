@@ -1,9 +1,9 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
-import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { ActivityStore, ActivityGetters, ActivityMutations } from '~/store/activity';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { FeedStore, FeedActions, FeedGetters } from '~/store/feed';
-import { UserGetters, UserStore, UserMutations } from '~/store/user';
+import { UserStore, UserMutations } from '~/store/user';
 import { isHome } from '~/helpers';
 
 export const dispatch = function (store, message) {
@@ -22,14 +22,14 @@ export const dispatch = function (store, message) {
 		const feedPost = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](postId);
 		store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post: feedPost });
 
-		const myBlogPost = store.getters[`${UserStore}/${UserGetters.getPostById}`](postId);
+		const myBlogPost = store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`](postId);
 		store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post: myBlogPost });
 	} else if (type === 'notifComment') {
 		const { comment, postId } = message;
 		const feedPost = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](postId);
 		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post: feedPost });
 
-		const myBlogPost = store.getters[`${UserStore}/${UserGetters.getPostById}`](postId);
+		const myBlogPost = store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`](postId);
 		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post: myBlogPost });
 	} else if (type === 'comments') {
 		store.commit(`${PostStore}/${PostMutations.receiveComments}`, message.comments);
@@ -39,6 +39,8 @@ export const dispatch = function (store, message) {
 			return store.commit(`${UserStore}/${UserMutations.setMe}`, user);
 		}
 		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
+	} else if (type === 'followers' || type === 'following') {
+		store.commit(`${UserStore}/${UserMutations.setUserList}`, message.users);
 	} else if (type === 'wishlist') {
 		store.commit(`${ActivityStore}/${ActivityMutations.setWishlist}`, message);
 	} else if (type === 'blog') {

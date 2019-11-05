@@ -34,11 +34,11 @@ export default {
 		},
 		voted: {
 			type: Boolean,
-			required: true,
+			default: false,
 		},
 		oppositeVotes: {
 			type: Number,
-			required: true,
+			default: 0,
 		},
 	},
 	computed: {

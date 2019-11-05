@@ -10,6 +10,8 @@ export class User {
 			following = {
 				count: 0,
 			},
+			guid,
+			isMe = false,
 			likes = 0,
 			mention,
 			name,
@@ -22,17 +24,21 @@ export class User {
 		this.blog = blog;
 		this.followers = followers;
 		this.following = following;
+		this.isMe = isMe;
 		this.likes = likes;
 		this.mention = mention;
 		this.name = name || screenName;
-		this.userId = userId;
+		this.screenName = this.name;
+		this.userId = userId || guid;
+		this.guid = this.userId;
 	}
 
 	short () {
 		return {
-			guid: this.userId,
-			screenName: this.name,
 			avatar: this.avatar,
+			guid: this.userId,
+			isMe: this.isMe,
+			screenName: this.name,
 		};
 	}
 }

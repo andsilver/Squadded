@@ -53,7 +53,7 @@ describe('User Store module', () => {
 	});
 
 	it('should set me', () => {
-		const me = userMockBuilder().get();
+		const me = userMockBuilder(true).get();
 		store.commit(UserMutations.setMe, me);
 
 		expect(store.state.me).toEqual(me);

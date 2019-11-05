@@ -70,6 +70,7 @@ import Comment from './Comment';
 import MessageInput from '~/components/MessageInput';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
+import { UserStore } from '~/store/user';
 import { prefetch } from '~/helpers';
 
 const TAB_BAR_HEIGHT = 50;
@@ -77,7 +78,7 @@ const GAP = 5;
 
 const getScroll = (rect, scrollTop) => rect.top + scrollTop - window.innerHeight + rect.height + TAB_BAR_HEIGHT + GAP;
 
-const { mapState } = createNamespacedHelpers('user');
+const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	name: 'Post',
@@ -90,7 +91,6 @@ export default {
 		post: {
 			type: Object,
 			required: true,
-			default: () => {},
 		},
 	},
 	data: () => ({

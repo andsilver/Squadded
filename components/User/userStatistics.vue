@@ -4,23 +4,23 @@
 			{{ $t('My Squad') }}
 		</h4>
 		<section class="statistic">
-			<section>
+			<nuxt-link :to="{ path: `${userPath}/followers` }">
 				<v-list-item-title class="title">
 					{{ short(user.followers.count) }}
 				</v-list-item-title>
 				<v-list-item-subtitle class="subtitle">
 					{{ $t('user.Followers') }}
 				</v-list-item-subtitle>
-			</section>
+			</nuxt-link>
 			<v-divider class="divider" inset vertical />
-			<section>
+			<nuxt-link :to="{ path: `${userPath}/following` }">
 				<v-list-item-title class="title">
 					{{ short(user.following.count) }}
 				</v-list-item-title>
 				<v-list-item-subtitle class="subtitle">
 					{{ $t('user.Following') }}
 				</v-list-item-subtitle>
-			</section>
+			</nuxt-link>
 		</section>
 	</section>
 </template>
@@ -32,6 +32,11 @@ export default {
 		user: {
 			type: Object,
 			required: true,
+		},
+	},
+	computed: {
+		userPath () {
+			return this.user.isMe ? '/my' : `/user/${this.user.userId}`;
 		},
 	},
 	methods: {

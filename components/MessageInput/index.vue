@@ -18,8 +18,9 @@
 <script lang="js">
 import { createNamespacedHelpers } from 'vuex';
 import UserLink from '~/components/UserLink';
+import { UserStore } from '~/store/user';
 
-const { mapState } = createNamespacedHelpers('user');
+const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	name: 'MessageInput',

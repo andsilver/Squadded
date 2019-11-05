@@ -13,18 +13,12 @@ function getUserId(token) {
 
 export const state = () => ({
 	me: new User({
+		isMe: true,
 		userId: getUserId(localStorage.getItem('userToken')),
 	}),
 	other: null,
+
 });
-
-export const UserGetters = {
-	getPostById: 'getPostById',
-};
-
-export const getters = {
-	[UserGetters.getPostById]: state => id => state.me.blog.find(i => i.guid === id),
-};
 
 export const UserMutations = {
 	setFollow: 'setFollow',
@@ -43,10 +37,13 @@ export const mutations = {
 		other.followers.count = Math.max(0, other.followers.count + mod);
 	},
 	[UserMutations.setMe]: (state, me) => {
-		state.me = new User(me);
+		state.me = new User({ ...me, isMe: true });
 	},
 	[UserMutations.setOther]: (state, user) => {
 		state.other = new User(user);
+	},
+	[UserMutations.setUserList]: (state, users) => {
+		state.userList = users.map(user => new User(user));
 	},
 	[UserMutations.setToken]: (state, token) => {
 		localStorage.setItem('userToken', token);
@@ -57,6 +54,5 @@ export const mutations = {
 export default {
 	namespaced: true,
 	state,
-	getters,
 	mutations,
 };

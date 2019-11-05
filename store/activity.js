@@ -7,6 +7,14 @@ export const state = () => ({
 	wishlist: null,
 });
 
+export const ActivityGetters = {
+	getPostById: 'getPostById',
+};
+
+export const getters = {
+	[ActivityGetters.getPostById]: state => id => state.blog.find(i => i.guid === id),
+};
+
 export const ActivityMutations = {
 	setBlog: 'setBlog',
 	setWishlist: 'setWishlist',
@@ -24,5 +32,6 @@ export const mutations = {
 export default {
 	namespaced: true,
 	state,
+	getters,
 	mutations,
 };

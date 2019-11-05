@@ -14,7 +14,7 @@
 				</v-list-item-content>
 			</v-list-item>
 			<userStatistics class="pt-0" :user="user" />
-			<Button v-if="me.userId !== user.userId" ref="follow-btn" @click.native="toggleFollow">
+			<Button v-if="!user.isMe" ref="follow-btn" @click.native="toggleFollow">
 				{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
 			</Button>
 			<p align="center">
@@ -59,7 +59,7 @@ import { prefetch } from '~/helpers';
 import Blog from '~/components/Blog';
 import Whishlist from '~/components/Whishlist';
 
-const { mapState } = createNamespacedHelpers('user');
+const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	name: 'User',
@@ -102,11 +102,6 @@ export default {
 	},
 	created() {
 		this.userId = this.$route.params.id;
-	},
-	mounted() {
-		if (this.$store.state.socket.isAuth) {
-			this.$store.commit('SET_PENDING', false);
-		}
 	},
 	methods: {
 		toggleFollow() {

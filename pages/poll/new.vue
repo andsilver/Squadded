@@ -1,9 +1,6 @@
 <template>
 	<v-container v-if="socket.isAuth">
-		<h2>
-			<GoBackBtn ref="goback-button" />
-			{{ $t('poll.create') }}
-		</h2>
+		<BackBar ref="goback-button" :title="$t('poll.create')" />
 		<v-layout
 			column
 			justify-center
@@ -43,16 +40,16 @@
 import { mapState } from 'vuex';
 import Button from '~/components/common/Button';
 import ChooseDialog from '~/components/Poll/chooseDialog';
-import GoBackBtn from '~/components/common/GoBackBtn';
+import BackBar from '~/components/common/BackBar';
 import Poll from '~/components/Poll';
 import { FeedStore, FeedActions } from '~/store/feed';
 
 export default {
 	name: 'NewPollPage',
 	components: {
+		BackBar,
 		Button,
 		ChooseDialog,
-		GoBackBtn,
 		Poll,
 	},
 	data: () => ({

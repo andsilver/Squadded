@@ -70,8 +70,11 @@ describe('Post', () => {
 		});
 
 		it('should not display empty text', () => {
+			const me = userMockBuilder();
+			store.commit(`${UserStore}/${UserMutations.setMe}`, me.get());
 			const post = aDefaultSingleItemMsgBuilder()
 				.withGUID()
+				.withUser()
 				.get();
 
 			wrapper.setProps({ post });
