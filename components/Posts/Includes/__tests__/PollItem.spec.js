@@ -10,6 +10,7 @@ Wrapper.prototype.ref = function (id) {
 
 describe('PollItem', () => {
 	const PRODUCT_CARD_ELEMENT = 'product-card';
+	const POLL_ITEM_VOTES_COUNT_ELEMENT = 'poll-item-votes-count';
 	let wrapper;
 
 	function initLocalVue () {
@@ -22,6 +23,8 @@ describe('PollItem', () => {
 			localVue,
 			propsData: {
 				item: post.item1,
+				voted: false,
+				oppositeVotes: post.item2.votes,
 			},
 			store,
 		});
@@ -33,5 +36,20 @@ describe('PollItem', () => {
 
 	it('should render product card', () => {
 		expect(wrapper.ref(PRODUCT_CARD_ELEMENT).exists()).toBe(true);
+	});
+
+	it('should not display votes', () => {
+		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).exists()).toBe(false);
+	});
+
+	it('should display votes', () => {
+		wrapper.setProps({
+			voted: true,
+		});
+
+		const votes = wrapper.vm.votes;
+
+		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).exists()).toBe(true);
+		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).text()).toMatch(`${votes} %`);
 	});
 });

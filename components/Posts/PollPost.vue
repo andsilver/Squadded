@@ -6,10 +6,16 @@
 			<PollItem
 				ref="poll-item1"
 				:item="post.item1"
+				:opposite-votes="post.item2.votes"
+				:voted="isVoted"
+				@click.native="vote(post.item1)"
 			/>
 			<PollItem
 				ref="poll-item2"
 				:item="post.item2"
+				:opposite-votes="post.item1.votes"
+				:voted="isVoted"
+				@click.native="vote(post.item2)"
 			/>
 		</div>
 	</Post>
@@ -30,6 +36,18 @@ export default {
 		post: {
 			type: FeedPost,
 			required: true,
+		},
+	},
+	computed: {
+		isVoted () {
+			return this.post.voted;
+		},
+	},
+	methods: {
+		vote (item) {
+			if (!this.isVoted) {
+				// TODO:: send vote request
+			}
 		},
 	},
 };

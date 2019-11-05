@@ -12,14 +12,17 @@ const composeItem = ({ varId, ...rest }) => {
 };
 
 export class FeedPost {
-	constructor(props) {
+	constructor (props) {
 		const {
 			type,
-			item = itemInitialState,
-			item1 = itemInitialState,
-			item2 = itemInitialState,
 			likes = {},
 			comments = {},
+
+			item = itemInitialState,
+
+			item1 = itemInitialState,
+			item2 = itemInitialState,
+			voted = false,
 
 			user = {
 				avatar: '',
@@ -50,6 +53,7 @@ export class FeedPost {
 		if (type === 'pollPost') {
 			this.item1 = composeItem(item1);
 			this.item2 = composeItem(item2);
+			this.voted = voted;
 		} else {
 			this.item = composeItem(item);
 		}
@@ -67,7 +71,7 @@ export class FeedPost {
 		return store;
 	}
 
-	update(freshPost) {
+	update (freshPost) {
 		const { comments, ...other } = freshPost;
 		Object.assign(this, other);
 		if (comments) {

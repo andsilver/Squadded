@@ -2,7 +2,7 @@ import { Chance } from 'chance';
 import { shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import MessageInput from './index.vue';
-import Post from '~/components/Post';
+import Post from '~/components/Posts/Includes/Post';
 import Store from '~/store';
 import { PostStore, PostActions } from '~/store/post';
 

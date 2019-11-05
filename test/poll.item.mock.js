@@ -13,6 +13,8 @@ const aDefaultPollMsgBuilder = () => {
 		price: chance.euro(),
 		img: chance.url({ extensions: ['jpg', 'png'] }),
 		url: chance.url(),
+		votes: chance.integer({ min: 0, max: 10000 }),
+		varId: '',
 	};
 	const item2 = {
 		itemId: chance.natural(),
@@ -21,6 +23,8 @@ const aDefaultPollMsgBuilder = () => {
 		price: chance.euro(),
 		img: chance.url({ extensions: ['jpg', 'png'] }),
 		url: chance.url(),
+		votes: chance.integer({ min: 0, max: 10000 }),
+		varId: '',
 	};
 	const msg = new FeedPost({
 		item1,
@@ -57,6 +61,11 @@ const aDefaultPollMsgBuilder = () => {
 		},
 		withText: (text = chance.sentence()) => {
 			msg.text = text;
+			return builder;
+		},
+		isVoted: () => {
+			msg.voted = true;
+
 			return builder;
 		},
 		get: () => msg,

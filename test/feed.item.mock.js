@@ -13,6 +13,7 @@ const aDefaultSingleItemMsgBuilder = () => {
 		price: chance.euro(),
 		img: chance.url({ extensions: ['jpg', 'png'] }),
 		url: chance.url(),
+		varId: '',
 	};
 	const msg = new FeedPost({ item, type: 'singleItemPost' });
 

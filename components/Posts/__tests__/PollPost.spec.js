@@ -12,10 +12,11 @@ describe('PollPost', () => {
 	const POLL_ITEM_ELEMENT_1 = 'poll-item1';
 	const POLL_ITEM_ELEMENT_2 = 'poll-item2';
 	let wrapper;
+	let post;
 
 	function initLocalVue () {
 		const localVue = createLocalVue();
-		const post = aDefaultPollMsgBuilder().withGUID().get();
+		post = aDefaultPollMsgBuilder().withGUID().get();
 		localVue.use(Vuex);
 		const store = new Vuex.Store(Store);
 
@@ -26,6 +27,7 @@ describe('PollPost', () => {
 			},
 			store,
 		});
+		wrapper.vm.vote = jest.fn();
 	}
 
 	beforeEach(() => {
@@ -35,5 +37,19 @@ describe('PollPost', () => {
 	it('should render two poll items', () => {
 		expect(wrapper.ref(POLL_ITEM_ELEMENT_1).exists()).toBe(true);
 		expect(wrapper.ref(POLL_ITEM_ELEMENT_2).exists()).toBe(true);
+	});
+
+	it('should be able to voting', () => {
+		wrapper.ref(POLL_ITEM_ELEMENT_1).trigger('click');
+
+		expect(wrapper.vm.vote).toHaveBeenCalledWith(post.item1);
+		expect(wrapper.vm.vote).toHaveBeenCalledTimes(1);
+	});
+
+	it('should not be able to voting', () => {
+		post.voted = true;
+
+		wrapper.ref(POLL_ITEM_ELEMENT_1).trigger('click');
+		expect(wrapper.vm.vote).not.toHaveBeenCalledWith();
 	});
 });
