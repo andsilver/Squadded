@@ -23,7 +23,7 @@ export default {
 	}),
 	methods: {
 		async reSquaddPost () {
-			await this.$store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, { item: this.item });
+			await this.$store.dispatch(`${FeedStore}/${FeedActions.reSquaddItem}`, { item: this.item });
 			this.setIsReSquadded(true);
 		},
 		setIsReSquadded (state) {

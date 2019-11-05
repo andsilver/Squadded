@@ -15,14 +15,14 @@ Wrapper.prototype.ref = function (id) {
 
 describe('ReSquadd Button', () => {
 	const RESQUADD_BUTTON = 'resquadd-button';
-	let saveItem;
+	let reSquaddItem;
 	let post;
 	let store;
 	let wrapper;
 
 	beforeEach(() => {
 		post = aDefaultSingleItemMsgBuilder().withGUID().get();
-		saveItem = `${FeedStore}/${FeedActions.saveItem}`;
+		reSquaddItem = `${FeedStore}/${FeedActions.reSquaddItem}`;
 		store = new Vuex.Store(Store);
 		store.dispatch = jest.fn();
 
@@ -46,7 +46,7 @@ describe('ReSquadd Button', () => {
 		wrapper.ref(RESQUADD_BUTTON).trigger('click');
 		await flushPromises();
 
-		expect(store.dispatch).toHaveBeenCalledWith(saveItem, { item: post.item });
+		expect(store.dispatch).toHaveBeenCalledWith(reSquaddItem, { item: post.item });
 		expect(wrapper.vm.isReSquadded).toBe(true);
 		expect(wrapper.ref(RESQUADD_BUTTON).classes('is-resquadded')).toBe(true);
 

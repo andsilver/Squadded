@@ -55,6 +55,7 @@ export const FeedActions = {
 	storeItem: 'storeItem',
 	receiveItem: 'receiveItem',
 	saveItem: 'saveItem',
+	reSquaddItem: 'reSquaddItem',
 };
 
 export const actions = {
@@ -72,6 +73,20 @@ export const actions = {
 	[FeedActions.saveItem]: ({ rootState, dispatch }, payload) => {
 		const post = new FeedPost({
 			...payload,
+			correlationId: `${Date.now()}${suffix()}`,
+			user: rootState.user.me.short(),
+		});
+
+		dispatch(FeedActions.storeItem, post);
+		if (rootState.socket.isConnected && rootState.socket.isAuth) {
+			// TODO? add some queue for sync after reconnect
+			rootState.socket.$ws.sendObj(post.toMessage());
+		}
+	},
+	[FeedActions.reSquaddItem]: ({ rootState, dispatch }, payload) => {
+		const post = new FeedPost({
+			...payload,
+			type: 'singleItemPost',
 			correlationId: `${Date.now()}${suffix()}`,
 			user: rootState.user.me.short(),
 		});

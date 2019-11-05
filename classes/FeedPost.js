@@ -1,12 +1,23 @@
 const INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP = Number.MAX_SAFE_INTEGER;
 
+const itemInitialState = {
+	varId: '',
+};
+
+const composeItem = ({ varId, ...rest }) => {
+	return {
+		varId: varId || '',
+		...rest,
+	};
+};
+
 export class FeedPost {
 	constructor(props) {
 		const {
 			type,
-			item = {},
-			item1 = {},
-			item2 = {},
+			item = itemInitialState,
+			item1 = itemInitialState,
+			item2 = itemInitialState,
 			likes = {},
 			comments = {},
 
@@ -37,10 +48,10 @@ export class FeedPost {
 		this.correlationId = correlationId;
 
 		if (type === 'pollPost') {
-			this.item1 = item1;
-			this.item2 = item2;
+			this.item1 = composeItem(item1);
+			this.item2 = composeItem(item2);
 		} else {
-			this.item = item;
+			this.item = composeItem(item);
 		}
 	}
 
