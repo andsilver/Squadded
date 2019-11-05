@@ -12,7 +12,7 @@
 					v-text="post.item.title"
 				/>
 				<v-btn
-					class="purchase_button ml-4"
+					class="purchase_button"
 				>
 					<span class="button_text sqdi-shopping-bag-2">{{ $t('wishlist.purchase') }}</span>
 				</v-btn>
@@ -60,7 +60,7 @@ export default {
 	.wishlist_item {
 		border-radius: 15px !important;
 		overflow: hidden;
-		margin: 3% 5%;
+		margin: 3% 1%;
 
 		box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 	}
@@ -92,10 +92,11 @@ export default {
 
 	.purchase_button {
 		margin-top: 5%;
-		margin-left: 10%;
+		margin-left: 50%;
+		transform: translateX(-50%);
 		padding: 0 !important;
-		padding-left: 30% !important;
-		padding-right: 20% !important;
+		padding-left: 35% !important;
+		padding-right: 25% !important;
 
 		border-radius: 10px !important;
 		background-color: black !important;
@@ -108,7 +109,7 @@ export default {
 	}
 
 	.sqdi-shopping-bag-2:before {
-		left: -30%;
+		left: -40%;
 		top: -10%;
 		font-size: 1.8em;
 		position: absolute;

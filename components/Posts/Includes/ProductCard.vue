@@ -79,7 +79,7 @@ export default {
 			padding 0
 
 		.post_price span
-			font-size .9em
+			font-size 1em
 			font-weight 700
 
 		.post_title
@@ -89,11 +89,11 @@ export default {
 
 		.post_title span
 			min-height 12px
-			max-height 20px
+			max-height 24px
 			word-break normal
 			overflow hidden
-			font-size 10px
-			line-height 10px
+			font-size 12px
+			line-height 12px
 			font-weight 500
 			color #B8B8BA
 
@@ -101,12 +101,14 @@ export default {
 			width 30px
 			height 30px
 			position absolute
-			right 5%
+			right 4%
 			bottom 4%
 
 		.sqdi-shopping-bag-2:before
+			width 30px
 			position absolute
 			font-size 1.3em
-			right -30%
+			left auto
+			right 0
 			top 10%
 </style>

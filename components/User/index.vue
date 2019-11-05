@@ -1,6 +1,7 @@
 <template>
 	<v-container v-if="user && user.name">
 		<section class="profile_background_image">
+			<section class="background_shadow"></section>
 			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
 		</section>
 		<ProfileToolbar />
@@ -21,7 +22,7 @@
 			</p>
 			<v-tabs
 				v-model="tabs"
-				class="px-5"
+				class="px-1"
 				fixed-tabs
 				centered
 			>
@@ -137,13 +138,14 @@ export default {
 		padding-bottom: 6%;
 		border-bottom: 2px solid rgba(0,0,0,.1);
 		font-size: 1em;
-		font-weight: 600;
+		font-weight: 500;
 		opacity: .9;
 		color: #B8B8BA;
 	}
 
 	.user_avatar {
 		left: 0;
+		z-index: 5;
 	}
 
 	.user_info {
@@ -165,5 +167,13 @@ export default {
 		width: 100%;
 		left: 0;
 		top: 0;
+	}
+	.background_shadow {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0) 75%);
+		z-index: 1;
 	}
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<section class="user_statistics">
 		<h4 class="px-3 my_squad_title">
-			{{ $t('My Squad') }}:
+			{{ $t('My Squad') }}
 		</h4>
 		<section class="statistic">
 			<section>
@@ -44,7 +44,7 @@ export default {
 
 <style scoped>
 	.title {
-		font-weight: 600;
+		font-weight: 500;
 	}
 
 	.subtitle {
