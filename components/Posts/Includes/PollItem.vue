@@ -3,6 +3,7 @@
 		<ProductCard
 			ref="product-card"
 			:item="item"
+			:is-poll-post="isPollPost"
 		/>
 		<div
 			v-if="voted"
@@ -40,6 +41,11 @@ export default {
 			type: Number,
 			default: 0,
 		},
+	},
+	data() {
+		return {
+			isPollPost: true,
+		};
 	},
 	computed: {
 		votes () {

@@ -1,6 +1,7 @@
 <template>
 	<v-card
 		class="product_card"
+		:class="isPollPost ? 'without_shadow' : ''"
 		:loading="loading"
 	>
 		<v-img
@@ -9,10 +10,13 @@
 			@click="openProduct"
 		/>
 		<ReSquaddButton
-			v-if="!nonClickable"
+			v-if="!nonClickable && !isPollPost"
 			:item="item"
 		/>
-		<section class="card_bottom">
+		<section
+			class="card_bottom"
+			:class="isPollPost ? 'poll_card_bottom' : ''"
+		>
 			<v-card-text
 				ref="item-price"
 				class="post_price"
@@ -23,12 +27,13 @@
 			<v-card-title
 				ref="item-title"
 				class="post_title"
+				:class="isPollPost ? 'poll_card_post_title' : ''"
 				@click="openProduct"
 			>
 				<span>{{ item.title }}</span>
 			</v-card-title>
 			<button
-				v-if="!nonClickable"
+				v-if="!nonClickable && !isPollPost"
 				ref="buy-button"
 				class="buy_button sqdi-shopping-bag-2"
 			/>
@@ -55,6 +60,10 @@ export default {
 			default: false,
 		},
 		nonClickable: {
+			type: Boolean,
+			default: false,
+		},
+		isPollPost: {
 			type: Boolean,
 			default: false,
 		},
@@ -92,7 +101,7 @@ export default {
 			max-height 24px
 			word-break normal
 			overflow hidden
-			font-size 12px
+			font-size 10px
 			line-height 12px
 			font-weight 500
 			color #B8B8BA
@@ -111,4 +120,14 @@ export default {
 			left auto
 			right 0
 			top 10%
+
+	.product_card.without_shadow
+		box-shadow none
+
+	.product_card .poll_card_bottom
+		padding-top 0
+		margin-top 4%
+
+	.product_card .poll_card_post_title
+		width 90%
 </style>

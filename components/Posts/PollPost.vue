@@ -1,6 +1,7 @@
 <template>
 	<Post
 		:post="post"
+		:is-poll-post="isPollPost"
 	>
 		<div class="poll-post grid">
 			<PollItem
@@ -38,6 +39,11 @@ export default {
 			required: true,
 		},
 	},
+	data() {
+		return {
+			isPollPost: true,
+		};
+	},
 	computed: {
 		isVoted () {
 			return this.post.voted;
@@ -56,5 +62,5 @@ export default {
 <style lang="stylus" scoped>
 .poll-post
 	grid-template-columns 1fr 1fr
-	grid-gap 20px
+	grid-gap 3px
 </style>

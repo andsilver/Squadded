@@ -79,7 +79,6 @@ export default {
 	.user_timestamp {
 		font-size: .7em;
 		font-weight: 400;
-		color: #B8B8BA;
 	}
 
 	.button_more {

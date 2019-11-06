@@ -13,8 +13,8 @@
 			</Button>
 		</section>
 		<section class="profile_background_image">
-			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
 			<section class="background_shadow" />
+			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
 		</section>
 		<ProfileToolbar />
 		<v-layout flex-column>
