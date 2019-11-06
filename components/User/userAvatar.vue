@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<img :src="user.avatar" alt="user avatar">
+		<img :src="avatar" alt="user avatar">
 	</section>
 </template>
 
@@ -8,8 +8,8 @@
 
 export default {
 	props: {
-		user: {
-			type: Object,
+		avatar: {
+			type: String,
 			required: true,
 		},
 	},

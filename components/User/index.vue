@@ -1,14 +1,26 @@
 <template>
 	<v-container v-if="user && user.name">
+		<section v-if="isScrolled" class="fixed_profile">
+			<v-avatar class="user_avatar">
+				<img :src="user.avatar">
+			</v-avatar>
+			<section class="user_info_fixed">
+				<userName class="user_fixed_name" :name="user.name" />
+				<userStatistics :user="user" :scrolled="isScrolled" />
+			</section>
+			<Button v-if="!user.isMe" class="fixed_follow_btn" @click.native="toggleFollow">
+				<span>{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}</span>
+			</Button>
+		</section>
 		<section class="profile_background_image">
-			<section class="background_shadow"></section>
 			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
+			<section class="background_shadow" />
 		</section>
 		<ProfileToolbar />
 		<v-layout flex-column>
 			<v-list-item class="px-0 user_info">
 				<v-list-item-content align="center" class="py-1">
-					<userAvatar align="center" class="user_avatar my-0" :user="user" />
+					<userAvatar align="center" class="user_avatar my-0" :avatar="user.avatar" />
 					<userName class="mt-2" :name="user.name" />
 					<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : 'Love my parents and they like me too'" />
 				</v-list-item-content>
@@ -77,6 +89,7 @@ export default {
 		other: null,
 		userId: null,
 		tabs: null,
+		isScrolled: false,
 	}),
 	computed: {
 		...mapState([
@@ -100,11 +113,14 @@ export default {
 			type: 'fetchUser',
 		}).then(() => ({ other: store.state.user.other }));
 	},
-	created() {
+	mounted () {
 		this.userId = this.$route.params.id;
+		setTimeout(() => {
+			this.$el.closest('.v-content__wrap').addEventListener('scroll', this.scrolled.bind(this));
+		}, 20);
 	},
 	methods: {
-		toggleFollow() {
+		toggleFollow () {
 			const { other } = this;
 			if (!other) {
 				return;
@@ -119,6 +135,10 @@ export default {
 			this.$store.commit(`${UserStore}/${UserMutations.setFollow}`, { follow, other });
 			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 			this.$forceUpdate();
+		},
+		scrolled (e) {
+			// TODO calc actual height to tabs instead const
+			this.isScrolled = !!(e.target.scrollTop > 300);
 		},
 	},
 };
@@ -140,7 +160,6 @@ export default {
 
 	.user_avatar {
 		left: 0;
-		z-index: 5;
 	}
 
 	.user_info {
@@ -169,6 +188,43 @@ export default {
 		height: 100%;
 		top: 0;
 		background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0) 75%);
+	}
+
+	.fixed_profile {
+		display: flex;
+		flex-direction: row;
+		position: sticky;
+		top: 0;
 		z-index: 1;
+		border-bottom: 1px solid rgba(112, 112, 112, .3);
+		background-color: #fff;
+		padding-top: 3%;
+	}
+
+	.fixed_profile .user_avatar {
+		margin-right: 4%;
+	}
+
+	.user_fixed_name {
+		font-size: .8em;
+	}
+
+	.user_info_fixed {
+		width: 50%;
+		padding-top: 1.5%;
+	}
+
+	.fixed_follow_btn {
+		width: 30%;
+		margin-top: 1.5%;
+		height: 35px;
+		padding: 0;
+		display: flex;
+		justify-content: space-around;
+		margin-left: auto;
+	}
+
+	.fixed_follow_btn span {
+		font-size: .75em;
 	}
 </style>

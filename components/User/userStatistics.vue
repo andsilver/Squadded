@@ -1,5 +1,5 @@
 <template>
-	<section class="user_statistics">
+	<section v-if="!scrolled" class="user_statistics">
 		<h4 class="px-3 my_squad_title">
 			{{ $t('My Squad') }}
 		</h4>
@@ -23,6 +23,15 @@
 			</nuxt-link>
 		</section>
 	</section>
+	<section v-else class="fixed_statistic">
+		<nuxt-link :to="{ path: `${userPath}/followers` }" class="fixed_link">
+			<p><span>{{ short(user.followers.count) }}</span><span class="statistic_title_fixed">{{ $t('user.Followers') }}</span></p>
+		</nuxt-link>
+		<v-divider class="divider" inset vertical />
+		<nuxt-link :to="{ path: `${userPath}/following` }" class="fixed_link">
+			<p><span>{{ short(user.following.count) }}</span><span class="statistic_title_fixed">{{ $t('user.Following') }}</span></p>
+		</nuxt-link>
+	</section>
 </template>
 
 <script>
@@ -32,6 +41,10 @@ export default {
 		user: {
 			type: Object,
 			required: true,
+		},
+		scrolled: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {
@@ -53,7 +66,7 @@ export default {
 	}
 
 	.subtitle {
-		color: #B8B8BA !important;
+		color: #B8B8BA;
 		font-weight: 500;
 	}
 
@@ -62,7 +75,7 @@ export default {
 		padding: 0;
 		margin-bottom: 2%;
 		text-align: center;
-		color: #B8B8BA !important;
+		color: #B8B8BA;
 		font-weight: 600;
 	}
 
@@ -78,6 +91,36 @@ export default {
 	}
 
 	.divider {
-		height: 40px !important;
+		height: 40px;
+	}
+
+	.fixed_statistic {
+		display: flex;
+		flex-direction: row;
+	}
+
+	.fixed_link {
+		color: black;
+		font-size: .7em;
+		width: auto;
+	}
+
+	.fixed_link p {
+		width: auto;
+	}
+
+	.fixed_statistic .divider {
+		font-size: .7em;
+		line-height: 1em;
+		height: 12px;
+		margin-left: 6%;
+		margin-right: 4%;
+		margin-top: 1%;
+	}
+
+	.statistic_title_fixed {
+		color: #B8B8BA;
+		margin-left: 8%;
+		font-weight: 500;
 	}
 </style>
