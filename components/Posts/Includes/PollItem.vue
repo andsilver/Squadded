@@ -6,14 +6,14 @@
 			is-poll-post
 		/>
 		<div
-			v-if="voted"
+			v-if="!voted"
 			class="poll-item__votes"
 		>
 			<span
 				ref="poll-item-votes-count"
 				class="poll-item__votes-count"
 			>
-				{{ votes }} %
+				48<sup>%</sup>
 			</span>
 		</div>
 	</div>
@@ -34,8 +34,8 @@ export default {
 			required: true,
 		},
 		voted: {
-			type: Boolean,
-			default: false,
+			// type: Number,
+			default: 0,
 		},
 		oppositeVotes: {
 			type: Number,
@@ -80,5 +80,17 @@ export default {
 		z-index 1
 		&-count
 			color #fff
-			font-size 32px
+			font-size 26px
+			display flex
+			align-items center
+			justify-content center
+			height 70px
+			width 70px
+			border 1px solid rgba(255,255,255, .5)
+			border-radius 50%
+			font-weight 500
+
+	sup
+		font-size 16px
+		font-weight 500
 </style>
