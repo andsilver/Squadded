@@ -6,7 +6,7 @@
 			is-poll-post
 		/>
 		<div
-			v-if="!voted"
+			v-if="voted"
 			class="poll-item__votes"
 		>
 			<span
@@ -34,8 +34,8 @@ export default {
 			required: true,
 		},
 		voted: {
-			// type: Number,
-			default: 0,
+			type: Boolean,
+			default: false,
 		},
 		oppositeVotes: {
 			type: Number,

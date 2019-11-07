@@ -50,6 +50,6 @@ describe('PollItem', () => {
 		const votes = wrapper.vm.votes;
 
 		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).exists()).toBe(true);
-		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).text()).toMatch(`${votes} %`);
+		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).text()).toMatch(`${votes}%`);
 	});
 });
