@@ -4,7 +4,7 @@
 	>
 		<ProductCard
 			ref="product-card"
-			class="mx-auto pa-4 w-78"
+			class="mx-auto pa-4 w-78 mb-4"
 			:item="post.item"
 			:loading="!post.guid && !post.error"
 		/>

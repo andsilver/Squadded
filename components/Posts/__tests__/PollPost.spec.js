@@ -8,6 +8,11 @@ Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
 
+const mocks = {
+	$t: msg => msg,
+	$tc: msg => msg,
+};
+
 describe('PollPost', () => {
 	const POLL_ITEM_ELEMENT_1 = 'poll-item1';
 	const POLL_ITEM_ELEMENT_2 = 'poll-item2';
@@ -21,6 +26,7 @@ describe('PollPost', () => {
 		const store = new Vuex.Store(Store);
 
 		wrapper = shallowMount(PollPost, {
+			mocks,
 			localVue,
 			propsData: {
 				post,

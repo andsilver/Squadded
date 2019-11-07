@@ -21,14 +21,8 @@
 			@cancel="toggleTextEditor"
 		/>
 		<slot />
-		<div v-if="isPollPost" class="vote_slider_wrapper">
-			<div class="vote_slider">
-				<span class="vote">{{ $t('poll.vote') }}</span>
-			</div>
-		</div>
 		<section
 			class="post_buttons"
-			:class="isPollPost ? 'mt-2' : 'mt-4'"
 		>
 			<v-btn class="counter-icon like_button" @click="toggleLike">
 				<v-icon ref="likes-icon" class="buttons_icon" :color="post.likes.byMe ? 'red' : '#B8B8BA'" size="22">
@@ -99,9 +93,6 @@ export default {
 		post: {
 			type: Object,
 			required: true,
-		},
-		isPollPost: {
-			type: Boolean,
 		},
 	},
 	data: () => ({
@@ -225,33 +216,4 @@ export default {
 	width 30px
 	margin 0
 	margin-top 5%
-
-.vote_slider_wrapper
-	display flex
-	position absolute
-	width 98%
-	left 1%
-	height 9%
-	z-index 5
-	background-color rgba(0, 0, 0, .12)
-	top  64%
-	border-radius 10px
-	justify-content space-around
-
-.vote_slider
-	width 24%
-	height 80%
-	position: absolute;
-	top 10%
-	background-color black
-	border-radius 10px
-	.vote
-		font-size .6em
-		font-weight 600
-		color white
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
-		text-align: center;
-		height 100%
 </style>

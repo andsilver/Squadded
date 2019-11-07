@@ -36,6 +36,7 @@ export default {
 <style lang="stylus" scoped>
 	.toolbar
 		margin-top 3.4%
+		z-index 1000
 
 	.v-tab
 		min-width auto
