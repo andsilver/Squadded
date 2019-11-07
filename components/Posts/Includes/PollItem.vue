@@ -13,7 +13,7 @@
 				ref="poll-item-votes-count"
 				class="poll-item__votes-count"
 			>
-				48<sup>%</sup>
+				{{ votes }}<sup>%</sup>
 			</span>
 		</div>
 	</div>
@@ -73,7 +73,7 @@ export default {
 		position absolute
 		left 0
 		top 0
-		bottom 0
+		bottom 22%
 		right 0
 		background-color rgba(0, 0, 0, .5)
 		text-align center
@@ -93,4 +93,11 @@ export default {
 	sup
 		font-size 16px
 		font-weight 500
+.choosed
+	background-color #FD6256
+	opacity .25
+
+.notchoosed
+	background-color #000
+	opacity .20
 </style>
