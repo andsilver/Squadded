@@ -8,11 +8,6 @@ import { UserStore, UserMutations } from '~/store/user';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { userMockBuilder } from '~/test/user.mock';
 
-const mocks = {
-	$t: msg => msg,
-	$tc: msg => msg,
-};
-
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
@@ -33,7 +28,10 @@ describe('Post', () => {
 
 		wrapper = shallowMount(Post, {
 			localVue,
-			mocks,
+			mocks: {
+				$t: msg => msg,
+				$tc: msg => msg,
+			},
 			propsData: {
 				post,
 			},
@@ -118,33 +116,8 @@ describe('Post', () => {
 	});
 
 	describe('Comments', () => {
-		const COUNTER_ID = 'comments-count';
-		const ICON_ID = 'comments-icon';
 		const COMMENTS_LIST = 'comments-list';
 		const COMMENT_INPUT = 'comment-input';
-
-		it('should display chat icon only when no comments', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().get();
-
-			wrapper.setProps({ post });
-
-			expect(wrapper.ref(COUNTER_ID).exists()).toBe(false);
-
-			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('sqdi-chat-message-oval-outlined-speech-bubble');
-		});
-
-		it('should display chat icon and number of comments', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
-			wrapper.setProps({ post });
-
-			const counter = wrapper.ref(COUNTER_ID);
-			expect(counter.exists()).toBe(true);
-			expect(counter.text()).toBe(post.comments.messages.length.toString());
-
-			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('sqdi-chat-message-oval-outlined-speech-bubble');
-		});
 
 		it('should not display comments list on init', () => {
 			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
@@ -214,44 +187,6 @@ describe('Post', () => {
 			expect(comments.exists()).toBe(true);
 			expect(comments.props('post')).toBe(post);
 			expect(comments.props('action')).toBe(`${PostStore}/${PostActions.sendComment}`);
-		});
-	});
-
-	describe('Likes', () => {
-		const COUNTER_ID = 'likes-count';
-		const ICON_ID = 'likes-icon';
-
-		it('shoud display heart and likes counter', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().withLikes().get();
-			wrapper.setProps({ post });
-
-			expect(wrapper.ref(COUNTER_ID).text()).toBe(post.likes.count.toString());
-
-			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('sqdi-favorite-heart-button');
-			expect(icon.attributes('color')).not.toBe('red');
-		});
-
-		it('shoud display red heart when liked by me', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().withLikes(1, true).get();
-			wrapper.setProps({ post });
-
-			expect(wrapper.ref(COUNTER_ID).text()).toBe(post.likes.count.toString());
-
-			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('sqdi-favorite-heart-button');
-			expect(icon.attributes('color')).toBe('red');
-		});
-
-		it('shoud display heart but no likes counter', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().withLikes(0).get();
-			wrapper.setProps({ post });
-
-			expect(wrapper.ref(COUNTER_ID).exists()).toBe(false);
-
-			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('sqdi-favorite-heart-button-outline');
-			expect(icon.attributes('color')).not.toBe('red');
 		});
 	});
 });

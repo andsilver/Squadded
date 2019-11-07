@@ -1,6 +1,6 @@
 <template>
 	<h2>
-		<GoBackBtn/>
+		<GoBackBtn />
 		{{ title }}
 	</h2>
 </template>

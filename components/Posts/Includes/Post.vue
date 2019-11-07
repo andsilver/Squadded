@@ -21,28 +21,7 @@
 			@cancel="toggleTextEditor"
 		/>
 		<slot />
-		<section
-			class="post_buttons"
-		>
-			<v-btn class="counter-icon like_button" @click="toggleLike">
-				<v-icon ref="likes-icon" class="buttons_icon" :color="post.likes.byMe ? 'red' : '#B8B8BA'" size="22">
-					sqdi-favorite-heart-button{{ post.likes.count ? '' : '-outline' }}
-				</v-icon>
-				<span v-if="post.likes.count" ref="likes-count" class="count">{{ post.likes.count }}</span>
-			</v-btn>
-			<v-btn class="counter-icon comments_button" @click="toggleComments">
-				<v-icon ref="comments-icon" style="color: #B8B8BA;" class="buttons_icon" size="22">
-					sqdi-chat-message-oval-outlined-speech-bubble
-				</v-icon>
-				<span v-if="commentsCount" ref="comments-count" class="count">{{ commentsCount }}</span>
-			</v-btn>
-			<v-btn class="counter-icon hanger_button">
-				<v-icon ref="hanger-icon" style="color: #B8B8BA;" class="buttons_icon" size="22">
-					sqdi-hanger
-				</v-icon>
-				<span class="count">56</span>
-			</v-btn>
-		</section>
+		<Actions :post="post" @toggleComments="toggleComments" />
 		<v-list v-if="showComments && post.comments.messages.length" ref="comments-list">
 			<Comment
 				v-for="comment in post.comments.messages"
@@ -69,6 +48,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import Comment from './Comment';
+import Actions from './Actions';
 import MessageInput from '~/components/MessageInput';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
@@ -87,6 +67,7 @@ export default {
 	components: {
 		Comment,
 		MessageInput,
+		Actions,
 		UserLink,
 	},
 	props: {
@@ -105,9 +86,6 @@ export default {
 		...mapState([
 			'me',
 		]),
-		commentsCount () {
-			return this.post.comments.messages.length || this.post.comments.count;
-		},
 		isTextVisible () {
 			return this.post.user.guid === this.me.userId ? !this.showTextEditor : this.post.text;
 		},
@@ -127,9 +105,6 @@ export default {
 					});
 				}
 			}, 10);
-		},
-		toggleLike () {
-			this.$store.dispatch(`${PostStore}/${PostActions.toggleLike}`, this.post);
 		},
 		toggleComments () {
 			this.showComments = !this.showComments;
@@ -166,7 +141,6 @@ export default {
 
 .full_post
 	margin-top 4%
-	position relative
 
 .card_title
 	font-size .75em
@@ -175,29 +149,6 @@ export default {
 
 .placeholder
 	color #757575
-
-.post_buttons
-	display flex
-	border-radius 10px
-	border 1px solid #DBDBDB
-	overflow hidden
-
-.like_button,
-.comments_button,
-.hanger_button
-	flex-grow 2
-	padding 2% 0 !important
-	height 100% !important
-	box-shadow none !important
-	border-radius 0 !important
-	background-color transparent !important
-
-.comments_button
-	border-left 1px solid #DBDBDB
-	border-right 1px solid #DBDBDB
-
-.buttons_icon
-	background-color transparent
 
 .show_all_comments
 	font-size .65em
