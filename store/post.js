@@ -2,6 +2,7 @@ export const PostStore = 'post';
 
 export const PostMutations = {
 	addComment: 'addComment',
+	incrementVote: 'incrementVote',
 	receiveComments: 'receiveComments',
 	resetComments: 'resetComments',
 	setPostLike: 'setPostLike',
@@ -15,6 +16,10 @@ export const mutations = {
 		}
 		post.comments.messages.push(comment);
 		post.comments.count = post.comments.messages.length;
+	},
+	[PostMutations.incrementVote]: (state, { post, vote }) => {
+		post.voted = vote;
+		post[`item${vote}`].votes += 1;
 	},
 	[PostMutations.receiveComments]: (state, comments) => {
 	},
@@ -41,6 +46,7 @@ export const PostActions = {
 	sendComment: 'sendComment',
 	toggleLike: 'toggleLike',
 	modifyLike: 'modifyLike',
+	vote: 'vote',
 };
 
 export const actions = {
@@ -85,6 +91,17 @@ export const actions = {
 		}
 		const count = post.likes.count + mod;
 		commit(PostMutations.setPostLike, { count, post });
+	},
+	[PostActions.vote]: ({ commit, rootState }, { post, vote }) => {
+		if (!post) {
+			return;
+		}
+		commit(PostMutations.incrementVote, { post, vote });
+		rootState.socket.$ws.sendObj({
+			type: 'vote',
+			pollId: post.postId,
+			vote,
+		});
 	},
 };
 

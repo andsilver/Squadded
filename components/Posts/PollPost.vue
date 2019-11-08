@@ -3,11 +3,11 @@
 		:post="post"
 	>
 		<div class="wrapper mb-2">
-			<div class="vote_slider_wrapper">
-				<div class="vote_slider">
-					<span class="sqdi-arrow-point-to-right left" />
+			<div v-if="!isVoted" class="vote_slider_wrapper">
+				<div class="vote_slider" :class="{ first: post.voted === 1, second: post.voted === 2}">
+					<span class="sqdi-arrow-point-to-right left" @click="() => vote(1)" />
 					<span class="vote">{{ $t('poll.vote') }}</span>
-					<span class="sqdi-arrow-point-to-right right" />
+					<span class="sqdi-arrow-point-to-right right" @click="() => vote(2)" />
 				</div>
 			</div>
 			<div class="poll-post grid">
@@ -16,14 +16,14 @@
 					:item="post.item1"
 					:opposite-votes="post.item2.votes"
 					:voted="isVoted"
-					@click.native="vote(post.item1)"
+					@click.native="() => vote(1)"
 				/>
 				<PollItem
 					ref="poll-item2"
 					:item="post.item2"
 					:opposite-votes="post.item1.votes"
 					:voted="isVoted"
-					@click.native="vote(post.item2)"
+					@click.native="() => vote(2)"
 				/>
 			</div>
 		</div>
@@ -31,9 +31,14 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import Post from './Includes/Post';
 import PollItem from './Includes/PollItem';
 import { FeedPost } from '~/classes/FeedPost';
+import { PostStore, PostActions } from '~/store/post';
+import { UserStore } from '~/store/user';
+
+const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	name: 'PollPost',
@@ -53,14 +58,18 @@ export default {
 		};
 	},
 	computed: {
+		...mapState([
+			'me',
+		]),
 		isVoted () {
-			return this.post.voted;
+			return (this.post.user.guid === this.me.userId || !!this.post.voted || this.post.voted === 0);
 		},
 	},
 	methods: {
-		vote (item) {
+		vote (vote) {
 			if (!this.isVoted) {
-				// TODO:: send vote request
+				const { post } = this;
+				this.$store.dispatch(`${PostStore}/${PostActions.vote}`, { post, vote });
 			}
 		},
 	},

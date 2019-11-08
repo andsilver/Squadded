@@ -48,7 +48,7 @@ describe('PollPost', () => {
 	it('should be able to voting', () => {
 		wrapper.ref(POLL_ITEM_ELEMENT_1).trigger('click');
 
-		expect(wrapper.vm.vote).toHaveBeenCalledWith(post.item1);
+		expect(wrapper.vm.vote).toHaveBeenCalledWith(1);
 		expect(wrapper.vm.vote).toHaveBeenCalledTimes(1);
 	});
 

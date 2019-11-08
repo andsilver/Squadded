@@ -4,12 +4,10 @@ const itemInitialState = {
 	varId: '',
 };
 
-const composeItem = ({ varId, ...rest }) => {
-	return {
-		varId: varId || '',
-		...rest,
-	};
-};
+const composeItem = ({ varId, votes, ...rest }) => ({
+	varId: varId || '',
+	...rest,
+});
 
 export class FeedPost {
 	constructor (props) {
