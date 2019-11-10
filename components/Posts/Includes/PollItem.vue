@@ -44,7 +44,7 @@ export default {
 	},
 	computed: {
 		votes () {
-			const votesPercentage = this.item.votes
+			const votesPercentage = (this.item.votes + this.oppositeVotes)
 				? this.item.votes / (this.item.votes + this.oppositeVotes) * 100
 				: 0;
 

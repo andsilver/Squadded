@@ -63,6 +63,14 @@ const aDefaultPollMsgBuilder = () => {
 			msg.text = text;
 			return builder;
 		},
+		withItem1Votes: (v) => {
+			msg.item1.votes = v;
+			return builder;
+		},
+		withItem2Votes: (v) => {
+			msg.item2.votes = v;
+			return builder;
+		},
 		isVoted: () => {
 			msg.voted = true;
 

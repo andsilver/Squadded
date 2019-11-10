@@ -15,7 +15,7 @@ describe('PollItem', () => {
 
 	function initLocalVue () {
 		const localVue = createLocalVue();
-		const post = aDefaultPollMsgBuilder().withGUID().get();
+		const post = aDefaultPollMsgBuilder().withGUID().withItem1Votes(18).withItem2Votes(18).get();
 		localVue.use(Vuex);
 		const store = new Vuex.Store(Store);
 
@@ -47,7 +47,7 @@ describe('PollItem', () => {
 			voted: true,
 		});
 
-		const votes = wrapper.vm.votes;
+		const votes = 50;
 
 		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).exists()).toBe(true);
 		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).text()).toMatch(`${votes}%`);
