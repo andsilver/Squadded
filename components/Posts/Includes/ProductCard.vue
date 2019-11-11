@@ -10,7 +10,7 @@
 			@click="openProduct"
 		/>
 		<ReSquaddButton
-			v-if="!nonClickable && !isPollPost"
+			v-if="!nonClickable && voted"
 			:item="item"
 		/>
 		<section
@@ -64,6 +64,10 @@ export default {
 			default: false,
 		},
 		isPollPost: {
+			type: Boolean,
+			default: false,
+		},
+		voted: {
 			type: Boolean,
 			default: false,
 		},

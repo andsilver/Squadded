@@ -1,8 +1,9 @@
 <template>
-	<div class="poll-item">
+	<div class="poll-item" :class=" voted > 0 ? (votes > 50) ? 'choosed' : 'notchoosed' : '' ">
 		<ProductCard
 			ref="product-card"
 			:item="item"
+			voted
 			is-poll-post
 		/>
 		<div

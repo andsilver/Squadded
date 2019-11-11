@@ -52,7 +52,8 @@
     "create": "Create Poll",
     "dialogTitle": "Choose items for poll",
     "textPlaceholder": "Type a question (optioanl)",
-    "vote": "VOTE"
+    "vote": "VOTE",
+    "voted": "VOTED"
   },
   "post": {
     "textPlaceholder": "Input your message for this post",

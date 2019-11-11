@@ -3,10 +3,16 @@
 		:post="post"
 	>
 		<div class="wrapper mb-2">
-			<div v-if="!isVoted" class="vote_slider_wrapper">
-				<div class="vote_slider" :class="{ first: post.voted === 1, second: post.voted === 2}">
+			<div v-if="isVoted" class="vote_slider_wrapper">
+				<div
+					ref="vote_slider"
+					class="vote_slider"
+					:class="{ first: post.voted === 1, second: post.voted === 2}"
+					@touchstart="checkStartSliderTouch"
+					@touchmove="checkFinalSliderTouch"
+				>
 					<span class="sqdi-arrow-point-to-right left" @click="() => vote(1)" />
-					<span class="vote">{{ $t('poll.vote') }}</span>
+					<span ref="vote_btn" class="vote">{{ post.voted ? $t('poll.voted') : $t('poll.vote') }}</span>
 					<span class="sqdi-arrow-point-to-right right" @click="() => vote(2)" />
 				</div>
 			</div>
@@ -55,6 +61,8 @@ export default {
 	data() {
 		return {
 			isPollPost: true,
+			startX: 0,
+			isSliderDragged: false,
 		};
 	},
 	computed: {
@@ -72,8 +80,25 @@ export default {
 				this.$store.dispatch(`${PostStore}/${PostActions.vote}`, { post, vote });
 			}
 		},
+		checkStartSliderTouch(event) {
+			this.startX = parseInt(event.targetTouches[0].clientX);
+		},
+		checkFinalSliderTouch(e) {
+			const MIN_DIFFERENT = 30;
+			const lastX = e.touches[0].clientX;
+			const different = lastX - this.startX;
+			if (Math.abs(different) < MIN_DIFFERENT) {
+				return false;
+			}
+			if (this.startX > lastX) {
+				this.vote(1);
+			} else {
+				this.vote(2);
+			}
+		},
 	},
 };
+
 </script>
 
 <style lang="stylus" scoped>
@@ -101,17 +126,22 @@ export default {
 	height 86%
 	position: absolute;
 	top 7%
+	left 50%
+	color white
+	transform translateX(-50%)
 	background-color black
 	border-radius 10px
+	transition 1s all
 	.vote
 		font-size .6em
 		font-weight 700
-		color white
-		display: flex;
-		justify-content: center;
-		flex-direction: column;
-		text-align: center;
+		color inherit
+		display flex
+		justify-content center
+		flex-direction column
+		text-align center
 		height 100%
+		transition .5s all
 
 .sqdi-arrow-point-to-right:before
 	position absolute
@@ -128,4 +158,16 @@ export default {
 .sqdi-arrow-point-to-right.right:before
 	right 10%
 	transform scale(.4)
+
+.first,
+.second
+	background-color white
+	color black
+	border-radius 10px
+
+.first
+	left 25%
+
+.second
+	left 75%
 </style>
