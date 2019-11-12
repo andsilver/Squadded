@@ -46,7 +46,7 @@ export default {
 	computed: {
 		votes () {
 			const votesPercentage = (this.item.votes + this.oppositeVotes)
-				? this.item.votes / (this.item.votes + this.oppositeVotes) * 100
+				? Math.round(this.item.votes / (this.item.votes + this.oppositeVotes) * 100)
 				: 0;
 
 			return this.formatVotes(votesPercentage);
