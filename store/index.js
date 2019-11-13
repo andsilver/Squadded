@@ -12,7 +12,9 @@ export const state = () => ({
 		isAuth: false,
 		isPendingAuth: true,
 		reconnectError: false,
-		$ws: null,
+		$ws: {
+			sendObj: () => {},
+		},
 		_ws: null,
 	},
 	merchant: {

@@ -1,5 +1,7 @@
 export const isHome = routeName => (routeName === 'index');
 
+export const isPublic = routeName => isHome(routeName) || routeName === 'community';
+
 export const shortNumber = (number, locale = 'en') => new Intl.NumberFormat(locale, { notation: 'compact', compactDisplay: 'short' }).format(number);
 
 export const onStoreMutation = (store, type, value) => new Promise((resolve) => {

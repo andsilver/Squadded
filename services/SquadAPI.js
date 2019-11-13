@@ -1,3 +1,5 @@
+const { API_ENDPOINT } = process.env;
+
 export const SquadAPI = {
 	openProduct (item) {
 		const { itemId, url, varId } = item;
@@ -7,5 +9,10 @@ export const SquadAPI = {
 			url,
 			varId: varId || '',
 		}), '*');
+	},
+	async fetchStreet (merchantId) {
+		const response = await fetch(`${API_ENDPOINT}/community/street?merchantId=${merchantId}`);
+		const data = await response.json();
+		return data;
 	},
 };

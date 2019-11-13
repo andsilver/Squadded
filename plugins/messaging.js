@@ -20,6 +20,11 @@ const actions = {
 
 		store.commit(`${SquadStore}/${SquadMutations.setSquadParams}`, squad);
 	},
+	widgetState: (store, msg) => {
+		const { open } = msg;
+
+		store.commit(`${SquadStore}/${SquadMutations.setWidgetState}`, open);
+	},
 };
 
 export const dispatch = (store, msg) => {

@@ -70,14 +70,14 @@ export class WSToken {
 }
 
 export const connect = function (store) {
-	const userToken = store.state.user.me.userId;
-	if (!userToken) {
-		return store.commit('SET_PENDING', false);
-	}
-
 	const merchantId = store.state.merchant.id;
 	if (!merchantId) {
 		return;
+	}
+
+	const userToken = store.state.user.me.userId;
+	if (!userToken) {
+		return store.commit('SET_PENDING', false);
 	}
 	Vue.prototype.$connect();
 };
@@ -91,6 +91,14 @@ export const initSocket = (link, store) => {
 		reconnectionDelay: 5000,
 		connectManually: true,
 	});
+};
+
+const signOut = (store, router) => {
+	store.commit('SET_SOCKET_AUTH', false);
+	store.commit('SET_PENDING', false);
+	Vue.prototype.$disconnect();
+	localStorage.removeItem('userToken');
+	router.push('/');
 };
 
 export const mutationListener = ctx => function mutationDispatcher (mutation, state) {
@@ -141,12 +149,7 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 
 	if (mutation.type === 'SOCKET_ONCLOSE') {
 		if (mutation.payload.reason) {
-			store.commit('SET_SOCKET_AUTH', false);
-			store.commit('SET_PENDING', false);
-			Vue.prototype.$disconnect();
-			if (!isHome(ctx.route.name)) {
-				redirect({ path: '/' });
-			}
+			signOut(store, ctx.app.router);
 		}
 		return;
 	}

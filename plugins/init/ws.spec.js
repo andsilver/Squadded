@@ -304,6 +304,11 @@ describe('WS Plugin', () => {
 				}, deepStore),
 				redirect: jest.fn(),
 				route,
+				app: {
+					router: {
+						push: jest.fn(),
+					},
+				},
 			};
 			ctx.store.state.socket = {
 				_ws,
@@ -439,8 +444,8 @@ describe('WS Plugin', () => {
 
 				mutationDispatcher(mutation, state);
 
-				expect(ctx.redirect).toHaveBeenCalledTimes(1);
-				expect(ctx.redirect).toHaveBeenCalledWith({ path: '/' });
+				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
+				expect(ctx.app.router.push).toHaveBeenCalledWith('/');
 			});
 		});
 	});

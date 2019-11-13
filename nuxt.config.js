@@ -1,19 +1,24 @@
 import colors from 'vuetify/es5/util/colors';
 
 const {
-	WS_LINK,
+	AUTH_REDIRECT_ROOT,
 	BASE,
+	API_ENDPOINT,
 	FB_APP_ID,
 	IG_CLIENT_ID,
-	AUTH_REDIRECT_ROOT,
+	WS_LINK,
 } = process.env;
 
-if (!WS_LINK) {
-	throw new Error('WS_LINK environment variable is required!');
+if (!AUTH_REDIRECT_ROOT) {
+	throw new Error('AUTH_REDIRECT_ROOT environment variable is required!');
 }
 
 if (!BASE) {
 	throw new Error('BASE environment variable is required!');
+}
+
+if (!API_ENDPOINT) {
+	throw new Error('API_ENDPOINT environment variable is required!');
 }
 
 if (!FB_APP_ID) {
@@ -24,16 +29,17 @@ if (!IG_CLIENT_ID) {
 	throw new Error('IG_CLIENT_ID environment variable is required!');
 }
 
-if (!AUTH_REDIRECT_ROOT) {
-	throw new Error('AUTH_REDIRECT_ROOT environment variable is required!');
+if (!WS_LINK) {
+	throw new Error('WS_LINK environment variable is required!');
 }
 
 export default {
 	mode: 'spa',
 	env: {
+		AUTH_REDIRECT_ROOT,
+		API_ENDPOINT,
 		FB_APP_ID,
 		IG_CLIENT_ID,
-		AUTH_REDIRECT_ROOT,
 		WS_LINK,
 	},
 	/*

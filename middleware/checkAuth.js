@@ -1,8 +1,8 @@
-import { isHome } from '~/helpers';
+import { isPublic } from '~/helpers';
 
 export default function ({ route, redirect }) {
 	const userToken = localStorage.getItem('userToken');
-	if (!userToken && !isHome(route.name)) {
-		redirect({ path: '/' });
+	if (!userToken && !isPublic(route.name)) {
+		redirect({ path: '/community' });
 	}
 }

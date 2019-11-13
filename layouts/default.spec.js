@@ -28,6 +28,7 @@ describe('Message Input', () => {
 			state: {
 				socket: {
 					isPendingAuth: true,
+					isAuth: false,
 				},
 			},
 		});
@@ -46,8 +47,8 @@ describe('Message Input', () => {
 		expect(tabs.exists()).toBe(false);
 	});
 
-	it('should display tabs not at home', () => {
-		$route.name = 'protected';
+	it('should display tabs for logged in user', () => {
+		store.state.socket.isAuth = true;
 		const tabs = wrapper.ref(TAB_BAR);
 		expect(tabs.exists()).toBe(true);
 	});

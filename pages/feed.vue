@@ -1,15 +1,9 @@
 <template>
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
-		<v-layout
-			column
-			justify-center
-			align-center
-		>
-			<div class="full-width">
-				<span v-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
-				<Feed ref="feed-layout" :items="items" />
-			</div>
+		<v-layout>
+			<span v-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
+			<Feed ref="feed-layout" :items="items" />
 		</v-layout>
 	</v-container>
 </template>

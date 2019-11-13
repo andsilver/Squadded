@@ -4,6 +4,9 @@ export const DEFAULT_LANDING = '/feed';
 
 export const state = () => ({
 	route: { path: DEFAULT_LANDING },
+	widget: {
+		open: false,
+	},
 });
 
 const ParamName = {
@@ -22,11 +25,15 @@ function getRoute (squadParam) {
 
 export const SquadMutations = {
 	setSquadParams: 'setSquadParams',
+	setWidgetState: 'setWidgetState',
 };
 
 export const mutations = {
 	[SquadMutations.setSquadParams]: (state, squad) => {
 		state.route = getRoute(squad);
+	},
+	[SquadMutations.setWidgetState]: (state, open) => {
+		state.widget.open = open;
 	},
 };
 

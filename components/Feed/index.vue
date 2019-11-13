@@ -37,3 +37,8 @@ export default {
 	},
 };
 </script>
+
+<style lang="stylus" scoped>
+.feed
+	width 100%
+</style>

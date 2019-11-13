@@ -1,11 +1,11 @@
 <template>
 	<v-app>
-		<v-content :class="{ flex: socket.isPendingAuth }">
+		<v-content :class="{ flex: socket.isPendingAuth, 'show-tabs': socket.isAuth }">
 			<nuxt ref="main-content" />
 			<Preloader v-if="socket.isPendingAuth" ref="preloader" />
 		</v-content>
 		<v-footer absolute padless>
-			<TabBar v-if="showTabs" ref="tab-bar" />
+			<TabBar v-if="socket.isAuth" ref="tab-bar" />
 		</v-footer>
 	</v-app>
 </template>
@@ -14,7 +14,6 @@
 import { mapState } from 'vuex';
 import Preloader from '~/components/Preloader.vue';
 import TabBar from '~/components/common/TabBar.vue';
-import { isHome } from '~/helpers';
 
 export default {
 	name: 'DefaultLayout',
@@ -29,9 +28,11 @@ export default {
 		...mapState([
 			'socket',
 		]),
-		showTabs () {
-			return !isHome(this.$route.name);
-		},
 	},
 };
 </script>
+
+<style lang="stylus" scoped>
+.v-content.show-tabs
+	padding-bottom 65px !important
+</style>
