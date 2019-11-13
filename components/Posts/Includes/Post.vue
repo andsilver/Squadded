@@ -29,9 +29,6 @@
 				:comment="comment"
 			/>
 		</v-list>
-		<button v-if="showComments" class="show_all_comments">
-			{{ $tc('post.viewAllComments', 10) }}
-		</button>
 		<MessageInput
 			v-if="showComments"
 			ref="comment-input"
@@ -149,13 +146,6 @@ export default {
 
 .placeholder
 	color #757575
-
-.show_all_comments
-	font-size .65em
-	font-weight 600
-	margin-left 42px
-	padding 2%
-	padding-left 0
 
 .post_comment_input
 	font-size .7em
