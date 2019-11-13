@@ -14,6 +14,9 @@ const aDefaultSingleItemMsgBuilder = () => {
 		img: chance.url({ extensions: ['jpg', 'png'] }),
 		url: chance.url(),
 		varId: '',
+		byMe: false,
+		userId: null,
+		private: false,
 	};
 	const msg = new FeedPost({ item, type: 'singleItemPost' });
 
@@ -42,6 +45,7 @@ const aDefaultSingleItemMsgBuilder = () => {
 		},
 		withUser: (user = userMockBuilder().short()) => {
 			msg.user = user;
+			msg.userId = user.guid;
 			return builder;
 		},
 		withText: (text = chance.sentence()) => {

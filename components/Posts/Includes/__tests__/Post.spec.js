@@ -4,9 +4,7 @@ import Post from '../Post.vue';
 import { flushPromises } from '~/helpers';
 import Store from '~/store';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
-import { UserStore, UserMutations } from '~/store/user';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
-import { userMockBuilder } from '~/test/user.mock';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -68,8 +66,6 @@ describe('Post', () => {
 		});
 
 		it('should not display empty text', () => {
-			const me = userMockBuilder();
-			store.commit(`${UserStore}/${UserMutations.setMe}`, me.get());
 			const post = aDefaultSingleItemMsgBuilder()
 				.withGUID()
 				.withUser()
@@ -81,29 +77,25 @@ describe('Post', () => {
 		});
 
 		it('should display placeholder for author', () => {
-			const me = userMockBuilder();
 			const post = aDefaultSingleItemMsgBuilder()
 				.withGUID()
-				.withUser(me.short())
 				.get();
+			post.byMe = true;
 
-			store.commit(`${UserStore}/${UserMutations.setMe}`, me.get());
 			wrapper.setProps({ post });
 
 			expect(wrapper.ref(POST_TEXT).text()).toBe('post.textPlaceholder');
 		});
 
 		it('should toggle text input for author', () => {
-			const me = userMockBuilder();
 			const post = aDefaultSingleItemMsgBuilder()
 				.withGUID()
-				.withUser(me.short())
 				.withText()
 				.get();
+			post.byMe = true;
 
 			expect(wrapper.ref(POST_TEXT_INPUT).exists()).toBe(false);
 
-			store.commit(`${UserStore}/${UserMutations.setMe}`, me.get());
 			wrapper.setProps({ post });
 			wrapper.setData({ showTextEditor: true });
 

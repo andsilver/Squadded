@@ -3,11 +3,11 @@
 		:post="post"
 	>
 		<div class="wrapper mb-2">
-			<div class="vote_slider_wrapper">
+			<div v-if="!isMyPost" class="vote_slider_wrapper">
 				<div
 					ref="vote_slider"
 					class="vote_slider"
-					:class="{ first: post.voted === 1, second: post.voted === 2}"
+					:class="{ first: post.voted === 1, second: post.voted === 2 }"
 					@touchstart="checkStartSliderTouch"
 					@touchmove="checkFinalSliderTouch"
 				>
@@ -69,8 +69,11 @@ export default {
 		...mapState([
 			'me',
 		]),
+		isMyPost () {
+			return (this.post.byMe || this.post.voted === 0);
+		},
 		isVoted () {
-			return (this.post.user.guid === this.me.userId || !!this.post.voted || this.post.voted === 0);
+			return (this.isMyPost || !!this.post.voted);
 		},
 		total () {
 			return this.post.item1.votes + this.post.item2.votes;

@@ -1,6 +1,9 @@
 <template>
 	<div class="full_post">
-		<UserLink ref="user-link" class="post_user_link" :user="post.user" :ts="post.ts" />
+		<div class="d-flex">
+			<UserLink ref="user-link" class="post_user_link grow" :user="post.user" :ts="post.ts" />
+			<PopMenu v-if="post.byMe" :post="post" />
+		</div>
 		<h3
 			v-if="isTextVisible"
 			ref="post-text"
@@ -43,13 +46,12 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
-import Comment from './Comment';
 import Actions from './Actions';
+import Comment from './Comment';
+import PopMenu from './PopMenu';
 import MessageInput from '~/components/MessageInput';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
-import { UserStore } from '~/store/user';
 import { prefetch } from '~/helpers';
 
 const TAB_BAR_HEIGHT = 50;
@@ -57,14 +59,13 @@ const GAP = 5;
 
 const getScroll = (rect, scrollTop) => rect.top + scrollTop - window.innerHeight + rect.height + TAB_BAR_HEIGHT + GAP;
 
-const { mapState } = createNamespacedHelpers(UserStore);
-
 export default {
 	name: 'Post',
 	components: {
+		Actions,
 		Comment,
 		MessageInput,
-		Actions,
+		PopMenu,
 		UserLink,
 	},
 	props: {
@@ -80,14 +81,11 @@ export default {
 		sendComment: `${PostStore}/${PostActions.sendComment}`,
 	}),
 	computed: {
-		...mapState([
-			'me',
-		]),
 		isTextVisible () {
-			return this.post.user.guid === this.me.userId ? !this.showTextEditor : this.post.text;
+			return this.post.byMe ? !this.showTextEditor : this.post.text;
 		},
 		isPlaceHolder () {
-			return (this.post.user.guid === this.me.userId && !this.post.text);
+			return (this.post.byMe && !this.post.text);
 		},
 	},
 	methods: {
@@ -117,7 +115,7 @@ export default {
 			});
 		},
 		toggleTextEditor () {
-			if (this.post.user.guid !== this.me.userId) {
+			if (!this.post.byMe) {
 				return;
 			}
 			this.showTextEditor = !this.showTextEditor;

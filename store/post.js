@@ -6,6 +6,7 @@ export const PostMutations = {
 	receiveComments: 'receiveComments',
 	resetComments: 'resetComments',
 	setPostLike: 'setPostLike',
+	setPrivate: 'setPrivate',
 	setText: 'setText',
 };
 
@@ -39,6 +40,10 @@ export const mutations = {
 	[PostMutations.setText]: (state, { text, post }) => {
 		post.text = text;
 	},
+	[PostMutations.setPrivate]: (state, props) => {
+		const { post } = props;
+		post.private = props.private;
+	},
 };
 
 export const PostActions = {
@@ -46,12 +51,18 @@ export const PostActions = {
 	sendComment: 'sendComment',
 	toggleLike: 'toggleLike',
 	modifyLike: 'modifyLike',
+	updatePrivate: 'updatePrivate',
 	vote: 'vote',
 };
 
 export const actions = {
 	[PostActions.editText]: ({ rootState, commit }, { text, post }) => {
 		commit(PostMutations.setText, { text, post });
+		rootState.socket.$ws.sendObj(post.toMessage());
+	},
+	[PostActions.updatePrivate]: ({ rootState, commit }, props) => {
+		const { post } = props;
+		commit(PostMutations.setPrivate, { post, private: props.private });
 		rootState.socket.$ws.sendObj(post.toMessage());
 	},
 	[PostActions.sendComment]: ({ rootState, commit }, { text, post }) => {

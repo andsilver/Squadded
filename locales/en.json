@@ -57,7 +57,21 @@
   },
   "post": {
     "textPlaceholder": "Input your message for this post",
-    "sending": "sending…"
+    "sending": "sending…",
+    "pop": {
+      "setPublic": {
+        "menu": "Set post as public",
+        "question": "Set public?",
+        "description": "Anyone will be able to see your post",
+        "decline": "Stay private"
+      },
+      "setPrivate": {
+        "menu": "Set post as private",
+        "question": "Set private?",
+        "description": "Only your followers will be able to see your post",
+        "decline": "Stay public"
+      }
+    }
   },
   "wishlist": {
     "purchase": "PURCHASE"

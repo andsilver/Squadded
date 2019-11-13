@@ -42,6 +42,7 @@ describe('Message Input', () => {
 		expect(feed.exists()).toBe(false);
 
 		store.commit('SET_SOCKET_AUTH', true);
+		store.state.feed.items = [{}];
 		feed = wrapper.ref(MAIN);
 		expect(feed.exists()).toBe(true);
 		expect(wrapper.ref(TOP_BAR).exists()).toBe(true);

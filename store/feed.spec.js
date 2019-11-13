@@ -119,7 +119,7 @@ describe('Feed store module', () => {
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			const { comments, error, likes, merchantId, ts, user, ...clean } = msg;
+			const { byMe, comments, error, likes, merchantId, ts, user, userId, ...clean } = msg;
 			clean.correlationId = jasmine.any(String);
 			const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
 			expect(sendObjInvocationArg).toMatchObject(clean);

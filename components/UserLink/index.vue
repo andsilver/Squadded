@@ -8,7 +8,6 @@
 				<v-list-item-title class="user_name">
 					{{ user.name || user.screenName }}
 				</v-list-item-title>
-				<button class="button_more sqdi-more" />
 				<v-list-item-subtitle v-if="ts" class="user_timestamp">
 					{{ timeString }}
 				</v-list-item-subtitle>
@@ -79,20 +78,6 @@ export default {
 	.user_timestamp {
 		font-size: .7em;
 		font-weight: 400;
-	}
-
-	.button_more {
-		position: absolute;
-		right: 1%;
-		top: 34%;
-		height: 5%;
-		color: #B8B8BA;
-	}
-
-	.sqdi-more:before {
-		height: 18px;
-		line-height: 18px;
-		font-size: 18px;
 	}
 
 	.user_link_header {

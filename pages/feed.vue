@@ -3,7 +3,7 @@
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout>
 			<span v-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
-			<Feed ref="feed-layout" :items="items" />
+			<Feed v-else ref="feed-layout" :items="items" />
 		</v-layout>
 	</v-container>
 </template>
