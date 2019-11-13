@@ -51,7 +51,7 @@
   "poll": {
     "create": "Create Poll",
     "dialogTitle": "Choose items for poll",
-    "textPlaceholder": "Type a question (optioanl)",
+    "textPlaceholder": "Type a question (optional)",
     "vote": "VOTE",
     "voted": "VOTED"
   },

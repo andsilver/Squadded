@@ -4,7 +4,7 @@ const itemInitialState = {
 	varId: '',
 };
 
-const composeItem = ({ varId, votes, ...rest }) => ({
+const composeItem = ({ varId, ...rest }) => ({
 	varId: varId || '',
 	...rest,
 });

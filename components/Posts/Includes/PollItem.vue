@@ -1,14 +1,15 @@
 <template>
-	<div class="poll-item" :class=" voted > 0 ? (votes > 50) ? 'choosed' : 'notchoosed' : '' ">
+	<div class="poll-item">
 		<ProductCard
 			ref="product-card"
 			:item="item"
-			voted
+			:voted="voted"
 			is-poll-post
 		/>
 		<div
 			v-if="voted"
 			class="poll-item__votes"
+			:class=" voted > 0 ? (votes > 50) ? 'choosed' : 'notchoosed' : '' "
 		>
 			<span
 				ref="poll-item-votes-count"
@@ -22,7 +23,6 @@
 
 <script>
 import ProductCard from './ProductCard';
-import { isInteger } from '~/utils/number';
 
 export default {
 	name: 'PollItem',
@@ -38,27 +38,16 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		oppositeVotes: {
+		total: {
 			type: Number,
 			default: 0,
 		},
 	},
 	computed: {
 		votes () {
-			const votesPercentage = (this.item.votes + this.oppositeVotes)
-				? Math.round(this.item.votes / (this.item.votes + this.oppositeVotes) * 100)
+			return (this.total)
+				? Math.round(this.item.votes / (this.total) * 100)
 				: 0;
-
-			return this.formatVotes(votesPercentage);
-		},
-	},
-	methods: {
-		formatVotes (value) {
-			return value && isInteger(value)
-				? value
-				: !isInteger(value)
-					? value.toFixed(2)
-					: 0;
 		},
 	},
 };
@@ -74,7 +63,7 @@ export default {
 		position absolute
 		left 0
 		top 0
-		bottom 22%
+		bottom 20%
 		right 0
 		background-color rgba(0, 0, 0, .5)
 		text-align center
@@ -95,10 +84,8 @@ export default {
 		font-size 16px
 		font-weight 500
 .choosed
-	background-color #FD6256
-	opacity .25
+	background-color rgba(253, 98, 86, .25)
 
 .notchoosed
-	background-color #000
-	opacity .20
+	background-color rgba(0,0,0, .20)
 </style>

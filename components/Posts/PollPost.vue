@@ -3,7 +3,7 @@
 		:post="post"
 	>
 		<div class="wrapper mb-2">
-			<div v-if="isVoted" class="vote_slider_wrapper">
+			<div class="vote_slider_wrapper">
 				<div
 					ref="vote_slider"
 					class="vote_slider"
@@ -20,14 +20,14 @@
 				<PollItem
 					ref="poll-item1"
 					:item="post.item1"
-					:opposite-votes="post.item2.votes"
+					:total="total"
 					:voted="isVoted"
 					@click.native="() => vote(1)"
 				/>
 				<PollItem
 					ref="poll-item2"
 					:item="post.item2"
-					:opposite-votes="post.item1.votes"
+					:total="total"
 					:voted="isVoted"
 					@click.native="() => vote(2)"
 				/>
@@ -71,6 +71,9 @@ export default {
 		]),
 		isVoted () {
 			return (this.post.user.guid === this.me.userId || !!this.post.voted || this.post.voted === 0);
+		},
+		total () {
+			return this.post.item1.votes + this.post.item2.votes;
 		},
 	},
 	methods: {
@@ -117,7 +120,7 @@ export default {
 	height 40px
 	z-index 5
 	background-color rgba(0, 0, 0, .12)
-	bottom 26%
+	bottom 21%
 	border-radius 12px
 	justify-content space-around
 

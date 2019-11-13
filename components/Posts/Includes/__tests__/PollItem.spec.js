@@ -24,7 +24,7 @@ describe('PollItem', () => {
 			propsData: {
 				item: post.item1,
 				voted: false,
-				oppositeVotes: post.item2.votes,
+				total: post.item1.votes + post.item2.votes,
 			},
 			store,
 		});
