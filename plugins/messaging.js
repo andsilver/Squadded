@@ -1,11 +1,17 @@
 import { connect } from './init/ws';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { FeedStore, FeedActions } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import { SquadStore, SquadMutations } from '~/store/squad';
 
+const post = async (store, msg) => {
+	const post = await store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
+	store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, post);
+};
+
 const actions = {
-	singleItemPost: (store, msg) => store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg),
-	pollPost: (store, msg) => store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg),
+	singleItemPost: post,
+	pollPost: post,
 	injectMerchantId: (store, msg) => {
 		const { merchantId } = msg;
 

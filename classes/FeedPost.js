@@ -45,7 +45,7 @@ export class FeedPost {
 
 		this.byMe = byMe;
 		this.user = user;
-		this.userId = userId;
+		this.userId = userId || user.guid;
 		this.error = error;
 		this.guid = postId || guid;
 		this.postId = postId || guid;

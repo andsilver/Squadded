@@ -2,7 +2,7 @@ import { Chance } from 'chance';
 import Vuex from 'vuex';
 import { createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
-import feed, { FeedStore, FeedActions, mutations } from './feed';
+import feed, { FeedStore, FeedActions, FeedMutations, mutations } from './feed';
 import store from './index';
 import { userMockBuilder } from '~/test/user.mock';
 
@@ -102,7 +102,12 @@ describe('Feed store module', () => {
 
 			msg.correlationId = jasmine.any(String);
 			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.feed.items).toEqual([ { ...msg, user: me.short() } ]);
+			expect(root.state.feed.items).toEqual([{
+				...msg,
+				byMe: true,
+				user: me.short(),
+				userId: me.get().userId,
+			}]);
 		});
 
 		it('should commit addItem when receive new item', async () => {
@@ -163,10 +168,10 @@ describe('Feed store module', () => {
 					.get();
 			}
 
-			await feedStore.dispatch(`${FeedActions.storeItem}`, item());
-			await feedStore.dispatch(`${FeedActions.storeItem}`, item());
-			await feedStore.dispatch(`${FeedActions.storeItem}`, item());
-			await feedStore.dispatch(`${FeedActions.storeItem}`, item());
+			await feedStore.commit(`${FeedMutations.addItem}`, item());
+			await feedStore.commit(`${FeedMutations.addItem}`, item());
+			await feedStore.commit(`${FeedMutations.addItem}`, item());
+			await feedStore.commit(`${FeedMutations.addItem}`, item());
 
 			expect(feedStore.state.items.length).toBe(4);
 		});

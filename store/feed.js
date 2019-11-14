@@ -52,7 +52,6 @@ export const mutations = {
 };
 
 export const FeedActions = {
-	storeItem: 'storeItem',
 	receiveItem: 'receiveItem',
 	saveItem: 'saveItem',
 	reSquaddItem: 'reSquaddItem',
@@ -67,43 +66,43 @@ export const actions = {
 		}
 		rootState.socket.$ws.sendObj(msg);
 	},
-	[FeedActions.storeItem]: ({ getters, commit }, post) => {
-		commit(FeedMutations.addItem, post);
-	},
-	[FeedActions.saveItem]: ({ rootState, dispatch }, payload) => {
+	[FeedActions.saveItem]: ({ rootState, commit }, payload) => {
 		const post = new FeedPost({
 			...payload,
+			byMe: true,
 			correlationId: `${Date.now()}${suffix()}`,
 			user: rootState.user.me.short(),
 		});
 
-		dispatch(FeedActions.storeItem, post);
+		commit(FeedMutations.addItem, post);
 		if (rootState.socket.isConnected && rootState.socket.isAuth) {
 			// TODO? add some queue for sync after reconnect
 			rootState.socket.$ws.sendObj(post.toMessage());
 		}
+		return post;
 	},
-	[FeedActions.reSquaddItem]: ({ rootState, dispatch }, payload) => {
+	[FeedActions.reSquaddItem]: ({ rootState, commit }, payload) => {
 		const post = new FeedPost({
 			...payload,
+			byMe: true,
 			type: 'singleItemPost',
 			correlationId: `${Date.now()}${suffix()}`,
 			user: rootState.user.me.short(),
 		});
 
-		dispatch(FeedActions.storeItem, post);
+		commit(FeedMutations.addItem, post);
 		if (rootState.socket.isConnected && rootState.socket.isAuth) {
 			// TODO? add some queue for sync after reconnect
 			rootState.socket.$ws.sendObj(post.toMessage());
 		}
 	},
-	[FeedActions.receiveItem]: ({ commit, dispatch, getters }, payload) => {
+	[FeedActions.receiveItem]: ({ commit, getters }, payload) => {
 		const post = getters[FeedGetters.getPostById](payload.guid);
 
 		if (!payload.correlationId && !post) {
 			// received from another user
 			const post = new FeedPost(payload);
-			dispatch(FeedActions.storeItem, post);
+			commit(FeedMutations.addItem, post);
 
 			return;
 		}

@@ -132,9 +132,8 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 			if (isHome(ctx.route.name)) {
 				const { route } = state.squad;
 				redirect(route);
-			} else {
-				store.commit('SET_PENDING', false);
 			}
+			store.commit('SET_PENDING', false);
 			fetchUser();
 			fetchPosts();
 		}

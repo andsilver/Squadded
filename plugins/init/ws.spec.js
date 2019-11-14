@@ -346,8 +346,8 @@ describe('WS Plugin', () => {
 
 				mutationDispatcher(mutation, state);
 
-				expect(ctx.store.commit).toHaveBeenCalledTimes(1);
 				expect(ctx.store.commit).toHaveBeenCalledWith('SET_SOCKET_AUTH', true);
+				expect(ctx.store.commit).toHaveBeenCalledWith('SET_PENDING', false);
 			});
 
 			it('should set pending false if authOk occur after destination page was mounted', () => {
