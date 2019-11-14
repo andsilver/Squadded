@@ -37,14 +37,10 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
 import Post from './Includes/Post';
 import PollItem from './Includes/PollItem';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostActions } from '~/store/post';
-import { UserStore } from '~/store/user';
-
-const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	name: 'PollPost',
@@ -66,9 +62,6 @@ export default {
 		};
 	},
 	computed: {
-		...mapState([
-			'me',
-		]),
 		isMyPost () {
 			return (this.post.byMe || this.post.voted === 0);
 		},
