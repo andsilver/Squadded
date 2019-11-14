@@ -4,17 +4,18 @@
 	>
 		<div class="wrapper mb-2">
 			<div v-if="!isMyPost" class="vote_slider_wrapper">
-				<div
+				<button
 					ref="vote_slider"
 					class="vote_slider"
 					:class="{ first: post.voted === 1, second: post.voted === 2 }"
 					@touchstart="checkStartSliderTouch"
-					@touchmove="checkFinalSliderTouch"
+					@touchmove="moveSlider"
+					@touchend="setSliderPosition"
 				>
 					<span class="sqdi-arrow-point-to-right left" @click="() => vote(1)" />
 					<span ref="vote_btn" class="vote">{{ post.voted ? $t('poll.voted') : $t('poll.vote') }}</span>
 					<span class="sqdi-arrow-point-to-right right" @click="() => vote(2)" />
-				</div>
+				</button>
 			</div>
 			<div class="poll-post grid">
 				<PollItem
@@ -58,7 +59,7 @@ export default {
 		return {
 			isPollPost: true,
 			startX: 0,
-			isSliderDragged: false,
+			lastX: 0,
 		};
 	},
 	computed: {
@@ -82,18 +83,24 @@ export default {
 		checkStartSliderTouch(event) {
 			this.startX = parseInt(event.targetTouches[0].clientX);
 		},
-		checkFinalSliderTouch(e) {
-			const MIN_DIFFERENT = 30;
-			const lastX = e.touches[0].clientX;
-			const different = lastX - this.startX;
+		moveSlider(e) {
+			this.$refs.vote_slider.style.left = `${e.targetTouches[0].clientX}px`;
+			this.lastX = e.targetTouches[0].clientX;
+		},
+		setSliderPosition() {
+			const MIN_DIFFERENT = 50;
+			const halfScreenWidth = document.body.clientWidth / 2;
+			const different = this.lastX - halfScreenWidth;
 			if (Math.abs(different) < MIN_DIFFERENT) {
+				this.$refs.vote_slider.style.left = `50%`;
 				return false;
 			}
-			if (this.startX > lastX) {
-				this.vote(1);
-			} else {
-				this.vote(2);
-			}
+			const choosedPictureNumber = different < 0 ? 1 : 2;
+			const DELAY_FOR_ANIMATION = 500;
+			setTimeout(() => {
+				this.$refs.vote_slider.style.left = ``;
+				this.vote(choosedPictureNumber);
+			}, DELAY_FOR_ANIMATION);
 		},
 	},
 };
@@ -130,7 +137,7 @@ export default {
 	transform translateX(-50%)
 	background-color black
 	border-radius 10px
-	transition 1s all
+	transition 1s color
 	.vote
 		font-size .6em
 		font-weight 700
@@ -139,8 +146,10 @@ export default {
 		justify-content center
 		flex-direction column
 		text-align center
+		width 100%
 		height 100%
 		transition .5s all
+		user-select none
 
 .sqdi-arrow-point-to-right:before
 	position absolute
@@ -163,10 +172,11 @@ export default {
 	background-color white
 	color black
 	border-radius 10px
+	transition all .5s
 
-.first
+button.first
 	left 25%
 
-.second
+button.second
 	left 75%
 </style>
