@@ -149,10 +149,4 @@ export default {
 	font-size .7em
 	position sticky
 	bottom 0
-
-.double_heart_button.sqdi-squadded-icon:before
-	text-align center
-	width 30px
-	margin 0
-	margin-top 5%
 </style>

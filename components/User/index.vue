@@ -219,8 +219,6 @@ export default {
 		margin-top: 1.5%;
 		height: 35px;
 		padding: 0;
-		display: flex;
-		justify-content: space-around;
 		margin-left: auto;
 	}
 

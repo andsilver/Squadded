@@ -1,8 +1,8 @@
 <template>
 	<button
 		ref="resquadd-button"
-		class="double_heart_button sqdi-squadded-icon"
-		:class="{ 'is-resquadded': isReSquadded }"
+		class="resquadd sqdi-squadded-icon"
+		:class="{ 'is-resquadded': item.squadded }"
 		@click="reSquaddPost"
 	/>
 </template>
@@ -15,26 +15,21 @@ export default {
 	props: {
 		item: {
 			type: Object,
-			default: () => {},
+			required: true,
 		},
 	},
-	data: () => ({
-		isReSquadded: false,
-	}),
 	methods: {
-		async reSquaddPost () {
-			await this.$store.dispatch(`${FeedStore}/${FeedActions.reSquaddItem}`, { item: this.item });
-			this.setIsReSquadded(true);
-		},
-		setIsReSquadded (state) {
-			this.isReSquadded = state;
+		reSquaddPost () {
+			this.item.squadded = true;
+			this.$store.dispatch(`${FeedStore}/${FeedActions.reSquaddItem}`, { item: this.item });
+			this.$forceUpdate();
 		},
 	},
 };
 </script>
 
 <style scoped lang="stylus">
-.double_heart_button
+.resquadd
 	position absolute
 	right 8%
 	top 8%
@@ -45,14 +40,14 @@ export default {
 	color white
 	text-align center
 	opacity .5
-	transition background-color .3s ease-in-out 0s,
-		opacity .3s ease-in-out 0s
+	outline none
+	transition background-color .1s ease-in-out 0s,
+		opacity .1s ease-in-out 0s
 
 	&.sqdi-squadded-icon
 		&:before
-			width 30px
-			margin 5% 0 0 0
-			text-align center
+			vertical-align middle
+			line-height 30px
 
 	&.is-resquadded
 		background-color black

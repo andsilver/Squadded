@@ -4,7 +4,6 @@ import ReSquaddButton from '../index.vue';
 import Store from '~/store';
 import { FeedStore, FeedActions } from '~/store/feed';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
-import { flushPromises } from '~/helpers';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -35,20 +34,16 @@ describe('ReSquadd Button', () => {
 		});
 	});
 
-	it('Should dispatch action save post item', async (done) => {
-		wrapper.setData({
-			isReSquadded: false,
-		});
-
+	it('Should dispatch action save post item', (done) => {
 		expect(wrapper.ref(RESQUADD_BUTTON).exists()).toBe(true);
 		expect(wrapper.ref(RESQUADD_BUTTON).classes('is-resquadded')).toBe(false);
 
 		wrapper.ref(RESQUADD_BUTTON).trigger('click');
-		await flushPromises();
 
 		expect(store.dispatch).toHaveBeenCalledWith(reSquaddItem, { item: post.item });
-		expect(wrapper.vm.isReSquadded).toBe(true);
-		expect(wrapper.ref(RESQUADD_BUTTON).classes('is-resquadded')).toBe(true);
+		expect(post.item.squadded).toBe(true);
+		expect(wrapper.vm.item.squadded).toBe(true);
+		expect(wrapper.ref(RESQUADD_BUTTON).classes()).toContain('is-resquadded');
 
 		done();
 	});
