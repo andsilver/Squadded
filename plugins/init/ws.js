@@ -50,22 +50,33 @@ export const dispatch = function (store, message) {
 	}
 };
 
+const KEEP_ALIVE_INTERVAL_MS = 30000;
+
 export class WSToken {
 	constructor(ws) {
 		this._ws = ws;
+		this._timeoutId = null;
 	}
 
-	/**
-	 * Append user JWT to Web Socket message
-	 *
-	 * @paarm {object} data
-	 */
 	sendObj (data) {
 		const _jwt = localStorage.getItem('userToken');
 		if (_jwt) {
 			const { error, userId, _jwt, ...clean } = data;
 			this._ws.sendObj(clean);
+			this.stop();
+			this.keepAlive();
 		}
+	}
+
+	keepAlive() {
+		this._timeoutId = setTimeout(() => {
+			this._ws.send('ping');
+			this.keepAlive();
+		}, KEEP_ALIVE_INTERVAL_MS);
+	}
+
+	stop () {
+		clearTimeout(this._timeoutId);
 	}
 }
 
@@ -97,6 +108,8 @@ const signOut = (store, router) => {
 	store.commit('SET_SOCKET_AUTH', false);
 	store.commit('SET_PENDING', false);
 	Vue.prototype.$disconnect();
+	delete Vue.prototype.$ws;
+	store.commit('jSocket', null);
 	localStorage.removeItem('userToken');
 	router.push('/');
 };
@@ -129,6 +142,7 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 			return;
 		} else if (message.type === 'authOk') {
 			store.commit('SET_SOCKET_AUTH', true);
+			state.socket.$ws.keepAlive();
 			if (isHome(ctx.route.name)) {
 				const { route } = state.squad;
 				redirect(route);
@@ -147,6 +161,7 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 	}
 
 	if (mutation.type === 'SOCKET_ONCLOSE') {
+		state.socket.$ws.stop();
 		if (mutation.payload.reason) {
 			signOut(store, ctx.app.router);
 		}

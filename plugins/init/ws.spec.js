@@ -291,6 +291,8 @@ describe('WS Plugin', () => {
 			const deepStore = JSON.parse(JSON.stringify(STORE));
 			_ws = {
 				sendObj: jest.fn(),
+				stop: jest.fn(),
+				keepAlive: jest.fn(),
 			};
 			state = deepStore.state;
 			route = {
@@ -398,9 +400,10 @@ describe('WS Plugin', () => {
 
 				mutationDispatcher(mutation, state);
 
-				expect(ctx.store.commit).toHaveBeenCalledTimes(2);
+				expect(ctx.store.commit).toHaveBeenCalledTimes(3);
 				expect(ctx.store.commit).toHaveBeenCalledWith('SET_SOCKET_AUTH', false);
 				expect(ctx.store.commit).toHaveBeenCalledWith('SET_PENDING', false);
+				expect(ctx.store.commit).toHaveBeenCalledWith('jSocket', null);
 
 				expect(Vue.prototype.$disconnect).toHaveBeenCalledTimes(1);
 			});
