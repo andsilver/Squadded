@@ -1,6 +1,7 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Blog from '../index.vue';
+import { flushPromises } from '~/helpers';
 import Store from '~/store';
 
 Wrapper.prototype.ref = function (id) {
@@ -37,13 +38,16 @@ describe('Blog Component', () => {
 		};
 	});
 
-	it('sets the correct default props', () => {
+	it('sets the correct default props', async () => {
 		const wrapper = shallowMount(Blog, {
 			localVue,
 			store,
 			mocks,
 		});
 		expect(wrapper.vm.blog).toBe(null);
+
+		store.commit('SET_SOCKET_AUTH', true);
+		await flushPromises();
 
 		expect(store.state.socket.$ws.sendObj).toHaveBeenCalledWith({
 			type: 'fetchBlog',

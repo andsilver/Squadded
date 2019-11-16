@@ -4,6 +4,7 @@ export const ActivityStore = 'activity';
 
 export const state = () => ({
 	blog: null,
+	squadders: null,
 	wishlist: null,
 });
 
@@ -24,11 +25,14 @@ export const ActivityMutations = {
 };
 
 export const mutations = {
-	[ActivityMutations.setWishlist]: (state, msg) => {
-		state.wishlist = msg.wishlist.map(post => new FeedPost(post));
-	},
 	[ActivityMutations.setBlog]: (state, msg) => {
 		state.blog = msg.blog.map(post => new FeedPost(post));
+	},
+	[ActivityMutations.setSquadders]: (state, msg) => {
+		state.squadders = msg.squadders.map(post => new FeedPost(post));
+	},
+	[ActivityMutations.setWishlist]: (state, msg) => {
+		state.wishlist = msg.wishlist.map(post => new FeedPost(post));
 	},
 	[ActivityMutations.addPost]: (state, post) => {
 		if (isSameUser(state.blog, post.userId)) {

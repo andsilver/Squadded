@@ -42,6 +42,8 @@ describe('User component', () => {
 			params,
 		};
 
+		store.commit('SET_SOCKET_AUTH', true);
+
 		wrapper = shallowMount(User, {
 			localVue,
 			store,

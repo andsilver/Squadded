@@ -45,6 +45,8 @@ export const dispatch = function (store, message) {
 		store.commit(`${ActivityStore}/${ActivityMutations.setWishlist}`, message);
 	} else if (type === 'blog') {
 		store.commit(`${ActivityStore}/${ActivityMutations.setBlog}`, message);
+	} else if (type === 'squadders') {
+		store.commit(`${ActivityStore}/${ActivityMutations.setSquadders}`, message);
 	} else {
 		// TODO report
 	}
@@ -70,7 +72,7 @@ export class WSToken {
 
 	keepAlive() {
 		this._timeoutId = setTimeout(() => {
-			this._ws.send('ping');
+			this._ws.send(JSON.stringify({ type: 'ping' }));
 			this.keepAlive();
 		}, KEEP_ALIVE_INTERVAL_MS);
 	}

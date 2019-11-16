@@ -1,6 +1,5 @@
 <template>
-	<v-container class="layout-padding">
-		<TopBar v-if="socket.isAuth" ref="top-bar" class="topBar" />
+	<v-container>
 		<v-layout>
 			<Feed ref="feed-layout" :items="items" @click.native="signin" />
 		</v-layout>
@@ -10,7 +9,6 @@
 <script>
 import { mapState } from 'vuex';
 import Feed from '~/components/Feed';
-import TopBar from '~/components/common/TopBar.vue';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
 import { SquadStore, SquadMutations } from '~/store/squad';
@@ -18,7 +16,6 @@ import { SquadStore, SquadMutations } from '~/store/squad';
 export default {
 	components: {
 		Feed,
-		TopBar,
 	},
 	data: () => ({
 		items: null,

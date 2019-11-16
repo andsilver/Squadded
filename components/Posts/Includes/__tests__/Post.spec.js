@@ -156,6 +156,8 @@ describe('Post', () => {
 			store.state.socket.$ws = $ws;
 
 			wrapper.vm.toggleComments();
+			store.commit('SET_SOCKET_AUTH', true);
+			await flushPromises();
 			store.commit(`${PostStore}/${PostMutations.receiveComments}`, comments);
 			await flushPromises();
 
