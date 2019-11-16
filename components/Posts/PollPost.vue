@@ -8,9 +8,12 @@
 					ref="vote_slider"
 					class="vote_slider"
 					:class="{ first: post.voted === 1, second: post.voted === 2 }"
-					@touchstart="checkStartSliderTouch"
-					@touchmove="moveSlider"
-					@touchend="setSliderPosition"
+					@touchstart="(e) => checkStartSliderTouch(e, 'touch')"
+					@touchmove="(e) => moveSlider(e, 'touch')"
+					@touchend="setSliderPosition('touch')"
+					@mousedown="(e) => checkStartSliderTouch(e, 'mouse')"
+					@mousemove="(e) => moveSlider(e, 'mouse')"
+					@mouseup="setSliderPosition('mouse')"
 				>
 					<span class="sqdi-arrow-point-to-right left" @click="() => vote(1)" />
 					<span ref="vote_btn" class="vote">{{ post.voted ? $t('poll.voted') : $t('poll.vote') }}</span>
@@ -60,6 +63,8 @@ export default {
 			isPollPost: true,
 			startX: 0,
 			lastX: 0,
+			isMouseDown: false,
+			isDragged: false,
 		};
 	},
 	computed: {
@@ -80,14 +85,33 @@ export default {
 				this.$store.dispatch(`${PostStore}/${PostActions.vote}`, { post, vote });
 			}
 		},
-		checkStartSliderTouch(event) {
-			this.startX = parseInt(event.targetTouches[0].clientX);
+		checkStartSliderTouch(e, movedBy = 'touch') {
+			if (movedBy === 'touch') {
+				this.startX = parseInt(e.targetTouches[0].clientX);
+			} else {
+				this.startX = e.screenX;
+				this.isMouseDown = true;
+			}
 		},
-		moveSlider(e) {
-			this.$refs.vote_slider.style.left = `${e.targetTouches[0].clientX}px`;
-			this.lastX = e.targetTouches[0].clientX;
+		moveSlider(e, movedBy = 'touch') {
+			if (this.isDragged) {
+				return false;
+			}
+			if (movedBy === 'touch') {
+				this.$refs.vote_slider.style.left = `${e.targetTouches[0].clientX}px`;
+				this.lastX = e.targetTouches[0].clientX;
+			} else {
+				if (!this.isMouseDown) {
+					return false;
+				}
+				this.$refs.vote_slider.style.left = `${e.clientX}px`;
+				this.lastX = e.clientX;
+			}
 		},
-		setSliderPosition() {
+		setSliderPosition(movedBy = 'touch') {
+			if (movedBy === 'mouse') {
+				this.isMouseDown = false;
+			}
 			const MIN_DIFFERENT = 50;
 			const halfScreenWidth = document.body.clientWidth / 2;
 			const different = this.lastX - halfScreenWidth;
@@ -98,6 +122,7 @@ export default {
 			const choosedPictureNumber = different < 0 ? 1 : 2;
 			const DELAY_FOR_ANIMATION = 500;
 			setTimeout(() => {
+				this.isDragged = true;
 				this.$refs.vote_slider.style.left = ``;
 				this.vote(choosedPictureNumber);
 			}, DELAY_FOR_ANIMATION);
