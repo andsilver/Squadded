@@ -64,7 +64,6 @@ export default {
 			startX: 0,
 			lastX: 0,
 			isMouseDown: false,
-			isDragged: false,
 		};
 	},
 	computed: {
@@ -94,19 +93,23 @@ export default {
 			}
 		},
 		moveSlider(e, movedBy = 'touch') {
-			if (this.isDragged) {
+			if (this.isVoted) {
 				return false;
 			}
+			let x;
 			if (movedBy === 'touch') {
-				this.$refs.vote_slider.style.left = `${e.targetTouches[0].clientX}px`;
-				this.lastX = e.targetTouches[0].clientX;
-			} else {
-				if (!this.isMouseDown) {
+				if (this.isOnSliderBorder(movedBy, e.targetTouches[0].clientX)) {
 					return false;
 				}
-				this.$refs.vote_slider.style.left = `${e.clientX}px`;
-				this.lastX = e.clientX;
+				x = e.targetTouches[0].clientX;
+			} else {
+				if (!this.isMouseDown || this.isOnSliderBorder(movedBy, e.clientX)) {
+					return false;
+				}
+				x = e.clientX;
 			}
+			this.$refs.vote_slider.style.left = `${x}px`;
+			this.lastX = movedBy === 'touch' ? e.targetTouches[0].clientX : e.clientX;
 		},
 		setSliderPosition(movedBy = 'touch') {
 			if (movedBy === 'mouse') {
@@ -122,10 +125,18 @@ export default {
 			const choosedPictureNumber = different < 0 ? 1 : 2;
 			const DELAY_FOR_ANIMATION = 500;
 			setTimeout(() => {
-				this.isDragged = true;
 				this.$refs.vote_slider.style.left = ``;
 				this.vote(choosedPictureNumber);
 			}, DELAY_FOR_ANIMATION);
+		},
+		isOnSliderBorder(movedBy, x) {
+			const screenWidth = window.innerWidth;
+			const BORDER_DISTANCE = (screenWidth / 100) * 20;
+			const leftSlideBorder = BORDER_DISTANCE;
+			const rightSlideBorder = screenWidth - (BORDER_DISTANCE * 1.5);
+			if (x <= leftSlideBorder || x >= rightSlideBorder) {
+				return true;
+			}
 		},
 	},
 };

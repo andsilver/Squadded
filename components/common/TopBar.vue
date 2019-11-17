@@ -10,7 +10,7 @@
 				{{ $t('My Squad') }}
 			</v-tab>
 			<v-tab to="/squadders">
-				{{ $t('Squadders') }}
+				{{ $t('Community') }}
 			</v-tab>
 		</v-tabs>
 		<section class="buttons">
