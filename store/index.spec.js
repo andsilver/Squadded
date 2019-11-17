@@ -37,9 +37,9 @@ describe('Root store', () => {
 	});
 
 	it('should set merchant id', () => {
-		const merchantId = 'someMerchantId';
-		store.commit('SET_MERCHANT_ID', merchantId);
+		const id = 'someMerchantId';
+		store.commit('SET_MERCHANT_PARAMS', { id });
 
-		expect(store.state.merchant.id).toBe(merchantId);
+		expect(store.state.merchant.id).toBe(id);
 	});
 });

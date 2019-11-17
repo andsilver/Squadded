@@ -19,6 +19,8 @@ export const state = () => ({
 	},
 	merchant: {
 		id: null,
+		siteUrl: null,
+		siteTitle: null,
 	},
 });
 
@@ -46,8 +48,11 @@ export const mutations = {
 	},
 	SOCKET_RECONNECT_ERROR (state, event) {
 	},
-	SET_MERCHANT_ID (state, id) {
+	SET_MERCHANT_PARAMS (state, msg) {
+		const { id, siteUrl, siteTitle } = msg;
 		state.merchant.id = id;
+		state.merchant.siteUrl = siteUrl;
+		state.merchant.siteTitle = siteTitle;
 	},
 	SET_SOCKET_AUTH (state, flag) {
 		state.socket.isAuth = flag;

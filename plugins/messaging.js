@@ -12,10 +12,8 @@ const post = async (store, msg) => {
 const actions = {
 	singleItemPost: post,
 	pollPost: post,
-	injectMerchantId: (store, msg) => {
-		const { merchantId } = msg;
-
-		store.commit('SET_MERCHANT_ID', merchantId);
+	injectMerchantParams: (store, msg) => {
+		store.commit('SET_MERCHANT_PARAMS', msg);
 	},
 	loggedIn: (store, msg) => {
 		store.commit(`${UserStore}/${UserMutations.setToken}`, msg.userToken);

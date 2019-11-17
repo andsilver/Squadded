@@ -170,7 +170,7 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 		return;
 	}
 
-	if (mutation.type === 'SET_MERCHANT_ID') {
+	if (mutation.type === 'SET_MERCHANT_PARAMS') {
 		connect(store);
 	}
 };

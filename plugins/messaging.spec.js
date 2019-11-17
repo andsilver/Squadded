@@ -61,14 +61,14 @@ describe('Dispatcher', () => {
 
 	it('should commit merchant id', () => {
 		const msg = {
-			type: 'injectMerchantId',
-			merchantId: 'aMerchantId',
+			type: 'injectMerchantParams',
+			id: 'aMerchantId',
 		};
 
 		dispatch(store, msg);
 
 		expect(store.commit).toHaveBeenCalledTimes(1);
-		expect(store.commit).toHaveBeenCalledWith('SET_MERCHANT_ID', msg.merchantId);
+		expect(store.commit).toHaveBeenCalledWith('SET_MERCHANT_PARAMS', msg);
 	});
 
 	it('should commit squad params', () => {
