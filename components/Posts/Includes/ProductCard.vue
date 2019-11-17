@@ -33,7 +33,7 @@
 				<span>{{ item.title }}</span>
 			</v-card-title>
 			<button
-				v-if="!nonClickable && !isPollPost"
+				v-if="!nonClickable && (voted || !isPollPost)"
 				ref="buy-button"
 				class="buy_button sqdi-shopping-bag-2"
 			/>
@@ -147,5 +147,5 @@ export default {
 		margin-top 4%
 
 	.product_card .poll_card_post_title
-		width 90%
+		width 80%
 </style>

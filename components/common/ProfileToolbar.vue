@@ -3,11 +3,12 @@
 		class="buttons"
 		height="40"
 	>
-		<v-btn icon :class="{whiteText: isBgExist}">
+		<v-btn v-if="isMe" icon :class="{whiteText: isBgExist}">
 			<v-icon>
 				sqdi-more
 			</v-icon>
 		</v-btn>
+		<GoBackBtn v-else :class="{whiteText: isBgExist}" />
 		<v-btn
 			icon
 			class="add_user_btn"
@@ -35,7 +36,15 @@
 </template>
 
 <script>
+import GoBackBtn from '~/components/common/GoBackBtn';
+
 export default {
+	components: {
+		GoBackBtn,
+	},
+	props: {
+		isMe: Boolean,
+	},
 	data: () => {
 		return {
 			isBgExist: true,

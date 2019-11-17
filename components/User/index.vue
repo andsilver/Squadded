@@ -16,7 +16,7 @@
 			<section class="background_shadow" />
 			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
 		</section>
-		<ProfileToolbar />
+		<ProfileToolbar :is-me="user.isMe" />
 		<v-layout flex-column>
 			<v-list-item class="px-0 user_info">
 				<v-list-item-content align="center" class="py-1">
