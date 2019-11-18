@@ -38,7 +38,7 @@ describe('Root store', () => {
 
 	it('should set merchant id', () => {
 		const id = 'someMerchantId';
-		store.commit('SET_MERCHANT_PARAMS', { id });
+		store.commit('SET_MERCHANT_PARAMS', { merchantId: id });
 
 		expect(store.state.merchant.id).toBe(id);
 	});
