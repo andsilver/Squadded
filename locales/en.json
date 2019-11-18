@@ -84,7 +84,8 @@
     "following": "{n} following",
     "Likes": "Likes",
     "Unfollow": "Unfollow",
-    "Follow": "Follow"
+    "Follow": "Follow",
+    "share": "Share profile"
   },
   "input": {
     "placeholder": "Write a comment"

@@ -72,6 +72,4 @@ export default {
 	.v-icon
 		color #B8B8BA
 		font-size 18px
-.v-list-item
-	min-height 26px
 </style>

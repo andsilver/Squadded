@@ -16,7 +16,7 @@
 			<section class="background_shadow" />
 			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
 		</section>
-		<ProfileToolbar :is-me="user.isMe" />
+		<ProfileToolbar :user="user" />
 		<v-layout flex-column>
 			<v-list-item class="px-0 user_info">
 				<v-list-item-content align="center" class="py-1">
@@ -59,7 +59,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import ProfileToolbar from '../common/ProfileToolbar';
+import ProfileToolbar from './ProfileToolbar';
 import userAvatar from './userAvatar';
 import userName from './userName';
 import userMention from './userMention';
