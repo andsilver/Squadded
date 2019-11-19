@@ -9,7 +9,13 @@ import { isHome } from '~/helpers';
 export const dispatch = function (store, message) {
 	const { type } = message;
 	if (type === 'singleItemPost' || type === 'pollPost') {
+		if (!store.state.feed.items.length) {
+			// tmp patch while infinite scroll not ready
+			store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
+		}
 		store.dispatch(`${FeedStore}/${FeedActions.receiveItem}`, message);
+	} else if (type === 'feed') {
+		store.dispatch(`${FeedStore}/${FeedActions.receiveBulk}`, message.feed);
 	} else if (type === 'ping') {
 		store.state.socket._ws.sendObj({ type: 'pong' });
 	} else if (type === 'like') {
@@ -122,10 +128,6 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 		state.socket.$ws.sendObj({ type: 'fetchUser' });
 	}
 
-	function fetchPosts() {
-		store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
-	}
-
 	if (mutation.type === 'SOCKET_ONOPEN') {
 		const $ws = new WSToken(state.socket._ws);
 		Vue.prototype.$ws = $ws; // to be used in components
@@ -151,7 +153,6 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 			}
 			store.commit('SET_PENDING', false);
 			fetchUser();
-			fetchPosts();
 		}
 
 		if (!state.socket.isAuth) {

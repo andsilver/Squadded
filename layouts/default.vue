@@ -18,6 +18,7 @@ import { mapState } from 'vuex';
 import Preloader from '~/components/Preloader.vue';
 import Prompt from '~/components/common/Prompt';
 import TabBar from '~/components/common/TabBar.vue';
+import { SquadStore, SquadMutations } from '~/store/squad';
 
 export default {
 	name: 'DefaultLayout',
@@ -38,6 +39,14 @@ export default {
 	},
 	created () {
 		this.$root.$on('prompt', data => this.prompt(data));
+		this.unsubscribe = this.$store.subscribe((mutation) => {
+			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
+				this.$root.$emit('widget-open');
+			}
+		});
+	},
+	destroyed() {
+		this.unsubscribe && this.unsubscribe();
 	},
 	methods: {
 		confirm () {

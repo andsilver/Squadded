@@ -32,6 +32,11 @@ describe('Dispatcher', () => {
 	beforeEach(() => {
 		localStorage.clear();
 		store = {
+			state: {
+				feed: {
+					items: [],
+				},
+			},
 			commit: jest.fn(),
 			dispatch: jest.fn(),
 		};
@@ -55,7 +60,6 @@ describe('Dispatcher', () => {
 
 		dispatch(store, msg);
 
-		expect(store.dispatch).toHaveBeenCalledTimes(1);
 		expect(store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.saveItem}`, msg);
 	});
 

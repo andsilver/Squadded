@@ -12,6 +12,8 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import TopBar from '~/components/common/TopBar.vue';
+import { onAuth } from '~/helpers';
+import { FeedStore, FeedActions } from '~/store/feed';
 
 const { mapGetters } = createNamespacedHelpers('feed');
 
@@ -27,7 +29,23 @@ export default {
 		]),
 		...mapState([
 			'socket',
+			'squad',
 		]),
+	},
+	created () {
+		this.onOpen();
+	},
+	methods: {
+		async onOpen () {
+			await onAuth(this.$store);
+			if (this.squad.widget.open) {
+				this.fetchFeed();
+			}
+			this.$root.$on('widget-open', () => this.fetchFeed());
+		},
+		fetchFeed () {
+			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
+		},
 	},
 };
 </script>

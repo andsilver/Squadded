@@ -1,10 +1,11 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import User from './index.vue';
+import { flushPromises } from '~/helpers';
 import { FeedStore, FeedMutations } from '~/store/feed';
-import { userMockBuilder } from '~/test/user.mock';
 import { UserStore, UserMutations } from '~/store/user';
 import Store from '~/store';
+import { userMockBuilder } from '~/test/user.mock';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -57,6 +58,7 @@ describe('User component', () => {
 		});
 
 		const asyncPromise = wrapper.vm.$options.asyncData({ store, params });
+		await flushPromises();
 
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'fetchUser',

@@ -17,6 +17,9 @@ describe('WS Plugin', () => {
 			[`${FeedStore}/${FeedGetters.items}`]: [],
 		},
 		state: {
+			feed: {
+				items: [],
+			},
 			merchant: {
 				id: null,
 			},
@@ -385,7 +388,6 @@ describe('WS Plugin', () => {
 
 				mutationDispatcher(mutation, state);
 
-				expect(ctx.store.dispatch).toHaveBeenCalledTimes(1);
 				expect(ctx.store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.receiveItem}`, mutation.payload);
 			});
 
@@ -408,7 +410,7 @@ describe('WS Plugin', () => {
 				expect(Vue.prototype.$disconnect).toHaveBeenCalledTimes(1);
 			});
 
-			it('should fetch latest posts and user', () => {
+			it('should fetch user', () => {
 				const mutation = {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },
@@ -419,7 +421,6 @@ describe('WS Plugin', () => {
 				expect(_ws.sendObj).toHaveBeenCalledWith({
 					type: 'fetchUser',
 				});
-				expect(ctx.store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.fetch}`);
 			});
 		});
 

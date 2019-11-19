@@ -5,6 +5,10 @@ import { UserStore, UserMutations } from '~/store/user';
 import { SquadStore, SquadMutations } from '~/store/squad';
 
 const post = async (store, msg) => {
+	if (!store.state.feed.items.length) {
+		// tmp patch while infinite scroll not ready
+		store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
+	}
 	const post = await store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
 	store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, post);
 };

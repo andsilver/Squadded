@@ -16,10 +16,12 @@ export const onStoreMutation = (store, type, value) => new Promise((resolve) => 
 	});
 });
 
+export const onAuth = (store) => {
+	return store.state.socket.isAuth ? Promise.resolve(true) : onStoreMutation(store, 'SET_SOCKET_AUTH', true);
+};
+
 export async function prefetch({ guid, mutation, store, type }) {
-	if (!store.state.socket.isAuth) {
-		await onStoreMutation(store, 'SET_SOCKET_AUTH', true);
-	}
+	await onAuth(store);
 	store.state.socket.$ws.sendObj({ type, guid });
 	return mutation ? onStoreMutation(store, mutation) : Promise.resolve();
 }

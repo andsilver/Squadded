@@ -21,6 +21,7 @@ function suffix () {
 }
 
 export const FeedMutations = {
+	addBulk: 'addBulk',
 	addItem: 'addItem',
 	clear: 'clear',
 	itemLoaded: 'itemLoaded',
@@ -29,6 +30,9 @@ export const FeedMutations = {
 export const mutations = {
 	setItems: (state, payload) => {
 		state.items = payload;
+	},
+	[FeedMutations.addBulk]: (state, newPosts) => {
+		state.items = [...newPosts, ...state.items];
 	},
 	[FeedMutations.addItem]: (state, payload) => {
 		state.items.unshift(payload);
@@ -52,13 +56,14 @@ export const mutations = {
 };
 
 export const FeedActions = {
+	receiveBulk: 'receiveBulk',
 	receiveItem: 'receiveItem',
-	saveItem: 'saveItem',
 	reSquaddItem: 'reSquaddItem',
+	saveItem: 'saveItem',
 };
 
 export const actions = {
-	[FeedActions.fetch]: ({ commit, getters, rootState }) => {
+	[FeedActions.fetch]: ({ getters, rootState }) => {
 		const msg = { type: 'fetchPosts' };
 		const mostRecentPost = getters[FeedGetters.items][0];
 		if (mostRecentPost) {
@@ -95,6 +100,19 @@ export const actions = {
 			// TODO? add some queue for sync after reconnect
 			rootState.socket.$ws.sendObj(post.toMessage());
 		}
+	},
+	[FeedActions.receiveBulk]: ({ commit, getters }, feed) => {
+		const newPosts = [];
+		feed.forEach((rawPost) => {
+			const post = getters[FeedGetters.getPostById](rawPost.guid);
+			if (!post) {
+				newPosts.push(new FeedPost(rawPost));
+				return;
+			}
+			// just in case it is exit in a feed
+			commit(FeedMutations.itemLoaded, rawPost);
+		});
+		commit(FeedMutations.addBulk, newPosts);
 	},
 	[FeedActions.receiveItem]: ({ commit, getters }, payload) => {
 		const post = getters[FeedGetters.getPostById](payload.guid);

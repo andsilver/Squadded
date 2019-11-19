@@ -11,7 +11,6 @@ import { mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
-import { SquadStore, SquadMutations } from '~/store/squad';
 
 export default {
 	components: {
@@ -29,18 +28,10 @@ export default {
 		]),
 	},
 	created () {
-		const _self = this;
 		if (this.squad.widget.open) {
 			this.updateStreet();
 		}
-		this.unsubscribe = this.$store.subscribe((mutation) => {
-			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
-				_self.updateStreet();
-			}
-		});
-	},
-	destroyed() {
-		this.unsubscribe && this.unsubscribe();
+		this.$root.$on('widget-open', () => this.updateStreet());
 	},
 	methods: {
 		async updateStreet () {
