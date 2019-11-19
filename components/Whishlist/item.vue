@@ -23,7 +23,12 @@
 				height="120"
 				tile
 			>
-				<v-img ref="item-image" :src="post.item.img" @click="openProduct" />
+				<v-img
+					ref="item-image"
+					:key="post.item.img"
+					:src="post.item.img"
+					@click="openProduct"
+				/>
 				<ReSquaddButton
 					:item="post.item"
 				/>

@@ -5,7 +5,7 @@
 		<div v-else>
 			<WhishlistItem
 				v-for="post in wishlist"
-				:key="post.guid"
+				:key="post.item.itemId"
 				:post="post"
 			/>
 		</div>

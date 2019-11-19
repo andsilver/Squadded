@@ -25,6 +25,7 @@ export const FeedMutations = {
 	addItem: 'addItem',
 	clear: 'clear',
 	itemLoaded: 'itemLoaded',
+	unsquadd: 'unsquadd',
 };
 
 export const mutations = {
@@ -52,6 +53,15 @@ export const mutations = {
 		}
 		post.update(payload);
 		post.unsetCorrelationId();
+	},
+	[FeedMutations.unsquadd]: (state, itemId) => {
+		if (!itemId) {
+			return;
+		}
+		state.items && state.items.forEach((post) => {
+			const item = post.getItem(itemId);
+			item && (item.squadded = false);
+		});
 	},
 };
 

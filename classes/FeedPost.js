@@ -63,6 +63,17 @@ export class FeedPost {
 		}
 	}
 
+	isItemHasId (id, item = this.item) {
+		return item && item.itemId === id;
+	}
+
+	getItem (id) {
+		return this.isItemHasId(id) ? this.item
+			: this.isItemHasId(id, this.item1) ? this.item1
+			: this.isItemHasId(id, this.item2) ? this.item2
+			: null;
+	}
+
 	toMessage () {
 		const { byMe, comments, error, likes, ts, user, userId, ...clean } = this;
 		return clean;

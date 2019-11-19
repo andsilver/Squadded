@@ -3,12 +3,13 @@
 		ref="resquadd-button"
 		class="resquadd sqdi-squadded-icon"
 		:class="{ 'is-resquadded': item.squadded }"
-		@click="reSquaddPost"
+		@click="click"
 	/>
 </template>
 
 <script>
-import { FeedStore, FeedActions } from '~/store/feed';
+import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
+import { ActivityStore, ActivityActions } from '~/store/activity';
 
 export default {
 	name: 'ReSquaddButton',
@@ -19,9 +20,18 @@ export default {
 		},
 	},
 	methods: {
+		click () {
+			return this.item.squadded ? this.unwish() : this.reSquaddPost();
+		},
 		reSquaddPost () {
 			this.item.squadded = true;
 			this.$store.dispatch(`${FeedStore}/${FeedActions.reSquaddItem}`, { item: this.item });
+			this.$forceUpdate();
+		},
+		async unwish () {
+			this.item.squadded = false;
+			await this.$store.dispatch(`${ActivityStore}/${ActivityActions.unwish}`, this.item);
+			this.$store.commit(`${FeedStore}/${FeedMutations.unsquadd}`, this.item.itemId);
 			this.$forceUpdate();
 		},
 	},
