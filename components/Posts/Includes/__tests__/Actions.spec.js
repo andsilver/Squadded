@@ -30,6 +30,11 @@ describe('Post Actions', () => {
 				post,
 			},
 			store,
+			mocks: {
+				_i18n: {
+					locale: 'en',
+				},
+			},
 		});
 	}
 
@@ -45,7 +50,7 @@ describe('Post Actions', () => {
 			post = aDefaultSingleItemMsgBuilder().withGUID().withLikes().get();
 			wrapper.setProps({ post });
 
-			expect(wrapper.ref(COUNTER_ID).text()).toBe(post.likes.count.toString());
+			expect(wrapper.ref(COUNTER_ID).text()).toBe(wrapper.vm.short(post.likes.count));
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('sqdi-favorite-heart-button');
@@ -56,7 +61,7 @@ describe('Post Actions', () => {
 			post = aDefaultSingleItemMsgBuilder().withGUID().withLikes(1, true).get();
 			wrapper.setProps({ post });
 
-			expect(wrapper.ref(COUNTER_ID).text()).toBe(post.likes.count.toString());
+			expect(wrapper.ref(COUNTER_ID).text()).toBe(wrapper.vm.short(post.likes.count));
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('sqdi-favorite-heart-button');
@@ -96,7 +101,7 @@ describe('Post Actions', () => {
 
 			const counter = wrapper.ref(COUNTER_ID);
 			expect(counter.exists()).toBe(true);
-			expect(counter.text()).toBe(post.comments.messages.length.toString());
+			expect(counter.text()).toBe(wrapper.vm.short(post.comments.messages.length));
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('sqdi-chat-message-oval-outlined-speech-bubble');
@@ -125,7 +130,7 @@ describe('Post Actions', () => {
 
 			const counter = wrapper.ref(COUNTER_ID);
 			expect(counter.exists()).toBe(true);
-			expect(counter.text()).toBe(post.item.outfits.toString());
+			expect(counter.text()).toBe(wrapper.vm.short(post.item.outfits));
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('sqdi-hanger');

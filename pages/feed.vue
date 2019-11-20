@@ -13,9 +13,9 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import TopBar from '~/components/common/TopBar.vue';
 import { onAuth } from '~/helpers';
-import { FeedStore, FeedActions } from '~/store/feed';
+import { FeedActions, FeedGetters, FeedStore } from '~/store/feed';
 
-const { mapGetters } = createNamespacedHelpers('feed');
+const { mapGetters } = createNamespacedHelpers(FeedStore);
 
 export default {
 	name: 'FeedPage',
@@ -25,7 +25,7 @@ export default {
 	},
 	computed: {
 		...mapGetters([
-			'items',
+			FeedGetters.items,
 		]),
 		...mapState([
 			'socket',

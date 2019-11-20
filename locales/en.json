@@ -49,6 +49,11 @@
   "feed": {
     "isEmpty": "There is no items yet"
   },
+  "notify": {
+    "comment": "commented on your post",
+    "isEmpty": "There is no notifications yet",
+    "like": "liked your post"
+  },
   "poll": {
     "create": "Create Poll",
     "dialogTitle": "Choose items for poll",

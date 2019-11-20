@@ -14,12 +14,22 @@
 				{{ tab.icon }}
 			</v-icon>
 			<span class="tab_text">{{ $t(tab.text) }}</span>
+			<Badge v-if="tab.notify" class="badge" :value="notify.length" />
 		</v-tab>
 	</v-tabs>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
+import { NotificationStore, NotificationGetters } from '~/store/notification';
+import Badge from '~/components/common/Badge';
+
+const { mapGetters } = createNamespacedHelpers(NotificationStore);
+
 export default {
+	components: {
+		Badge,
+	},
 	data: () => ({
 		tabs: [{
 			uri: '/feed',
@@ -36,55 +46,60 @@ export default {
 			specialClass: 'plus_icon',
 			tabSpecialClass: 'plus_button',
 		}, {
-			uri: '/notification',
+			uri: '/notifications',
 			icon: 'sqdi-notification',
 			text: 'Messages',
+			notify: true,
 		}, {
 			uri: '/me',
 			icon: 'sqdi-squadded-icon',
 			text: 'Profile',
 		}],
 	}),
+	computed: {
+		...mapGetters([
+			NotificationGetters.notify,
+		]),
+	},
 };
 </script>
 
-<style scoped>
-	.tab_text {
-		position: absolute;
-		font-size: .7em;
-		font-weight: 600;
-		bottom: 20%;
-		color: #B8B8BA;
-	}
+<style lang="stylus" scoped>
+.tab_text
+	position absolute
+	font-size .8em
+	font-weight 600
+	bottom 20%
+	color #B8B8BA
 
-	.tab_icon:before {
-		font-size: .9em !important;
-		color: #B8B8BA;
-		margin-bottom: 55%;
-	}
+.tab_icon:before
+	font-size .9em !important
+	color #B8B8BA
+	margin-bottom 55%
 
-	.v-tab--active .tab_icon:before,
-	.v-tab--active .tab_text {
-		color: black;
-	}
+.v-tab--active .tab_icon:before,
+.v-tab--active .tab_text
+	color black
 
-	.v-tab {
-		min-width: auto;
-	}
-	.plus_icon:before {
-		color: black;
-		font-size: .6em !important;
-		margin-bottom: 0;
-	}
+.v-tab
+	min-width auto
 
-	.plus_button:after {
-		display: block;
-		position: absolute;
-		content: "";
-		z-index: 5;
-		border: 2px solid black;
-		border-radius: 10px;
-		height: 45px;
-		width: 45px;
-	}
+.plus_icon:before
+	color black
+	font-size .6em !important
+	margin-bottom 0
+
+.plus_button:after
+	display block
+	position absolute
+	content ""
+	z-index 5
+	border 2px solid black
+	border-radius 10px
+	height 45px
+	width 45px
+
+.badge
+	top 6px
+	left 45px
 </style>

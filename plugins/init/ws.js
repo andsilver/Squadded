@@ -1,8 +1,9 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
 import { ActivityStore, ActivityGetters, ActivityMutations } from '~/store/activity';
-import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { FeedStore, FeedActions, FeedGetters } from '~/store/feed';
+import { NotificationStore, NotificationMutations } from '~/store/notification';
+import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { UserStore, UserMutations } from '~/store/user';
 import { isHome } from '~/helpers';
 
@@ -20,11 +21,19 @@ export const dispatch = function (store, message) {
 		store.state.socket._ws.sendObj({ type: 'pong' });
 	} else if (type === 'like') {
 		const { guid, likes } = message;
-		const post = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](guid);
-		store.commit(`${PostStore}/${PostMutations.setPostLike}`, { ...likes, post });
+		let post = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](guid);
+		post && store.commit(`${PostStore}/${PostMutations.setPostLike}`, { ...likes, post });
+
+		post = store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`](guid);
+		post && store.commit(`${PostStore}/${PostMutations.setPostLike}`, { ...likes, post });
 	} else if (type === 'notifLike') {
 		const { postId, iLike } = message;
 		const mod = (iLike ? 1 : -1);
+
+		if (iLike) {
+			store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+		}
+
 		const feedPost = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](postId);
 		store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post: feedPost });
 
@@ -32,11 +41,16 @@ export const dispatch = function (store, message) {
 		store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post: myBlogPost });
 	} else if (type === 'notifComment') {
 		const { comment, postId } = message;
+
+		store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+
 		const feedPost = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](postId);
 		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post: feedPost });
 
 		const myBlogPost = store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`](postId);
 		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post: myBlogPost });
+	} else if (type === 'notifications') {
+		store.commit(`${NotificationStore}/${NotificationMutations.receive}`, message.notifications);
 	} else if (type === 'comments') {
 		store.commit(`${PostStore}/${PostMutations.receiveComments}`, message.comments);
 	} else if (type === 'userProfile') {

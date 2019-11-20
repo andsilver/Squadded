@@ -30,6 +30,10 @@ export const mutations = {
 	},
 	[PostMutations.setPostLike]: (state, payload) => {
 		const { post } = payload;
+		if (!post) {
+			return;
+		}
+
 		if (payload.hasOwnProperty('byMe')) {
 			post.likes.byMe = payload.byMe;
 		}

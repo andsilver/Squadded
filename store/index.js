@@ -1,5 +1,6 @@
 import activity from './activity';
 import feed from './feed';
+import notification from './notification';
 import post from './post';
 import squad from './squad';
 import user from './user';
@@ -65,6 +66,7 @@ export const mutations = {
 export const modules = {
 	activity,
 	feed,
+	notification,
 	post,
 	squad,
 	user,

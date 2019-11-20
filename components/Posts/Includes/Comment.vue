@@ -34,7 +34,7 @@
 import UserLink from '~/components/UserLink';
 
 export default {
-	name: 'Comment',
+	name: 'PostComment',
 	components: {
 		UserLink,
 	},

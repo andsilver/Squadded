@@ -83,6 +83,7 @@ describe('WS Plugin', () => {
 			};
 			const post = { type: 'sinleItemPost' };
 			store.getters[`${FeedStore}/${FeedGetters.getPostById}`] = jest.fn().mockReturnValue(post);
+			store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`] = jest.fn().mockReturnValue(post);
 
 			dispatch(store, msg);
 			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPostLike}`, { byMe, count, post });

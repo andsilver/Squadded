@@ -4,24 +4,25 @@
 			<v-icon ref="likes-icon" class="buttons_icon" :color="post.likes.byMe ? 'red' : '#B8B8BA'" size="22">
 				sqdi-favorite-heart-button{{ post.likes.count ? '' : '-outline' }}
 			</v-icon>
-			<span v-if="post.likes.count" ref="likes-count" class="count">{{ post.likes.count }}</span>
+			<span v-if="post.likes.count" ref="likes-count" class="count">{{ short(post.likes.count) }}</span>
 		</v-btn>
 		<v-btn class="counter-icon comments_button" @click="toggleComments">
 			<v-icon ref="comments-icon" style="color: #B8B8BA;" class="buttons_icon" size="22">
 				sqdi-chat-message-oval-outlined-speech-bubble
 			</v-icon>
-			<span v-if="commentsCount" ref="comments-count" class="count">{{ commentsCount }}</span>
+			<span v-if="commentsCount" ref="comments-count" class="count">{{ short(commentsCount) }}</span>
 		</v-btn>
 		<v-btn v-if="post.item" class="counter-icon hanger_button">
 			<v-icon ref="hanger-icon" style="color: #B8B8BA;" class="buttons_icon" size="22">
 				sqdi-hanger
 			</v-icon>
-			<span v-if="post.item && post.item.outfits" ref="outfits-count" class="count">{{ post.item.outfits }}</span>
+			<span v-if="post.item && post.item.outfits" ref="outfits-count" class="count">{{ short(post.item.outfits) }}</span>
 		</v-btn>
 	</section>
 </template>
 
 <script>
+import { shortNumber } from '~/helpers';
 import { PostStore, PostActions } from '~/store/post';
 
 export default {
@@ -38,6 +39,9 @@ export default {
 		},
 	},
 	methods: {
+		short(number) {
+			return shortNumber(number, this._i18n.locale);
+		},
 		toggleLike () {
 			this.$store.dispatch(`${PostStore}/${PostActions.toggleLike}`, this.post);
 		},
