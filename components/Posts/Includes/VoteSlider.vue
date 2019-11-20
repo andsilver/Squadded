@@ -41,7 +41,7 @@ export default {
 			}
 		},
 		moveSlider(e, movedBy = 'touch') {
-			if (this.isVoted) {
+			if (this.voted) {
 				return false;
 			}
 			let x;
@@ -71,7 +71,7 @@ export default {
 				return false;
 			}
 			const choosedPictureNumber = different < 0 ? 1 : 2;
-			const DELAY_FOR_ANIMATION = 500;
+			const DELAY_FOR_ANIMATION = 100;
 			setTimeout(() => {
 				this.$refs.vote_slider.style.left = ``;
 				this.$emit('vote', choosedPictureNumber);
@@ -124,7 +124,7 @@ export default {
 		text-align center
 		width 100%
 		height 100%
-		transition .5s all
+		transition .2s all
 		user-select none
 
 .sqdi-arrow-point-to-right:before

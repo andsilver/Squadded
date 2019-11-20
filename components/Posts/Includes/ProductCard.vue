@@ -11,6 +11,7 @@
 		/>
 		<ReSquaddButton
 			v-if="showSquaddedButton"
+			class="reSquaddButton"
 			:item="item"
 		/>
 		<section
@@ -148,4 +149,7 @@ export default {
 
 	.product_card .poll_card_post_title
 		width 80%
+
+	.reSquaddButton
+		z-index: 2;
 </style>
