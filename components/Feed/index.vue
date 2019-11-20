@@ -3,13 +3,8 @@
 		<template
 			v-for="post in items"
 		>
-			<SingleItemPost
-				v-if="post.type === 'singleItemPost'"
-				:key="post.correlationId || post.guid"
-				:post="post"
-			/>
-			<PollPost
-				v-else-if="post.type === 'pollPost'"
+			<component
+				:is="getComponent(post)"
 				:key="post.correlationId || post.guid"
 				:post="post"
 			/>
@@ -33,6 +28,13 @@ export default {
 			default() {
 				return [];
 			},
+		},
+	},
+	methods: {
+		getComponent (post) {
+			return post.type === 'singleItemPost' ? SingleItemPost
+				: post.type === 'pollPost' ? PollPost
+				: null;
 		},
 	},
 };

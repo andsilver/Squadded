@@ -30,13 +30,17 @@ export default {
 	created () {
 		if (this.squad.widget.open) {
 			this.updateStreet();
+			return;
 		}
-		this.$root.$on('widget-open', () => this.updateStreet());
+		this.$root.$once('widget-open', () => this.updateStreet());
 	},
 	methods: {
 		async updateStreet () {
-			this.items = null;
 			const publicFeed = await SquadAPI.fetchStreet(this.merchant.id);
+			if (!publicFeed) {
+				// TODO show toast message or text placeholder
+				return;
+			}
 			this.items = publicFeed.map(post => new FeedPost(post));
 		},
 		signin () {

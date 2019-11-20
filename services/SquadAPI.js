@@ -11,8 +11,13 @@ export const SquadAPI = {
 		}), '*');
 	},
 	async fetchStreet (merchantId) {
-		const response = await fetch(`${API_ENDPOINT}/community/street?merchantId=${merchantId}`);
-		const data = await response.json();
-		return data;
+		try {
+			const response = await fetch(`${API_ENDPOINT}/community/street?merchantId=${merchantId}`);
+			const data = await response.json();
+			return data;
+		} catch (error) {
+			console.error(error);
+			return false;
+		}
 	},
 };
