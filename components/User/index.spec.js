@@ -238,9 +238,6 @@ describe('User component', () => {
 			follow: true,
 		});
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.clear}`);
-		expect($ws.sendObj).toHaveBeenCalledWith({
-			type: 'fetchPosts',
-		});
 		expect(user.followers.me).toBe(true);
 	});
 

@@ -11,6 +11,7 @@ describe('Message Input', () => {
 	const EMPTY_FEED_TEXT = 'empty-feed-text';
 	const MAIN = 'feed-layout';
 	const TOP_BAR = 'top-bar';
+	const PRELOADER = 'preloader';
 
 	let localVue;
 	let store;
@@ -42,15 +43,24 @@ describe('Message Input', () => {
 		expect(feed.exists()).toBe(false);
 
 		store.commit('SET_SOCKET_AUTH', true);
+		store.state.feed.loading = false;
 		store.state.feed.items = [{}];
 		feed = wrapper.ref(MAIN);
 		expect(feed.exists()).toBe(true);
 		expect(wrapper.ref(TOP_BAR).exists()).toBe(true);
 	});
 
-	it('renders the correct message for empty Feed', () => {
+	it('should render the correct message for empty Feed', () => {
 		store.commit('SET_SOCKET_AUTH', true);
+		store.state.feed.loading = false;
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
+	});
+
+	it('should display a preloader while loading', () => {
+		store.commit('SET_SOCKET_AUTH', true);
+		store.state.feed.loading = true;
+		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
+		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
 });

@@ -2,6 +2,7 @@ import { FeedPost } from '../classes/FeedPost';
 
 export const state = () => ({
 	items: [],
+	loading: true,
 });
 
 export const FeedGetters = {
@@ -34,12 +35,14 @@ export const mutations = {
 	},
 	[FeedMutations.addBulk]: (state, newPosts) => {
 		state.items = [...newPosts, ...state.items];
+		state.loading = false;
 	},
 	[FeedMutations.addItem]: (state, payload) => {
 		state.items.unshift(payload);
 	},
 	[FeedMutations.clear]: (state, payload) => {
 		state.items = [];
+		state.loading = true;
 	},
 	[FeedMutations.itemLoaded]: (state, payload) => {
 		const post = state.items.find(i => i.guid === payload.guid || (i.correlationId && i.correlationId === payload.correlationId));
@@ -66,6 +69,7 @@ export const mutations = {
 };
 
 export const FeedActions = {
+	fetch: 'fetch',
 	receiveBulk: 'receiveBulk',
 	receiveItem: 'receiveItem',
 	reSquaddItem: 'reSquaddItem',
@@ -79,6 +83,7 @@ export const actions = {
 		if (mostRecentPost) {
 			msg.ts = mostRecentPost.ts;
 		}
+		state.loading = true;
 		rootState.socket.$ws.sendObj(msg);
 	},
 	[FeedActions.saveItem]: ({ rootState, commit }, payload) => {

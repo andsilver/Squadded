@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import Whishlist from './index.vue';
 import { flushPromises } from '~/helpers';
 import Store from '~/store';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -16,6 +17,7 @@ describe('Whishlist Component', () => {
 
 	let localVue;
 	let store;
+	let wrapper;
 
 	function initLocalVue () {
 		localVue = createLocalVue();
@@ -36,14 +38,14 @@ describe('Whishlist Component', () => {
 				params,
 			},
 		};
-	});
-
-	it('sets the correct default props', async () => {
-		const wrapper = shallowMount(Whishlist, {
+		wrapper = shallowMount(Whishlist, {
 			localVue,
 			store,
 			mocks,
 		});
+	});
+
+	it('sets the correct default props', async () => {
 		expect(wrapper.vm.wishlist).toBe(null);
 
 		store.commit('SET_SOCKET_AUTH', true);
@@ -55,11 +57,6 @@ describe('Whishlist Component', () => {
 	});
 
 	it('should render preloader', () => {
-		const wrapper = shallowMount(Whishlist, {
-			localVue,
-			store,
-			mocks,
-		});
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
@@ -69,13 +66,19 @@ describe('Whishlist Component', () => {
 
 		store.state.activity.wishlist = [];
 
-		const wrapper = shallowMount(Whishlist, {
+		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
+		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
+	});
+
+	it('should clear prev data from whishlist', () => {
+		store.commit = jest.fn();
+
+		shallowMount(Whishlist, {
 			localVue,
 			store,
 			mocks,
 		});
 
-		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
-		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
+		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.clearWishlist}`);
 	});
 });

@@ -62,9 +62,9 @@ export const dispatch = function (store, message) {
 	} else if (type === 'followers' || type === 'following') {
 		store.commit(`${UserStore}/${UserMutations.setUserList}`, message.users);
 	} else if (type === 'wishlist') {
-		store.commit(`${ActivityStore}/${ActivityMutations.setWishlist}`, message);
+		store.commit(`${ActivityStore}/${ActivityMutations.setWishlist}`, message.wishlist);
 	} else if (type === 'blog') {
-		store.commit(`${ActivityStore}/${ActivityMutations.setBlog}`, message);
+		store.commit(`${ActivityStore}/${ActivityMutations.setBlog}`, message.blog);
 	} else if (type === 'squadders') {
 		store.commit(`${ActivityStore}/${ActivityMutations.setSquadders}`, message);
 	} else {

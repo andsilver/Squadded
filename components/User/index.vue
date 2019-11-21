@@ -65,7 +65,7 @@ import userName from './userName';
 import userMention from './userMention';
 import userStatistics from './userStatistics';
 import Button from '~/components/common/Button';
-import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
+import { FeedStore, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
 import Blog from '~/components/Blog';
@@ -133,7 +133,6 @@ export default {
 			});
 			this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
 			this.$store.commit(`${UserStore}/${UserMutations.setFollow}`, { follow, other });
-			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 			this.$forceUpdate();
 		},
 		scrolled (e) {

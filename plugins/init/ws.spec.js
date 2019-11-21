@@ -179,21 +179,25 @@ describe('WS Plugin', () => {
 		});
 
 		it(`should commit wishlist to ${ActivityStore}/${ActivityMutations.setWishlist}`, () => {
+			const wishlist = ['somedata'];
 			const msg = {
 				type: 'wishlist',
+				wishlist,
 			};
 
 			dispatch(store, msg);
-			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setWishlist}`, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setWishlist}`, wishlist);
 		});
 
 		it(`should commit blog to ${ActivityStore}/${ActivityMutations.setBlog}`, () => {
+			const blog = ['somedata'];
 			const msg = {
 				type: 'blog',
+				blog,
 			};
 
 			dispatch(store, msg);
-			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setBlog}`, msg);
+			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setBlog}`, blog);
 		});
 	});
 

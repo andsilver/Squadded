@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import Blog from '../index.vue';
 import { flushPromises } from '~/helpers';
 import Store from '~/store';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -16,6 +17,7 @@ describe('Blog Component', () => {
 
 	let localVue;
 	let store;
+	let wrapper;
 
 	function initLocalVue () {
 		localVue = createLocalVue();
@@ -36,14 +38,14 @@ describe('Blog Component', () => {
 				params,
 			},
 		};
-	});
-
-	it('sets the correct default props', async () => {
-		const wrapper = shallowMount(Blog, {
+		wrapper = shallowMount(Blog, {
 			localVue,
 			store,
 			mocks,
 		});
+	});
+
+	it('sets the correct default props', async () => {
 		expect(wrapper.vm.blog).toBe(null);
 
 		store.commit('SET_SOCKET_AUTH', true);
@@ -55,27 +57,27 @@ describe('Blog Component', () => {
 	});
 
 	it('should render preloader', () => {
-		const wrapper = shallowMount(Blog, {
-			localVue,
-			store,
-			mocks,
-		});
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
 
 	it('renders the correct message for empty Blog', () => {
 		expect.assertions(2);
-
 		store.state.activity.blog = [];
 
-		const wrapper = shallowMount(Blog, {
+		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
+		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
+	});
+
+	it('should clear prev data from blog', () => {
+		store.commit = jest.fn();
+
+		shallowMount(Blog, {
 			localVue,
 			store,
 			mocks,
 		});
 
-		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
-		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
+		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.clearBlog}`);
 	});
 });

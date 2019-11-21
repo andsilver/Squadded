@@ -2,7 +2,8 @@
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout>
-			<span v-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
+			<Preloader v-if="loading" ref="preloader" class="mt-8" />
+			<span v-else-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 			<Feed v-else ref="feed-layout" :items="items" />
 		</v-layout>
 	</v-container>
@@ -11,21 +12,28 @@
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
+import Preloader from '~/components/Preloader.vue';
 import TopBar from '~/components/common/TopBar.vue';
 import { onAuth } from '~/helpers';
 import { FeedActions, FeedGetters, FeedStore } from '~/store/feed';
 
-const { mapGetters } = createNamespacedHelpers(FeedStore);
+const feed = createNamespacedHelpers(FeedStore);
+const feedGetters = feed.mapGetters;
+const feedState = feed.mapState;
 
 export default {
 	name: 'FeedPage',
 	components: {
 		Feed,
+		Preloader,
 		TopBar,
 	},
 	computed: {
-		...mapGetters([
+		...feedGetters([
 			FeedGetters.items,
+		]),
+		...feedState([
+			'loading',
 		]),
 		...mapState([
 			'socket',
@@ -38,10 +46,11 @@ export default {
 	methods: {
 		async onOpen () {
 			await onAuth(this.$store);
-			if (this.squad.widget.open) {
+			if (this.squad.widget.open && (!this.items || !this.items.length)) {
 				this.fetchFeed();
+				return;
 			}
-			this.$root.$on('widget-open', () => this.fetchFeed());
+			this.$root.$once('widget-open', () => this.fetchFeed());
 		},
 		fetchFeed () {
 			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);

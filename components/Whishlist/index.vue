@@ -17,7 +17,7 @@ import { createNamespacedHelpers } from 'vuex';
 import WhishlistItem from './item';
 import { prefetch } from '~/helpers';
 import Preloader from '~/components/Preloader.vue';
-import { ActivityStore } from '~/store/activity';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 
 const { mapState } = createNamespacedHelpers(ActivityStore);
 
@@ -33,6 +33,7 @@ export default {
 		]),
 	},
 	created () {
+		this.$store.commit(`${ActivityStore}/${ActivityMutations.clearWishlist}`);
 		return prefetch({
 			guid: this.$route.params.id,
 			store: this.$store,

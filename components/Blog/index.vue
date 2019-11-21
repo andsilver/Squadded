@@ -11,7 +11,7 @@ import { createNamespacedHelpers } from 'vuex';
 import { prefetch } from '~/helpers';
 import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
-import { ActivityStore } from '~/store/activity';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 
 const { mapState } = createNamespacedHelpers(ActivityStore);
 
@@ -27,6 +27,7 @@ export default {
 		]),
 	},
 	created () {
+		this.$store.commit(`${ActivityStore}/${ActivityMutations.clearBlog}`);
 		prefetch({
 			guid: this.$route.params.id,
 			store: this.$store,

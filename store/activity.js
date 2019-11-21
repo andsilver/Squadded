@@ -23,6 +23,8 @@ const isSameUser = (feed, userId) => (feed && feed.length && feed[0].userId === 
 export const ActivityMutations = {
 	addPost: 'addPost',
 	removeWish: 'removeWish',
+	clearWishlist: 'clearWishlist',
+	clearBlog: 'clearBlog',
 	setBlog: 'setBlog',
 	setSquadders: 'setSquadders',
 	setWishlist: 'setWishlist',
@@ -30,14 +32,20 @@ export const ActivityMutations = {
 };
 
 export const mutations = {
-	[ActivityMutations.setBlog]: (state, msg) => {
-		state.blog = msg.blog.map(post => new FeedPost(post));
+	[ActivityMutations.clearWishlist]: (state) => {
+		state.wishlist = null;
+	},
+	[ActivityMutations.clearBlog]: (state) => {
+		state.blog = null;
+	},
+	[ActivityMutations.setBlog]: (state, blog) => {
+		state.blog = blog.map(post => new FeedPost(post));
 	},
 	[ActivityMutations.setSquadders]: (state, msg) => {
 		state.squadders = msg.squadders.map(post => new FeedPost(post));
 	},
-	[ActivityMutations.setWishlist]: (state, msg) => {
-		state.wishlist = msg.wishlist.map(post => new FeedPost(post));
+	[ActivityMutations.setWishlist]: (state, wishlist) => {
+		state.wishlist = wishlist.map(post => new FeedPost(post));
 	},
 	[ActivityMutations.addPost]: (state, post) => {
 		if (isSameUser(state.blog, post.userId)) {
