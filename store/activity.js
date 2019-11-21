@@ -22,6 +22,7 @@ const isSameUser = (feed, userId) => (feed && feed.length && feed[0].userId === 
 
 export const ActivityMutations = {
 	addPost: 'addPost',
+	removePost: 'removePost',
 	removeWish: 'removeWish',
 	clearWishlist: 'clearWishlist',
 	clearBlog: 'clearBlog',
@@ -54,6 +55,12 @@ export const mutations = {
 		if (isSameUser(state.wishlist, post.userId)) {
 			state.wishlist.unshift(post);
 		}
+	},
+	[ActivityMutations.removePost]: (state, postId) => {
+		if (!postId) {
+			return;
+		}
+		state.blog = state.blog.filter(p => p.postId !== postId);
 	},
 	[ActivityMutations.removeWish]: (state, wish) => {
 		if (!wish) {

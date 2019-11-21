@@ -14,12 +14,19 @@
 					{{ $t(`post.pop.${ post.private ? 'setPublic' : 'setPrivate' }.menu`) }}
 				</v-list-item-title>
 			</v-list-item>
+			<v-list-item>
+				<v-list-item-title @click="promptDelete">
+					{{ $t(`post.pop.deletePost.menu`) }}
+				</v-list-item-title>
+			</v-list-item>
 		</v-list>
 	</v-menu>
 </template>
 
 <script>
 import { PostStore, PostActions } from '~/store/post';
+import { FeedMutations, FeedStore } from '~/store/feed';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 
 export default {
 	props: {
@@ -48,13 +55,29 @@ export default {
 			this[this.current]();
 			this.hide();
 		},
+		deletePost () {
+			const { postId } = this.post;
+			this.$ws.sendObj({
+				type: 'deletePost',
+				postId,
+			});
+			this.$store.commit(`${FeedStore}/${FeedMutations.removePost}`, postId);
+			this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
+		},
 		togglePrivate () {
 			this.current = this.post.private ? 'setPublic' : 'setPrivate';
+			this.prompt();
+		},
+		prompt () {
 			this.$root.$emit('prompt', {
 				text: this.currentText,
 				hide: this.hide,
 				confirm: this.confirm,
 			});
+		},
+		promptDelete () {
+			this.current = 'deletePost';
+			this.prompt();
 		},
 		setPrivate () {
 			this.$store.dispatch(`${PostStore}/${PostActions.updatePrivate}`, { post: this.post, private: true });

@@ -65,6 +65,12 @@
     "textPlaceholder": "Input your message for this post",
     "sending": "sending…",
     "pop": {
+      "deletePost": {
+        "menu": "Delete",
+        "question": "Delete this post?",
+        "description": "Are you sure? This action can not be reverted.",
+        "decline": "Let it stay exist"
+      },
       "setPublic": {
         "menu": "Set post as public",
         "question": "Set public?",
