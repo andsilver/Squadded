@@ -36,14 +36,15 @@ export default {
 	},
 	methods: {
 		copyUserLink () {
-			this.$refs['user-link'].$el.querySelector('input').select();
-			copy();
 			if (navigator && navigator.share) {
 				navigator.share({
 					title: this.$store.state.merchant.siteTitle,
 					text: this.$store.state.merchant.siteTitle,
 					url: this.userLink,
 				});
+			} else {
+				this.$refs['user-link'].$el.querySelector('input').select();
+				copy();
 			}
 		},
 	},
