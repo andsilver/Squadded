@@ -86,7 +86,7 @@ export default {
 .choose-items
 	grid-template-columns 1fr 1fr 1fr
 	grid-gap 20px
-	max-height 380px
+	max-height 385px
 	overflow auto
 	padding 2px
 

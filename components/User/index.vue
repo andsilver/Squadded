@@ -26,7 +26,7 @@
 				</v-list-item-content>
 			</v-list-item>
 			<userStatistics class="pt-0" :user="user" />
-			<Button v-if="!user.isMe" ref="follow-btn" @click.native="toggleFollow">
+			<Button v-if="!user.isMe" ref="follow-btn" class="follow" @click.native="toggleFollow">
 				{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
 			</Button>
 			<p align="center">
@@ -146,6 +146,11 @@ export default {
 <style scoped>
 	.mention {
 		color: rgba(0,0,0,.54);
+	}
+
+	.v-btn.follow {
+		padding: 4.5% 14%;
+		height: auto;
 	}
 
 	.tabs {

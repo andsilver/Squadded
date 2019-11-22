@@ -6,6 +6,7 @@
 	>
 		<v-img
 			ref="item-image"
+			:key="item.img"
 			:src="item.img"
 			@click="openProduct"
 		/>

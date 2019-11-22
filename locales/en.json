@@ -11,6 +11,13 @@
   "Profile": "Profile",
   "Search": "Search",
   "Squadders": "Squadders",
+  "expiration": {
+    "_15m": "15 min",
+    "_1h": "1 hour",
+    "_1d": "1 day",
+    "_3d": "3 days",
+    "_7d": "7 days"
+  },
   "form": {
     "name": "Name",
     "email": "E-mail",

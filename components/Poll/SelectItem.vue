@@ -15,6 +15,6 @@ export default {
 .poll
 	border 1px solid #757575
 	border-radius 14px
-	min-height 350px
+	min-height 290px
 	width 100%
 </style>

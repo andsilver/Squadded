@@ -19,6 +19,7 @@
 					:item2="item2"
 					@click.native="show = true"
 				/>
+				<ExpirationPicker ref="expiration" />
 				<section align="center">
 					<Button
 						ref="done-button"
@@ -39,6 +40,7 @@
 <script>
 import { mapState } from 'vuex';
 import Button from '~/components/common/Button';
+import ExpirationPicker from '~/components/Poll/ExpirationPicker';
 import ChooseDialog from '~/components/Poll/chooseDialog';
 import BackBar from '~/components/common/BackBar';
 import Poll from '~/components/Poll';
@@ -49,6 +51,7 @@ export default {
 	components: {
 		BackBar,
 		Button,
+		ExpirationPicker,
 		ChooseDialog,
 		Poll,
 	},
@@ -77,6 +80,7 @@ export default {
 			this.$store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, {
 				item1,
 				item2,
+				expiration: this.$refs.expiration.date,
 				text,
 				type: 'pollPost',
 			});

@@ -1,31 +1,44 @@
 <template>
-	<button :disabled="disabled">
+	<v-btn
+		depressed
+		rounded
+		:dark="dark"
+		:color="dark ? '#000' : '' "
+		:disabled="disabled"
+	>
 		<slot />
-	</button>
+	</v-btn>
 </template>
 
 <script>
 export default {
 	props: {
+		active: {
+			type: Boolean,
+			default: true,
+		},
 		disabled: {
 			type: Boolean,
 			default: false,
+		},
+	},
+	computed: {
+		dark () {
+			return this.active && !this.disabled;
 		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
-button
-	padding 4.5% 14%
+.v-btn
+	min-height 36px
+	min-width 64px
+	padding 0 16px
 	margin-top 5%
 	margin-left auto
 	margin-right auto
 
-	background-color black
-	border-radius 10px
-
-	color white
 	text-transform uppercase
 	font-size .6em
 	font-weight 700
@@ -33,4 +46,6 @@ button
 	outline none
 	&:disabled
 		background-color #bbbbbb
+	&--rounded
+		border-radius 10px
 </style>
