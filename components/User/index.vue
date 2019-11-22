@@ -194,7 +194,7 @@ export default {
 		flex-direction: row;
 		position: sticky;
 		top: 0;
-		z-index: 1000;
+		z-index: 5;
 		border-bottom: 1px solid rgba(112, 112, 112, .3);
 		background-color: #fff;
 		padding-top: 3%;

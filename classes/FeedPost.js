@@ -90,6 +90,7 @@ export class FeedPost {
 		if (comments) {
 			this.comments.count = comments.count;
 		}
+		this.postId = this.guid;
 	}
 
 	unsetCorrelationId () {
