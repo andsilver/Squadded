@@ -11,7 +11,7 @@
 			@click="openProduct"
 		/>
 		<ReSquaddButton
-			v-if="showSquaddedButton"
+			v-if="isClickable"
 			class="reSquaddButton"
 			:item="item"
 		/>
@@ -35,7 +35,7 @@
 				<span>{{ item.title }}</span>
 			</v-card-title>
 			<button
-				v-if="!nonClickable && (voted || !isPollPost)"
+				v-if="isClickable"
 				ref="buy-button"
 				class="buy_button sqdi-shopping-bag-2"
 			/>
@@ -61,10 +61,6 @@ export default {
 			type: Boolean,
 			default: false,
 		},
-		nonClickable: {
-			type: Boolean,
-			default: false,
-		},
 		isPollPost: {
 			type: Boolean,
 			default: false,
@@ -75,14 +71,8 @@ export default {
 		},
 	},
 	computed: {
-		showSquaddedButton() {
-			if (this.nonClickable) {
-				return false;
-			}
-			if (!this.isPollPost) {
-				return true;
-			}
-			if (this.voted) {
+		isClickable() {
+			if (!this.isPollPost || this.voted) {
 				return true;
 			}
 			return false;
@@ -90,7 +80,7 @@ export default {
 	},
 	methods: {
 		openProduct () {
-			!this.nonClickable && SquadAPI.openProduct(this.item);
+			this.isClickable && SquadAPI.openProduct(this.item);
 		},
 	},
 };

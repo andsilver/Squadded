@@ -67,7 +67,7 @@ export default {
 		right 0
 		background-color rgba(0, 0, 0, .5)
 		text-align center
-		z-index 1
+		pointer-events none
 		&-count
 			color #fff
 			font-size 26px

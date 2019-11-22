@@ -20,7 +20,7 @@
 					:key="post.guid"
 					:class="{ selected: post.selected }"
 					:item="post.item"
-					non-clickable
+					is-poll-post
 					@click.native="() => select(post)"
 				/>
 			</section>
