@@ -69,8 +69,10 @@
     "voted": "VOTED"
   },
   "post": {
+    "addedItem": "added an item",
     "textPlaceholder": "Input your message for this post",
     "sending": "sending…",
+    "reactions": "Reactions",
     "pop": {
       "deletePost": {
         "menu": "Delete",

@@ -1,9 +1,8 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Post from '../Post.vue';
-import { flushPromises } from '~/helpers';
 import Store from '~/store';
-import { PostStore, PostActions, PostMutations } from '~/store/post';
+import { PostStore, PostActions } from '~/store/post';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 
 Wrapper.prototype.ref = function (id) {
@@ -109,7 +108,6 @@ describe('Post', () => {
 
 	describe('Comments', () => {
 		const COMMENTS_LIST = 'comments-list';
-		const COMMENT_INPUT = 'comment-input';
 
 		it('should not display comments list on init', () => {
 			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
@@ -117,70 +115,6 @@ describe('Post', () => {
 
 			const comments = wrapper.ref(COMMENTS_LIST);
 			expect(comments.exists()).toBe(false);
-		});
-
-		it('should not display comments list when no comments', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().get();
-			wrapper.setProps({ post });
-
-			wrapper.setData({
-				showComments: true,
-			});
-
-			const comments = wrapper.ref(COMMENTS_LIST);
-			expect(comments.exists()).toBe(false);
-		});
-
-		it('should display comments list', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
-			wrapper.setProps({ post });
-
-			wrapper.setData({
-				showComments: true,
-			});
-
-			const comments = wrapper.ref(COMMENTS_LIST);
-			expect(comments.exists()).toBe(true);
-		});
-
-		it('should toggle list and fetch comments', async () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment([]).get();
-			wrapper.setProps({ post });
-
-			expect(wrapper.vm.showComments).toBe(false);
-
-			const comments = [{ text: 'text' }];
-			const $ws = {
-				sendObj: jest.fn(),
-			};
-			store.state.socket.$ws = $ws;
-
-			wrapper.vm.toggleComments();
-			store.commit('SET_SOCKET_AUTH', true);
-			await flushPromises();
-			store.commit(`${PostStore}/${PostMutations.receiveComments}`, comments);
-			await flushPromises();
-
-			expect(wrapper.vm.showComments).toBe(true);
-			expect($ws.sendObj).toHaveBeenCalledWith({
-				type: 'fetchComments',
-				guid: post.guid,
-			});
-			expect(post.comments.messages).toEqual(comments);
-		});
-
-		it('should display input comment element and set correct props', () => {
-			const post = aDefaultSingleItemMsgBuilder().withGUID().get();
-			wrapper.setProps({ post });
-
-			wrapper.setData({
-				showComments: true,
-			});
-
-			const comments = wrapper.ref(COMMENT_INPUT);
-			expect(comments.exists()).toBe(true);
-			expect(comments.props('post')).toBe(post);
-			expect(comments.props('action')).toBe(`${PostStore}/${PostActions.sendComment}`);
 		});
 	});
 });

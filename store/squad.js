@@ -7,6 +7,7 @@ export const state = () => ({
 	widget: {
 		open: false,
 	},
+	virtualKeyboard: false,
 });
 
 const ParamName = {

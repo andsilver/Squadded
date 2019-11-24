@@ -143,7 +143,7 @@ describe('WS Plugin', () => {
 			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.addComment}`, { comment, post: userBlogPost });
 		});
 
-		it(`should commit comments to ${FeedStore}/${FeedMutations.receiveComments}`, () => {
+		it(`should commit comments to ${FeedStore}/${FeedMutations.receiveReaction}`, () => {
 			const comments = [{ text: 'text' }];
 			const msg = {
 				type: 'comments',
@@ -151,7 +151,7 @@ describe('WS Plugin', () => {
 			};
 
 			dispatch(store, msg);
-			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.receiveComments}`, comments);
+			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.receiveReaction}`, comments);
 		});
 
 		it(`should commit visitor user to ${UserStore}/${UserMutations.setMe}`, () => {

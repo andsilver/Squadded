@@ -24,46 +24,21 @@
 			@cancel="toggleTextEditor"
 		/>
 		<slot />
-		<Actions :post="post" @toggleComments="toggleComments" />
-		<v-list v-if="showComments && post.comments.messages.length" ref="comments-list">
-			<Comment
-				v-for="comment in post.comments.messages"
-				:key="comment.correlationId || comment._id"
-				:comment="comment"
-			/>
-		</v-list>
-		<MessageInput
-			v-if="showComments"
-			ref="comment-input"
-			class="post_comment_input"
-			:action="sendComment"
-			:placeholder="$t('input.placeholder')"
-			:post="post"
-			user-link
-			@send="scroll"
-		/>
+		<Actions :post="post" />
 	</div>
 </template>
 
 <script>
 import Actions from './Actions';
-import Comment from './Comment';
 import PopMenu from './PopMenu';
 import MessageInput from '~/components/MessageInput';
 import UserLink from '~/components/UserLink';
-import { PostStore, PostActions, PostMutations } from '~/store/post';
-import { prefetch } from '~/helpers';
-
-const TAB_BAR_HEIGHT = 50;
-const GAP = 5;
-
-const getScroll = (rect, scrollTop) => rect.top + scrollTop - window.innerHeight + rect.height + TAB_BAR_HEIGHT + GAP;
+import { PostStore, PostActions } from '~/store/post';
 
 export default {
 	name: 'Post',
 	components: {
 		Actions,
-		Comment,
 		MessageInput,
 		PopMenu,
 		UserLink,
@@ -75,10 +50,8 @@ export default {
 		},
 	},
 	data: () => ({
-		showComments: false,
 		showTextEditor: false,
 		editPostText: `${PostStore}/${PostActions.editText}`,
-		sendComment: `${PostStore}/${PostActions.sendComment}`,
 	}),
 	computed: {
 		isTextVisible () {
@@ -89,31 +62,6 @@ export default {
 		},
 	},
 	methods: {
-		scroll () {
-			setTimeout(() => {
-				if (this.showComments) {
-					const { $el } = this;
-					const content = $el.closest('.v-content__wrap');
-					content.scroll({
-						top: getScroll($el.getBoundingClientRect(), content.scrollTop),
-						behavior: 'smooth',
-					});
-				}
-			}, 10);
-		},
-		toggleComments () {
-			this.showComments = !this.showComments;
-			return prefetch({
-				guid: this.post.guid,
-				mutation: `${PostStore}/${PostMutations.receiveComments}`,
-				store: this.$store,
-				type: 'fetchComments',
-			}).then((comments) => {
-				const { post } = this;
-				this.$store.commit(`${PostStore}/${PostMutations.resetComments}`, { comments, post });
-				this.scroll();
-			});
-		},
 		toggleTextEditor () {
 			if (!this.post.byMe) {
 				return;
@@ -145,8 +93,4 @@ export default {
 .placeholder
 	color #757575
 
-.post_comment_input
-	font-size .7em
-	position sticky
-	bottom 0
 </style>

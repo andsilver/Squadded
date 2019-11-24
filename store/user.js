@@ -28,13 +28,13 @@ export const UserMutations = {
 };
 
 export const mutations = {
-	[UserMutations.setFollow]: (state, { follow, other }) => {
-		if (!other) {
+	[UserMutations.setFollow]: (state, { follow, user }) => {
+		if (user.isMe) {
 			return;
 		}
-		other.followers.me = follow;
+		user.followers.me = follow;
 		const mod = (follow ? 1 : -1);
-		other.followers.count = Math.max(0, other.followers.count + mod);
+		user.followers.count = Math.max(0, user.followers.count + mod);
 	},
 	[UserMutations.setMe]: (state, me) => {
 		state.me = new User({ ...me, isMe: true });

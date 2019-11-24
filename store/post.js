@@ -3,8 +3,9 @@ export const PostStore = 'post';
 export const PostMutations = {
 	addComment: 'addComment',
 	incrementVote: 'incrementVote',
-	receiveComments: 'receiveComments',
+	receiveReaction: 'receiveReaction',
 	resetComments: 'resetComments',
+	resetLikes: 'resetLikes',
 	setPostLike: 'setPostLike',
 	setPrivate: 'setPrivate',
 	setText: 'setText',
@@ -22,11 +23,18 @@ export const mutations = {
 		post.voted = vote;
 		post[`item${vote}`].votes += 1;
 	},
-	[PostMutations.receiveComments]: (state, comments) => {
+	[PostMutations.receiveReaction]: (state, reactions) => {
 	},
 	[PostMutations.resetComments]: (state, { comments, post }) => {
 		post.comments.messages = comments;
 		post.comments.count = comments.length;
+	},
+	[PostMutations.resetLikes]: (state, { likes, myUserId, post }) => {
+		likes.forEach((l) => {
+			l.isMe = l.guid === myUserId;
+		});
+		post.likes.users = likes;
+		post.likes.count = likes.length;
 	},
 	[PostMutations.setPostLike]: (state, payload) => {
 		const { post } = payload;

@@ -2,7 +2,6 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import User from './index.vue';
 import { flushPromises } from '~/helpers';
-import { FeedStore, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import Store from '~/store';
 import { userMockBuilder } from '~/test/user.mock';
@@ -12,14 +11,13 @@ Wrapper.prototype.ref = function (id) {
 };
 
 describe('User component', () => {
-	const FOLLOW_BTN = 'follow-btn';
-
 	let localVue;
 	let wrapper;
 	let store;
 	let $ws;
 
 	function initLocalVue () {
+		document.getElementById = jest.fn(() => document.createElement('div'));
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 
@@ -98,184 +96,5 @@ describe('User component', () => {
 		wrapper.vm.$options.asyncData({ store, params, redirect });
 
 		expect(redirect).toHaveBeenCalledWith('/me');
-	});
-
-	it('should not allow follow to myself', () => {
-		const me = userMockBuilder().get();
-
-		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
-
-		wrapper = shallowMount(User, {
-			localVue,
-			store,
-			mocks: {
-				$route: { params: {} },
-				$t: msg => msg,
-				_i18n: {
-					locale: 'en',
-				},
-			},
-		});
-
-		expect(wrapper.ref(FOLLOW_BTN).exists()).toBe(false);
-	});
-
-	it('should allow to follow if not follower yet', () => {
-		const me = userMockBuilder().get();
-		const user = userMockBuilder().get();
-		user.followers.me = false;
-
-		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
-		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
-
-		wrapper = shallowMount(User, {
-			localVue,
-			store,
-			mocks: {
-				$route: { params: {
-					id: user.userId,
-				} },
-				$t: msg => msg,
-				_i18n: {
-					locale: 'en',
-				},
-			},
-		});
-
-		wrapper.setData({ other: user });
-
-		const followBtn = wrapper.ref(FOLLOW_BTN);
-		expect(followBtn.exists()).toBe(true);
-		expect(followBtn.text()).toBe('user.Follow');
-	});
-
-	it('should allow to unfollow if already a follower', () => {
-		const me = userMockBuilder().get();
-		const user = userMockBuilder().get();
-		user.followers.me = true;
-
-		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
-		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
-
-		wrapper = shallowMount(User, {
-			localVue,
-			store,
-			mocks: {
-				$route: { params: {
-					id: user.userId,
-				} },
-				$t: msg => msg,
-				_i18n: {
-					locale: 'en',
-				},
-			},
-		});
-
-		wrapper.setData({ other: user });
-
-		const followBtn = wrapper.ref(FOLLOW_BTN);
-		expect(followBtn.exists()).toBe(true);
-		expect(followBtn.text()).toBe('user.Unfollow');
-	});
-
-	it('should not follow myself', () => {
-		const me = userMockBuilder().get();
-
-		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
-
-		const $ws = {
-			sendObj: jest.fn(),
-		};
-
-		wrapper = shallowMount(User, {
-			localVue,
-			store,
-			mocks: {
-				$route: { params: {} },
-				$t: msg => msg,
-				_i18n: {
-					locale: 'en',
-				},
-				$ws,
-			},
-		});
-
-		wrapper.vm.toggleFollow();
-		expect($ws.sendObj).not.toHaveBeenCalled();
-	});
-
-	it('should follow other user', () => {
-		const me = userMockBuilder().get();
-		const user = userMockBuilder().get();
-		user.followers.me = false;
-
-		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
-		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
-
-		wrapper = shallowMount(User, {
-			localVue,
-			store,
-			mocks: {
-				$route: { params: {
-					id: user.userId,
-				} },
-				$t: msg => msg,
-				_i18n: {
-					locale: 'en',
-				},
-				$ws,
-			},
-		});
-
-		wrapper.setData({ other: user });
-
-		spyOn(store, 'commit').and.callThrough();
-
-		wrapper.vm.toggleFollow();
-		expect($ws.sendObj).toHaveBeenCalledWith({
-			type: 'follow',
-			guid: user.userId,
-			follow: true,
-		});
-		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.clear}`);
-		expect(user.followers.me).toBe(true);
-	});
-
-	it('should unfollow other user', () => {
-		const me = userMockBuilder().get();
-		const user = userMockBuilder().get();
-		user.followers.me = true;
-
-		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
-		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
-
-		const $ws = {
-			sendObj: jest.fn(),
-		};
-
-		wrapper = shallowMount(User, {
-			localVue,
-			store,
-			mocks: {
-				$route: { params: {
-					id: user.userId,
-				} },
-				$t: msg => msg,
-				_i18n: {
-					locale: 'en',
-				},
-				$ws,
-			},
-		});
-
-		wrapper.setData({ other: user });
-
-		wrapper.vm.toggleFollow();
-		expect($ws.sendObj).toHaveBeenCalledWith({
-			type: 'follow',
-			guid: user.userId,
-			follow: false,
-		});
-		expect(user.followers.me).toBe(false);
 	});
 });

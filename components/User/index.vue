@@ -8,9 +8,7 @@
 				<userName class="user_fixed_name" :name="user.name" />
 				<userStatistics :user="user" :scrolled="isScrolled" />
 			</section>
-			<Button v-if="!user.isMe" class="fixed_follow_btn" @click.native="toggleFollow">
-				<span>{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}</span>
-			</Button>
+			<Follow :user="user" />
 		</section>
 		<section class="profile_background_image">
 			<section class="background_shadow" />
@@ -26,9 +24,7 @@
 				</v-list-item-content>
 			</v-list-item>
 			<userStatistics class="pt-0" :user="user" />
-			<Button v-if="!user.isMe" ref="follow-btn" class="follow" @click.native="toggleFollow">
-				{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
-			</Button>
+			<Follow ref="follow-btn" :user="user" class="follow" />
 			<p align="center">
 				{{ user.bio }}
 			</p>
@@ -64,8 +60,7 @@ import userAvatar from './userAvatar';
 import userName from './userName';
 import userMention from './userMention';
 import userStatistics from './userStatistics';
-import Button from '~/components/common/Button';
-import { FeedStore, FeedMutations } from '~/store/feed';
+import Follow from '~/components/common/Follow';
 import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
 import Blog from '~/components/Blog';
@@ -73,10 +68,12 @@ import Whishlist from '~/components/Whishlist';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
+const getMain = () => document.getElementById('main');
+
 export default {
 	name: 'User',
 	components: {
-		Button,
+		Follow,
 		userAvatar,
 		userName,
 		userMention,
@@ -115,25 +112,11 @@ export default {
 	},
 	mounted () {
 		this.userId = this.$route.params.id;
-		setTimeout(() => {
-			this.$el.closest('.v-content__wrap').addEventListener('scroll', this.scrolled.bind(this));
-		}, 20);
+		this.bindScroll();
 	},
 	methods: {
-		toggleFollow () {
-			const { other } = this;
-			if (!other) {
-				return;
-			}
-			const follow = !other.followers.me;
-			this.$ws.sendObj({
-				type: 'follow',
-				guid: other.userId,
-				follow,
-			});
-			this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
-			this.$store.commit(`${UserStore}/${UserMutations.setFollow}`, { follow, other });
-			this.$forceUpdate();
+		bindScroll () {
+			getMain().addEventListener('scroll', this.scrolled.bind(this));
 		},
 		scrolled (e) {
 			// TODO calc actual height to tabs instead const

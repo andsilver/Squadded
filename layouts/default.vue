@@ -1,15 +1,15 @@
 <template>
 	<v-app>
-		<v-content :class="{ flex: socket.isPendingAuth, 'show-tabs': socket.isAuth }">
+		<v-content id="main" :class="{ 'd-flex': socket.isPendingAuth, 'show-tabs': showTabs }">
 			<nuxt ref="main-content" />
 			<Preloader v-if="socket.isPendingAuth" ref="preloader" />
 			<v-dialog v-if="promptOptions" v-model="showPrompt">
 				<Prompt :text="promptOptions.text" @confirm="confirm" @decline="hide" />
 			</v-dialog>
 		</v-content>
-		<v-footer absolute padless>
-			<TabBar v-if="socket.isAuth" ref="tab-bar" />
-		</v-footer>
+		<v-bottom-navigation v-if="showTabs" height="65">
+			<TabBar ref="tab-bar" />
+		</v-bottom-navigation>
 	</v-app>
 </template>
 
@@ -35,7 +35,11 @@ export default {
 	computed: {
 		...mapState([
 			'socket',
+			'squad',
 		]),
+		showTabs () {
+			return this.socket.isAuth && !this.squad.virtualKeyboard;
+		},
 	},
 	created () {
 		this.$root.$on('prompt', data => this.prompt(data));
@@ -66,6 +70,15 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.v-content.show-tabs
-	padding-bottom 65px !important
+.v-content
+	display: block;
+	flex-shrink 1
+	overflow hidden scroll
+	&.show-tabs
+		padding-bottom 65px !important
+
+.v-bottom-navigation
+	position fixed
+	bottom 0
+	z-index 100
 </style>

@@ -27,6 +27,7 @@ const aDefaultSingleItemMsgBuilder = () => {
 		},
 		withGUID: (id) => {
 			msg.guid = id || chance.guid();
+			msg.postId = msg.guid;
 			return builder;
 		},
 		withLikes: (count = chance.natural(), byMe) => {

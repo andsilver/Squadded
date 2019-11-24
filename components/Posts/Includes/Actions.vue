@@ -1,12 +1,19 @@
 <template>
 	<section class="post_buttons">
 		<v-btn class="counter-icon like_button" @click="toggleLike">
-			<v-icon ref="likes-icon" class="buttons_icon" :color="post.likes.byMe ? 'red' : '#B8B8BA'" size="22">
+			<v-icon
+				ref="likes-icon"
+				class="buttons_icon"
+				:color="post.likes.byMe ? 'red' : '#B8B8BA'"
+				size="22"
+			>
 				sqdi-favorite-heart-button{{ post.likes.count ? '' : '-outline' }}
 			</v-icon>
-			<span v-if="post.likes.count" ref="likes-count" class="count">{{ short(post.likes.count) }}</span>
+			<nuxt-link :to="`/post/${post.postId}/reactions#likes`" @click="cancelBubble">
+				<span v-if="post.likes.count" ref="likes-count" class="count">{{ short(post.likes.count) }}</span>
+			</nuxt-link>
 		</v-btn>
-		<v-btn class="counter-icon comments_button" @click="toggleComments">
+		<v-btn ref="comments-link" nuxt :to="`/post/${post.postId}/reactions`" class="counter-icon comments_button">
 			<v-icon ref="comments-icon" style="color: #B8B8BA;" class="buttons_icon" size="22">
 				sqdi-chat-message-oval-outlined-speech-bubble
 			</v-icon>
@@ -42,6 +49,13 @@ export default {
 		short(number) {
 			return shortNumber(number, this._i18n.locale);
 		},
+		cancelBubble (e) {
+			if (e.stopPropagation) {
+				e.stopPropagation();
+			}
+			e.cancelBubble = true;
+			return false;
+		},
 		toggleLike () {
 			this.$store.dispatch(`${PostStore}/${PostActions.toggleLike}`, this.post);
 		},
@@ -53,7 +67,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-
 .post_buttons
 	display flex
 	border-radius 10px
@@ -74,4 +87,6 @@ export default {
 	border-left 1px solid #DBDBDB
 	border-right 1px solid #DBDBDB
 
+.count
+	margin-left 5px
 </style>

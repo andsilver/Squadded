@@ -51,8 +51,8 @@ export const dispatch = function (store, message) {
 		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post: myBlogPost });
 	} else if (type === 'notifications') {
 		store.commit(`${NotificationStore}/${NotificationMutations.receive}`, message.notifications);
-	} else if (type === 'comments') {
-		store.commit(`${PostStore}/${PostMutations.receiveComments}`, message.comments);
+	} else if (type === 'comments' || type === 'likes') {
+		store.commit(`${PostStore}/${PostMutations.receiveReaction}`, message[type]);
 	} else if (type === 'userProfile') {
 		const { user } = message;
 		if (user.userId === store.state.user.me.userId) {

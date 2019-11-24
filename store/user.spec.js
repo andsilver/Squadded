@@ -20,36 +20,36 @@ describe('User Store module', () => {
 	});
 
 	it('should set follow', () => {
-		const other = userMockBuilder().get();
-		other.followers.me = false;
-		const { count } = other.followers;
+		const user = userMockBuilder().get();
+		user.followers.me = false;
+		const { count } = user.followers;
 
-		store.commit(UserMutations.setFollow, { follow: true, other });
+		store.commit(UserMutations.setFollow, { follow: true, user });
 
-		expect(other.followers.me).toBe(true);
-		expect(other.followers.count).toBe(count + 1);
+		expect(user.followers.me).toBe(true);
+		expect(user.followers.count).toBe(count + 1);
 	});
 
 	it('should unset follow', () => {
-		const other = userMockBuilder().get();
-		other.followers.me = true;
-		const { count } = other.followers;
+		const user = userMockBuilder().get();
+		user.followers.me = true;
+		const { count } = user.followers;
 
-		store.commit(UserMutations.setFollow, { follow: false, other });
+		store.commit(UserMutations.setFollow, { follow: false, user });
 
-		expect(other.followers.me).toBe(false);
-		expect(other.followers.count).toBe(count - 1);
+		expect(user.followers.me).toBe(false);
+		expect(user.followers.count).toBe(count - 1);
 	});
 
 	it('should not decrement below zero', () => {
-		const other = userMockBuilder().get();
-		other.followers.me = true;
-		other.followers.count = 0;
+		const user = userMockBuilder().get();
+		user.followers.me = true;
+		user.followers.count = 0;
 
-		store.commit(UserMutations.setFollow, { follow: false, other });
+		store.commit(UserMutations.setFollow, { follow: false, user });
 
-		expect(other.followers.me).toBe(false);
-		expect(other.followers.count).toBe(0);
+		expect(user.followers.me).toBe(false);
+		expect(user.followers.count).toBe(0);
 	});
 
 	it('should set me', () => {

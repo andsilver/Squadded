@@ -30,6 +30,9 @@ describe('Message Input', () => {
 					isPendingAuth: true,
 					isAuth: false,
 				},
+				squad: {
+					virtualKeyboard: false,
+				},
 			},
 		});
 
@@ -51,6 +54,13 @@ describe('Message Input', () => {
 		store.state.socket.isAuth = true;
 		const tabs = wrapper.ref(TAB_BAR);
 		expect(tabs.exists()).toBe(true);
+	});
+
+	it('should not display tabs if onscreen keyboard is open', () => {
+		store.state.socket.isAuth = true;
+		store.state.squad.virtualKeyboard = true;
+		const tabs = wrapper.ref(TAB_BAR);
+		expect(tabs.exists()).toBe(false);
 	});
 
 	it('should display preloader spinner while pending auth', () => {

@@ -81,6 +81,7 @@ describe('Post Actions', () => {
 	});
 
 	describe('Comments', () => {
+		const COMMENTS_LINK = 'comments-link';
 		const COUNTER_ID = 'comments-count';
 		const ICON_ID = 'comments-icon';
 
@@ -105,6 +106,15 @@ describe('Post Actions', () => {
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('sqdi-chat-message-oval-outlined-speech-bubble');
+		});
+
+		it('should follow to comment reactions', () => {
+			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
+			wrapper.setProps({ post });
+
+			const link = wrapper.ref(COMMENTS_LINK);
+			expect(link.exists()).toBe(true);
+			expect(link.attributes('to')).toBe(`/post/${post.postId}/reactions`);
 		});
 	});
 

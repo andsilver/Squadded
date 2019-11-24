@@ -7,6 +7,8 @@
 			hide-details
 			:placeholder="placeholder"
 			@keydown="keydown"
+			@focus="wasFocus"
+			@blur="wasBlur"
 		>
 			<v-icon v-if="textValue.length" slot="append" color="#B8B8BA" size="22" @click="send">
 				mdi-send
@@ -16,11 +18,11 @@
 </template>
 
 <script lang="js">
-import { createNamespacedHelpers } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
 import UserLink from '~/components/UserLink';
 import { UserStore } from '~/store/user';
 
-const { mapState } = createNamespacedHelpers(UserStore);
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	name: 'MessageInput',
@@ -53,8 +55,11 @@ export default {
 		textValue: '',
 	}),
 	computed: {
-		...mapState([
+		...userState([
 			'me',
+		]),
+		...mapState([
+			'squad',
 		]),
 	},
 	mounted () {
@@ -79,6 +84,12 @@ export default {
 			if (e.keyCode === 27) {
 				this.$emit('cancel');
 			}
+		},
+		wasFocus (e) {
+			this.squad.virtualKeyboard = true;
+		},
+		wasBlur (e) {
+			this.squad.virtualKeyboard = false;
 		},
 	},
 };
