@@ -1,11 +1,14 @@
+import path from 'path';
+import fs from 'fs';
 import colors from 'vuetify/es5/util/colors';
 
 const {
+	API_ENDPOINT,
 	AUTH_REDIRECT_ROOT,
 	BASE,
-	API_ENDPOINT,
 	FB_APP_ID,
 	IG_CLIENT_ID,
+	NODE_ENV,
 	WS_LINK,
 } = process.env;
 
@@ -32,6 +35,13 @@ if (!IG_CLIENT_ID) {
 if (!WS_LINK) {
 	throw new Error('WS_LINK environment variable is required!');
 }
+
+const server = NODE_ENV === 'development' ? {
+	https: {
+		key: fs.readFileSync(path.resolve(__dirname, './dev/server.key')),
+		cert: fs.readFileSync(path.resolve(__dirname, './dev/server.crt')),
+	},
+} : null;
 
 export default {
 	mode: 'spa',
@@ -107,6 +117,7 @@ export default {
 			'i18n',
 		],
 	},
+	server,
 	/*
 	** Plugins to load before mounting the App
 	*/

@@ -1,8 +1,11 @@
+const { API_ENDPOINT } = process.env;
+
 export const SquadStore = 'squad';
 
 export const DEFAULT_LANDING = '/feed';
 
 export const state = () => ({
+	API_ENDPOINT,
 	route: { path: DEFAULT_LANDING },
 	widget: {
 		open: false,

@@ -91,3 +91,7 @@ static/lib/*.js
 lib/*.min.js
 
 .dev.env
+dev
+*.crt
+*.key
+

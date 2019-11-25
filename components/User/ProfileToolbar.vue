@@ -5,10 +5,20 @@
 	>
 		<Menu v-if="user.isMe" :dark="isBgExist" @share="share" />
 		<GoBackBtn v-else :dark="isBgExist" />
+		<div class="flex-grow-1" />
+		<v-btn
+			v-if="!user.isMe"
+			icon
+			:dark="isBgExist"
+			@click="share"
+		>
+			<v-icon>
+				sqdi-share
+			</v-icon>
+		</v-btn>
 		<v-btn
 			icon
 			:dark="isBgExist"
-			class="add_user_btn"
 		>
 			<v-icon>
 				sqdi-add-user
@@ -31,7 +41,7 @@
 		</span>
 
 		<v-dialog v-model="showShare">
-			<ShareProfile :user="user" />
+			<ShareProfile :user-link="userLink" />
 		</v-dialog>
 	</section>
 </template>
@@ -40,6 +50,7 @@
 import Menu from './Menu';
 import ShareProfile from './ShareProfile';
 import GoBackBtn from '~/components/common/GoBackBtn';
+const CANCALED_BY_USER = 20;
 
 export default {
 	components: {
@@ -57,9 +68,45 @@ export default {
 		isBgExist: true,
 		showShare: false,
 	}),
+	computed: {
+		target () {
+			const { siteUrl, siteTitle } = this.$store.state.merchant;
+			return {
+				id: this.user.userId,
+				url: siteUrl,
+				title: siteTitle,
+			};
+		},
+		userLink () {
+			const { API_ENDPOINT } = this.$store.state.squad;
+			const target = JSON.stringify(this.target);
+			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
+		},
+	},
 	methods: {
-		share () {
+		async share () {
+			this.showShare = false;
+			if (navigator && navigator.share) {
+				const { siteTitle } = this.$store.state.merchant;
+				const title = `${this.user.name} @ ${siteTitle}`;
+				try {
+					await navigator.share({
+						title,
+						text: title,
+						url: this.userLink,
+					});
+				} catch (error) {
+					if (error.code !== CANCALED_BY_USER) {
+						this.showModal();
+					}
+				}
+			} else {
+				this.showModal();
+			}
+		},
+		showModal () {
 			this.showShare = true;
+			this.$forceUpdate();
 		},
 	},
 };
@@ -93,9 +140,6 @@ export default {
 	.buttons
 		display flex
 		width 100%
-
-	.add_user_btn
-		margin-left auto
 
 	.profile_title
 		position: absolute

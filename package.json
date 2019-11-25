@@ -7,11 +7,11 @@
   "scripts": {
     "lint": "eslint --ext .js,.vue --ignore-path .gitignore --ignore-pattern *.min.js .",
     "precommit": "yarn lint",
-    "dev": "env-cmd -f .dev.env nuxt --hostname 0.0.0.0",
+    "dev": "env-cmd -f ./dev/.env nuxt --hostname 0.0.0.0",
     "build": "nuxt build",
-    "local:build": "env-cmd -f .dev.env nuxt build",
+    "local:build": "env-cmd -f ./dev/.env nuxt build",
     "start": "nuxt start",
-    "local:generate": "env-cmd -f .dev.env nuxt generate",
+    "local:generate": "env-cmd -f ./dev/.env nuxt generate",
     "generate": "nuxt generate",
     "test": "yarn lint && env-cmd -f ./test/.env jest --no-cache",
     "test:tap": "yarn test --reporters=jest-tap-reporter --coverage"
