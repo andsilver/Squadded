@@ -1,5 +1,5 @@
 <template>
-	<v-menu bottom offset-y>
+	<v-menu :attach="parentNode" bottom offset-y>
 		<template v-slot:activator="{ on }">
 			<v-btn icon class="button_more" :dark="dark" v-on="on">
 				<v-icon>
@@ -25,6 +25,12 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+	},
+	data: () => ({
+		parentNode: null,
+	}),
+	mounted () {
+		this.parentNode = this.$parent.$el;
 	},
 };
 </script>

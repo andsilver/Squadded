@@ -1,5 +1,5 @@
 <template>
-	<v-menu bottom offset-y>
+	<v-menu :attach="parentNode" bottom offset-y left>
 		<template v-slot:activator="{ on }">
 			<v-btn icon class="button_more" v-on="on">
 				<v-icon>
@@ -37,6 +37,7 @@ export default {
 	},
 	data: () => ({
 		current: null,
+		parentNode: null,
 	}),
 	computed: {
 		currentText () {
@@ -46,6 +47,9 @@ export default {
 				decline: this.$t(`post.pop.${this.current}.decline`),
 			} : {};
 		},
+	},
+	mounted () {
+		this.parentNode = this.$parent.$el;
 	},
 	methods: {
 		hide () {
