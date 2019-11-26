@@ -20,6 +20,7 @@ export class FeedPost {
 
 			item1 = itemInitialState,
 			item2 = itemInitialState,
+			items = [itemInitialState, itemInitialState],
 			expiration = null,
 			voted = false,
 			closed = false,
@@ -63,6 +64,8 @@ export class FeedPost {
 			this.voted = voted;
 			this.expiration = expiration;
 			this.closed = closed;
+		} else if (type === 'outfitPost') {
+			this.items = items.map(composeItem);
 		} else {
 			this.item = composeItem(item);
 		}

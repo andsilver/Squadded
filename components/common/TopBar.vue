@@ -33,6 +33,7 @@
 export default {
 };
 </script>
+
 <style lang="stylus" scoped>
 	.toolbar
 		margin-top 3.4%

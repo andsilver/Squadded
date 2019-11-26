@@ -11,6 +11,11 @@
   "Profile": "Profile",
   "Search": "Search",
   "Squadders": "Squadders",
+  "create": {
+    "outfit": "Outfit",
+    "photo": "Photo",
+    "poll": "Poll"
+  },
   "expiration": {
     "_15m": "15 min",
     "_1h": "1 hour",
