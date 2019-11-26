@@ -1,9 +1,13 @@
 <template>
-	<div class="vote_slider_wrapper">
+	<div v-if="isMyPost || !post.closed || post.voted" class="vote_slider_wrapper">
+		<Button v-if="isMyPost">
+			{{ post.closed ? $t('poll.results') : $t('poll.ongoing') }}
+		</Button>
 		<button
+			v-else
 			ref="vote_slider"
 			class="vote_slider"
-			:class="{ first: voted === 1, second: voted === 2 }"
+			:class="{ first: post.voted === 1, second: post.voted === 2 }"
 			@touchstart="(e) => checkStartSliderTouch(e, 'touch')"
 			@touchmove="(e) => moveSlider(e, 'touch')"
 			@touchend="setSliderPosition('touch')"
@@ -11,26 +15,37 @@
 			@mousemove="(e) => moveSlider(e, 'mouse')"
 			@mouseup="setSliderPosition('mouse')"
 		>
-			<span class="sqdi-arrow-point-to-right left" @click="() => $emit.vote(1)" />
-			<span ref="vote_btn" class="vote">{{ voted ? $t('poll.voted') : $t('poll.vote') }}</span>
-			<span class="sqdi-arrow-point-to-right right" @click="() => $emit.vote(2)" />
+			<span class="sqdi-arrow-point-to-right left" />
+			<span ref="vote_btn" class="vote">{{ post.voted ? $t('poll.voted') : $t('poll.vote') }}</span>
+			<span class="sqdi-arrow-point-to-right right" />
 		</button>
 	</div>
 </template>
 
 <script>
+import { FeedPost } from '~/classes/FeedPost';
+import Button from '~/components/common/Button';
+
 export default {
 	props: {
-		voted: {
-			type: Number,
+		post: {
+			type: FeedPost,
 			required: true,
 		},
+	},
+	components: {
+		Button,
 	},
 	data: () => ({
 		startX: 0,
 		lastX: 0,
 		isMouseDown: false,
 	}),
+	computed: {
+		isMyPost () {
+			return (this.post.byMe || this.post.voted === 0);
+		},
+	},
 	methods: {
 		checkStartSliderTouch(e, movedBy = 'touch') {
 			if (movedBy === 'touch') {
@@ -97,17 +112,17 @@ export default {
 	width 98%
 	left 1%
 	height 40px
-	z-index 5
+	padding 3px 0
 	background-color rgba(0, 0, 0, .12)
 	bottom 21%
 	border-radius 12px
 	justify-content space-around
+	z-index 5
 
 .vote_slider
 	width 24%
 	height 86%
 	position: absolute;
-	top 7%
 	left 50%
 	color white
 	transform translateX(-50%)

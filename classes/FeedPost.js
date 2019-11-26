@@ -22,6 +22,7 @@ export class FeedPost {
 			item2 = itemInitialState,
 			expiration = null,
 			voted = false,
+			closed = false,
 
 			byMe = false,
 			user = {
@@ -61,6 +62,7 @@ export class FeedPost {
 			this.item2 = composeItem(item2);
 			this.voted = voted;
 			this.expiration = expiration;
+			this.closed = closed;
 		} else {
 			this.item = composeItem(item);
 		}

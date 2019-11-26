@@ -35,7 +35,6 @@ export default {
 	min-height 36px
 	min-width 64px
 	padding 0 16px
-	margin-top 5%
 	margin-left auto
 	margin-right auto
 

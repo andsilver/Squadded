@@ -3,7 +3,7 @@
 		:post="post"
 	>
 		<div class="wrapper mb-2">
-			<VoteSlider v-if="!isMyPost && !post.closed" :voted="post.voted || 0" @vote="vote" />
+			<VoteSlider :post="post" @vote="vote" />
 			<div class="poll-post grid">
 				<PollItem
 					ref="poll-item1"
