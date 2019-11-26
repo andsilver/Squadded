@@ -1,0 +1,119 @@
+{
+  "getStarted": "Commencez avec",
+  "or": "ou",
+  "Choose": "Choisissez",
+  "Community": "La Communauté",
+  "Create": "Créez",
+  "Explore": "Explorez",
+  "Home": "Accueil",
+  "Messages": "Messages",
+  "My Squad": "Mon Squad",
+  "Profile": "Profil",
+  "Search": "Recherchez",
+  "Squadders": "Squadders",
+  "expiration": {
+    "_15m": "15 min",
+    "_1h": "1 heure",
+    "_1d": "1 jour",
+    "_3d": "3 jours",
+    "_7d": "7 jours"
+  },
+  "form": {
+    "name": "Nom d'utilisateur",
+    "email": "E-mail",
+    "password": "Mot de passe",
+    "forgot": "Infos de connexion oubliées?",
+    "terms": {
+      "label": "J'ai lu et j'accepte les conditions générales d'utilisation",
+      "message": "Vous devez accepter les conditions générales d'utilisation afin de continuer! "
+    },
+    "allowContact": {
+      "label": "J'autorise Squadded a me contacter",
+      "message": "Vous devez nous autoriser a vous contacter!"
+    },
+    "age": {
+      "label": "Je certifie avoir plus de 13 ans",
+      "messsage": "Vous devez avoir plus de 13 ans!"
+    },
+    "rules": {
+      "name": {
+        "required": "Name is required"
+      },
+      "email": {
+        "required": "E-mail is required",
+        "valid": "E-mail must be valid"
+      },
+      "password": {
+        "required": "Password is required",
+        "length": "Name must contain more than {n} characters"
+      }
+    },
+    "signup": "Inscrivez-vous",
+    "login": "Connectez-vous",
+    "onboard": "Vous avez déjà un compte?",
+    "needAnAccount": "Vous n'avez pas encore de compte?"
+  },
+  "feed": {
+    "isEmpty": "Vous n'avez pas encore de publications"
+  },
+  "notify": {
+    "comment": "a commenté votre publication",
+    "isEmpty": "Vous n'avez pas encore de notifications",
+    "like": "a aimé votre publication"
+  },
+  "poll": {
+    "create": "Créez un sondage",
+    "dialogTitle": "Choisissez 2 articles",
+    "ongoing": "En cours",
+    "textPlaceholder": "Posez une question",
+    "results": "Resultats",
+    "vote": "VOTEZ",
+    "voted": "VOTÉ"
+  },
+  "post": {
+    "addedItem": "a ajouté un article",
+    "textPlaceholder": "Ajoutez une description pour cet article",
+    "sending": "envoyer…",
+    "reactions": "Réactions",
+    "pop": {
+      "deletePost": {
+        "menu": "Supprimer",
+        "question": "Confirmer la suppresion ",
+        "description": "Supprimer cette publication?",
+        "decline": "Ne pas supprimer"
+      },
+      "setPublic": {
+        "menu": "Transformer en public",
+        "question": "Transformer en publication publique?",
+        "description": "Tout le monde pourra voir cette publication",
+        "decline": "Laisser cette publication privée"
+      },
+      "setPrivate": {
+        "menu": "Transformer en privé ",
+        "question": "Transformer en publication privée?",
+        "description": "Seuls vos abonnés pourront voir cette publication",
+        "decline": "Laisser cette publication public"
+      }
+    }
+  },
+  "wishlist": {
+    "purchase": "ACHETER"
+  },
+  "user": {
+    "Following": "Abonnements",
+    "Followers": "Abonnés",
+    "followers": "{n} abonnés",
+    "following": "{n} abonnements",
+    "Likes": "Likes",
+    "Unfollow": "Se désabonner",
+    "Follow": "S'abonner",
+    "share": "Partager ce profil"
+  },
+  "input": {
+    "placeholder": "Ajouter un commentaire"
+  },
+  "error": {
+    "404": "Oups cette page a disparu",
+    "other": "Vous êtes perdus? Retour à l'accueil"
+  }
+}
