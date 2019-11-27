@@ -59,7 +59,7 @@ export default {
 	}),
 	methods: {
 		toggleShifted () {
-			this.maxHeight = `${this.$refs['multi-image'].offsetHeight}px`;
+			this.maxHeight = `${this.$refs['multi-image'].$el.offsetHeight}px`;
 			this.shifted = !this.shifted;
 		},
 	},
