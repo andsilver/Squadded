@@ -28,10 +28,9 @@
 					:key="post.item.img"
 					:src="post.item.img"
 					@click="openProduct"
-				/>
-				<ReSquaddButton
-					:item="post.item"
-				/>
+				>
+					<ReSquaddButton :item="post.item" />
+				</v-img>
 			</v-avatar>
 		</div>
 	</v-card>

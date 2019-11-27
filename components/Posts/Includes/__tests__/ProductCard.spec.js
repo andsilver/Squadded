@@ -17,15 +17,14 @@ Wrapper.prototype.ref = function (id) {
 
 describe('ProductCard', () => {
 	const IMAGE = 'item-image';
-	const PRICE = 'item-price';
-	const TITLE = 'item-title';
-	const BUY_BUTTON_ELEMENT = 'buy-button';
+	const CARD = 'card-frame';
+	let post;
 	let wrapper;
 
 	function initLocalVue () {
 		SquadAPI.openProduct.mockClear();
 		const localVue = createLocalVue();
-		const post = aDefaultSingleItemMsgBuilder().withGUID().get();
+		post = aDefaultSingleItemMsgBuilder().withGUID().get();
 		localVue.use(Vuex);
 		const store = new Vuex.Store(Store);
 
@@ -42,21 +41,16 @@ describe('ProductCard', () => {
 		initLocalVue();
 	});
 
-	it('should render buy button', () => {
-		expect(wrapper.ref(BUY_BUTTON_ELEMENT).exists()).toBe(true);
-	});
-
-	it('should open product on click', () => {
-		const triggerElements = [IMAGE, PRICE, TITLE];
-		const postItem = wrapper.props('item');
-		expect.assertions(4);
+	it('should open product on open event', () => {
+		const triggerElements = [IMAGE, CARD];
+		expect.assertions(5);
 
 		triggerElements.forEach((el) => {
 			const element = wrapper.ref(el);
-			wrapper.vm.openProduct = jest.fn();
-			element.trigger('click');
-			expect(SquadAPI.openProduct).toHaveBeenCalledWith(postItem);
+			expect(element.exists()).toBe(true);
+			element.vm.$emit('open');
+			expect(SquadAPI.openProduct).toHaveBeenCalledWith(post.item);
 		});
-		expect(SquadAPI.openProduct).toHaveBeenCalledTimes(3);
+		expect(SquadAPI.openProduct).toHaveBeenCalledTimes(2);
 	});
 });

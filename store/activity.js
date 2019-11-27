@@ -60,7 +60,7 @@ export const mutations = {
 		if (!postId) {
 			return;
 		}
-		state.blog = state.blog.filter(p => p.postId !== postId);
+		state.blog = state.blog && state.blog.filter(p => p.postId !== postId);
 	},
 	[ActivityMutations.removeWish]: (state, wish) => {
 		if (!wish) {

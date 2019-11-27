@@ -12,10 +12,11 @@
 				ref="text-field"
 				v-model="text"
 				hide-details
-				:placeholder="$t('poll.textPlaceholder')"
+				:placeholder="$t('outfit.textPlaceholder')"
 			/>
 			<Button
 				ref="done-button"
+				class="mt-2"
 				:disabled="!complete"
 				@click.native="create"
 			>

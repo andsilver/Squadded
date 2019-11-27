@@ -66,6 +66,9 @@
     "isEmpty": "There is no notifications yet",
     "like": "liked your post"
   },
+  "outfit": {
+    "textPlaceholder": "Type your description"
+  },
   "poll": {
     "create": "Create Poll",
     "dialogTitle": "Choose items for poll",

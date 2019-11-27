@@ -14,11 +14,13 @@ const aDefaultSingleItemMsgBuilder = () => {
 		img: chance.url({ extensions: ['jpg', 'png'] }),
 		url: chance.url(),
 		varId: '',
+	};
+	const post = {
 		byMe: false,
 		userId: null,
 		private: false,
 	};
-	const msg = new FeedPost({ item, type: 'singleItemPost' });
+	const msg = new FeedPost({ ...post, item, type: 'singleItemPost' });
 
 	const builder = {
 		withCorrelationId: (id) => {

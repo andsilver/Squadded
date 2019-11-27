@@ -27,14 +27,14 @@ import { FeedPost } from '~/classes/FeedPost';
 import Button from '~/components/common/Button';
 
 export default {
+	components: {
+		Button,
+	},
 	props: {
 		post: {
 			type: FeedPost,
 			required: true,
 		},
-	},
-	components: {
-		Button,
 	},
 	data: () => ({
 		startX: 0,

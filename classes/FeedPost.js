@@ -24,6 +24,7 @@ export class FeedPost {
 			expiration = null,
 			voted = false,
 			closed = false,
+			total = 0,
 
 			byMe = false,
 			user = {
@@ -37,6 +38,7 @@ export class FeedPost {
 			text,
 			ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP,
 			correlationId,
+			creationTs,
 		} = props;
 
 		this.type = type;
@@ -57,6 +59,7 @@ export class FeedPost {
 		this.text = text || '';
 		this.ts = ts;
 		this.correlationId = correlationId;
+		this.creationTs = creationTs;
 
 		if (type === 'pollPost') {
 			this.item1 = composeItem(item1);
@@ -66,6 +69,7 @@ export class FeedPost {
 			this.closed = closed;
 		} else if (type === 'outfitPost') {
 			this.items = items.map(composeItem);
+			this.total = total;
 		} else {
 			this.item = composeItem(item);
 		}

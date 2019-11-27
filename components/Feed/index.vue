@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import MultiItemPost from '~/components/Posts/MultiItemPost';
 import SingleItemPost from '~/components/Posts/SingleItemPost';
 import PollPost from '~/components/Posts/PollPost';
 
@@ -33,6 +34,7 @@ export default {
 	methods: {
 		getComponent (post) {
 			return post.type === 'singleItemPost' ? SingleItemPost
+				: post.type === 'outfitPost' ? MultiItemPost
 				: post.type === 'pollPost' ? PollPost
 				: null;
 		},

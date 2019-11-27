@@ -127,7 +127,7 @@ export const actions = {
 		const newPosts = [];
 		feed.forEach((rawPost) => {
 			const post = getters[FeedGetters.getPostById](rawPost.guid);
-			if (!post) {
+			if (!rawPost.correlationId && !post) {
 				newPosts.push(new FeedPost(rawPost));
 				return;
 			}

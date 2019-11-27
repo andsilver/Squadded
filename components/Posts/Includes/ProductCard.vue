@@ -1,67 +1,43 @@
 <template>
-	<v-card
-		class="product_card"
-		:class="isPollPost ? 'without_shadow' : ''"
+	<CardFrame
+		ref="card-frame"
+		:price="item.price"
+		:title="item.title"
+		:is-poll-post="isPollPost"
 		:loading="loading"
+		:show-bag="isClickable"
+		@open="openProduct"
 	>
-		<v-img
+		<ItemImage
 			ref="item-image"
-			:key="item.img"
-			:src="item.img"
-			@click="openProduct"
-		/>
-		<ReSquaddButton
-			v-if="isClickable"
-			class="reSquaddButton"
 			:item="item"
+			:resquad="isClickable"
+			@open="openProduct"
 		/>
-		<section
-			class="card_bottom"
-			:class="isPollPost ? 'poll_card_bottom' : ''"
-		>
-			<v-card-text
-				ref="item-price"
-				class="post_price"
-				@click="openProduct"
-			>
-				<span>{{ item.price }}</span>
-			</v-card-text>
-			<v-card-title
-				ref="item-title"
-				class="post_title"
-				:class="isPollPost ? 'poll_card_post_title' : ''"
-				@click="openProduct"
-			>
-				<span>{{ item.title }}</span>
-			</v-card-title>
-			<button
-				v-if="isClickable"
-				ref="buy-button"
-				class="buy_button sqdi-shopping-bag-2"
-			/>
-		</section>
-	</v-card>
+	</CardFrame>
 </template>
 
 <script>
-import ReSquaddButton from '~/components/ReSquaddButton';
+import CardFrame from './CardFrame';
+import ItemImage from './ItemImage';
 import { SquadAPI } from '~/services/SquadAPI';
 
 export default {
 	name: 'ProductCard',
 	components: {
-		ReSquaddButton,
+		CardFrame,
+		ItemImage,
 	},
 	props: {
+		isPollPost: {
+			type: Boolean,
+			default: false,
+		},
 		item: {
 			type: Object,
 			required: true,
 		},
 		loading: {
-			type: Boolean,
-			default: false,
-		},
-		isPollPost: {
 			type: Boolean,
 			default: false,
 		},
@@ -87,60 +63,5 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-	.product_card
-		border-radius 0 !important
-		box-shadow 0 2px 4px rgba(0, 0, 0, 0.1)
 
-		.card_bottom
-			margin-top 2%
-
-		.post_price
-			padding 0
-
-		.post_price span
-			font-size 1em
-			font-weight 700
-
-		.post_title
-			margin-top 1%
-			padding 0
-			width 85%
-
-		.post_title span
-			min-height 12px
-			max-height 24px
-			word-break normal
-			overflow hidden
-			font-size 10px
-			line-height 12px
-			font-weight 500
-			color #B8B8BA
-
-		.buy_button
-			width 30px
-			height 30px
-			position absolute
-			right 4%
-			bottom 4%
-
-		.sqdi-shopping-bag-2:before
-			width 30px
-			position absolute
-			font-size 1.3em
-			left auto
-			right 0
-			top 10%
-
-	.product_card.without_shadow
-		box-shadow none
-
-	.product_card .poll_card_bottom
-		padding-top 0
-		margin-top 4%
-
-	.product_card .poll_card_post_title
-		width 80%
-
-	.reSquaddButton
-		z-index: 2;
 </style>

@@ -20,8 +20,11 @@ export default {
 		},
 	},
 	methods: {
-		click () {
-			return this.item.squadded ? this.unwish() : this.reSquaddPost();
+		click (e) {
+			this.item.squadded ? this.unwish() : this.reSquaddPost();
+			e.stopPropagation();
+			e.cancelBubble = true;
+			return false;
 		},
 		reSquaddPost () {
 			this.item.squadded = true;
@@ -41,8 +44,8 @@ export default {
 <style scoped lang="stylus">
 .resquadd
 	position absolute
-	right 8%
-	top 8%
+	right 14px
+	top 14px
 	width 30px
 	height 30px
 	border-radius 50%

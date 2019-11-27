@@ -9,7 +9,7 @@ import { isHome } from '~/helpers';
 
 export const dispatch = function (store, message) {
 	const { type } = message;
-	if (type === 'singleItemPost' || type === 'pollPost') {
+	if (type === 'singleItemPost' || type === 'pollPost' || type === 'outfitPost') {
 		if (!store.state.feed.items.length) {
 			// tmp patch while infinite scroll not ready
 			store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
