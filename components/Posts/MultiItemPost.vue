@@ -2,17 +2,14 @@
 	<Post
 		:post="post"
 	>
-		<CardFrame
-			ref="product-card"
-			class="product-card mx-auto pa-4 w-78 mb-4"
-			:price="post.total"
-			:loading="!post.guid && !post.error"
-		>
-			<div
+		<div class="outfit-card">
+			<CardFrame
 				ref="multi-image"
-				class="multi-image"
+				class="multi-image pa-4 mb-4"
 				:class="{ shifted }"
-				@click="toggleShifted"
+				@click.native="toggleShifted"
+				:price="post.total"
+				:loading="!post.guid && !post.error"
 			>
 				<div class="grid" :class="`grid-snap-${post.items.length}`">
 					<ItemImage
@@ -22,16 +19,16 @@
 						:item="item"
 					/>
 				</div>
-			</div>
-			<div v-show="shifted" class="scroll-items" :style="{ 'max-height': maxHeight }">
+			</CardFrame>
+			<div class="scroll-items" :style="{ 'max-height': maxHeight }">
 				<ProductCard
 					v-for="item in post.items"
 					:key="item.itemId"
 					:item="item"
-					class="mb-4"
+					class="mx-auto mb-4"
 				/>
 			</div>
-		</CardFrame>
+		</div>
 	</Post>
 </template>
 
@@ -70,11 +67,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.product-card
+.outfit-card
 	white-space nowrap
+	width 100%
 .multi-image,
 .scroll-items
 	display inline-block
+	vertical-align top
 .multi-image
 	width 100%
 	transition-property margin-left
@@ -86,6 +85,8 @@ export default {
 	max-height 250px
 	padding 4px
 	overflow auto
+	.v-card
+		width 75%
 .grid
 	grid-template-columns 1fr 1fr
 	grid-template-rows 1fr 1fr
