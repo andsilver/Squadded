@@ -4,17 +4,12 @@ import colors from 'vuetify/es5/util/colors';
 
 const {
 	API_ENDPOINT,
-	AUTH_REDIRECT_ROOT,
 	BASE,
 	FB_APP_ID,
 	IG_CLIENT_ID,
 	NODE_ENV,
 	WS_LINK,
 } = process.env;
-
-if (!AUTH_REDIRECT_ROOT) {
-	throw new Error('AUTH_REDIRECT_ROOT environment variable is required!');
-}
 
 if (!BASE) {
 	throw new Error('BASE environment variable is required!');
@@ -46,7 +41,6 @@ const server = NODE_ENV === 'development' ? {
 export default {
 	mode: 'spa',
 	env: {
-		AUTH_REDIRECT_ROOT,
 		API_ENDPOINT,
 		FB_APP_ID,
 		IG_CLIENT_ID,

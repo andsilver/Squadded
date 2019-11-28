@@ -4,9 +4,28 @@
 		v-model="valid"
 		lazy-validation
 	>
+		<div v-if="!signup">
+			<div class="my-4">
+				<span>{{ $t('or') }}</span>
+			</div>
+			<v-text-field
+				v-if="!signup"
+				v-model="token"
+				:label="Token"
+			/>
+			<v-btn
+				class="full-width my-4"
+				color="primary"
+				large
+				depressed
+				@click="injectToken"
+			/>
+		</div>
+
 		<div v-if="!signup" class="my-4">
 			<span>{{ $t('or') }}</span>
 		</div>
+
 		<v-text-field
 			v-if="signup"
 			v-model="name"
@@ -122,6 +141,7 @@ export default {
 			terms: false,
 			allowContact: false,
 			above16: false,
+			token: '',
 		};
 	},
 	methods: {
@@ -133,6 +153,9 @@ export default {
 		toggle () {
 			this.signup = !this.signup;
 			this.$refs.form.reset();
+		},
+		injectToken() {
+			localStorage.setItem('userToken', this.token);
 		},
 	},
 };

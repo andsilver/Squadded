@@ -7,9 +7,9 @@
 				ref="multi-image"
 				class="multi-image pa-4 mb-4"
 				:class="{ shifted }"
-				@click.native="toggleShifted"
 				:price="post.total"
 				:loading="!post.guid && !post.error"
+				@click.native="toggleShifted"
 			>
 				<div class="grid" :class="`grid-snap-${post.items.length}`">
 					<ItemImage
