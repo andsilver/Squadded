@@ -25,7 +25,7 @@ $ yarn generate
 For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
 
 ## Build Env Vars
-- `WS_LINK`: fully qualified URL (with port) of the Websocket endpoint (example: `https://api.squadded.co/`)
+- `WS_LINK`: fully qualified URL (with port) of the Websocket endpoint (example: `wss://api.squadded.co/`)
 - `BASE`: Base URL of the HTML document in the iframe (example: `/widget/`)
 - `FB_APP_ID`
 - `API_ENDPOINT`: the fully qualified endpoint root of the backend services, no trailing slash (example: `https://api.squadded.co`)
