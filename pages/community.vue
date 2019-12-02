@@ -1,7 +1,12 @@
 <template>
 	<v-container>
 		<v-layout>
-			<Feed ref="feed-layout" :items="items" @click.native="signin" />
+			<Feed
+				ref="street-layout"
+				:items="items"
+				@mousedown.native="signin"
+				@touchstart.native="signin"
+			/>
 		</v-layout>
 	</v-container>
 </template>

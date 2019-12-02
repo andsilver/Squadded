@@ -54,6 +54,7 @@ export default {
 				this.startX = e.screenX;
 				this.isMouseDown = true;
 			}
+			this.lastX = movedBy === 'touch' ? e.targetTouches[0].clientX : e.clientX;
 		},
 		moveSlider(e, movedBy = 'touch') {
 			if (this.voted) {
