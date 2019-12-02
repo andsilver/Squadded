@@ -7,7 +7,7 @@ const {
 	BASE,
 	FB_APP_ID,
 	IG_CLIENT_ID,
-	NODE_ENV,
+	USE_SSL,
 	WS_LINK,
 } = process.env;
 
@@ -31,7 +31,7 @@ if (!WS_LINK) {
 	throw new Error('WS_LINK environment variable is required!');
 }
 
-const server = NODE_ENV === 'development' ? {
+const server = USE_SSL === 'true' ? {
 	https: {
 		key: fs.readFileSync(path.resolve(__dirname, './dev/server.key')),
 		cert: fs.readFileSync(path.resolve(__dirname, './dev/server.crt')),
