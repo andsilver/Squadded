@@ -1,15 +1,17 @@
 import { connect } from './init/ws';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
-import { FeedStore, FeedActions } from '~/store/feed';
-import { UserStore, UserMutations } from '~/store/user';
+import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
+import { PostStore, PostActions } from '~/store/post';
 import { SquadStore, SquadMutations } from '~/store/squad';
+import { UserStore, UserMutations } from '~/store/user';
 
 const post = async (store, msg) => {
 	if (!store.state.feed.items.length) {
 		// tmp patch while infinite scroll not ready
 		store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 	}
-	const post = await store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
+	const post = await store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
+	store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 	store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, post);
 };
 

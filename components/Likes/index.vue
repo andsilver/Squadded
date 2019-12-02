@@ -1,6 +1,6 @@
 <template>
-	<v-list v-if="post.likes.users.length" ref="likes-list">
-		<v-list-item v-for="user in post.likes.users" :key="user.guid">
+	<v-list v-if="users && users.length" ref="likes-list">
+		<v-list-item v-for="user in users" :key="user.guid">
 			<UserLink
 				ref="comment-author-user-link"
 				size="30"
@@ -27,6 +27,11 @@ export default {
 	},
 	data: () => ({
 	}),
+	computed: {
+		users () {
+			return this.post.likes.users;
+		},
+	},
 	created () {
 		return prefetch({
 			guid: this.post.guid,

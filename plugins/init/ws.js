@@ -1,54 +1,52 @@
 import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
-import { ActivityStore, ActivityGetters, ActivityMutations } from '~/store/activity';
-import { FeedStore, FeedActions, FeedGetters } from '~/store/feed';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
-import { PostStore, PostActions, PostMutations } from '~/store/post';
+import { PostStore, PostActions, PostGetters, PostMutations } from '~/store/post';
 import { UserStore, UserMutations } from '~/store/user';
 import { isHome } from '~/helpers';
 
-export const dispatch = function (store, message) {
+export const dispatch = async function (store, message) {
 	const { type } = message;
-	if (type === 'singleItemPost' || type === 'pollPost' || type === 'outfitPost') {
+	if (['singleItemPost', 'pollPost', 'outfitPost'].includes(type)) {
 		if (!store.state.feed.items.length) {
 			// tmp patch while infinite scroll not ready
 			store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 		}
-		store.dispatch(`${FeedStore}/${FeedActions.receiveItem}`, message);
+		const post = await store.dispatch(`${PostStore}/${PostActions.receiveItem}`, message);
+		post && store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 	} else if (type === 'feed') {
-		store.dispatch(`${FeedStore}/${FeedActions.receiveBulk}`, message.feed);
+		const newPosts = await store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, message.feed);
+		store.commit(`${FeedStore}/${FeedMutations.addBulk}`, newPosts);
 	} else if (type === 'ping') {
 		store.state.socket._ws.sendObj({ type: 'pong' });
 	} else if (type === 'like') {
 		const { guid, likes } = message;
-		let post = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](guid);
-		post && store.commit(`${PostStore}/${PostMutations.setPostLike}`, { ...likes, post });
-
-		post = store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`](guid);
+		const post = store.getters[`${PostStore}/${PostGetters.getPostById}`](guid);
 		post && store.commit(`${PostStore}/${PostMutations.setPostLike}`, { ...likes, post });
 	} else if (type === 'notifLike') {
-		const { postId, iLike } = message;
+		const { iLike, postId, user } = message;
 		const mod = (iLike ? 1 : -1);
 
+		const post = store.getters[`${PostStore}/${PostGetters.getPostById}`](postId);
 		if (iLike) {
 			store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+			store.commit(`${PostStore}/${PostMutations.addLike}`, { post, user });
 		}
 
-		const feedPost = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](postId);
-		store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post: feedPost });
-
-		const myBlogPost = store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`](postId);
-		store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post: myBlogPost });
+		store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post });
 	} else if (type === 'notifComment') {
-		const { comment, postId } = message;
+		const { postId, text, user } = message;
 
 		store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
 
-		const feedPost = store.getters[`${FeedStore}/${FeedGetters.getPostById}`](postId);
-		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post: feedPost });
-
-		const myBlogPost = store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`](postId);
-		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post: myBlogPost });
+		const post = store.getters[`${PostStore}/${PostGetters.getPostById}`](postId);
+		const comment = {
+			text,
+			author: user,
+		};
+		store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post });
 	} else if (type === 'notifications') {
 		store.commit(`${NotificationStore}/${NotificationMutations.receive}`, message.notifications);
 	} else if (type === 'comments' || type === 'likes') {
@@ -61,12 +59,14 @@ export const dispatch = function (store, message) {
 		store.commit(`${UserStore}/${UserMutations.setOther}`, user);
 	} else if (type === 'followers' || type === 'following') {
 		store.commit(`${UserStore}/${UserMutations.setUserList}`, message.users);
-	} else if (type === 'wishlist') {
-		store.commit(`${ActivityStore}/${ActivityMutations.setWishlist}`, message.wishlist);
-	} else if (type === 'blog') {
-		store.commit(`${ActivityStore}/${ActivityMutations.setBlog}`, message.blog);
-	} else if (type === 'squadders') {
-		store.commit(`${ActivityStore}/${ActivityMutations.setSquadders}`, message);
+	} else if (['wishlist', 'blog', 'squadders'].includes(type)) {
+		const rawPostsList = message[type];
+		if (type === 'wishlist') {
+			rawPostsList.forEach(w => (w.guid = w.item.itemId));
+		}
+		await store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, rawPostsList);
+		const posts = store.getters[`${PostStore}/${PostGetters.getPostByIdList}`](rawPostsList.map(r => r.guid));
+		store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
 	} else {
 		// TODO report
 	}

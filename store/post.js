@@ -1,8 +1,26 @@
+import { FeedPost } from '../classes/FeedPost';
+
 export const PostStore = 'post';
+
+export const state = () => ({
+	all: [],
+});
+
+export const PostGetters = {
+	getPostById: 'getPostById',
+};
+
+export const getters = {
+	[PostGetters.getPostById]: state => id => state.all.find(i => i.postId === id),
+	[PostGetters.getPostByIdList]: state => ids => state.all.filter(i => ids.includes(i.postId)),
+};
 
 export const PostMutations = {
 	addComment: 'addComment',
+	addLike: 'addLike',
+	addPost: 'addPost',
 	incrementVote: 'incrementVote',
+	postLoaded: 'postLoaded',
 	receiveReaction: 'receiveReaction',
 	resetComments: 'resetComments',
 	resetLikes: 'resetLikes',
@@ -10,6 +28,10 @@ export const PostMutations = {
 	setPrivate: 'setPrivate',
 	setText: 'setText',
 };
+
+function suffix () {
+	return Math.random().toString(36).slice(2);
+}
 
 export const mutations = {
 	[PostMutations.addComment]: (state, { comment, post }) => {
@@ -19,9 +41,29 @@ export const mutations = {
 		post.comments.messages.push(comment);
 		post.comments.count = post.comments.messages.length;
 	},
+	[PostMutations.addLike]: (state, { post, user }) => {
+		post.likes.users.unshift(user);
+		post.likes.count = post.likes.users.length;
+	},
+	[PostMutations.addPost]: (state, post) => {
+		state.all.unshift(post);
+	},
 	[PostMutations.incrementVote]: (state, { post, vote }) => {
 		post.voted = vote;
 		post[`item${vote}`].votes += 1;
+	},
+	[PostMutations.postLoaded]: (state, rawPostData) => {
+		const post = state.all.find(i => i.guid === rawPostData.guid || (i.correlationId && i.correlationId === rawPostData.correlationId));
+		if (!post) {
+			// was removed before load finish
+			return;
+		}
+		if (rawPostData.error) {
+			post.error = rawPostData.error;
+			return;
+		}
+		post.update(rawPostData);
+		post.unsetCorrelationId();
 	},
 	[PostMutations.receiveReaction]: (state, reactions) => {
 	},
@@ -49,20 +91,33 @@ export const mutations = {
 			post.likes.count = payload.count;
 		}
 	},
-	[PostMutations.setText]: (state, { text, post }) => {
-		post.text = text;
-	},
 	[PostMutations.setPrivate]: (state, props) => {
 		const { post } = props;
 		post.private = props.private;
+	},
+	[PostMutations.setText]: (state, { text, post }) => {
+		post.text = text;
+	},
+	[PostMutations.unsquadd]: (state, itemId) => {
+		if (!itemId) {
+			return;
+		}
+		state.all.forEach((post) => {
+			const item = post.getItem(itemId);
+			item && (item.squadded = false);
+		});
 	},
 };
 
 export const PostActions = {
 	editText: 'editText',
+	modifyLike: 'modifyLike',
+	receiveBulk: 'receiveBulk',
+	receiveItem: 'receiveItem',
+	reSquaddItem: 'reSquaddItem',
+	saveItem: 'saveItem',
 	sendComment: 'sendComment',
 	toggleLike: 'toggleLike',
-	modifyLike: 'modifyLike',
 	updatePrivate: 'updatePrivate',
 	vote: 'vote',
 };
@@ -72,10 +127,60 @@ export const actions = {
 		commit(PostMutations.setText, { text, post });
 		rootState.socket.$ws.sendObj(post.toMessage());
 	},
-	[PostActions.updatePrivate]: ({ rootState, commit }, props) => {
-		const { post } = props;
-		commit(PostMutations.setPrivate, { post, private: props.private });
-		rootState.socket.$ws.sendObj(post.toMessage());
+	[PostActions.modifyLike]: ({ commit }, { mod, post }) => {
+		if (!post) {
+			return;
+		}
+		const count = post.likes.count + mod;
+		commit(PostMutations.setPostLike, { count, post });
+	},
+	[PostActions.receiveBulk]: ({ commit, getters }, feed) => {
+		const newPosts = [];
+		feed.forEach((rawPost) => {
+			const post = getters[PostGetters.getPostById](rawPost.guid);
+			if (!rawPost.correlationId && !post) {
+				const newPost = new FeedPost(rawPost);
+				newPosts.push(newPost);
+				commit(PostMutations.addPost, newPost);
+				return;
+			}
+			// just in case it is exit in a feed
+			commit(PostMutations.postLoaded, rawPost);
+		});
+		return newPosts;
+	},
+	[PostActions.receiveItem]: ({ commit, getters }, rawPostData) => {
+		const post = getters[PostGetters.getPostById](rawPostData.guid);
+
+		if (!rawPostData.correlationId && !post) {
+			// received from another user
+			const post = new FeedPost(rawPostData);
+			commit(PostMutations.addPost, post);
+			return post;
+		}
+
+		commit(PostMutations.postLoaded, rawPostData);
+	},
+	[PostActions.reSquaddItem]: ({ dispatch }, payload) => {
+		return dispatch(PostActions.saveItem, {
+			...payload,
+			type: 'singleItemPost',
+		});
+	},
+	[PostActions.saveItem]: ({ rootState, commit }, rawPost) => {
+		const post = new FeedPost({
+			...rawPost,
+			byMe: true,
+			correlationId: `${Date.now()}${suffix()}`,
+			user: rootState.user.me.short(),
+		});
+
+		commit(PostMutations.addPost, post);
+		if (rootState.socket.isConnected && rootState.socket.isAuth) {
+			// TODO? add some queue for sync after reconnect
+			rootState.socket.$ws.sendObj(post.toMessage());
+		}
+		return post;
 	},
 	[PostActions.sendComment]: ({ rootState, commit }, { text, post }) => {
 		rootState.socket.$ws.sendObj({
@@ -108,12 +213,10 @@ export const actions = {
 			iLike: byMe,
 		});
 	},
-	[PostActions.modifyLike]: ({ commit }, { mod, post }) => {
-		if (!post) {
-			return;
-		}
-		const count = post.likes.count + mod;
-		commit(PostMutations.setPostLike, { count, post });
+	[PostActions.updatePrivate]: ({ rootState, commit }, props) => {
+		const { post } = props;
+		commit(PostMutations.setPrivate, { post, private: props.private });
+		rootState.socket.$ws.sendObj(post.toMessage());
 	},
 	[PostActions.vote]: ({ commit, rootState }, { post, vote }) => {
 		if (!post) {
@@ -130,6 +233,8 @@ export const actions = {
 
 export default {
 	namespaced: true,
+	state,
+	getters,
 	mutations,
 	actions,
 };

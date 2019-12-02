@@ -1,5 +1,3 @@
-import { FeedPost } from '../classes/FeedPost';
-
 export const state = () => ({
 	items: [],
 	loading: true,
@@ -17,17 +15,11 @@ export const getters = {
 
 export const FeedStore = 'feed';
 
-function suffix () {
-	return Math.random().toString(36).slice(2);
-}
-
 export const FeedMutations = {
 	addBulk: 'addBulk',
 	addItem: 'addItem',
 	clear: 'clear',
-	itemLoaded: 'itemLoaded',
 	removePost: 'removePost',
-	unsquadd: 'unsquadd',
 };
 
 export const mutations = {
@@ -38,25 +30,12 @@ export const mutations = {
 		state.items = [...newPosts, ...state.items];
 		state.loading = false;
 	},
-	[FeedMutations.addItem]: (state, payload) => {
-		state.items.unshift(payload);
+	[FeedMutations.addItem]: (state, post) => {
+		state.items.unshift(post);
 	},
 	[FeedMutations.clear]: (state, payload) => {
 		state.items = [];
 		state.loading = true;
-	},
-	[FeedMutations.itemLoaded]: (state, payload) => {
-		const post = state.items.find(i => i.guid === payload.guid || (i.correlationId && i.correlationId === payload.correlationId));
-		if (!post) {
-			// was removed before load finish
-			return;
-		}
-		if (payload.error) {
-			post.error = payload.error;
-			return;
-		}
-		post.update(payload);
-		post.unsetCorrelationId();
 	},
 	[FeedMutations.removePost]: (state, postId) => {
 		if (!postId) {
@@ -64,23 +43,10 @@ export const mutations = {
 		}
 		state.items = state.items.filter(p => p.postId !== postId);
 	},
-	[FeedMutations.unsquadd]: (state, itemId) => {
-		if (!itemId) {
-			return;
-		}
-		state.items && state.items.forEach((post) => {
-			const item = post.getItem(itemId);
-			item && (item.squadded = false);
-		});
-	},
 };
 
 export const FeedActions = {
 	fetch: 'fetch',
-	receiveBulk: 'receiveBulk',
-	receiveItem: 'receiveItem',
-	reSquaddItem: 'reSquaddItem',
-	saveItem: 'saveItem',
 };
 
 export const actions = {
@@ -92,62 +58,6 @@ export const actions = {
 		}
 		state.loading = true;
 		rootState.socket.$ws.sendObj(msg);
-	},
-	[FeedActions.saveItem]: ({ rootState, commit }, payload) => {
-		const post = new FeedPost({
-			...payload,
-			byMe: true,
-			correlationId: `${Date.now()}${suffix()}`,
-			user: rootState.user.me.short(),
-		});
-
-		commit(FeedMutations.addItem, post);
-		if (rootState.socket.isConnected && rootState.socket.isAuth) {
-			// TODO? add some queue for sync after reconnect
-			rootState.socket.$ws.sendObj(post.toMessage());
-		}
-		return post;
-	},
-	[FeedActions.reSquaddItem]: ({ rootState, commit }, payload) => {
-		const post = new FeedPost({
-			...payload,
-			byMe: true,
-			type: 'singleItemPost',
-			correlationId: `${Date.now()}${suffix()}`,
-			user: rootState.user.me.short(),
-		});
-
-		commit(FeedMutations.addItem, post);
-		if (rootState.socket.isConnected && rootState.socket.isAuth) {
-			// TODO? add some queue for sync after reconnect
-			rootState.socket.$ws.sendObj(post.toMessage());
-		}
-	},
-	[FeedActions.receiveBulk]: ({ commit, getters }, feed) => {
-		const newPosts = [];
-		feed.forEach((rawPost) => {
-			const post = getters[FeedGetters.getPostById](rawPost.guid);
-			if (!rawPost.correlationId && !post) {
-				newPosts.push(new FeedPost(rawPost));
-				return;
-			}
-			// just in case it is exit in a feed
-			commit(FeedMutations.itemLoaded, rawPost);
-		});
-		commit(FeedMutations.addBulk, newPosts);
-	},
-	[FeedActions.receiveItem]: ({ commit, getters }, payload) => {
-		const post = getters[FeedGetters.getPostById](payload.guid);
-
-		if (!payload.correlationId && !post) {
-			// received from another user
-			const post = new FeedPost(payload);
-			commit(FeedMutations.addItem, post);
-
-			return;
-		}
-
-		commit(FeedMutations.itemLoaded, payload);
 	},
 };
 

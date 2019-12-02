@@ -4,9 +4,12 @@ import jwt from 'jsonwebtoken';
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { createLocalVue } from '@vue/test-utils';
-import { FeedStore, FeedActions } from '../store/feed';
 import messaging, { dispatch } from './messaging';
-import store from '@/store/index';
+import { flushPromises } from '~/helpers';
+import store from '~/store/index';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { FeedStore, FeedMutations } from '~/store/feed';
+import { PostStore, PostActions } from '~/store/post';
 import { SquadStore, SquadMutations } from '~/store/squad';
 
 describe('Message listener', () => {
@@ -44,7 +47,7 @@ describe('Dispatcher', () => {
 
 	afterEach(fetchMock.reset);
 
-	it('should dispatch save on receive new Feed item', () => {
+	it('should dispatch save on receive new Feed item', async () => {
 		const msg = {
 			type: 'singleItemPost',
 			merchantId: 'aMerchantId',
@@ -57,10 +60,16 @@ describe('Dispatcher', () => {
 				url: 'aProductUrl',
 			},
 		};
+		const post = { some: 'post' };
+
+		store.dispatch = jest.fn().mockReturnValue(post);
 
 		dispatch(store, msg);
+		await flushPromises();
 
-		expect(store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.saveItem}`, msg);
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, msg);
+		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.addItem}`, post);
+		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.addPost}`, post);
 	});
 
 	it('should commit merchant id', () => {

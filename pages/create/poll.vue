@@ -44,7 +44,8 @@ import ExpirationPicker from '~/components/Poll/ExpirationPicker';
 import ChooseDialog from '~/components/Poll/chooseDialog';
 import BackBar from '~/components/common/BackBar';
 import Poll from '~/components/Poll';
-import { FeedStore, FeedActions } from '~/store/feed';
+import { FeedStore, FeedMutations } from '~/store/feed';
+import { PostStore, PostActions } from '~/store/post';
 
 export default {
 	name: 'NewPollPage',
@@ -75,15 +76,17 @@ export default {
 			this.item1 = data[0].item;
 			this.item2 = data[1].item;
 		},
-		create () {
+		async create () {
 			const { item1, item2, text } = this;
-			this.$store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, {
+			const msg = {
 				item1,
 				item2,
 				expiration: this.$refs.expiration.date,
 				text,
 				type: 'pollPost',
-			});
+			};
+			const post = await this.$store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
+			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 			this.$router.push('/feed');
 		},
 	},

@@ -1,11 +1,14 @@
 <template>
-	<section class="d-flex align-center">
+	<section class="d-flex">
 		<UserLink
 			size="30"
-			:user="notification.comment.author"
+			:user="notification.user"
 		/>
 		<span>
 			&nbsp;{{ $t('notify.comment') }}
+			<b>
+				&nbsp;{{ notification.post.text || $t('notify.post') }}
+			</b>
 		</span>
 	</section>
 </template>
@@ -26,3 +29,8 @@ export default {
 	},
 };
 </script>
+
+<style lang="stylus" scoped>
+span
+	padding-top 12px
+</style>

@@ -8,8 +8,9 @@
 </template>
 
 <script>
-import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { ActivityStore, ActivityActions } from '~/store/activity';
+import { FeedStore, FeedMutations } from '~/store/feed';
+import { PostStore, PostActions, PostMutations } from '~/store/post';
 
 export default {
 	name: 'ReSquaddButton',
@@ -26,15 +27,16 @@ export default {
 			e.cancelBubble = true;
 			return false;
 		},
-		reSquaddPost () {
+		async reSquaddPost () {
 			this.item.squadded = true;
-			this.$store.dispatch(`${FeedStore}/${FeedActions.reSquaddItem}`, { item: this.item });
+			const post = await this.$store.dispatch(`${PostStore}/${PostActions.reSquaddItem}`, { item: this.item });
+			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 			this.$forceUpdate();
 		},
 		async unwish () {
 			this.item.squadded = false;
 			await this.$store.dispatch(`${ActivityStore}/${ActivityActions.unwish}`, this.item);
-			this.$store.commit(`${FeedStore}/${FeedMutations.unsquadd}`, this.item.itemId);
+			this.$store.commit(`${PostStore}/${PostMutations.unsquadd}`, this.item.itemId);
 			this.$forceUpdate();
 		},
 	},

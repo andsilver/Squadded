@@ -4,7 +4,6 @@ import { createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
 import feed, { FeedStore, FeedActions, FeedMutations, mutations } from './feed';
 import store from './index';
-import { userMockBuilder } from '~/test/user.mock';
 
 const chance = new Chance();
 const localVue = createLocalVue();
@@ -24,7 +23,6 @@ describe('Feed store module', () => {
 		const {
 			setItems,
 			addItem,
-			itemLoaded,
 		} = mutations;
 
 		let state;
@@ -50,20 +48,6 @@ describe('Feed store module', () => {
 			addItem(state, newItem);
 			expect(state.items.length).toBe(1);
 			expect(state.items[0]).toBe(newItem);
-		});
-
-		it('should update item guid and ts on load', () => {
-			const pendingItem = aDefaultSingleItemMsgBuilder()
-				.withCorrelationId(chance.guid())
-				.get();
-
-			state.items = [pendingItem];
-
-			const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid(), ts: Date.now() });
-			itemLoaded(state, loadedItem);
-			expect(state.items.length).toBe(1);
-			expect(pendingItem.guid).toBe(loadedItem.guid);
-			expect(pendingItem.ts).toBe(loadedItem.ts);
 		});
 	});
 
@@ -93,72 +77,6 @@ describe('Feed store module', () => {
 				type: 'fetchPosts',
 				ts: latestItem.ts,
 			});
-		});
-
-		it('should commit addItem on saveItem', async () => {
-			const msg = aDefaultSingleItemMsgBuilder().get();
-			const me = userMockBuilder();
-			root.state.user.me = me;
-
-			msg.correlationId = jasmine.any(String);
-			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.feed.items).toEqual([{
-				...msg,
-				byMe: true,
-				user: me.short(),
-				userId: me.get().userId,
-			}]);
-		});
-
-		it('should commit addItem when receive new item', async () => {
-			const msg = aDefaultSingleItemMsgBuilder().get();
-
-			await feedStore.dispatch(`${FeedActions.receiveItem}`, msg);
-			expect(feedStore.state.items).toEqual([ msg ]);
-		});
-
-		it('should strip error, ts, user, comments, likes and merchantId when sending singleItemPost to socket', async () => {
-			const msg = aDefaultSingleItemMsgBuilder().get();
-
-			root.state.socket.isAuth = true;
-			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-
-			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-			const { byMe, comments, error, likes, merchantId, ts, user, userId, ...clean } = msg;
-			clean.correlationId = jasmine.any(String);
-			const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
-			expect(sendObjInvocationArg).toMatchObject(clean);
-			expect(sendObjInvocationArg).not.toHaveProperty('ts');
-		});
-
-		it('should not send item on save while WS disconnected', async () => {
-			root.state.socket.isConnected = false;
-			const msg = aDefaultSingleItemMsgBuilder().get();
-
-			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
-		});
-
-		it('should not send item on save while WS not auth', async () => {
-			const msg = aDefaultSingleItemMsgBuilder().get();
-
-			await root.dispatch(`${FeedStore}/${FeedActions.saveItem}`, msg);
-			expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
-		});
-
-		it('should update pending item', async () => {
-			const pendingItem = aDefaultSingleItemMsgBuilder()
-				.withCorrelationId(chance.guid())
-				.get();
-
-			feedStore.state.items = [pendingItem];
-
-			const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid(), ts: Date.now() });
-			await feedStore.dispatch(`${FeedActions.receiveItem}`, loadedItem);
-
-			expect(pendingItem).not.toHaveProperty('correlationId');
-			expect(pendingItem.guid).toBe(loadedItem.guid);
-			expect(pendingItem.ts).toBe(loadedItem.ts);
 		});
 
 		it('should add any item', async () => {

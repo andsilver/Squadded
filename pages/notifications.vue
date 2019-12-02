@@ -33,6 +33,9 @@ export default {
 	},
 	created () {
 		this.stayToView();
+		if (this.notifications.length) {
+			return;
+		}
 		prefetch({
 			store: this.$store,
 			type: 'fetchNotifications',

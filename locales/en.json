@@ -62,9 +62,10 @@
     "isEmpty": "There is no items yet"
   },
   "notify": {
-    "comment": "commented on your post",
+    "comment": "commented on",
     "isEmpty": "There is no notifications yet",
-    "like": "liked your post"
+    "like": "liked",
+    "post": "your post"
   },
   "outfit": {
     "textPlaceholder": "Type your description"

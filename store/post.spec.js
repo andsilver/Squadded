@@ -3,14 +3,15 @@ import Vuex from 'vuex';
 import { createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
 import { commentsMsgBuilder } from '../test/comment.mock';
-import { PostStore, PostActions, mutations } from './post';
+import post, { PostStore, PostActions, mutations } from './post';
 import store from './index';
 import { userMockBuilder } from '~/test/user.mock';
 
 const chance = new Chance();
 
 describe('Comment store module', () => {
-	const { resetComments, setPostLike } = mutations;
+	const { postLoaded, resetComments, setPostLike } = mutations;
+	let postStore;
 	let root;
 	let state;
 	let $ws;
@@ -19,13 +20,28 @@ describe('Comment store module', () => {
 		const localVue = createLocalVue();
 		localVue.use(Vuex);
 		$ws = { sendObj: jest.fn() };
+		postStore = new Vuex.Store(post);
 		root = new Vuex.Store(store);
 		root.state.socket.isConnected = true;
 		root.state.merchant.id = 'aDummyMerchantId';
 		root.state.socket.$ws = $ws;
 		state = {
-			items: [],
+			all: [],
 		};
+	});
+
+	it('should update item guid and ts on load', () => {
+		const pendingItem = aDefaultSingleItemMsgBuilder()
+			.withCorrelationId(chance.guid())
+			.get();
+
+		state.all = [pendingItem];
+
+		const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid(), ts: Date.now() });
+		postLoaded(state, loadedItem);
+		expect(state.all.length).toBe(1);
+		expect(pendingItem.guid).toBe(loadedItem.guid);
+		expect(pendingItem.ts).toBe(loadedItem.ts);
 	});
 
 	it('should update post comments', () => {
@@ -145,5 +161,71 @@ describe('Comment store module', () => {
 
 		expect(post.text).toBe(text);
 		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith(post.toMessage());
+	});
+
+	it('should commit addItem on saveItem', async () => {
+		const msg = aDefaultSingleItemMsgBuilder().get();
+		const me = userMockBuilder();
+		root.state.user.me = me;
+
+		msg.correlationId = jasmine.any(String);
+		await root.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
+		expect(root.state.post.all).toEqual([{
+			...msg,
+			byMe: true,
+			user: me.short(),
+			userId: me.get().userId,
+		}]);
+	});
+
+	it('should commit addItem when receive new item', async () => {
+		const msg = aDefaultSingleItemMsgBuilder().get();
+
+		await postStore.dispatch(`${PostActions.receiveItem}`, msg);
+		expect(postStore.state.all).toEqual([ msg ]);
+	});
+
+	it('should strip error, ts, user, comments, likes and merchantId when sending singleItemPost to socket', async () => {
+		const msg = aDefaultSingleItemMsgBuilder().get();
+
+		root.state.socket.isAuth = true;
+		await root.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
+
+		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
+		const { byMe, comments, error, likes, merchantId, ts, user, userId, ...clean } = msg;
+		clean.correlationId = jasmine.any(String);
+		const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
+		expect(sendObjInvocationArg).toMatchObject(clean);
+		expect(sendObjInvocationArg).not.toHaveProperty('ts');
+	});
+
+	it('should not send item on save while WS disconnected', async () => {
+		root.state.socket.isConnected = false;
+		const msg = aDefaultSingleItemMsgBuilder().get();
+
+		await root.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
+		expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
+	});
+
+	it('should not send item on save while WS not auth', async () => {
+		const msg = aDefaultSingleItemMsgBuilder().get();
+
+		await root.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
+		expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
+	});
+
+	it('should update pending item', async () => {
+		const pendingItem = aDefaultSingleItemMsgBuilder()
+			.withCorrelationId(chance.guid())
+			.get();
+
+		postStore.state.all = [pendingItem];
+
+		const loadedItem = Object.assign({}, pendingItem, { guid: chance.guid(), ts: Date.now() });
+		await postStore.dispatch(`${PostActions.receiveItem}`, loadedItem);
+
+		expect(pendingItem).not.toHaveProperty('correlationId');
+		expect(pendingItem.guid).toBe(loadedItem.guid);
+		expect(pendingItem.ts).toBe(loadedItem.ts);
 	});
 });

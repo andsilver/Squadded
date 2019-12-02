@@ -54,7 +54,7 @@ export class FeedPost {
 		this.userId = userId || user.guid;
 		this.error = error;
 		this.guid = postId || guid;
-		this.postId = postId || guid;
+		this.postId = this.guid;
 		this.private = props.private;
 		this.text = text || '';
 		this.ts = ts;

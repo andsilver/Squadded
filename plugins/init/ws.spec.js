@@ -1,9 +1,10 @@
 import Vue from 'vue';
 import { Chance } from 'chance';
 import ws, * as wsPlugin from './ws';
-import { ActivityStore, ActivityGetters, ActivityMutations } from '~/store/activity';
-import { PostActions, PostStore, PostMutations } from '~/store/post';
-import { FeedStore, FeedActions, FeedGetters, FeedMutations } from '~/store/feed';
+import { flushPromises } from '~/helpers';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { PostActions, PostGetters, PostStore, PostMutations } from '~/store/post';
+import { FeedStore, FeedGetters } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import { userMockBuilder } from '~/test/user.mock';
 
@@ -63,13 +64,13 @@ describe('WS Plugin', () => {
 			expect(_ws.sendObj).toHaveBeenCalledWith({ type: 'pong' });
 		});
 
-		it(`should dispatch singleItemPost to ${FeedStore}/${FeedActions.receiveItem}`, () => {
+		it(`should dispatch singleItemPost to ${PostStore}/${PostActions.receiveItem}`, () => {
 			const msg = {
 				type: 'singleItemPost',
 			};
 
 			dispatch(store, msg);
-			expect(store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.receiveItem}`, msg);
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveItem}`, msg);
 		});
 
 		it(`should commit like to ${PostStore}/${PostMutations.setPostLike}`, () => {
@@ -82,8 +83,7 @@ describe('WS Plugin', () => {
 				type: 'like',
 			};
 			const post = { type: 'sinleItemPost' };
-			store.getters[`${FeedStore}/${FeedGetters.getPostById}`] = jest.fn().mockReturnValue(post);
-			store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`] = jest.fn().mockReturnValue(post);
+			store.getters[`${PostStore}/${PostGetters.getPostById}`] = jest.fn().mockReturnValue(post);
 
 			dispatch(store, msg);
 			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPostLike}`, { byMe, count, post });
@@ -97,14 +97,11 @@ describe('WS Plugin', () => {
 				postId,
 				type: 'notifLike',
 			};
-			const feedPost = { type: 'sinleItemPost' };
-			const userBlogPost = { type: 'sinleItemPost' };
-			store.getters[`${FeedStore}/${FeedGetters.getPostById}`] = jest.fn().mockReturnValue(feedPost);
-			store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`] = jest.fn().mockReturnValue(userBlogPost);
+			const post = { type: 'sinleItemPost' };
+			store.getters[`${PostStore}/${PostGetters.getPostById}`] = jest.fn().mockReturnValue(post);
 
 			dispatch(store, msg);
-			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: 1, post: feedPost });
-			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: 1, post: userBlogPost });
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: 1, post });
 		});
 
 		it(`should decrement likes counter on notifLike`, () => {
@@ -115,35 +112,35 @@ describe('WS Plugin', () => {
 				postId,
 				type: 'notifLike',
 			};
-			const feedPost = { type: 'sinleItemPost' };
-			const userBlogPost = { type: 'sinleItemPost' };
-			store.getters[`${FeedStore}/${FeedGetters.getPostById}`] = jest.fn().mockReturnValue(feedPost);
-			store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`] = jest.fn().mockReturnValue(userBlogPost);
+			const post = { type: 'sinleItemPost' };
+			store.getters[`${PostStore}/${PostGetters.getPostById}`] = jest.fn().mockReturnValue(post);
 
 			dispatch(store, msg);
-			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: -1, post: feedPost });
-			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: -1, post: userBlogPost });
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: -1, post });
 		});
 
 		it(`should add comment on notifComment`, () => {
 			const postId = chance.guid();
-			const comment = { text: 'text' };
+			const user = { any: 'authour' };
+			const text = chance.sentence();
 			const msg = {
-				comment,
 				postId,
+				text,
 				type: 'notifComment',
+				user,
 			};
-			const feedPost = { type: 'sinleItemPost' };
-			const userBlogPost = { type: 'sinleItemPost' };
-			store.getters[`${FeedStore}/${FeedGetters.getPostById}`] = jest.fn().mockReturnValue(feedPost);
-			store.getters[`${ActivityStore}/${ActivityGetters.getPostById}`] = jest.fn().mockReturnValue(userBlogPost);
+			const comment = {
+				text,
+				author: user,
+			};
+			const post = { type: 'sinleItemPost' };
+			store.getters[`${PostStore}/${PostGetters.getPostById}`] = jest.fn().mockReturnValue(post);
 
 			dispatch(store, msg);
-			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.addComment}`, { comment, post: feedPost });
-			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.addComment}`, { comment, post: userBlogPost });
+			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.addComment}`, { comment, post });
 		});
 
-		it(`should commit comments to ${FeedStore}/${FeedMutations.receiveReaction}`, () => {
+		it(`should commit comments to ${PostStore}/${PostMutations.receiveReaction}`, () => {
 			const comments = [{ text: 'text' }];
 			const msg = {
 				type: 'comments',
@@ -178,26 +175,53 @@ describe('WS Plugin', () => {
 			expect(store.commit).toHaveBeenCalledWith(`${UserStore}/${UserMutations.setOther}`, user);
 		});
 
-		it(`should commit wishlist to ${ActivityStore}/${ActivityMutations.setWishlist}`, () => {
-			const wishlist = ['somedata'];
+		it(`should commit wishlist to ${ActivityStore}/${ActivityMutations.setListOfType}`, async () => {
+			const item = {
+				itemId: 'some-item-id',
+			};
+			const wishlist = [{ item }];
+			const type = 'wishlist';
 			const msg = {
-				type: 'wishlist',
+				type,
 				wishlist,
 			};
+			const posts = [{ item, guid: item.itemId }];
+			store.getters[`${PostStore}/${PostGetters.getPostByIdList}`] = jest.fn().mockReturnValue(posts);
 
 			dispatch(store, msg);
-			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setWishlist}`, wishlist);
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, posts);
+			await flushPromises();
+			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
 		});
 
-		it(`should commit blog to ${ActivityStore}/${ActivityMutations.setBlog}`, () => {
+		it(`should commit blog to ${ActivityStore}/${ActivityMutations.setListOfType}`, async () => {
 			const blog = ['somedata'];
+			const type = 'blog';
 			const msg = {
-				type: 'blog',
+				type,
 				blog,
 			};
+			store.getters[`${PostStore}/${PostGetters.getPostByIdList}`] = jest.fn().mockReturnValue(blog);
 
 			dispatch(store, msg);
-			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setBlog}`, blog);
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, blog);
+			await flushPromises();
+			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: blog, type });
+		});
+
+		it(`should commit squadders to ${ActivityStore}/${ActivityMutations.setListOfType}`, async () => {
+			const squadders = ['somedata'];
+			const type = 'squadders';
+			const msg = {
+				type,
+				squadders,
+			};
+			store.getters[`${PostStore}/${PostGetters.getPostByIdList}`] = jest.fn().mockReturnValue(squadders);
+
+			dispatch(store, msg);
+			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, squadders);
+			await flushPromises();
+			expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: squadders, type });
 		});
 	});
 
@@ -393,7 +417,7 @@ describe('WS Plugin', () => {
 
 				mutationDispatcher(mutation, state);
 
-				expect(ctx.store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.receiveItem}`, mutation.payload);
+				expect(ctx.store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveItem}`, mutation.payload);
 			});
 
 			it('should disconnect when socket close', () => {

@@ -32,7 +32,8 @@ import BackBar from '~/components/common/BackBar';
 import Button from '~/components/common/Button';
 import SelectItems from '~/components/Create/SelectItems';
 import Tabs from '~/components/Create/Tabs';
-import { FeedStore, FeedActions } from '~/store/feed';
+import { FeedStore, FeedMutations } from '~/store/feed';
+import { PostStore, PostActions } from '~/store/post';
 
 export default {
 	components: {
@@ -57,13 +58,15 @@ export default {
 		select (items) {
 			this.items = items.map(post => post.item);
 		},
-		create () {
+		async create () {
 			const { items, text } = this;
-			this.$store.dispatch(`${FeedStore}/${FeedActions.saveItem}`, {
+			const msg = {
 				items,
 				text,
 				type: 'outfitPost',
-			});
+			};
+			const post = await this.$store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
+			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 			this.$router.push('/feed');
 		},
 	},

@@ -36,7 +36,7 @@ import BackBar from '~/components/common/BackBar';
 import Comments from '~/components/Comments';
 import Likes from '~/components/Likes';
 import UserLink from '~/components/UserLink';
-import { FeedGetters, FeedStore } from '~/store/feed';
+import { PostStore, PostGetters } from '~/store/post';
 
 export default {
 	name: 'PostReactions',
@@ -55,7 +55,7 @@ export default {
 			this.tabs = 1;
 		}
 		const { id } = this.$route.params;
-		this.post = this.$store.getters[`${FeedStore}/${FeedGetters.getPostById}`](id);
+		this.post = this.$store.getters[`${PostStore}/${PostGetters.getPostById}`](id);
 	},
 };
 </script>

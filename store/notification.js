@@ -18,16 +18,23 @@ export const NotificationMutations = {
 	receive: 'receive',
 };
 
+const contain = state => ntf => state.notifications.find(n => ntf._id === n._id);
+
 export const mutations = {
 	[NotificationMutations.add]: (state, message) => {
+		if (contain(state)(message)) {
+			return;
+		}
 		message.viewed = message.viewed || false;
 		state.notifications.unshift(message);
 	},
 	[NotificationMutations.receive]: (state, notifications) => {
-		notifications.forEach((ntf) => {
+		const unique = notifications
+			.filter(n => !contain(state)(n));
+		unique.forEach((ntf) => {
 			ntf.viewed = ntf.viewed || false;
 		});
-		state.notifications = [...notifications, state.notifications];
+		state.notifications = [...unique, ...state.notifications];
 	},
 	[NotificationMutations.viewAll]: (state, list) => {
 		state.notifications.forEach((ntf) => {

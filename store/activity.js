@@ -1,5 +1,3 @@
-import { FeedPost } from '~/classes/FeedPost';
-
 export const ActivityStore = 'activity';
 
 export const state = () => ({
@@ -26,28 +24,11 @@ export const ActivityMutations = {
 	removeWish: 'removeWish',
 	clearWishlist: 'clearWishlist',
 	clearBlog: 'clearBlog',
-	setBlog: 'setBlog',
-	setSquadders: 'setSquadders',
-	setWishlist: 'setWishlist',
+	setListOfType: 'setListOfType',
 	unsquadd: 'unsquadd',
 };
 
 export const mutations = {
-	[ActivityMutations.clearWishlist]: (state) => {
-		state.wishlist = null;
-	},
-	[ActivityMutations.clearBlog]: (state) => {
-		state.blog = null;
-	},
-	[ActivityMutations.setBlog]: (state, blog) => {
-		state.blog = blog.map(post => new FeedPost(post));
-	},
-	[ActivityMutations.setSquadders]: (state, msg) => {
-		state.squadders = msg.squadders.map(post => new FeedPost(post));
-	},
-	[ActivityMutations.setWishlist]: (state, wishlist) => {
-		state.wishlist = wishlist.map(post => new FeedPost(post));
-	},
 	[ActivityMutations.addPost]: (state, post) => {
 		if (isSameUser(state.blog, post.userId)) {
 			state.blog.unshift(post);
@@ -55,6 +36,16 @@ export const mutations = {
 		if (isSameUser(state.wishlist, post.userId)) {
 			state.wishlist.unshift(post);
 		}
+	},
+	[ActivityMutations.clearWishlist]: (state) => {
+		state.wishlist = null;
+	},
+	[ActivityMutations.clearBlog]: (state) => {
+		state.blog = null;
+	},
+	[ActivityMutations.setListOfType]: (state, payload) => {
+		const { posts, type } = payload;
+		state[type] = posts;
 	},
 	[ActivityMutations.removePost]: (state, postId) => {
 		if (!postId) {
