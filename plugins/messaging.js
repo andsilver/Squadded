@@ -10,6 +10,7 @@ const post = async (store, msg) => {
 		// tmp patch while infinite scroll not ready
 		store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 	}
+	msg.item.squadded = true;
 	const post = await store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 	store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 	store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, post);
@@ -17,7 +18,6 @@ const post = async (store, msg) => {
 
 const actions = {
 	singleItemPost: post,
-	pollPost: post,
 	injectMerchantParams: (store, msg) => {
 		store.commit('SET_MERCHANT_PARAMS', msg);
 	},

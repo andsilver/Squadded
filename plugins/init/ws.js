@@ -65,7 +65,8 @@ export const dispatch = async function (store, message) {
 			rawPostsList.forEach(w => (w.guid = w.item.itemId));
 		}
 		await store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, rawPostsList);
-		const posts = store.getters[`${PostStore}/${PostGetters.getPostByIdList}`](rawPostsList.map(r => r.guid));
+		const posts = store.getters[`${PostStore}/${PostGetters.getPostByIdList}`](rawPostsList.map(r => r.guid))
+			.sort((a, b) => b.ts - a.ts);
 		store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
 	} else {
 		// TODO report
@@ -137,7 +138,7 @@ const signOut = (store, router) => {
 };
 
 export const mutationListener = ctx => function mutationDispatcher (mutation, state) {
-	const { store, redirect } = ctx;
+	const { app, store } = ctx;
 	function fetchUser() {
 		state.socket.$ws.sendObj({ type: 'fetchUser' });
 	}
@@ -163,9 +164,10 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 			state.socket.$ws.keepAlive();
 			if (isHome(ctx.route.name)) {
 				const { route } = state.squad;
-				redirect(route);
+				app.router.push(route, () => store.commit('SET_PENDING', false));
+			} else {
+				store.commit('SET_PENDING', false);
 			}
-			store.commit('SET_PENDING', false);
 			fetchUser();
 		}
 
@@ -180,7 +182,7 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 	if (mutation.type === 'SOCKET_ONCLOSE') {
 		state.socket.$ws.stop();
 		if (mutation.payload.reason) {
-			signOut(store, ctx.app.router);
+			signOut(store, app.router);
 		}
 		return;
 	}

@@ -82,6 +82,7 @@ export default {
 	position fixed
 	width 100%
 	z-index 4
-	&:focus-within
-		bottom 0
+
+.v-application.isTouch:not(.show-tabs) .post_comment_input
+	bottom 0
 </style>

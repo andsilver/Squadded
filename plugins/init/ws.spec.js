@@ -28,7 +28,7 @@ describe('WS Plugin', () => {
 				me: {},
 			},
 			squad: {
-				path: '/default',
+				route: { path: '/default' },
 			},
 		},
 	};
@@ -336,7 +336,6 @@ describe('WS Plugin', () => {
 					dispatch: jest.fn(),
 					subscribe: jest.fn(),
 				}, deepStore),
-				redirect: jest.fn(),
 				route,
 				app: {
 					router: {
@@ -377,6 +376,7 @@ describe('WS Plugin', () => {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },
 				};
+				route.name = 'not-home';
 
 				mutationDispatcher(mutation, state);
 
@@ -464,8 +464,8 @@ describe('WS Plugin', () => {
 
 				mutationDispatcher(mutation, state);
 
-				expect(ctx.redirect).toHaveBeenCalledTimes(1);
-				expect(ctx.redirect).toHaveBeenCalledWith(state.squad.route);
+				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
+				expect(ctx.app.router.push).toHaveBeenCalledWith(state.squad.route, jasmine.any(Function));
 			});
 
 			it('should redirect to home from any on unauth', () => {
@@ -494,7 +494,6 @@ describe('WS Plugin', () => {
 					dispatch: jest.fn(),
 					subscribe: jest.fn(),
 				}, deepStore),
-				redirect: jest.fn(),
 				route: {},
 			};
 		});

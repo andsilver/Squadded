@@ -1,12 +1,19 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Default from './default.vue';
+import * as Device from '~/utils/device-input';
+
+jest.mock('~/utils/device-input', () => ({
+	isTouch: jest.fn(() => true),
+	onToggleKeyboard: jest.fn(),
+}));
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
 
-describe('Message Input', () => {
+describe('Default layout', () => {
+	const APP = 'app';
 	const MAIN = 'main-content';
 	const PRELOADER = 'preloader';
 	const TAB_BAR = 'tab-bar';
@@ -16,7 +23,7 @@ describe('Message Input', () => {
 	let wrapper;
 	let $route;
 
-	beforeEach(() => {
+	function initVue() {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		$route = {
@@ -43,24 +50,38 @@ describe('Message Input', () => {
 				$route,
 			},
 		});
+	}
+
+	beforeEach(initVue);
+
+	afterEach(() => {
+		Device.isTouch.mockClear();
+		Device.onToggleKeyboard.mockClear();
+	});
+
+	it('should contain required components', () => {
+		expect(wrapper.ref(APP).exists()).toBe(true);
+		expect(wrapper.ref(MAIN).exists()).toBe(true);
+		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
+		expect(wrapper.ref(TAB_BAR).exists()).toBe(true);
 	});
 
 	it('should not display tabs at home', () => {
-		const tabs = wrapper.ref(TAB_BAR);
-		expect(tabs.exists()).toBe(false);
+		const app = wrapper.ref(APP);
+		expect(app.classes('show-tabs')).toBe(false);
 	});
 
 	it('should display tabs for logged in user', () => {
 		store.state.socket.isAuth = true;
-		const tabs = wrapper.ref(TAB_BAR);
-		expect(tabs.exists()).toBe(true);
+		const app = wrapper.ref(APP);
+		expect(app.classes('show-tabs')).toBe(true);
 	});
 
 	it('should not display tabs if onscreen keyboard is open', () => {
 		store.state.socket.isAuth = true;
 		store.state.squad.virtualKeyboard = true;
-		const tabs = wrapper.ref(TAB_BAR);
-		expect(tabs.exists()).toBe(false);
+		const app = wrapper.ref(APP);
+		expect(app.classes('show-tabs')).toBe(false);
 	});
 
 	it('should display preloader spinner while pending auth', () => {
@@ -76,5 +97,32 @@ describe('Message Input', () => {
 
 		const main = wrapper.ref(MAIN);
 		expect(main.exists()).toBe(true);
+	});
+
+	it('should listen on toggle mobile virtual keyboard', () => {
+		const proto = Default.methods.toggleKeyboard.prototype;
+		const cbArg = Device.onToggleKeyboard.mock.calls[0][0];
+		expect(Object.create(proto) instanceof cbArg).toBe(true);
+
+		cbArg(true);
+		expect(wrapper.vm.squad.virtualKeyboard).toBe(true);
+	});
+
+	describe('Desktop', () => {
+		beforeEach(() => {
+			Device.isTouch.mockReturnValue(false);
+			initVue();
+		});
+
+		it('should always display tabs for desktop', () => {
+			store.state.socket.isAuth = true;
+			store.state.squad.virtualKeyboard = true;
+			const app = wrapper.ref(APP);
+			expect(app.classes('show-tabs')).toBe(true);
+		});
+
+		it('should not listen on toggle virtual keyboard', () => {
+			expect(Device.onToggleKeyboard).not.toHaveBeenCalled();
+		});
 	});
 });

@@ -7,8 +7,6 @@
 			hide-details
 			:placeholder="placeholder"
 			@keydown="keydown"
-			@focus="wasFocus"
-			@blur="wasBlur"
 		>
 			<v-icon v-if="textValue.length" slot="append" color="#B8B8BA" size="22" @click="send">
 				mdi-send
@@ -84,12 +82,6 @@ export default {
 			if (e.keyCode === 27) {
 				this.$emit('cancel');
 			}
-		},
-		wasFocus (e) {
-			this.squad.virtualKeyboard = true;
-		},
-		wasBlur (e) {
-			this.squad.virtualKeyboard = false;
 		},
 	},
 };

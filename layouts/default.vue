@@ -1,13 +1,13 @@
 <template>
-	<v-app>
-		<v-content id="main" :class="{ 'd-flex': socket.isPendingAuth, 'show-tabs': showTabs }">
+	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }">
+		<v-content id="main" :class="{ 'd-flex': socket.isPendingAuth }">
 			<nuxt ref="main-content" />
 			<Preloader v-if="socket.isPendingAuth" ref="preloader" />
 			<v-dialog v-if="promptOptions" v-model="showPrompt">
 				<Prompt :text="promptOptions.text" @confirm="confirm" @decline="hide" />
 			</v-dialog>
 		</v-content>
-		<v-bottom-navigation v-if="showTabs" height="65">
+		<v-bottom-navigation height="65">
 			<TabBar ref="tab-bar" />
 		</v-bottom-navigation>
 	</v-app>
@@ -19,6 +19,7 @@ import Preloader from '~/components/Preloader.vue';
 import Prompt from '~/components/common/Prompt';
 import TabBar from '~/components/common/TabBar.vue';
 import { SquadStore, SquadMutations } from '~/store/squad';
+import { isTouch, onToggleKeyboard } from '~/utils/device-input';
 
 export default {
 	name: 'DefaultLayout',
@@ -38,8 +39,9 @@ export default {
 			'squad',
 		]),
 		showTabs () {
-			return this.socket.isAuth && !this.squad.virtualKeyboard;
+			return this.socket.isAuth && (!this.isTouch || !this.squad.virtualKeyboard);
 		},
+		isTouch,
 	},
 	created () {
 		this.$root.$on('prompt', data => this.prompt(data));
@@ -48,6 +50,9 @@ export default {
 				this.$root.$emit('widget-open');
 			}
 		});
+		if (this.isTouch) {
+			onToggleKeyboard(this.toggleKeyboard.bind(this));
+		}
 	},
 	destroyed() {
 		this.unsubscribe && this.unsubscribe();
@@ -65,6 +70,9 @@ export default {
 			this.promptOptions = options;
 			this.showPrompt = true;
 		},
+		toggleKeyboard (state) {
+			this.squad.virtualKeyboard = state;
+		},
 	},
 };
 </script>
@@ -74,11 +82,15 @@ export default {
 	display: block;
 	flex-shrink 1
 	overflow hidden scroll
-	&.show-tabs
+	.show-tabs &
 		padding-bottom 65px !important
 
 .v-bottom-navigation
 	position fixed
 	bottom 0
 	z-index 100
+	transition-property bottom
+	transition-duration 0.1s
+	.v-application.isTouch:not(.show-tabs) &
+		bottom -65px
 </style>
