@@ -2,7 +2,7 @@
 	<div class="full_post">
 		<div class="d-flex">
 			<UserLink ref="user-link" class="post_user_link grow" :user="post.user" :ts="post.ts" />
-			<PopMenu v-if="post.byMe" :post="post" />
+			<PopMenu :post="post" />
 		</div>
 		<h3
 			v-if="isTextVisible"

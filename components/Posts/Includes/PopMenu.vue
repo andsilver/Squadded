@@ -9,16 +9,25 @@
 		</template>
 
 		<v-list>
-			<v-list-item>
-				<v-list-item-title @click="togglePrivate">
-					{{ $t(`post.pop.${ post.private ? 'setPublic' : 'setPrivate' }.menu`) }}
-				</v-list-item-title>
-			</v-list-item>
-			<v-list-item>
-				<v-list-item-title @click="promptDelete">
-					{{ $t(`post.pop.deletePost.menu`) }}
-				</v-list-item-title>
-			</v-list-item>
+			<template v-if="post.byMe">
+				<v-list-item class="post-menu-edit">
+					<v-list-item-title @click="togglePrivate">
+						{{ $t(`post.pop.${ post.private ? 'setPublic' : 'setPrivate' }.menu`) }}
+					</v-list-item-title>
+				</v-list-item>
+				<v-list-item class="post-menu-edit">
+					<v-list-item-title @click="promptDelete">
+						{{ $t(`post.pop.deletePost.menu`) }}
+					</v-list-item-title>
+				</v-list-item>
+			</template>
+			<template v-else>
+				<v-list-item class="post-menu-report">
+					<v-list-item-title @click="promptReportPost">
+						{{ $t(`post.pop.reportPost.menu`) }}
+					</v-list-item-title>
+				</v-list-item>
+			</template>
 		</v-list>
 	</v-menu>
 </template>
@@ -68,6 +77,26 @@ export default {
 			this.$store.commit(`${FeedStore}/${FeedMutations.removePost}`, postId);
 			this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
 		},
+		reportPost () {
+			const { postId } = this.post;
+			const { id: merchantId } = this.$store.state.merchant;
+			const { userId } = this.$store.state.user.me;
+
+			this.$ws.sendObj({
+				type: 'report',
+				postId,
+				merchantId,
+				userId,
+			});
+
+			/**
+			 * todo - After post was reported probably it makes sense to hide it from current user. But I will take it
+			 * later when the functionality on a backend is ready. Because if we just hide it inside store, it will
+			 * not be marked as hidden at backend and will be still shown to user further. So either we make frontend
+			 * and backend with the same functionality or (if excluding reported posts from this user's result is not
+			 * needed yet) skip committing removing posts from store
+             */
+		},
 		togglePrivate () {
 			this.current = this.post.private ? 'setPublic' : 'setPrivate';
 			this.prompt();
@@ -88,6 +117,10 @@ export default {
 		},
 		setPublic () {
 			this.$store.dispatch(`${PostStore}/${PostActions.updatePrivate}`, { post: this.post, private: false });
+		},
+		promptReportPost() {
+			this.current = 'reportPost';
+			this.prompt();
 		},
 	},
 };

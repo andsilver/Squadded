@@ -27,16 +27,22 @@
 				mdi-heart{{ '-outline' }}
 			</v-icon>
 		</button>
+
+		<!--Since at this moment we don't have any functionality in PopMenu for User->ME, we are not displaying it for such User at all-->
+		<PopMenu v-if="!comment.author.isMe" :comment="comment" />
 	</section>
 </template>
 
 <script>
+
+import PopMenu from './PopMenu';
 import UserLink from '~/components/UserLink';
 
 export default {
 	name: 'PostComment',
 	components: {
 		UserLink,
+		PopMenu,
 	},
 	props: {
 		comment: {

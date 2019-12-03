@@ -7,14 +7,22 @@ export const commentMockBuilder = () => {
 		author: {
 			name: chance.name(),
 			avatar: chance.avatar(),
+			isMe: false,
 		},
 		ts: Date.now(),
 		text: chance.sentence(),
+		id: chance.guid(),
 	};
 
-	return {
+	const builder = {
+		withByMe: (byMe) => {
+			comment.author.isMe = byMe;
+			return builder;
+		},
 		get: () => comment,
 	};
+
+	return builder;
 };
 
 export const commentsMsgBuilder = (guid = chance.guid()) => {

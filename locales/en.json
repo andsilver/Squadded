@@ -11,6 +11,16 @@
   "Profile": "Profile",
   "Search": "Search",
   "Squadders": "Squadders",
+  "comment": {
+    "pop": {
+      "reportComment": {
+        "menu": "Report",
+        "question": "Report this comment?",
+        "description": "Are you sure? This action can not be reverted.",
+        "decline": "Ok, do not report comment"
+      }
+    }
+  },
   "create": {
     "outfit": "Outfit",
     "photo": "Photo",
@@ -90,6 +100,12 @@
         "question": "Delete this post?",
         "description": "Are you sure? This action can not be reverted.",
         "decline": "Let it stay exist"
+      },
+      "reportPost": {
+        "menu": "Report",
+        "question": "Report this post?",
+        "description": "Are you sure? This action can not be reverted.",
+        "decline": "Ok, do not report post"
       },
       "setPublic": {
         "menu": "Set post as public",
