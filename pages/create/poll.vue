@@ -81,7 +81,7 @@ export default {
 			const msg = {
 				item1,
 				item2,
-				expiration: this.$refs.expiration.date,
+				expires: this.$refs.expiration.date,
 				text,
 				type: 'pollPost',
 			};
