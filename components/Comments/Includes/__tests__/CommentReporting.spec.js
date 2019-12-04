@@ -61,7 +61,7 @@ describe('CommentReporting', () => {
 		expect(wrapper.vm.current).toBe('reportComment');
 	});
 
-	it.only('report method is called, it sends websocket event with correct payload', () => {
+	it('report method is called, it sends websocket event with correct payload', () => {
 		wrapper.vm.reportComment();
 
 		expect(ws.sendObj).toHaveBeenCalledWith({
