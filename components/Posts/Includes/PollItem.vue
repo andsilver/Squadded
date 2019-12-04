@@ -10,7 +10,7 @@
 		>
 			<ItemImage
 				:item="item"
-				:resquad="voted"
+				:resquadd="voted"
 			>
 				<div
 					v-if="voted"

@@ -13,7 +13,7 @@ export const ActivityGetters = {
 
 export const getters = {
 	[ActivityGetters.getPostById]: state => id => state.blog && state.blog.find(i => i.guid === id),
-	[ActivityGetters.getWishByItemId]: state => id => state.wishlist && state.wishlist.find(post => post.isItemHasId(id)),
+	[ActivityGetters.getWishByItemId]: state => id => state.wishlist && state.wishlist.find(post => post.getItem(id)),
 };
 
 const isSameUser = (feed, userId) => (feed && feed.length && feed[0].userId === userId);

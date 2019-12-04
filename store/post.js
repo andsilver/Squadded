@@ -8,11 +8,14 @@ export const state = () => ({
 
 export const PostGetters = {
 	getPostById: 'getPostById',
+	getPostByIdList: 'getPostByIdList',
+	getItemsById: 'getItemsById',
 };
 
 export const getters = {
 	[PostGetters.getPostById]: state => id => state.all.find(i => i.postId === id),
 	[PostGetters.getPostByIdList]: state => ids => state.all.filter(i => ids.includes(i.postId)),
+	[PostGetters.getItemsById]: state => id => state.all.map(post => post.getItem(id)).filter(post => post),
 };
 
 export const PostMutations = {
@@ -24,6 +27,7 @@ export const PostMutations = {
 	receiveReaction: 'receiveReaction',
 	resetComments: 'resetComments',
 	resetLikes: 'resetLikes',
+	resquaddHasUpdated: 'resquaddHasUpdated',
 	setPostLike: 'setPostLike',
 	setPrivate: 'setPrivate',
 	setText: 'setText',
@@ -66,6 +70,8 @@ export const mutations = {
 		post.unsetCorrelationId();
 	},
 	[PostMutations.receiveReaction]: (state, reactions) => {
+	},
+	[PostMutations.resquaddHasUpdated]: (state, reactions) => {
 	},
 	[PostMutations.resetComments]: (state, { comments, post }) => {
 		post.comments.messages = comments;
@@ -119,6 +125,7 @@ export const PostActions = {
 	sendComment: 'sendComment',
 	toggleLike: 'toggleLike',
 	updatePrivate: 'updatePrivate',
+	updateResquadd: 'updateResquadd',
 	vote: 'vote',
 };
 
@@ -217,6 +224,18 @@ export const actions = {
 		const { post } = props;
 		commit(PostMutations.setPrivate, { post, private: props.private });
 		rootState.socket.$ws.sendObj(post.toMessage());
+	},
+	[PostActions.updateResquadd]: ({ commit, getters }, rawItems) => {
+		if (!rawItems) {
+			return;
+		}
+		rawItems.forEach((rawItem) => {
+			const items = getters[PostGetters.getItemsById](rawItem.itemId);
+			items.forEach((item) => {
+				item.squadded = rawItem.squadded;
+			});
+		});
+		commit('resquaddHasUpdated');
 	},
 	[PostActions.vote]: ({ commit, rootState }, { post, vote }) => {
 		if (!post) {

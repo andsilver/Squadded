@@ -24,6 +24,7 @@ export const UserMutations = {
 	setFollow: 'setFollow',
 	setMe: 'setMe',
 	setOther: 'setOther',
+	setUserList: 'setUserList',
 	setToken: 'setToken',
 };
 

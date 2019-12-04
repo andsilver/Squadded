@@ -75,15 +75,13 @@ export class FeedPost {
 		}
 	}
 
-	isItemHasId (id, item = this.item) {
-		return item && item.itemId === id;
-	}
-
 	getItem (id) {
-		return this.isItemHasId(id) ? this.item
-			: this.isItemHasId(id, this.item1) ? this.item1
-			: this.isItemHasId(id, this.item2) ? this.item2
-			: null;
+		const isItemHasId = (id, item) => item && item.itemId === id;
+
+		return isItemHasId(id, this.item) ? this.item
+			: isItemHasId(id, this.item1) ? this.item1
+			: isItemHasId(id, this.item2) ? this.item2
+			: this.items && this.items.find(item => isItemHasId(id, item));
 	}
 
 	toMessage () {

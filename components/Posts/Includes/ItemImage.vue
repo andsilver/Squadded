@@ -6,7 +6,7 @@
 	>
 		<slot />
 		<ReSquaddButton
-			v-if="resquad"
+			v-if="resquadd"
 			class="reSquaddButton"
 			:item="item"
 		/>
@@ -25,7 +25,7 @@ export default {
 			type: Object,
 			required: true,
 		},
-		resquad: {
+		resquadd: {
 			type: Boolean,
 			default: true,
 		},

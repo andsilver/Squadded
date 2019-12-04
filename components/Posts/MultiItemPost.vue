@@ -9,7 +9,7 @@
 				:class="{ shifted }"
 				:price="post.total"
 				:loading="!post.guid && !post.error"
-				@click.native="toggleShifted"
+				@click.native="fetch"
 			>
 				<div class="grid" :class="`grid-snap-${post.items.length}`">
 					<ItemImage
@@ -17,6 +17,7 @@
 						ref="item-image"
 						:key="item.itemId"
 						:item="item"
+						:resquadd="false"
 					/>
 				</div>
 			</CardFrame>
@@ -37,7 +38,9 @@ import Post from './Includes/Post';
 import CardFrame from './Includes/CardFrame';
 import ItemImage from './Includes/ItemImage';
 import ProductCard from './Includes/ProductCard';
+import { prefetch } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
+import { PostStore, PostMutations } from '~/store/post';
 
 export default {
 	name: 'MultiItemPost',
@@ -54,11 +57,24 @@ export default {
 		},
 	},
 	data: () => ({
+		fetched: false,
 		shifted: false,
 		maxHeight: '250px',
 	}),
 	methods: {
+		fetch () {
+			if (this.fetched) {
+				return this.toggleShifted();
+			}
+			prefetch({
+				guid: this.post.guid,
+				mutation: `${PostStore}/${PostMutations.resquaddHasUpdated}`,
+				store: this.$store,
+				type: 'fetchReSquadded',
+			}).then(this.toggleShifted.bind(this));
+		},
 		toggleShifted () {
+			this.fetched = true;
 			this.maxHeight = `${this.$refs['multi-image'].$el.offsetHeight}px`;
 			this.shifted = !this.shifted;
 		},

@@ -11,7 +11,7 @@
 		<ItemImage
 			ref="item-image"
 			:item="item"
-			:resquad="isClickable"
+			:resquadd="isClickable"
 			@open="openProduct"
 		/>
 	</CardFrame>
