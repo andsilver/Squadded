@@ -19,26 +19,41 @@ describe('User Store module', () => {
 		store = new Vuex.Store(user);
 	});
 
+	it('should set me', () => {
+		const me = userMockBuilder(true).get();
+		store.commit(UserMutations.setMe, me);
+
+		expect(store.state.me).toEqual(me);
+	});
+
 	it('should set follow', () => {
+		const me = userMockBuilder(true).get();
+		store.commit(UserMutations.setMe, me);
 		const user = userMockBuilder().get();
 		user.followers.me = false;
 		const { count } = user.followers;
+		const meFollowing = me.following.count;
 
 		store.commit(UserMutations.setFollow, { follow: true, user });
 
 		expect(user.followers.me).toBe(true);
 		expect(user.followers.count).toBe(count + 1);
+		expect(me.following.count).toBe(meFollowing + 1);
 	});
 
 	it('should unset follow', () => {
+		const me = userMockBuilder(true).get();
+		store.commit(UserMutations.setMe, me);
 		const user = userMockBuilder().get();
 		user.followers.me = true;
 		const { count } = user.followers;
+		const meFollowing = me.following.count;
 
 		store.commit(UserMutations.setFollow, { follow: false, user });
 
 		expect(user.followers.me).toBe(false);
 		expect(user.followers.count).toBe(count - 1);
+		expect(me.following.count).toBe(meFollowing - 1);
 	});
 
 	it('should not decrement below zero', () => {
@@ -50,13 +65,6 @@ describe('User Store module', () => {
 
 		expect(user.followers.me).toBe(false);
 		expect(user.followers.count).toBe(0);
-	});
-
-	it('should set me', () => {
-		const me = userMockBuilder(true).get();
-		store.commit(UserMutations.setMe, me);
-
-		expect(store.state.me).toEqual(me);
 	});
 
 	it('should set other', () => {

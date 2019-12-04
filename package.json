@@ -15,6 +15,7 @@
     "generate": "nuxt generate",
     "test": "yarn lint && env-cmd -f ./test/.env jest",
     "test:no_lint": "env-cmd -f ./test/.env jest --no-cache",
+    "test:find-skipped": "yarn test:no_lint --reporters jest-skipped-reporter",
     "test:tap": "yarn test --reporters=jest-tap-reporter --coverage"
   },
   "jest": {
@@ -73,6 +74,7 @@
     "eslint-plugin-vue": "^5.2.3",
     "fetch-mock": "^7.3.9",
     "jest": "^24.8.0",
+    "jest-skipped-reporter": "^0.0.5",
     "jest-tap-reporter": "^1.9.0",
     "jsonwebtoken": "^8.5.1",
     "material-design-icons": "^3.0.1",

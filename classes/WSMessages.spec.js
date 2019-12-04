@@ -76,18 +76,25 @@ describe('WSMessages dispatch', () => {
 	});
 
 	it(`should accept bulk feed`, async () => {
-		const feed = ['somefeed'];
-		const posts = ['someposts'];
+		const existing1 = { guid: 'existing1' };
+		const feed = [{ guid: 'feed' }, existing1];
+		const posts = [{ guid: 'posts' }];
 		const msg = {
 			type: 'feed',
 			feed,
 		};
-		store.dispatch.mockReturnValue(posts);
+		store.state.feed.items = [{ guid: 'existing' }, existing1];
+		store.getters[`${PostStore}/${PostGetters.getPostByIdList}`] = jest.fn().mockReturnValue(posts);
 
 		wsMessages.dispatch(msg);
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, feed);
 		await flushPromises();
-		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.addBulk}`, posts);
+		expect(store.getters[`${PostStore}/${PostGetters.getPostByIdList}`]).toHaveBeenCalledWith([
+			'existing',
+			'existing1',
+			'feed',
+		]);
+		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.setItems}`, posts);
 	});
 
 	['followers', 'following'].forEach((type) => {

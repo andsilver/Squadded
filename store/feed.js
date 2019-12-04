@@ -16,18 +16,15 @@ export const getters = {
 export const FeedStore = 'feed';
 
 export const FeedMutations = {
-	addBulk: 'addBulk',
 	addItem: 'addItem',
 	clear: 'clear',
 	removePost: 'removePost',
+	setItems: 'setItems',
 };
 
 export const mutations = {
-	setItems: (state, payload) => {
-		state.items = payload;
-	},
-	[FeedMutations.addBulk]: (state, newPosts) => {
-		state.items = [...newPosts, ...state.items];
+	[FeedMutations.setItems]: (state, posts) => {
+		state.items = posts;
 		state.loading = false;
 	},
 	[FeedMutations.addItem]: (state, post) => {

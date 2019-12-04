@@ -65,8 +65,11 @@ export class WSMessages {
 	}
 
 	async feed (message) {
-		const newPosts = await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, message.feed);
-		this.store.commit(`${FeedStore}/${FeedMutations.addBulk}`, newPosts);
+		await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, message.feed);
+		const postsGetter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
+		const uniqueIds = new Set([...this.store.state.feed.items, ...message.feed].map(p => p.guid));
+		const posts = postsGetter(Array.from(uniqueIds));
+		this.store.commit(`${FeedStore}/${FeedMutations.setItems}`, posts);
 	}
 
 	like (message) {
