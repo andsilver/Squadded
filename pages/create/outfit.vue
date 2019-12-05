@@ -28,7 +28,7 @@
 								ref="done-button"
 								class="mt-2"
 								:disabled="!complete"
-								@click.native="post"
+								@click.native="create"
 							>
 								{{ $t('Post') }}
 							</Button>
