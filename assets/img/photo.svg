@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="107" height="122" viewBox="0 0 107 122">
+  <defs>
+    <clipPath id="clip-path">
+      <rect width="107" height="122" fill="none"/>
+    </clipPath>
+  </defs>
+  <g id="Group_2" data-name="Group 2" transform="translate(-106 -334)">
+    <g id="Repeat_Grid_1" data-name="Repeat Grid 1" transform="translate(106 334)" clip-path="url(#clip-path)">
+      <g id="Group_1" data-name="Group 1" transform="translate(-136.649 -1398.742)">
+        <g id="Icon" transform="translate(137 1399)">
+          <g id="base" transform="translate(8.649 11.742)" fill="none" stroke="#b8b8ba" stroke-linejoin="round" stroke-width="3">
+            <rect width="98" height="110" stroke="none"/>
+            <rect x="1.5" y="1.5" width="95" height="107" fill="none"/>
+          </g>
+          <g id="Ellipse_7" data-name="Ellipse 7" transform="translate(48.649 60.742)" fill="#b8b8ba" stroke="#fff" stroke-width="3">
+            <circle cx="23" cy="23" r="23" stroke="none"/>
+            <circle cx="23" cy="23" r="21.5" fill="none"/>
+          </g>
+          <g id="Ellipse_8" data-name="Ellipse 8" transform="translate(48.649 -0.258)" fill="#b8b8ba" stroke="#fff" stroke-width="3">
+            <circle cx="23" cy="23" r="23" stroke="none"/>
+            <circle cx="23" cy="23" r="21.5" fill="none"/>
+          </g>
+          <g id="Ellipse_6" data-name="Ellipse 6" transform="translate(-0.351 48.742)" fill="#fd6256" stroke="#fff" stroke-width="3">
+            <ellipse cx="23" cy="22.5" rx="23" ry="22.5" stroke="none"/>
+            <ellipse cx="23" cy="22.5" rx="21.5" ry="21" fill="none"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

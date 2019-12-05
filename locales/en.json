@@ -4,13 +4,15 @@
   "Choose": "Choose",
   "Community": "The Community",
   "Create": "Create",
+  "Post": "Post",
   "Explore": "Explore",
   "Home": "Home",
   "Messages": "Messages",
   "My Squad": "My Squad",
   "Profile": "Profile",
-  "Search": "Search",
+  "Search": "Search your wishlist...",
   "Squadders": "Squadders",
+  "CreateANew": "Create a New",
   "comment": {
     "pop": {
       "reportComment": {

@@ -50,3 +50,44 @@ body
 .scroll-items
 	.card_bottom
 		padding 8px
+		
+.titlebar button.v-btn.v-btn--flat.v-btn--icon.v-btn--round.theme--light.v-size--default{
+	float left
+    height 7.7VW
+}
+.v-btn--icon.v-size--default .v-icon,
+.v-btn--fab.v-size--default .v-icon{
+    width 24px
+    height 5VW
+    font-size 6.2vw
+}
+.theme--light.v-text-field > .v-input__control > .v-input__slot:before {
+    display: none;
+}
+i.v-icon.notranslate.sqdi.sqdi-magnifying-glass-finder.theme--light {
+    font-size: 20px !important;
+}
+.choose-items .selected .v-responsive__content{
+	box-shadow: none;
+	background-image:url('../../assets/img/selected.svg');
+	background-size: 14.69vw;
+	height: auto;
+	background-position: center;
+}
+.choose-items .selected .v-responsive__content:after{
+	opacity: 1;
+}
+.v-responsive__content:after {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: #f1f1f1;
+    width: 100%;
+    opacity: 0;
+    font-size: 20px;
+    padding: 20px;
+    text-align: center;
+    content: '';
+    z-index: -1;
+}

@@ -2,6 +2,7 @@
 	<section>
 		<v-text-field
 			ref="search-text"
+			class="search-plus"
 			v-model="textValue"
 			hide-details
 			:placeholder="$t('Search')"
@@ -20,7 +21,7 @@
 				@click.native="() => select(post)"
 			/>
 		</div>
-		<div class="selected-items grid mt-2">
+		<div class="selected-items mt-2">
 			<span
 				v-for="post in selected"
 				:key="post.item.id"
@@ -92,35 +93,38 @@ export default {
 };
 </script>
 
-<style lang="stylus" scoped>
-.v-input
-	position sticky
-	top 0
-	z-index 2
-.choose-items
-	grid-template-columns 1fr 1fr
-	grid-gap 10px
-	max-height 490px
-	overflow auto
-	padding 2px
+<style lang="scss" scoped>
+.v-input{
+	position: sticky;
+	top: 0;
+	z-index:2;
+}
+.choose-items{
+	grid-template-columns: 1fr 1fr;
+	grid-gap: 10px;
+	max-height: 304px;
+	overflow: auto;
+	padding: 2px;
+}
+.selected{
+	box-shadow:none;
+}
+.selected-item-img{
+	display: inline-block;
+	border-radius: 10px;
+	position: relative;
+	margin: 0 2.37vw 0 0;
+	border: 2px dashed #DBDBDB;
+	width: 15.384vw;
+}
+.selected-item-img .v-icon{
+	border: 3px solid rgba(0,0,0,0.6);
+    border-radius: 50%;
+    top: calc(50% - 14px);
+    left: calc(50% - 14px);
+    padding: 5px;
+    position: absolute;
+    background: #fff;
+}
 
-	.selected
-		box-shadow 0 0 0 2px #000000;
-.selected-items
-	grid-template-columns repeat(4, 1fr);
-	grid-gap 10px
-	width 100%
-
-.selected-item-img
-	display inline-block
-	border-radius 10px
-	position relative
-	.v-icon
-		position absolute
-		background-color #ffffff
-		border 3px solid rgba(0, 0, 0, .2)
-		border-radius 50%
-		top calc(50% - 15px)
-		left calc(50% - 15px)
-		padding 6px
 </style>
