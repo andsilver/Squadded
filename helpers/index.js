@@ -29,3 +29,5 @@ export async function prefetch({ guid, mutation, store, type }) {
 export function flushPromises() {
 	return new Promise(resolve => setImmediate(resolve));
 }
+
+export const price = (currency, cents, locale) => `${currency}${(cents / 100).toLocaleString(locale)}`;

@@ -33,6 +33,11 @@ describe('ProductCard', () => {
 			propsData: {
 				item: post.item,
 			},
+			mocks: {
+				_i18n: {
+					locale: 'en',
+				},
+			},
 			store,
 		});
 	}
@@ -52,5 +57,9 @@ describe('ProductCard', () => {
 			expect(SquadAPI.openProduct).toHaveBeenCalledWith(post.item);
 		});
 		expect(SquadAPI.openProduct).toHaveBeenCalledTimes(2);
+	});
+
+	it('should set price with currency', () => {
+		expect(wrapper.ref(CARD).props('price')).toBe(`€${(post.item.price / 100).toLocaleString('en')}`);
 	});
 });

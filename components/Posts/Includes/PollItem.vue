@@ -2,7 +2,7 @@
 	<div class="poll-item">
 		<CardFrame
 			ref="product-card"
-			:price="item.price"
+			:price="price"
 			:title="item.title"
 			:voted="voted"
 			:show-bag="voted"
@@ -32,6 +32,7 @@
 <script>
 import CardFrame from './CardFrame';
 import ItemImage from './ItemImage';
+import { price } from '~/helpers';
 
 export default {
 	name: 'PollItem',
@@ -54,6 +55,9 @@ export default {
 		},
 	},
 	computed: {
+		price () {
+			return price(this.item.currency, this.item.price, this._i18n.locale);
+		},
 		votes () {
 			return (this.total)
 				? Math.round(this.item.votes / (this.total) * 100)

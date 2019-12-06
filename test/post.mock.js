@@ -1,5 +1,6 @@
 import { Chance } from 'chance';
 import { FeedPost } from '../classes/FeedPost';
+import { itemBuilder } from './item.mock';
 import { commentMockBuilder } from './comment.mock';
 import { userMockBuilder } from './user.mock';
 
@@ -7,15 +8,7 @@ const chance = new Chance();
 
 const regularPostBuilder = () => {
 	const msg = new FeedPost({
-		item: {
-			itemId: chance.natural(),
-			title: chance.sentence({ words: 5 }),
-			origPrice: chance.euro(),
-			price: chance.euro(),
-			img: chance.url({ extensions: ['jpg', 'png'] }),
-			url: chance.url(),
-			varId: '',
-		},
+		item: itemBuilder().get(),
 		type: 'post',
 	});
 

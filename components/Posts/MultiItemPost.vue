@@ -4,10 +4,10 @@
 	>
 		<div class="outfit-card">
 			<CardFrame
-				ref="multi-image"
-				class="multi-image pa-4 mb-4"
+				ref="multi-item"
+				class="multi-item pa-4 mb-4"
 				:class="{ shifted }"
-				:price="post.total"
+				:price="totalPrice"
 				:loading="!post.guid && !post.error"
 				@click.native="fetch"
 			>
@@ -38,7 +38,7 @@ import Post from './Includes/Post';
 import CardFrame from './Includes/CardFrame';
 import ItemImage from './Includes/ItemImage';
 import ProductCard from './Includes/ProductCard';
-import { prefetch } from '~/helpers';
+import { prefetch, price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostMutations } from '~/store/post';
 
@@ -61,6 +61,12 @@ export default {
 		shifted: false,
 		maxHeight: '250px',
 	}),
+	computed: {
+		totalPrice () {
+			const total = this.post.items.map(i => i.price).reduce((a, b) => (a + (+b)), 0);
+			return price(this.post.items[0].currency, total, this._i18n.locale);
+		},
+	},
 	methods: {
 		fetch () {
 			if (this.fetched) {
@@ -75,7 +81,7 @@ export default {
 		},
 		toggleShifted () {
 			this.fetched = true;
-			this.maxHeight = `${this.$refs['multi-image'].$el.offsetHeight}px`;
+			this.maxHeight = `${this.$refs['multi-item'].$el.offsetHeight}px`;
 			this.shifted = !this.shifted;
 		},
 	},
@@ -86,11 +92,11 @@ export default {
 .outfit-card
 	white-space nowrap
 	width 100%
-.multi-image,
+.multi-item,
 .scroll-items
 	display inline-block
 	vertical-align top
-.multi-image
+.multi-item
 	width 100%
 	transition-property margin-left
 	transition-delay .2s

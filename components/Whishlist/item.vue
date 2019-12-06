@@ -3,7 +3,7 @@
 		<div class="d-flex">
 			<div class="flex-grow-1">
 				<v-card-text ref="item-price" class="price" @click="openProduct">
-					{{ post.item.price }}
+					{{ price }}
 				</v-card-text>
 				<v-card-title
 					ref="item-title"
@@ -38,6 +38,7 @@
 
 <script>
 import ReSquaddButton from '~/components/ReSquaddButton';
+import { price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
 
@@ -50,6 +51,11 @@ export default {
 		post: {
 			type: FeedPost,
 			required: true,
+		},
+	},
+	computed: {
+		price () {
+			return price(this.post.item.currency, this.post.item.price, this._i18n.locale);
 		},
 	},
 	methods: {

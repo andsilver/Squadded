@@ -24,7 +24,7 @@ export class FeedPost {
 			expires = null,
 			voted = false,
 			closed = false,
-			total = 0,
+			totalPrice = 0,
 
 			byMe = false,
 			user = {
@@ -69,7 +69,7 @@ export class FeedPost {
 			this.closed = closed;
 		} else if (type === 'outfitPost') {
 			this.items = items.map(composeItem);
-			this.total = total;
+			this.totalPrice = totalPrice;
 		} else {
 			this.item = composeItem(item);
 		}

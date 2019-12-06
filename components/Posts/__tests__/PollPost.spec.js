@@ -2,7 +2,7 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import PollPost from '../PollPost.vue';
 import Store from '~/store';
-import { aDefaultPollMsgBuilder } from '~/test/poll.item.mock';
+import { aDefaultPollMsgBuilder } from '~/test/poll.post.mock';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });

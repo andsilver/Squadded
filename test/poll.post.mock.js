@@ -6,14 +6,14 @@ import { userMockBuilder } from './user.mock';
 
 const chance = new Chance();
 
-const aDefaultSingleItemMsgBuilder = () => {
-	const item = itemBuilder().get();
-	const post = {
-		byMe: false,
-		userId: null,
-		private: false,
-	};
-	const msg = new FeedPost({ ...post, item, type: 'singleItemPost' });
+const aDefaultPollMsgBuilder = () => {
+	const item1 = itemBuilder().withVotes().get();
+	const item2 = itemBuilder().withVotes().get();
+	const msg = new FeedPost({
+		item1,
+		item2,
+		type: 'pollPost',
+	});
 
 	const builder = {
 		withCorrelationId: (id) => {
@@ -22,7 +22,6 @@ const aDefaultSingleItemMsgBuilder = () => {
 		},
 		withGUID: (id) => {
 			msg.guid = id || chance.guid();
-			msg.postId = msg.guid;
 			return builder;
 		},
 		withLikes: (count = chance.natural(), byMe) => {
@@ -41,11 +40,23 @@ const aDefaultSingleItemMsgBuilder = () => {
 		},
 		withUser: (user = userMockBuilder().short()) => {
 			msg.user = user;
-			msg.userId = user.guid;
 			return builder;
 		},
 		withText: (text = chance.sentence()) => {
 			msg.text = text;
+			return builder;
+		},
+		withItem1Votes: (v) => {
+			msg.item1.votes = v;
+			return builder;
+		},
+		withItem2Votes: (v) => {
+			msg.item2.votes = v;
+			return builder;
+		},
+		isVoted: () => {
+			msg.voted = true;
+
 			return builder;
 		},
 		get: () => msg,
@@ -54,4 +65,4 @@ const aDefaultSingleItemMsgBuilder = () => {
 	return builder;
 };
 
-export { aDefaultSingleItemMsgBuilder };
+export { aDefaultPollMsgBuilder };

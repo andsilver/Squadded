@@ -1,7 +1,7 @@
 <template>
 	<CardFrame
 		ref="card-frame"
-		:price="item.price"
+		:price="price"
 		:title="item.title"
 		:is-poll-post="isPollPost"
 		:loading="loading"
@@ -20,6 +20,7 @@
 <script>
 import CardFrame from './CardFrame';
 import ItemImage from './ItemImage';
+import { price } from '~/helpers';
 import { SquadAPI } from '~/services/SquadAPI';
 
 export default {
@@ -47,6 +48,9 @@ export default {
 		},
 	},
 	computed: {
+		price () {
+			return price(this.item.currency, this.item.price, this._i18n.locale);
+		},
 		isClickable() {
 			if (!this.isPollPost || this.voted) {
 				return true;

@@ -33,6 +33,9 @@ describe('Whishlist Item', () => {
 			localVue,
 			mocks: {
 				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
 			},
 			propsData: {
 				post,
@@ -55,5 +58,9 @@ describe('Whishlist Item', () => {
 			expect(SquadAPI.openProduct).toHaveBeenCalledWith(post.item);
 		});
 		expect(SquadAPI.openProduct).toHaveBeenCalledTimes(3);
+	});
+
+	it('should display item\'s price with currency', () => {
+		expect(wrapper.ref(PRICE).text()).toBe(`€${(post.item.price / 100).toLocaleString('en')}`);
 	});
 });

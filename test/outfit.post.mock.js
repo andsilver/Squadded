@@ -1,35 +1,21 @@
 import { Chance } from 'chance';
 import { FeedPost } from '../classes/FeedPost';
+import { itemBuilder } from './item.mock';
 import { commentMockBuilder } from './comment.mock';
 import { userMockBuilder } from './user.mock';
 
 const chance = new Chance();
 
-const aDefaultPollMsgBuilder = () => {
-	const item1 = {
-		itemId: chance.natural(),
-		title: chance.sentence({ words: 5 }),
-		origPrice: chance.euro(),
-		price: chance.euro(),
-		img: chance.url({ extensions: ['jpg', 'png'] }),
-		url: chance.url(),
-		votes: chance.integer({ min: 0, max: 10000 }),
-		varId: '',
-	};
-	const item2 = {
-		itemId: chance.natural(),
-		title: chance.sentence({ words: 5 }),
-		origPrice: chance.euro(),
-		price: chance.euro(),
-		img: chance.url({ extensions: ['jpg', 'png'] }),
-		url: chance.url(),
-		votes: chance.integer({ min: 0, max: 10000 }),
-		varId: '',
-	};
+export const outfitPostBuilder = () => {
+	const items = [
+		itemBuilder().withVotes().get(),
+		itemBuilder().withVotes().get(),
+		itemBuilder().withVotes().get(),
+		itemBuilder().withVotes().get(),
+	];
 	const msg = new FeedPost({
-		item1,
-		item2,
-		type: 'pollPost',
+		items,
+		type: 'outfitPost',
 	});
 
 	const builder = {
@@ -81,5 +67,3 @@ const aDefaultPollMsgBuilder = () => {
 
 	return builder;
 };
-
-export { aDefaultPollMsgBuilder };
