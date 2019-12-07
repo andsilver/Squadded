@@ -83,7 +83,7 @@ export default {
 	margin-left 3%
 
 .full_post
-	margin-top 4%
+	margin-bottom 4%
 
 .card_title
 	font-size .75em

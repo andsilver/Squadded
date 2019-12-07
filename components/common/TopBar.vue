@@ -36,7 +36,9 @@ export default {
 
 <style lang="stylus" scoped>
 	.toolbar
-		margin-top 3.4%
+		position fixed
+		top 0
+		width 100%
 		z-index 10
 
 	.v-tab

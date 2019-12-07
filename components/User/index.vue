@@ -1,12 +1,20 @@
 <template>
 	<v-container v-if="user && user.name">
-		<section v-if="isScrolled" class="fixed_profile">
-			<v-avatar class="user_avatar">
-				<img :src="user.avatar">
+		<section class="fixed_profile" :class="{ slide: isScrolled }">
+			<v-avatar
+				class="user_avatar"
+				width="40px"
+				height="40px"
+				min-width="none"
+			>
+				<v-img
+					:key="user.avatar"
+					:src="user.avatar"
+				/>
 			</v-avatar>
 			<section class="user_info_fixed">
 				<userName class="user_fixed_name" :name="user.name" />
-				<userStatistics :user="user" :scrolled="isScrolled" />
+				<userStatistics :user="user" :scrolled="true" />
 			</section>
 			<Follow :user="user" />
 		</section>
@@ -68,8 +76,6 @@ import Whishlist from '~/components/Whishlist';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
-const getMain = () => document.getElementById('main');
-
 export default {
 	name: 'User',
 	components: {
@@ -116,11 +122,11 @@ export default {
 	},
 	methods: {
 		bindScroll () {
-			getMain().addEventListener('scroll', this.scrolled.bind(this));
+			window.addEventListener('scroll', this.scrolled.bind(this));
 		},
 		scrolled (e) {
 			// TODO calc actual height to tabs instead const
-			this.isScrolled = !!(e.target.scrollTop > 300);
+			this.isScrolled = !!(window.scrollY > 300);
 		},
 	},
 };
@@ -180,12 +186,20 @@ export default {
 	.fixed_profile {
 		display: flex;
 		flex-direction: row;
-		position: sticky;
-		top: 0;
+		position: fixed;
+		top: -70px;
+		left: 0;
+		width: 100%;
 		z-index: 10;
 		border-bottom: 1px solid rgba(112, 112, 112, .3);
 		background-color: #fff;
-		padding-top: 3%;
+		padding: 3%;
+		transition-property: top;
+		transition-duration: .1s;
+	}
+
+	.fixed_profile.slide {
+		top: 0;
 	}
 
 	.fixed_profile .user_avatar {

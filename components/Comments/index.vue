@@ -59,14 +59,11 @@ export default {
 	methods: {
 		scroll () {
 			setTimeout(() => {
-				if (this.showComments) {
-					const { $el } = this;
-					const content = $el.closest('#main');
-					content.scroll({
-						top: getScroll($el.getBoundingClientRect(), content.scrollTop),
-						behavior: 'smooth',
-					});
-				}
+				const { $el } = this;
+				window.scroll({
+					top: getScroll($el.getBoundingClientRect(), window.scrollY),
+					behavior: 'smooth',
+				});
 			}, 10);
 		},
 	},

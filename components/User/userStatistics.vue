@@ -25,11 +25,11 @@
 	</section>
 	<section v-else class="fixed_statistic">
 		<nuxt-link :to="{ path: `${userPath}/followers` }" class="fixed_link">
-			<p><span>{{ short(user.followers.count) }}</span><span class="statistic_title_fixed">{{ $t('user.Followers') }}</span></p>
+			<span>{{ short(user.followers.count) }}</span><span class="statistic_title_fixed">{{ $t('user.Followers') }}</span>
 		</nuxt-link>
 		<v-divider class="divider" inset vertical />
 		<nuxt-link :to="{ path: `${userPath}/following` }" class="fixed_link">
-			<p><span>{{ short(user.following.count) }}</span><span class="statistic_title_fixed">{{ $t('user.Following') }}</span></p>
+			<span>{{ short(user.following.count) }}</span><span class="statistic_title_fixed">{{ $t('user.Following') }}</span>
 		</nuxt-link>
 	</section>
 </template>
@@ -102,10 +102,6 @@ export default {
 	.fixed_link {
 		color: black;
 		font-size: .7em;
-		width: auto;
-	}
-
-	.fixed_link p {
 		width: auto;
 	}
 

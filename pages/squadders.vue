@@ -42,9 +42,10 @@ export default {
 	},
 };
 </script>
+
 <style lang="stylus">
-	.topBar
-		position sticky
-		top 0
-		z-index 5
+.container.layout-padding
+	padding 40px 0 0 0
+	.layout
+		padding 12px
 </style>

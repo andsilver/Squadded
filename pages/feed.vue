@@ -44,23 +44,24 @@ export default {
 		this.onOpen();
 	},
 	methods: {
-		async onOpen () {
-			await onAuth(this.$store);
+		onOpen () {
 			if (this.squad.widget.open && (!this.items || !this.items.length)) {
 				this.fetchFeed();
 				return;
 			}
 			this.$root.$once('widget-open', () => this.fetchFeed());
 		},
-		fetchFeed () {
+		async fetchFeed () {
+			await onAuth(this.$store);
 			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 		},
 	},
 };
 </script>
+
 <style lang="stylus">
-	.topBar
-		position sticky
-		top 0
-		z-index 5
+.container.layout-padding
+	padding 40px 0 0 0
+	.layout
+		padding 12px
 </style>
