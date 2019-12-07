@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<h3>Expirateion date</h3>
+		<label>{{ $t('poll.expiration') }}</label>
 		<v-row>
 			<Button
 				v-for="(due, index) in options"

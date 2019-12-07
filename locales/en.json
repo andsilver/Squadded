@@ -83,8 +83,9 @@
     "textPlaceholder": "Type your description"
   },
   "poll": {
-    "create": "Create Poll",
+    "createNote": "choose 2 items you hesitate with",
     "dialogTitle": "Choose items for poll",
+    "expiration": "Expirateion date",
     "ongoing": "Ongoing",
     "textPlaceholder": "Type a question",
     "results": "Results",

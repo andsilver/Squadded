@@ -1,9 +1,12 @@
+import { Chance } from 'chance';
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Whishlist from './index.vue';
 import { flushPromises } from '~/helpers';
 import Store from '~/store';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
+
+const chance = new Chance();
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -18,20 +21,24 @@ describe('Whishlist Component', () => {
 	let localVue;
 	let store;
 	let wrapper;
+	let ws;
 
 	function initLocalVue () {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 
-		store = new Vuex.Store(Store);
-		store.commit('jSocket', {
+		ws = {
 			sendObj: jest.fn(),
-		});
+		};
+		store = new Vuex.Store(Store);
+		store.commit('jSocket', ws);
 	}
 
 	beforeEach(() => {
 		initLocalVue();
-		params = {};
+		params = {
+			id: chance.guid(),
+		};
 		mocks = {
 			$t: msg => msg,
 			$route: {
@@ -45,13 +52,14 @@ describe('Whishlist Component', () => {
 		});
 	});
 
-	it('sets the correct default props', async () => {
+	it('should fetchWishlist on create', async () => {
 		expect(wrapper.vm.wishlist).toBe(null);
 
 		store.commit('SET_SOCKET_AUTH', true);
 		await flushPromises();
 
-		expect(store.state.socket.$ws.sendObj).toHaveBeenCalledWith({
+		expect(ws.sendObj).toHaveBeenCalledWith({
+			guid: params.id,
 			type: 'fetchWishlist',
 		});
 	});

@@ -1,7 +1,7 @@
 <template>
 	<div class="full_post">
 		<div class="d-flex">
-			<UserLink ref="user-link" class="post_user_link grow" :user="post.user" :ts="post.ts" />
+			<UserLink ref="user-link" class="post_user_link" :user="post.user" :ts="post.ts" />
 			<PopMenu :post="post" />
 		</div>
 		<h3
@@ -73,6 +73,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.post_user_link
+	flex 1 1 auto
+
 .counter-icon
 	position relative
 

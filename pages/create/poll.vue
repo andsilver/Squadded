@@ -1,49 +1,79 @@
 <template>
 	<v-container v-if="socket.isAuth">
-		<BackBar ref="goback-button" :title="$t('poll.create')" />
+		<BackBar ref="goback-button" :title="$t('Create')" />
+		<Tabs />
 		<v-layout
 			column
 			justify-center
 			align-center
 		>
-			<div class="full-width">
-				<v-text-field
-					ref="text-field"
-					v-model="text"
-					hide-details
-					:placeholder="$t('poll.textPlaceholder')"
+			<v-text-field
+				ref="search-text"
+				v-model="searchText"
+				class="search-plus"
+				hide-details
+				:placeholder="$t('Search')"
+			>
+				<v-icon slot="prepend" color="#B8B8BA" size="22">
+					sqdi-magnifying-glass-finder
+				</v-icon>
+			</v-text-field>
+			<div class="d-flex">
+				<SelectItems
+					ref="select-item1"
+					class="select-item"
+					:max-count="1"
+					:exclude="item2"
+					@select="(items) => {item1 = items[0]}"
 				/>
-				<Poll
-					ref="select-items"
-					:item1="item1"
-					:item2="item2"
-					@click.native="show = true"
+				<span>vs</span>
+				<SelectItems
+					ref="select-item2"
+					class="select-item"
+					:max-count="1"
+					:exclude="item1"
+					@select="(items) => {item2 = items[0]}"
 				/>
-				<ExpirationPicker ref="expiration" />
-				<section align="center">
-					<Button
-						ref="done-button"
-						:disabled="!complete"
-						@click.native="create"
-					>
-						{{ $t('Create') }}
-					</Button>
-				</section>
 			</div>
+			<span v-if="!item1 && !item2" class="note">{{ $t('poll.createNote') }}</span>
+			<ExpirationPicker ref="expiration" />
+			<v-text-field
+				ref="text-field"
+				v-model="text"
+				hide-details
+				:placeholder="$t('poll.textPlaceholder')"
+			>
+				<v-avatar
+					slot="prepend"
+					min-width="none"
+					height="22.5pt"
+					width="22.5pt"
+				>
+					<v-img
+						:src="avatar"
+					/>
+				</v-avatar>
+			</v-text-field>
+			<section align="center">
+				<Button
+					ref="done-button"
+					:disabled="!complete"
+					@click.native="create"
+				>
+					{{ $t('Create') }}
+				</Button>
+			</section>
 		</v-layout>
-		<v-dialog v-model="show">
-			<ChooseDialog @choose="choose" />
-		</v-dialog>
 	</v-container>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import Button from '~/components/common/Button';
-import ExpirationPicker from '~/components/Poll/ExpirationPicker';
-import ChooseDialog from '~/components/Poll/chooseDialog';
 import BackBar from '~/components/common/BackBar';
-import Poll from '~/components/Poll';
+import Button from '~/components/common/Button';
+import SelectItems from '~/components/Create/SelectItems';
+import Tabs from '~/components/Create/Tabs';
+import ExpirationPicker from '~/components/Poll/ExpirationPicker';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions } from '~/store/post';
 
@@ -53,14 +83,14 @@ export default {
 		BackBar,
 		Button,
 		ExpirationPicker,
-		ChooseDialog,
-		Poll,
+		SelectItems,
+		Tabs,
 	},
 	data: () => ({
-		show: false,
-		text: '',
 		item1: null,
 		item2: null,
+		searchText: '',
+		text: '',
 	}),
 	computed: {
 		...mapState([
@@ -69,13 +99,11 @@ export default {
 		complete () {
 			return !!(this.text && this.item1 && this.item2);
 		},
+		avatar () {
+			return this.$store.state.user.me.avatar;
+		},
 	},
 	methods: {
-		choose (data) {
-			this.show = false;
-			this.item1 = data[0].item;
-			this.item2 = data[1].item;
-		},
 		async create () {
 			const { item1, item2, text } = this;
 			const msg = {
@@ -92,3 +120,12 @@ export default {
 	},
 };
 </script>
+
+<style lang="stylus" scoped>
+.v-input
+	width 100%
+.d-flex span
+	align-self center
+.select-item
+	width 50%
+</style>

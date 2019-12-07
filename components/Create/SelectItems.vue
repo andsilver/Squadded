@@ -1,19 +1,9 @@
 <template>
 	<section>
-		<v-text-field
-			ref="search-text"
-			class="search-plus"
-			v-model="textValue"
-			hide-details
-			:placeholder="$t('Search')"
-		>
-			<v-icon slot="prepend" color="#B8B8BA" size="22">
-				sqdi-magnifying-glass-finder
-			</v-icon>
-		</v-text-field>
-		<div class="choose-items grid mt-2 poll-item">
+		<div class="choose-items mt-2 poll-item" :class="{ grid: maxCount > 1 }">
 			<ProductCard
-				v-for="post in wishlist"
+				v-for="post in available"
+				ref="items"
 				:key="post.guid"
 				:class="{ selected: post.selected }"
 				:item="post.item"
@@ -21,10 +11,10 @@
 				@click.native="() => select(post)"
 			/>
 		</div>
-		<div class="selected-items mt-2">
+		<div v-if="maxCount > 1" class="selected-items mt-2">
 			<span
 				v-for="post in selected"
-				:key="post.item.id"
+				:key="post.item.itemId"
 				class="selected-item-img"
 			>
 				<v-img
@@ -56,22 +46,30 @@ export default {
 			type: Number,
 			default: 2,
 		},
+		exclude: {
+			type: Object,
+			default: null,
+		},
 	},
 	data: () => ({
-		textValue: '',
 		selected: [],
 	}),
 	computed: {
 		...mapState([
 			'wishlist',
 		]),
+		available () {
+			return this.wishlist && this.wishlist.filter(w => w.item !== this.exclude);
+		},
 	},
 	created () {
 		return prefetch({
-			guid: this.$route.params.id,
 			store: this.$store,
 			type: 'fetchWishlist',
 		});
+	},
+	destroyed () {
+		this.wishlist.forEach(post => delete post.selected);
 	},
 	methods: {
 		select (post) {
@@ -85,8 +83,8 @@ export default {
 			this.update();
 		},
 		update () {
-			this.selected = this.wishlist.filter(post => post.selected);
-			this.$emit('select', this.selected);
+			this.selected = this.available.filter(post => post.selected);
+			this.$emit('select', this.selected.map(post => post.item));
 			this.$forceUpdate();
 		},
 	},

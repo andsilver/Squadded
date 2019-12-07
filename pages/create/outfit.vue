@@ -3,8 +3,19 @@
 		<BackBar class="titlebar" ref="goback-button" :title="$t('Create')" />
 		<Tabs />
 		<v-layout column justify-center align-center class="tab-content-section">
+			<v-text-field
+				ref="search-text"
+				v-model="searchText"
+				class="search-plus"
+				hide-details
+				:placeholder="$t('Search')"
+			>
+				<v-icon slot="prepend" color="#B8B8BA" size="22">
+					sqdi-magnifying-glass-finder
+				</v-icon>
+			</v-text-field>
+			<SelectItems ref="select-items" :max-count="4" @select="select"/>
 			<div class="bottom-sticky">
-				<SelectItems ref="select-items" :max-count="4" @select="select"/>
 				<div class="merge-selected"  v-bind:class="{ OutfitSelected: (items.length > 0) }">
 					<span v-if="items.length > 0">
 						<div class="checkout-outfit">
@@ -57,6 +68,7 @@ export default {
 		Tabs,
 	},
 	data: () => ({
+		searchText: '',
 		text: '',
 		items: [],
 	}),
@@ -70,7 +82,7 @@ export default {
 	},
 	methods: {
 		select (items) {
-			this.items = items.map(post => post.item);
+			this.items = items;
 		},
 		async create () {
 			const { items, text } = this;
