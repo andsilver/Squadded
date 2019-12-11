@@ -16,7 +16,7 @@
     "test": "yarn lint && env-cmd -f ./test/.env jest",
     "test:no_lint": "env-cmd -f ./test/.env jest --no-cache",
     "test:find-skipped": "yarn test:no_lint --reporters jest-skipped-reporter",
-    "test:tap": "yarn test --reporters=jest-tap-reporter --coverage"
+    "test:tap": "yarn test --reporters=jest-tap-reporter"
   },
   "jest": {
     "setupFiles": [

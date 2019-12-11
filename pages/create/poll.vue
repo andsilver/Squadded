@@ -31,7 +31,9 @@
 					@select="(items) => {item2 = items[0]}"
 				/>
 			</div>
-			<div v-if="!item1 || !item2" class="choose-item">{{ $t('poll.createNote') }}</div>
+			<div v-if="!item1 || !item2" class="choose-item">
+				{{ $t('poll.createNote') }}
+			</div>
 			<div class="merge-selected">
 				<span class="poll-input" :class="{'showElement': item1 && item2 }">
 					<div class="checkout-outfit">

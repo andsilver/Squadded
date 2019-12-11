@@ -16,7 +16,9 @@
 			</v-text-field>
 			<!-- <SelectItems ref="select-items" :max-count="4" @select="select"/> -->
 			<SelectItems ref="select-items" :max-count="4" @select="select" />
-			<div v-if="items.length == 0" class="choose-item">{{ $t('ItemSelection') }}</div>
+			<div v-if="items.length == 0" class="choose-item">
+				{{ $t('ItemSelection') }}
+			</div>
 			<div class="merge-selected" :class="{ OutfitSelected: (items.length > 0) }">
 				<span v-if="items.length > 0">
 					<div class="checkout-outfit">
