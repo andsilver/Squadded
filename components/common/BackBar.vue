@@ -20,3 +20,9 @@ export default {
 	},
 };
 </script>
+<style lang="css" scoped>
+	.titlebar button {
+		position: absolute;
+		left: 0;
+	}
+</style>

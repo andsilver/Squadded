@@ -78,11 +78,11 @@ export default {
 		width 85%
 		span
 			min-height 12px
-			max-height 24px
+			max-height 8.615vw
 			word-break normal
 			overflow hidden
-			font-size 10px
-			line-height 12px
+			font-size 3.076vw
+			line-height 4vw
 			font-weight 500
 			color #B8B8BA
 

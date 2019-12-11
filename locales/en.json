@@ -11,6 +11,12 @@
   "My Squad": "My Squad",
   "Profile": "Profile",
   "Search": "Search your wishlist...",
+  "SelectOutfitName": "Check out my autumn outfit!",
+  "SelectPollName": "Ask something about it...",
+  "limitMessage": "The limit is 4 items per outfit",
+  "ItemSelection": "choose 2 to 4 items to pair together",
+  "public": "Public",
+  "private": "Private",
   "Squadders": "Squadders",
   "CreateANew": "Create a New",
   "comment": {
@@ -73,6 +79,9 @@
   "feed": {
     "isEmpty": "There is no items yet"
   },
+  "input": {
+    "placeholder": "Write a comment"
+  },
   "notify": {
     "comment": "commented on",
     "isEmpty": "There is no notifications yet",
@@ -85,7 +94,8 @@
   "poll": {
     "createNote": "choose 2 items you hesitate with",
     "dialogTitle": "Choose items for poll",
-    "expiration": "Expirateion date",
+    "expiration": "Expires in",
+    "resultNote": "Result is shown to your followers after this",
     "ongoing": "Ongoing",
     "textPlaceholder": "Type a question",
     "results": "Results",
@@ -124,8 +134,9 @@
       }
     }
   },
-  "wishlist": {
-    "purchase": "PURCHASE"
+  "publicToggle": {
+    "forEveryone": "For everyone",
+    "forPrivate": "For followers only"
   },
   "user": {
     "Following": "Following",
@@ -137,8 +148,8 @@
     "Follow": "Follow",
     "share": "Share profile"
   },
-  "input": {
-    "placeholder": "Write a comment"
+  "wishlist": {
+    "purchase": "PURCHASE"
   },
   "error": {
     "404": "404 Not Found",

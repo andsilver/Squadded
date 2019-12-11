@@ -1,5 +1,5 @@
 <template>
-	<v-tab class="create tab_item">
+	<v-tab class="create tab_item" @click.native="toggleMenu">
 		<v-menu top offset-y>
 			<template v-slot:activator="{ on }">
 				<v-btn icon v-on="on">
@@ -16,6 +16,7 @@
 				<v-list-item
 					v-for="link in menu"
 					:key="link.uri"
+					@click.native="closeMenu"
 				>
 					<div class="left-content-sec">
 						<img :src="link.images">
@@ -54,10 +55,18 @@ export default {
 			images: require('assets/img/poll.svg'),
 		}],
 	}),
+	methods: {
+		toggleMenu () {
+			this.$root.$emit('overlayToggle', {});
+		},
+		closeMenu () {
+			this.$root.$emit('overlayClose', {});
+		},
+	},
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .v-tab{
 	min-width: auto;
 	padding :0;

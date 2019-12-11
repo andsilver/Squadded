@@ -1,60 +1,51 @@
 <template>
-	<v-container class="outfit-main-sec" v-if="socket.isAuth">
-		<BackBar class="titlebar" ref="goback-button" :title="$t('Create')" />
+	<v-container v-if="socket.isAuth" class="outfit-main-sec">
+		<BackBar ref="goback-button" :title="$t('Create')" class="titlebar" />
 		<Tabs />
 		<v-layout column justify-center align-center class="tab-content-section">
 			<v-text-field
 				ref="search-text"
 				v-model="searchText"
 				class="search-plus"
-				hide-details
+				:hide-details="true"
 				:placeholder="$t('Search')"
 			>
 				<v-icon slot="prepend" color="#B8B8BA" size="22">
 					sqdi-magnifying-glass-finder
 				</v-icon>
 			</v-text-field>
-			<SelectItems ref="select-items" :max-count="4" @select="select"/>
-			<div class="bottom-sticky">
-				<div class="merge-selected"  v-bind:class="{ OutfitSelected: (items.length > 0) }">
-					<span v-if="items.length > 0">
-						<div class="checkout-outfit">
-							<span><img src="~assets/img/Avatar.png"></span>
-							<v-text-field class="item-des see-selected" ref="text-field" v-model="text" :placeholder="$t('SelectOutfitName')" />
-						</div>
-					</span>
-					<span v-if="items.length == 0" >
-						<div class="choose-item" hide-details>choose 2 to 4 items to pair together</div>
-					</span>
-					<div class="bottom-post-sec">
-						<div class="public-left-section">
-							<div class="public-img"><img src="~assets/img/post.svg" alt="Squad brand logo" class="logo"/></div>
-							<div class="pubic-text">
-								<h4>Public</h4>
-								<p>For everyone</p>
-							</div>
-						</div>
-						<div class="public-right-section">
-							<Button
-								ref="done-button"
-								class="mt-2"
-								:disabled="!complete"
-								@click.native="create"
-							>
-								{{ $t('Post') }}
-							</Button>
-						</div>
+			<!-- <SelectItems ref="select-items" :max-count="4" @select="select"/> -->
+			<SelectItems ref="select-items" :max-count="4" @select="select" />
+			<div v-if="items.length == 0" class="choose-item">{{ $t('ItemSelection') }}</div>
+			<div class="merge-selected" :class="{ OutfitSelected: (items.length > 0) }">
+				<span v-if="items.length > 0">
+					<div class="checkout-outfit">
+						<span><img :src="avatar"></span>
+						<v-text-field ref="text-field" v-model="text" :placeholder="$t('SelectOutfitName')" value="Check out my autumn outfit!" class="item-des see-selected" />
+					</div>
+				</span>
+				<div class="bottom-post-sec">
+					<PublicToggle ref="public-toggle" />
+					<div class="public-right-section">
+						<Button
+							ref="done-button"
+							class="mt-2"
+							:disabled="!complete"
+							@click.native="create"
+						>
+							{{ $t('Post') }}
+						</Button>
 					</div>
 				</div>
 			</div>
 		</v-layout>
 	</v-container>
 </template>
-
 <script>
 import { mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Button from '~/components/common/Button';
+import PublicToggle from '~/components/Create/PublicToggle';
 import SelectItems from '~/components/Create/SelectItems';
 import Tabs from '~/components/Create/Tabs';
 import { FeedStore, FeedMutations } from '~/store/feed';
@@ -64,6 +55,7 @@ export default {
 	components: {
 		BackBar,
 		Button,
+		PublicToggle,
 		SelectItems,
 		Tabs,
 	},
@@ -71,6 +63,7 @@ export default {
 		searchText: '',
 		text: '',
 		items: [],
+		isPublic: false,
 	}),
 	computed: {
 		...mapState([
@@ -79,6 +72,9 @@ export default {
 		complete () {
 			return !!(this.text && this.items.length >= 2 && this.items.length <= 4);
 		},
+		avatar () {
+			return this.$store.state.user.me.avatar;
+		},
 	},
 	methods: {
 		select (items) {
@@ -86,8 +82,10 @@ export default {
 		},
 		async create () {
 			const { items, text } = this;
+			const { isPublic } = this.$refs['public-toggle'];
 			const msg = {
 				items,
+				private: !isPublic,
 				text,
 				type: 'outfitPost',
 			};
@@ -99,7 +97,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="css" scoped>
 .v-input{
 	width:100%;
 }
@@ -108,13 +106,17 @@ export default {
     font-size: 4.307vw;
     font-weight: bold;
 	text-align: center;
-	padding-bottom: 5px;
+	padding-bottom: 0px;
+	position: relative;
+    line-height: 36px;
 }
 .search-plus.v-text-field {
     padding-top: 5px;
     margin-top: 8px;
     padding-bottom: 0;
-    margin-bottom: 14px !important;
+    margin-bottom: 0px !important;
+	font-size: 3.230vw;
+    font-weight: 500;
 }
 i.v-icon.sqdi-magnifying-glass-finder {
     font-size: 4.69vw !important;
@@ -124,9 +126,6 @@ i.v-icon.sqdi-magnifying-glass-finder {
 }
 .search-plus.theme--light.v-input:not(.v-input--is-disabled) input {
     color: #B8B8BA;
-}
-.bottom-sticky .v-text-field input{
-    font-weight: 600;
 }
 .search-plus.v-text-field input {
     padding: 0px 2.153vw 0px!important;
@@ -149,7 +148,6 @@ i.v-icon.sqdi-magnifying-glass-finder {
 }
 .merge-selected {
     position: fixed;
-    min-height: 200px;
     width: 100%;
     z-index: 999;
     padding: 0;
@@ -157,11 +155,10 @@ i.v-icon.sqdi-magnifying-glass-finder {
     bottom: 0;
     left: 0;
     right: 0;
-    padding-top: 3.446vw;
     text-align: center;
 }
 .merge-selected.OutfitSelected {
-    min-height: 124px;
+	padding-top: 5px;
 }
 .choose-item {
     color: #B8B8BA;
@@ -172,44 +169,17 @@ i.v-icon.sqdi-magnifying-glass-finder {
     display: flex;
     align-items: center;
     width: 100%;
-    position: absolute;
     bottom: 0;
     padding-bottom: 3.461vw;
-}
-.public-left-section {
-    display: flex;
-    align-items: center;
-    width:50%;
-    padding-left: 4.1538vw;
 }
 .public-right-section{
     width:50%;
     padding-right: 4.1538vw;
     text-align: right;
 }
-.public-img img {
-    width: 11.846vw;
-    height: auto;
-}
-.pubic-text {
-    font-size: 3.230vw;
-    text-align: left;
-    color: #000000;
-    font-weight: 700;
-	padding-left: 2.153vw;
-}
-.pubic-text p {
-    color: #B8B8BA;
-    font-weight: 500;
-	margin: 0 !important;
-}
-.bottom-post-sec button.mt-2.v-btn.v-btn--depressed.v-btn--rounded.theme--light.v-size--default {
+.bottom-post-sec button.mt-2.v-btn.v-size--default {
     height: 42px;
-    min-width: 164px;
-}
-.bottom-sticky .selected-item-img .v-image__image.v-image__image--cover {
-    width: 15.38vw;
-    border-radius: 3.076vw;
+    min-width: 100%;
 }
 i.v-icon.notranslate.sqdi.sqdi-close-cross.theme--light {
     color: rgba(0, 0, 0, 0.7);
@@ -234,6 +204,7 @@ i.v-icon.notranslate.sqdi.sqdi-close-cross.theme--light {
 .checkout-outfit span img {
     width: 8.307vw;
     border-radius: 6.153vw;
+	height: 8.30vw;
 }
 .checkout-outfit .v-input.item-des.see-selected.theme--light.v-text-field.v-text-field--is-booted {
 	padding: 0;

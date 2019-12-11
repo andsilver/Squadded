@@ -6,13 +6,13 @@
 		class="px-3 custom-outfit-select"
 	>
 		<v-tabs fixed-tabs class="tabs_block">
-			<v-tab to="/create/outfit">
+			<v-tab color="#B8B8BA" to="/create/outfit">
 				{{ $t('create.outfit') }}
 			</v-tab>
-			<v-tab to="">
+			<v-tab color="#B8B8BA" to="">
 				{{ $t('create.photo') }}
 			</v-tab>
-			<v-tab to="/create/poll">
+			<v-tab color="#B8B8BA" to="/create/poll">
 				{{ $t('create.poll') }}
 			</v-tab>
 		</v-tabs>
@@ -26,12 +26,8 @@ export default {
 
 <style lang="scss" scoped>
 .custom-outfit-select .v-tab {
-    font-size: 3.733v !important;
-    color: #000 !important;
+    font-size: 3.733vw !important;
     font-weight: 600 !important;
-}
-.custom-outfit-select .v-tab:not(.v-tab--active){
-    color: #B8B8BA !important;
 }
 .custom-outfit-select  .v-tab {
     border-bottom: 1.2px solid #B8B8BA !important;

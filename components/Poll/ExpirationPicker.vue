@@ -1,36 +1,53 @@
 <template>
 	<section>
-		<label>{{ $t('poll.expiration') }}</label>
-		<v-row>
-			<Button
-				v-for="(due, index) in options"
-				:key="due"
-				:active="selected === index"
-				@click.native="() => switchDate(index)"
-			>
-				{{ $t(`expiration._${due}`) }}
-			</Button>
+		<v-row class="expire-section">
+			<v-col cols="1">
+				<div class="timer-image" />
+			</v-col>
+			<v-col cols="6" align="left">
+				<label class="expire-in">{{ $t('poll.expiration') }}</label>
+			</v-col>
+			<v-col cols="4">
+				<v-select
+					v-model="defalutItem"
+					:items="items"
+					item-text="label"
+					item-value="key"
+					:hide-details="true"
+					class="expire-custom-select"
+					@change="switchDate(`${defalutItem}`)"
+				/>
+			</v-col>
 		</v-row>
+		<label class="resultnote">{{ $t('poll.resultNote') }}</label>
 	</section>
 </template>
 
 <script>
-import Button from '~/components/common/Button';
 export default {
 	components: {
-		Button,
 	},
 	data: () => ({
 		selected: 2,
-		options: ['15m', '1h', '1d', '3d', '7d'],
+		defalutItem: '',
+		items: [
+			{ label: '10 min', amount: 10, interval: 'm', key: 0 },
+			{ label: '1 hour', amount: 1, interval: 'h', key: 1 },
+			{ label: '1 day', amount: 1, interval: 'd', key: 2 },
+			{ label: '1 week', amount: 7, interval: 'd', key: 3 },
+		],
 	}),
 	computed: {
 		date () {
 			const m = window.moment();
-			const amount = parseInt(this.options[this.selected], 10);
-			const interval = this.options[this.selected].slice(-1);
+			const selectedObj = this.items[this.selected];
+			const amount = parseInt(selectedObj.amount);
+			const interval = selectedObj.interval;
 			return m.add(amount, interval).valueOf();
 		},
+	},
+	created () {
+		this.defalutItem = this.items[this.selected];
 	},
 	methods: {
 		switchDate (i) {
@@ -39,7 +56,43 @@ export default {
 	},
 };
 </script>
-
-<style lang="stylus" scoped>
-
+<style lang="css" scoped>
+.row.expire-section {
+    margin: 2.461vw 12px 0;
+}
+img.logo {
+    width: 8.307vw;
+    height: 8.307vw;
+}
+.row.expire-section .col {
+    padding: 0;
+}
+.row.expire-section .col.col.col-4 {
+    max-width: 28%;
+}
+.row.expire-section .col.col-6 {
+    margin-left: 4.615vw;
+	margin-right: 7.5vw;
+}
+label.expire-in {
+    color: #000000;
+    font-weight: 700;
+    font-size: 3.23vw;
+}
+.row.expire-section .col.col-4 .v-text-field{
+	margin:0;
+	padding:0;
+}
+label.resultnote {
+    color: #B8B8BA;
+    font-size: 3.230vw;
+}
+.timer-image{
+	background-image:url('~assets/img/expire.svg');
+	background-size:cover;
+	height:7.92vw;
+}
+.v-input.search-plus input {
+    font-size: 3.230vw;
+}
 </style>

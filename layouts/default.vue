@@ -1,5 +1,6 @@
 <template>
 	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }">
+		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
 		<v-content id="main" :class="{ 'd-flex': socket.isPendingAuth }">
 			<nuxt ref="main-content" />
 			<Preloader v-if="socket.isPendingAuth" ref="preloader" />
@@ -32,6 +33,10 @@ export default {
 		title: 'Squad Widget',
 		showPrompt: false,
 		promptOptions: null,
+		absolute: false,
+		opacity: 0.46,
+		overlay: false,
+		zIndex: 11,
 	}),
 	computed: {
 		...mapState([
@@ -45,6 +50,9 @@ export default {
 	},
 	created () {
 		this.$root.$on('prompt', data => this.prompt(data));
+		this.$root.$on('overlayToggle', data => this.overlayToggle(data));
+		this.$root.$on('overlayOpen', data => this.overlayOpen(data));
+		this.$root.$on('overlayClose', data => this.overlayClose(data));
 		this.unsubscribe = this.$store.subscribe((mutation) => {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
@@ -72,6 +80,19 @@ export default {
 		},
 		toggleKeyboard (state) {
 			this.squad.virtualKeyboard = state;
+		},
+		overlayToggle  (options) {
+			if (this.overlay) {
+				this.overlay = false;
+			} else {
+				this.overlay = true;
+			}
+		},
+		overlayOpen (options) {
+			this.overlay = true;
+		},
+		overlayClose (options) {
+			this.overlay = false;
 		},
 	},
 };

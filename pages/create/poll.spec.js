@@ -16,6 +16,7 @@ describe('New Poll', () => {
 	const TEXT_FIELD = 'text-field';
 	const SELECT_ITEM1 = 'select-item1';
 	const SELECT_ITEM2 = 'select-item2';
+	const PUBLIC_TOGGLE = 'public-toggle';
 	const EXPIRATION_PICKER = 'expiration';
 	const DONE = 'done-button';
 
@@ -56,6 +57,7 @@ describe('New Poll', () => {
 		expect(wrapper.ref(TEXT_FIELD).exists()).toBe(true);
 		expect(wrapper.ref(SELECT_ITEM1).exists()).toBe(true);
 		expect(wrapper.ref(SELECT_ITEM2).exists()).toBe(true);
+		expect(wrapper.ref(PUBLIC_TOGGLE).exists()).toBe(true);
 		expect(wrapper.ref(EXPIRATION_PICKER).exists()).toBe(true);
 		expect(wrapper.ref(DONE).exists()).toBe(true);
 	});
@@ -111,11 +113,14 @@ describe('New Poll', () => {
 			item2,
 			text,
 		});
+		wrapper.ref(PUBLIC_TOGGLE).private = true;
+
 		doneBtn.trigger('click');
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, {
 			item1,
 			item2,
 			expires: date,
+			private: true,
 			text,
 			type: 'pollPost',
 		});

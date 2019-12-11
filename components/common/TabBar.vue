@@ -3,10 +3,10 @@
 		grow
 		height="65"
 	>
-		<Tab :tab="tabs[0]" />
-		<Tab :tab="tabs[1]" />
+		<Tab :tab="tabs[0]" @click.native="closeMenu" />
+		<Tab :tab="tabs[1]" @click.native="closeMenu" />
 		<CreateTab />
-		<Tab :tab="tabs[2]">
+		<Tab :tab="tabs[2]" @click.native="closeMenu">
 			<Badge class="badge" :value="notify.length" />
 		</Tab>
 		<Tab :tab="tabs[3]" />
@@ -52,6 +52,11 @@ export default {
 		...mapGetters([
 			NotificationGetters.notify,
 		]),
+	},
+	methods: {
+		closeMenu () {
+			this.$root.$emit('overlayClose', { });
+		},
 	},
 };
 </script>

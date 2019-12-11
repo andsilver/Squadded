@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 22.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 30 31.8" style="enable-background:new 0 0 30 31.8;" width="31.37" height="31.37" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:none;}
+	.st1{fill:none;stroke:#000000;stroke-width:2;}
+	.st2{fill:#050505;}
+</style>
+<g id="lock" transform="translate(0.071)">
+	<g id="Rectangle_1" transform="translate(-0.071 10.818)">
+		<path class="st0" d="M4,0h22c2.2,0,4,1.8,4,4v13c0,2.2-1.8,4-4,4H4c-2.2,0-4-1.8-4-4V4C0,1.8,1.8,0,4,0z"/>
+		<path class="st1" d="M4,1h22c1.7,0,3,1.3,3,3v13c0,1.7-1.3,3-3,3H4c-1.7,0-3-1.3-3-3V4C1,2.3,2.3,1,4,1z"/>
+	</g>
+	<g id="Path_22" transform="translate(7.517)">
+		<path class="st0" d="M6.6,0h1.6c3.6,0,6.6,2.2,6.6,4.8v8.5H0V4.8C0,2.2,2.9,0,6.6,0z"/>
+		<path class="st2" d="M6.6,2C5.3,2,4,2.4,3.1,3C2.7,3.3,2,4,2,4.8v6.5h10.8V4.8c0-0.9-0.7-1.5-1.1-1.8c-0.9-0.7-2.2-1-3.5-1H6.6
+			 M6.6,0h1.6c3.6,0,6.6,2.2,6.6,4.8v8.5H0V4.8C0,2.2,2.9,0,6.6,0z"/>
+	</g>
+	<circle id="Ellipse_2" cx="14.9" cy="19.8" r="3"/>
+	<path id="Rectangle_2" d="M14.9,19.8L14.9,19.8c1.1,0,2,0.9,2,2v2c0,1.1-0.9,2-2,2l0,0c-1.1,0-2-0.9-2-2v-2
+		C12.9,20.7,13.8,19.8,14.9,19.8z"/>
+</g>
+</svg>
