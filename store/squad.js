@@ -34,6 +34,9 @@ export const SquadMutations = {
 
 export const mutations = {
 	[SquadMutations.setSquadParams]: (state, squad) => {
+		if (!squad) {
+			return;
+		}
 		state.route = getRoute(squad);
 	},
 	[SquadMutations.setWidgetState]: (state, open) => {
