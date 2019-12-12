@@ -73,12 +73,16 @@ describe('Dispatcher', () => {
 		const msg = {
 			type: 'injectSquadParams',
 			squad: 'user:someId',
+			state: {
+				open: true,
+			},
 		};
 
 		ipc.dispatch(msg);
 
-		expect(store.commit).toHaveBeenCalledTimes(1);
+		expect(store.commit).toHaveBeenCalledTimes(2);
 		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setSquadParams}`, msg.squad);
+		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setWidgetState}`, msg.state.open);
 	});
 });
 

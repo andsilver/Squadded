@@ -25,9 +25,10 @@ export class WidgetIPC {
 	}
 
 	injectSquadParams (msg) {
-		const { squad } = msg;
+		const { squad, state } = msg;
 
 		this.store.commit(`${SquadStore}/${SquadMutations.setSquadParams}`, squad);
+		this.widgetState(state);
 	}
 
 	loggedIn (msg) {
