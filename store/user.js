@@ -11,14 +11,24 @@ function getUserId(token) {
 	return data.sub;
 }
 
-export const state = () => ({
-	me: new User({
-		isMe: true,
-		userId: getUserId(localStorage.getItem('userToken')),
-	}),
-	other: null,
-
+const me = new User({
+	isMe: true,
+	userId: getUserId(localStorage.getItem('userToken')),
 });
+
+export const state = () => ({
+	all: [me],
+	me,
+	other: null,
+});
+
+export const UserGetters = {
+	getUserById: 'getUserById',
+};
+
+export const getters = {
+	[UserGetters.getUserById]: state => id => state.all.find(u => u.userId === id),
+};
 
 export const UserMutations = {
 	setFollow: 'setFollow',
@@ -39,10 +49,16 @@ export const mutations = {
 		state.me.following.count = Math.max(0, state.me.following.count + mod);
 	},
 	[UserMutations.setMe]: (state, me) => {
+		const newAll = state.all.filter(u => u !== state.me);
 		state.me = new User({ ...me, isMe: true });
+		newAll.push(state.me);
+		state.all = newAll;
 	},
 	[UserMutations.setOther]: (state, user) => {
+		const newAll = state.all.filter(u => u !== state.other);
 		state.other = new User(user);
+		newAll.push(state.other);
+		state.all = newAll;
 	},
 	[UserMutations.setUserList]: (state, users) => {
 		state.userList = users.map(user => new User(user));
@@ -56,5 +72,6 @@ export const mutations = {
 export default {
 	namespaced: true,
 	state,
+	getters,
 	mutations,
 };

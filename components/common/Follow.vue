@@ -1,6 +1,6 @@
 <template>
 	<Button v-if="!user.isMe" ref="follow-btn" @click.native="toggleFollow">
-		{{ user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
+		{{ user.followers && user.followers.me ? $t('user.Unfollow') : $t('user.Follow') }}
 	</Button>
 </template>
 
@@ -24,6 +24,9 @@ export default {
 			const { user } = this;
 			if (user.isMe) {
 				return;
+			}
+			if (!user.followers) {
+				this.$router.push(`/user/${user.guid}`);
 			}
 			const follow = !user.followers.me;
 			this.$ws.sendObj({

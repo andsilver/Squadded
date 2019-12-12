@@ -75,7 +75,7 @@ describe('Whishlist Component', () => {
 		store.state.activity.wishlist = [];
 
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
-		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
+		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('wishlist.empty');
 	});
 
 	it('should clear prev data from whishlist', () => {

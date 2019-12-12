@@ -20,9 +20,18 @@ export default {
 	},
 };
 </script>
-<style lang="css" scoped>
-	.titlebar button {
-		position: absolute;
-		left: 0;
-	}
+
+<style lang="stylus" scoped>
+h2
+	color #000
+	font-size 4.307vw
+	font-weight bold
+	text-align center
+	padding-bottom 0px
+	position relative
+	line-height 36px
+
+	button
+		position absolute
+		left 0
 </style>

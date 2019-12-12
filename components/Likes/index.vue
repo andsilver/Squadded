@@ -1,23 +1,15 @@
 <template>
-	<v-list v-if="users && users.length" ref="likes-list">
-		<v-list-item v-for="user in users" :key="user.guid">
-			<UserLink
-				ref="comment-author-user-link"
-				size="30"
-				:user="user"
-			/>
-		</v-list-item>
-	</v-list>
+	<UserList ref="likes-list" :users="users" />
 </template>
 
 <script>
-import UserLink from '~/components/UserLink';
+import UserList from '~/components/UserList';
 import { PostMutations, PostStore } from '~/store/post';
 import { prefetch } from '~/helpers';
 
 export default {
 	components: {
-		UserLink,
+		UserList,
 	},
 	props: {
 		post: {

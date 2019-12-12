@@ -31,7 +31,7 @@
 					<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : 'Love my parents and they like me too'" />
 				</v-list-item-content>
 			</v-list-item>
-			<userStatistics class="pt-0" :user="user" />
+			<userStatistics class="mb-4" :user="user" />
 			<Follow ref="follow-btn" :user="user" class="follow" />
 			<p align="center">
 				{{ user.bio }}
@@ -211,7 +211,7 @@ export default {
 	}
 
 	.user_info_fixed {
-		width: 50%;
+		flex-grow: 1;
 		padding-top: 1.5%;
 	}
 

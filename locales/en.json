@@ -1,4 +1,6 @@
 {
+  "a poll": "a poll",
+  "an outfit": "an outfit",
   "getStarted": "Get started with",
   "or": "or",
   "Choose": "Choose",
@@ -13,8 +15,6 @@
   "Search": "Search your wishlist...",
   "SelectOutfitName": "Check out my autumn outfit!",
   "SelectPollName": "Ask something about it...",
-  "limitMessage": "The limit is 4 items per outfit",
-  "ItemSelection": "choose 2 to 4 items to pair together",
   "public": "Public",
   "private": "Private",
   "Squadders": "Squadders",
@@ -92,8 +92,6 @@
     "textPlaceholder": "Type your description"
   },
   "poll": {
-    "createNote": "choose 2 items you hesitate with",
-    "dialogTitle": "Choose items for poll",
     "expiration": "Expires in",
     "resultNote": "Result is shown to your followers after this",
     "ongoing": "Ongoing",
@@ -138,6 +136,12 @@
     "forEveryone": "For everyone",
     "forPrivate": "For followers only"
   },
+  "tip": {
+    "addItems": "Add items to your wishlist to create {0}.",
+    "limitMessage": "The limit is 4 items per outfit",
+    "outfitSelect": "choose 2 to 4 items to pair together",
+    "pollSelect": "choose 2 items you hesitate with"
+  },
   "user": {
     "Following": "Following",
     "Followers": "Followers",
@@ -149,6 +153,7 @@
     "share": "Share profile"
   },
   "wishlist": {
+    "empty": "You don't have any items in your wishlist yet.",
     "purchase": "PURCHASE"
   },
   "error": {

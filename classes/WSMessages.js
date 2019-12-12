@@ -64,6 +64,15 @@ export class WSMessages {
 		}
 	}
 
+	explore (message) {
+		const users = message.entries.filter(e => e.type === 'user')
+			.map((e) => {
+				const { user } = e;
+				return { ...user, followers: { me: e.following } };
+			});
+		squad.call(this, { users });
+	}
+
 	async feed (message) {
 		await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, message.feed);
 		const postsGetter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];

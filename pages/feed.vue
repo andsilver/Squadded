@@ -47,9 +47,9 @@ export default {
 		onOpen () {
 			if (this.squad.widget.open && (!this.items || !this.items.length)) {
 				this.fetchFeed();
-				return;
+			} else {
+				this.$root.$once('widget-open', () => this.fetchFeed());
 			}
-			this.$root.$once('widget-open', () => this.fetchFeed());
 		},
 		async fetchFeed () {
 			await onAuth(this.$store);

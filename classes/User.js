@@ -17,6 +17,7 @@ export class User {
 			name,
 			screenName,
 			userId,
+			_id,
 		} = props;
 
 		this.avatar = avatar;
@@ -29,7 +30,7 @@ export class User {
 		this.mention = mention;
 		this.name = name || screenName;
 		this.screenName = this.name;
-		this.userId = userId || guid;
+		this.userId = userId || guid || _id;
 		this.guid = this.userId;
 	}
 

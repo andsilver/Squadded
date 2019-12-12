@@ -1,6 +1,6 @@
 <template>
 	<v-container v-if="socket.isAuth" class="outfit-main-sec">
-		<BackBar ref="goback-button" :title="$t('Create')" class="titlebar" />
+		<BackBar ref="goback-button" :title="$t('Create')" />
 		<Tabs />
 		<v-layout column justify-center align-center class="tab-content-section">
 			<v-text-field
@@ -14,11 +14,16 @@
 					sqdi-magnifying-glass-finder
 				</v-icon>
 			</v-text-field>
-			<!-- <SelectItems ref="select-items" :max-count="4" @select="select"/> -->
-			<SelectItems ref="select-items" :max-count="4" @select="select" />
-			<div v-if="items.length == 0" class="choose-item">
-				{{ $t('ItemSelection') }}
-			</div>
+			<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="4" @select="select" />
+			<p v-if="isWishlistHasItems && items.length === 0" class="tip-note">
+				{{ $t('tip.outfitSelect') }}
+			</p>
+			<p v-if="!isWishlistHasItems" class="tip-note">
+				{{ $t('wishlist.empty') }}
+			</p>
+			<p v-if="!isWishlistHasItems" class="tip-note">
+				{{ $t('tip.addItems', [$t('an outfit')]) }}
+			</p>
 			<div class="merge-selected" :class="{ OutfitSelected: (items.length > 0) }">
 				<span v-if="items.length > 0">
 					<div class="checkout-outfit">
@@ -77,6 +82,10 @@ export default {
 		avatar () {
 			return this.$store.state.user.me.avatar;
 		},
+		isWishlistHasItems () {
+			const { wishlist } = this.$store.state.activity;
+			return wishlist && wishlist.length;
+		},
 	},
 	methods: {
 		select (items) {
@@ -102,15 +111,6 @@ export default {
 <style lang="css" scoped>
 .v-input{
 	width:100%;
-}
-.outfit-main-sec h2.titlebar {
-    color: #000;
-    font-size: 4.307vw;
-    font-weight: bold;
-	text-align: center;
-	padding-bottom: 0px;
-	position: relative;
-    line-height: 36px;
 }
 .search-plus.v-text-field {
     padding-top: 5px;
@@ -140,11 +140,6 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	margin-bottom: 0px;
     margin-top: 0px;
 }
-.titlebar .v-btn--icon.v-size--default {
-    height: 20px;
-    width: 20px;
-    float: left;
-}
 .tab-content-section .choose-items {
     max-height: calc(100vh - 52vh) !important;
 }
@@ -162,10 +157,11 @@ i.v-icon.sqdi-magnifying-glass-finder {
 .merge-selected.OutfitSelected {
 	padding-top: 5px;
 }
-.choose-item {
-    color: #B8B8BA;
-    font-size: 3.384vw;
+.tip-note {
+	color: #B8B8BA;
+	font-size: 3.384vw;
 	font-weight: 500;
+	margin-bottom: 0;
 }
 .bottom-post-sec {
     display: flex;

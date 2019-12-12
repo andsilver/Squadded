@@ -1,6 +1,6 @@
 <template>
 	<v-container v-if="socket.isAuth" class="poll-main-sec">
-		<BackBar ref="goback-button" :title="$t('Create')" class="titlebar" />
+		<BackBar ref="goback-button" :title="$t('Create')" />
 		<Tabs />
 		<v-layout column justify-center align-center>
 			<v-text-field
@@ -14,7 +14,7 @@
 					sqdi-magnifying-glass-finder
 				</v-icon>
 			</v-text-field>
-			<div class="d-flex compare-two">
+			<div v-show="isWishlistHasItems" class="compare-two">
 				<SelectItems
 					ref="select-item1"
 					class="select-item"
@@ -31,14 +31,20 @@
 					@select="(items) => {item2 = items[0]}"
 				/>
 			</div>
-			<div v-if="!item1 || !item2" class="choose-item">
-				{{ $t('poll.createNote') }}
-			</div>
+			<p v-if="isWishlistHasItems && (!item1 || !item2)" class="tip-note">
+				{{ $t('tip.pollSelect') }}
+			</p>
+			<p v-if="!isWishlistHasItems" class="tip-note">
+				{{ $t('wishlist.empty') }}
+			</p>
+			<p v-if="!isWishlistHasItems" class="tip-note">
+				{{ $t('tip.addItems', [$t('a poll')]) }}
+			</p>
 			<div class="merge-selected">
 				<span class="poll-input" :class="{'showElement': item1 && item2 }">
 					<div class="checkout-outfit">
 						<span><img :src="avatar"></span>
-						<v-text-field ref="text-field" v-model="text" :placeholder="$t('SelectPollName')" value="Ask something about it..." class="item-des see-selected" />
+						<v-text-field ref="text-field" v-model="text" :placeholder="$t('SelectPollName')" class="item-des see-selected" />
 					</div>
 				</span>
 				<ExpirationPicker ref="expiration" class="poll-expiration" :class="{'showElement': item1 && item2 }" />
@@ -96,6 +102,10 @@ export default {
 		avatar () {
 			return this.$store.state.user.me.avatar;
 		},
+		isWishlistHasItems () {
+			const { wishlist } = this.$store.state.activity;
+			return wishlist && wishlist.length;
+		},
 	},
 	methods: {
 		async create () {
@@ -117,143 +127,132 @@ export default {
 };
 </script>
 
-<style lang="css" scoped>
+<style lang="stylus" scoped>
 .v-input{
 	width: 100%;
 }
-.d-flex span{
-	align-self: center;
-}
+.compare-two
+	display flex
+	span
+		align-self: center;
+
+	.select-item:first-child
+		margin-right 4.307vw
+	.select-item:last-child
+		margin-left 4.307vw
+
 .select-item{
 	width:46%;
 }
-.d-flex.compare-two .select-item:first-child {
-    margin-right: 4.307vw;
-}
-.d-flex.compare-two .select-item:last-child {
-    margin-left: 4.307vw;
-}
-.poll-main-sec h2.titlebar {
-    color: #000;
-    font-size: 4.307vw;
-    font-weight: bold;
-	text-align: center;
-	padding-bottom: 0px;
-	position: relative;
-    line-height: 36px;
-}
 .search-plus.v-text-field {
 	padding-top: 5px;
-    margin-top: 8px;
-    padding-bottom: 0;
-    margin-bottom: 0!important;
+	margin-top: 8px;
+	padding-bottom: 0;
+	margin-bottom: 0!important;
 	font-size: 3.230vw;
-    font-weight: 500;
+	font-weight: 500;
 }
 i.v-icon.sqdi-magnifying-glass-finder {
-    font-size: 4.69vw !important;
+	font-size: 4.69vw !important;
 }
 .search-plus .v-input__prepend-outer {
-    margin-right: 0.615vw;
+	margin-right: 0.615vw;
 }
 .search-plus.theme--light.v-input:not(.v-input--is-disabled) input {
-    color: #B8B8BA;
+	color: #B8B8BA;
 }
 .search-plus.v-text-field input {
-    padding: 0px 2.153vw 0px!important;
-    font-size: 3.80vw;
+	padding: 0px 2.153vw 0px!important;
+	font-size: 3.80vw;
 }
 .search-plus.v-input {
-    margin-bottom: 6.076vw;
+	margin-bottom: 6.076vw;
 }
 .search-plus.v-input__append-outer,.search-plus.v-input__prepend-outer{
 	margin-bottom: 0px;
-    margin-top: 0px;
-}
-.titlebar .v-btn--icon.v-size--default {
-    height: 20px;
-    width: 20px;
-    float: left;
+	margin-top: 0px;
 }
 /*bottam sticky section */
 .bottom-post-sec {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    bottom: 0;
-    padding-bottom: 3.461vw;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	bottom: 0;
+	padding-bottom: 3.461vw;
 }
 .public-right-section{
-    width:50%;
-    padding-right: 4.1538vw;
-    text-align: right;
+	width:50%;
+	padding-right: 4.1538vw;
+	text-align: right;
 }
 
 .bottom-post-sec button.mt-2.v-btn.v-size--default {
-    height: 42px;
-    min-width: 100%;
+	height: 42px;
+	min-width: 100%;
 }
 i.v-icon.notranslate.sqdi.sqdi-close-cross.theme--light {
-    color: rgba(0, 0, 0, 0.7);
-    font-size: 8px !important;
+	color: rgba(0, 0, 0, 0.7);
+	font-size: 8px !important;
 }
 .merge-selected {
-    position: fixed;
-    width: 100%;
-    z-index: 999;
-    padding: 0;
-    background: #fff;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
+	position: fixed;
+	width: 100%;
+	z-index: 999;
+	padding: 0;
+	background: #fff;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	text-align: center;
 }
 .merge-selected.OutfitSelected {
 	padding-top: 5px;
 }
 /*selected outfit item css*/
 .checkout-outfit .v-text-field__details {
-    display: none;
+	display: none;
 }
 .checkout-outfit {
-    display: flex;
-    align-items: center;
-    background: #f4f4f5 !important;
-    border-radius: 6.153vw;
-    margin: 0 12px;
-    padding: 1.538vw;
+	display: flex;
+	align-items: center;
+	background: #f4f4f5 !important;
+	border-radius: 6.153vw;
+	margin: 0 12px;
+	padding: 1.538vw;
 }
 .checkout-outfit span {
-    height: 8.307vw;
-    padding-right: 1.538vw;
+	height: 8.307vw;
+	padding-right: 1.538vw;
 }
 .checkout-outfit span img {
-    width: 8.307vw;
-    border-radius: 6.153vw;
+	width: 8.307vw;
+	border-radius: 6.153vw;
 	height: 8.30vw;
 }
 .checkout-outfit .v-input.item-des.see-selected.theme--light.v-text-field.v-text-field--is-booted {
 	padding: 0;
-    margin: 0;
-    background: transparent;
-    font-size: 3.230vw;
-    color: #000000;
-    font-weight: 500;
-}
-.choose-item {
-    color: #B8B8BA;
-    font-size: 3.384vw;
+	margin: 0;
+	background: transparent;
+	font-size: 3.230vw;
+	color: #000000;
 	font-weight: 500;
-	padding-bottom: 3vw;
+}
+.tip-note {
+	color: #B8B8BA;
+	font-size: 3.384vw;
+	font-weight: 500;
+	margin-bottom: 0;
+	width: 100%;
+	text-align: center;
 }
 .com-vs{
 	color: #B8B8BA;
-    font-size: 4.307vw;
+	font-size: 4.307vw;
 }
 .poll-input, .poll-expiration {
 	display: none;
 }
 span.poll-input.showElement, .poll-expiration.showElement {
-    display: block;
+	display: block;
 }
 </style>

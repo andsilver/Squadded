@@ -1,7 +1,7 @@
 <template lang="html">
 	<section>
 		<Preloader v-if="!wishlist" ref="preloader" class="mt-8" />
-		<span v-else-if="!wishlist.length" ref="empty-whishlist-text">{{ $t('feed.isEmpty') }}</span>
+		<span v-else-if="!wishlist.length" ref="empty-whishlist-text">{{ $t('wishlist.empty') }}</span>
 		<div v-else>
 			<WhishlistItem
 				v-for="post in wishlist"
