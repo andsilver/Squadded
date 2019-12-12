@@ -8,6 +8,8 @@
 				class="multi-item pa-4 mb-4"
 				:class="{ shifted }"
 				:price="totalPrice"
+				show-tap
+				:post-length="post.items.length"
 				:loading="!post.guid && !post.error"
 				@click.native="fetch"
 			>
@@ -26,6 +28,7 @@
 					v-for="item in post.items"
 					:key="item.itemId"
 					:item="item"
+					show-refreshicon
 					class="mx-auto mb-4"
 				/>
 			</div>
@@ -108,7 +111,7 @@ export default {
 	padding 4px
 	overflow auto
 	.v-card
-		width 75%
+		width 85%
 .grid
 	grid-template-columns 1fr 1fr
 	grid-template-rows 1fr 1fr

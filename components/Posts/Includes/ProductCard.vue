@@ -6,6 +6,7 @@
 		:is-poll-post="isPollPost"
 		:loading="loading"
 		:show-bag="isClickable"
+		:show-refresh="showRefreshicon"
 		@open="openProduct"
 	>
 		<ItemImage
@@ -43,6 +44,10 @@ export default {
 			default: false,
 		},
 		voted: {
+			type: Boolean,
+			default: false,
+		},
+		showRefreshicon: {
 			type: Boolean,
 			default: false,
 		},

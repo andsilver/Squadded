@@ -71,12 +71,12 @@ export default {
 
 <style scoped>
 	.user_name {
-		font-size: .8em;
+		font-size: 4VW;
 		font-weight: 600;
 	}
 
 	.user_timestamp {
-		font-size: .7em;
+		font-size: 3.230vw;
 		font-weight: 400;
 	}
 

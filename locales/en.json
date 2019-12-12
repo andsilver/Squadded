@@ -19,6 +19,7 @@
   "private": "Private",
   "Squadders": "Squadders",
   "CreateANew": "Create a New",
+  "forAllItems": "for all {0} items",
   "comment": {
     "pop": {
       "reportComment": {
@@ -140,7 +141,8 @@
     "addItems": "Add items to your wishlist to create {0}.",
     "limitMessage": "The limit is 4 items per outfit",
     "outfitSelect": "choose 2 to 4 items to pair together",
-    "pollSelect": "choose 2 items you hesitate with"
+    "pollSelect": "choose 2 items you hesitate with",
+    "tapPhotos": "tap photos for details"
   },
   "user": {
     "Following": "Following",

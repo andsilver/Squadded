@@ -5,13 +5,17 @@
 		:loading="loading"
 	>
 		<slot />
-		<section class="card_bottom">
+		<div v-if="showTap" class="tap-photo">
+			{{ $t('tip.tapPhotos') }}
+		</div>
+		<section class="card_bottom" :class="{ card_inline: title }">
 			<v-card-text
 				ref="item-price"
 				class="post_price"
 				@click="() => $emit('open')"
 			>
 				<span>{{ price }}</span>
+				<span v-if="showTap" class="for-all">{{ $t('forAllItems', {'0': postLength}) }}</span>
 			</v-card-text>
 			<v-card-title
 				v-if="title"
@@ -21,10 +25,15 @@
 			>
 				<span>{{ title }}</span>
 			</v-card-title>
+			<div v-if="showRefresh" class="refresh-icon">
+				<img src="~assets/img/refresh.svg" class="refresh-logo">
+				<span class="refresh-count">38</span>
+			</div>
 			<button
 				v-if="showBag"
 				ref="buy-button"
 				class="buy_button sqdi-shopping-bag-2"
+				:class="{ bag_inline: title }"
 			/>
 		</section>
 	</v-card>
@@ -54,6 +63,18 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		showTap: {
+			type: Boolean,
+			default: false,
+		},
+		postLength: {
+			type: Number,
+			default: 0,
+		},
+		showRefresh: {
+			type: Boolean,
+			default: false,
+		},
 	},
 };
 </script>
@@ -65,17 +86,26 @@ export default {
 
 	.card_bottom
 		margin-top 2%
-
+		&.card_inline
+			position relative
 	.post_price
 		padding 0
 		span
 			font-size 1em
 			font-weight 700
+			&.for-all
+				font-size 3.230vw
+				font-weight 500
+				color #B8B8BA
+				background #F4F4F5
+				padding 0 2.153vw
+				border-radius 0.76vw
+				margin-left 1px
 
 	.post_title
 		margin-top 1%
 		padding 0
-		width 85%
+		width 100%
 		span
 			min-height 12px
 			max-height 8.615vw
@@ -92,6 +122,9 @@ export default {
 		position absolute
 		right 4%
 		bottom 4%
+		&.bag_inline
+			top 8%
+			bottom auto
 
 	.sqdi-shopping-bag-2:before
 		width 30px
@@ -108,4 +141,31 @@ export default {
 			margin-top 4%
 		.post_title
 			width 80%
+	.tap-photo
+		font-size 3.3846vw
+		text-align center
+		margin-top 3vw
+		margin-bottom 3vw
+		color #B8B8BA
+		font-weight 500
+	.refresh-icon
+		position absolute
+		top 18%
+		right 27%
+		.refresh-logo
+			width: 4.92VW;
+		.refresh-count
+			border-radius 1.846vw
+			font-size 2.461vw
+			font-weight 500
+			width 4.923vw
+			height 3.7vw
+			background #B8B8BA
+			display inline-block
+			text-align center
+			color #fff
+			position absolute
+			bottom 5.307vw
+			left 3.307vw
+			line-height: 3.7vw
 </style>

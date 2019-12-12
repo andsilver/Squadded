@@ -89,7 +89,7 @@ export default {
 	margin-bottom 4%
 
 .card_title
-	font-size .75em
+	font-size 3.692vw
 	font-weight 500
 	margin-bottom 3%
 
