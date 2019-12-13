@@ -19,6 +19,7 @@
 					ref="select-item1"
 					class="select-item"
 					:max-count="1"
+					is-poll
 					:exclude="item2"
 					@select="(items) => {item1 = items[0]}"
 				/>
@@ -27,11 +28,12 @@
 					ref="select-item2"
 					class="select-item"
 					:max-count="1"
+					is-poll
 					:exclude="item1"
 					@select="(items) => {item2 = items[0]}"
 				/>
 			</div>
-			<p v-if="isWishlistHasItems && (!item1 || !item2)" class="tip-note">
+			<p v-if="isWishlistHasItems" class="tip-note">
 				{{ $t('tip.pollSelect') }}
 			</p>
 			<p v-if="!isWishlistHasItems" class="tip-note">
@@ -131,16 +133,45 @@ export default {
 .v-input{
 	width: 100%;
 }
-.compare-two
+.compare-two{
+	position: relative;
+	padding: 14px 14px 0px;
+    margin-left: -12px;
+    margin-right: -12px;
+    margin-top: 0px !important;
 	display flex
-	span
-		align-self: center;
-
-	.select-item:first-child
+	span{
+		align-self: center
+	}
+	.select-item:first-child{
 		margin-right 4.307vw
-	.select-item:last-child
+	}
+	.select-item:last-child{
 		margin-left 4.307vw
-
+	}
+	&::before{
+		background: -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%);
+		background: -webkit-linear-gradient(top,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%);
+		background: linear-gradient(to bottom,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%);
+		height:4.615vw;
+		width:100%;
+		content: '';
+		left: 0;
+		position: absolute;
+		top: 0px;
+	}
+	&::after{
+		background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%);
+		background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%);
+		background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%);
+		height:4.615vw;
+		width:100%;
+		content: '';
+		left: 0;
+		position: absolute;
+		bottom: 0px;
+	}
+}
 .select-item{
 	width:46%;
 }
@@ -179,6 +210,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	width: 100%;
 	bottom: 0;
 	padding-bottom: 3.461vw;
+	padding-top: 10px;
 }
 .public-right-section{
 	width:50%;
@@ -244,15 +276,20 @@ i.v-icon.notranslate.sqdi.sqdi-close-cross.theme--light {
 	margin-bottom: 0;
 	width: 100%;
 	text-align: center;
+	margin-top: 12px;
 }
 .com-vs{
-	color: #B8B8BA;
-	font-size: 4.307vw;
+	color: #000000;
+    font-size: 4.307vw;
+    font-weight: 500;
 }
 .poll-input, .poll-expiration {
 	display: none;
 }
 span.poll-input.showElement, .poll-expiration.showElement {
 	display: block;
+}
+.poll-expiration {
+	margin-bottom: 10px;
 }
 </style>

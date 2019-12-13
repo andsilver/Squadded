@@ -14,9 +14,17 @@
 					item-text="label"
 					item-value="key"
 					:hide-details="true"
+					:menu-props="{ top: true }"
 					class="expire-custom-select"
 					@change="switchDate(`${defalutItem}`)"
-				/>
+				>
+					<template slot="selection" slot-scope="data">
+						<span class="expire-option">{{ $t(`expiration._${data.item.label}`) }}</span>
+					</template>
+					<template slot="item" slot-scope="data">
+						<span class="expire-option">{{ $t(`expiration._${data.item.label}`) }}</span>
+					</template>
+				</v-select>
 			</v-col>
 		</v-row>
 		<label class="resultnote">{{ $t('poll.resultNote') }}</label>
@@ -31,10 +39,11 @@ export default {
 		selected: 2,
 		defalutItem: '',
 		items: [
-			{ label: '10 min', amount: 10, interval: 'm', key: 0 },
-			{ label: '1 hour', amount: 1, interval: 'h', key: 1 },
-			{ label: '1 day', amount: 1, interval: 'd', key: 2 },
-			{ label: '1 week', amount: 7, interval: 'd', key: 3 },
+			{ label: '15m', amount: 15, interval: 'm', key: 0 },
+			{ label: '1h', amount: 1, interval: 'h', key: 1 },
+			{ label: '1d', amount: 1, interval: 'd', key: 2 },
+			{ label: '3d', amount: 3, interval: 'd', key: 3 },
+			{ label: '7d', amount: 7, interval: 'd', key: 4 },
 		],
 	}),
 	computed: {
@@ -94,5 +103,10 @@ label.resultnote {
 }
 .v-input.search-plus input {
     font-size: 3.230vw;
+}
+span.expire-option {
+    font-size: 3.23vw;
+    font-weight: 700;
+    line-height: 6.153vw;
 }
 </style>

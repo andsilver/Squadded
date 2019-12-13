@@ -80,6 +80,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.compare-two
+	.card_frame
+		&.is_poll
+			margin-bottom 15px
 .card_frame
 	border-radius 0 !important
 	box-shadow 0 2px 4px rgba(0, 0, 0, 0.1)

@@ -169,6 +169,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
     width: 100%;
     bottom: 0;
     padding-bottom: 3.461vw;
+	padding-top: 10px;
 }
 .public-right-section{
     width:50%;
