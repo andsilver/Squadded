@@ -63,8 +63,8 @@ Nuxt will launch the project in watch mode with a message like this one:
 ~~~
 
 2. In the Application tab of your local dev site, register a `userToken` key in `LocalStorage`, with the value
-that you will copy from the production site for your user or you can just use this test token
-~~~
+that you will copy from the production site for your user when you register with your FB,  or you can just use this test token :
+~~~javascript
 localStorage.setItem('userToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJzcXVhZC1zaG9wcGluZy5jb20iLCJzdWIiOiI1ZGUyYmUwZGVjMzQ1MWExMTRhODkwMTMiLCJpYXQiOjE1NzUxOTEzOTYsImV4cCI6MTU3Nzc4MzM5Nn0.EQzJfu7Kg8OsnGdD5X9b0qIxXAjO9B5AJ-DOYgRqPvc')
 ~~~
 
