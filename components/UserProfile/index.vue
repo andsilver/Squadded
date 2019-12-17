@@ -28,7 +28,7 @@
 				<v-list-item-content align="center" class="py-1">
 					<userAvatar align="center" class="user_avatar my-0" :avatar="user.avatar" />
 					<userName class="mt-2" :name="user.name" />
-					<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : 'Love my parents and they like me too'" />
+					<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : ''" />
 				</v-list-item-content>
 			</v-list-item>
 			<userStatistics class="mb-4" :user="user" />
