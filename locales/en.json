@@ -1,4 +1,5 @@
 {
+  "All": "All",
   "a poll": "a poll",
   "an outfit": "an outfit",
   "getStarted": "Get started with",
@@ -11,12 +12,15 @@
   "Home": "Home",
   "Messages": "Messages",
   "My Squad": "My Squad",
+  "Notifications": "Notifications",
   "Profile": "Profile",
+  "private": "Private",
+  "Pushed": "Pushed",
+  "public": "Public",
+  "Requests": "Requests",
   "Search": "Search your wishlist...",
   "SelectOutfitName": "Check out my autumn outfit!",
   "SelectPollName": "Ask something about it...",
-  "public": "Public",
-  "private": "Private",
   "Squadders": "Squadders",
   "CreateANew": "Create a New",
   "forAllItems": "for all {0} items",
@@ -89,7 +93,9 @@
     "comment": "commented on",
     "isEmpty": "There is no notifications yet",
     "like": "liked",
-    "post": "your post"
+    "pollend": "Your poll has expired - see the winner!",
+    "post": "your post",
+    "vote": "voted on"
   },
   "outfit": {
     "textPlaceholder": "Type your description"

@@ -5,7 +5,7 @@
 		height="40"
 		class="px-3 toolbar"
 	>
-		<v-tabs class="tabs_block">
+		<v-tabs>
 			<v-tab to="/feed">
 				{{ $t('My Squad') }}
 			</v-tab>

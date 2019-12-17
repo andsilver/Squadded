@@ -1,5 +1,7 @@
 <template>
 	<v-container v-if="socket.isAuth">
+		<BackBar ref="goback-button" :title="$t('Notifications')" />
+		<Tabs />
 		<v-layout>
 			<span v-if="!notifications.length" ref="empty-notif-text">{{ $t('notify.isEmpty') }}</span>
 			<Notifications v-else ref="notification-list" :items="notifications" />
@@ -10,7 +12,9 @@
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
 import { prefetch } from '~/helpers';
+import BackBar from '~/components/common/BackBar';
 import Notifications from '~/components/Notifications';
+import Tabs from '~/components/Notifications/Tabs';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 
 const notifMapState = createNamespacedHelpers(NotificationStore).mapState;
@@ -18,7 +22,9 @@ const notifMapState = createNamespacedHelpers(NotificationStore).mapState;
 export default {
 	name: 'NotificationsPage',
 	components: {
+		BackBar,
 		Notifications,
+		Tabs,
 	},
 	data: () => ({
 		stayTimeout: null,

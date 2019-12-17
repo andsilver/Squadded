@@ -1,28 +1,15 @@
 <template>
 	<section class="d-flex">
-		<UserLink
-			size="40"
-			:user="notification.user"
-			hide-name
-		/>
+		<v-avatar>
+			<v-icon size="24px">
+				sqdi-squadded-icon
+			</v-icon>
+		</v-avatar>
 		<div class="d-flex flex-column">
 			<span>
-				<UserLink
-					size="30"
-					:user="notification.user"
-					hide-avatar
-				/>
-				&nbsp;{{ $t('notify.comment') }}
-				<b>
-					&nbsp;{{ notification.post.text || $t('notify.post') }}
-				</b>
+				&nbsp;{{ $t('notify.pollend') }}
 			</span>
 			<span>
-				<v-avatar color="#000" size="24px">
-					<v-icon dark size="16">
-						sqdi-chat-outlined
-					</v-icon>
-				</v-avatar>
 				{{ timeString }}
 			</span>
 		</div>
@@ -30,12 +17,10 @@
 </template>
 
 <script>
-import UserLink from '~/components/UserLink';
 
 export default {
-	name: 'NotifyComment',
+	name: 'PollEnd',
 	components: {
-		UserLink,
 	},
 	props: {
 		notification: {

@@ -8,19 +8,18 @@
 		<div class="d-flex flex-column">
 			<span>
 				<UserLink
-					size="30"
 					:user="notification.user"
 					hide-avatar
 				/>
-				&nbsp;{{ $t('notify.comment') }}
+				&nbsp;{{ $t('notify.vote') }}
 				<b>
 					&nbsp;{{ notification.post.text || $t('notify.post') }}
 				</b>
 			</span>
 			<span>
 				<v-avatar color="#000" size="24px">
-					<v-icon dark size="16">
-						sqdi-chat-outlined
+					<v-icon dark size="14">
+						sqdi-checkmark
 					</v-icon>
 				</v-avatar>
 				{{ timeString }}
@@ -33,7 +32,7 @@
 import UserLink from '~/components/UserLink';
 
 export default {
-	name: 'NotifyComment',
+	name: 'NotifyLike',
 	components: {
 		UserLink,
 	},

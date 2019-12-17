@@ -15,7 +15,7 @@
 		</v-btn>
 		<v-btn ref="comments-link" nuxt :to="`/post/${post.postId}/reactions`" class="counter-icon comments_button">
 			<v-icon ref="comments-icon" style="color: #B8B8BA;" class="buttons_icon" size="22">
-				sqdi-chat-message-oval-outlined-speech-bubble
+				sqdi-chat-outlined
 			</v-icon>
 			<span v-if="commentsCount" ref="comments-count" class="count">{{ short(commentsCount) }}</span>
 		</v-btn>

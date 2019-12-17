@@ -1,15 +1,30 @@
 <template>
 	<section class="d-flex">
 		<UserLink
-			size="30"
+			size="40"
 			:user="notification.user"
+			hide-name
 		/>
-		<span>
-			&nbsp;{{ $t('notify.like') }}
-			<b>
-				&nbsp;{{ notification.post.text || $t('notify.post') }}
-			</b>
-		</span>
+		<div class="d-flex flex-column">
+			<span>
+				<UserLink
+					:user="notification.user"
+					hide-avatar
+				/>
+				&nbsp;{{ $t('notify.like') }}
+				<b>
+					&nbsp;{{ notification.post.text || $t('notify.post') }}
+				</b>
+			</span>
+			<span>
+				<v-avatar color="#000" size="24px">
+					<v-icon dark size="14">
+						sqdi-favorite-heart-button
+					</v-icon>
+				</v-avatar>
+				{{ timeString }}
+			</span>
+		</div>
 	</section>
 </template>
 
@@ -27,10 +42,14 @@ export default {
 			required: true,
 		},
 	},
+	computed: {
+		timeString () {
+			window.moment.locale(this._i18n.locale);
+			return window.moment(this.notification.ts).fromNow();
+		},
+	},
 };
 </script>
 
 <style lang="stylus" scoped>
-span
-	padding-top 12px
 </style>

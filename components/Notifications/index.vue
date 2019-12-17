@@ -15,13 +15,11 @@
 <script>
 import Comment from './Includes/Comment';
 import Like from './Includes/Like';
+import PollEnd from './Includes/PollEnd';
+import Vote from './Includes/Vote';
 
 export default {
 	name: 'NotificationList',
-	components: {
-		Comment,
-		Like,
-	},
 	props: {
 		items: {
 			type: Array,
@@ -34,6 +32,8 @@ export default {
 		getComponent (notification) {
 			return notification.type === 'notifComment' ? Comment
 				: notification.type === 'notifLike' ? Like
+				: notification.type === 'notifyPollEnd' ? PollEnd
+				: notification.type === 'notifVote' ? Vote
 				: null;
 		},
 	},
@@ -43,4 +43,6 @@ export default {
 <style lang="stylus" scoped>
 .feed
 	width 100%
+	section
+		padding 8px
 </style>

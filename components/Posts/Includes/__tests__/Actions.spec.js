@@ -93,7 +93,7 @@ describe('Post Actions', () => {
 			expect(wrapper.ref(COUNTER_ID).exists()).toBe(false);
 
 			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('sqdi-chat-message-oval-outlined-speech-bubble');
+			expect(icon.text()).toBe('sqdi-chat-outlined');
 		});
 
 		it('should display chat icon and number of comments', () => {
@@ -105,7 +105,7 @@ describe('Post Actions', () => {
 			expect(counter.text()).toBe(wrapper.vm.short(post.comments.messages.length));
 
 			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('sqdi-chat-message-oval-outlined-speech-bubble');
+			expect(icon.text()).toBe('sqdi-chat-outlined');
 		});
 
 		it('should follow to comment reactions', () => {

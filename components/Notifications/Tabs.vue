@@ -6,14 +6,14 @@
 		class="px-3"
 	>
 		<v-tabs fixed-tabs>
-			<v-tab color="#B8B8BA" to="/create/outfit">
-				{{ $t('create.outfit') }}
+			<v-tab color="#B8B8BA" to="/notifications">
+				{{ $t('All') }}
 			</v-tab>
-			<v-tab color="#B8B8BA" to="">
-				{{ $t('create.photo') }}
+			<v-tab color="#B8B8BA" to="/notifications/requests">
+				{{ $t('Requests') }}
 			</v-tab>
-			<v-tab color="#B8B8BA" to="/create/poll">
-				{{ $t('create.poll') }}
+			<v-tab color="#B8B8BA" to="/notifications/pushed">
+				{{ $t('Pushed') }}
 			</v-tab>
 		</v-tabs>
 	</v-toolbar>
