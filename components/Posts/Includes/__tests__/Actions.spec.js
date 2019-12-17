@@ -54,7 +54,7 @@ describe('Post Actions', () => {
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('sqdi-favorite-heart-button');
-			expect(icon.attributes('color')).not.toBe('red');
+			expect(icon.attributes('color')).not.toBe('#FD6256');
 		});
 
 		it('shoud display red heart when liked by me', () => {
@@ -65,7 +65,7 @@ describe('Post Actions', () => {
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('sqdi-favorite-heart-button');
-			expect(icon.attributes('color')).toBe('red');
+			expect(icon.attributes('color')).toBe('#FD6256');
 		});
 
 		it('shoud display heart but no likes counter', () => {

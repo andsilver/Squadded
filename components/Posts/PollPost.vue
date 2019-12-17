@@ -1,8 +1,12 @@
 <template>
 	<Post
 		:post="post"
+		:class="post.closed ? 'poll_expired': 'poll_ongoing'"
 	>
-		<div class="wrapper mb-2">
+		<div v-if="post.closed" class="is_poll_expired">
+			{{ $t('expired') }}
+		</div>
+		<div class="wrapper mb-2" :class="{ my_post_wrapper: isMyPost }">
 			<VoteSlider :post="post" @vote="vote" />
 			<div class="poll-post grid">
 				<PollItem
@@ -67,10 +71,19 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.is_poll_expired
+	text-align center
+	background-color #DBDBDB
+	line-height 9.23vw
+	margin 0.61vw 0
+	font-size 2.6vw
+	font-weight 700
+	text-transform uppercase
+	letter-spacing 1px
+	width 100%
 .poll-post
 	grid-template-columns 1fr 1fr
 	grid-gap 3px
-
 .wrapper
 	position relative
 </style>

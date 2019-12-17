@@ -7,7 +7,7 @@
 				size="35"
 				:user="user"
 			/>
-			<Follow ref="follow-btn" v-if="notMe(user)" :user="user" class="follow" />
+			<Follow v-if="notMe(user)" ref="follow-btn" :user="user" class="follow" />
 		</v-list-item>
 	</v-list>
 </template>

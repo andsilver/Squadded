@@ -69,18 +69,26 @@ export default {
 };
 </script>
 
-<style scoped>
-	.user_name {
-		font-size: 4VW;
-		font-weight: 600;
-	}
-
-	.user_timestamp {
-		font-size: 3.230vw;
-		font-weight: 400;
-	}
-
-	.user_link_header {
-		position: relative;
-	}
+<style lang="stylus" scoped>
+.user_name
+	font-size 4VW
+	font-weight 600
+.user_timestamp
+	font-size 3.230vw
+	font-weight 400
+.user_link_header
+	position relative
+.user-section
+	.user_link_header
+		background-color transparent
+	.user_name
+		display none
+.message-user-image
+	.user_link_header
+		background-color transparent
+	.v-list-item__avatar
+		margin-bottom 0px
+		margin-top 5px
+		margin-left 1.53vw
+		margin-right 0px !important
 </style>

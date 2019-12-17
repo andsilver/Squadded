@@ -5,6 +5,7 @@
 		:title="item.title"
 		:is-poll-post="isPollPost"
 		:loading="loading"
+		:item="item"
 		:show-bag="isClickable"
 		:show-refresh="showRefreshicon"
 		@open="openProduct"

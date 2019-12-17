@@ -104,14 +104,17 @@ export default {
 	transition-property margin-left
 	transition-delay .2s
 	&.shifted
-		margin-left -75%
+		margin-left -65%
 .scroll-items
-	width 75%
+	width 65%
 	max-height 250px
 	padding 4px
 	overflow auto
 	.v-card
 		width 85%
+		&.card_frame:first-child
+			margin-top 16px
+
 .grid
 	grid-template-columns 1fr 1fr
 	grid-template-rows 1fr 1fr
@@ -120,6 +123,7 @@ export default {
 		.v-image
 			grid-row-end span 2
 	&.grid-snap-3
+		grid-template-columns 1.68fr 1fr
 		.v-image:first-child
 			grid-row-end span 2
 </style>

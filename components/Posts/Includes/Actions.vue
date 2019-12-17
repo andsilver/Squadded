@@ -4,7 +4,7 @@
 			<v-icon
 				ref="likes-icon"
 				class="buttons_icon"
-				:color="post.likes.byMe ? 'red' : '#B8B8BA'"
+				:color="post.likes.byMe ? '#FD6256' : '#B8B8BA'"
 				size="22"
 			>
 				sqdi-favorite-heart-button{{ post.likes.count ? '' : '-outline' }}
@@ -82,7 +82,8 @@ export default {
 	box-shadow none !important
 	border-radius 0 !important
 	background-color transparent !important
-
+.hanger_button
+	display none
 .comments_button
 	border-left 1px solid #DBDBDB
 	border-right 1px solid #DBDBDB

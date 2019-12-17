@@ -1,7 +1,7 @@
 <template>
-	<div v-if="isMyPost || !post.closed || post.voted" class="vote_slider_wrapper">
-		<Button v-if="isMyPost">
-			{{ post.closed ? $t('poll.results') : $t('poll.ongoing') }}
+	<div v-if="isMyPost || !post.closed || post.voted" class="vote_slider_wrapper" :class="{ isMyPostSlider: isMyPost }">
+		<Button v-if="isMyPost || post.closed">
+			{{ $t('poll.results') }}
 		</Button>
 		<button
 			v-else
@@ -19,6 +19,7 @@
 			<span ref="vote_btn" class="vote">{{ post.voted ? $t('poll.voted') : $t('poll.vote') }}</span>
 			<span class="sqdi-arrow-point-to-right right" />
 		</button>
+		<span v-if="post.voted && post.closed && !isMyPost" class="voted-selection" :class="{ left_select: post.voted === 1, right_select: post.voted === 2 }" />
 	</div>
 </template>
 
@@ -112,17 +113,34 @@ export default {
 	position absolute
 	width 98%
 	left 1%
-	height 40px
+	height 41px
 	padding 3px 0
 	background-color rgba(0, 0, 0, .12)
-	bottom 21%
+	top 59%
 	border-radius 12px
 	justify-content space-around
 	z-index 5
-
+	&.isMyPostSlider
+		background-color transparent
+	span.voted-selection
+		width 9.23vw
+		height 9.23vw
+		background-color #fff
+		position absolute
+		border-radius 50%
+		background-size 2.9vw
+		background-position: center;
+		background-image url('~assets/img/checked.svg')
+		&.left_select
+			left 10px
+		&.right_select
+			right 10px
+.poll_expired
+	.vote_slider_wrapper
+		background-color transparent
 .vote_slider
-	width 24%
-	height 86%
+	width 23.076vw
+	height 9.384vw
 	position: absolute;
 	left 50%
 	color white
@@ -165,7 +183,13 @@ export default {
 	color black
 	border-radius 10px
 	transition all .5s
-
+	.sqdi-arrow-point-to-right
+		display none
+	.vote
+		padding-left 15px
+		background-size 2.9vw
+		background-position 18% 45%
+		background-image url('~assets/img/checked.svg')
 button.first
 	left 25%
 

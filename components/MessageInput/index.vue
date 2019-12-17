@@ -1,11 +1,16 @@
 <template>
 	<section class="d-flex">
-		<UserLink v-if="userLink" size="30" :user="me" hide-name />
+		<UserLink v-if="userLink" size="7.69vw" :user="me" hide-name class="message-user-image" />
 		<v-text-field
 			ref="text-field"
 			v-model="textValue"
 			hide-details
 			:placeholder="placeholder"
+			solo
+			flat
+			dense
+			background-color="#F4F4F5"
+			class="message-input"
 			@keydown="keydown"
 		>
 			<v-icon v-if="textValue.length" slot="append" color="#B8B8BA" size="22" @click="send">
@@ -89,6 +94,16 @@ export default {
 
 <style lang="stylus" scoped>
 .v-text-field
-	padding-top 0
+	padding-top 1px
 	font-size 10px
+.message-input
+	background-color #F4F4F5
+	border-bottom-right-radius 3.07vw
+	border-top-right-radius 3.07vw
+	border-top-left-radius 0px
+	border-bottom-left-radius 0px
+.message-user-image
+	background-color #F4F4F5
+	border-top-left-radius 3.07vw
+	border-bottom-left-radius 3.07vw
 </style>

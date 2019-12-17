@@ -27,7 +27,7 @@
 			</v-card-title>
 			<div v-if="showRefresh" class="refresh-icon">
 				<img src="~assets/img/refresh.svg" class="refresh-logo">
-				<span class="refresh-count">38</span>
+				<span class="refresh-count">{{ short(item.outfits) }}</span>
 			</div>
 			<button
 				v-if="showBag"
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { shortNumber } from '~/helpers';
+
 export default {
 	name: 'CardFrame',
 	props: {
@@ -75,6 +77,20 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		item: {
+			type: Object,
+			required: false,
+			default: () => {},
+		},
+	},
+	methods: {
+		short(number) {
+			if (number) {
+				return shortNumber(number, this._i18n.locale);
+			} else {
+				return '0';
+			}
+		},
 	},
 };
 </script>
@@ -86,7 +102,7 @@ export default {
 			margin-bottom 15px
 .card_frame
 	border-radius 0 !important
-	box-shadow 0 2px 4px rgba(0, 0, 0, 0.1)
+	box-shadow rgba(0, 0, 0, 0.1) 0px 0.92vw 6.153vw
 
 	.card_bottom
 		margin-top 2%
@@ -172,4 +188,18 @@ export default {
 			bottom 5.307vw
 			left 3.307vw
 			line-height: 3.7vw
+&.single-item
+	.buy_button
+		&.bag_inline
+			top 1%
+			bottom auto
+			right 0px
+			text-align right
+			width 25px
+	.sqdi-shopping-bag-2:before
+		top: 0
+	.refresh-icon
+		right 20%
+	.card_bottom
+		margin-top 5%
 </style>

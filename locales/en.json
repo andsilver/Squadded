@@ -20,6 +20,8 @@
   "Squadders": "Squadders",
   "CreateANew": "Create a New",
   "forAllItems": "for all {0} items",
+  "winner": "Winner",
+  "expired": "Expired",
   "comment": {
     "pop": {
       "reportComment": {
@@ -81,7 +83,7 @@
     "isEmpty": "There is no items yet"
   },
   "input": {
-    "placeholder": "Write a comment"
+    "placeholder": "Write a comment..."
   },
   "notify": {
     "comment": "commented on",
@@ -102,7 +104,9 @@
     "voted": "VOTED"
   },
   "post": {
-    "addedItem": "added an item",
+    "addedItem": "added item to the wishlist",
+    "addedOutfit": "posted a new outfit with {0} items",
+    "addedPoll": "posted a poll, expiring in {0} days",
     "textPlaceholder": "Input your message for this post",
     "sending": "sending…",
     "reactions": "Reactions",

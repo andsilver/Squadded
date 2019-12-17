@@ -75,10 +75,21 @@ export default {
 	background #fff
 	bottom 65px
 	left 0
-	padding 0 12px
+	padding 2.30vw 4.61vw
 	position fixed
 	width 100%
 	z-index 4
+	height: 15.38vw;
+	&::before
+		background -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%)
+		background -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%)
+		background linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%)
+		height 4.615vw
+		width 100%;
+		content ''
+		left 0
+		position absolute
+		top -18px
 
 .v-application.isTouch:not(.show-tabs) .post_comment_input
 	bottom 0

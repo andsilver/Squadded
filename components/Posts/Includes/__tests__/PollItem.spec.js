@@ -28,6 +28,7 @@ describe('PollItem', () => {
 				total: post.item1.votes + post.item2.votes,
 			},
 			mocks: {
+				$t: msg => msg,
 				_i18n: {
 					locale: 'en',
 				},

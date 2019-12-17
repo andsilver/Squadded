@@ -5,6 +5,7 @@
 			:price="price"
 			:title="item.title"
 			:voted="voted"
+			:item="item"
 			:show-bag="voted"
 			is-poll-post
 		>
@@ -22,6 +23,9 @@
 						class="poll-item__votes-count"
 					>
 						{{ votes }}<sup>%</sup>
+					</span>
+					<span v-if=" voted > 0 ? (votes > 50) ? true : false : false" class="winner-text">
+						{{ $t('winner') }}
 					</span>
 				</div>
 			</ItemImage>
@@ -80,22 +84,48 @@ export default {
 	pointer-events none
 	&-count
 		color #fff
-		font-size 26px
+		font-size 6vw
 		display flex
 		align-items center
 		justify-content center
-		height 70px
-		width 70px
+		height 18.461vw
+		width 18.461vw
 		border 1px solid rgba(255,255,255, .5)
 		border-radius 50%
-		font-weight 500
+		font-weight 600
 
 	sup
-		font-size 16px
-		font-weight 500
+		font-size 60%
+		font-weight 600
+		margin-left 1px
 .choosed
-	background-color rgba(253, 98, 86, .25)
-
+	background-color rgba(0, 0, 0, .40)
+	.poll-item__votes-count
+		color #000
+		background #ffffff
+		border-color #fff
 .notchoosed
-	background-color rgba(0,0,0, .20)
+	background-color rgba(255, 255, 255, .40)
+.poll_ongoing
+	.my_post_wrapper
+		.choosed,
+		.notchoosed
+			background-color transparent
+			.poll-item__votes-count
+				display none
+.winner-text
+	position absolute
+	top 68%
+	color #fff
+	font-weight 600
+	text-transform uppercase
+	font-size 2.8vw
+	letter-spacing 1px
+
+.poll_expired
+	.choosed
+		.poll-item__votes-count
+			color #ffffff
+			background #FD6256
+			border-color #FD6256
 </style>
