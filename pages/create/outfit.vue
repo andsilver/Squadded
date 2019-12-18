@@ -162,6 +162,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	font-size: 3.384vw;
 	font-weight: 500;
 	margin-bottom: 0;
+	margin-top: 5px;
 }
 .bottom-post-sec {
     display: flex;

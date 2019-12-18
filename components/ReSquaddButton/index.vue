@@ -46,8 +46,8 @@ export default {
 <style scoped lang="stylus">
 .resquadd
 	position absolute
-	right 14px
-	top 14px
+	right 2.50vw
+	top 3.07vw
 	width 30px
 	height 30px
 	border-radius 50%

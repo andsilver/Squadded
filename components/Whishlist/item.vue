@@ -13,6 +13,7 @@
 				/>
 				<v-btn
 					class="purchase_button"
+					@click="openProduct"
 				>
 					<span class="button_text sqdi-shopping-bag-2">{{ $t('wishlist.purchase') }}</span>
 				</v-btn>

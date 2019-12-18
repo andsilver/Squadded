@@ -95,7 +95,8 @@ export default {
 <style lang="stylus" scoped>
 .v-text-field
 	padding-top 1px
-	font-size 10px
+	font-size 3.23vw
+	font-weight 500
 .message-input
 	background-color #F4F4F5
 	border-bottom-right-radius 3.07vw

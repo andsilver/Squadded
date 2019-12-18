@@ -91,4 +91,9 @@ export default {
 		margin-top 5px
 		margin-left 1.53vw
 		margin-right 0px !important
+.comment
+	.comment_user_name
+		font-weight 600
+	.v-list-item__avatar
+		margin-top 0.46vw
 </style>

@@ -110,7 +110,7 @@
     "voted": "VOTED"
   },
   "post": {
-    "addedItem": "added item to the wishlist",
+    "addedItem": "added this items to their wishlist",
     "addedOutfit": "posted a new outfit with {0} items",
     "addedPoll": "posted a poll, expiring in {0} days",
     "textPlaceholder": "Input your message for this post",

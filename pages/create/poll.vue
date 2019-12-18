@@ -14,7 +14,7 @@
 					sqdi-magnifying-glass-finder
 				</v-icon>
 			</v-text-field>
-			<div v-show="isWishlistHasItems" class="compare-two">
+			<div v-show="isWishlistHasItems" class="compare-two" :class="{'both_item_selected': item1 && item2 }">
 				<SelectItems
 					ref="select-item1"
 					class="select-item"

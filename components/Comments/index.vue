@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<v-list v-if="post.comments.messages.length" ref="comments-list">
+		<v-list v-if="post.comments.messages.length" ref="comments-list" class="comment-listing">
 			<Comment
 				v-for="comment in post.comments.messages"
 				:key="comment.correlationId || comment._id"
@@ -93,4 +93,9 @@ export default {
 
 .v-application.isTouch:not(.show-tabs) .post_comment_input
 	bottom 0
+.comment-listing
+	height calc(100vh - 305px)
+	overflow-y auto
+	padding-top 0px
+	overflow-x hidden
 </style>

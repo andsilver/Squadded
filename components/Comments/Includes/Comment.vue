@@ -2,7 +2,7 @@
 	<section class="comment">
 		<UserLink
 			ref="comment-author-user-link"
-			size="30"
+			size="7.69vw"
 			:user="comment.author"
 			hide-name
 		/>
@@ -12,22 +12,17 @@
 				class="comment_user_name"
 				:user="comment.author"
 				hide-avatar
-			/>:
+			/>
 			<span
 				ref="comment-text"
 				class="comment_text"
 			>{{ comment.text }}</span>
-		</p>
-		<button class="comment_like_button">
-			<v-icon
-				class="comment_buttons_icon"
-				color="#B8B8BA"
-				size="22"
+			<span
+				class="message-time"
 			>
-				mdi-heart{{ '-outline' }}
-			</v-icon>
-		</button>
-
+				{{ timeString }}
+			</span>
+		</p>
 		<!--Since at this moment we don't have any functionality in PopMenu for User->ME, we are not displaying it for such User at all-->
 		<PopMenu v-if="!comment.author.isMe" :comment="comment" />
 	</section>
@@ -50,12 +45,35 @@ export default {
 			required: true,
 		},
 	},
+	computed: {
+		timeString () {
+			const timestring = {
+				'future': 'in %s',
+				'past': '%s ago',
+				's': '1s',
+				'ss': '%ds',
+				'm': '1m',
+				'mm': '%dm',
+				'h': '1h',
+				'hh': '%dh',
+				'd': '1d',
+				'dd': '%dd',
+				'M': '4w',
+				'MM': '%dm',
+				'y': '1y',
+				'yy': '%dy',
+			};
+			window.moment.locale(this._i18n.locale, { relativeTime: timestring });
+			return this.comment.ts && window.moment(this.comment.ts).fromNow(true);
+		},
+	},
 };
 </script>
 
 <style lang="stylus">
 	.comment
 		display flex
+		margin-bottom 6.153vw
 
 	.comment_user_name
 		font-weight 500
@@ -64,14 +82,14 @@ export default {
 		color black
 
 	.comment_text_row
-		width 75%
-		font-size .7em
-		line-height 1.2em
+		width calc(100% - 36px)
+		font-size 3.23vw
+		line-height 4VW
 		margin-bottom 0 !important
-		padding-top 5%
+		margin-right -5px
 
 	.comment_text
-		color #B8B8BA
+		color #000000
 		font-weight 400
 
 	.comment_like_button
@@ -83,4 +101,10 @@ export default {
 		left 7px
 		top 50%
 		margin-top -25%
+	span.message-time
+		display block
+		margin-top 1vw
+		font-size 3.23vw
+		font-weight 600
+		color #B8B8BA
 </style>

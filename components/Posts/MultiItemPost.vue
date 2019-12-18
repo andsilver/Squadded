@@ -23,14 +23,16 @@
 					/>
 				</div>
 			</CardFrame>
-			<div class="scroll-items" :style="{ 'max-height': maxHeight }">
-				<ProductCard
-					v-for="item in post.items"
-					:key="item.itemId"
-					:item="item"
-					show-refreshicon
-					class="mx-auto mb-4"
-				/>
+			<div class="scroll-section" :class="{ shifted }">
+				<div class="scroll-items" :style="{ 'max-height': maxHeight }">
+					<ProductCard
+						v-for="item in post.items"
+						:key="item.itemId"
+						:item="item"
+						show-refreshicon
+						class="mx-auto mb-4"
+					/>
+				</div>
 			</div>
 		</div>
 	</Post>
@@ -84,7 +86,7 @@ export default {
 		},
 		toggleShifted () {
 			this.fetched = true;
-			this.maxHeight = `${this.$refs['multi-item'].$el.offsetHeight}px`;
+			this.maxHeight = `${(this.$refs['multi-item'].$el.offsetHeight - 7)}px`;
 			this.shifted = !this.shifted;
 		},
 	},
@@ -96,7 +98,7 @@ export default {
 	white-space nowrap
 	width 100%
 .multi-item,
-.scroll-items
+.scroll-section
 	display inline-block
 	vertical-align top
 .multi-item
@@ -105,15 +107,41 @@ export default {
 	transition-delay .2s
 	&.shifted
 		margin-left -65%
-.scroll-items
-	width 65%
-	max-height 250px
+.scroll-section
+	position relative
+	margin-left -4px
+	vertical-align top
 	padding 4px
-	overflow auto
-	.v-card
-		width 85%
-		&.card_frame:first-child
-			margin-top 16px
+	width 65%
+	&.shifted
+		&::before
+			background -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%)
+			background -webkit-linear-gradient(top,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%)
+			background linear-gradient(to bottom,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%)
+			height 4.615vw
+			width 100%
+			content ''
+			left 0
+			position absolute
+			top 0px
+		&::after
+			background -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%)
+			background -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%)
+			background linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%)
+			height 4.615vw
+			width 100%
+			content ''
+			left 0
+			position absolute
+			bottom 0px
+	.scroll-items
+		max-height 250px
+		overflow auto
+		.v-card
+			width 85%
+			box-shadow none
+			&.card_frame:first-child
+				margin-top 16px
 
 .grid
 	grid-template-columns 1fr 1fr

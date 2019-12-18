@@ -24,7 +24,7 @@
 					>
 						{{ votes }}<sup>%</sup>
 					</span>
-					<span v-if=" voted > 0 ? (votes > 50) ? true : false : false" class="winner-text">
+					<span v-if="(votes > 50 && isClosed)" class="winner-text">
 						{{ $t('winner') }}
 					</span>
 				</div>
@@ -56,6 +56,10 @@ export default {
 		total: {
 			type: Number,
 			default: 0,
+		},
+		isClosed: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {

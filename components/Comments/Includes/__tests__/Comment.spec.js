@@ -9,6 +9,9 @@ import { commentMockBuilder } from '~/test/comment.mock';
 const mocks = {
 	$t: msg => msg,
 	$tc: msg => msg,
+	_i18n: {
+		locale: 'en',
+	},
 };
 
 Wrapper.prototype.ref = function (id) {
@@ -42,6 +45,11 @@ describe('Post comment', () => {
 
 	function initLocalVue () {
 		const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
+
+		window.moment = jest.fn().mockReturnValue({
+			fromNow: jest.fn(),
+		});
+		window.moment.locale = jest.fn();
 
 		wrapper = shallowMount(Comment, {
 			mocks,

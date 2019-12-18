@@ -13,6 +13,7 @@
 					ref="poll-item1"
 					:item="post.item1"
 					:total="total"
+					:is-closed="post.closed"
 					:voted="isVoted"
 					@click.native="() => vote(1)"
 				/>
@@ -20,6 +21,7 @@
 					ref="poll-item2"
 					:item="post.item2"
 					:total="total"
+					:is-closed="post.closed"
 					:voted="isVoted"
 					@click.native="() => vote(2)"
 				/>
@@ -34,6 +36,7 @@ import PollItem from './Includes/PollItem';
 import VoteSlider from './Includes/VoteSlider';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostActions } from '~/store/post';
+import { SquadAPI } from '~/services/SquadAPI';
 
 export default {
 	name: 'PollPost',
@@ -64,6 +67,15 @@ export default {
 			if (!this.isVoted) {
 				const { post } = this;
 				this.$store.dispatch(`${PostStore}/${PostActions.vote}`, { post, vote });
+			} else {
+				const { post } = this;
+				if (post.closed) {
+					if (vote === 1) {
+						SquadAPI.openProduct(post.item1);
+					} else {
+						SquadAPI.openProduct(post.item2);
+					}
+				}
 			}
 		},
 	},

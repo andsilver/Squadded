@@ -1,7 +1,7 @@
 <template>
 	<v-menu :attach="parentNode" bottom offset-y left>
 		<template v-slot:activator="{ on }">
-			<v-btn icon class="button_more" v-on="on">
+			<v-btn icon height="30px" class="button_more" v-on="on">
 				<v-icon>
 					sqdi-more
 				</v-icon>
@@ -85,7 +85,6 @@ export default {
 
 <style lang="stylus" scoped>
     .button_more
-        align-self center
         .v-icon
             color #B8B8BA
             font-size 18px

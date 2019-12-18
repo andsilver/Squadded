@@ -200,6 +200,7 @@ export default {
 		top: 0
 	.refresh-icon
 		right 20%
+		top 9%
 	.card_bottom
 		margin-top 5%
 </style>

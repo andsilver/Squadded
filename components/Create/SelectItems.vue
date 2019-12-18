@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<div class="choose-items-section" :class="{ is_poll_tab: isPoll }">
-			<div class="choose-items mt-2 poll-item" :class="{ grid: maxCount > 1 }">
+			<div class="choose-items mt-2 poll-item" :class="{ grid: maxCount > 1, no_item_selected: selected.length == 0 }">
 				<ProductCard
 					v-for="post in available"
 					ref="items"
@@ -115,10 +115,15 @@ export default {
 .choose-items{
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 20px;
-	max-height: calc(100vh - 380px);
 	overflow: auto;
 	background-color: transparent;
     margin-top: 0px !important;
+}
+.outfit-main-sec .choose-items, .compare-two.both_item_selected .choose-items{
+	max-height: calc(100vh - 380px);
+}
+.outfit-main-sec .choose-items.no_item_selected, .choose-items.choose-items{
+	max-height: calc(100vh - 250px);
 }
 .choose-items-section{
 	position: relative;
