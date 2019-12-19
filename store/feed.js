@@ -1,3 +1,7 @@
+import { storeInSession } from '~/utils/feedSession';
+
+const { FEED_STORE_LIMIT } = process.env;
+
 export const state = () => ({
 	items: [],
 	loading: true,
@@ -25,10 +29,14 @@ export const FeedMutations = {
 export const mutations = {
 	[FeedMutations.setItems]: (state, posts) => {
 		state.items = posts;
-		state.loading = false;
+		state.items
+			.sort((a, b) => b.ts - a.ts)
+			.slice(0, FEED_STORE_LIMIT)
+			.forEach(storeInSession);
 	},
 	[FeedMutations.addItem]: (state, post) => {
 		state.items.unshift(post);
+		storeInSession(post);
 	},
 	[FeedMutations.clear]: (state, payload) => {
 		state.items = [];

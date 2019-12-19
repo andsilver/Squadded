@@ -1,10 +1,10 @@
 <template>
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
-		<v-layout>
+		<v-layout column>
 			<Preloader v-if="loading" ref="preloader" class="mt-8" />
 			<span v-else-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
-			<Feed v-else ref="feed-layout" :items="items" />
+			<Feed ref="feed-layout" :items="items" />
 		</v-layout>
 	</v-container>
 </template>

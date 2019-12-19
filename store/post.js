@@ -1,4 +1,5 @@
 import { FeedPost } from '../classes/FeedPost';
+import { storeInSession, removeFromSession } from '~/utils/feedSession';
 
 export const PostStore = 'post';
 
@@ -68,7 +69,9 @@ export const mutations = {
 			return;
 		}
 		post.update(rawPostData);
+		removeFromSession(post.correlationId);
 		post.unsetCorrelationId();
+		storeInSession(post);
 	},
 	[PostMutations.receiveReaction]: (state, reactions) => {
 	},

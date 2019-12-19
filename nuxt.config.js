@@ -6,6 +6,7 @@ const {
 	API_ENDPOINT,
 	BASE,
 	FB_APP_ID,
+	FEED_STORE_LIMIT,
 	IG_CLIENT_ID,
 	USE_SSL,
 	WS_LINK,
@@ -43,6 +44,7 @@ export default {
 	env: {
 		API_ENDPOINT,
 		FB_APP_ID,
+		FEED_STORE_LIMIT,
 		IG_CLIENT_ID,
 		WS_LINK,
 	},
@@ -119,6 +121,7 @@ export default {
 		'@plugins/i18n',
 		'@plugins/messaging',
 		{ src: '@plugins/init/ws', ssr: false },
+		{ src: '@plugins/init/restoreFeed', ssr: false },
 	],
 	/*
 	** Nuxt.js modules

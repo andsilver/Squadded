@@ -79,6 +79,7 @@ export class WSMessages {
 		const uniqueIds = new Set([...this.store.state.feed.items, ...message.feed].map(p => p.guid));
 		const posts = postsGetter(Array.from(uniqueIds));
 		this.store.commit(`${FeedStore}/${FeedMutations.setItems}`, posts);
+		this.store.state.feed.loading = false;
 	}
 
 	like (message) {

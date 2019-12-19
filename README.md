@@ -27,6 +27,7 @@ For detailed explanation on how things work, checkout [Nuxt.js docs](https://nux
 ## Build Env Vars
 - `WS_LINK`: fully qualified URL (with port) of the Websocket endpoint (example: `wss://api.squadded.co/`)
 - `BASE`: Base URL of the HTML document in the iframe (example: `/widget/`)
+- `FEED_STORE_LIMIT`
 - `FB_APP_ID`
 - `IG_CLIENT_ID`
 - `API_ENDPOINT`: the fully qualified endpoint root of the backend services, no trailing slash (example: `https://api.squadded.co`)
@@ -59,7 +60,7 @@ Nuxt will launch the project in watch mode with a message like this one:
   Compiled successfully in 24.60s
 
 ℹ Waiting for file changes
-ℹ Memory usage: 261 MB (RSS: 522 MB)           
+ℹ Memory usage: 261 MB (RSS: 522 MB)
 ~~~
 
 2. In the Application tab of your local dev site, register a `userToken` key in `LocalStorage`, with the value
@@ -72,8 +73,8 @@ localStorage.setItem('userToken', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQi
 
 ~~~javascript
 window.postMessage(JSON.stringify({
-    type: 'injectMerchantParams', 
-    merchantId: 'sam-advisor', 
+    type: 'injectMerchantParams',
+    merchantId: 'sam-advisor',
     siteUrl: 'https://www.sam-advisor.com/myboutique', siteTitle: 'My Super Merchant Site'
     }));
 
