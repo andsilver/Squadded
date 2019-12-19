@@ -3,6 +3,7 @@
 		<CardFrame
 			ref="product-card"
 			:price="price"
+			:originPrice="originPrice"
 			:title="item.title"
 			:voted="voted"
 			:item="item"
@@ -65,6 +66,13 @@ export default {
 	computed: {
 		price () {
 			return price(this.item.currency, this.item.price, this._i18n.locale);
+		},
+		originPrice () {
+			if (this.item.origPrice) {
+				return price(this.item.currency, this.item.origPrice, this._i18n.locale);
+			} else {
+				return '';
+			}
 		},
 		votes () {
 			return (this.total)

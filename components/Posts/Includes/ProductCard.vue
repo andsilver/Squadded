@@ -2,6 +2,7 @@
 	<CardFrame
 		ref="card-frame"
 		:price="price"
+		:originPrice="originPrice"
 		:title="item.title"
 		:is-poll-post="isPollPost"
 		:loading="loading"
@@ -56,6 +57,13 @@ export default {
 	computed: {
 		price () {
 			return price(this.item.currency, this.item.price, this._i18n.locale);
+		},
+		originPrice () {
+			if (this.item.origPrice) {
+				return price(this.item.currency, this.item.origPrice, this._i18n.locale);
+			} else {
+				return '';
+			}
 		},
 		isClickable() {
 			if (!this.isPollPost || this.voted) {

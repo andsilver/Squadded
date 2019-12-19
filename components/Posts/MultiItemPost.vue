@@ -8,6 +8,7 @@
 				class="multi-item pa-4 mb-4"
 				:class="{ shifted }"
 				:price="totalPrice"
+				:originPrice="originPrice"
 				show-tap
 				:post-length="post.items.length"
 				:loading="!post.guid && !post.error"
@@ -20,6 +21,8 @@
 						:key="item.itemId"
 						:item="item"
 						:resquadd="false"
+						:class="{ is_selected: selectedItem == item.itemId }"
+						@click.native="() => imageSelected(item.itemId)"
 					/>
 				</div>
 			</CardFrame>
@@ -65,11 +68,21 @@ export default {
 		fetched: false,
 		shifted: false,
 		maxHeight: '250px',
+		selectedItem: '',
 	}),
 	computed: {
 		totalPrice () {
 			const total = this.post.items.map(i => i.price).reduce((a, b) => (a + (+b)), 0);
 			return price(this.post.items[0].currency, total, this._i18n.locale);
+		},
+		originPrice () {
+			const total = this.post.items.map(i => i.price).reduce((a, b) => (a + (+b)), 0);
+			const orgtotal = this.post.items.map(i => i.origPrice || i.price).reduce((a, b) => (a + (+b)), 0);
+			if (orgtotal !== total) {
+				return price(this.post.items[0].currency, orgtotal, this._i18n.locale);
+			} else {
+				return '';
+			}
 		},
 	},
 	methods: {
@@ -88,6 +101,14 @@ export default {
 			this.fetched = true;
 			this.maxHeight = `${(this.$refs['multi-item'].$el.offsetHeight - 7)}px`;
 			this.shifted = !this.shifted;
+			if (!this.shifted) {
+				this.selectedItem = '';
+			} else {
+				// console.log(this.selectedItem);
+			}
+		},
+		imageSelected (itemId) {
+			this.selectedItem = itemId;
 		},
 	},
 };
@@ -107,6 +128,17 @@ export default {
 	transition-delay .2s
 	&.shifted
 		margin-left -65%
+		.is_selected
+			position relative
+			&::after
+				content ''
+				position absolute
+				top 0
+				left 0
+				width 100%
+				height 100%
+				z-index 1
+				background-color rgba(0,0,0,0.40)
 .scroll-section
 	position relative
 	margin-left -4px

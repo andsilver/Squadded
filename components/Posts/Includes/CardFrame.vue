@@ -14,7 +14,8 @@
 				class="post_price"
 				@click="() => $emit('open')"
 			>
-				<span>{{ price }}</span>
+				<span v-if="originPrice" class="original-price">{{ originPrice }}</span>
+				<span :class="{ discount_price: originPrice }">{{ price }}</span>
 				<span v-if="showTap" class="for-all">{{ $t('forAllItems', {'0': postLength}) }}</span>
 			</v-card-text>
 			<v-card-title
@@ -46,6 +47,10 @@ export default {
 	name: 'CardFrame',
 	props: {
 		price: {
+			type: [Number, String],
+			default: '',
+		},
+		originPrice: {
 			type: [Number, String],
 			default: '',
 		},
@@ -121,6 +126,12 @@ export default {
 				padding 0 2.153vw
 				border-radius 0.76vw
 				margin-left 1px
+			&.discount_price
+				color #FD6256
+			&.original-price
+				margin-right 0.3vw
+				text-decoration line-through
+				font-weight 400
 
 	.post_title
 		margin-top 1%
