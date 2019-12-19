@@ -28,6 +28,7 @@
 				class="px-1"
 				fixed-tabs
 				centered
+				@change="keepTab"
 			>
 				<v-tab class="tabs bottom-line">
 					<span style="text-transform: capitalize;">Comments</span>
@@ -73,6 +74,11 @@ export default {
 		}
 		const { id } = this.$route.params;
 		this.post = this.$store.getters[`${PostStore}/${PostGetters.getPostById}`](id);
+	},
+	methods: {
+		keepTab () {
+			this.$router.push({ hash: this.tabs ? 'likes' : '' });
+		},
 	},
 };
 </script>

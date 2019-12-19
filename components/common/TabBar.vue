@@ -65,4 +65,11 @@ export default {
 .badge
 	top 6px
 	left 45px
+
+@media screen and (max-width 300px)
+	.v-tabs
+		>>> .tab_text
+			display none
+		>>> .tab_icon:before
+			margin-bottom 0
 </style>

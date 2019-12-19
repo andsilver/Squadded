@@ -81,6 +81,6 @@ export default {
 
 	.buttons
 		display flex
-		width 20%
 		margin-left auto
+		margin-right -16px
 </style>

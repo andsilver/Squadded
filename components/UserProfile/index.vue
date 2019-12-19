@@ -41,6 +41,7 @@
 				class="px-1"
 				fixed-tabs
 				centered
+				@change="keepTab"
 			>
 				<v-tab class="tabs pt-3">
 					<span style="text-transform: capitalize;">Activities</span>
@@ -116,6 +117,11 @@ export default {
 			return this.userId ? this.other : this.me;
 		},
 	},
+	created () {
+		if (this.$route.hash === '#wishlist') {
+			this.tabs = 1;
+		}
+	},
 	mounted () {
 		this.userId = this.$route.params.id;
 		this.bindScroll();
@@ -123,6 +129,9 @@ export default {
 	methods: {
 		bindScroll () {
 			window.addEventListener('scroll', this.scrolled.bind(this));
+		},
+		keepTab () {
+			this.$router.push({ hash: this.tabs ? 'wishlist' : '' });
 		},
 		scrolled (e) {
 			// TODO calc actual height to tabs instead const
