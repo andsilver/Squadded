@@ -131,6 +131,10 @@ export class WSMessages {
 		this.store.dispatch(`${PostStore}/${PostActions.updateResquadd}`, message.items);
 	}
 
+	uploadURL (message) {
+		this.store.commit(`${PostStore}/${PostMutations.uploadURL}`, message.url);
+	}
+
 	userProfile (message) {
 		const { user } = message;
 		if (user.userId === this.store.state.user.me.userId) {

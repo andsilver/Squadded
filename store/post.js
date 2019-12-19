@@ -31,6 +31,7 @@ export const PostMutations = {
 	setPostLike: 'setPostLike',
 	setPrivate: 'setPrivate',
 	setText: 'setText',
+	uploadURL: 'uploadURL',
 };
 
 function suffix () {
@@ -73,6 +74,8 @@ export const mutations = {
 	},
 	[PostMutations.resquaddHasUpdated]: (state, reactions) => {
 	},
+	[PostMutations.uploadURL]: (state, url) => {
+	},
 	[PostMutations.resetComments]: (state, { comments, post }) => {
 		post.comments.messages = comments;
 		post.comments.count = comments.length;
@@ -90,10 +93,10 @@ export const mutations = {
 			return;
 		}
 
-		if (payload.hasOwnProperty('byMe')) {
+		if (Object.prototype.hasOwnProperty.call(payload, 'byMe')) {
 			post.likes.byMe = payload.byMe;
 		}
-		if (payload.hasOwnProperty('count')) {
+		if (Object.prototype.hasOwnProperty.call(payload, 'count')) {
 			post.likes.count = payload.count;
 		}
 	},

@@ -84,13 +84,13 @@ export default {
 			const halfScreenWidth = document.body.clientWidth / 2;
 			const different = this.lastX - halfScreenWidth;
 			if (Math.abs(different) < MIN_DIFFERENT) {
-				this.$refs.vote_slider.style.left = `50%`;
+				this.$refs.vote_slider.style.left = '50%';
 				return false;
 			}
 			const choosedPictureNumber = different < 0 ? 1 : 2;
 			const DELAY_FOR_ANIMATION = 100;
 			setTimeout(() => {
-				this.$refs.vote_slider.style.left = ``;
+				this.$refs.vote_slider.style.left = '';
 				this.$emit('vote', choosedPictureNumber);
 			}, DELAY_FOR_ANIMATION);
 		},

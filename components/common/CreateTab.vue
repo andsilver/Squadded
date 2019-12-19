@@ -44,7 +44,7 @@ export default {
 			des: 'Pair 2-4 items in a single post',
 			images: require('assets/img/outfit.svg'),
 		}, {
-			uri: '',
+			uri: '/create/photo',
 			title: 'create.photo',
 			des: 'Add a photo and tag items on it',
 			images: require('assets/img/photo.svg'),

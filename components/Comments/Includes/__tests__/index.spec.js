@@ -52,7 +52,7 @@ describe('Comments', () => {
 		postBld.withComment();
 		const user = userMockBuilder().short();
 
-		const comments = [ user ];
+		const comments = [user];
 		const $ws = {
 			sendObj: jest.fn(),
 		};

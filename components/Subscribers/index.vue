@@ -22,11 +22,6 @@ export default {
 		BackBar,
 		UserList,
 	},
-	data: () => ({
-		type: null,
-		users: null,
-		user: null,
-	}),
 	async asyncData ({ store, params, route }) {
 		const type = route.name.split('-').slice(-1)[0];
 		let user = params.id
@@ -51,5 +46,10 @@ export default {
 			users: store.state.user.userList,
 		}));
 	},
+	data: () => ({
+		type: null,
+		users: null,
+		user: null,
+	}),
 };
 </script>

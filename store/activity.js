@@ -9,9 +9,11 @@ export const state = () => ({
 export const ActivityGetters = {
 	getPostById: 'getPostById',
 	getWishByItemId: 'getWishByItemId',
+	getSelected: 'getSelected',
 };
 
 export const getters = {
+	[ActivityGetters.getSelected]: state => (state.wishlist || []).filter(post => post.selected),
 	[ActivityGetters.getPostById]: state => id => state.blog && state.blog.find(i => i.guid === id),
 	[ActivityGetters.getWishByItemId]: state => id => state.wishlist && state.wishlist.find(post => post.getItem(id)),
 };

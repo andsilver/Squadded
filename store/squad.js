@@ -18,7 +18,7 @@ const ParamName = {
 };
 
 function getRoute (squadParam) {
-	const [ name, value ] = squadParam.split(':');
+	const [name, value] = squadParam.split(':');
 	return {
 		name: `${name}-${ParamName[name]}`,
 		params: {

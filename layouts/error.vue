@@ -21,13 +21,6 @@ export default {
 			default: null,
 		},
 	},
-	head() {
-		const title =
-			this.error.statusCode === 404 ? this.pageNotFound : this.otherError;
-		return {
-			title,
-		};
-	},
 	data() {
 		return {
 			pageNotFound: this.$t('error.404'),
@@ -36,6 +29,13 @@ export default {
 	},
 	mounted() {
 		this.$store.commit('SET_PENDING', false);
+	},
+	head() {
+		const title =
+			this.error.statusCode === 404 ? this.pageNotFound : this.otherError;
+		return {
+			title,
+		};
 	},
 };
 </script>

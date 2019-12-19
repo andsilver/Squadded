@@ -73,6 +73,6 @@ describe('SelectItems Component', () => {
 		store.state.activity.wishlist = [post1];
 
 		wrapper.destroy();
-		expect(post1).not.toHaveProperty('selected');
+		expect(post1.selected).toBe(false);
 	});
 });

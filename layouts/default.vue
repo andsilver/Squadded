@@ -1,7 +1,7 @@
 <template>
 	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }">
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
-		<v-content id="main" :class="{ 'd-flex': socket.isPendingAuth }">
+		<v-content id="main" class="d-flex">
 			<nuxt ref="main-content" />
 			<Preloader v-if="socket.isPendingAuth" ref="preloader" />
 			<v-dialog v-if="promptOptions" v-model="showPrompt">
@@ -100,11 +100,13 @@ export default {
 
 <style lang="stylus" scoped>
 .v-content
-	display: block;
-	flex-shrink 1
 	overflow hidden scroll
 	.show-tabs &
 		padding-bottom 65px !important
+.v-content >>> .v-content__wrap,
+.container
+	display flex
+	flex-direction column
 
 .v-bottom-navigation
 	position fixed

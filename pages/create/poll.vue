@@ -43,13 +43,8 @@
 				{{ $t('tip.addItems', [$t('a poll')]) }}
 			</p>
 			<div class="merge-selected">
-				<span class="poll-input" :class="{'showElement': item1 && item2 }">
-					<div class="checkout-outfit">
-						<span><img :src="avatar"></span>
-						<v-text-field ref="text-field" v-model="text" :placeholder="$t('SelectPollName')" class="item-des see-selected" />
-					</div>
-				</span>
-				<ExpirationPicker ref="expiration" class="poll-expiration" :class="{'showElement': item1 && item2 }" />
+				<UserInput v-show="item1 && item2" ref="text-field" v-model="text" :placeholder="$t('SelectPollName')" />
+				<ExpirationPicker v-show="item1 && item2" ref="expiration" class="poll-expiration" />
 				<div class="bottom-post-sec">
 					<PublicToggle ref="public-toggle" />
 					<div class="public-right-section">
@@ -71,6 +66,7 @@
 import { mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Button from '~/components/common/Button';
+import UserInput from '~/components/common/UserInput';
 import PublicToggle from '~/components/Create/PublicToggle';
 import SelectItems from '~/components/Create/SelectItems';
 import Tabs from '~/components/Create/Tabs';
@@ -87,6 +83,7 @@ export default {
 		PublicToggle,
 		SelectItems,
 		Tabs,
+		UserInput,
 	},
 	data: () => ({
 		item1: null,
@@ -100,9 +97,6 @@ export default {
 		]),
 		complete () {
 			return !!(this.text && this.item1 && this.item2);
-		},
-		avatar () {
-			return this.$store.state.user.me.avatar;
 		},
 		isWishlistHasItems () {
 			const { wishlist } = this.$store.state.activity;
@@ -130,15 +124,12 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.v-input{
-	width: 100%;
-}
 .compare-two{
 	position: relative;
 	padding: 14px 14px 0px;
-    margin-left: -12px;
-    margin-right: -12px;
-    margin-top: 0px !important;
+	margin-left: -12px;
+	margin-right: -12px;
+	margin-top: 0px !important;
 	display flex
 	span{
 		align-self: center
@@ -209,8 +200,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	align-items: center;
 	width: 100%;
 	bottom: 0;
-	padding-bottom: 3.461vw;
-	padding-top: 10px;
+	padding: 3.461vw 4.1538vw;
 }
 .public-right-section{
 	width:50%;
@@ -221,10 +211,6 @@ i.v-icon.sqdi-magnifying-glass-finder {
 .bottom-post-sec button.mt-2.v-btn.v-size--default {
 	height: 42px;
 	min-width: 100%;
-}
-i.v-icon.notranslate.sqdi.sqdi-close-cross.theme--light {
-	color: rgba(0, 0, 0, 0.7);
-	font-size: 8px !important;
 }
 .merge-selected {
 	position: fixed;
@@ -240,35 +226,6 @@ i.v-icon.notranslate.sqdi.sqdi-close-cross.theme--light {
 .merge-selected.OutfitSelected {
 	padding-top: 5px;
 }
-/*selected outfit item css*/
-.checkout-outfit .v-text-field__details {
-	display: none;
-}
-.checkout-outfit {
-	display: flex;
-	align-items: center;
-	background: #f4f4f5 !important;
-	border-radius: 6.153vw;
-	margin: 0 12px;
-	padding: 1.538vw;
-}
-.checkout-outfit span {
-	height: 8.307vw;
-	padding-right: 1.538vw;
-}
-.checkout-outfit span img {
-	width: 8.307vw;
-	border-radius: 6.153vw;
-	height: 8.30vw;
-}
-.checkout-outfit .v-input.item-des.see-selected.theme--light.v-text-field.v-text-field--is-booted {
-	padding: 0;
-	margin: 0;
-	background: transparent;
-	font-size: 3.230vw;
-	color: #000000;
-	font-weight: 500;
-}
 .tip-note {
 	color: #B8B8BA;
 	font-size: 3.384vw;
@@ -280,14 +237,8 @@ i.v-icon.notranslate.sqdi.sqdi-close-cross.theme--light {
 }
 .com-vs{
 	color: #000000;
-    font-size: 4.307vw;
-    font-weight: 500;
-}
-.poll-input, .poll-expiration {
-	display: none;
-}
-span.poll-input.showElement, .poll-expiration.showElement {
-	display: block;
+	font-size: 4.307vw;
+	font-weight: 500;
 }
 .poll-expiration {
 	margin-bottom: 10px;

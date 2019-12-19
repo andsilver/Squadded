@@ -100,6 +100,11 @@
   "outfit": {
     "textPlaceholder": "Type your description"
   },
+  "photo": {
+    "browse": "Browse Gallery",
+    "capture": "Take a Photo",
+    "textPlaceholder": "Today I'm wearing this"
+  },
   "poll": {
     "expiration": "Expires in",
     "resultNote": "Result is shown to your followers after this",
@@ -152,6 +157,7 @@
     "limitMessage": "The limit is 4 items per outfit",
     "outfitSelect": "choose 2 to 4 items to pair together",
     "pollSelect": "choose 2 items you hesitate with",
+    "createPhotoTag": "tap photo to tag items",
     "tapPhotos": "tap photos for details"
   },
   "user": {

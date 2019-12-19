@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import GalleryPost from '~/components/Posts/GalleryPost';
 import MultiItemPost from '~/components/Posts/MultiItemPost';
 import SingleItemPost from '~/components/Posts/SingleItemPost';
 import PollPost from '~/components/Posts/PollPost';
@@ -36,6 +37,7 @@ export default {
 			return post.type === 'singleItemPost' ? SingleItemPost
 				: post.type === 'outfitPost' ? MultiItemPost
 				: post.type === 'pollPost' ? PollPost
+				: post.type === 'galleryPost' ? GalleryPost
 				: null;
 		},
 	},

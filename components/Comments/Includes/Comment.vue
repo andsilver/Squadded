@@ -48,20 +48,20 @@ export default {
 	computed: {
 		timeString () {
 			const timestring = {
-				'future': 'in %s',
-				'past': '%s ago',
-				's': '1s',
-				'ss': '%ds',
-				'm': '1m',
-				'mm': '%dm',
-				'h': '1h',
-				'hh': '%dh',
-				'd': '1d',
-				'dd': '%dd',
-				'M': '4w',
-				'MM': '%dm',
-				'y': '1y',
-				'yy': '%dy',
+				future: 'in %s',
+				past: '%s ago',
+				s: '1s',
+				ss: '%ds',
+				m: '1m',
+				mm: '%dm',
+				h: '1h',
+				hh: '%dh',
+				d: '1d',
+				dd: '%dd',
+				M: '4w',
+				MM: '%dm',
+				y: '1y',
+				yy: '%dy',
 			};
 			window.moment.locale(this._i18n.locale, { relativeTime: timestring });
 			return this.comment.ts && window.moment(this.comment.ts).fromNow(true);

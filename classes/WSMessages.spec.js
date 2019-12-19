@@ -51,7 +51,7 @@ describe('WSMessages dispatch', () => {
 		wsMessages = new WSMessages(store);
 	});
 
-	it(`should pong`, () => {
+	it('should pong', () => {
 		const msg = {
 			type: 'ping',
 		};
@@ -75,7 +75,7 @@ describe('WSMessages dispatch', () => {
 		});
 	});
 
-	it(`should accept bulk feed`, async () => {
+	it('should accept bulk feed', async () => {
 		const existing1 = { guid: 'existing1' };
 		const feed = [{ guid: 'feed' }, existing1];
 		const posts = [{ guid: 'posts' }];
@@ -126,7 +126,7 @@ describe('WSMessages dispatch', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPostLike}`, { byMe, count, post });
 	});
 
-	it(`should increment likes counter on notifLike`, () => {
+	it('should increment likes counter on notifLike', () => {
 		const postId = chance.guid();
 		const iLike = true;
 		const msg = {
@@ -141,7 +141,7 @@ describe('WSMessages dispatch', () => {
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: 1, post });
 	});
 
-	it(`should update post and notifications on notifyPollEnd`, () => {
+	it('should update post and notifications on notifyPollEnd', () => {
 		const guid = chance.guid();
 		const msg = {
 			guid,
@@ -153,7 +153,7 @@ describe('WSMessages dispatch', () => {
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveItem}`, { closed: true, guid });
 	});
 
-	it(`should decrement likes counter on notifLike`, () => {
+	it('should decrement likes counter on notifLike', () => {
 		const postId = chance.guid();
 		const iLike = false;
 		const msg = {
@@ -168,7 +168,7 @@ describe('WSMessages dispatch', () => {
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: -1, post });
 	});
 
-	it(`should add comment on notifComment`, () => {
+	it('should add comment on notifComment', () => {
 		const postId = chance.guid();
 		const user = { any: 'authour' };
 		const text = chance.sentence();

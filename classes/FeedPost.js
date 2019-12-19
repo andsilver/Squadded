@@ -25,6 +25,7 @@ export class FeedPost {
 			voted = false,
 			closed = false,
 			totalPrice = 0,
+			img = '',
 
 			byMe = false,
 			user = {
@@ -60,6 +61,7 @@ export class FeedPost {
 		this.ts = ts;
 		this.correlationId = correlationId;
 		this.creationTs = creationTs;
+		this.selected = false;
 
 		if (type === 'pollPost') {
 			this.item1 = composeItem(item1);
@@ -70,6 +72,9 @@ export class FeedPost {
 		} else if (type === 'outfitPost') {
 			this.items = items.map(composeItem);
 			this.totalPrice = totalPrice;
+		} else if (type === 'galleryPost') {
+			this.items = items.map(composeItem);
+			this.img = img;
 		} else {
 			this.item = composeItem(item);
 		}
@@ -85,7 +90,7 @@ export class FeedPost {
 	}
 
 	toMessage () {
-		const { byMe, comments, error, likes, ts, user, userId, ...clean } = this;
+		const { byMe, comments, error, likes, selected, ts, user, userId, ...clean } = this;
 		return clean;
 	}
 

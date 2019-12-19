@@ -88,20 +88,6 @@ export default {
 		Blog,
 		Whishlist,
 	},
-	data: () => ({
-		other: null,
-		userId: null,
-		tabs: null,
-		isScrolled: false,
-	}),
-	computed: {
-		...mapState([
-			'me',
-		]),
-		user () {
-			return this.userId ? this.other : this.me;
-		},
-	},
 	asyncData ({ store, params, redirect }) {
 		if (!params.id) {
 			return;
@@ -115,6 +101,20 @@ export default {
 			store,
 			type: 'fetchUser',
 		}).then(() => ({ other: store.state.user.other }));
+	},
+	data: () => ({
+		other: null,
+		userId: null,
+		tabs: null,
+		isScrolled: false,
+	}),
+	computed: {
+		...mapState([
+			'me',
+		]),
+		user () {
+			return this.userId ? this.other : this.me;
+		},
 	},
 	mounted () {
 		this.userId = this.$route.params.id;

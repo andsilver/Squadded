@@ -78,11 +78,11 @@ describe('Comment store module', () => {
 		});
 		expect(post.comments).toEqual({
 			count: 1,
-			messages: [ {
+			messages: [{
 				author: me.short(),
 				ts: jasmine.any(Number),
 				text: comment.text,
-			} ],
+			}],
 		});
 	});
 
@@ -182,7 +182,7 @@ describe('Comment store module', () => {
 		const msg = aDefaultSingleItemMsgBuilder().get();
 
 		await postStore.dispatch(`${PostActions.receiveItem}`, msg);
-		expect(postStore.state.all).toEqual([ msg ]);
+		expect(postStore.state.all).toEqual([msg]);
 	});
 
 	it('should strip error, ts, user, comments, likes and merchantId when sending singleItemPost to socket', async () => {
@@ -192,7 +192,7 @@ describe('Comment store module', () => {
 		await root.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 
 		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledTimes(1);
-		const { byMe, comments, error, likes, merchantId, ts, user, userId, ...clean } = msg;
+		const { byMe, comments, error, likes, merchantId, selected, ts, user, userId, ...clean } = msg;
 		clean.correlationId = jasmine.any(String);
 		const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
 		expect(sendObjInvocationArg).toMatchObject(clean);

@@ -14,8 +14,8 @@
 					sqdi-magnifying-glass-finder
 				</v-icon>
 			</v-text-field>
-			<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="4" @select="select" />
-			<p v-if="isWishlistHasItems && items.length === 0" class="tip-note">
+			<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="4" />
+			<p v-if="isWishlistHasItems && getSelected.length === 0" class="tip-note">
 				{{ $t('tip.outfitSelect') }}
 			</p>
 			<p v-if="!isWishlistHasItems" class="tip-note">
@@ -24,13 +24,9 @@
 			<p v-if="!isWishlistHasItems" class="tip-note">
 				{{ $t('tip.addItems', [$t('an outfit')]) }}
 			</p>
-			<div class="merge-selected" :class="{ OutfitSelected: (items.length > 0) }">
-				<span v-if="items.length > 0">
-					<div class="checkout-outfit">
-						<span><img :src="avatar"></span>
-						<v-text-field ref="text-field" v-model="text" :placeholder="$t('SelectOutfitName')" value="Check out my autumn outfit!" class="item-des see-selected" />
-					</div>
-				</span>
+			<div class="merge-selected" :class="{ OutfitSelected: (getSelected.length > 0) }">
+				<SelectedItems ref="selected-items" />
+				<UserInput v-show="getSelected.length > 0" ref="text-field" v-model="text" :placeholder="$t('SelectOutfitName')" />
 				<div class="bottom-post-sec">
 					<PublicToggle ref="public-toggle" />
 					<div class="public-right-section">
@@ -49,14 +45,19 @@
 	</v-container>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Button from '~/components/common/Button';
+import UserInput from '~/components/common/UserInput';
 import PublicToggle from '~/components/Create/PublicToggle';
 import SelectItems from '~/components/Create/SelectItems';
+import SelectedItems from '~/components/Create/SelectedItems';
 import Tabs from '~/components/Create/Tabs';
+import { ActivityStore, ActivityGetters } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions } from '~/store/post';
+
+const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
 export default {
 	components: {
@@ -64,23 +65,24 @@ export default {
 		Button,
 		PublicToggle,
 		SelectItems,
+		SelectedItems,
 		Tabs,
+		UserInput,
 	},
 	data: () => ({
 		searchText: '',
 		text: '',
-		items: [],
 		isPublic: false,
 	}),
 	computed: {
+		...mapGetters([
+			ActivityGetters.getSelected,
+		]),
 		...mapState([
 			'socket',
 		]),
 		complete () {
-			return !!(this.text && this.items.length >= 2 && this.items.length <= 4);
-		},
-		avatar () {
-			return this.$store.state.user.me.avatar;
+			return !!(this.text && this.getSelected.length >= 2 && this.getSelected.length <= 4);
 		},
 		isWishlistHasItems () {
 			const { wishlist } = this.$store.state.activity;
@@ -88,14 +90,11 @@ export default {
 		},
 	},
 	methods: {
-		select (items) {
-			this.items = items;
-		},
 		async create () {
-			const { items, text } = this;
+			const { text } = this;
 			const { isPublic } = this.$refs['public-toggle'];
 			const msg = {
-				items,
+				items: this.getSelected.map(post => post.item),
 				private: !isPublic,
 				text,
 				type: 'outfitPost',
@@ -109,50 +108,46 @@ export default {
 </script>
 
 <style lang="css" scoped>
-.v-input{
-	width:100%;
-}
 .search-plus.v-text-field {
-    padding-top: 5px;
-    margin-top: 8px;
-    padding-bottom: 0;
-    margin-bottom: 0px !important;
+	padding-top: 5px;
+	margin-top: 8px;
+	padding-bottom: 0;
+	margin-bottom: 0px !important;
 	font-size: 3.230vw;
-    font-weight: 500;
+	font-weight: 500;
 }
 i.v-icon.sqdi-magnifying-glass-finder {
-    font-size: 4.69vw !important;
+	font-size: 4.69vw !important;
 }
 .search-plus .v-input__prepend-outer {
-    margin-right: 0.615vw;
+	margin-right: 0.615vw;
 }
 .search-plus.theme--light.v-input:not(.v-input--is-disabled) input {
-    color: #B8B8BA;
+	color: #B8B8BA;
 }
 .search-plus.v-text-field input {
-    padding: 0px 2.153vw 0px!important;
-    font-size: 3.80vw;
+	padding: 0px 2.153vw 0px!important;
+	font-size: 3.80vw;
 }
 .search-plus.v-input {
-    margin-bottom: 6.076vw;
+	margin-bottom: 6.076vw;
 }
 .search-plus.v-input__append-outer,.search-plus.v-input__prepend-outer{
 	margin-bottom: 0px;
-    margin-top: 0px;
+	margin-top: 0px;
 }
 .tab-content-section .choose-items {
-    max-height: calc(100vh - 52vh) !important;
+	max-height: calc(100vh - 52vh) !important;
 }
 .merge-selected {
-    position: fixed;
-    width: 100%;
-    z-index: 999;
-    padding: 0;
-    background: #fff;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
+	position: fixed;
+	width: 100%;
+	z-index: 999;
+	padding: 0;
+	background: #fff;
+	bottom: 0;
+	left: 0;
+	right: 0;
 }
 .merge-selected.OutfitSelected {
 	padding-top: 5px;
@@ -165,53 +160,19 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	margin-top: 5px;
 }
 .bottom-post-sec {
-    display: flex;
-    align-items: center;
-    width: 100%;
-    bottom: 0;
-    padding-bottom: 3.461vw;
-	padding-top: 10px;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	bottom: 0;
+	padding: 3.461vw 4.1538vw;
 }
 .public-right-section{
-    width:50%;
-    padding-right: 4.1538vw;
-    text-align: right;
+	width:50%;
+	padding-right: 4.1538vw;
+	text-align: right;
 }
 .bottom-post-sec button.mt-2.v-btn.v-size--default {
-    height: 42px;
-    min-width: 100%;
-}
-i.v-icon.notranslate.sqdi.sqdi-close-cross.theme--light {
-    color: rgba(0, 0, 0, 0.7);
-    font-size: 8px !important;
-}
-/*selected outfit item css*/
-.checkout-outfit .v-text-field__details {
-    display: none;
-}
-.checkout-outfit {
-    display: flex;
-    align-items: center;
-    background: #f4f4f5 !important;
-    border-radius: 6.153vw;
-    margin: 0 12px;
-    padding: 1.538vw;
-}
-.checkout-outfit span {
-    height: 8.307vw;
-    padding-right: 1.538vw;
-}
-.checkout-outfit span img {
-    width: 8.307vw;
-    border-radius: 6.153vw;
-	height: 8.30vw;
-}
-.checkout-outfit .v-input.item-des.see-selected.theme--light.v-text-field.v-text-field--is-booted {
-	padding: 0;
-    margin: 0;
-    background: transparent;
-    font-size: 3.230vw;
-    color: #000000;
-    font-weight: 500;
+	height: 42px;
+	min-width: 100%;
 }
 </style>

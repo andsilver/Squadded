@@ -33,7 +33,6 @@ export default {
 	display flex
 	align-items center
 	width:50%;
-	padding-left 4.1538vw
 
 	.img
 		width 11.846vw
@@ -41,12 +40,12 @@ export default {
 		background rgba(218, 217, 221, 0.30)
 		border-radius 50%
 		line-height 8.846vw
+		text-align: center;
 		img
 			transition all 0.12s ease-in-out
 			transform scale(1)
 			width 4.769vw
 			height 4.769vw
-			text-align center
 			vertical-align -webkit-baseline-middle
 			vertical-align -moz-middle-with-baseline
 		&.is-active img.logo
