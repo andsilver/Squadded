@@ -2,7 +2,7 @@
 	<CardFrame
 		ref="card-frame"
 		:price="price"
-		:originPrice="originPrice"
+		:origin-price="originPrice"
 		:title="item.title"
 		:is-poll-post="isPollPost"
 		:loading="loading"

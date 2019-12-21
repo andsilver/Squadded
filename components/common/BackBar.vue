@@ -2,6 +2,15 @@
 	<h2>
 		<GoBackBtn />
 		{{ title }}
+		<v-btn
+			v-if="addUser"
+			icon
+			class="add-user-button"
+		>
+			<v-icon color="#000">
+				sqdi-add-user
+			</v-icon>
+		</v-btn>
 	</h2>
 </template>
 
@@ -16,6 +25,10 @@ export default {
 		title: {
 			type: String,
 			default: '',
+		},
+		addUser: {
+			type: Boolean,
+			default: false,
 		},
 	},
 };
@@ -34,4 +47,7 @@ h2
 	button
 		position absolute
 		left 0
+		&.add-user-button
+			right 0
+			left auto
 </style>

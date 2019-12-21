@@ -8,7 +8,7 @@
 				class="multi-item pa-4 mb-4"
 				:class="{ shifted }"
 				:price="totalPrice"
-				:originPrice="originPrice"
+				:origin-price="originPrice"
 				show-tap
 				:post-length="post.items.length"
 				:loading="!post.guid && !post.error"

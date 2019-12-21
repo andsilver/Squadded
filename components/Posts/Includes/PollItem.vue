@@ -3,7 +3,7 @@
 		<CardFrame
 			ref="product-card"
 			:price="price"
-			:originPrice="originPrice"
+			:origin-price="originPrice"
 			:title="item.title"
 			:voted="voted"
 			:item="item"

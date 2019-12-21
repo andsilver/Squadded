@@ -51,8 +51,11 @@ describe('Follow button', () => {
 	});
 
 	it('should allow to follow if not follower yet', () => {
+		user = Object.assign({}, user);
 		user.followers.me = false;
-		wrapper.vm.$forceUpdate();
+		wrapper.setProps({
+			user,
+		});
 
 		const followBtn = wrapper.ref(FOLLOW_BTN);
 		expect(followBtn.exists()).toBe(true);
@@ -72,12 +75,15 @@ describe('Follow button', () => {
 	});
 
 	it('should allow to unfollow if already a follower', () => {
+		user = Object.assign({}, user);
 		user.followers.me = true;
-		wrapper.vm.$forceUpdate();
+		wrapper.setProps({
+			user,
+		});
 
 		const followBtn = wrapper.ref(FOLLOW_BTN);
 		expect(followBtn.exists()).toBe(true);
-		expect(followBtn.text()).toBe('user.Unfollow');
+		expect(followBtn.text()).toBe('user.Following');
 
 		spyOn(store, 'commit').and.callThrough();
 
