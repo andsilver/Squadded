@@ -14,8 +14,8 @@
 				class="post_price"
 				@click="() => $emit('open')"
 			>
-				<span v-if="originPrice" class="original-price">{{ originPrice }}</span>
-				<span :class="{ discount_price: originPrice }">{{ price }}</span>
+				<span v-if="discount" class="original-price">{{ originPrice }}</span>
+				<span :class="{ discount }">{{ price }}</span>
 				<span v-if="showTap" class="for-all">{{ $t('forAllItems', {'0': postLength}) }}</span>
 			</v-card-text>
 			<v-card-title
@@ -88,13 +88,14 @@ export default {
 			default: () => {},
 		},
 	},
+	computed: {
+		discount () {
+			return this.originPrice && this.originPrice !== this.price;
+		},
+	},
 	methods: {
 		short(number) {
-			if (number) {
-				return shortNumber(number, this._i18n.locale);
-			} else {
-				return '0';
-			}
+			return shortNumber(number, this._i18n.locale) || 0;
 		},
 	},
 };
@@ -126,7 +127,7 @@ export default {
 				padding 0 2.153vw
 				border-radius 0.76vw
 				margin-left 1px
-			&.discount_price
+			&.discount
 				color #FD6256
 			&.original-price
 				margin-right 0.3vw
