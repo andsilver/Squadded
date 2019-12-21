@@ -1,7 +1,7 @@
 <template>
 	<div class="full_post">
 		<div class="d-flex">
-			<UserLink ref="user-link" class="post_user_link" :user="post.user" :ts="post.ts" />
+			<UserLink ref="user-link" class="post_user_link" :user="post.user" :ts="post.ts" follow />
 			<PopMenu :post="post" />
 		</div>
 		<h3

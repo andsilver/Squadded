@@ -5,6 +5,7 @@
 			size="7.69vw"
 			:user="comment.author"
 			hide-name
+			follow
 		/>
 		<p class="comment_text_row">
 			<UserLink

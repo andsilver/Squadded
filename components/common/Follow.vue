@@ -8,6 +8,7 @@
 import Button from '~/components/common/Button';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
+import { isBoolean } from '~/utils/isBoolean';
 
 export default {
 	components: {
@@ -25,15 +26,15 @@ export default {
 		},
 	},
 	methods: {
-		toggleFollow () {
+		toggleFollow (follow) {
 			const { user } = this;
+			follow = isBoolean(follow) ? follow : !user.followers.me;
 			if (user.isMe) {
 				return;
 			}
 			if (!user.followers) {
 				this.$router.push(`/user/${user.guid}`);
 			}
-			const follow = !user.followers.me;
 			this.$ws.sendObj({
 				type: 'follow',
 				guid: user.userId,

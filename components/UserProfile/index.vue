@@ -106,7 +106,7 @@ export default {
 	data: () => ({
 		other: null,
 		userId: null,
-		tabs: null,
+		tabs: 0,
 		isScrolled: false,
 	}),
 	computed: {
@@ -120,6 +120,9 @@ export default {
 	created () {
 		if (this.$route.hash === '#wishlist') {
 			this.tabs = 1;
+		}
+		if (this.$route.hash === '#follow') {
+			this.promptFollow();
 		}
 	},
 	mounted () {
@@ -136,6 +139,15 @@ export default {
 		scrolled (e) {
 			// TODO calc actual height to tabs instead const
 			this.isScrolled = !!(window.scrollY > 300);
+		},
+		async promptFollow () {
+			await this.user;
+			this.$root.$emit('prompt', {
+				text: { question: this.$t('user.promptFollow', [this.user.name]) },
+				confirm: () => {
+					this.$refs['follow-btn'].toggleFollow(true);
+				},
+			});
 		},
 	},
 };

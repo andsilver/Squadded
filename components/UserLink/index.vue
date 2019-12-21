@@ -3,6 +3,21 @@
 		<v-list-item v-if="!hideAvatar" class="pa-0 user_link_header">
 			<v-list-item-avatar class="mr-3" :size="size">
 				<img :src="user && user.avatar" :alt="user && user.screenName">
+				<v-btn
+					v-if="follow && user.guid !== me.userId"
+					class="follow"
+					dark
+					icon
+					outlined
+					size="35%"
+					width="60%"
+					height="60%"
+					@click="goFollow"
+				>
+					<v-icon :size="`${sizeValue * 0.2571}${sizeLength}`">
+						sqdi-plus
+					</v-icon>
+				</v-btn>
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
 				<v-list-item-title class="user_name">
@@ -40,6 +55,10 @@ export default {
 			type: String,
 			default: '40',
 		},
+		follow: {
+			type: Boolean,
+			default: false,
+		},
 		ts: {
 			type: Number,
 			default: 0,
@@ -58,6 +77,13 @@ export default {
 			const isNewPost = this.ts === Number.MAX_SAFE_INTEGER;
 			return isNewPost ? this.$t('post.sending') : this.ts && window.moment(this.ts).fromNow();
 		},
+		sizeValue () {
+			return parseFloat(this.size);
+		},
+		sizeLength () {
+			const match = this.size.match(/[^\d]+$/);
+			return (match && match[0]) || 'px';
+		},
 	},
 	methods: {
 		getUserLink() {
@@ -65,11 +91,31 @@ export default {
 				: { name: 'user-id', params: { id: this.user.guid } }
 			);
 		},
+		goFollow (e) {
+			e.stopPropagation();
+			e.preventDefault();
+			const to = this.getUserLink();
+			to.hash = '#follow';
+			this.$router.push(to);
+		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
+.follow
+	position absolute
+	right -20%
+	bottom -20%
+	background-color #000 !important
+	border-width 2px
+	min-width 0
+	min-height 0
+	.v-icon
+		height auto
+		width auto
+		min-width 0
+		min-height 0
 .user_name
 	font-size 4VW
 	font-weight 600

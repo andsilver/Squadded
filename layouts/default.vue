@@ -72,7 +72,7 @@ export default {
 		},
 		hide () {
 			this.showPrompt = false;
-			this.promptOptions.hide();
+			this.promptOptions.hide && this.promptOptions.hide();
 		},
 		prompt (options) {
 			this.promptOptions = options;

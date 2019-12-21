@@ -161,14 +161,15 @@
     "tapPhotos": "tap photos for details"
   },
   "user": {
+    "Follow": "Follow",
     "Following": "Following",
     "Followers": "Followers",
     "followers": "{n} followers",
     "following": "{n} following",
     "Likes": "Likes",
-    "Unfollow": "Unfollow",
-    "Follow": "Follow",
-    "share": "Share profile"
+    "promptFollow": "Do you want to follow {0}?",
+    "share": "Share profile",
+    "Unfollow": "Unfollow"
   },
   "wishlist": {
     "empty": "You don't have any items in your wishlist yet.",
