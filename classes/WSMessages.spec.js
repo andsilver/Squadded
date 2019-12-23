@@ -7,6 +7,7 @@ import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { PostActions, PostGetters, PostStore, PostMutations } from '~/store/post';
 import { UserStore, UserMutations } from '~/store/user';
 import { userMockBuilder } from '~/test/user.mock';
+import * as TestPoll from '~/test/testpool.json';
 
 const chance = new Chance();
 
@@ -298,5 +299,16 @@ describe('WSMessages dispatch', () => {
 
 		wsMessages.dispatch(msg);
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.updateResquadd}`, items);
+	});
+
+	it(`should commit pollResult to ${PostStore}/${PostMutations.setPollResult}`, () => {
+		const pollResult = TestPoll;
+		const msg = {
+			type: 'pollResult',
+			pollResult,
+		};
+
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPollResult}`, pollResult);
 	});
 });

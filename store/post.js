@@ -5,18 +5,21 @@ export const PostStore = 'post';
 
 export const state = () => ({
 	all: [],
+	pollResult: null,
 });
 
 export const PostGetters = {
 	getPostById: 'getPostById',
 	getPostByIdList: 'getPostByIdList',
 	getItemsById: 'getItemsById',
+	getPollResult: 'getPollResult',
 };
 
 export const getters = {
 	[PostGetters.getPostById]: state => id => state.all.find(i => i.postId === id),
 	[PostGetters.getPostByIdList]: state => ids => state.all.filter(i => ids.includes(i.postId)),
 	[PostGetters.getItemsById]: state => id => state.all.map(post => post.getItem(id)).filter(post => post),
+	[PostGetters.getPollResult]: state => state.pollResult,
 };
 
 export const PostMutations = {
@@ -33,6 +36,7 @@ export const PostMutations = {
 	setPrivate: 'setPrivate',
 	setText: 'setText',
 	uploadURL: 'uploadURL',
+	setPollResult: 'setPollResult',
 };
 
 function suffix () {
@@ -118,6 +122,9 @@ export const mutations = {
 			const item = post.getItem(itemId);
 			item && (item.squadded = false);
 		});
+	},
+	[PostMutations.setPollResult]: (state, pollResult) => {
+		state.pollResult = pollResult ? new FeedPost(pollResult) : null;
 	},
 };
 

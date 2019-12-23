@@ -143,4 +143,9 @@ export class WSMessages {
 		}
 		this.store.commit(`${UserStore}/${UserMutations.setOther}`, user);
 	}
+
+	pollResult (message) {
+		const { pollResult } = message;
+		this.store.commit(`${PostStore}/${PostMutations.setPollResult}`, pollResult);
+	}
 };

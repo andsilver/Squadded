@@ -1,6 +1,6 @@
 <template>
 	<div v-if="isMyPost || !post.closed || post.voted" class="vote_slider_wrapper" :class="{ isMyPostSlider: isMyPost }">
-		<Button v-if="isMyPost || post.closed">
+		<Button v-if="isMyPost || post.closed" @click.native="toDetailsPage">
 			{{ $t('poll.results') }}
 		</Button>
 		<button
@@ -102,6 +102,12 @@ export default {
 			if (x <= leftSlideBorder || x >= rightSlideBorder) {
 				return true;
 			}
+		},
+		toDetailsPage() {
+			if (this.post.type !== 'pollPost') {
+				return;
+			}
+			this.$router.push(`/poll/${this.post.postId}`);
 		},
 	},
 };

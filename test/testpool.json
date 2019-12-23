@@ -1,0 +1,50 @@
+{
+	"_id": "5df24b1ee6b8a45d23baafaf",
+	"creationTs": 1576160030244,
+	"merchantId": "sam-advisor",
+	"text": "test",
+	"type": "pollPost",
+	"userId": "5d8a3851dc2113a2f6c70dd0",
+	"private": false,
+	"item1": {
+		"varId": "",
+		"itemId": "10622753",
+		"title": "ASOS DESIGN Petite...",
+		"price": 3871,
+		"currency": "€",
+		"img": "https://sam-advisor.com/myboutique/img/p/2/3/5/235-home_default.jpg",
+		"url": "https://sam-advisor.com/myboutique/index.php?id_product=10622753&id_product_attribute=0&rewrite=asos-design-petite-sweetheart-mini-dress-with-fluted-sleeve&controller=product",
+		"squadded": true,
+		"votes": 3,
+		"voters": [
+			{ "_id": "5d8a3851dc2113a2f6c70dd0", "avatar": "https://i.imgur.com/eTJExXp.jpg", "screenName": "Olivia" },
+			{
+				"_id": "5dd782e32a8e99a0ed41871d",
+				"avatar": "https://i.imgur.com/pgK0cM9.jpg",
+				"screenName": "Jenny S."
+			},
+			{ "_id": "5df23c242a8e99a0ed1f3f41", "avatar": "https://i.imgur.com/7wxmEYp.png", "screenName": "Naomie s" }
+		]
+	},
+	"item2": {
+		"varId": "",
+		"itemId": "10562253",
+		"title": "PrettyLittleThing Broderie...",
+		"price": 3871,
+		"currency": "€",
+		"img": "https://sam-advisor.com/myboutique/img/p/2/3/4/234-home_default.jpg",
+		"url": "https://sam-advisor.com/myboutique/index.php?id_product=10562253&id_product_attribute=0&rewrite=prettylittlething-broderie-insert-midi-dress-in-floral&controller=product",
+		"squadded": true,
+		"votes": 5,
+		"voters": [
+			{ "_id": "5df23c992a8e99a0ed1f5f61", "avatar": "https://i.imgur.com/Z7ZS8iL.png", "screenName": "Clara S" },
+			{ "_id": "5df23cbf2a8e99a0ed1f69d2", "avatar": "https://i.imgur.com/ifR6OER.png", "screenName": "Sasha S" },
+			{ "_id": "5df23cde2a8e99a0ed1f72b2", "avatar": "https://i.imgur.com/8ioVxmU.png", "screenName": "Sarah S" },
+			{ "_id": "5df23d0d2a8e99a0ed1f7fe0", "avatar": "https://i.imgur.com/ffiQV15.png", "screenName": "Ruth K" },
+			{ "_id": "5df23d292a8e99a0ed1f883c", "avatar": "https://i.imgur.com/Fa9kH2l.png", "screenName": "Noemie C" }
+		]
+	},
+	"expires": 1576246431385,
+	"ts": 1576246455596,
+	"closed": true
+}

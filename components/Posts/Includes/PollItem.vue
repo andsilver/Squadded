@@ -8,6 +8,7 @@
 			:voted="voted"
 			:item="item"
 			:show-bag="voted"
+			:details="details"
 			is-poll-post
 		>
 			<ItemImage
@@ -59,6 +60,10 @@ export default {
 			default: 0,
 		},
 		isClosed: {
+			type: Boolean,
+			default: false,
+		},
+		details: {
 			type: Boolean,
 			default: false,
 		},

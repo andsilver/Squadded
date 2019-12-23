@@ -10,6 +10,7 @@
 		</div>
 		<section class="card_bottom" :class="{ card_inline: title }">
 			<v-card-text
+				v-if="!details"
 				ref="item-price"
 				class="post_price"
 				@click="() => $emit('open')"
@@ -31,7 +32,7 @@
 				<span class="refresh-count">{{ short(item.outfits) }}</span>
 			</div>
 			<button
-				v-if="showBag"
+				v-if="showBag && !details"
 				ref="buy-button"
 				class="buy_button sqdi-shopping-bag-2"
 				:class="{ bag_inline: title }"
@@ -86,6 +87,10 @@ export default {
 			type: Object,
 			required: false,
 			default: () => {},
+		},
+		details: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {

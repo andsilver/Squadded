@@ -112,7 +112,10 @@
     "textPlaceholder": "Type a question",
     "results": "Results",
     "vote": "VOTE",
-    "voted": "VOTED"
+    "voted": "VOTED",
+    "details": "Poll Details",
+    "expired": "Expired",
+    "votes": "vote | votes"
   },
   "post": {
     "addedItem": "added this items to their wishlist",

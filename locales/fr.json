@@ -68,7 +68,10 @@
     "textPlaceholder": "Posez une question",
     "results": "Resultats",
     "vote": "VOTEZ",
-    "voted": "VOTÉ"
+    "voted": "VOTÉ",
+    "details": "Détails du sondage",
+    "expired": "Expired",
+    "votes": "vote | votes"
   },
   "post": {
     "addedItem": "a ajouté un article",
