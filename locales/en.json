@@ -26,6 +26,7 @@
   "forAllItems": "for all {0} items",
   "winner": "Winner",
   "expired": "Expired",
+  "Save": "Save",
   "comment": {
     "pop": {
       "reportComment": {
@@ -177,6 +178,10 @@
   "wishlist": {
     "empty": "You don't have any items in your wishlist yet.",
     "purchase": "PURCHASE"
+  },
+  "pairedItem": {
+    "title": "View Item",
+    "hesitating_users": "People Hesitating"
   },
   "error": {
     "404": "404 Not Found",

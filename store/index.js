@@ -4,6 +4,7 @@ import notification from './notification';
 import post from './post';
 import squad from './squad';
 import user from './user';
+import pairedItem from './paired-item';
 
 export const state = () => ({
 	locales: ['en'],
@@ -70,6 +71,7 @@ export const modules = {
 	post,
 	squad,
 	user,
+	pairedItem,
 };
 
 export default {

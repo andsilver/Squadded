@@ -1,13 +1,12 @@
 <template>
-	<Post
-		:post="post"
-	>
+	<Post :post="post">
 		<ProductCard
 			ref="product-card"
 			class="mx-auto pa-4 w-78 mb-4 single-item"
 			:item="post.item"
 			show-refreshicon
 			:loading="!post.guid && !post.error"
+			:post-id="post.guid"
 		/>
 	</Post>
 </template>
@@ -33,6 +32,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.w-78
-	width 62.906vw
+.w-78 {
+	width: 62.906vw;
+}
 </style>

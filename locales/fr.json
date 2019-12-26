@@ -115,6 +115,9 @@
   "input": {
     "placeholder": "Ajouter un commentaire"
   },
+  "pairedItem": {
+    "title": "View Item"
+  },
   "error": {
     "404": "Oups cette page a disparu",
     "other": "Vous êtes perdus? Retour à l'accueil"

@@ -1,5 +1,5 @@
 <template>
-	<v-btn icon :dark="dark" @click="goBack">
+	<v-btn ref="go-back-btn" icon :dark="dark" @click="goBack">
 		<v-icon>
 			sqdi-arrow-pointing-to-left
 		</v-icon>

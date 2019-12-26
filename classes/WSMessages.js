@@ -3,6 +3,7 @@ import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { PostStore, PostActions, PostGetters, PostMutations } from '~/store/post';
 import { UserStore, UserMutations } from '~/store/user';
+import { PairedItemStore, PairedItemActions } from '~/store/paired-item';
 
 async function acceptPost(message) {
 	if (!this.store.state.feed.items.length) {
@@ -147,5 +148,10 @@ export class WSMessages {
 	pollResult (message) {
 		const { pollResult } = message;
 		this.store.commit(`${PostStore}/${PostMutations.setPollResult}`, pollResult);
+	}
+
+	pairedItems (message) {
+		const { pairedItems } = message;
+		this.store.dispatch(`${PairedItemStore}/${PairedItemActions.setPairedItem}`, pairedItems);
 	}
 };

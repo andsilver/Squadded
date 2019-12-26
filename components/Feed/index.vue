@@ -23,6 +23,8 @@ export default {
 	components: {
 		SingleItemPost,
 		PollPost,
+		MultiItemPost,
+		GalleryPost,
 	},
 	props: {
 		items: {

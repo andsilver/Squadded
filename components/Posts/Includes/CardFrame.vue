@@ -27,7 +27,7 @@
 			>
 				<span>{{ title }}</span>
 			</v-card-title>
-			<div v-if="showRefresh" class="refresh-icon">
+			<div v-if="showRefresh" class="refresh-icon" @click="navigateToPairedItemPage">
 				<img src="~assets/img/refresh.svg" class="refresh-logo">
 				<span class="refresh-count">{{ short(item.outfits) }}</span>
 			</div>
@@ -92,6 +92,11 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		postId: {
+			type: String,
+			default: null,
+			required: false,
+		},
 	},
 	computed: {
 		discount () {
@@ -101,6 +106,12 @@ export default {
 	methods: {
 		short(number) {
 			return shortNumber(number, this._i18n.locale) || 0;
+		},
+		navigateToPairedItemPage() {
+			if (!this.item.itemId || !this.postId) {
+				return;
+			}
+			this.$router.push(`/paired-item?postId=${this.postId}&itemId=${this.item.itemId}&varId=${this.item.varId}`);
 		},
 	},
 };

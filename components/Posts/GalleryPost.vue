@@ -11,6 +11,7 @@
 				show-tap
 				:post-length="post.items.length"
 				:loading="!post.guid && !post.error"
+				:post-id="post.guid"
 				@click.native="fetch"
 			>
 				<ItemImage

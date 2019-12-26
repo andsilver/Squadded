@@ -9,6 +9,7 @@
 		:item="item"
 		:show-bag="isClickable"
 		:show-refresh="showRefreshicon"
+		:post-id="postId"
 		@open="openProduct"
 	>
 		<ItemImage
@@ -52,6 +53,11 @@ export default {
 		showRefreshicon: {
 			type: Boolean,
 			default: false,
+		},
+		postId: {
+			type: String,
+			required: false,
+			default: null,
 		},
 	},
 	computed: {
