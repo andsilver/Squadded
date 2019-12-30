@@ -44,7 +44,7 @@ export default class Social {
 		}
 
 		const uri = OAUTH[providerName].endpoint +
-			`client_id=${OAUTH[providerName].id}` +
+			`app_id=${OAUTH[providerName].id}` +
 			`&redirect_uri=${Social.redirectUrl(providerName)}` +
 			`&state=${generateState()}` +
 			'&response_type=code' +
