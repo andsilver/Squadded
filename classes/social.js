@@ -24,14 +24,10 @@ const OAUTH = {
 	instagram: {
 		endpoint: 'https://api.instagram.com/oauth/authorize?',
 		id: IG_CLIENT_ID,
-		scope: 'basic',
+		scope: 'public_profile,email',
 		display: 'popup',
 	},
 };
-
-function generateState () {
-	return Math.random().toString(36).slice(2);
-}
 
 export default class Social {
 	static redirectUrl (providerName) {
@@ -46,7 +42,6 @@ export default class Social {
 		const uri = OAUTH[providerName].endpoint +
 			`app_id=${OAUTH[providerName].id}` +
 			`&redirect_uri=${Social.redirectUrl(providerName)}` +
-			`&state=${generateState()}` +
 			'&response_type=code' +
 			(OAUTH[providerName].scope ? `&scope=${OAUTH[providerName].scope}` : '') +
 			(OAUTH[providerName].display ? `&display=${OAUTH[providerName].display}` : '');
