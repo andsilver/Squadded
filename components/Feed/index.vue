@@ -48,6 +48,10 @@ export default {
 			const groupsByAuthor = {};
 			const items = [];
 
+			if (!this.items || !this.items.length) {
+				return [];
+			}
+
 			for (const item of this.items) {
 				if (item.type !== 'singleItemPost') {
 					items.push(item);
