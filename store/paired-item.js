@@ -66,10 +66,6 @@ export const mutations = {
 			return;
 		}
 		state.item.squadded = true;
-		state.allPosts.forEach((post) => {
-			const item = post.getItem(itemId);
-			item && (item.squadded = true);
-		});
 	},
 };
 
