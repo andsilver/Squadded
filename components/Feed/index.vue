@@ -75,7 +75,7 @@ export default {
 				}
 			}
 
-			Object.keys(groupsByAuthor).forEach(key => {
+			Object.keys(groupsByAuthor).forEach((key) => {
 				if (groupsByAuthor[key].items.length === 1) {
 					items.push(groupsByAuthor[key].items[0]);
 				} else {
