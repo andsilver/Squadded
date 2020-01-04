@@ -1,5 +1,6 @@
 <template>
 	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }">
+		<NotificationsBanner ref="notifications" />
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
 		<v-content id="main" class="d-flex">
 			<nuxt ref="main-content" />
@@ -19,6 +20,7 @@ import { mapState } from 'vuex';
 import Preloader from '~/components/Preloader.vue';
 import Prompt from '~/components/common/Prompt';
 import TabBar from '~/components/common/TabBar.vue';
+import NotificationsBanner from '~/components/Notifications/Banner.vue';
 import { SquadStore, SquadMutations } from '~/store/squad';
 import { isTouch, onToggleKeyboard } from '~/utils/device-input';
 
@@ -28,6 +30,7 @@ export default {
 		Preloader,
 		Prompt,
 		TabBar,
+		NotificationsBanner,
 	},
 	data: () => ({
 		title: 'Squad Widget',

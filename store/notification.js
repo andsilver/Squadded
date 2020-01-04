@@ -1,4 +1,5 @@
 export const NotificationStore = 'notification';
+export const TIMEOUT = 5; // 5 seconds
 
 export const state = () => ({
 	notifications: [],
@@ -16,6 +17,7 @@ export const NotificationMutations = {
 	add: 'add',
 	viewAll: 'viewAll',
 	receive: 'receive',
+	view: 'view',
 };
 
 const contain = state => ntf => state.notifications.find(n => ntf._id === n._id);
@@ -26,7 +28,11 @@ export const mutations = {
 			return;
 		}
 		message.viewed = message.viewed || false;
+		message.showBanner = true;
 		state.notifications.unshift(message);
+		setTimeout(() => {
+			message.showBanner = false;
+		}, TIMEOUT * 1000);
 	},
 	[NotificationMutations.receive]: (state, notifications) => {
 		const unique = notifications
@@ -40,6 +46,14 @@ export const mutations = {
 		state.notifications.forEach((ntf) => {
 			ntf.viewed = true;
 		});
+	},
+	[NotificationMutations.view]: (state, notification) => {
+		notification = state.notifications.find(n => n._id === notification._id);
+		if (!notification) {
+			return;
+		}
+		notification.viewed = true;
+		notification.showBanner = false;
 	},
 };
 
