@@ -31,68 +31,6 @@ export default {
 				return [];
 			},
 		},
-		minutes: {
-			type: Number,
-			default: 2,
-		},
-	},
-	data: () => ({
-		components: {
-			singleItemPost: SingleItemPost,
-			groupedPosts: GroupedPosts,
-			pollPost: PollPost,
-			outfitPost: MultiItemPost,
-			galleryPost: GalleryPost,
-		},
-	}),
-	computed: {
-		aggregatedItems() {
-			const groupsByAuthor = {};
-			const items = [];
-
-			if (!this.items || !this.items.length) {
-				return [];
-			}
-
-			for (const item of this.items) {
-				if (item.type !== 'singleItemPost') {
-					items.push(item);
-					continue;
-				}
-
-				if (!groupsByAuthor[item.userId]) {
-					groupsByAuthor[item.userId] = {
-						ts: item.ts,
-						guid: item.guid,
-						items: [item],
-						type: 'groupedPosts',
-					};
-					continue;
-				}
-
-				const diff = Math.abs(
-					+item.ts - +groupsByAuthor[item.userId].ts,
-				);
-
-				if (diff < this.minutes * 60 * 1000) {
-					groupsByAuthor[item.userId].items.push(item);
-				} else {
-					items.push(item);
-				}
-			}
-
-			Object.keys(groupsByAuthor).forEach((key) => {
-				if (groupsByAuthor[key].items.length === 1) {
-					items.push(groupsByAuthor[key].items[0]);
-				} else {
-					items.push(groupsByAuthor[key]);
-				}
-			});
-
-			items.sort((a, b) => (a.ts > b.ts ? -1 : 1));
-
-			return items;
-		},
 	},
 	data: () => ({
 		components: {
