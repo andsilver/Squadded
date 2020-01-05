@@ -35,8 +35,9 @@ button
 	border 1.5px solid #ececec
 	border-radius 10px
 
-	margin-top 15pt
-	padding 30px 65px
+	margin 6.15vw auto 0
+	width 70.76vw
+	padding 9.61vw 65px
 
 	img
 		width 40pt

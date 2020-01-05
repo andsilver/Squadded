@@ -9,6 +9,7 @@
 					<span v-if="post.type == 'singleItemPost'">{{ $t('post.addedItem') }}</span>
 					<span v-if="post.type == 'outfitPost'">{{ $t('post.addedOutfit', {'0': post.items.length}) }} </span>
 					<span v-if="post.type == 'pollPost'">{{ $t('post.addedPoll', {'0': 3}) }} </span>
+					<span v-if="post.type == 'galleryPost'">{{ $t('post.addedGallary', {'0': post.items.length}) }} </span>
 				</span>
 				<span class="product-image">
 					<img v-if="post.type == 'singleItemPost'" :src="post.item.img" class="item-image">
@@ -21,6 +22,7 @@
 							<img src="~assets/img/poll-arrows.svg" class="poll-image">
 						</span>
 					</span>
+					<img v-if="post.type == 'galleryPost'" :src="post.img" class="item-image">
 				</span>
 			</div>
 			<v-tabs
@@ -104,6 +106,7 @@ export default {
 	img.item-image
 		width 9.23vw
 		vertical-align middle
+		max-height 13.38vw
 	.tab-result-section
 		margin-left -12px
 		margin-right -12px

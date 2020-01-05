@@ -13,7 +13,12 @@
 			class="message-input"
 			@keydown="keydown"
 		>
-			<v-icon v-if="textValue.length" slot="append" color="#B8B8BA" size="22" @click="send">
+			<v-icon
+				v-if="textValue.length"
+				slot="append"
+				class="message-icon"
+				@click="send"
+			>
 				mdi-send
 			</v-icon>
 		</v-text-field>
@@ -107,4 +112,18 @@ export default {
 	background-color #F4F4F5
 	border-top-left-radius 3.07vw
 	border-bottom-left-radius 3.07vw
+body .v-application .message-icon
+	width 7.3vw
+	height 7.3vw
+	position relative
+	background-color #000
+	border-radius 50%
+	&::before
+		content ''
+		background-image url('~assets/img/submit-plane.svg')
+		width: 7.3vw
+		height: 7.3vw
+		background-repeat no-repeat
+		background-position 4px
+		background-size 4.35vw
 </style>

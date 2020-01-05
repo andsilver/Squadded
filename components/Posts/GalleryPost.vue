@@ -2,7 +2,7 @@
 	<Post
 		:post="post"
 	>
-		<div class="outfit-card">
+		<div class="outfit-card gallery-card">
 			<CardFrame
 				ref="multi-item"
 				class="multi-item pa-4 mb-4"
@@ -20,14 +20,16 @@
 					:resquadd="false"
 				/>
 			</CardFrame>
-			<div class="scroll-items" :style="{ 'max-height': maxHeight }">
-				<ProductCard
-					v-for="item in post.items"
-					:key="item.itemId"
-					:item="item"
-					show-refreshicon
-					class="mx-auto mb-4"
-				/>
+			<div class="scroll-section">
+				<div class="scroll-items" :style="{ 'height': maxHeight }">
+					<ProductCard
+						v-for="item in post.items"
+						:key="item.itemId"
+						:item="item"
+						show-refreshicon
+						class="mx-auto mb-4"
+					/>
+				</div>
 			</div>
 		</div>
 	</Post>
@@ -59,7 +61,7 @@ export default {
 	data: () => ({
 		fetched: false,
 		shifted: false,
-		maxHeight: '250px',
+		maxHeight: '115.69vw',
 	}),
 	computed: {
 		totalPrice () {
@@ -81,7 +83,6 @@ export default {
 		},
 		toggleShifted () {
 			this.fetched = true;
-			this.maxHeight = `${this.$refs['multi-item'].$el.offsetHeight}px`;
 			this.shifted = !this.shifted;
 		},
 	},
@@ -93,25 +94,48 @@ export default {
 	white-space nowrap
 	width 100%
 .multi-item,
-.scroll-items
+.scroll-section
 	display inline-block
 	vertical-align top
 .multi-item
-	width 100%
+	width 78.46vw
 	transition-property margin-left
 	transition-delay .2s
 	&.shifted
-		margin-left -65%
-.scroll-items
-	width 65%
-	max-height 250px
+		margin-left -47%
+.scroll-section
+	position relative
+	margin-left -4px
+	vertical-align top
 	padding 4px
-	overflow auto
-	.v-card
-		width 85%
-		&.card_frame:first-child
-			margin-top 16px
-
+	width 65%
+	&::before
+		background -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%)
+		background -webkit-linear-gradient(top,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%)
+		background linear-gradient(to bottom,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%)
+		height 4.615vw
+		width 100%
+		content ''
+		left 0
+		position absolute
+		top 0px
+	&::after
+		background -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%)
+		background -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%)
+		background linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%)
+		height 4.615vw
+		width 100%
+		content ''
+		left 0
+		position absolute
+		bottom 0px
+	.scroll-items
+		overflow auto
+		.v-card
+			width 85%
+			box-shadow none
+			&.card_frame:first-child
+				margin-top 16px
 .grid
 	grid-template-columns 1fr 1fr
 	grid-template-rows 1fr 1fr

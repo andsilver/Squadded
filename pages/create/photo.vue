@@ -15,7 +15,7 @@
 					</v-btn>
 				</div>
 			</Tags>
-			<div v-if="dataImg && !loading" class="bottom">
+			<div v-if="dataImg && !loading" class="bottom photo-create">
 				<SelectedItems ref="selected-items" />
 				<UserInput v-model="text" :placeholder="$t('photo.textPlaceholder')" />
 				<div class="controls">
@@ -164,6 +164,7 @@ export default {
 		width 100%
 		bottom 0
 		padding 3.461vw 4.1538vw
+		margin-top 3.69vh
 		button
 			width 50%
 </style>

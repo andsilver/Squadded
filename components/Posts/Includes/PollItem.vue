@@ -145,4 +145,12 @@ export default {
 			color #ffffff
 			background #FD6256
 			border-color #FD6256
+.poll-details
+	.notchoosed
+		background-color rgba(0, 0, 0, .40)
+	.poll_ongoing
+		.choosed .poll-item__votes-count
+			border 1px solid rgba(255,255,255,0.5)
+			background-color transparent
+			color #fff
 </style>

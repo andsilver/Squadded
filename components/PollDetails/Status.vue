@@ -1,6 +1,6 @@
 <template>
 	<div class="mb-2 poll_status">
-		<span ref="expiration" class="mr-2">{{ post.closed ? $t('poll.expired') : $t('poll.expiration') }} {{ time }}</span>
+		<span ref="expiration" class="mr-2">{{ post.closed ? $t('poll.expired') : '' }} {{ time }}</span>
 		<span>|</span>
 		<span ref="votes" class="ml-2">{{ votes }} {{ $tc('poll.votes', votes) }}</span>
 	</div>
@@ -21,7 +21,10 @@ export default {
 			return this.post.item1.votes + this.post.item2.votes;
 		},
 		time() {
-			window.moment.locale(this._i18n.locale);
+			const timestring = {
+				future: '%s left',
+			};
+			window.moment.locale(this._i18n.locale, { relativeTime: timestring });
 			return this.post.expires && window.moment(this.post.expires).fromNow();
 		},
 	},
@@ -35,8 +38,8 @@ export default {
 		max-height 8.615vw
 		word-break normal
 		overflow hidden
-		font-size 3.076vw
-		line-height 4vw
+		font-size 3.38vw
+		line-height 4.61vw
 		font-weight 500
 		color #B8B8BA
 </style>

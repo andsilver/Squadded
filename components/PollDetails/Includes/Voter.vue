@@ -1,7 +1,7 @@
 <template>
-	<div class="d-flex align-center mb-3">
+	<div class="d-flex align-center voter-section">
 		<img :src="voter.avatar" alt="">
-		<h5 class="ml-2">
+		<h5>
 			{{ voter.screenName }}
 		</h5>
 	</div>
@@ -19,8 +19,14 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-img
-	width 30px
-	height 30px
-	border-radius 50%
+.voter-section
+	padding 0 4.61vw
+	margin-bottom 3.07vw
+	img
+		width 7.69vw
+		height 7.69vw
+		border-radius 50%
+	h5
+		font-size 3.07vw
+		margin-left 3.13vw
 </style>

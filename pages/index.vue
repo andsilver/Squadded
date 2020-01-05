@@ -41,15 +41,15 @@ export default {
 		'social-btn': SocialBtn,
 		'sign-form': SignForm,
 	},
-	asyncData ({ store, redirect }) {
-		if (store.state.socket.isAuth) {
-			redirect(DEFAULT_LANDING);
-		}
-	},
 	computed: {
 		...mapState([
 			'socket',
 		]),
+	},
+	asyncData ({ store, redirect }) {
+		if (store.state.socket.isAuth) {
+			redirect(DEFAULT_LANDING);
+		}
 	},
 };
 </script>

@@ -89,20 +89,6 @@ export default {
 		Blog,
 		Whishlist,
 	},
-	asyncData ({ store, params, redirect }) {
-		if (!params.id) {
-			return;
-		}
-		if (params.id === store.state.user.me.userId) {
-			redirect('/me');
-		}
-		return prefetch({
-			guid: params.id,
-			mutation: `${UserStore}/${UserMutations.setOther}`,
-			store,
-			type: 'fetchUser',
-		}).then(() => ({ other: store.state.user.other }));
-	},
 	data: () => ({
 		other: null,
 		userId: null,
@@ -116,6 +102,20 @@ export default {
 		user () {
 			return this.userId ? this.other : this.me;
 		},
+	},
+	asyncData ({ store, params, redirect }) {
+		if (!params.id) {
+			return;
+		}
+		if (params.id === store.state.user.me.userId) {
+			redirect('/me');
+		}
+		return prefetch({
+			guid: params.id,
+			mutation: `${UserStore}/${UserMutations.setOther}`,
+			store,
+			type: 'fetchUser',
+		}).then(() => ({ other: store.state.user.other }));
 	},
 	created () {
 		if (this.$route.hash === '#wishlist') {

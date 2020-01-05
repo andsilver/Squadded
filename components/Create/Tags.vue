@@ -1,5 +1,5 @@
 <template>
-	<div class="shift-card">
+	<div class="shift-card photo-create">
 		<slot />
 		<CardFrame
 			ref="tag-card"
@@ -60,20 +60,21 @@ export default {
 .shift-card
 	white-space nowrap
 	width 100%
+	margin-top 4.30vw
 .multi-item,
 .scroll-items
 	display inline-block
 	vertical-align top
 .multi-item
-	min-width calc(100% - 60px)
+	min-width calc(100% - 70px)
 	transition-property margin-left
 	transition-delay .2s
 	&.shifted
-		margin-left -75%
+		margin-left -60%
 .scroll-items
-	width 75%
+	width 65%
 	max-height 250px
-	padding-left 10px
+	margin-left -4px
 	overflow auto
 	.v-card
 		width 75%

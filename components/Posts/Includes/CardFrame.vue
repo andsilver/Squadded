@@ -231,4 +231,30 @@ export default {
 		top 9%
 	.card_bottom
 		margin-top 5%
+.gallery-card
+	.multi-item .card_bottom
+		display none
+	.tap-photo
+		margin-top 4vw
+		margin-bottom 0px
+.photo-create .card_frame.is_poll
+	margin-bottom 5px
+.poll-details
+	.card_frame
+		&.is_poll .post_title
+			width 100%
+		.post_title span
+			font-size 3.23vw
+			line-height 4.30vw
+	.poll-item
+		.card_frame.is_poll .card_bottom
+			margin-top 0
+			padding 3.29vw 4.61vw 3.29vw 0
+	.poll-item:last-child
+		.card_frame.is_poll .card_bottom
+			border-left 1px solid rgba(184,184,186,0.4)
+			margin-left -2px
+			padding-left 4.61vw
+			padding-right 0
+			height 60px
 </style>

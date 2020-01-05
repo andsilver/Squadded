@@ -64,4 +64,28 @@ export default {
 		background-size 8px
 		background-position center
 		background-repeat no-repeat
+.photo-create
+	.selected-item-img
+		margin-top 0px
+		width 6.963vh
+		height 10.44vh
+		margin-bottom 1.5vh
+		box-shadow 0 0.92vw 6.15vw rgba(0,0,0,0.1)
+		&:after
+			width 100%
+			content ''
+			position absolute
+			height 100%
+			top 0
+			left 0
+			background-color rgba(0,0,0,0.4)
+		.sqdi-close-cross
+			border none
+			&:before
+				background-image url('~assets/img/remove-photo.svg')
+				background-size 12px
+				background-color #FD6256
+				width 8.61vw
+				height 8.61vw
+				z-index 1
 </style>

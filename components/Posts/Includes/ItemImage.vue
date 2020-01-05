@@ -34,4 +34,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.gallery-card .multi-item .v-image
+	height 100.384vw
+
+.photo-create .multi-item .v-image
+	height 40.39vh
 </style>

@@ -149,4 +149,12 @@ export default {
 .selected-item-img.showlimiterror {
 	margin: 0vw 4.615vw 0 0;
 }
+.photo-create .choose-items-section{
+	margin-left: 0px;
+	margin-right: 0px;
+	padding: 18px 18px 0px;
+}
+.photo-create .error-message{
+	display: none;
+}
 </style>
