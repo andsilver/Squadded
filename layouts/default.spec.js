@@ -17,6 +17,7 @@ describe('Default layout', () => {
 	const MAIN = 'main-content';
 	const PRELOADER = 'preloader';
 	const TAB_BAR = 'tab-bar';
+	const NOTIFICATIONS = 'notifications';
 
 	let localVue;
 	let store;
@@ -64,6 +65,7 @@ describe('Default layout', () => {
 		expect(wrapper.ref(MAIN).exists()).toBe(true);
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
 		expect(wrapper.ref(TAB_BAR).exists()).toBe(true);
+		expect(wrapper.ref(NOTIFICATIONS).exists()).toBe(true);
 	});
 
 	it('should not display tabs at home', () => {

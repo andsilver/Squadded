@@ -1,7 +1,7 @@
 <template>
 	<section class="feed">
-		<template v-for="post in aggregatedItems">
-			<component :is="getComponent(post)" :key="post.correlationId || post.guid" :post="post" />
+		<template v-for="(post, n) in aggregatedItems">
+			<component :is="getComponent(post)" :key="n" :post="post" />
 		</template>
 	</section>
 </template>
@@ -12,6 +12,8 @@ import MultiItemPost from '~/components/Posts/MultiItemPost';
 import SingleItemPost from '~/components/Posts/SingleItemPost';
 import PollPost from '~/components/Posts/PollPost';
 import GroupedPosts from '~/components/Posts/GroupedPosts';
+
+const MINUTES = 2; // 2 minutes
 
 export default {
 	name: 'Feed',
@@ -28,10 +30,6 @@ export default {
 			default() {
 				return [];
 			},
-		},
-		minutes: {
-			type: Number,
-			default: 2,
 		},
 	},
 	data: () => ({
@@ -72,7 +70,7 @@ export default {
 					+item.ts - +groupsByAuthor[item.userId].ts,
 				);
 
-				if (diff < this.minutes * 60 * 1000) {
+				if (diff < MINUTES * 60 * 1000) {
 					groupsByAuthor[item.userId].items.push(item);
 				} else {
 					items.push(item);

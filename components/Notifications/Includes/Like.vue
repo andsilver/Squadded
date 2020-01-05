@@ -5,7 +5,7 @@
 			:user="notification.user"
 			hide-name
 		/>
-		<div class="d-flex flex-column">
+		<div class="d-flex flex-column justify-center">
 			<span>
 				<UserLink
 					:user="notification.user"
@@ -16,7 +16,7 @@
 					&nbsp;{{ notification.post.text || $t('notify.post') }}
 				</b>
 			</span>
-			<span>
+			<span v-if="!banner">
 				<v-avatar color="#000" size="24px">
 					<v-icon dark size="14">
 						sqdi-favorite-heart-button
@@ -40,6 +40,10 @@ export default {
 		notification: {
 			type: Object,
 			required: true,
+		},
+		banner: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {

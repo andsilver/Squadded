@@ -5,11 +5,11 @@
 				sqdi-squadded-icon
 			</v-icon>
 		</v-avatar>
-		<div class="d-flex flex-column">
+		<div class="d-flex flex-column justify-center">
 			<span>
 				&nbsp;{{ $t('notify.pollend') }}
 			</span>
-			<span>
+			<span v-if="!banner">
 				{{ timeString }}
 			</span>
 		</div>
@@ -26,6 +26,10 @@ export default {
 		notification: {
 			type: Object,
 			required: true,
+		},
+		banner: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {
