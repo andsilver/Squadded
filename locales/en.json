@@ -8,6 +8,9 @@
   "Community": "The Community",
   "Create": "Create",
   "Post": "Post",
+  "Next": "Next",
+  "Edit": "Edit",
+  "NewOutfit": "New outfit",
   "Explore": "Explore",
   "Home": "Home",
   "Messages": "Messages",
@@ -154,14 +157,17 @@
     }
   },
   "publicToggle": {
-    "forEveryone": "For everyone",
-    "forPrivate": "For followers only"
+    "forEveryone": "Public posts are seen by everyone",
+    "forPrivate": "Private posts are only seen by your followers",
+    "toggle": "toggle"
   },
   "tip": {
     "addItems": "Add items to your wishlist to create {0}.",
     "limitMessage": "The limit is 4 items per outfit",
-    "outfitSelect": "choose 2 to 4 items to pair together",
-    "pollSelect": "choose 2 items you hesitate with",
+    "outfitSelect": "Select 2 to 4 items to pair together",
+    "outfitError": "You need to select 2 to 4 items to create an outfit",
+    "pollSelect": "Select 2 items you hesitate with",
+    "pollError": "You need to select 2 items to create a poll",
     "createPhotoTag": "tap photo to tag items",
     "tapPhotos": "tap photos for details"
   },

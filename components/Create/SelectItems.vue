@@ -11,9 +11,9 @@
 				@click.native="() => select(post)"
 			/>
 		</div>
-		<p v-if="limitError" class="error-message">
+		<!-- <p v-if="limitError" class="error-message">
 			{{ $t('tip.limitMessage') }}
-		</p>
+		</p> -->
 	</div>
 </template>
 
@@ -92,11 +92,11 @@ export default {
 	background-color: transparent;
 	margin-top: 0px !important;
 }
-.outfit-main-sec .choose-items, .compare-two.both_item_selected .choose-items{
-	max-height: calc(100vh - 380px);
+.outfit-main-sec .choose-items, .poll-main-sec .choose-items{
+	max-height: calc(100vh - 355px);
 }
-.outfit-main-sec .choose-items.no_item_selected, .choose-items.choose-items{
-	max-height: calc(100vh - 250px);
+.outfit-main-sec .choose-items.no_item_selected{
+	max-height: calc(100vh - 300px);
 }
 .choose-items-section{
 	position: relative;

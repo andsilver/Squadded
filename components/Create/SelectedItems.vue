@@ -1,9 +1,9 @@
 <template>
-	<div class="selected-items mt-2">
+	<div v-if="!isPoll" class="selected-items mt-2">
 		<span
 			v-for="post in getSelected"
 			:key="post.item.itemId"
-			class="selected-item-img"
+			class="selected-item-img selected"
 		>
 			<v-img
 				:key="post.item.img"
@@ -12,6 +12,41 @@
 			<v-icon size="1.84vw" @click.native="post.selected = false">
 				sqdi-close-cross
 			</v-icon>
+		</span>
+	</div>
+	<div v-else-if="isPoll" class="selected-items mt-2">
+		<span
+			v-if="getSelected.length > 0"
+			:key="getSelected[0].item.itemId"
+			class="selected-item-img selected poll"
+		>
+			<v-img
+				:key="getSelected[0].item.img"
+				:src="getSelected[0].item.img"
+			/>
+			<v-icon size="1.84vw" @click.native="getSelected[0].selected = false">
+				sqdi-close-cross
+			</v-icon>
+		</span>
+		<span v-if="isPoll && getSelected.length == 0" class="selected-item-img poll">
+			<v-img />
+		</span>
+		<span class="selected-item-img vs-icon poll">vs</span>
+		<span
+			v-if="getSelected.length == 2"
+			:key="getSelected[1].item.itemId"
+			class="selected-item-img selected poll"
+		>
+			<v-img
+				:key="getSelected[1].item.img"
+				:src="getSelected[1].item.img"
+			/>
+			<v-icon size="1.84vw" @click.native="getSelected[1].selected = false">
+				sqdi-close-cross
+			</v-icon>
+		</span>
+		<span v-if="isPoll && getSelected.length != 2" class="selected-item-img poll">
+			<v-img />
 		</span>
 	</div>
 </template>
@@ -23,6 +58,12 @@ import { ActivityStore, ActivityGetters } from '~/store/activity';
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
 export default {
+	props: {
+		isPoll: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	computed: {
 		...mapGetters([
 			ActivityGetters.getSelected,
@@ -36,15 +77,25 @@ export default {
 	padding 0 12px
 	.v-responsive.v-image
 		height 23.076vw
+		background-color rgba(184,184,186,0.3)
 
 .selected-item-img
 	display inline-block
 	border-radius 3.076vw
 	position relative
-	margin 4.92vw 4.615vw 0 0
+	margin 0 4.615vw 0 0
 	width 15.384vw
 	overflow hidden
 	height 23.076vw
+	&.poll
+		margin 0 3.69vw 0 0
+	&.selected
+		box-shadow 0 6.15vw 6.15vw rgba(0,0,0,0.1)
+	&.vs-icon
+		width auto
+		line-height 23.076vw
+		font-size 3.69vw
+		font-weight 700
 	.v-icon
 		border 1.538vw solid rgba(0, 0, 0, 0.3)
 		border-radius 50%

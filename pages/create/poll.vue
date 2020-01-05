@@ -1,102 +1,132 @@
 <template>
 	<v-container v-if="socket.isAuth" class="poll-main-sec">
-		<BackBar ref="goback-button" :title="$t('Create')" />
-		<Tabs />
-		<v-layout column justify-center align-center>
-			<v-text-field
-				ref="search-text"
-				v-model="searchText"
-				class="search-plus"
-				:hide-details="true"
-				:placeholder="$t('Search')"
-			>
-				<v-icon slot="prepend" color="#B8B8BA" size="22">
-					sqdi-magnifying-glass-finder
-				</v-icon>
-			</v-text-field>
-			<div v-show="isWishlistHasItems" class="compare-two" :class="{'both_item_selected': item1 && item2 }">
-				<SelectItems
-					ref="select-item1"
-					class="select-item"
-					:max-count="1"
-					is-poll
-					:exclude="item2"
-					@select="(items) => {item1 = items[0]}"
-				/>
-				<span class="com-vs">vs</span>
-				<SelectItems
-					ref="select-item2"
-					class="select-item"
-					:max-count="1"
-					is-poll
-					:exclude="item1"
-					@select="(items) => {item2 = items[0]}"
-				/>
-			</div>
-			<p v-if="isWishlistHasItems" class="tip-note">
-				{{ $t('tip.pollSelect') }}
-			</p>
-			<p v-if="!isWishlistHasItems" class="tip-note">
-				{{ $t('wishlist.empty') }}
-			</p>
-			<p v-if="!isWishlistHasItems" class="tip-note">
-				{{ $t('tip.addItems', [$t('a poll')]) }}
-			</p>
-			<div class="merge-selected">
-				<UserInput v-show="item1 && item2" ref="text-field" v-model="text" :placeholder="$t('SelectPollName')" />
-				<ExpirationPicker v-show="item1 && item2" ref="expiration" class="poll-expiration" />
-				<div class="bottom-post-sec">
-					<PublicToggle ref="public-toggle" />
-					<div class="public-right-section">
-						<Button
-							ref="done-button"
-							class="mt-2"
-							:disabled="!complete"
-							@click.native="create"
-						>
-							{{ $t('Post') }}
-						</Button>
-					</div>
+		<div :class="{ hide_section : !showOutfit }">
+			<BackBar ref="goback-button" :title="$t('Create')" />
+			<Tabs />
+			<v-layout column justify-center align-center class="tab-content-section">
+				<v-text-field
+					ref="search-text"
+					v-model="searchText"
+					class="search-plus"
+					:hide-details="true"
+					:placeholder="$t('Search')"
+				>
+					<v-icon slot="prepend" color="#B8B8BA" size="22">
+						sqdi-magnifying-glass-finder
+					</v-icon>
+				</v-text-field>
+				<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="2" />
+				<p v-if="isWishlistHasItems && !showError" class="tip-note">
+					{{ $t('tip.pollSelect') }}
+				</p>
+				<p v-if="isWishlistHasItems && showError" class="tip-note error-note">
+					{{ $t('tip.pollError') }}
+				</p>
+				<p v-if="!isWishlistHasItems" class="tip-note">
+					{{ $t('wishlist.empty') }}
+				</p>
+				<p v-if="!isWishlistHasItems" class="tip-note">
+					{{ $t('tip.addItems', [$t('an outfit')]) }}
+				</p>
+				<div class="merge-selected OutfitSelected">
+					<SelectedItems ref="selected-items" is-poll />
+					<Button
+						class="mt-2 next-button"
+						:class="{ disable_btn :!complete}"
+						:disabled="!complete"
+						@click.native="next"
+					>
+						{{ $t('Next') }}
+					</Button>
 				</div>
-			</div>
-		</v-layout>
+			</v-layout>
+		</div>
+		<div :class="{ hide_section : showOutfit }" class="poll-main-sec">
+			<v-layout column justify-center align-center class="tab-content-section">
+				<h2>
+					<v-btn ref="go-back-btn" icon @click="goBack">
+						<v-icon>
+							sqdi-arrow-pointing-to-left
+						</v-icon>
+					</v-btn>
+					{{ $t('NewOutfit') }}
+				</h2>
+				<UserInput v-show="getSelected.length > 0" ref="text-field" v-model="text" :placeholder="$t('SelectPollName')" class="input-section" />
+				<PollView
+					v-if="selectOFItems.length > 0"
+					:post="selectOFItems"
+				/>
+				<Button
+					class="edit-button"
+					@click.native="goBack"
+				>
+					{{ $t('Edit') }}
+				</Button>
+				<div class="bottom-post-sec hide_section">
+					<ExpirationPicker v-show="getSelected.length > 0" ref="expiration" class="poll-expiration" />
+					<PublicToggle ref="public-toggle" />
+				</div>
+				<div class="public-right-section">
+					<Button
+						ref="done-button"
+						class="mt-2 post-button"
+						:disabled="!complete"
+						@click.native="create"
+					>
+						{{ $t('Post') }}
+					</Button>
+				</div>
+			</v-layout>
+		</div>
 	</v-container>
 </template>
 <script>
-import { mapState } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Button from '~/components/common/Button';
 import UserInput from '~/components/common/UserInput';
+import PollView from '~/components/common/PollView';
 import PublicToggle from '~/components/Create/PublicToggle';
 import SelectItems from '~/components/Create/SelectItems';
+import SelectedItems from '~/components/Create/SelectedItems';
 import Tabs from '~/components/Create/Tabs';
 import ExpirationPicker from '~/components/Poll/ExpirationPicker';
+import { ActivityStore, ActivityGetters } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions } from '~/store/post';
+
+const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
 export default {
 	name: 'NewPollPage',
 	components: {
 		BackBar,
 		Button,
-		ExpirationPicker,
 		PublicToggle,
 		SelectItems,
+		SelectedItems,
 		Tabs,
 		UserInput,
+		PollView,
+		ExpirationPicker,
 	},
 	data: () => ({
-		item1: null,
-		item2: null,
 		searchText: '',
 		text: '',
+		isPublic: false,
+		showOutfit: true,
+		showError: false,
+		selectOFItems: {},
 	}),
 	computed: {
+		...mapGetters([
+			ActivityGetters.getSelected,
+		]),
 		...mapState([
 			'socket',
 		]),
 		complete () {
-			return !!(this.text && this.item1 && this.item2);
+			return !!(this.getSelected.length >= 2 && this.getSelected.length <= 4);
 		},
 		isWishlistHasItems () {
 			const { wishlist } = this.$store.state.activity;
@@ -105,74 +135,50 @@ export default {
 	},
 	methods: {
 		async create () {
-			const { item1, item2, text } = this;
+			const { text } = this;
 			const { isPublic } = this.$refs['public-toggle'];
+			const items = this.getSelected.map(post => post.item);
+			const item1 = items[0];
+			const item2 = items[1];
 			const msg = {
 				item1,
 				item2,
-				expires: this.$refs.expiration.date,
 				private: !isPublic,
 				text,
-				type: 'pollPost',
+				type: 'outfitPost',
 			};
 			const post = await this.$store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 			this.$router.push('/feed');
 		},
+		next () {
+			if (this.getSelected.length < 2) {
+				this.showError = true;
+			} else {
+				this.selectOFItems = this.getSelected.map(post => post.item);
+				this.showError = false;
+				this.showOutfit = false;
+			}
+		},
+		goBack() {
+			this.showOutfit = true;
+		},
 	},
 };
 </script>
 
-<style lang="stylus" scoped>
-.compare-two{
-	position: relative;
-	padding: 14px 14px 0px;
-	margin-left: -12px;
-	margin-right: -12px;
-	margin-top: 0px !important;
-	display flex
-	span{
-		align-self: center
-	}
-	.select-item:first-child{
-		margin-right 4.307vw
-	}
-	.select-item:last-child{
-		margin-left 4.307vw
-	}
-	&::before{
-		background: -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%);
-		background: -webkit-linear-gradient(top,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%);
-		background: linear-gradient(to bottom,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%);
-		height:4.615vw;
-		width:100%;
-		content: '';
-		left: 0;
-		position: absolute;
-		top: 0px;
-	}
-	&::after{
-		background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%);
-		background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%);
-		background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%);
-		height:4.615vw;
-		width:100%;
-		content: '';
-		left: 0;
-		position: absolute;
-		bottom: 0px;
-	}
-}
-.select-item{
-	width:46%;
+<style lang="css" scoped>
+.hide_section {
+	display: none;
 }
 .search-plus.v-text-field {
-	padding-top: 5px;
+	padding-top: 0px;
 	margin-top: 8px;
 	padding-bottom: 0;
-	margin-bottom: 0!important;
+	margin-bottom: 8px !important;
 	font-size: 3.230vw;
 	font-weight: 500;
+	width: 100%;
 }
 i.v-icon.sqdi-magnifying-glass-finder {
 	font-size: 4.69vw !important;
@@ -187,30 +193,12 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	padding: 0px 2.153vw 0px!important;
 	font-size: 3.80vw;
 }
-.search-plus.v-input {
-	margin-bottom: 6.076vw;
-}
 .search-plus.v-input__append-outer,.search-plus.v-input__prepend-outer{
 	margin-bottom: 0px;
 	margin-top: 0px;
 }
-/*bottam sticky section */
-.bottom-post-sec {
-	display: flex;
-	align-items: center;
-	width: 100%;
-	bottom: 0;
-	padding: 3.461vw 4.1538vw;
-}
-.public-right-section{
-	width:50%;
-	padding-right: 4.1538vw;
-	text-align: right;
-}
-
-.bottom-post-sec button.mt-2.v-btn.v-size--default {
-	height: 42px;
-	min-width: 100%;
+.tab-content-section .choose-items {
+	max-height: calc(100vh - 52vh) !important;
 }
 .merge-selected {
 	position: fixed;
@@ -221,26 +209,78 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	bottom: 0;
 	left: 0;
 	right: 0;
-	text-align: center;
 }
-.merge-selected.OutfitSelected {
-	padding-top: 5px;
+.merge-selected.OutfitSelected .next-button{
+	margin-bottom: 6.15vw;
+	display: block;
 }
 .tip-note {
-	color: #B8B8BA;
 	font-size: 3.384vw;
-	font-weight: 500;
+	font-weight: 600;
 	margin-bottom: 0;
+	margin-top: 8px;
+}
+p.tip-note.error-note {
+    color: #FD6256;
+}
+.bottom-post-sec {
+	display: block;
+	align-items: center;
 	width: 100%;
-	text-align: center;
-	margin-top: 12px;
+	bottom: 0;
+	padding: 4VW 0;
+	margin-top: 4VW;
+	border-top: 0.46vw solid #DBDBDB;
 }
-.com-vs{
-	color: #000000;
+.public-right-section{
+	width: 100%;
+    text-align: center;
+    position: fixed;
+    bottom: 0;
+    background: #fff;
+    z-index: 111;
+    height: 25vw;
+}
+.bottom-post-sec button.mt-2.v-btn.v-size--default {
+	height: 42px;
+	min-width: 100%;
+}
+.next-button{
+	color: #fff;
+	width: 42.46vw;
+}
+.next-button.disable_btn{
+	background-color: #B8B8BA !important;
+}
+.edit-button{
+	background-image: url('~assets/img/refresh-icon.svg');
+	background-color: transparent !important;
+    width: 23.07vw;
+    color: #000;
+    border: 2px solid #000;
+	font-size: 2.15vw;
+	background-repeat: no-repeat;
+    background-position: 4vw;
+    padding-left: 10vw !important;
+	background-size: 3.69vw;
+}
+.poll-main-sec h2{
+	color: #000;
 	font-size: 4.307vw;
-	font-weight: 500;
+	font-weight: bold;
+	text-align: center;
+	padding-bottom: 0px;
+	position: relative;
+	line-height: 36px;
+	width: 100%;
 }
-.poll-expiration {
-	margin-bottom: 10px;
+.poll-main-sec h2 button{
+	position: absolute;
+	left: 0;
+}
+.post-button{
+	width: 42.46vw;
+	height: 12.30vw !important;
+	margin-top: 4vw !important;
 }
 </style>

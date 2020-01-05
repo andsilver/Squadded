@@ -67,7 +67,7 @@ export default {
 </script>
 <style lang="css" scoped>
 .row.expire-section {
-    margin: 2.461vw 12px 0;
+    margin: 0;
 }
 img.logo {
     width: 8.307vw;
@@ -77,11 +77,11 @@ img.logo {
     padding: 0;
 }
 .row.expire-section .col.col.col-4 {
-    max-width: 28%;
+    max-width: 23.3vw;
 }
 .row.expire-section .col.col-6 {
-    margin-left: 4.615vw;
-	margin-right: 7.5vw;
+    margin-left: 4.61vw;
+	margin-right: 10.6vw;
 }
 label.expire-in {
     color: #000000;
@@ -95,11 +95,14 @@ label.expire-in {
 label.resultnote {
     color: #B8B8BA;
     font-size: 3.230vw;
+	margin-left: 12.91vw;
+	display: block;
 }
 .timer-image{
 	background-image:url('~assets/img/expire.svg');
 	background-size:cover;
-	height:7.92vw;
+	height: 8.3vw;
+	width: 8.3vw;
 }
 .v-input.search-plus input {
     font-size: 3.230vw;
@@ -108,5 +111,9 @@ span.expire-option {
     font-size: 3.23vw;
     font-weight: 700;
     line-height: 6.153vw;
+}
+.poll-expiration {
+	padding-bottom: 3.93vw;
+	border-bottom: 0.46vw solid #DBDBDB;
 }
 </style>

@@ -51,4 +51,7 @@ export default {
 		display none
 	>>> .v-input__prepend-outer
 		margin 0 1.538vw 0 0
+	&.input-section
+		margin-top 6.92vw
+		width 100%
 </style>

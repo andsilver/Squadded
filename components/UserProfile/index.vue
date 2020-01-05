@@ -89,20 +89,6 @@ export default {
 		Blog,
 		Whishlist,
 	},
-	data: () => ({
-		other: null,
-		userId: null,
-		tabs: 0,
-		isScrolled: false,
-	}),
-	computed: {
-		...mapState([
-			'me',
-		]),
-		user () {
-			return this.userId ? this.other : this.me;
-		},
-	},
 	asyncData ({ store, params, redirect }) {
 		if (!params.id) {
 			return;
@@ -116,6 +102,20 @@ export default {
 			store,
 			type: 'fetchUser',
 		}).then(() => ({ other: store.state.user.other }));
+	},
+	data: () => ({
+		other: null,
+		userId: null,
+		tabs: 0,
+		isScrolled: false,
+	}),
+	computed: {
+		...mapState([
+			'me',
+		]),
+		user () {
+			return this.userId ? this.other : this.me;
+		},
 	},
 	created () {
 		if (this.$route.hash === '#wishlist') {
