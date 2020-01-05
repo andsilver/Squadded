@@ -2,18 +2,15 @@
 	<v-toolbar
 		dense
 		flat
-		height="40"
+		height="48"
 		class="px-3"
 	>
-		<v-tabs fixed-tabs>
+		<v-tabs fixed-tabs class="mt-2">
 			<v-tab color="#B8B8BA" to="/notifications">
 				{{ $t('All') }}
 			</v-tab>
 			<v-tab color="#B8B8BA" to="/notifications/requests">
 				{{ $t('Requests') }}
-			</v-tab>
-			<v-tab color="#B8B8BA" to="/notifications/pushed">
-				{{ $t('Pushed') }}
 			</v-tab>
 		</v-tabs>
 	</v-toolbar>

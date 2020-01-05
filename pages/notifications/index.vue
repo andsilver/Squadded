@@ -2,7 +2,7 @@
 	<v-container v-if="socket.isAuth">
 		<BackBar ref="goback-button" :title="$t('Notifications')" />
 		<Tabs />
-		<v-layout>
+		<v-layout class="nofification-layout">
 			<span v-if="!notifications.length" ref="empty-notif-text">{{ $t('notify.isEmpty') }}</span>
 			<Notifications v-else ref="notification-list" :items="notifications" />
 		</v-layout>
@@ -59,3 +59,8 @@ export default {
 	},
 };
 </script>
+<style lang="stylus" scoped>
+.layout.nofification-layout
+	margin-left -12px
+	margin-right -12px
+</style>

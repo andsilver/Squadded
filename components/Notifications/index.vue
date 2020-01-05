@@ -5,7 +5,7 @@
 		>
 			<component
 				:is="getComponent(notification)"
-				:key="notification.correlationId || notification.guid"
+				:key="notification.correlationId || notification._id"
 				:notification="notification"
 			/>
 		</template>
@@ -43,6 +43,13 @@ export default {
 <style lang="stylus" scoped>
 .feed
 	width 100%
-	section
-		padding 8px
+	margin-top 3.69vw
+	height calc(100vh - 175px)
+	overflow-y auto
+	section.text-section
+		padding 2.46vw
+		border 0.15vw solid #f5f5f5
+		border-bottom 0px
+		font-size 3.38vw
+		line-height 4.5vw
 </style>

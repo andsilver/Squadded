@@ -28,7 +28,7 @@
 				</v-list-item-subtitle>
 			</v-list-item-content>
 		</v-list-item>
-		<span v-else>
+		<span v-else class="user_name">
 			{{ user.name || user.screenName }}
 		</span>
 	</nuxt-link>
@@ -142,4 +142,9 @@ export default {
 		font-weight 600
 	.v-list-item__avatar
 		margin-top 0.46vw
+.nofification-layout
+	.v-list-item__avatar
+		margin-top 0.46vw
+	.user_name
+		font-size 3.38vw
 </style>
