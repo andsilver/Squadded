@@ -82,7 +82,7 @@ describe('Comment store module', () => {
 				author: me.short(),
 				ts: jasmine.any(Number),
 				text: comment.text,
-				isMe: true,
+				byMe: true,
 			}],
 		});
 	});

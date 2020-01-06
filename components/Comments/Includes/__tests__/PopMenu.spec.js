@@ -25,7 +25,7 @@ const factory = (byMe) => {
 	const post = aDefaultSingleItemMsgBuilder().withComment().get();
 	const comment = post.comments.messages[0];
 	comment._id = comment.id;
-	comment.isMe = byMe;
+	comment.byMe = byMe;
 
 	const localVue = createLocalVue();
 	localVue.use(Vuex);

@@ -86,7 +86,7 @@ export const mutations = {
 	},
 	[PostMutations.resetComments]: (state, { comments, post, myUserId }) => {
 		comments.forEach((c) => {
-			c.isMe = (c.author.guid === myUserId) || (post.userId === myUserId);
+			c.byMe = c.author.guid === myUserId;
 		});
 		post.comments.messages = comments;
 		post.comments.count = comments.length;
@@ -226,7 +226,7 @@ export const actions = {
 			author: rootState.user.me.short(),
 			ts: Date.now(),
 			text,
-			isMe: true,
+			byMe: true,
 		};
 		commit(PostMutations.addComment, { comment, post });
 	},

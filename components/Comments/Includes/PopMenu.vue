@@ -10,12 +10,12 @@
 			</template>
 
 			<v-list>
-				<v-list-item v-if="!comment.isMe" class="comment-menu-report">
+				<v-list-item v-if="!comment.byMe" class="comment-menu-report">
 					<v-list-item-title ref="report-comment" @click="promptReportComment">
 						{{ $t(`comment.pop.reportComment.menu`) }}
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item v-if="comment.isMe" class="comment-menu-delete">
+				<v-list-item v-if="comment.byMe || postIsMine" class="comment-menu-delete">
 					<v-list-item-title ref="delete-comment" @click="promptDeleteComment">
 						{{ $t(`comment.pop.deleteComment.menu`) }}
 					</v-list-item-title>
@@ -88,6 +88,10 @@ export default {
 		},
 		disabled() {
 			return !this.reason || (this.reason === 'other' && !this.other);
+		},
+		postIsMine() {
+			const { userId } = this.$store.state.user.me;
+			return userId === this.post.userId;
 		},
 	},
 	mounted() {
