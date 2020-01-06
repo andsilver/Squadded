@@ -17,8 +17,19 @@
 				{{ $t('tip.createPhotoTag') }}
 			</p>
 		</CardFrame>
-		<div class="scroll-items" :style="{ 'max-height': maxHeight }">
-			<SelectItems ref="select-items" :max-count="4" narrow />
+		<div class="scroll-items">
+			<v-text-field
+				ref="search-text"
+				v-model="searchText"
+				class="search-plus"
+				:hide-details="true"
+				:placeholder="$t('Search')"
+			>
+				<v-icon slot="prepend" color="#B8B8BA" size="22">
+					sqdi-magnifying-glass-finder
+				</v-icon>
+			</v-text-field>
+			<SelectItems ref="select-items" :max-count="4" narrow :style="{ 'max-height': maxHeight }" />
 		</div>
 	</div>
 </template>
@@ -43,13 +54,14 @@ export default {
 		},
 	},
 	data: () => ({
+		searchText: '',
 		fetched: false,
 		shifted: false,
 		maxHeight: '250px',
 	}),
 	methods: {
 		toggleShifted () {
-			this.maxHeight = `${this.$refs['tag-card'].$el.offsetHeight}px`;
+			this.maxHeight = `${(this.$refs['tag-card'].$el.offsetHeight - 40)}px`;
 			this.shifted = !this.shifted;
 		},
 	},
@@ -73,9 +85,10 @@ export default {
 		margin-left -60%
 .scroll-items
 	width 65%
-	max-height 250px
 	margin-left -4px
 	overflow auto
+	padding-top 40px
+	position relative
 	.v-card
 		width 75%
 .grid
@@ -94,4 +107,30 @@ export default {
 	font-weight 500
 	text-align center
 	margin 16px 0 0 0
+.search-plus
+	padding 2px 18px 5px
+	font-size 3.23vw
+	position absolute
+	top 0
+	width 100%
+	background-color transparent
+.scroll-items::before
+	background -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%)
+	background -webkit-linear-gradient(top,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%)
+	background linear-gradient(to bottom,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%)
+	height 4.615vw
+	width 100%
+	content ''
+	left 0
+	position absolute
+.scroll-items::after
+	background -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%)
+	background -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%)
+	background linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%)
+	height 4.615vw
+	width 100%
+	content ''
+	left 0
+	position absolute
+	bottom 0px
 </style>

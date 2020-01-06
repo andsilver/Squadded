@@ -27,6 +27,6 @@ export default {
 
 <style lang="stylus" scoped>
 .photo-view
-	width 50vw
+	width 42.036vw
 	margin 7.38vw auto 5vw
 </style>

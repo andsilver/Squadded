@@ -76,6 +76,7 @@ export default {
 			} else {
 				this.limitError = true;
 			}
+			this.$root.$emit('selectProducts', this.limitError);
 			this.selected = this.available.filter(post => post.selected);
 			this.$emit('select', this.selected.map(post => post.item));
 			this.$forceUpdate();
@@ -153,8 +154,13 @@ export default {
 	margin-left: 0px;
 	margin-right: 0px;
 	padding: 18px 18px 0px;
+	overflow: auto;
 }
 .photo-create .error-message{
 	display: none;
+}
+.photo-main-sec .choose-items-section::before, .choose-items-section::after{
+	background: none;
+	height: 0;
 }
 </style>

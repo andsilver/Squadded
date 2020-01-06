@@ -16,7 +16,7 @@
 					</v-icon>
 				</v-text-field>
 				<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="4" />
-				<div class="outfit-button-sec">
+				<div :class="{ outfit_button_sec: isWishlistHasItems}">
 					<p v-if="isWishlistHasItems && !showError" class="tip-note">
 						{{ $t('tip.outfitSelect') }}
 					</p>
@@ -39,10 +39,10 @@
 					</Button>
 				</div>
 				<div class="merge-selected" :class="{ OutfitSelected: (getSelected.length > 0) }">
-					<p v-if="isWishlistHasItems && !showError && getSelected.length > 0" class="tip-note">
+					<p v-if="!showError && getSelected.length > 0" class="tip-note">
 						{{ $t('tip.outfitSelect') }}
 					</p>
-					<p v-if="isWishlistHasItems && showError && getSelected.length > 0" class="tip-note error-note">
+					<p v-if="showError && getSelected.length > 0" class="tip-note error-note">
 						{{ $t('tip.outfitError') }}
 					</p>
 					<SelectedItems ref="selected-items" />
@@ -145,6 +145,9 @@ export default {
 			return wishlist && wishlist.length;
 		},
 	},
+	created () {
+		this.$root.$on('selectProducts', data => this.selectProducts(data));
+	},
 	methods: {
 		async create () {
 			const { text } = this;
@@ -170,6 +173,13 @@ export default {
 		},
 		goBack() {
 			this.showOutfit = true;
+		},
+		selectProducts(options) {
+			if (this.getSelected.length >= 2 && !options) {
+				this.showError = false;
+			} else if (options) {
+				this.showError = true;
+			}
 		},
 	},
 };
@@ -208,7 +218,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
 .tab-content-section .choose-items {
 	max-height: calc(100vh - 52vh) !important;
 }
-.merge-selected, .outfit-button-sec {
+.merge-selected, .outfit_button_sec {
 	position: fixed;
 	width: 100%;
 	z-index: 999;
@@ -218,7 +228,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	left: 0;
 	right: 0;
 }
-.outfit-button-sec{
+.outfit_button_sec{
 	text-align: center;
 }
 .merge-selected.OutfitSelected .next-button{

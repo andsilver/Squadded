@@ -132,6 +132,9 @@ export default {
 			return wishlist && wishlist.length;
 		},
 	},
+	created () {
+		this.$root.$on('selectProducts', data => this.selectProducts(data));
+	},
 	methods: {
 		async create () {
 			const { text } = this;
@@ -144,7 +147,7 @@ export default {
 				item2,
 				private: !isPublic,
 				text,
-				type: 'outfitPost',
+				type: 'pollPost',
 			};
 			const post = await this.$store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
@@ -161,6 +164,13 @@ export default {
 		},
 		goBack() {
 			this.showOutfit = true;
+		},
+		selectProducts(options) {
+			if (this.getSelected.length === 2 && !options) {
+				this.showError = false;
+			} else if (options) {
+				this.showError = true;
+			}
 		},
 	},
 };

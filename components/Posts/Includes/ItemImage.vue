@@ -39,4 +39,6 @@ export default {
 
 .photo-create .multi-item .v-image
 	height 42vh
+.photo-create .photo-view .v-image
+	height 60.95vw
 </style>
