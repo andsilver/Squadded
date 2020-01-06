@@ -16,27 +16,35 @@
 					</v-icon>
 				</v-text-field>
 				<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="4" />
-				<p v-if="isWishlistHasItems && !showError" class="tip-note">
-					{{ $t('tip.outfitSelect') }}
-				</p>
-				<p v-if="isWishlistHasItems && showError" class="tip-note error-note">
-					{{ $t('tip.outfitError') }}
-				</p>
-				<p v-if="!isWishlistHasItems" class="tip-note">
-					{{ $t('wishlist.empty') }}
-				</p>
-				<p v-if="!isWishlistHasItems" class="tip-note">
-					{{ $t('tip.addItems', [$t('an outfit')]) }}
-				</p>
-				<Button
-					v-if="isWishlistHasItems && getSelected.length === 0"
-					ref="done-button"
-					class="mt-2 next-button disable_btn"
-					@click.native="next"
-				>
-					{{ $t('Next') }}
-				</Button>
+				<div class="outfit-button-sec">
+					<p v-if="isWishlistHasItems && !showError" class="tip-note">
+						{{ $t('tip.outfitSelect') }}
+					</p>
+					<p v-if="isWishlistHasItems && showError" class="tip-note error-note">
+						{{ $t('tip.outfitError') }}
+					</p>
+					<p v-if="!isWishlistHasItems" class="tip-note">
+						{{ $t('wishlist.empty') }}
+					</p>
+					<p v-if="!isWishlistHasItems" class="tip-note">
+						{{ $t('tip.addItems', [$t('an outfit')]) }}
+					</p>
+					<Button
+						v-if="isWishlistHasItems && getSelected.length === 0"
+						ref="done-button"
+						class="mt-4 next-button disable_btn"
+						@click.native="next"
+					>
+						{{ $t('Next') }}
+					</Button>
+				</div>
 				<div class="merge-selected" :class="{ OutfitSelected: (getSelected.length > 0) }">
+					<p v-if="isWishlistHasItems && !showError && getSelected.length > 0" class="tip-note">
+						{{ $t('tip.outfitSelect') }}
+					</p>
+					<p v-if="isWishlistHasItems && showError && getSelected.length > 0" class="tip-note error-note">
+						{{ $t('tip.outfitError') }}
+					</p>
 					<SelectedItems ref="selected-items" />
 					<Button
 						v-if="isWishlistHasItems && getSelected.length !== 0"
@@ -200,7 +208,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
 .tab-content-section .choose-items {
 	max-height: calc(100vh - 52vh) !important;
 }
-.merge-selected {
+.merge-selected, .outfit-button-sec {
 	position: fixed;
 	width: 100%;
 	z-index: 999;
@@ -210,15 +218,20 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	left: 0;
 	right: 0;
 }
+.outfit-button-sec{
+	text-align: center;
+}
 .merge-selected.OutfitSelected .next-button{
 	margin-bottom: 6.15vw;
 	display: block;
+	height: 12.30vw;
 }
 .tip-note {
 	font-size: 3.384vw;
 	font-weight: 600;
 	margin-bottom: 0;
 	margin-top: 8px;
+	text-align: center;
 }
 p.tip-note.error-note {
     color: #FD6256;
@@ -250,7 +263,10 @@ p.tip-note.error-note {
 	width: 42.46vw;
 }
 .next-button.disable_btn{
-	background-color: #B8B8BA !important;
+	background-color: rgba(184,184,186,0.3) !important;
+	margin-bottom: 6.15vw;
+    display: block;
+	height: 12.30vw;
 }
 .edit-button{
 	background-image: url('~assets/img/refresh-icon.svg');
@@ -281,6 +297,6 @@ p.tip-note.error-note {
 .post-button{
 	width: 42.46vw;
 	height: 12.30vw !important;
-	margin-top: 4vw !important;
+	margin-top: 6.50vw !important;
 }
 </style>

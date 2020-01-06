@@ -120,7 +120,6 @@ export default {
 		margin-top 0px
 		width 6.963vh
 		height 10.44vh
-		margin-bottom 1.5vh
 		box-shadow 0 0.92vw 6.15vw rgba(0,0,0,0.1)
 		&:after
 			width 100%

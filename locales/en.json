@@ -11,6 +11,8 @@
   "Next": "Next",
   "Edit": "Edit",
   "NewOutfit": "New outfit",
+  "NewPoll": "New poll",
+  "NewPost": "New post",
   "Explore": "Explore",
   "Home": "Home",
   "Messages": "Messages",
@@ -169,6 +171,7 @@
     "pollSelect": "Select 2 items you hesitate with",
     "pollError": "You need to select 2 items to create a poll",
     "createPhotoTag": "tap photo to tag items",
+    "photoError": "Tap the items you want to tag to post a picture.",
     "tapPhotos": "tap photos for details"
   },
   "user": {

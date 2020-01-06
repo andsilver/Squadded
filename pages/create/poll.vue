@@ -33,7 +33,6 @@
 					<Button
 						class="mt-2 next-button"
 						:class="{ disable_btn :!complete}"
-						:disabled="!complete"
 						@click.native="next"
 					>
 						{{ $t('Next') }}
@@ -49,7 +48,7 @@
 							sqdi-arrow-pointing-to-left
 						</v-icon>
 					</v-btn>
-					{{ $t('NewOutfit') }}
+					{{ $t('NewPoll') }}
 				</h2>
 				<UserInput v-show="getSelected.length > 0" ref="text-field" v-model="text" :placeholder="$t('SelectPollName')" class="input-section" />
 				<PollView
@@ -213,6 +212,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
 .merge-selected.OutfitSelected .next-button{
 	margin-bottom: 6.15vw;
 	display: block;
+	height: 12.30vw;
 }
 .tip-note {
 	font-size: 3.384vw;
@@ -250,7 +250,8 @@ p.tip-note.error-note {
 	width: 42.46vw;
 }
 .next-button.disable_btn{
-	background-color: #B8B8BA !important;
+	background-color: rgba(184,184,186,0.3) !important;
+	height: 12.30vw;
 }
 .edit-button{
 	background-image: url('~assets/img/refresh-icon.svg');
@@ -281,6 +282,6 @@ p.tip-note.error-note {
 .post-button{
 	width: 42.46vw;
 	height: 12.30vw !important;
-	margin-top: 4vw !important;
+	margin-top: 6.50vw !important;
 }
 </style>

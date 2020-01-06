@@ -96,7 +96,7 @@ export default {
 	max-height: calc(100vh - 355px);
 }
 .outfit-main-sec .choose-items.no_item_selected{
-	max-height: calc(100vh - 300px);
+	max-height: calc(100vh - 260px);
 }
 .choose-items-section{
 	position: relative;
