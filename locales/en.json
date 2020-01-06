@@ -32,13 +32,25 @@
   "winner": "Winner",
   "expired": "Expired",
   "Save": "Save",
+  "Cancel": "Cancel",
+  "Undo": "Undo",
   "comment": {
     "pop": {
       "reportComment": {
         "menu": "Report",
         "question": "Report this comment?",
         "description": "Are you sure? This action can not be reverted.",
-        "decline": "Ok, do not report comment"
+        "decline": "Ok, do not report comment",
+        "spam": "Spam",
+        "inappropriate": "Inappropriate",
+        "other": "Other",
+        "whatiswrong": "Tell us what's wrong"
+      },
+      "deleteComment": {
+        "menu": "Delete",
+        "question": "Delete this comment?",
+        "description": "Are you sure? This action can not be reverted.",
+        "decline": "Ok, do not delete comment"
       }
     }
   },

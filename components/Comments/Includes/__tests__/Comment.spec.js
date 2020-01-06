@@ -1,7 +1,6 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Comment from '../Comment.vue';
-import PopMenu from '../PopMenu.vue';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import Store from '~/store';
 import { commentMockBuilder } from '~/test/comment.mock';
@@ -72,29 +71,5 @@ describe('Post comment', () => {
 		const comment = wrapper.props().comment;
 
 		expect(wrapper.ref(COMMENT_TEXT_ELEMENT).text()).toMatch(comment.text);
-	});
-});
-
-describe('Comment, current user IS me', () => {
-	let wrapper;
-
-	beforeEach(() => {
-		wrapper = factory(true);
-	});
-
-	it('pop menu is NOT displayed', () => {
-		expect(wrapper.findAll(PopMenu).length).toBe(0);
-	});
-});
-
-describe('Comment, current user IS NOT me', () => {
-	let wrapper;
-
-	beforeEach(() => {
-		wrapper = factory(false);
-	});
-
-	it('report link in burger is displayed', () => {
-		expect(wrapper.findAll(PopMenu).length).toBe(1);
 	});
 });

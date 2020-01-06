@@ -55,12 +55,6 @@ export const mutations = {
 			item && (item.squadded = false);
 		});
 	},
-	[PairedItemMutations.addPost]: (state, post) => {
-		if (!state.item) {
-			return;
-		}
-		state.allPosts.unshift(post);
-	},
 	[PairedItemMutations.resquad]: (state, itemId) => {
 		if (!itemId || !state.item) {
 			return;

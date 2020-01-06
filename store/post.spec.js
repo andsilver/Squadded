@@ -82,8 +82,32 @@ describe('Comment store module', () => {
 				author: me.short(),
 				ts: jasmine.any(Number),
 				text: comment.text,
+				isMe: true,
 			}],
 		});
+	});
+
+	it('should delete comment', async () => {
+		const me = userMockBuilder();
+		root.state.user.me = me;
+
+		const post = aDefaultSingleItemMsgBuilder()
+			.withComment()
+			.get();
+
+		const comment = post.comments.messages[0];
+		comment._id = comment.id;
+
+		await root.dispatch(`${PostStore}/${PostActions.deleteComment}`, { post, comment });
+
+		const sendObjInvocationArg = $ws.sendObj.mock.calls[0][0];
+		expect(sendObjInvocationArg).toMatchObject({
+			commentId: comment.id,
+			type: 'deleteComment',
+		});
+
+		const exist = post.comments.messages.find(m => m.id === comment.id);
+		expect(exist).toBeFalsy();
 	});
 
 	it('should update post like count', () => {

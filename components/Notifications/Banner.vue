@@ -23,6 +23,7 @@ import Comment from './Includes/Comment';
 import Like from './Includes/Like';
 import PollEnd from './Includes/PollEnd';
 import Vote from './Includes/Vote';
+import Alert from './Includes/Alert';
 import {
 	NotificationStore,
 	NotificationGetters,
@@ -39,6 +40,7 @@ export default {
 			notifLike: Like,
 			notifyPollEnd: PollEnd,
 			notifVote: Vote,
+			notifAlert: Alert,
 		},
 	}),
 	computed: {

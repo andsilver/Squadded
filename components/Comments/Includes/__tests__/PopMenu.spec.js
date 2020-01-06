@@ -2,9 +2,9 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import PopMenu from '../PopMenu.vue';
 import Store from '~/store';
-import { commentMockBuilder } from '~/test/comment.mock';
 import { userMockBuilder } from '~/test/user.mock';
 import { merchantMockBuilder } from '~/test/merchant.mock';
+import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -20,9 +20,12 @@ const factory = (byMe) => {
 		sendObj: jest.fn(),
 	};
 
-	const comment = commentMockBuilder().withByMe(byMe).get();
 	const user = userMockBuilder().get();
 	const merchant = merchantMockBuilder().get();
+	const post = aDefaultSingleItemMsgBuilder().withComment().get();
+	const comment = post.comments.messages[0];
+	comment._id = comment.id;
+	comment.isMe = byMe;
 
 	const localVue = createLocalVue();
 	localVue.use(Vuex);
@@ -39,6 +42,7 @@ const factory = (byMe) => {
 		localVue,
 		propsData: {
 			comment,
+			post,
 		},
 		store,
 	});
@@ -47,17 +51,21 @@ const factory = (byMe) => {
 	return { wrapper, ws, comment, user, merchant };
 };
 
-describe('CommentReporting', () => {
+describe('PopMenu, author is not Me', () => {
 	let wrapper, ws, comment, user, merchant;
 
 	beforeEach(() => {
 		({ wrapper, ws, comment, user, merchant } = factory(false));
 	});
 
-	it('report link is clicked, it dispatches popup method', () => {
-		wrapper.find('.comment-menu-report').find('v-list-item-title').trigger('click');
+	it('should display report link', () => {
+		expect(wrapper.ref('report-comment').exists()).toBe(true);
+	});
 
-		expect(wrapper.vm.prompt).toHaveBeenCalledTimes(1);
+	it('report link is clicked, it dispatches popup method', () => {
+		wrapper.ref('report-comment').trigger('click');
+
+		expect(wrapper.vm.showReasonDialog).toBe(true);
 		expect(wrapper.vm.current).toBe('reportComment');
 	});
 
@@ -69,6 +77,35 @@ describe('CommentReporting', () => {
 			commentId: comment.id,
 			merchantId: merchant.id,
 			userId: user.userId,
+			reason: null,
+			other: null,
 		});
+	});
+
+	it('should not display delete if author is not me', () => {
+		expect(wrapper.ref('delete-comment').exists()).toBe(false);
+	});
+});
+
+describe('PopMenu, author is Me', () => {
+	let wrapper;
+
+	beforeEach(() => {
+		({ wrapper } = factory(true));
+	});
+
+	it('should not display report link', () => {
+		expect(wrapper.ref('report-comment').exists()).toBe(false);
+	});
+
+	it('delete link is clicked, it dispatches popup method', () => {
+		wrapper.ref('delete-comment').trigger('click');
+
+		expect(wrapper.vm.prompt).toHaveBeenCalled();
+		expect(wrapper.vm.current).toBe('deleteComment');
+	});
+
+	it('should display delete if author is me', () => {
+		expect(wrapper.ref('delete-comment').exists()).toBe(true);
 	});
 });

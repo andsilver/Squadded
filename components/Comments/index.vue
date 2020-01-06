@@ -5,6 +5,7 @@
 				v-for="comment in post.comments.messages"
 				:key="comment.correlationId || comment._id"
 				:comment="comment"
+				:post="post"
 			/>
 		</v-list>
 		<MessageInput
@@ -52,7 +53,8 @@ export default {
 			type: 'fetchComments',
 		}).then((comments) => {
 			const { post } = this;
-			this.$store.commit(`${PostStore}/${PostMutations.resetComments}`, { comments, post });
+			const myUserId = this.$store.state.user.me.userId;
+			this.$store.commit(`${PostStore}/${PostMutations.resetComments}`, { comments, post, myUserId });
 			this.scroll();
 		});
 	},

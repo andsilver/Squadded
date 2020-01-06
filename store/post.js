@@ -37,6 +37,7 @@ export const PostMutations = {
 	setText: 'setText',
 	uploadURL: 'uploadURL',
 	setPollResult: 'setPollResult',
+	deleteComment: 'deleteComment',
 };
 
 function suffix () {
@@ -83,9 +84,19 @@ export const mutations = {
 	},
 	[PostMutations.uploadURL]: (state, url) => {
 	},
-	[PostMutations.resetComments]: (state, { comments, post }) => {
+	[PostMutations.resetComments]: (state, { comments, post, myUserId }) => {
+		comments.forEach((c) => {
+			c.isMe = (c.author.guid === myUserId) || (post.userId === myUserId);
+		});
 		post.comments.messages = comments;
 		post.comments.count = comments.length;
+	},
+	[PostMutations.deleteComment]: (state, { comment, post }) => {
+		const index = post.comments.messages.findIndex(c => c._id === comment._id);
+		if (index === -1) {
+			return;
+		}
+		post.comments.messages.splice(index, 1);
 	},
 	[PostMutations.resetLikes]: (state, { likes, myUserId, post }) => {
 		likes.forEach((l) => {
@@ -140,6 +151,8 @@ export const PostActions = {
 	updatePrivate: 'updatePrivate',
 	updateResquadd: 'updateResquadd',
 	vote: 'vote',
+	deleteComment: 'deleteComment',
+	reportComment: 'reportComment',
 };
 
 export const actions = {
@@ -213,6 +226,7 @@ export const actions = {
 			author: rootState.user.me.short(),
 			ts: Date.now(),
 			text,
+			isMe: true,
 		};
 		commit(PostMutations.addComment, { comment, post });
 	},
@@ -260,6 +274,13 @@ export const actions = {
 			pollId: post.postId,
 			vote,
 		});
+	},
+	[PostActions.deleteComment]: ({ commit, rootState }, { post, comment }) => {
+		rootState.socket.$ws.sendObj({
+			type: 'deleteComment',
+			commentId: comment._id,
+		});
+		commit(PostMutations.deleteComment, { post, comment });
 	},
 };
 

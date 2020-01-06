@@ -32,8 +32,6 @@ export default {
 			this.item.squadded = true;
 			const post = await this.$store.dispatch(`${PostStore}/${PostActions.reSquaddItem}`, { item: this.item });
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
-			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.resquad}`, this.item.itemId);
-			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.addPost}`, post);
 			this.$forceUpdate();
 		},
 		async unwish () {

@@ -35,8 +35,9 @@ describe('Comments', () => {
 	}
 
 	function initLocalVue () {
-		postBld = aDefaultSingleItemMsgBuilder().withGUID();
+		postBld = aDefaultSingleItemMsgBuilder().withComment();
 		post = postBld.get();
+		post.comments.messages = [];
 
 		localVue = createLocalVue();
 		localVue.use(Vuex);
@@ -48,11 +49,18 @@ describe('Comments', () => {
 		initLocalVue();
 	});
 
+	it('should not display comments list when no comments', () => {
+		const comments = wrapper.ref(COMMENTS_LIST);
+		expect(comments.exists()).toBe(false);
+	});
+
 	it('should fetch comments on create', async () => {
-		postBld.withComment();
 		const user = userMockBuilder().short();
 
-		const comments = [user];
+		const comments = [{
+			author: user,
+			isMe: true,
+		}];
 		const $ws = {
 			sendObj: jest.fn(),
 		};
@@ -61,7 +69,7 @@ describe('Comments', () => {
 
 		mount();
 		await flushPromises();
-		store.commit(`${PostStore}/${PostMutations.receiveReaction}`, comments);
+		store.commit(`${PostStore}/${PostMutations.resetComments}`, { comments, post, myUserId: user.guid });
 		await flushPromises();
 
 		expect($ws.sendObj).toHaveBeenCalledWith({
@@ -69,11 +77,6 @@ describe('Comments', () => {
 			guid: post.guid,
 		});
 		expect(post.comments.messages).toEqual(comments);
-	});
-
-	it('should not display comments list when no comments', () => {
-		const comments = wrapper.ref(COMMENTS_LIST);
-		expect(comments.exists()).toBe(false);
 	});
 
 	it('should display comments list', () => {

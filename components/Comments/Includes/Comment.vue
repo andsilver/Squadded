@@ -25,7 +25,7 @@
 			</span>
 		</p>
 		<!--Since at this moment we don't have any functionality in PopMenu for User->ME, we are not displaying it for such User at all-->
-		<PopMenu v-if="!comment.author.isMe" :comment="comment" />
+		<PopMenu :comment="comment" :post="post" />
 	</section>
 </template>
 
@@ -42,6 +42,10 @@ export default {
 	},
 	props: {
 		comment: {
+			type: Object,
+			required: true,
+		},
+		post: {
 			type: Object,
 			required: true,
 		},

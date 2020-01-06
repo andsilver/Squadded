@@ -39,10 +39,6 @@ export default {
 				{ item: this.item },
 			);
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
-			this.$store.commit(
-				`${PairedItemStore}/${PairedItemMutations.addPost}`,
-				post,
-			);
 			this.$forceUpdate();
 		},
 		async unwish() {
