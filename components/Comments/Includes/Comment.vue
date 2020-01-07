@@ -79,6 +79,7 @@ export default {
 	.comment
 		display flex
 		margin-bottom 6.153vw
+		position relative
 
 	.comment_user_name
 		font-weight 500

@@ -108,10 +108,7 @@ export default {
 		vertical-align middle
 		max-height 13.38vw
 	.tab-result-section
-		margin-left -12px
-		margin-right -12px
 		padding-left 12px
-		padding-right 12px
 		position relative
 		padding-top 4.615vw
 		&::before
@@ -119,9 +116,9 @@ export default {
 			background -webkit-linear-gradient(top,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%)
 			background linear-gradient(to bottom,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%)
 			height 4.615vw
-			width 100%
+			width calc(100% + 28px)
 			content ''
-			left 0
+			left -14px
 			position absolute
 			top 0px
 	span.product-image

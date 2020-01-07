@@ -36,9 +36,10 @@
   "Undo": "Undo",
   "comment": {
     "pop": {
+      "Action": "Action",
       "reportComment": {
         "menu": "Report",
-        "question": "Report this comment?",
+        "question": "Report comment",
         "description": "Are you sure? This action can not be reverted.",
         "decline": "Ok, do not report comment",
         "spam": "Spam",

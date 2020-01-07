@@ -100,4 +100,7 @@ export default {
 	overflow-y auto
 	padding-top 0px
 	overflow-x hidden
+	margin-left -12px
+	margin-right -12px
+	padding-right 12px
 </style>
