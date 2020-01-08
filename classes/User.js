@@ -32,6 +32,7 @@ export class User {
 		this.screenName = this.name;
 		this.userId = userId || guid || _id;
 		this.guid = this.userId;
+		this.private = props.private || false;
 	}
 
 	short () {

@@ -69,9 +69,27 @@ export const mutations = {
 	},
 };
 
+export const UserActions = {
+	setProfile: 'setProfile',
+};
+
+export const actions = {
+	[UserActions.setProfile]: ({ rootState, commit }, user) => {
+		commit(UserMutations.setMe, user);
+		rootState.socket.$ws.sendObj({
+			type: 'setProfile',
+			user: {
+				bio: user.bio,
+				private: user.private,
+			},
+		});
+	},
+};
+
 export default {
 	namespaced: true,
 	state,
 	getters,
 	mutations,
+	actions,
 };

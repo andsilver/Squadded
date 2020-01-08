@@ -2,39 +2,48 @@ import { Chance } from 'chance';
 import jwt from 'jsonwebtoken';
 import Vuex from 'vuex';
 import { createLocalVue } from '@vue/test-utils';
-import user, { UserMutations } from './user';
+import user, { UserMutations, UserActions, UserStore } from './user';
+import store from './index';
 import { userMockBuilder } from '~/test/user.mock';
 
 const chance = new Chance();
 
 describe('User Store module', () => {
 	let localVue;
-	let store;
+	let userStore;
+	let root;
+	let $ws;
 
 	beforeEach(() => {
 		localStorage.clear();
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 
-		store = new Vuex.Store(user);
+		userStore = new Vuex.Store(user);
+
+		$ws = { sendObj: jest.fn() };
+		root = new Vuex.Store(store);
+		root.state.socket.isConnected = true;
+		root.state.merchant.id = 'aDummyMerchantId';
+		root.state.socket.$ws = $ws;
 	});
 
 	it('should set me', () => {
 		const me = userMockBuilder(true).get();
-		store.commit(UserMutations.setMe, me);
+		userStore.commit(UserMutations.setMe, me);
 
-		expect(store.state.me).toEqual(me);
+		expect(userStore.state.me).toEqual(me);
 	});
 
 	it('should set follow', () => {
 		const me = userMockBuilder(true).get();
-		store.commit(UserMutations.setMe, me);
+		userStore.commit(UserMutations.setMe, me);
 		const user = userMockBuilder().get();
 		user.followers.me = false;
 		const { count } = user.followers;
 		const meFollowing = me.following.count;
 
-		store.commit(UserMutations.setFollow, { follow: true, user });
+		userStore.commit(UserMutations.setFollow, { follow: true, user });
 
 		expect(user.followers.me).toBe(true);
 		expect(user.followers.count).toBe(count + 1);
@@ -43,13 +52,13 @@ describe('User Store module', () => {
 
 	it('should unset follow', () => {
 		const me = userMockBuilder(true).get();
-		store.commit(UserMutations.setMe, me);
+		userStore.commit(UserMutations.setMe, me);
 		const user = userMockBuilder().get();
 		user.followers.me = true;
 		const { count } = user.followers;
 		const meFollowing = me.following.count;
 
-		store.commit(UserMutations.setFollow, { follow: false, user });
+		userStore.commit(UserMutations.setFollow, { follow: false, user });
 
 		expect(user.followers.me).toBe(false);
 		expect(user.followers.count).toBe(count - 1);
@@ -61,7 +70,7 @@ describe('User Store module', () => {
 		user.followers.me = true;
 		user.followers.count = 0;
 
-		store.commit(UserMutations.setFollow, { follow: false, user });
+		userStore.commit(UserMutations.setFollow, { follow: false, user });
 
 		expect(user.followers.me).toBe(false);
 		expect(user.followers.count).toBe(0);
@@ -69,17 +78,38 @@ describe('User Store module', () => {
 
 	it('should set other', () => {
 		const other = userMockBuilder().get();
-		store.commit(UserMutations.setOther, other);
+		userStore.commit(UserMutations.setOther, other);
 
-		expect(store.state.other).toEqual(other);
+		expect(userStore.state.other).toEqual(other);
 	});
 
 	it('should set token', () => {
 		const userId = chance.guid();
 		const userToken = jwt.sign({ sub: userId }, 'supersecret', { expiresIn: '1h' });
-		store.commit(UserMutations.setToken, userToken);
+		userStore.commit(UserMutations.setToken, userToken);
 
 		expect(localStorage.getItem('userToken')).toBe(userToken);
-		expect(store.state.me.userId).toBe(userId);
+		expect(userStore.state.me.userId).toBe(userId);
+	});
+
+	it('should set user', async () => {
+		const user = userMockBuilder().get();
+		const bio = chance.sentence();
+		const _private = chance.bool();
+		user.bio = bio;
+		user.private = _private;
+		user.isMe = true;
+
+		await root.dispatch(`${UserStore}/${UserActions.setProfile}`, user);
+
+		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
+			type: 'setProfile',
+			user: {
+				bio,
+				private: _private,
+			},
+		});
+
+		expect(root.state.user.me).toEqual(user);
 	});
 });

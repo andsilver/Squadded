@@ -23,6 +23,7 @@ export const userMockBuilder = (isMe = false) => {
 		mention: chance.twitter(),
 		screenName: name,
 		userId,
+		private: chance.bool(),
 	};
 
 	const builder = {

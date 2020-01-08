@@ -34,6 +34,7 @@
   "Save": "Save",
   "Cancel": "Cancel",
   "Undo": "Undo",
+  "Delete": "Delete",
   "comment": {
     "pop": {
       "Action": "Action",
@@ -100,7 +101,9 @@
     "signup": "Sign up",
     "login": "Login",
     "onboard": "Already onboard?",
-    "needAnAccount": "Need an account?"
+    "needAnAccount": "Need an account?",
+    "bio": "Bio",
+    "instagram_username": "Instagram username"
   },
   "feed": {
     "isEmpty": "There is no items yet"
@@ -196,7 +199,8 @@
     "Likes": "Likes",
     "promptFollow": "Do you want to follow {0}?",
     "share": "Share profile",
-    "Unfollow": "Unfollow"
+    "Unfollow": "Unfollow",
+    "edit": "Edit"
   },
   "wishlist": {
     "empty": "You don't have any items in your wishlist yet.",
@@ -205,6 +209,21 @@
   "pairedItem": {
     "title": "View Item",
     "hesitating_users": "People Hesitating"
+  },
+  "profile_settings": {
+    "title": "Edit Settings",
+    "profile": "Profile",
+    "general": "General",
+    "private_profile": {
+      "title": "Private profile",
+      "description": "Only users you approve will be able to use your activity and wishlist"
+    },
+    "public_profile": {
+      "title": "Public profile",
+      "description": "Only users you approve will be able to use your activity and wishlist"
+    },
+    "delete_account": "Delete account",
+    "update_cover": "UPDATE COVER"
   },
   "error": {
     "404": "404 Not Found",

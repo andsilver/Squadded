@@ -14,6 +14,11 @@
 					{{ $t('user.share') }}
 				</v-list-item-title>
 			</v-list-item>
+			<v-list-item>
+				<v-list-item-title @click="() => $emit('edit')">
+					{{ $t('user.edit') }}
+				</v-list-item-title>
+			</v-list-item>
 		</v-list>
 	</v-menu>
 </template>

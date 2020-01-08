@@ -3,7 +3,7 @@
 		class="buttons"
 		height="40"
 	>
-		<Menu v-if="user.isMe" :dark="isBgExist" @share="share" />
+		<Menu v-if="user.isMe" :dark="isBgExist" @share="share" @edit="edit" />
 		<GoBackBtn v-else :dark="isBgExist" />
 		<div class="flex-grow-1" />
 		<v-btn
@@ -107,6 +107,9 @@ export default {
 		showModal () {
 			this.showShare = true;
 			this.$forceUpdate();
+		},
+		edit () {
+			this.$router.push('/profile-settings');
 		},
 	},
 };
