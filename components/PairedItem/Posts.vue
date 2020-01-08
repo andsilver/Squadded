@@ -1,31 +1,31 @@
 <template>
-	<div class="pa-2">
-		<v-tabs v-model="tabs" class="px-1" fixed-tabs centered>
-			<v-tab class="tabs pt-3">
+	<div class="pa-3 paired-tab">
+		<v-tabs v-model="tabs" fixed-tabs class="filter-tab">
+			<v-tab class="tabs">
 				<span ref="all-tab" style="text-transform: capitalize;">All</span>
 			</v-tab>
-			<v-tab class="tabs pt-3">
+			<v-tab class="tabs">
 				<span ref="outfits-tab" style="text-transform: capitalize">Outfits</span>
 			</v-tab>
-			<v-tab class="tabs pt-3">
+			<v-tab class="tabs">
 				<span ref="polls-tab" style="text-transform: capitalize">Polls</span>
 			</v-tab>
-			<v-tab class="tabs pt-3">
+			<v-tab class="tabs">
 				<span ref="photos-tab" style="text-transform: capitalize">Photos</span>
 			</v-tab>
 		</v-tabs>
-		<v-tabs-items v-model="tabs">
-			<v-tab-item>
-				<Feed :items="allPosts" />
+		<v-tabs-items v-model="tabs" class="paired-section">
+			<v-tab-item class="tab-sec">
+				<Feed :items="allPosts" paired />
 			</v-tab-item>
-			<v-tab-item>
-				<Feed :items="outfitPosts" />
+			<v-tab-item class="tab-sec">
+				<Feed :items="outfitPosts" paired />
 			</v-tab-item>
-			<v-tab-item>
-				<Feed :items="pollPosts" />
+			<v-tab-item class="tab-sec">
+				<Feed :items="pollPosts" paired />
 			</v-tab-item>
-			<v-tab-item>
-				<Feed :items="galleryPosts" />
+			<v-tab-item class="tab-sec">
+				<Feed :items="galleryPosts" paired />
 			</v-tab-item>
 		</v-tabs-items>
 	</div>
@@ -54,3 +54,8 @@ export default {
 	},
 };
 </script>
+
+<style lang="stylus" scoped>
+.paired-section .tab-sec
+	margin 4.61vw 0 0
+</style>

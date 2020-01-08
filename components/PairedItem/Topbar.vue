@@ -1,9 +1,13 @@
 <template>
 	<h3 class="d-flex justify-space-between align-center pa-2">
 		<GoBackBtn ref="go-back-btn" />
-		<span ref="paired-item-title">{{ $t('pairedItem.title') }}</span>
+		<span ref="paired-item-title" class="paired-item-title">{{ $t('pairedItem.title') }}</span>
 		<v-btn icon>
-			<v-icon>sqdi-share</v-icon>
+			<v-icon
+				size="6VW"
+			>
+				sqdi-share
+			</v-icon>
 		</v-btn>
 	</h3>
 </template>
@@ -17,3 +21,7 @@ export default {
 	},
 };
 </script>
+<style lang="stylus" scoped>
+.paired-item-title
+	font-size 4.30vw
+</style>

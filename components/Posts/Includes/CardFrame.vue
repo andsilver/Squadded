@@ -5,10 +5,10 @@
 		:loading="loading"
 	>
 		<slot />
-		<div v-if="showTap" class="tap-photo">
+		<div v-if="showTap && !isPaired" class="tap-photo">
 			{{ $t('tip.tapPhotos') }}
 		</div>
-		<section class="card_bottom" :class="{ card_inline: title }">
+		<section v-if="!isPaired" class="card_bottom" :class="{ card_inline: title }">
 			<v-card-text
 				v-if="!details"
 				ref="item-price"
@@ -96,6 +96,10 @@ export default {
 			type: String,
 			default: null,
 			required: false,
+		},
+		isPaired: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {
@@ -257,4 +261,7 @@ export default {
 			padding-left 4.61vw
 			padding-right 0
 			height 60px
+.paired-section
+	.card_frame
+		box-shadow	none
 </style>

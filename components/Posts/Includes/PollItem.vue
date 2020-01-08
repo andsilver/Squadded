@@ -9,14 +9,16 @@
 			:item="item"
 			:show-bag="voted"
 			:details="details"
+			:is-paired="isPaired"
 			is-poll-post
 		>
 			<ItemImage
 				:item="item"
 				:resquadd="voted"
+				:is-paired="isPaired"
 			>
 				<div
-					v-if="voted"
+					v-if="voted && !isPaired"
 					class="poll-item__votes"
 					:class=" voted > 0 ? (votes > 50) ? 'choosed' : 'notchoosed' : '' "
 				>
@@ -64,6 +66,10 @@ export default {
 			default: false,
 		},
 		details: {
+			type: Boolean,
+			default: false,
+		},
+		isPaired: {
 			type: Boolean,
 			default: false,
 		},

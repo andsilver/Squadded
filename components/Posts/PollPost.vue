@@ -1,13 +1,14 @@
 <template>
 	<Post
 		:post="post"
+		:hide-user="isPaired"
 		:class="post.closed ? 'poll_expired': 'poll_ongoing'"
 	>
-		<div v-if="post.closed" class="is_poll_expired">
+		<div v-if="post.closed && !isPaired" class="is_poll_expired">
 			{{ $t('expired') }}
 		</div>
 		<div class="wrapper mb-2" :class="{ my_post_wrapper: isMyPost }">
-			<VoteSlider :post="post" @vote="vote" />
+			<VoteSlider v-if="!isPaired" :post="post" @vote="vote" />
 			<div class="poll-post grid">
 				<PollItem
 					ref="poll-item1"
@@ -15,6 +16,7 @@
 					:total="total"
 					:is-closed="post.closed"
 					:voted="isVoted"
+					:is-paired="isPaired"
 					@click.native="() => vote(1)"
 				/>
 				<PollItem
@@ -23,8 +25,12 @@
 					:total="total"
 					:is-closed="post.closed"
 					:voted="isVoted"
+					:is-paired="isPaired"
 					@click.native="() => vote(2)"
 				/>
+				<span v-if="isPaired" class="poll-icon">
+					<img src="~assets/img/poll-arrows.svg" class="poll-image">
+				</span>
 			</div>
 		</div>
 	</Post>
@@ -49,6 +55,10 @@ export default {
 		post: {
 			type: FeedPost,
 			required: true,
+		},
+		isPaired: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {
@@ -96,6 +106,21 @@ export default {
 .poll-post
 	grid-template-columns 1fr 1fr
 	grid-gap 3px
+	position relative
+	span.poll-icon
+		width 5.22vw
+		height 5.22vw
+		background-color #000
+		border-radius 50%
+		display flex
+		justify-content center
+		left 44%
+		top 40.5%
+		position absolute
+		border 0.615vw solid #ffffff
+		img.poll-image
+			width 2.8vw
+			margin-left 0.1vw
 .wrapper
 	position relative
 </style>

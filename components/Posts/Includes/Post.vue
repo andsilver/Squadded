@@ -1,11 +1,11 @@
 <template>
 	<div class="full_post">
-		<div class="d-flex">
+		<div v-if="!hideUser" class="d-flex">
 			<UserLink ref="user-link" class="post_user_link" :user="post.user" :ts="post.ts" follow />
 			<PopMenu :post="post" />
 		</div>
 		<h3
-			v-if="isTextVisible"
+			v-if="isTextVisible && !hideUser"
 			ref="post-text"
 			:class="{card_title: true, placeholder: isPlaceHolder}"
 			@click="toggleTextEditor"
@@ -24,7 +24,7 @@
 			@cancel="toggleTextEditor"
 		/>
 		<slot />
-		<Actions :post="post" />
+		<Actions v-if="!hideUser" :post="post" />
 	</div>
 </template>
 
@@ -47,6 +47,10 @@ export default {
 		post: {
 			type: Object,
 			required: true,
+		},
+		hideUser: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data: () => ({
@@ -95,5 +99,9 @@ export default {
 
 .placeholder
 	color #757575
+
+.grid_gallery
+	.full_post
+		margin-bottom 3.07vw
 
 </style>

@@ -1,6 +1,7 @@
 <template>
 	<Post
 		:post="post"
+		:hide-user="isPaired"
 	>
 		<div class="outfit-card">
 			<CardFrame
@@ -13,6 +14,7 @@
 				:post-length="post.items.length"
 				:loading="!post.guid && !post.error"
 				:post-id="post.guid"
+				:is-paired="isPaired"
 				@click.native="fetch"
 			>
 				<div class="grid" :class="`grid-snap-${post.items.length}`">
@@ -27,7 +29,7 @@
 					/>
 				</div>
 			</CardFrame>
-			<div class="scroll-section" :class="{ shifted }">
+			<div v-if="!isPaired" class="scroll-section" :class="{ shifted }">
 				<div class="scroll-items" :style="{ 'max-height': maxHeight }">
 					<ProductCard
 						v-for="item in post.items"
@@ -64,6 +66,10 @@ export default {
 			type: FeedPost,
 			required: true,
 		},
+		isPaired: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data: () => ({
 		fetched: false,
@@ -88,6 +94,9 @@ export default {
 	},
 	methods: {
 		fetch () {
+			if (this.isPaired) {
+				return;
+			}
 			if (this.fetched) {
 				return this.toggleShifted();
 			}
@@ -187,4 +196,10 @@ export default {
 		grid-template-columns 1.68fr 1fr
 		.v-image:first-child
 			grid-row-end span 2
+.paired-section
+	.multi-item
+		padding 0 !important
+		margin-bottom 0 !important
+	.grid
+		grid-gap 0.3vw
 </style>

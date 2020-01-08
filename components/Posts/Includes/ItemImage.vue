@@ -6,7 +6,7 @@
 	>
 		<slot />
 		<ReSquaddButton
-			v-if="resquadd"
+			v-if="resquadd && !isPaired"
 			class="reSquaddButton"
 			:item="item"
 		/>
@@ -29,6 +29,10 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		isPaired: {
+			type: Boolean,
+			default: false,
+		},
 	},
 };
 </script>
@@ -41,4 +45,9 @@ export default {
 	height 42vh
 .photo-create .photo-view .v-image
 	height 60.95vw
+.paired-section .poll-item .v-image, .paired-section .outfit-card .v-image
+	min-height 101px
+.paired-section .gallery-card .multi-item .v-image
+	height 65.76vw
+
 </style>

@@ -1,7 +1,7 @@
 <template>
-	<section class="feed">
+	<section class="feed" :class="{ grid_gallery: paired}">
 		<template v-for="(post, n) in aggregatedItems">
-			<component :is="getComponent(post)" :key="n" :post="post" />
+			<component :is="getComponent(post)" :key="n" :is-paired="paired" :post="post" />
 		</template>
 	</section>
 </template>
@@ -30,6 +30,10 @@ export default {
 			default() {
 				return [];
 			},
+		},
+		paired: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	data: () => ({
@@ -99,7 +103,13 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.feed {
-	width: 100%;
-}
+.feed
+	width 100%
+	&.grid_gallery
+		columns 2
+		-webkit-columns 2
+		-moz-columns 2
+		column-gap 3.07vw
+		-webkit-column-gap 3.07vw
+		-moz-column-gap 3.07vw
 </style>
