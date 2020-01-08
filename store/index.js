@@ -7,7 +7,7 @@ import user from './user';
 import pairedItem from './paired-item';
 
 export const state = () => ({
-	locales: ['en'],
+	locales: ['en', 'fr'],
 	locale: 'en',
 	socket: {
 		isConnected: false,
