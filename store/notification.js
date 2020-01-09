@@ -33,6 +33,8 @@ export const mutations = {
 		setTimeout(() => {
 			message.showBanner = false;
 		}, TIMEOUT * 1000);
+		window.parent.dispatchEvent(new CustomEvent('notification'));
+		localStorage.setItem('notification', `${Date.now()}`);
 	},
 	[NotificationMutations.receive]: (state, notifications) => {
 		const unique = notifications
@@ -46,6 +48,7 @@ export const mutations = {
 		state.notifications.forEach((ntf) => {
 			ntf.viewed = true;
 		});
+		localStorage.removeItem('notification');
 	},
 	[NotificationMutations.view]: (state, notification) => {
 		notification = state.notifications.find(n => n._id === notification._id);
@@ -54,6 +57,9 @@ export const mutations = {
 		}
 		notification.viewed = true;
 		notification.showBanner = false;
+		if (!state.notifications.find(n => !n.viewed)) {
+			localStorage.removeItem('notification');
+		}
 	},
 };
 
