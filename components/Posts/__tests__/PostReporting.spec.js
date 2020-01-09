@@ -2,6 +2,7 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import PopMenu from '../Includes/PopMenu.vue';
 import Store from '~/store';
+import { PostStore, PostActions } from '~/store/post';
 import { regularPostBuilder } from '~/test/post.mock';
 import { userMockBuilder } from '~/test/user.mock';
 import { merchantMockBuilder } from '~/test/merchant.mock';
@@ -34,6 +35,7 @@ const factory = (byMe) => {
 
 	store.state.merchant = merchant;
 	store.state.user.me = user;
+	store.dispatch = jest.fn();
 
 	const wrapper = shallowMount(PopMenu, {
 		mocks: {
@@ -48,7 +50,7 @@ const factory = (byMe) => {
 	});
 	wrapper.vm.prompt = jest.fn();
 
-	return { wrapper, ws, post, user, merchant };
+	return { wrapper, ws, post, user, merchant, store };
 };
 
 describe('PostReporting, current user IS me', () => {
@@ -68,10 +70,10 @@ describe('PostReporting, current user IS me', () => {
 });
 
 describe('PostReporting, current user IS NOT me', () => {
-	let wrapper, ws, post, user, merchant;
+	let wrapper, post, store;
 
 	beforeEach(() => {
-		({ wrapper, ws, post, user, merchant } = factory(false));
+		({ wrapper, post, store } = factory(false));
 	});
 
 	it('report link in burger is displayed', () => {
@@ -89,14 +91,8 @@ describe('PostReporting, current user IS NOT me', () => {
 		expect(wrapper.vm.current).toBe('reportPost');
 	});
 
-	it('report method is called, it sends websocket event with correct payload', () => {
-		wrapper.vm.reportPost();
-
-		expect(ws.sendObj).toHaveBeenCalledWith({
-			type: 'report',
-			postId: post.postId,
-			merchantId: merchant.id,
-			userId: user.userId,
-		});
+	it('report method is called, it sends websocket event with correct payload', async () => {
+		await wrapper.vm.reportPost();
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.reportPost}`, { post });
 	});
 });

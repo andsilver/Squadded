@@ -25,6 +25,7 @@ import Comment from './Includes/Comment';
 import MessageInput from '~/components/MessageInput';
 import { PostActions, PostMutations, PostStore } from '~/store/post';
 import { prefetch } from '~/helpers';
+import { commentReported } from '~/utils/reportSession';
 
 const TAB_BAR_HEIGHT = 65;
 const GAP = 5;
@@ -54,6 +55,7 @@ export default {
 		}).then((comments) => {
 			const { post } = this;
 			const myUserId = this.$store.state.user.me.userId;
+			comments = comments.filter(c => !commentReported(c));
 			this.$store.commit(`${PostStore}/${PostMutations.resetComments}`, { comments, post, myUserId });
 			this.scroll();
 		});

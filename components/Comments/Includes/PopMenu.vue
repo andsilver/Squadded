@@ -80,7 +80,7 @@
 
 <script>
 import Button from '~/components/common/Button';
-import { PostActions, PostStore, PostMutations } from '~/store/post';
+import { PostActions, PostStore } from '~/store/post';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 
 export default {
@@ -139,23 +139,11 @@ export default {
 			this.hide();
 		},
 		reportComment() {
-			// todo - make sure, that identifier in Comment object is id, not commentId
-			const { _id: commentId } = this.comment;
-			const { id: merchantId } = this.$store.state.merchant;
-			const { userId } = this.$store.state.user.me;
-
-			this.$ws.sendObj({
-				type: 'report',
-				commentId,
-				merchantId,
-				userId,
-				reason: this.reason,
-				other: this.reason === 'other' ? this.other : null,
-			});
-
-			this.$store.commit(`${PostStore}/${PostMutations.deleteComment}`, {
+			this.$store.dispatch(`${PostStore}/${PostActions.reportComment}`, {
 				post: this.post,
 				comment: this.comment,
+				reason: this.reason,
+				other: this.other,
 			});
 
 			const message = {

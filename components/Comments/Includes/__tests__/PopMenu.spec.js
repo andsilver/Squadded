@@ -5,6 +5,7 @@ import Store from '~/store';
 import { userMockBuilder } from '~/test/user.mock';
 import { merchantMockBuilder } from '~/test/merchant.mock';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
+import { PostStore, PostActions } from '~/store/post';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -33,6 +34,7 @@ const factory = (byMe) => {
 
 	store.state.merchant = merchant;
 	store.state.user.me = user;
+	store.dispatch = jest.fn();
 
 	const wrapper = shallowMount(PopMenu, {
 		mocks: {
@@ -48,14 +50,14 @@ const factory = (byMe) => {
 	});
 	wrapper.vm.prompt = jest.fn();
 
-	return { wrapper, ws, comment, user, merchant };
+	return { wrapper, ws, comment, user, merchant, store, post };
 };
 
 describe('PopMenu, author is not Me', () => {
-	let wrapper, ws, comment, user, merchant;
+	let wrapper, comment, store, post;
 
 	beforeEach(() => {
-		({ wrapper, ws, comment, user, merchant } = factory(false));
+		({ wrapper, comment, store, post } = factory(false));
 	});
 
 	it('should display report link', () => {
@@ -71,14 +73,11 @@ describe('PopMenu, author is not Me', () => {
 
 	it('report method is called, it sends websocket event with correct payload', () => {
 		wrapper.vm.reportComment();
-
-		expect(ws.sendObj).toHaveBeenCalledWith({
-			type: 'report',
-			commentId: comment.id,
-			merchantId: merchant.id,
-			userId: user.userId,
-			reason: null,
-			other: null,
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.reportComment}`, {
+			post,
+			comment,
+			reason: wrapper.vm.reason,
+			other: wrapper.vm.other,
 		});
 	});
 

@@ -1,5 +1,6 @@
 import { FeedPost } from '../classes/FeedPost';
 import { storeInSession, removeFromSession } from '~/utils/feedSession';
+import { storeCommentReportInSession, storePostReportInSession } from '~/utils/reportSession';
 
 export const PostStore = 'post';
 
@@ -153,6 +154,7 @@ export const PostActions = {
 	vote: 'vote',
 	deleteComment: 'deleteComment',
 	reportComment: 'reportComment',
+	reportPost: 'reportPost',
 };
 
 export const actions = {
@@ -281,6 +283,23 @@ export const actions = {
 			commentId: comment._id,
 		});
 		commit(PostMutations.deleteComment, { post, comment });
+	},
+	[PostActions.reportComment]: ({ commit, rootState }, { post, comment, reason, other }) => {
+		rootState.socket.$ws.sendObj({
+			type: 'report',
+			commentId: comment._id,
+			reason,
+			other: reason === 'other' ? other : null,
+		});
+		commit(PostMutations.deleteComment, { post,	comment });
+		storeCommentReportInSession(comment);
+	},
+	[PostActions.reportPost]: ({ rootState }, { post }) => {
+		rootState.socket.$ws.sendObj({
+			type: 'report',
+			postId: post.postId || post.guid,
+		});
+		storePostReportInSession(post);
 	},
 };
 

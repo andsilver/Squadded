@@ -4,6 +4,8 @@ import { createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
 import feed, { FeedStore, FeedActions, FeedMutations, mutations } from './feed';
 import store from './index';
+import { storePostReportInSession } from '~/utils/reportSession';
+import { Storage } from '~/test/storage.mock';
 
 const chance = new Chance();
 const localVue = createLocalVue();
@@ -35,10 +37,10 @@ describe('Feed store module', () => {
 
 		it('should set all items in store', () => {
 			const length = Math.floor(Math.random() * 100 + 1);
-			const newItems = Array(length);
+			const newItems = new Array(length).fill(aDefaultSingleItemMsgBuilder().get());
 
 			setItems(state, newItems);
-			expect(state.items).toBe(newItems);
+			expect(state.items).toStrictEqual(newItems);
 			expect(state.items.length).toBe(length);
 		});
 
@@ -48,6 +50,16 @@ describe('Feed store module', () => {
 			addItem(state, newItem);
 			expect(state.items.length).toBe(1);
 			expect(state.items[0]).toBe(newItem);
+		});
+
+		it('should not add reported item', () => {
+			const length = Math.floor(Math.random() * 100 + 1);
+			const newItems = new Array(length).fill(aDefaultSingleItemMsgBuilder().withGUID().get());
+			const reportedItem = newItems[0];
+			global.sessionStorage = new Storage();
+			storePostReportInSession(reportedItem);
+			setItems(state, newItems);
+			expect(state.items).not.toContain(reportedItem);
 		});
 	});
 

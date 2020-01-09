@@ -1,4 +1,5 @@
 import { FeedPost } from '../classes/FeedPost';
+import { postReported } from '~/utils/reportSession';
 
 export const PairedItemStore = 'pairedItem';
 
@@ -32,7 +33,7 @@ export const PairedItemMutations = {
 	setHesitatingUsers: 'setHesitatingUsers',
 	resquad: 'resquad',
 	unsquadd: 'unsquadd',
-	addPost: 'addPost',
+	removePost: 'removePost',
 };
 
 export const mutations = {
@@ -40,7 +41,7 @@ export const mutations = {
 		state.item = item;
 	},
 	[PairedItemMutations.setAllPosts]: (state, allPosts) => {
-		state.allPosts = (allPosts || []).map(post => new FeedPost(post));
+		state.allPosts = (allPosts || []).map(post => new FeedPost(post)).filter(p => !postReported(p));
 	},
 	[PairedItemMutations.setHesitatingUsers]: (state, hesitatingUsers) => {
 		state.hesitatingUsers = hesitatingUsers || [];
@@ -60,6 +61,12 @@ export const mutations = {
 			return;
 		}
 		state.item.squadded = true;
+	},
+	[PairedItemMutations.removePost]: (state, postId) => {
+		if (!postId) {
+			return;
+		}
+		state.allPosts = state.allPosts.filter(p => p.postId !== postId);
 	},
 };
 

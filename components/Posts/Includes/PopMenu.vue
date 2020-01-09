@@ -36,6 +36,7 @@
 import { PostStore, PostActions } from '~/store/post';
 import { FeedMutations, FeedStore } from '~/store/feed';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 
 export default {
 	props: {
@@ -79,23 +80,10 @@ export default {
 		},
 		reportPost () {
 			const { postId } = this.post;
-			const { id: merchantId } = this.$store.state.merchant;
-			const { userId } = this.$store.state.user.me;
-
-			this.$ws.sendObj({
-				type: 'report',
-				postId,
-				merchantId,
-				userId,
-			});
-
-			/**
-			 * todo - After post was reported probably it makes sense to hide it from current user. But I will take it
-			 * later when the functionality on a backend is ready. Because if we just hide it inside store, it will
-			 * not be marked as hidden at backend and will be still shown to user further. So either we make frontend
-			 * and backend with the same functionality or (if excluding reported posts from this user's result is not
-			 * needed yet) skip committing removing posts from store
-             */
+			this.$store.dispatch(`${PostStore}/${PostActions.reportPost}`, { post: this.post });
+			this.$store.commit(`${FeedStore}/${FeedMutations.removePost}`, postId);
+			this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
+			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.removePost}`, postId);
 		},
 		togglePrivate () {
 			this.current = this.post.private ? 'setPublic' : 'setPrivate';

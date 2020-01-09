@@ -2,14 +2,16 @@ import { Chance } from 'chance';
 import Vuex from 'vuex';
 import { createLocalVue } from '@vue/test-utils';
 import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
-import { commentsMsgBuilder } from '../test/comment.mock';
+import { commentsMsgBuilder, commentMockBuilder } from '../test/comment.mock';
 import post, { PostStore, PostActions, mutations } from './post';
 import store from './index';
 import { userMockBuilder } from '~/test/user.mock';
+import { Storage } from '~/test/storage.mock';
+import { postReported, commentReported } from '~/utils/reportSession';
 
 const chance = new Chance();
 
-describe('Comment store module', () => {
+describe('Post store module', () => {
 	const { postLoaded, resetComments, setPostLike } = mutations;
 	let postStore;
 	let root;
@@ -251,5 +253,38 @@ describe('Comment store module', () => {
 		expect(pendingItem).not.toHaveProperty('correlationId');
 		expect(pendingItem.guid).toBe(loadedItem.guid);
 		expect(pendingItem.ts).toBe(loadedItem.ts);
+	});
+
+	it('should report a post', async () => {
+		const post = aDefaultSingleItemMsgBuilder().withGUID().get();
+		global.sessionStorage = new Storage();
+		await root.dispatch(`${PostStore}/${PostActions.reportPost}`, { post });
+		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
+			type: 'report',
+			postId: post.postId,
+		});
+		expect(postReported(post)).toBe(true);
+	});
+
+	it('should report a comment', async () => {
+		const post = aDefaultSingleItemMsgBuilder().withGUID().get();
+		const comment = commentMockBuilder().get();
+		comment._id = comment.id;
+		post.comments = {
+			messages: [comment],
+			count: 1,
+		};
+		const reason = 'spam';
+		const other = null;
+		global.sessionStorage = new Storage();
+		await root.dispatch(`${PostStore}/${PostActions.reportComment}`, { post, comment, reason, other });
+		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
+			type: 'report',
+			commentId: comment._id,
+			reason,
+			other,
+		});
+		expect(post.comments.messages).not.toContain(comment);
+		expect(commentReported(comment)).toBe(true);
 	});
 });

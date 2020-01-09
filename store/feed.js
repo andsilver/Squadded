@@ -1,4 +1,5 @@
 import { storeInSession } from '~/utils/feedSession';
+import { postReported } from '~/utils/reportSession';
 
 const { FEED_STORE_LIMIT } = process.env;
 
@@ -28,7 +29,7 @@ export const FeedMutations = {
 
 export const mutations = {
 	[FeedMutations.setItems]: (state, posts) => {
-		state.items = posts;
+		state.items = posts.filter(p => !postReported(p));
 		state.items
 			.sort((a, b) => b.ts - a.ts)
 			.slice(0, FEED_STORE_LIMIT)

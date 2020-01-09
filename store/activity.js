@@ -1,3 +1,5 @@
+import { postReported } from '~/utils/reportSession';
+
 export const ActivityStore = 'activity';
 
 export const state = () => ({
@@ -47,13 +49,15 @@ export const mutations = {
 	},
 	[ActivityMutations.setListOfType]: (state, payload) => {
 		const { posts, type } = payload;
-		state[type] = posts;
+		state[type] = posts.filter(p => !postReported(p));
 	},
 	[ActivityMutations.removePost]: (state, postId) => {
 		if (!postId) {
 			return;
 		}
 		state.blog = state.blog && state.blog.filter(p => p.postId !== postId);
+		state.squadders = state.squadders && state.squadders.filter(p => p.postId !== postId);
+		state.wishlist = state.wishlist && state.wishlist.filter(p => p.postId !== postId);
 	},
 	[ActivityMutations.removeWish]: (state, wish) => {
 		if (!wish) {
