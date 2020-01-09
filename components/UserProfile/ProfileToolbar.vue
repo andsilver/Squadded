@@ -3,11 +3,11 @@
 		class="buttons"
 		height="40"
 	>
-		<Menu v-if="user.isMe" :dark="isBgExist" @share="share" @edit="edit" />
+		<Menu v-if="user.isMe" ref="menu" :dark="isBgExist" @edit="edit" />
 		<GoBackBtn v-else :dark="isBgExist" />
 		<div class="flex-grow-1" />
 		<v-btn
-			v-if="!user.isMe"
+			ref="share-btn"
 			icon
 			:dark="isBgExist"
 			@click="share"
@@ -17,6 +17,7 @@
 			</v-icon>
 		</v-btn>
 		<v-btn
+			ref="add-user-btn"
 			icon
 			:dark="isBgExist"
 		>
@@ -25,6 +26,7 @@
 			</v-icon>
 		</v-btn>
 		<v-btn
+			ref="shop-btn"
 			icon
 			:dark="isBgExist"
 		>
@@ -35,13 +37,14 @@
 		</v-btn>
 		<span
 			v-if="!isBgExist"
+			ref="profile-title"
 			class="profile_title"
 		>
 			{{ $t('Profile') }}
 		</span>
 
 		<v-dialog v-model="showShare">
-			<ShareProfile :user-link="userLink" />
+			<ShareProfile ref="share-profile-modal" :user-link="userLink" />
 		</v-dialog>
 	</section>
 </template>
