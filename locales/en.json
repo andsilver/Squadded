@@ -37,6 +37,7 @@
   "Cancel": "Cancel",
   "Undo": "Undo",
   "Delete": "Delete",
+  "Close": "Close",
   "comment": {
     "pop": {
       "Action": "Action",
@@ -105,7 +106,9 @@
     "onboard": "Already onboard?",
     "needAnAccount": "Need an account?",
     "bio": "Bio",
-    "instagram_username": "Instagram username"
+    "instagram_username": "Instagram username",
+    "phone_number": "Phone number",
+    "only_used_for_validation": "Only used for validation"
   },
   "feed": {
     "isEmpty": "There is no items yet"
@@ -224,8 +227,23 @@
       "title": "Public profile",
       "description": "Only users you approve will be able to use your activity and wishlist"
     },
+    "language": {
+      "title": "Language",
+      "description": "How often do you want to get notifications?"
+    },
+    "terms_of_service": {
+      "title": "Terms of Service",
+      "description": "By using the widget you agree to them"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "How often do you want to get notifications?"
+    },
+    "feedback": "Feedback",
+    "share_your_opinion": "Share your opinion",
     "delete_account": "Delete account",
-    "update_cover": "UPDATE COVER"
+    "update_cover": "UPDATE COVER",
+    "read": "read"
   },
   "error": {
     "404": "404 Not Found",

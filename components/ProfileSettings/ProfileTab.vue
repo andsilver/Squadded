@@ -18,49 +18,43 @@
 			</v-btn>
 		</div>
 		<div class="form-area px-3">
-			<div>
+			<section>
 				<label class="input-label" for="name">{{ $t('form.name') }}</label>
 				<v-text-field
 					id="name"
 					ref="name-field"
 					v-model="user.name"
 					hide-details
-					solo
-					flat
+					outlined
 					dense
-					background-color="#F4F4F5"
 				/>
-			</div>
-			<div class="mt-4">
+			</section>
+			<section class="mt-4">
 				<label class="input-label" for="bio">{{ $t('form.bio') }}</label>
 				<v-text-field
 					id="bio"
 					ref="bio-field"
 					v-model="user.bio"
 					hide-details
-					solo
-					flat
+					outlined
 					dense
-					background-color="#F4F4F5"
 				/>
-			</div>
-			<div class="mt-4">
+			</section>
+			<section class="mt-4">
 				<label class="input-label" for="instagram_username">{{ $t('form.instagram_username') }}</label>
 				<v-text-field
 					id="instagram_username"
 					ref="instagram-username-field"
 					v-model="user.username"
 					hide-details
-					solo
-					flat
+					outlined
 					dense
-					background-color="#F4F4F5"
 				/>
-			</div>
-			<div class="mt-4 d-flex">
+			</section>
+			<section class="mt-4 d-flex">
 				<div class="mr-2">
-					<v-btn icon disabled style="background: #ececec;">
-						<v-icon>
+					<v-btn icon>
+						<v-icon small color="black">
 							{{ user.private ? 'mdi-lock-outline': 'mdi-lock-open-outline' }}
 						</v-icon>
 					</v-btn>
@@ -87,11 +81,11 @@
 						{{ $t('profile_settings.private_profile.description') }}
 					</div>
 				</div>
-			</div>
+			</section>
 		</div>
-		<div class="delete-account pa-3 d-flex mt-4">
-			<v-btn icon disabled style="background: #fea7a0;">
-				<v-icon x-small>
+		<section class="delete-account pa-3 d-flex mt-4">
+			<v-btn icon style="background: #fea7a0;">
+				<v-icon x-small color="black">
 					sqdi-close-cross
 				</v-icon>
 			</v-btn>
@@ -109,7 +103,7 @@
 					{{ $t('Delete') }}
 				</v-btn>
 			</div>
-		</div>
+		</section>
 		<div class="mt-4 py-4 d-flex justify-center">
 			<Button ref="save-button" style="width: 100px;" @click.native="saveProfile">
 				{{ $t('Save') }}
@@ -208,4 +202,9 @@ export default {
 .delete-account {
 	background: #ffedeb;
 }
+
+section .v-btn
+	background-color rgba(218, 217, 221, 0.3)
+	color black
+	font-weight 600
 </style>
