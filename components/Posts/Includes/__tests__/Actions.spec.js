@@ -31,6 +31,7 @@ describe('Post Actions', () => {
 			},
 			store,
 			mocks: {
+				$t: msg => msg,
 				_i18n: {
 					locale: 'en',
 				},
@@ -53,7 +54,7 @@ describe('Post Actions', () => {
 			expect(wrapper.ref(COUNTER_ID).text()).toBe(wrapper.vm.short(post.likes.count));
 
 			const icon = wrapper.ref(ICON_ID);
-			expect(icon.text()).toBe('sqdi-favorite-heart-button');
+			expect(icon.text()).toBe('sqdi-favorite-heart-button-outline');
 			expect(icon.attributes('color')).not.toBe('#FD6256');
 		});
 
@@ -72,7 +73,7 @@ describe('Post Actions', () => {
 			post = aDefaultSingleItemMsgBuilder().withGUID().withLikes(0).get();
 			wrapper.setProps({ post });
 
-			expect(wrapper.ref(COUNTER_ID).exists()).toBe(false);
+			expect(wrapper.ref(COUNTER_ID).exists()).toBe(true);
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('sqdi-favorite-heart-button-outline');

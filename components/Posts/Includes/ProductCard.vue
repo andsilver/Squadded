@@ -10,6 +10,8 @@
 		:show-bag="isClickable"
 		:show-refresh="showRefreshicon"
 		:post-id="postId"
+		:group-post="groupPost"
+		:post="post"
 		@open="openProduct"
 	>
 		<ItemImage
@@ -26,6 +28,7 @@ import CardFrame from './CardFrame';
 import ItemImage from './ItemImage';
 import { price } from '~/helpers';
 import { SquadAPI } from '~/services/SquadAPI';
+import { FeedPost } from '~/classes/FeedPost';
 
 export default {
 	name: 'ProductCard',
@@ -58,6 +61,14 @@ export default {
 			type: String,
 			required: false,
 			default: null,
+		},
+		groupPost: {
+			type: Boolean,
+			default: false,
+		},
+		post: {
+			type: FeedPost,
+			required: false,
 		},
 	},
 	computed: {

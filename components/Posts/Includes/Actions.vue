@@ -5,19 +5,30 @@
 				ref="likes-icon"
 				class="buttons_icon"
 				:color="post.likes.byMe ? '#FD6256' : '#B8B8BA'"
-				size="22"
+				size="5.23vw"
 			>
-				sqdi-favorite-heart-button{{ post.likes.count ? '' : '-outline' }}
+				sqdi-favorite-heart-button{{ post.likes.byMe ? '' : '-outline' }}
+			</v-icon>
+			<span class="action-label" :class="{liked : post.likes.byMe }">{{ $t('Like') }}</span>
+		</v-btn>
+		<v-btn ref="comments-link" nuxt :to="`/post/${post.postId}/reactions`" class="counter-icon comments_button">
+			<v-icon ref="comments-icon" style="color: #B8B8BA;" class="buttons_icon" size="5.23vw">
+				sqdi-chat-outlined
+			</v-icon>
+			<span v-if="commentsCount" ref="comments-count" class="count comments-count">{{ short(commentsCount) }}</span>
+			<span class="action-label">{{ $t('Comment') }}</span>
+		</v-btn>
+		<v-btn class="counter-icon like_count">
+			<v-icon
+				class="buttons_icon like_icon"
+				size="3.38vw"
+			>
+				sqdi-favorite-heart-button
 			</v-icon>
 			<nuxt-link :to="`/post/${post.postId}/reactions#likes`" @click="cancelBubble">
 				<span v-if="post.likes.count" ref="likes-count" class="count">{{ short(post.likes.count) }}</span>
+				<span v-else ref="likes-count" class="count">0</span>
 			</nuxt-link>
-		</v-btn>
-		<v-btn ref="comments-link" nuxt :to="`/post/${post.postId}/reactions`" class="counter-icon comments_button">
-			<v-icon ref="comments-icon" style="color: #B8B8BA;" class="buttons_icon" size="22">
-				sqdi-chat-outlined
-			</v-icon>
-			<span v-if="commentsCount" ref="comments-count" class="count">{{ short(commentsCount) }}</span>
 		</v-btn>
 		<v-btn v-if="post.item" class="counter-icon hanger_button">
 			<v-icon ref="hanger-icon" style="color: #B8B8BA;" class="buttons_icon" size="22">
@@ -38,6 +49,10 @@ export default {
 		post: {
 			type: Object,
 			required: true,
+		},
+		groupPost: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {
@@ -68,26 +83,72 @@ export default {
 
 <style lang="stylus" scoped>
 .post_buttons
-	display flex
-	border-radius 10px
-	border 1px solid #DBDBDB
+	display block
+	position relative
+	margin-top 5.07vw
+	border-bottom 1px solid #DBDBDB
 	overflow hidden
-
+	.counter-icon
+		.buttons_icon
+			margin-right 3.07vw
+			&.like_icon
+				margin-right 1.53vw
+		.action-label
+			color #B8B8BA
+			text-transform capitalize
+			font-size 3.23vw
+			font-weight 600
+			&.liked
+				color #FD6256
+	.like_button
+		margin-left 5.15vw
+		width 15.38vw
+		margin-right 7.69vw
+		min-width auto
+	.like_count
+		width 10.46vw
+		min-width auto
+		position absolute
+		right 5.15vw
+		color #B8B8BA
+		.count
+			color #B8B8BA
 .like_button,
 .comments_button,
+.like_count,
 .hanger_button
 	flex-grow 2
-	padding 2% 0 !important
+	padding 0 0 2.61vw !important
 	height 100% !important
 	box-shadow none !important
 	border-radius 0 !important
 	background-color transparent !important
-.hanger_button
+.hanger_button, .comments-count
 	display none
-.comments_button
-	border-left 1px solid #DBDBDB
-	border-right 1px solid #DBDBDB
-
-.count
-	margin-left 5px
+.grouped-post
+	.post_buttons
+		border-top 1px solid #DBDBDB
+		border-bottom 0
+		margin-top 3.93vw
+		.counter-icon
+			.buttons_icon
+				margin-right 0
+				&.like_icon
+					margin-right 1.53vw
+			.action-label
+				display none
+		.like_button,
+		.comments_button,
+		.like_count,
+		.hanger_button
+			padding 3.07vw 0 2% !important
+		.like_button
+			margin-left 5.15vw
+			width 5.23vw
+			margin-right 4.61vw
+		.comments_button
+			width 5.53vw
+			min-width auto
+		.like_count
+			right 3.92vw
 </style>

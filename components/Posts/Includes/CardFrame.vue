@@ -37,15 +37,21 @@
 				class="buy_button sqdi-shopping-bag-2"
 				:class="{ bag_inline: title }"
 			/>
+			<Actions v-if="groupPost" :group-post="groupPost" :post="post" />
 		</section>
 	</v-card>
 </template>
 
 <script>
+import Actions from './Actions';
 import { shortNumber } from '~/helpers';
+import { FeedPost } from '~/classes/FeedPost';
 
 export default {
 	name: 'CardFrame',
+	components: {
+		Actions,
+	},
 	props: {
 		price: {
 			type: [Number, String],
@@ -100,6 +106,14 @@ export default {
 		isPaired: {
 			type: Boolean,
 			default: false,
+		},
+		groupPost: {
+			type: Boolean,
+			default: false,
+		},
+		post: {
+			type: FeedPost,
+			required: false,
 		},
 	},
 	computed: {
@@ -264,4 +278,11 @@ export default {
 .paired-section
 	.card_frame
 		box-shadow	none
+.poll-item
+	.refresh-icon
+		right 28%
+		top 9%
+	.buy_button.bag_inline
+		top -2%
+
 </style>

@@ -94,4 +94,8 @@ export default {
 		line-height 5.84vw
 		font-weight 500
 		color #B8B8BA
+.create-button
+	background-color transparent !important
+	color #000
+	border 1px solid #000
 </style>

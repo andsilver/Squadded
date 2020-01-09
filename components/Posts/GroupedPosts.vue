@@ -1,5 +1,5 @@
 <template>
-	<Post ref="grouped-post" :post="selected">
+	<Post ref="grouped-post" :post="selected" group-post class="grouped-post">
 		<v-slide-group center-active mandatory>
 			<v-slide-item
 				v-for="(item, index) of post.items"
@@ -13,6 +13,8 @@
 					show-refreshicon
 					:loading="!item.guid && !item.error"
 					:post-id="item.guid"
+					:post="post.items[index]"
+					group-post
 					@click.native="itemSelected(toggle, item)"
 				/>
 			</v-slide-item>

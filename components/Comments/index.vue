@@ -98,11 +98,13 @@ export default {
 .v-application.isTouch:not(.show-tabs) .post_comment_input
 	bottom 0
 .comment-listing
-	height calc(100vh - 305px)
+	height calc(100vh - 230px)
 	overflow-y auto
 	padding-top 0px
 	overflow-x hidden
 	margin-left -12px
 	margin-right -12px
 	padding-right 12px
+.show-tabs .comment-listing
+	height calc(100vh - 305px)
 </style>

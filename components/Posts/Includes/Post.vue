@@ -24,7 +24,7 @@
 			@cancel="toggleTextEditor"
 		/>
 		<slot />
-		<Actions v-if="!hideUser" :post="post" />
+		<Actions v-if="!hideUser && !groupPost" :post="post" />
 	</div>
 </template>
 
@@ -49,6 +49,10 @@ export default {
 			required: true,
 		},
 		hideUser: {
+			type: Boolean,
+			default: false,
+		},
+		groupPost: {
 			type: Boolean,
 			default: false,
 		},
