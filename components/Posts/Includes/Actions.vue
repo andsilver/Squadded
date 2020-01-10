@@ -85,7 +85,7 @@ export default {
 .post_buttons
 	display block
 	position relative
-	margin-top 5.07vw
+	margin-top 2.46vw
 	border-bottom 1px solid #DBDBDB
 	overflow hidden
 	.counter-icon
@@ -118,7 +118,7 @@ export default {
 .like_count,
 .hanger_button
 	flex-grow 2
-	padding 0 0 2.61vw !important
+	padding 2.61vw 0 !important
 	height 100% !important
 	box-shadow none !important
 	border-radius 0 !important

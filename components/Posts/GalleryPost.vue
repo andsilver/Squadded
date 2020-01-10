@@ -78,6 +78,7 @@ export default {
 	methods: {
 		fetch () {
 			if (this.isPaired) {
+				this.$root.$emit('postTaped', '');
 				return;
 			}
 			if (this.fetched) {
@@ -156,7 +157,7 @@ export default {
 		grid-template-columns 1.68fr 1fr
 		.v-image:first-child
 			grid-row-end span 2
-.paired-section
+.paired_section
 	.multi-item
 		width 100%
 		padding 0 !important

@@ -275,7 +275,9 @@ export default {
 			padding-left 4.61vw
 			padding-right 0
 			height 60px
-.paired-section
+	.refresh-icon
+		display none
+.paired_section
 	.card_frame
 		box-shadow	none
 .poll-item

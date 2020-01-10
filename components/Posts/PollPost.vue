@@ -74,6 +74,10 @@ export default {
 	},
 	methods: {
 		vote (vote) {
+			if (this.isPaired) {
+				this.$root.$emit('postTaped', '');
+				return;
+			}
 			if (!this.isVoted) {
 				const { post } = this;
 				this.$store.dispatch(`${PostStore}/${PostActions.vote}`, { post, vote });
