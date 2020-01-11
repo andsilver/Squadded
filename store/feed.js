@@ -6,6 +6,7 @@ const { FEED_STORE_LIMIT } = process.env;
 export const state = () => ({
 	items: [],
 	loading: true,
+	allLoaded: false,
 });
 
 export const FeedGetters = {
@@ -57,10 +58,14 @@ export const FeedActions = {
 
 export const actions = {
 	[FeedActions.fetch]: ({ getters, rootState }) => {
+		if (rootState.feed.allLoaded) {
+			return;
+		}
 		const msg = { type: 'fetchPosts' };
-		const mostRecentPost = getters[FeedGetters.items][0];
+		const items = getters[FeedGetters.items];
+		const mostRecentPost = items[items.length - 1];
 		if (mostRecentPost) {
-			msg.ts = mostRecentPost.ts;
+			msg.from = mostRecentPost.ts;
 		}
 		state.loading = true;
 		rootState.socket.$ws.sendObj(msg);

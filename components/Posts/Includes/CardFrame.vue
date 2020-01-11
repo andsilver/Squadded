@@ -114,6 +114,7 @@ export default {
 		post: {
 			type: FeedPost,
 			required: false,
+			default: () => {},
 		},
 	},
 	computed: {

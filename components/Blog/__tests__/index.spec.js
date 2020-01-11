@@ -1,9 +1,9 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Blog from '../index.vue';
-import { flushPromises } from '~/helpers';
+import Feed from '~/components/Feed';
 import Store from '~/store';
-import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { ActivityStore, ActivityActions } from '~/store/activity';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -31,7 +31,9 @@ describe('Blog Component', () => {
 
 	beforeEach(() => {
 		initLocalVue();
-		params = {};
+		params = {
+			id: 'any',
+		};
 		mocks = {
 			$t: msg => msg,
 			$route: {
@@ -42,17 +44,6 @@ describe('Blog Component', () => {
 			localVue,
 			store,
 			mocks,
-		});
-	});
-
-	it('sets the correct default props', async () => {
-		expect(wrapper.vm.blog).toBe(null);
-
-		store.commit('SET_SOCKET_AUTH', true);
-		await flushPromises();
-
-		expect(store.state.socket.$ws.sendObj).toHaveBeenCalledWith({
-			type: 'fetchBlog',
 		});
 	});
 
@@ -69,8 +60,8 @@ describe('Blog Component', () => {
 		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
 	});
 
-	it('should clear prev data from blog', () => {
-		store.commit = jest.fn();
+	it('should fetch blog on created', () => {
+		store.dispatch = jest.fn();
 
 		shallowMount(Blog, {
 			localVue,
@@ -78,6 +69,18 @@ describe('Blog Component', () => {
 			mocks,
 		});
 
-		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.clearBlog}`);
+		expect(store.dispatch).toHaveBeenCalledWith(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'blog', guid: params.id });
+	});
+
+	it('should fetch blog on loadMore event from Feed', () => {
+		store.dispatch = jest.fn();
+
+		shallowMount(Blog, {
+			localVue,
+			store,
+			mocks,
+		});
+		wrapper.find(Feed).vm.$emit('loadMore');
+		expect(store.dispatch).toHaveBeenCalledWith(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'blog', guid: params.id });
 	});
 });

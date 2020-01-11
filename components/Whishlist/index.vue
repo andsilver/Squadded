@@ -15,9 +15,8 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import WhishlistItem from './item';
-import { prefetch } from '~/helpers';
 import Preloader from '~/components/Preloader.vue';
-import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { ActivityStore, ActivityActions } from '~/store/activity';
 
 const { mapState } = createNamespacedHelpers(ActivityStore);
 
@@ -33,12 +32,32 @@ export default {
 		]),
 	},
 	created () {
-		this.$store.commit(`${ActivityStore}/${ActivityMutations.clearWishlist}`);
-		return prefetch({
-			guid: this.$route.params.id,
-			store: this.$store,
-			type: 'fetchWishlist',
-		});
+		this.fetchWishlist();
+	},
+	mounted() {
+		window.addEventListener('scroll', this.onScroll);
+	},
+	destroyed() {
+		window.removeEventListener('scroll', this.onScroll);
+	},
+	methods: {
+		onScroll (e) {
+			const bottomOfWindow = Math.max(
+				window.pageYOffset,
+				document.documentElement.scrollTop,
+				document.body.scrollTop,
+			) + window.innerHeight === document.documentElement.offsetHeight;
+
+			if (bottomOfWindow) {
+				this.fetchWishlist();
+			}
+		},
+		fetchWishlist() {
+			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
+				type: 'wishlist',
+				guid: this.$route.params.id,
+			});
+		},
 	},
 };
 </script>

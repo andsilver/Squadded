@@ -4,7 +4,7 @@
 		<v-layout column>
 			<Preloader v-if="loading" ref="preloader" class="mt-8" />
 			<span v-else-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
-			<Feed ref="feed-layout" :items="items" />
+			<Feed ref="feed-layout" :items="items" @loadMore="fetchFeed" />
 		</v-layout>
 	</v-container>
 </template>
@@ -44,15 +44,15 @@ export default {
 		this.onOpen();
 	},
 	methods: {
-		onOpen () {
+		async onOpen () {
 			if (this.squad.widget.open && (!this.items || !this.items.length)) {
+				await onAuth(this.$store);
 				this.fetchFeed();
 			} else {
 				this.$root.$once('widget-open', () => this.fetchFeed());
 			}
 		},
-		async fetchFeed () {
-			await onAuth(this.$store);
+		fetchFeed () {
 			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 		},
 	},

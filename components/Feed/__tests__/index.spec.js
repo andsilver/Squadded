@@ -21,6 +21,8 @@ describe('FeedComponent Empty State', () => {
 
 		store = new Vuex.Store(Store);
 		store.dispatch = jest.fn();
+		global.window.addEventListener = jest.fn();
+		global.window.removeEventListener = jest.fn();
 		wrapper = shallowMount(FeedComponent, {
 			localVue,
 			store,
@@ -45,5 +47,27 @@ describe('FeedComponent Empty State', () => {
 		wrapper.setProps(propsData);
 
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
+	});
+
+	it('should add listener for scroll on mounted', () => {
+		expect(window.addEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+	});
+
+	it('should remove listener for scroll on destroyed', () => {
+		wrapper.destroy();
+		expect(window.removeEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+	});
+
+	it('should emit loadMore event on scroll bottom', () => {
+		Math.max = jest.fn();
+		Math.max.mockReturnValue(0);
+		global.window.innerHeight = 100;
+		Object.defineProperty(global.document.documentElement, 'offsetHeight', {
+			get: jest.fn(() => 100),
+			set: jest.fn(),
+		});
+		wrapper.vm.$emit = jest.fn();
+		wrapper.vm.onScroll();
+		expect(wrapper.vm.$emit).toHaveBeenCalledWith('loadMore');
 	});
 });

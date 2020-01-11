@@ -4,7 +4,7 @@ import Vuex from 'vuex';
 import Whishlist from './index.vue';
 import { flushPromises } from '~/helpers';
 import Store from '~/store';
-import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { ActivityStore, ActivityActions } from '~/store/activity';
 
 const chance = new Chance();
 
@@ -45,6 +45,8 @@ describe('Whishlist Component', () => {
 				params,
 			},
 		};
+		global.window.addEventListener = jest.fn();
+		global.window.removeEventListener = jest.fn();
 		wrapper = shallowMount(Whishlist, {
 			localVue,
 			store,
@@ -78,8 +80,8 @@ describe('Whishlist Component', () => {
 		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('wishlist.empty');
 	});
 
-	it('should clear prev data from whishlist', () => {
-		store.commit = jest.fn();
+	it('should fetch items', () => {
+		store.dispatch = jest.fn();
 
 		shallowMount(Whishlist, {
 			localVue,
@@ -87,6 +89,29 @@ describe('Whishlist Component', () => {
 			mocks,
 		});
 
-		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.clearWishlist}`);
+		expect(store.dispatch).toHaveBeenCalledWith(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'wishlist', guid: params.id });
+	});
+
+	it('should add listener for scroll on mounted', () => {
+		expect(window.addEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+	});
+
+	it('should remove listener for scroll on destroyed', () => {
+		wrapper.destroy();
+		expect(window.removeEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+	});
+
+	it('should emit loadMore event on scroll bottom', () => {
+		Math.max = jest.fn();
+		Math.max.mockReturnValue(0);
+		global.window.innerHeight = 100;
+		Object.defineProperty(global.document.documentElement, 'offsetHeight', {
+			get: jest.fn(() => 100),
+			set: jest.fn(),
+		});
+		wrapper.vm.$emit = jest.fn();
+		wrapper.vm.fetchWishlist = jest.fn();
+		wrapper.vm.onScroll();
+		expect(wrapper.vm.fetchWishlist).toHaveBeenCalled();
 	});
 });

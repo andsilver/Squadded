@@ -4,18 +4,18 @@
 		<v-layout>
 			<Preloader v-if="!squadders" ref="preloader" class="mt-8" />
 			<span v-else-if="!squadders.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
-			<Feed v-else ref="feed-layout" :items="squadders" />
+			<Feed v-else ref="feed-layout" :items="squadders" @loadMore="fetchSquadders" />
 		</v-layout>
 	</v-container>
 </template>
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import { prefetch } from '~/helpers';
 import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
 import TopBar from '~/components/common/TopBar.vue';
-import { ActivityStore } from '~/store/activity';
+import { onAuth } from '~/helpers';
+import { ActivityStore, ActivityActions } from '~/store/activity';
 
 const activities = createNamespacedHelpers(ActivityStore).mapState;
 
@@ -35,10 +35,13 @@ export default {
 		]),
 	},
 	created () {
-		prefetch({
-			store: this.$store,
-			type: 'fetchSquadders',
-		});
+		this.fetchSquadders();
+	},
+	methods: {
+		async fetchSquadders() {
+			await onAuth(this.$store);
+			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'squadders' });
+		},
 	},
 };
 </script>

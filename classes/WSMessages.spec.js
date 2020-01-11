@@ -19,6 +19,7 @@ describe('WSMessages dispatch', () => {
 		state: {
 			feed: {
 				items: [],
+				allLoaded: false,
 			},
 			merchant: {
 				id: null,
@@ -28,6 +29,10 @@ describe('WSMessages dispatch', () => {
 			},
 			squad: {
 				route: { path: '/default' },
+			},
+			activity: {
+				guid: {},
+				allLoaded: {},
 			},
 		},
 	};
@@ -96,6 +101,11 @@ describe('WSMessages dispatch', () => {
 			'feed',
 		]);
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.setItems}`, posts);
+
+		msg.feed = [];
+		wsMessages.dispatch(msg);
+		await flushPromises();
+		expect(store.state.feed.allLoaded).toBe(true);
 	});
 
 	['followers', 'following'].forEach((type) => {

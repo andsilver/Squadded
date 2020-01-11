@@ -21,10 +21,14 @@ async function activity (message) {
 		rawPostsList.forEach(w => (w.guid = w.item.itemId));
 	}
 	await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, rawPostsList);
+	const existingItems = this.store.state.activity[type] || [];
+	const uniqueIds = new Set([...existingItems, ...rawPostsList].map(p => p.guid));
 	const getter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
-	const posts = getter(rawPostsList.map(r => r.guid))
-		.sort((a, b) => b.ts - a.ts);
+	const posts = getter(Array.from(uniqueIds)).sort((a, b) => b.ts - a.ts);
 	this.store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
+	if (!rawPostsList.length) {
+		this.store.state.activity.allLoaded[type] = true;
+	}
 }
 
 function receiveReaction(message) {
@@ -81,6 +85,9 @@ export class WSMessages {
 		const posts = postsGetter(Array.from(uniqueIds));
 		this.store.state.feed.loading = false;
 		this.store.commit(`${FeedStore}/${FeedMutations.setItems}`, posts);
+		if (!message.feed.length) {
+			this.store.state.feed.allLoaded = true;
+		}
 	}
 
 	like (message) {

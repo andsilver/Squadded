@@ -1,5 +1,5 @@
 <template>
-	<section class="feed" :class="{ grid_gallery: paired}">
+	<section class="feed" :class="{ grid_gallery: paired}" @scroll="onScroll">
 		<template v-for="(post, n) in aggregatedItems">
 			<component :is="getComponent(post)" :key="n" :is-paired="paired" :post="post" />
 		</template>
@@ -94,9 +94,25 @@ export default {
 			return items;
 		},
 	},
+	mounted() {
+		window.addEventListener('scroll', this.onScroll);
+	},
+	destroyed() {
+		window.removeEventListener('scroll', this.onScroll);
+	},
 	methods: {
 		getComponent(post) {
 			return this.components[post.type];
+		},
+		onScroll () {
+			const bottomOfWindow = Math.max(
+				window.pageYOffset,
+				document.documentElement.scrollTop,
+				document.body.scrollTop,
+			) + window.innerHeight === document.documentElement.offsetHeight;
+			if (bottomOfWindow) {
+				this.$emit('loadMore');
+			}
 		},
 	},
 };

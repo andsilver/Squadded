@@ -87,7 +87,7 @@ describe('Feed store module', () => {
 
 			expect($ws.sendObj).toHaveBeenCalledWith({
 				type: 'fetchPosts',
-				ts: latestItem.ts,
+				from: latestItem.ts,
 			});
 		});
 
