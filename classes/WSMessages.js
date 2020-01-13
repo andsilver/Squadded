@@ -44,6 +44,7 @@ export class WSMessages {
 	singleItemPost = acceptPost;
 	pollPost = acceptPost;
 	outfitPost = acceptPost;
+	galleryPost = acceptPost;
 
 	comments = receiveReaction;
 	likes = receiveReaction;
