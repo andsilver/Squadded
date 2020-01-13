@@ -1,44 +1,59 @@
 <template>
-	<v-menu :attach="parentNode" bottom offset-y left>
-		<template v-slot:activator="{ on }">
-			<v-btn icon class="button_more" v-on="on">
-				<v-icon>
-					sqdi-more
-				</v-icon>
-			</v-btn>
-		</template>
+	<div>
+		<v-menu :attach="parentNode" bottom offset-y left>
+			<template v-slot:activator="{ on }">
+				<v-btn icon class="button_more" v-on="on">
+					<v-icon>
+						sqdi-more
+					</v-icon>
+				</v-btn>
+			</template>
 
-		<v-list>
-			<template v-if="post.byMe">
-				<v-list-item class="post-menu-edit">
-					<v-list-item-title @click="togglePrivate">
-						{{ $t(`post.pop.${ post.private ? 'setPublic' : 'setPrivate' }.menu`) }}
+			<v-list>
+				<template v-if="post.byMe">
+					<v-list-item class="post-menu-edit">
+						<v-list-item-title @click="togglePrivate">
+							{{ $t(`post.pop.${ post.private ? 'setPublic' : 'setPrivate' }.menu`) }}
+						</v-list-item-title>
+					</v-list-item>
+					<v-list-item class="post-menu-edit">
+						<v-list-item-title @click="promptDelete">
+							{{ $t(`post.pop.deletePost.menu`) }}
+						</v-list-item-title>
+					</v-list-item>
+				</template>
+				<template v-else>
+					<v-list-item class="post-menu-report">
+						<v-list-item-title @click="promptReportPost">
+							{{ $t(`post.pop.reportPost.menu`) }}
+						</v-list-item-title>
+					</v-list-item>
+				</template>
+				<v-list-item class="post-menu-share">
+					<v-list-item-title @click="share">
+						{{ $t(`post.share`) }}
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="post-menu-edit">
-					<v-list-item-title @click="promptDelete">
-						{{ $t(`post.pop.deletePost.menu`) }}
-					</v-list-item-title>
-				</v-list-item>
-			</template>
-			<template v-else>
-				<v-list-item class="post-menu-report">
-					<v-list-item-title @click="promptReportPost">
-						{{ $t(`post.pop.reportPost.menu`) }}
-					</v-list-item-title>
-				</v-list-item>
-			</template>
-		</v-list>
-	</v-menu>
+			</v-list>
+		</v-menu>
+		<v-dialog v-model="showShare">
+			<SharePost ref="share-post-modal" :post-link="postLink" />
+		</v-dialog>
+	</div>
 </template>
 
 <script>
+import SharePost from './SharePost';
 import { PostStore, PostActions } from '~/store/post';
 import { FeedMutations, FeedStore } from '~/store/feed';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
+const CANCELED_BY_USER = 20;
 
 export default {
+	components: {
+		SharePost,
+	},
 	props: {
 		post: {
 			type: Object,
@@ -48,6 +63,7 @@ export default {
 	data: () => ({
 		current: null,
 		parentNode: null,
+		showShare: false,
 	}),
 	computed: {
 		currentText () {
@@ -56,6 +72,19 @@ export default {
 				description: this.$t(`post.pop.${this.current}.description`),
 				decline: this.$t(`post.pop.${this.current}.decline`),
 			} : {};
+		},
+		target () {
+			const { siteUrl, siteTitle } = this.$store.state.merchant;
+			return {
+				id: this.post.guid,
+				url: siteUrl,
+				title: siteTitle,
+			};
+		},
+		postLink () {
+			const { API_ENDPOINT } = this.$store.state.squad;
+			const target = JSON.stringify(this.target);
+			return `${API_ENDPOINT}/community/sharePost?t=${btoa(target)}`;
 		},
 	},
 	mounted () {
@@ -109,6 +138,28 @@ export default {
 		promptReportPost() {
 			this.current = 'reportPost';
 			this.prompt();
+		},
+		async share() {
+			this.showShare = false;
+			if (navigator && navigator.share) {
+				const { siteTitle } = this.$store.state.merchant;
+				try {
+					await navigator.share({
+						title: siteTitle,
+						text: siteTitle,
+						url: this.postLink,
+					});
+				} catch (error) {
+					if (error.code !== CANCELED_BY_USER) {
+						this.showModal();
+					}
+				}
+			} else {
+				this.showModal();
+			}
+		},
+		showModal () {
+			this.showShare = true;
 		},
 	},
 };

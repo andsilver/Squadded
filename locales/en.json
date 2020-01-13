@@ -177,7 +177,8 @@
         "description": "Only your followers will be able to see your post",
         "decline": "Stay public"
       }
-    }
+    },
+    "share": "Share Post"
   },
   "publicToggle": {
     "forEveryone": "Public posts are seen by everyone",
