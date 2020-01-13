@@ -84,7 +84,7 @@ export default {
 		postLink () {
 			const { API_ENDPOINT } = this.$store.state.squad;
 			const target = JSON.stringify(this.target);
-			return `${API_ENDPOINT}/community/sharePost?t=${btoa(target)}`;
+			return `${API_ENDPOINT}/community/post?t=${btoa(target)}`;
 		},
 	},
 	mounted () {
