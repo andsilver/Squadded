@@ -1,6 +1,14 @@
 <template>
-	<div>
-		<v-menu :attach="parentNode" bottom offset-y left>
+	<div class="popup-menu-sec">
+		<v-menu
+			v-model="menu"
+			:attach="parentNode"
+			absolute
+			origin="right top"
+			transition="scale-transition"
+			:close-on-content-click="false"
+			class="comment-settings"
+		>
 			<template v-slot:activator="{ on }">
 				<v-btn icon class="button_more" v-on="on">
 					<v-icon>
@@ -9,49 +17,118 @@
 				</v-btn>
 			</template>
 
-			<v-list>
+			<v-list class="comment-setting-options two_settings_options">
+				<v-list-item class="comment-menu-action comment-setting-option">
+					<v-list-item-title class="setting-label action">
+						{{ $t(`comment.pop.Action`) }}
+						<v-btn icon height="30px" class="button_more" @click="menu = false">
+							<v-icon>
+								sqdi-more
+							</v-icon>
+						</v-btn>
+					</v-list-item-title>
+				</v-list-item>
+				<v-list-item class="post-menu-share comment-menu-share comment-setting-option">
+					<v-list-item-title class="setting-label share" @click="share">
+						{{ $t(`post.pop.sharelink.menu`) }}
+					</v-list-item-title>
+				</v-list-item>
 				<template v-if="post.byMe">
-					<v-list-item class="post-menu-edit">
-						<v-list-item-title @click="togglePrivate">
+					<v-list-item class="post-menu-edit comment-menu-privpub comment-setting-option">
+						<v-list-item-title class="setting-label" :class="{ public: post.private, private: !post.private }" @click="togglePrivate">
 							{{ $t(`post.pop.${ post.private ? 'setPublic' : 'setPrivate' }.menu`) }}
 						</v-list-item-title>
 					</v-list-item>
-					<v-list-item class="post-menu-edit">
-						<v-list-item-title @click="promptDelete">
+					<v-list-item class="post-menu-share comment-menu-edit comment-setting-option">
+						<v-list-item-title class="setting-label edit" @click="editPost">
+							{{ $t(`post.pop.edit.menu`) }}
+						</v-list-item-title>
+					</v-list-item>
+					<v-list-item class="post-menu-edit comment-menu-delete comment-setting-option">
+						<v-list-item-title class="setting-label delete" @click="promptDelete">
 							{{ $t(`post.pop.deletePost.menu`) }}
 						</v-list-item-title>
 					</v-list-item>
 				</template>
 				<template v-else>
-					<v-list-item class="post-menu-report">
-						<v-list-item-title @click="promptReportPost">
+					<v-list-item class="post-menu-report comment-menu-report comment-setting-option">
+						<v-list-item-title class="setting-label report" @click="promptReportPost">
 							{{ $t(`post.pop.reportPost.menu`) }}
 						</v-list-item-title>
 					</v-list-item>
+					<v-list-item class="post-menu-share comment-menu-unwatch comment-setting-option">
+						<v-list-item-title class="setting-label unwatch">
+							Unwatch Rachel
+						</v-list-item-title>
+					</v-list-item>
+					<v-list-item class="post-menu-share comment-menu-addtomysquad comment-setting-option">
+						<v-list-item-title class="setting-label addtomysquad">
+							Add to My Squad
+						</v-list-item-title>
+					</v-list-item>
+					<v-list-item class="post-menu-share comment-menu-rmtomysquad comment-setting-option">
+						<v-list-item-title class="setting-label rmtomysquad">
+							Remove Rachel
+						</v-list-item-title>
+					</v-list-item>
 				</template>
-				<v-list-item class="post-menu-share">
-					<v-list-item-title @click="share">
-						{{ $t(`post.share`) }}
-					</v-list-item-title>
-				</v-list-item>
 			</v-list>
 		</v-menu>
 		<v-dialog v-model="showShare">
 			<SharePost ref="share-post-modal" :post-link="postLink" />
+		</v-dialog>
+
+		<v-dialog v-model="showReasonDialog" content-class="report-dialog">
+			<v-card>
+				<v-card-title class="card-title">
+					{{ $t('post.pop.reportPost.question') }}
+					<v-btn icon class="close-dialog" @click.native="hide">
+						<v-icon size="3.69vw">
+							sqdi-close-cross
+						</v-icon>
+					</v-btn>
+				</v-card-title>
+				<v-card-text class="report-options">
+					<v-radio-group v-model="reason">
+						<v-radio v-for="r of reasons" :key="r" :label="$t(`comment.pop.reportComment.${r}`)" :value="r" color="#000" />
+					</v-radio-group>
+					<v-text-field
+						v-if="reason === 'other'"
+						v-model="other"
+						hide-details
+						solo
+						flat
+						class="pl-7 pt-0 mt-0 other-option"
+						:label="$t('comment.pop.reportComment.whatiswrong')"
+					/>
+				</v-card-text>
+				<v-card-actions class="d-flex justify-center card-action">
+					<Button class="flex-grow-1" :disabled="disabled" @click.native="reportPost">
+						{{ $t('comment.pop.reportComment.menu') }}
+					</Button>
+					<Button class="flex-grow-1" :active="false" @click.native="hide">
+						{{ $t('Cancel') }}
+					</Button>
+				</v-card-actions>
+			</v-card>
 		</v-dialog>
 	</div>
 </template>
 
 <script>
 import SharePost from './SharePost';
+import Button from '~/components/common/Button';
 import { PostStore, PostActions } from '~/store/post';
 import { FeedMutations, FeedStore } from '~/store/feed';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
+import { NotificationStore, NotificationMutations } from '~/store/notification';
+
 const CANCELED_BY_USER = 20;
 
 export default {
 	components: {
+		Button,
 		SharePost,
 	},
 	props: {
@@ -64,6 +141,16 @@ export default {
 		current: null,
 		parentNode: null,
 		showShare: false,
+		menu: false,
+		reason: null,
+		reasons: [
+			'notInteresting',
+			'spam',
+			'inappropriate',
+			'other',
+		],
+		other: null,
+		showReasonDialog: false,
 	}),
 	computed: {
 		currentText () {
@@ -72,6 +159,9 @@ export default {
 				description: this.$t(`post.pop.${this.current}.description`),
 				decline: this.$t(`post.pop.${this.current}.decline`),
 			} : {};
+		},
+		disabled() {
+			return !this.reason || (this.reason === 'other' && !this.other);
 		},
 		target () {
 			const { siteUrl, siteTitle } = this.$store.state.merchant;
@@ -93,6 +183,7 @@ export default {
 	methods: {
 		hide () {
 			this.current = null;
+			this.showReasonDialog = false;
 		},
 		confirm () {
 			this[this.current]();
@@ -106,6 +197,17 @@ export default {
 			});
 			this.$store.commit(`${FeedStore}/${FeedMutations.removePost}`, postId);
 			this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
+			const message = {
+				type: 'notifAlert',
+				alertType: 'checkmark',
+				text: 'Your post has been deleted',
+				ts: new Date(),
+				_id: new Date(),
+			};
+			this.$store.commit(
+				`${NotificationStore}/${NotificationMutations.add}`,
+				message,
+			);
 		},
 		reportPost () {
 			const { postId } = this.post;
@@ -115,8 +217,9 @@ export default {
 			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.removePost}`, postId);
 		},
 		togglePrivate () {
-			this.current = this.post.private ? 'setPublic' : 'setPrivate';
-			this.prompt();
+			this.post.private ? this.setPublic() : this.setPrivate();
+			// this.current = this.post.private ? 'setPublic' : 'setPrivate';
+			// this.prompt();
 		},
 		prompt () {
 			this.$root.$emit('prompt', {
@@ -130,14 +233,40 @@ export default {
 			this.prompt();
 		},
 		setPrivate () {
+			this.menu = false;
+			const message = {
+				type: 'notifAlert',
+				alertType: 'setprivate',
+				text: 'Only your followers can see your post now',
+				ts: new Date(),
+				_id: new Date(),
+			};
+			this.$store.commit(
+				`${NotificationStore}/${NotificationMutations.add}`,
+				message,
+			);
 			this.$store.dispatch(`${PostStore}/${PostActions.updatePrivate}`, { post: this.post, private: true });
 		},
 		setPublic () {
+			this.menu = false;
+			const message = {
+				type: 'notifAlert',
+				alertType: 'setpublic',
+				text: 'Anyone can see your post now',
+				ts: new Date(),
+				_id: new Date(),
+			};
+			this.$store.commit(
+				`${NotificationStore}/${NotificationMutations.add}`,
+				message,
+			);
 			this.$store.dispatch(`${PostStore}/${PostActions.updatePrivate}`, { post: this.post, private: false });
 		},
 		promptReportPost() {
 			this.current = 'reportPost';
-			this.prompt();
+			this.reason = this.reasons[0];
+			this.showReasonDialog = true;
+			// this.prompt();
 		},
 		async share() {
 			this.showShare = false;
@@ -161,14 +290,123 @@ export default {
 		showModal () {
 			this.showShare = true;
 		},
+		editPost () {
+			this.menu = false;
+		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
+.popup-menu-sec
+	align-self center
 .button_more
 	align-self center
 	.v-icon
 		color #B8B8BA
 		font-size 18px
+.v-dialog > .v-card > .v-card__title.card-title
+	justify-content center
+	font-size 4.30vw
+	font-weight 700
+	position relative
+	.close-dialog
+		position absolute
+		right 15px
+.card-action
+	padding 6.15vw 4.53vw
+	.v-btn
+		height 12.30vw
+		font-size 2.61vw
+		+.v-btn
+			margin-left 3.07vw !important
+			background-color #fff !important
+			border 0.461vw solid #000
+.v-menu__content
+	width 55.38vw
+	top 0px !important
+	left auto !important
+	right 0
+	border-radius 0
+	box-shadow 0px 0.92vw 6.153vw rgba(0,0,0,0.15)
+.comment-setting-options
+	padding-top 2.95vw
+	padding-bottom 3.32vw
+	&.two_settings_options
+		.setting-label
+			margin-bottom 0
+			border-bottom 0.46vw solid rgba(184,184,186,0.3)
+			padding-bottom 3.8vw
+			padding-top 3.8vw
+			font-size 3.38vw
+		.comment-setting-option:last-child .setting-label, .comment-setting-option:first-child .setting-label
+			margin-bottom 0
+			padding-bottom 0
+			border-bottom 0px;
+	.comment-setting-option
+		padding 0 4.53vw
+		font-size 3.38vw
+		font-weight 700
+		.setting-label
+			&.report
+				background-image url('~assets/img/report.svg')
+				padding-left 6.73vw
+				background-size 4.15vw
+				background-position-y center
+			&.delete
+				background-size 3vw
+				background-image url('~assets/img/delete.svg')
+				padding-left 6.73vw
+				background-position-y center
+				background-position-x 2px
+			&.public
+				background-size 3.84vw
+				background-image url('~assets/img/action-public.svg')
+				padding-left 6.73vw
+				background-position-y center
+			&.private
+				background-size 3.84vw
+				background-image url('~assets/img/action-private.svg')
+				padding-left 6.73vw
+				background-position-y center
+			&.share
+				background-size 3.84vw
+				background-image url('~assets/img/action-share.svg')
+				padding-left 6.73vw
+				background-position-y center
+			&.edit
+				background-size 3.84vw
+				background-image url('~assets/img/action-edit.svg')
+				padding-left 6.73vw
+				background-position-y center
+			&.addtomysquad
+				background-size 3.84vw
+				background-image url('~assets/img/action-add-user.svg')
+				padding-left 6.73vw
+				background-position-y center
+			&.rmtomysquad
+				background-size 3.84vw
+				background-image url('~assets/img/action-user-remove.svg')
+				padding-left 6.73vw
+				background-position-y center
+			&.unwatch
+				background-size 3.84vw
+				background-image url('~assets/img/action-unwatch.svg')
+				padding-left 6.73vw
+				background-position-y center
+
+		&.comment-menu-action
+			font-weight 400
+			color #b8b8ba !important
+			margin-bottom 2vw
+			padding-right 0
+			.setting-label.action
+				display flex
+				justify-content space-between
+				align-items center
+				padding-top 0
+	.comment-setting-option:last-child .setting-label
+		background-position-y 14px
+.grouped-post .v-menu__content
+	right 12px
 </style>

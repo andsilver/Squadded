@@ -87,7 +87,7 @@ describe('PostReporting, current user IS NOT me', () => {
 	it('report link is clicked, it dispatches popup method', () => {
 		wrapper.find('.post-menu-report').find('v-list-item-title').trigger('click');
 
-		expect(wrapper.vm.prompt).toHaveBeenCalledTimes(1);
+		expect(wrapper.vm.prompt).toHaveBeenCalledTimes(0);
 		expect(wrapper.vm.current).toBe('reportPost');
 	});
 

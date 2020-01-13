@@ -1,9 +1,9 @@
 <template>
-	<Button ref="resquadd-button" class="flex-grow-1" :active="item.squadded" @click.native="click">
+	<Button ref="resquadd-button" class="flex-grow-1" :class="{save_inactive: !item.squadded}" :active="item.squadded" @click.native="click">
 		<v-icon small>
 			sqdi-squadded-icon
 		</v-icon>
-		<span class="ml-2">{{ $t("Save") }}</span>
+		<span class="ml-2">{{ $t(`${ item.squadded ? 'Saved' : 'Save' }`) }}</span>
 	</Button>
 </template>
 
@@ -88,4 +88,10 @@ export default {
 		opacity: 1;
 	}
 }
+.save_inactive
+	background-color transparent !important
+	color #000
+	border 1px solid #000
+	&::before
+		background-color #fff !important
 </style>

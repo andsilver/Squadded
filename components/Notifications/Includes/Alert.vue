@@ -1,9 +1,10 @@
 <template>
 	<section class="d-flex align-center">
-		<div class="notification-icon">
-			<v-icon size="2.34vw" color="#FFFFFF">
+		<div class="notification-icon" :class="{ hasIconImage: notification.alertType}">
+			<v-icon v-if="notification.alertType == 'checkmark' || !notification.alertType" size="2.34vw" color="#FFFFFF">
 				sqdi-checkmark
 			</v-icon>
+			<span v-if="notification.alertType" class="notification-image" :class="{ setprivate: notification.alertType == 'setprivate', setpublic: notification.alertType=='setpublic'}" />
 		</div>
 		<div class="d-flex flex-column justify-center">
 			<span class="notification-text">{{ notification.text }}</span>
@@ -52,9 +53,11 @@ export default {
 	font-size 2.5vw
 	font-weight 700
 	letter-spacing 1.5px
+	min-width 14.15vw !important
 .notification-text
 	font-size 3.230vw
 	color #000
+	width 58vw
 .notification-icon
 	padding 0 1.9vw
 	height 6.15vw
@@ -62,4 +65,16 @@ export default {
 	background-color #FD6256
 	border-radius 50%
 	text-align center
+	&.hasIconImage
+		padding 0 1.6vw
+		.notification-image
+			height 6.15vw
+			display block
+			width 3.07vw
+			background-size contain
+			background-position center
+			&.setprivate
+				background-image url('~assets/img/notification-private.svg')
+			&.setpublic
+				background-image url('~assets/img/notification-public.svg')
 </style>

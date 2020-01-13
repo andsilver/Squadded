@@ -40,23 +40,23 @@ describe('HesitatingUsers', () => {
 
 	it('should display content', () => {
 		const hesitatingPeopleTitle = wrapper.ref(HESITATING_PEOPLE_TITLE);
-		const hesitatingPeopleCount = wrapper.ref(COUNT_HESITATING_PEOPLE);
+		// const hesitatingPeopleCount = wrapper.ref(COUNT_HESITATING_PEOPLE);
 		expect(hesitatingPeopleTitle.exists()).toBeTruthy();
-		expect(hesitatingPeopleCount.exists()).toBeTruthy();
+		// expect(hesitatingPeopleCount.exists()).toBeTruthy();
 	});
 
 	it('should display correct number', () => {
 		const hesitatingUsers = mockHesitatingPeople();
 		store.commit(`${PairedItemStore}/${PairedItemMutations.setHesitatingUsers}`, hesitatingUsers);
 		const hesitatingPeopleCount = wrapper.ref(COUNT_HESITATING_PEOPLE);
-		expect(hesitatingPeopleCount.text()).toBe(`${hesitatingUsers.length}`);
+		expect(hesitatingPeopleCount.text()).toBe(`+${hesitatingUsers.length}`);
 	});
 
-	it('should display only 5 people when number of users is over 5', () => {
+	it('should display only 5 people when number of users is over 7', () => {
 		const hesitatingUsers = mockHesitatingPeople();
 		store.commit(`${PairedItemStore}/${PairedItemMutations.setHesitatingUsers}`, hesitatingUsers);
 		const users = wrapper.findAll('.user-avatar-container');
-		expect(users.length).toBe(5);
+		expect(users.length).toBe(7);
 	});
 
 	it('should display correct people when number of users is less than 5', () => {

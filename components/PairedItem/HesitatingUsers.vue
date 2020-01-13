@@ -1,5 +1,10 @@
 <template>
 	<div class="hesitating-users">
+		<div class="right-sec">
+			<h4 ref="hesitating-people-title" class="hesitating-people-title">
+				{{ $t('pairedItem.hesitating_users') }}
+			</h4>
+		</div>
 		<div class="left-sec">
 			<div>
 				<div
@@ -11,9 +16,8 @@
 					<img :src="user.avatar" alt>
 				</div>
 				<Button
-					v-if="isMoreThan5"
 					ref="expand-button"
-					class="expand-people"
+					class="expand-people hide-section"
 					:style="{left: getMorePosition(), 'z-index': 106}"
 				>
 					<v-icon
@@ -22,15 +26,10 @@
 						sqdi-more-2
 					</v-icon>
 				</Button>
-				<h4 ref="count-hesitating-people" :style="{left: getCountPosition()}" class="count-hesitating-people">
-					{{ countHesitatingPeople }}
+				<h4 v-if="isMoreThan7" ref="count-hesitating-people" :style="{left: getMorePosition(), 'z-index': 110}" class="count-hesitating-people">
+					{{ "+" + countHesitatingPeople }}
 				</h4>
 			</div>
-		</div>
-		<div class="right-sec">
-			<h4 ref="hesitating-people-title" class="hesitating-people-title">
-				{{ $t('pairedItem.hesitating_users') }}
-			</h4>
 		</div>
 	</div>
 </template>
@@ -49,11 +48,11 @@ export default {
 		...mapState(['hesitatingUsers']),
 		first5Users() {
 			return this.hesitatingUsers && this.hesitatingUsers.length
-				? this.hesitatingUsers.slice(0, 5)
+				? this.hesitatingUsers.slice(0, 7)
 				: [];
 		},
-		isMoreThan5() {
-			return this.hesitatingUsers && this.hesitatingUsers.length > 5;
+		isMoreThan7() {
+			return this.hesitatingUsers && this.hesitatingUsers.length > 7;
 		},
 		countHesitatingPeople() {
 			return this.hesitatingUsers && this.hesitatingUsers.length
@@ -69,28 +68,35 @@ export default {
 			return `${(9.48 - 1.69) * (this.hesitatingUsers.length)}vw`;
 		},
 		getCountPosition() {
-			return `${(9.48 - 1.69) * (this.hesitatingUsers.length + (this.isMoreThan5 ? 1 : 0)) + 2.98}vw`;
+			return `${(9.48 - 1.69) * (this.hesitatingUsers.length + (this.isMoreThan7 ? 1 : 0)) + 2.98}vw`;
 		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
+.hide-section
+	display none
 .hesitating-users
 	position relative
 	height 9.92vw
 	display flex
 	margin 4vw 12px 1vw
 	.left-sec
-		width 70vw
+		width 65vw
+		position relative
 		.count-hesitating-people
 			position absolute
-			top 7px
-			padding-left 10px
-			&::before
-				content "+"
-				position absolute
-				left 0
+			width 9.48vw
+			height 9.48vw
+			border-radius: 50%
+			border 2px solid #fff
+			background #000
+			color #fff
+			display flex
+			align-items center
+			justify-content center
+			font-size 2.92vw
 	.right-sec
 		.hesitating-people-title
 			font-size 3.23vw

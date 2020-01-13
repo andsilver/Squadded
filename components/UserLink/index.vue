@@ -147,4 +147,11 @@ export default {
 		margin-top 0.46vw
 	.user_name
 		font-size 3.38vw
+.post_user_link
+	.v-list-item__avatar
+		margin-top 0
+		margin-bottom 0
+	.v-list-item__content
+		padding 0
+
 </style>

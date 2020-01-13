@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="29.698" height="29.698" viewBox="0 0 29.698 29.698">
+  <g id="Unwatch" transform="translate(-325.333 -747.126)">
+    <g id="eye" transform="translate(327.434 754.131)">
+      <path id="Path_1" data-name="Path 1" d="M594.145,519.013s-12.013-17.518-25.16,0" transform="translate(-568.985 -511.227)" fill="none" stroke="#000" stroke-width="2"/>
+      <path id="Path_2" data-name="Path 2" d="M594.145,511.227s-12.013,17.518-25.16,0" transform="translate(-568.985 -503.983)" fill="none" stroke="#000" stroke-width="2"/>
+      <g id="Ellipse_1" data-name="Ellipse 1" transform="translate(7.943 3.257)" fill="none" stroke="#000" stroke-width="2">
+        <circle cx="4.542" cy="4.542" r="4.542" stroke="none"/>
+        <circle cx="4.542" cy="4.542" r="3.542" fill="none"/>
+      </g>
+    </g>
+    <g id="cross" transform="translate(329.575 749.954) rotate(45)" stroke="#fff" stroke-width="2">
+      <rect width="32" height="2" rx="1" stroke="none"/>
+      <rect x="-1" y="-1" width="34" height="4" rx="2" fill="none"/>
+    </g>
+  </g>
+</svg>

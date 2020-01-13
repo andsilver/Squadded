@@ -8,16 +8,16 @@
 			class="filter-tab"
 			@click.native="changeTab"
 		>
-			<v-tab class="tabs">
+			<v-tab class="tabs bottom-line">
 				<span ref="all-tab" style="text-transform: capitalize;">All</span>
 			</v-tab>
-			<v-tab class="tabs">
+			<v-tab class="tabs bottom-line">
 				<span ref="outfits-tab" style="text-transform: capitalize">Outfits</span>
 			</v-tab>
-			<v-tab class="tabs">
+			<v-tab class="tabs bottom-line">
 				<span ref="polls-tab" style="text-transform: capitalize">Polls</span>
 			</v-tab>
-			<v-tab class="tabs">
+			<v-tab class="tabs bottom-line">
 				<span ref="photos-tab" style="text-transform: capitalize">Photos</span>
 			</v-tab>
 		</v-tabs>
@@ -89,4 +89,9 @@ export default {
 	height calc(100vh - 120px)
 	overflow-y auto
 	overflow-x hidden
+.tabs
+	&.bottom-line
+		border-bottom 0.46vw solid rgba(184,184,186,0.30)
+	&.v-tab--active
+		border-color #000
 </style>

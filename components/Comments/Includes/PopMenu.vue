@@ -210,7 +210,6 @@ export default {
 	justify-content center
 	font-size 4.30vw
 	font-weight 700
-	padding-bottom 25px
 	position relative
 	.close-dialog
 		position absolute

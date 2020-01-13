@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="20" height="22" viewBox="0 0 20 22">
+  <g id="Private" transform="translate(-147 -1396)">
+    <g id="Rectangle_1" data-name="Rectangle 1" transform="translate(147 1403)" fill="none" stroke="#fff" stroke-width="2">
+      <rect width="20" height="15" rx="4" stroke="none"/>
+      <rect x="1" y="1" width="18" height="13" rx="3" fill="none"/>
+    </g>
+    <g id="Path_22" data-name="Path 22" transform="translate(152 1396)" fill="none">
+      <path d="M4.444,0H5.556C8.01,0,10,1.465,10,3.273V9H0V3.273C0,1.465,1.99,0,4.444,0Z" stroke="none"/>
+      <path d="M 4.444439888000488 2 C 2.974939823150635 2 2 2.766039848327637 2 3.272729873657227 L 2 7 L 8 7 L 8 3.272729873657227 C 8 2.766039848327637 7.025059700012207 2 5.555560111999512 2 L 4.444439888000488 2 M 4.444439888000488 0 L 5.555560111999512 0 C 8.010149955749512 0 10 1.465250015258789 10 3.272729873657227 L 10 9 L 0 9 L 0 3.272729873657227 C 0 1.465250015258789 1.989850044250488 0 4.444439888000488 0 Z" stroke="none" fill="#fff"/>
+    </g>
+    <circle id="Ellipse_2" data-name="Ellipse 2" cx="2" cy="2" r="2" transform="translate(155 1407)" fill="#fff"/>
+    <rect id="Rectangle_2" data-name="Rectangle 2" width="2" height="4" rx="1" transform="translate(156 1410)" fill="#fff"/>
+  </g>
+</svg>

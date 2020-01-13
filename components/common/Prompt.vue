@@ -13,7 +13,7 @@
 			</v-btn>
 			<v-divider />
 			<v-btn block text @click="$emit('decline')">
-				No{{ text.decline && `, ${text.decline}` }}
+				No, {{ text.decline && `${text.decline}` }}
 			</v-btn>
 		</v-card-actions>
 	</v-card>

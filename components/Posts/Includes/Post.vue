@@ -1,7 +1,14 @@
 <template>
 	<div class="full_post">
-		<div v-if="!hideUser" class="d-flex">
-			<UserLink ref="user-link" class="post_user_link" :user="post.user" :ts="post.ts" follow />
+		<div v-if="!hideUser" class="d-flex post-user-sec">
+			<UserLink
+				ref="user-link"
+				class="post_user_link"
+				:user="post.user"
+				:ts="post.ts"
+				follow
+				size="10.76vw"
+			/>
 			<PopMenu :post="post" />
 		</div>
 		<h3
@@ -81,6 +88,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.post-user-sec
+	margin-bottom 2.87vw
 .post_user_link
 	flex 1 1 auto
 
@@ -94,7 +103,8 @@ export default {
 	margin-left 3%
 
 .full_post
-	margin-bottom 4%
+	margin-bottom 6.15vw
+	position relative
 
 .card_title
 	font-size 3.692vw
@@ -107,5 +117,8 @@ export default {
 .grid_gallery
 	.full_post
 		margin-bottom 3.07vw
+.grouped-post
+	.post-user-sec
+		padding 0 12px
 
 </style>

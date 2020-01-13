@@ -1,6 +1,6 @@
 <template>
 	<Post ref="grouped-post" :post="selected" group-post class="grouped-post">
-		<v-slide-group center-active mandatory>
+		<v-slide-group center-active mandatory class="slider-post">
 			<v-slide-item
 				v-for="(item, index) of post.items"
 				:key="index"
@@ -56,12 +56,14 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.w-78 {
-	width: 62.906vw;
-}
-
-.items-container {
-	display: flex;
-	overflow-x: scroll;
-}
+.w-78
+	width 62.906vw
+	margin-right 3.07vw !important
+	margin-top 14px
+.items-container
+	display: flex
+	overflow-x scroll
+.grouped-post
+	margin-left -12px
+	margin-right -12px
 </style>

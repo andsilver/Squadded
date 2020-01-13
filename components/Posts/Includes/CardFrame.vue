@@ -152,7 +152,7 @@ export default {
 	.post_price
 		padding 0
 		span
-			font-size 1em
+			font-size 3.69vw
 			font-weight 700
 			&.for-all
 				font-size 3.230vw
@@ -175,17 +175,18 @@ export default {
 		width 100%
 		span
 			min-height 12px
-			max-height 8.615vw
+			max-height 8vw
 			word-break normal
 			overflow hidden
 			font-size 3.076vw
 			line-height 4vw
 			font-weight 500
 			color #B8B8BA
+			letter-spacing 0
 
 	.buy_button
 		width 30px
-		height 30px
+		height 23px
 		position absolute
 		right 4%
 		bottom 4%
@@ -207,7 +208,7 @@ export default {
 			padding-top 0
 			margin-top 4%
 		.post_title
-			width 80%
+			width 100%
 	.tap-photo
 		font-size 3.3846vw
 		text-align center
@@ -224,7 +225,7 @@ export default {
 		.refresh-count
 			border-radius 1.846vw
 			font-size 2.461vw
-			font-weight 500
+			font-weight 600
 			width 4.923vw
 			height 3.7vw
 			background #B8B8BA
@@ -283,9 +284,16 @@ export default {
 		box-shadow	none
 .poll-item
 	.refresh-icon
-		right 28%
+		right 30%
 		top 9%
 	.buy_button.bag_inline
 		top -2%
 
+.single-item.card_frame .post_title span
+	overflow hidden
+	white-space nowrap
+	text-overflow ellipsis
+.grouped-post
+	.single-item .refresh-icon
+		top 4%
 </style>

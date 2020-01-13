@@ -34,6 +34,7 @@
   "winner": "Winner",
   "expired": "Expired",
   "Save": "Save",
+  "Saved": "Saved",
   "Cancel": "Cancel",
   "Undo": "Undo",
   "Delete": "Delete",
@@ -46,6 +47,7 @@
         "question": "Report comment",
         "description": "Are you sure? This action can not be reverted.",
         "decline": "Ok, do not report comment",
+        "notInteresting": "Not interesting",
         "spam": "Spam",
         "inappropriate": "Inappropriate",
         "other": "Other",
@@ -155,24 +157,36 @@
     "pop": {
       "deletePost": {
         "menu": "Delete",
-        "question": "Delete this post?",
-        "description": "Are you sure? This action can not be reverted.",
-        "decline": "Let it stay exist"
+        "question": "Delete post?",
+        "description": "You can also edit your post. If you selected wrong privacy settings, set post as private.",
+        "decline": "Edit"
+      },
+      "sharelink": {
+        "menu": "Share link",
+        "question": "",
+        "description": "",
+        "decline": ""
+      },
+      "edit": {
+        "menu": "Edit",
+        "question": "",
+        "description": "",
+        "decline": ""
       },
       "reportPost": {
         "menu": "Report",
-        "question": "Report this post?",
+        "question": "Report post",
         "description": "Are you sure? This action can not be reverted.",
         "decline": "Ok, do not report post"
       },
       "setPublic": {
-        "menu": "Set post as public",
+        "menu": "Set as public",
         "question": "Set public?",
         "description": "Anyone will be able to see your post",
         "decline": "Stay private"
       },
       "setPrivate": {
-        "menu": "Set post as private",
+        "menu": "Set as private",
         "question": "Set private?",
         "description": "Only your followers will be able to see your post",
         "decline": "Stay public"
@@ -214,7 +228,7 @@
   },
   "pairedItem": {
     "title": "View Item",
-    "hesitating_users": "People Wishlisted"
+    "hesitating_users": "Saved to Wishlist:"
   },
   "profile_settings": {
     "title": "Edit Settings",

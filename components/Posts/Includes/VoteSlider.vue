@@ -122,7 +122,7 @@ export default {
 	height 41px
 	padding 3px 0
 	background-color rgba(0, 0, 0, .12)
-	top 59%
+	top 55%
 	border-radius 12px
 	justify-content space-around
 	z-index 5

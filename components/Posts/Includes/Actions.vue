@@ -90,7 +90,7 @@ export default {
 	overflow hidden
 	.counter-icon
 		.buttons_icon
-			margin-right 3.07vw
+			margin-right 2.57vw
 			&.like_icon
 				margin-right 1.53vw
 		.action-label
@@ -98,12 +98,13 @@ export default {
 			text-transform capitalize
 			font-size 3.23vw
 			font-weight 600
+			letter-spacing 0
 			&.liked
 				color #FD6256
 	.like_button
 		margin-left 5.15vw
 		width 15.38vw
-		margin-right 7.69vw
+		margin-right 6.69vw
 		min-width auto
 	.like_count
 		width 10.46vw

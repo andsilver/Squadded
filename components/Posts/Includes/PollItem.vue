@@ -11,7 +11,7 @@
 			:details="details"
 			:is-paired="isPaired"
 			is-poll-post
-			show-refresh
+			:show-refresh="voted"
 		>
 			<ItemImage
 				:item="item"
