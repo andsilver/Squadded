@@ -3,7 +3,7 @@ import { Chance } from 'chance';
 import Vuex from 'vuex';
 import Banner from '../Banner.vue';
 import Store from '~/store';
-import { NotificationStore, NotificationMutations, TIMEOUT } from '~/store/notification';
+import { NotificationStore, NotificationMutations } from '~/store/notification';
 
 const chance = new Chance();
 
@@ -39,19 +39,15 @@ describe('Notifications Banner', () => {
 		});
 	});
 
-	it('notifications should be disappeared after specific seconds', async (done) => {
-		jest.setTimeout(10000);
+	it('notifications should be disappeared after specific seconds', async () => {
+		jest.useFakeTimers();
 		await store.commit(`${NotificationStore}/${NotificationMutations.add}`, notifications[0]);
 		let notification = wrapper.find('v-card');
 		expect(notification.exists()).toBeTruthy();
 
-		await new Promise(resolve =>
-			setTimeout(() => {
-				notification = wrapper.find('v-card');
-				expect(notification.exists()).toBeFalsy();
-				resolve();
-			}, TIMEOUT * 1000),
-		);
-		done();
+		jest.runOnlyPendingTimers();
+
+		notification = wrapper.find('v-card');
+		expect(notification.exists()).toBeFalsy();
 	});
 });
