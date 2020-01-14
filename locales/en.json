@@ -26,13 +26,13 @@
   "public": "Public",
   "Requests": "Requests",
   "Search": "Search your wishlist...",
-  "SelectOutfitName": "Check out my autumn outfit!",
-  "SelectPollName": "Ask something about it...",
+  "SelectOutfitName": "Write a caption for your outfit",
+  "SelectPollName": "Ask a question...",
   "Squadders": "Squadders",
   "CreateANew": "Create a New",
   "forAllItems": "for all {0} items",
   "winner": "Winner",
-  "expired": "Expired",
+  "expired": "Poll Ended",
   "Save": "Save",
   "Saved": "Saved",
   "Cancel": "Cancel",
@@ -136,18 +136,18 @@
   },
   "poll": {
     "expiration": "Expires in",
-    "resultNote": "Result is shown to your followers after this",
+    "resultNote": "The winning article will be announced after this time",
     "ongoing": "Ongoing",
-    "textPlaceholder": "Type a question",
+    "textPlaceholder": "Ask a question",
     "results": "Results",
     "vote": "VOTE",
     "voted": "VOTED",
     "details": "Poll Details",
     "expired": "Expired",
-    "votes": "vote | votes"
+    "votes": "votes | votes"
   },
   "post": {
-    "addedItem": "added this items to their wishlist",
+    "addedItem": "added this item to their wishlist",
     "addedOutfit": "posted a new outfit with {0} items",
     "addedPoll": "posted a poll, expiring in {0} days",
     "addedGallary": "posted a picture with {0} tagged items",
@@ -196,7 +196,7 @@
   },
   "publicToggle": {
     "forEveryone": "Public posts are seen by everyone",
-    "forPrivate": "Private posts are only seen by your followers",
+    "forPrivate": "Private posts are only seen by your squad",
     "toggle": "toggle"
   },
   "tip": {
@@ -236,11 +236,11 @@
     "general": "General",
     "private_profile": {
       "title": "Private profile",
-      "description": "Only users you approve will be able to use your activity and wishlist"
+      "description": "Only your squad can see your activities and wishlist"
     },
     "public_profile": {
       "title": "Public profile",
-      "description": "Only users you approve will be able to use your activity and wishlist"
+      "description": "Everyone can see your activities and wishlist"
     },
     "language": {
       "title": "Language",
@@ -261,7 +261,7 @@
     "read": "read"
   },
   "error": {
-    "404": "404 Not Found",
-    "other": "An error occurred"
+    "404": "Seems you got lost!",
+    "other": "Go back to home screen"
   }
 }
