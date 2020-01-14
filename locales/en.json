@@ -101,6 +101,10 @@
       "password": {
         "required": "Password is required",
         "length": "Name must contain more than {n} characters"
+      },
+      "pin": {
+        "required": "Pin is required",
+        "valid": "Pin must be 4 digits code"
       }
     },
     "signup": "Sign up",
@@ -110,7 +114,9 @@
     "bio": "Bio",
     "instagram_username": "Instagram username",
     "phone_number": "Phone number",
-    "only_used_for_validation": "Only used for validation"
+    "only_used_for_validation": "Only used for validation",
+    "pin": "PIN",
+    "send_me_otp": "Send Me a One-Time PIN"
   },
   "feed": {
     "isEmpty": "There is no items yet"

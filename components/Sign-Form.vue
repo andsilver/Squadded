@@ -35,26 +35,25 @@
 		/>
 
 		<v-text-field
+			ref="email-field"
 			v-model="email"
 			:rules="emailRules"
 			:label="$t('form.email')"
 			type="email"
 			required
+			@update:error="(e) => errorHandle(e, 'email')"
 		/>
 
 		<v-text-field
-			v-model="password"
-			:rules="passwordRules"
-			:label="$t('form.password')"
-			type="password"
+			v-if="otpRequested"
+			ref="pin-field"
+			v-model="pin"
+			:rules="pinRules"
+			:label="$t('form.pin')"
+			type="number"
 			required
+			@update:error="(e) => errorHandle(e, 'pin')"
 		/>
-
-		<div v-if="!signup" class="text-xs-right">
-			<a nuxt to="forgot" class="normal">
-				{{ $t('form.forgot') }}
-			</a>
-		</div>
 
 		<v-checkbox
 			v-if="signup"
@@ -87,14 +86,29 @@
 		/>
 
 		<v-btn
+			v-if="signup"
 			class="full-width my-4"
 			color="primary"
 			large
 			depressed
 			@click="validate"
 		>
-			{{ signup ? $t('form.signup') : $t('form.login') }}
+			{{ $t('form.signup') }}
 		</v-btn>
+
+		<v-btn
+			v-if="!signup"
+			ref="signin-button"
+			class="full-width my-4"
+			color="primary"
+			large
+			depressed
+			:disabled="loginDisabled"
+			@click="() => emailLogin()"
+		>
+			{{ !otpRequested ? $t('form.send_me_otp') : $t('form.login') }}
+		</v-btn>
+
 		<div class="m2">
 			<span v-if="signup">{{ $t('form.onboard') }} <a @click="toggle">{{ $t('form.login') }}</a></span>
 			<span v-if="!signup">{{ $t('form.needAnAccount') }} <a @click="toggle">{{ $t('form.signup') }}</a></span>
@@ -119,9 +133,12 @@
 </style>
 
 <script>
+import { requestOtp, loginWithPIN } from '~/services/otp';
+
 export default {
 	data: function () {
 		return {
+			Token: '',
 			valid: true,
 			signup: true,
 			name: '',
@@ -138,11 +155,26 @@ export default {
 				v => !!v || this.$t('form.rules.password.required'),
 				v => (v && v.length >= 8) || this.$tc('form.rules.password.length', 8),
 			],
+			pin: null,
+			pinRules: [
+				v => !!v || this.$t('form.rules.pin.required'),
+				v => (v && v.length === 4 && Number.isInteger(+v)) || this.$t('form.rules.pin.valid'),
+			],
 			terms: false,
 			allowContact: false,
 			above16: false,
 			token: '',
+			otpRequested: false,
+			errors: {
+				email: true,
+				pin: true,
+			},
 		};
+	},
+	computed: {
+		loginDisabled() {
+			return this.otpRequested ? (this.errors.email || this.errors.pin) : this.errors.email;
+		},
 	},
 	methods: {
 		validate () {
@@ -156,6 +188,21 @@ export default {
 		},
 		injectToken() {
 			localStorage.setItem('userToken', this.token);
+		},
+		emailLogin() {
+			if (!this.otpRequested) {
+				requestOtp(this.email);
+				this.otpRequested = true;
+				this.errors.email = false;
+				return;
+			}
+
+			loginWithPIN(+this.pin, this.email).then(({ userId, token }) => {
+				localStorage.setItem('userToken', token);
+			});
+		},
+		errorHandle(event, field) {
+			this.errors[field] = event;
 		},
 	},
 };
