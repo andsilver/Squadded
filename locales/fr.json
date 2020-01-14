@@ -1,39 +1,94 @@
 {
+  "All": "All",
+  "a poll": "Sondage",
+  "an outfit": "Tenue",
   "getStarted": "Commencez avec",
   "or": "ou",
   "Choose": "Choisissez",
   "Community": "La Communauté",
   "Create": "Créez",
-  "Explore": "Explorez",
+  "Post": "Partager",
+  "Next": "Suivant",
+  "Edit": "Modifier",
+  "Like": "J'aime",
+  "Comment": "Commenter",
+  "NewOutfit": "Nouvelle tenue",
+  "NewPoll": "Nouveau sondage",
+  "NewPost": "Nouvelle Publication",
+  "Explore": "Explorer",
   "Home": "Accueil",
   "Messages": "Messages",
   "My Squad": "Mon Squad",
+  "Notifications": "Notifications",
   "Profile": "Profil",
-  "Search": "Recherchez",
+  "private": "Privé",
+  "Pushed": "Pushed",
+  "public": "Public",
+  "Requests": "Invitations",
+  "Search": "Recherchez dans votre wishlist...",
+  "SelectOutfitName": "Ajouter une légende...",
+  "SelectPollName": "Ajouter une légende...",
   "Squadders": "Squadders",
+  "CreateANew": "Créer",
+  "forAllItems": "Pour tous {0} articles",
+  "winner": "Gagnant",
+  "expired": "Sondage terminé",
+  "Save": "Sauvegarder",
+  "Saved": "Sauvegardé",
+  "Cancel": "Annuler",
+  "Undo": "Annuler",
+  "Delete": "Supprimer",
+  "Close": "Fermer",
+  "comment": {
+    "pop": {
+      "Action": "Action",
+      "reportComment": {
+        "menu": "Signaler",
+        "question": "Signaler le commentaire",
+        "description": "Are you sure? This action can not be reverted.",
+        "decline": "Ok, do not report comment",
+        "notInteresting": "Non intéressant",
+        "spam": "Contenu indésirable",
+        "inappropriate": "Inapproprié",
+        "other": "Autre",
+        "whatiswrong": "Décrivez nous le problème"
+      },
+      "deleteComment": {
+        "menu": "Supprimer",
+        "question": "Supprimer ce commentaire?",
+        "description": "Are you sure? This action can not be reverted.",
+        "decline": "Ok, do not delete comment"
+      }
+    }
+  },
+  "create": {
+    "outfit": "Tenue",
+    "photo": "Photo",
+    "poll": "Sondage"
+  },
   "expiration": {
     "_15m": "15 min",
     "_1h": "1 heure",
     "_1d": "1 jour",
-    "_3d": "3 jours",
-    "_7d": "7 jours"
+    "_3d": "3 jourss",
+    "_7d": "1 semaine"
   },
   "form": {
-    "name": "Nom d'utilisateur",
+    "name": "Name",
     "email": "E-mail",
-    "password": "Mot de passe",
-    "forgot": "Infos de connexion oubliées?",
+    "password": "Password",
+    "forgot": "Forgot password?",
     "terms": {
-      "label": "J'ai lu et j'accepte les conditions générales d'utilisation",
-      "message": "Vous devez accepter les conditions générales d'utilisation afin de continuer! "
+      "label": "I have read and accept the Terms",
+      "message": "You must accept the Terms to continue!"
     },
     "allowContact": {
-      "label": "J'autorise Squadded a me contacter",
-      "message": "Vous devez nous autoriser a vous contacter!"
+      "label": "I allow Squad to contact me",
+      "message": "You must allow us to contact you!"
     },
     "age": {
-      "label": "Je certifie avoir plus de 13 ans",
-      "messsage": "Vous devez avoir plus de 13 ans!"
+      "label": "I certify that I am 16 or older",
+      "messsage": "You must be older than 16 to continue!"
     },
     "rules": {
       "name": {
@@ -48,78 +103,167 @@
         "length": "Name must contain more than {n} characters"
       }
     },
-    "signup": "Inscrivez-vous",
-    "login": "Connectez-vous",
-    "onboard": "Vous avez déjà un compte?",
-    "needAnAccount": "Vous n'avez pas encore de compte?"
+    "signup": "Sign up",
+    "login": "Login",
+    "onboard": "Already onboard?",
+    "needAnAccount": "Need an account?",
+    "bio": "Bio",
+    "instagram_username": "Nom d'utilisateur",
+    "phone_number": "Numéro de téléphone",
+    "only_used_for_validation": "Only used for validation"
   },
   "feed": {
-    "isEmpty": "Vous n'avez pas encore de publications"
+    "isEmpty": "Vous n'avez pas encore d'articles dans votre wishlist"
+  },
+  "input": {
+    "placeholder": "Ajouter un commentaire..."
   },
   "notify": {
-    "comment": "a commenté votre publication",
+    "comment": "a commenté",
     "isEmpty": "Vous n'avez pas encore de notifications",
-    "like": "a aimé votre publication"
+    "like": "a aimé",
+    "pollend": "Votre sondage est terminé - découvrez le gagnant!",
+    "post": "votre publication",
+    "vote": "a voté"
+  },
+  "outfit": {
+    "textPlaceholder": "Ajouter une légende"
+  },
+  "photo": {
+    "browse": "Galerie",
+    "capture": "Appareil Photo",
+    "textPlaceholder": "Ajouter une légende..."
   },
   "poll": {
-    "create": "Créez un sondage",
-    "dialogTitle": "Choisissez 2 articles",
+    "expiration": "se termine dans",
+    "resultNote": "Le gagnant sera désigné apres ce délai.",
     "ongoing": "En cours",
-    "textPlaceholder": "Posez une question",
-    "results": "Resultats",
+    "textPlaceholder": "Ajouter une légende...",
+    "results": "Résultats",
     "vote": "VOTEZ",
     "voted": "VOTÉ",
     "details": "Détails du sondage",
-    "expired": "Expired",
-    "votes": "vote | votes"
+    "expired": "Terminé",
+    "votes": "votes | votes"
   },
   "post": {
-    "addedItem": "a ajouté un article",
-    "textPlaceholder": "Ajoutez une description pour cet article",
+    "addedItem": "a ajouté cet article à sa wishlist",
+    "addedOutfit": "a publié une tenue avec {0} articles",
+    "addedPoll": "a publié un sondage se terminant dans {0}",
+    "addedGallary": "a publié une photo avec {0} articles",
+    "textPlaceholder": "Ajouter une légende...",
     "sending": "envoyer…",
     "reactions": "Réactions",
     "pop": {
       "deletePost": {
         "menu": "Supprimer",
-        "question": "Confirmer la suppresion ",
-        "description": "Supprimer cette publication?",
-        "decline": "Ne pas supprimer"
+        "question": "Supprimer cette publication?",
+        "description": "Vous pouvez aussi modifier la publication et les paramètres de confidentialité",
+        "decline": "Modifier"
+      },
+      "sharelink": {
+        "menu": "Partager le lien",
+        "question": "",
+        "description": "",
+        "decline": ""
+      },
+      "edit": {
+        "menu": "Modifier",
+        "question": "",
+        "description": "",
+        "decline": ""
+      },
+      "reportPost": {
+        "menu": "Signaler",
+        "question": "Signaler la publication",
+        "description": "Are you sure? This action can not be reverted.",
+        "decline": "Ok, do not report post"
       },
       "setPublic": {
-        "menu": "Transformer en public",
-        "question": "Transformer en publication publique?",
-        "description": "Tout le monde pourra voir cette publication",
-        "decline": "Laisser cette publication privée"
+        "menu": "Modifier la confidentialité",
+        "question": "Set public?",
+        "description": "Anyone will be able to see your post",
+        "decline": "Stay private"
       },
       "setPrivate": {
-        "menu": "Transformer en privé ",
-        "question": "Transformer en publication privée?",
-        "description": "Seuls vos abonnés pourront voir cette publication",
-        "decline": "Laisser cette publication public"
+        "menu": "Set as private",
+        "question": "Set private?",
+        "description": "Only your followers will be able to see your post",
+        "decline": "Stay public"
       }
-    }
+    },
+    "share": "Partager la publication"
   },
-  "wishlist": {
-    "purchase": "ACHETER"
+  "publicToggle": {
+    "forEveryone": "Tout le monde pourra voir cette publication",
+    "forPrivate": "Seul votre squad pourra voir cette publication",
+    "toggle": "toggle"
+  },
+  "tip": {
+    "addItems": "Ajoutez des articles a votre wishlist pour créer {0}.",
+    "limitMessage": "La limite est de 4 articles par tenue",
+    "outfitSelect": "Sélectionnez 2 à 4 articles à assembler",
+    "outfitError": "Vous devez sélectionner 2 à 4 articles pour créer une tenue",
+    "pollSelect": "Sélectionnez les 2 articles de votre sondage",
+    "pollError": "Vous devez sélectionner 2 articles pour créer un sondage",
+    "createPhotoTag": "appuyez sur la photo pour identifier des articles",
+    "photoError": "Identifiez des articles pour publier la photo",
+    "tapPhotos": "appuyez sur la photo pour les détails"
   },
   "user": {
-    "Following": "Abonnements",
-    "Followers": "Abonnés",
-    "followers": "{n} abonnés",
-    "following": "{n} abonnements",
-    "Likes": "Likes",
-    "Unfollow": "Se désabonner",
-    "Follow": "S'abonner",
-    "share": "Partager ce profil"
+    "Follow": "Follow",
+    "Following": "Following",
+    "Followers": "Followers",
+    "followers": "{n} followers",
+    "following": "{n} following",
+    "Likes": "J'aime",
+    "promptFollow": "Do you want to follow {0}?",
+    "share": "Partager le profil",
+    "Unfollow": "Unfollow",
+    "edit": "Modifier"
   },
-  "input": {
-    "placeholder": "Ajouter un commentaire"
+  "wishlist": {
+    "empty": "Vous n'avez pas encore d'articles dans votre wishlist.",
+    "purchase": "ACHETER"
   },
   "pairedItem": {
-    "title": "View Item"
+    "title": "Voir l'article ",
+    "hesitating_users": "ont sauvegardé dans leur wishlist"
+  },
+  "profile_settings": {
+    "title": "Paramètres",
+    "profile": "Profil",
+    "general": "Général",
+    "private_profile": {
+      "title": "Profil privé",
+      "description": "Seul votre squad peut voir votre wishlist et vos publications"
+    },
+    "public_profile": {
+      "title": "Profil public",
+      "description": "Tout le monde peut voir votre wishlist et vos publications "
+    },
+    "language": {
+      "title": "Langue",
+      "description": "How often do you want to get notifications?"
+    },
+    "terms_of_service": {
+      "title": "Conditions d'utilisations",
+      "description": "By using the widget you agree to them"
+    },
+    "notifications": {
+      "title": "Notifications",
+      "description": "How often do you want to get notifications?"
+    },
+    "feedback": "Ecrivez nous",
+    "share_your_opinion": "Partager votre avis",
+    "delete_account": "Supprimer le compte",
+    "update_cover": "Mettre à jour la couverture",
+    "read": "lus"
   },
   "error": {
     "404": "Oups cette page a disparu",
     "other": "Vous êtes perdus? Retour à l'accueil"
   }
 }
+
+
