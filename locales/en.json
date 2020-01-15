@@ -153,7 +153,7 @@
     "votes": "votes | votes"
   },
   "post": {
-    "addedItem": "added this item to their wishlist",
+    "addedItem": "saved this item",
     "addedOutfit": "posted a new outfit with {0} items",
     "addedPoll": "posted a poll, expiring in {0} days",
     "addedGallary": "posted a picture with {0} tagged items",
@@ -189,6 +189,7 @@
         "menu": "Set as public",
         "question": "Set public?",
         "description": "Anyone will be able to see your post",
+        
         "decline": "Stay private"
       },
       "setPrivate": {
