@@ -1,12 +1,12 @@
 {
-  "All": "All",
+  "All": "Populaires",
   "a poll": "Sondage",
   "an outfit": "Tenue",
   "getStarted": "Commencez avec",
   "or": "ou",
   "Choose": "Choisissez",
   "Community": "La Communauté",
-  "Create": "Créez",
+  "Create": "Créer",
   "Post": "Partager",
   "Next": "Suivant",
   "Edit": "Modifier",
@@ -30,11 +30,11 @@
   "SelectPollName": "Ajouter une légende...",
   "Squadders": "Squadders",
   "CreateANew": "Créer",
-  "forAllItems": "Pour tous {0} articles",
+  "forAllItems": "Total {0} articles",
   "winner": "Gagnant",
   "expired": "Sondage terminé",
-  "Save": "Sauvegarder",
-  "Saved": "Sauvegardé",
+  "Save": "Ajouter",
+  "Saved": "Ajouté",
   "Cancel": "Annuler",
   "Undo": "Annuler",
   "Delete": "Supprimer",
@@ -135,7 +135,7 @@
     "textPlaceholder": "Ajouter une légende..."
   },
   "poll": {
-    "expiration": "se termine dans",
+    "expiration": "Le sondage se terminera dans",
     "resultNote": "Le gagnant sera désigné apres ce délai.",
     "ongoing": "En cours",
     "textPlaceholder": "Ajouter une légende...",
@@ -208,7 +208,7 @@
     "pollError": "Vous devez sélectionner 2 articles pour créer un sondage",
     "createPhotoTag": "appuyez sur la photo pour identifier des articles",
     "photoError": "Identifiez des articles pour publier la photo",
-    "tapPhotos": "appuyez sur la photo pour les détails"
+    "tapPhotos": "appuyez sur la photo pour plus de détails"
   },
   "user": {
     "Follow": "Follow",
@@ -228,7 +228,7 @@
   },
   "pairedItem": {
     "title": "Voir l'article ",
-    "hesitating_users": "ont sauvegardé dans leur wishlist"
+    "hesitating_users": "ont ajouté à leur wishlist:"
   },
   "profile_settings": {
     "title": "Paramètres",
