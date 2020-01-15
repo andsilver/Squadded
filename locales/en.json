@@ -83,7 +83,7 @@
       "message": "You must accept the Terms to continue!"
     },
     "allowContact": {
-      "label": "I allow Squad to contact me",
+      "label": "I allow Squadded to contact me",
       "message": "You must allow us to contact you!"
     },
     "age": {
@@ -112,7 +112,7 @@
     "onboard": "Already onboard?",
     "needAnAccount": "Need an account?",
     "bio": "Bio",
-    "instagram_username": "Instagram username",
+    "instagram_username": "Username",
     "phone_number": "Phone number",
     "only_used_for_validation": "Only used for validation",
     "pin": "PIN",
