@@ -1,11 +1,7 @@
 <template>
 	<Post ref="grouped-post" :post="selected" group-post class="grouped-post">
-		<v-slide-group center-active mandatory class="slider-post">
-			<v-slide-item
-				v-for="(item, index) of post.items"
-				:key="index"
-				v-slot:default="{ active, toggle }"
-			>
+		<div class="overflow-x-auto d-flex px-2">
+			<div v-for="(item, index) of post.items" :key="index" class="grouped-post-item">
 				<ProductCard
 					ref="product-card"
 					class="mx-auto pa-4 w-78 mb-4 single-item"
@@ -15,10 +11,11 @@
 					:post-id="item.guid"
 					:post="post.items[index]"
 					group-post
-					@click.native="itemSelected(toggle, item)"
+					@mousedown.native="() => itemSelected(item)"
+					@touchstart.native="() => itemSelected(item)"
 				/>
-			</v-slide-item>
-		</v-slide-group>
+			</div>
+		</div>
 	</Post>
 </template>
 
@@ -47,8 +44,7 @@ export default {
 		},
 	},
 	methods: {
-		itemSelected(toggle, item) {
-			toggle();
+		itemSelected(item) {
 			this.selectedItem = item;
 		},
 	},

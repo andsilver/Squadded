@@ -37,7 +37,7 @@ describe('GroupedPosts', () => {
 	});
 
 	it('should render correct number of items', () => {
-		const items = wrapper.findAll('v-slide-item');
+		const items = wrapper.findAll('.grouped-post-item');
 		expect(items.length).toBe(post.items.length);
 	});
 });

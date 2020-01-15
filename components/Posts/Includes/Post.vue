@@ -14,7 +14,7 @@
 		<h3
 			v-if="isTextVisible && !hideUser"
 			ref="post-text"
-			:class="{card_title: true, placeholder: isPlaceHolder}"
+			:class="{card_title: true, placeholder: isPlaceHolder, 'px-2': groupPost}"
 			@click="toggleTextEditor"
 		>
 			{{ post.text || (isPlaceHolder && $t('post.textPlaceholder')) }}
