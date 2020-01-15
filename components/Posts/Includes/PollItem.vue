@@ -10,6 +10,7 @@
 			:show-bag="voted"
 			:details="details"
 			:is-paired="isPaired"
+			:post-id="postId"
 			is-poll-post
 			:show-refresh="voted"
 		>
@@ -73,6 +74,10 @@ export default {
 		isPaired: {
 			type: Boolean,
 			default: false,
+		},
+		postId: {
+			type: String,
+			default: '',
 		},
 	},
 	computed: {

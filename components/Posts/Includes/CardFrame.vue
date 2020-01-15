@@ -124,7 +124,7 @@ export default {
 	},
 	methods: {
 		short(number) {
-			return shortNumber(number, this._i18n.locale) || 0;
+			return number ? shortNumber(number, this._i18n.locale) : 0;
 		},
 		navigateToPairedItemPage() {
 			if (!this.item.itemId || !this.postId) {

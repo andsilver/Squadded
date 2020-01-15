@@ -13,6 +13,7 @@
 				<PollItem
 					ref="poll-item1"
 					:item="post.item1"
+					:post-id="post.guid"
 					:total="total"
 					:is-closed="post.closed"
 					:voted="isVoted"
@@ -22,6 +23,7 @@
 				<PollItem
 					ref="poll-item2"
 					:item="post.item2"
+					:post-id="post.guid"
 					:total="total"
 					:is-closed="post.closed"
 					:voted="isVoted"

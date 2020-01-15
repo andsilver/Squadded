@@ -27,6 +27,7 @@
 					<ProductCard
 						v-for="item in post.items"
 						:key="item.itemId"
+						:post-id="post.guid"
 						:item="item"
 						show-refreshicon
 						class="mx-auto mb-4"
