@@ -10,6 +10,7 @@ Wrapper.prototype.ref = function (id) {
 
 describe('FeedComponent Empty State', () => {
 	const EMPTY_FEED_TEXT = 'empty-feed-text';
+	const LOAD_NEW_BUTTON = 'load-new-button';
 
 	let localVue;
 	let store;
@@ -26,6 +27,9 @@ describe('FeedComponent Empty State', () => {
 		wrapper = shallowMount(FeedComponent, {
 			localVue,
 			store,
+			mocks: {
+				$t: msg => msg,
+			},
 		});
 	}
 
@@ -69,5 +73,14 @@ describe('FeedComponent Empty State', () => {
 		wrapper.vm.$emit = jest.fn();
 		wrapper.vm.onScroll();
 		expect(wrapper.vm.$emit).toHaveBeenCalledWith('loadMore');
+	});
+
+	it('should show loadNew button', () => {
+		wrapper.setProps({
+			...propsData,
+			loadNew: true,
+		});
+		const loadNewButton = wrapper.ref(LOAD_NEW_BUTTON);
+		expect(loadNewButton.exists()).toBe(true);
 	});
 });

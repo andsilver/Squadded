@@ -55,7 +55,6 @@ export default {
 .w-78
 	width 62.906vw
 	margin-right 3.07vw !important
-	margin-top 14px
 .items-container
 	display: flex
 	overflow-x scroll

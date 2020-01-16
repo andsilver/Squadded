@@ -63,4 +63,15 @@ describe('Message Input', () => {
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
+
+	it('loadNew should be true after 1 minute', () => {
+		jest.useFakeTimers();
+		store.commit('SET_SOCKET_AUTH', true);
+		store.state.feed.loading = true;
+		expect(wrapper.vm.loadNew).toBe(false);
+		setTimeout(() => {
+			jest.runAllTimers();
+			expect(wrapper.vm.loadNew).toBe(true);
+		}, 1000);
+	});
 });

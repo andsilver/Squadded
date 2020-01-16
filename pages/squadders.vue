@@ -4,7 +4,14 @@
 		<v-layout>
 			<Preloader v-if="!squadders" ref="preloader" class="mt-8" />
 			<span v-else-if="!squadders.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
-			<Feed v-else ref="feed-layout" :items="squadders" @loadMore="fetchSquadders" />
+			<Feed
+				v-else
+				ref="feed-layout"
+				:items="squadders"
+				:load-new="loadNew"
+				@loadMore="fetchSquadders"
+				@loadNew="() => fetchSquadders(true)"
+			/>
 		</v-layout>
 	</v-container>
 </template>
@@ -26,6 +33,9 @@ export default {
 		Preloader,
 		TopBar,
 	},
+	data: () => ({
+		loadNew: false,
+	}),
 	computed: {
 		...activities([
 			'squadders',
@@ -35,12 +45,19 @@ export default {
 		]),
 	},
 	created () {
-		this.fetchSquadders();
+		this.init();
 	},
 	methods: {
-		async fetchSquadders() {
+		async init() {
 			await onAuth(this.$store);
-			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'squadders' });
+			this.fetchSquadders(true);
+			setTimeout(() => {
+				this.loadNew = true;
+			}, 60 * 1000);
+		},
+		fetchSquadders(loadNew = false) {
+			this.loadNew = false;
+			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'squadders', loadNew });
 		},
 	},
 };

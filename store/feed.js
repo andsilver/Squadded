@@ -7,6 +7,7 @@ export const state = () => ({
 	items: [],
 	loading: true,
 	allLoaded: false,
+	loadedNew: false,
 });
 
 export const FeedGetters = {
@@ -57,15 +58,20 @@ export const FeedActions = {
 };
 
 export const actions = {
-	[FeedActions.fetch]: ({ getters, rootState }) => {
+	[FeedActions.fetch]: ({ getters, rootState }, loadNew = false) => {
 		if (rootState.feed.allLoaded) {
 			return;
 		}
 		const msg = { type: 'fetchPosts' };
 		const items = getters[FeedGetters.items];
-		const mostRecentPost = items[items.length - 1];
-		if (mostRecentPost) {
-			msg.from = mostRecentPost.ts;
+		if (loadNew || !items || !items.length) {
+			rootState.feed.loadedNew = true;
+		} else {
+			const mostRecentPost = items[items.length - 1];
+			if (mostRecentPost) {
+				msg.from = mostRecentPost.ts;
+			}
+			rootState.feed.loadedNew = false;
 		}
 		state.loading = true;
 		rootState.socket.$ws.sendObj(msg);

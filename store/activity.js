@@ -15,6 +15,7 @@ export const state = () => ({
 		blog: null,
 		wishlist: null,
 	},
+	loadedNew: false,
 });
 
 export const ActivityGetters = {
@@ -105,7 +106,7 @@ export const actions = {
 
 		commit(ActivityMutations.unsquadd, itemId);
 	},
-	[ActivityActions.fetchItems]: ({ rootState, commit }, { type, guid }) => {
+	[ActivityActions.fetchItems]: ({ rootState, commit }, { type, guid, loadNew }) => {
 		const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
 		if (type !== 'squadders' && guid !== rootState.activity.guid[type]) {
 			commit(ActivityMutations[`clear${capitalized}`]);
@@ -120,7 +121,12 @@ export const actions = {
 		const msg = {
 			type: `fetch${capitalized}`,
 		};
-		mostRecent && (msg.from = mostRecent ? mostRecent.ts : null);
+		if (!loadNew) {
+			mostRecent && (msg.from = mostRecent.ts);
+			rootState.activity.loadedNew = false;
+		} else {
+			rootState.activity.loadedNew = true;
+		}
 		guid && (msg.guid = guid);
 		rootState.socket.$ws.sendObj(msg);
 	},

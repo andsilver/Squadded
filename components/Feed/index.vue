@@ -1,5 +1,15 @@
 <template>
 	<section class="feed" :class="{ grid_gallery: paired}" @scroll="onScroll">
+		<v-btn
+			v-if="loadNew"
+			ref="load-new-button"
+			class="load-new-button"
+			:elevation="19"
+			rounded
+			@click="loadNewItems"
+		>
+			{{ $t('NewPosts') }}
+		</v-btn>
 		<template v-for="(post, n) in aggregatedItems">
 			<component :is="getComponent(post)" :key="n" :is-paired="paired" :post="post" />
 		</template>
@@ -32,6 +42,10 @@ export default {
 			},
 		},
 		paired: {
+			type: Boolean,
+			default: false,
+		},
+		loadNew: {
 			type: Boolean,
 			default: false,
 		},
@@ -114,12 +128,16 @@ export default {
 				this.$emit('loadMore');
 			}
 		},
+		loadNewItems() {
+			this.$emit('loadNew');
+		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
 .feed
+	position relative
 	width 100%
 	&.grid_gallery
 		columns 2
@@ -128,4 +146,13 @@ export default {
 		column-gap 3.07vw
 		-webkit-column-gap 3.07vw
 		-moz-column-gap 3.07vw
+
+.load-new-button
+	width 130px
+	height 30px !important
+	position absolute
+	top 20px
+	left calc(50% - 50px)
+	z-index 9
+	text-transform none
 </style>

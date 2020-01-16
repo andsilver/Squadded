@@ -26,7 +26,7 @@ async function activity (message) {
 	const getter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
 	const posts = getter(Array.from(uniqueIds)).sort((a, b) => b.ts - a.ts);
 	this.store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
-	if (!rawPostsList.length) {
+	if (!rawPostsList.length && !this.store.state.activity.loadedNew) {
 		this.store.state.activity.allLoaded[type] = true;
 	}
 }
@@ -86,7 +86,7 @@ export class WSMessages {
 		const posts = postsGetter(Array.from(uniqueIds));
 		this.store.state.feed.loading = false;
 		this.store.commit(`${FeedStore}/${FeedMutations.setItems}`, posts);
-		if (!message.feed.length) {
+		if (!message.feed.length && !this.store.state.feed.loadedNew) {
 			this.store.state.feed.allLoaded = true;
 		}
 	}
