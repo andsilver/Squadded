@@ -27,6 +27,7 @@ export const FeedMutations = {
 	clear: 'clear',
 	removePost: 'removePost',
 	setItems: 'setItems',
+	markAllLoaded: 'markAllLoaded',
 };
 
 export const mutations = {
@@ -50,6 +51,11 @@ export const mutations = {
 			return;
 		}
 		state.items = state.items.filter(p => p.postId !== postId);
+	},
+	[FeedMutations.markAllLoaded]: (state, loadedFeed) => {
+		if (loadedFeed.length === 0 && !state.loadedNew) {
+			state.allLoaded = true;
+		}
 	},
 };
 

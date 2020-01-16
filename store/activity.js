@@ -40,6 +40,7 @@ export const ActivityMutations = {
 	clearBlog: 'clearBlog',
 	setListOfType: 'setListOfType',
 	unsquadd: 'unsquadd',
+	markAllLoaded: 'markAllLoaded',
 };
 
 export const mutations = {
@@ -83,6 +84,11 @@ export const mutations = {
 			const item = post.getItem(itemId);
 			item && (item.squadded = false);
 		});
+	},
+	[ActivityMutations.markAllLoaded]: (state, { loadedPosts, type }) => {
+		if (loadedPosts.length === 0 && !state.loadedNew) {
+			state.allLoaded[type] = true;
+		}
 	},
 };
 

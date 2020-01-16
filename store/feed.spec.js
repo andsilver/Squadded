@@ -25,6 +25,7 @@ describe('Feed store module', () => {
 		const {
 			setItems,
 			addItem,
+			markAllLoaded,
 		} = mutations;
 
 		let state;
@@ -32,6 +33,8 @@ describe('Feed store module', () => {
 		beforeEach(() => {
 			state = {
 				items: [],
+				allLoaded: false,
+				loadedNew: false,
 			};
 		});
 
@@ -60,6 +63,12 @@ describe('Feed store module', () => {
 			storePostReportInSession(reportedItem);
 			setItems(state, newItems);
 			expect(state.items).not.toContain(reportedItem);
+		});
+
+		it('should mark allLoaded as true', () => {
+			const newItems = [];
+			markAllLoaded(state, newItems);
+			expect(state.allLoaded).toBe(true);
 		});
 	});
 
@@ -104,6 +113,12 @@ describe('Feed store module', () => {
 			await feedStore.commit(`${FeedMutations.addItem}`, item());
 
 			expect(feedStore.state.items.length).toBe(4);
+		});
+
+		it('should not send fetchPosts message if allLoaded', () => {
+			root.state.feed.allLoaded = true;
+			root.dispatch(`${FeedStore}/${FeedActions.fetch}`);
+			expect($ws.sendObj).not.toHaveBeenCalled();
 		});
 	});
 });

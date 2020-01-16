@@ -102,10 +102,9 @@ describe('WSMessages dispatch', () => {
 		]);
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.setItems}`, posts);
 
-		msg.feed = [];
 		wsMessages.dispatch(msg);
 		await flushPromises();
-		expect(store.state.feed.allLoaded).toBe(true);
+		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.markAllLoaded}`, feed);
 	});
 
 	['followers', 'following'].forEach((type) => {

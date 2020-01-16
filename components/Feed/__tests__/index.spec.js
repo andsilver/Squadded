@@ -83,4 +83,15 @@ describe('FeedComponent Empty State', () => {
 		const loadNewButton = wrapper.ref(LOAD_NEW_BUTTON);
 		expect(loadNewButton.exists()).toBe(true);
 	});
+
+	it('should emit loadNew event', () => {
+		wrapper.setProps({
+			...propsData,
+			loadNew: true,
+		});
+		const loadNewButton = wrapper.ref(LOAD_NEW_BUTTON);
+		wrapper.vm.$emit = jest.fn();
+		loadNewButton.trigger('click');
+		expect(wrapper.vm.$emit).toHaveBeenCalled();
+	});
 });
