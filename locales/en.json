@@ -40,6 +40,12 @@
   "Save": "Save",
   "Saved": "Saved",
   "Undo": "Undo",
+  "ShopWithYourFriendsOn": "Shop with your friends on",
+  "PoweredBy": "POWERED BY",
+  "Signin": "Sign in",
+  "UseOneTimeCode": "Use one-time code",
+  "noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
+  "Messageregarding": "Message regarding phone charges",
   "comment": {
     "pop": {
       "Action": "Action",
@@ -77,7 +83,7 @@
   },
   "form": {
     "name": "Name",
-    "email": "E-mail",
+    "email": "Enter phone number or e-mail",
     "password": "Password",
     "forgot": "Forgot password?",
     "terms": {
@@ -118,7 +124,7 @@
     "phone_number": "Phone number",
     "only_used_for_validation": "Only used for validation",
     "pin": "PIN",
-    "send_me_otp": "Send Me a One-Time PIN"
+    "send_me_otp": "Send code"
   },
   "feed": {
     "isEmpty": "There is no items yet"
