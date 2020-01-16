@@ -1,4 +1,4 @@
-import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
+import { Wrapper, shallowMount, createLocalVue, createWrapper } from '@vue/test-utils';
 import Vuex from 'vuex';
 import ItemDetails from './ItemDetails.vue';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
@@ -70,5 +70,23 @@ describe('Paired Item Details', () => {
 		expect(itemTitle.exists()).toBe(false);
 		expect(saveButton.exists()).toBe(false);
 		expect(createButton.exists()).toBe(false);
+	});
+
+	it('should open create post dialog', async () => {
+		const item = itemBuilder().get();
+		item.squadded = true;
+		store.commit(`${PairedItemStore}/${PairedItemMutations.setItem}`, item);
+
+		const createButton = wrapper.ref(CREATE_BUTTON);
+
+		expect(createButton.exists()).toBe(true);
+
+		createButton.trigger('click');
+
+		const rootWrapper = createWrapper(wrapper.vm.$root);
+
+		await wrapper.vm.$nextTick();
+
+		expect(rootWrapper.emitted().openCreateMenu).toEqual([[]]);
 	});
 });
