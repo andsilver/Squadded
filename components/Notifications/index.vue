@@ -19,6 +19,7 @@ import PollEnd from './Includes/PollEnd';
 import Vote from './Includes/Vote';
 import Alert from './Includes/Alert';
 import AcceptSquad from './Includes/AcceptSquad';
+import { NOTIFICATIONS } from '~/consts/notifications';
 
 export default {
 	name: 'NotificationList',
@@ -32,13 +33,22 @@ export default {
 	},
 	methods: {
 		getComponent (notification) {
-			return notification.type === 'notifComment' ? Comment
-				: notification.type === 'notifLike' ? Like
-				: notification.type === 'notifyPollEnd' ? PollEnd
-				: notification.type === 'notifVote' ? Vote
-				: notification.type === 'notifyAlert' ? Alert
-				: notification.type === 'notifAcceptSquad' ? AcceptSquad
-				: null;
+			switch (notification.type) {
+			case NOTIFICATIONS.COMMENT:
+				return Comment;
+			case NOTIFICATIONS.LIKE:
+				return Like;
+			case NOTIFICATIONS.POLL_END:
+				return PollEnd;
+			case NOTIFICATIONS.VOTE:
+				return Vote;
+			case NOTIFICATIONS.ALERT:
+				return Alert;
+			case NOTIFICATIONS.ACCEPT_SQUAD:
+				return AcceptSquad;
+			default:
+				return null;
+			}
 		},
 	},
 };

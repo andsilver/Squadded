@@ -30,28 +30,34 @@ import {
 	NotificationGetters,
 	NotificationMutations,
 } from '~/store/notification';
+import { NOTIFICATIONS } from '~/consts/notifications';
 
 const { mapGetters } = createNamespacedHelpers(NotificationStore);
 const notifMapState = createNamespacedHelpers(NotificationStore).mapState;
 
 export default {
-	data: () => ({
-		components: {
-			notifComment: Comment,
-			notifLike: Like,
-			notifyPollEnd: PollEnd,
-			notifVote: Vote,
-			notifAlert: Alert,
-			notifAcceptSquad: AcceptSquad,
-		},
-	}),
 	computed: {
 		...mapGetters([NotificationGetters.notify]),
 		...notifMapState(['notifications']),
 	},
 	methods: {
-		getComponent(notification) {
-			return this.components[notification.type] || null;
+		getComponent (notification) {
+			switch (notification.type) {
+			case NOTIFICATIONS.COMMENT:
+				return Comment;
+			case NOTIFICATIONS.LIKE:
+				return Like;
+			case NOTIFICATIONS.POLL_END:
+				return PollEnd;
+			case NOTIFICATIONS.VOTE:
+				return Vote;
+			case NOTIFICATIONS.ALERT:
+				return Alert;
+			case NOTIFICATIONS.ACCEPT_SQUAD:
+				return AcceptSquad;
+			default:
+				return null;
+			}
 		},
 		viewItem(item) {
 			this.$store.commit(
