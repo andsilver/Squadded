@@ -33,7 +33,9 @@ export const mutations = {
 		setTimeout(() => {
 			message.showBanner = false;
 		}, TIMEOUT * 1000);
-		window.parent.dispatchEvent(new CustomEvent('notification'));
+		window.parent.postMessage(JSON.stringify({
+			type: 'notification',
+		}), '*');
 		localStorage.setItem('notification', `${Date.now()}`);
 	},
 	[NotificationMutations.receive]: (state, notifications) => {
