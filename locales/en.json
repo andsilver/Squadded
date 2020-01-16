@@ -46,6 +46,10 @@
   "UseOneTimeCode": "Use one-time code",
   "noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
   "Messageregarding": "Message regarding phone charges",
+  "PickUsername": "Pick a username",
+  "StartBuildingYourSquad": "You're almost done! After this, you'll start building your squad.",
+  "EnterUsername": "Enter your username",
+  "YouCanAlwaysChange": "Only letters, digits and underscores. You can always change it later.",
   "comment": {
     "pop": {
       "Action": "Action",
@@ -124,7 +128,8 @@
     "phone_number": "Phone number",
     "only_used_for_validation": "Only used for validation",
     "pin": "PIN",
-    "send_me_otp": "Send code"
+    "send_me_otp": "Send code",
+    "done": "Done"
   },
   "feed": {
     "isEmpty": "There is no items yet"
