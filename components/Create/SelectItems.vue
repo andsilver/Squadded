@@ -60,6 +60,9 @@ export default {
 		},
 	},
 	created () {
+		if (this.$store.state.pairedItem && this.$store.state.pairedItem.item) {
+			this.selectPaired(this.$store.state.pairedItem.item.itemId);
+		}
 		return prefetch({
 			store: this.$store,
 			type: 'fetchWishlist',
@@ -69,6 +72,10 @@ export default {
 		this.wishlist.forEach(post => (post.selected = false));
 	},
 	methods: {
+		selectPaired(itemId) {
+			const selectedPairedPost = this.available.find(i => i.item.itemId === itemId);
+			this.select(selectedPairedPost);
+		},
 		select (post) {
 			if (this.selected.length < this.maxCount || this.selected.includes(post)) {
 				this.limitError = false;

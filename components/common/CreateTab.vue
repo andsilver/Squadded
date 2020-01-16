@@ -1,8 +1,8 @@
 <template>
-	<v-tab class="create tab_item" @click.native="toggleMenu">
+	<v-tab class="create tab_item" @click="toggleMenu">
 		<v-menu top offset-y>
 			<template v-slot:activator="{ on }">
-				<v-btn icon v-on="on">
+				<v-btn ref="createTabBtn" icon v-on="on">
 					<v-icon
 						class="tab_icon plus_icon"
 					>
@@ -55,6 +55,11 @@ export default {
 			images: require('assets/img/poll.svg'),
 		}],
 	}),
+	created() {
+		this.$root.$on('openCreateMenu', () => {
+			this.$refs.createTabBtn && this.$refs.createTabBtn.$el && this.$refs.createTabBtn.$el.click();
+		});
+	},
 	methods: {
 		toggleMenu () {
 			this.$root.$emit('overlayToggle', {});

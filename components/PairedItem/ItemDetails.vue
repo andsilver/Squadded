@@ -13,7 +13,7 @@
 			</div>
 			<div class="w-100 d-flex">
 				<ResquaddButton ref="save-button" class="flex-grow-1" :item="item" />
-				<Button ref="create-button" class="flex-grow-1 ml-2 create-button">
+				<Button ref="create-button" class="flex-grow-1 ml-2 create-button" @click.native="openCreateDialog">
 					<v-icon class="plus-icon" x-small>
 						sqdi-plus
 					</v-icon>
@@ -56,6 +56,11 @@ export default {
 			} else {
 				return '';
 			}
+		},
+	},
+	methods: {
+		openCreateDialog() {
+			this.$root.$emit('openCreateMenu');
 		},
 	},
 };
