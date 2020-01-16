@@ -1,0 +1,9 @@
+{
+    "type": "notifAcceptSquad",
+    "ts": 1576246455596,
+    "acceptingUser": {
+        "_id": "5df23d292a8e99a0ed1f883c",
+        "avatar": "https://i.imgur.com/Fa9kH2l.png",
+        "screenName": "Noemie C"
+    }
+}

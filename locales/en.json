@@ -132,7 +132,8 @@
     "like": "liked",
     "pollend": "Your poll has expired - see the winner!",
     "post": "your post",
-    "vote": "voted on"
+    "vote": "voted on",
+    "accepted_invite": "accepted your invite"
   },
   "outfit": {
     "textPlaceholder": "Type your description"

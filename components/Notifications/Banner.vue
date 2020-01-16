@@ -24,6 +24,7 @@ import Like from './Includes/Like';
 import PollEnd from './Includes/PollEnd';
 import Vote from './Includes/Vote';
 import Alert from './Includes/Alert';
+import AcceptSquad from './Includes/AcceptSquad';
 import {
 	NotificationStore,
 	NotificationGetters,
@@ -41,6 +42,7 @@ export default {
 			notifyPollEnd: PollEnd,
 			notifVote: Vote,
 			notifAlert: Alert,
+			notifAcceptSquad: AcceptSquad,
 		},
 	}),
 	computed: {

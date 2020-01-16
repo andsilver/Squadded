@@ -128,6 +128,10 @@ export class WSMessages {
 		acceptPost.call(this, { closed: true, guid });
 	}
 
+	notifAcceptSquad (message) {
+		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+	}
+
 	notifications (message) {
 		this.store.commit(`${NotificationStore}/${NotificationMutations.receive}`, message.notifications);
 	}

@@ -18,6 +18,7 @@ import Like from './Includes/Like';
 import PollEnd from './Includes/PollEnd';
 import Vote from './Includes/Vote';
 import Alert from './Includes/Alert';
+import AcceptSquad from './Includes/AcceptSquad';
 
 export default {
 	name: 'NotificationList',
@@ -36,6 +37,7 @@ export default {
 				: notification.type === 'notifyPollEnd' ? PollEnd
 				: notification.type === 'notifVote' ? Vote
 				: notification.type === 'notifyAlert' ? Alert
+				: notification.type === 'notifAcceptSquad' ? AcceptSquad
 				: null;
 		},
 	},

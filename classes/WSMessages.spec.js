@@ -7,7 +7,8 @@ import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { PostActions, PostGetters, PostStore, PostMutations } from '~/store/post';
 import { UserStore, UserMutations } from '~/store/user';
 import { userMockBuilder } from '~/test/user.mock';
-import * as TestPoll from '~/test/testpool.json';
+import TestPoll from '~/test/testpool.json';
+import TestAcceptSquad from '~/test/test-accept-squad.json';
 
 const chance = new Chance();
 
@@ -335,5 +336,12 @@ describe('WSMessages dispatch', () => {
 
 		wsMessages.dispatch(msg);
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setCurrentPost}`, post);
+	});
+
+	it('should commit notification on notifyAcceptSquad', () => {
+		const msg = TestAcceptSquad;
+
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, msg);
 	});
 });

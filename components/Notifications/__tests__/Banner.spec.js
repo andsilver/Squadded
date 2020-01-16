@@ -19,7 +19,7 @@ describe('Notifications Banner', () => {
 	const N_NOTIFICATIONS = 5;
 	const notifications = new Array(N_NOTIFICATIONS).fill({
 		_id: chance.guid(),
-		type: chance.pickone(['notifComment', 'notifLike', 'notifyPollEnd', 'notifVote']),
+		type: chance.pickone(['notifComment', 'notifLike', 'notifyPollEnd', 'notifVote', 'notifAcceptSquad']),
 		viewed: false,
 	});
 
