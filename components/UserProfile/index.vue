@@ -33,6 +33,7 @@
 			</v-list-item>
 			<userStatistics class="mb-4" :user="user" />
 			<Follow ref="follow-btn" :user="user" class="follow" />
+			<Invitation v-if="invite" ref="invitation" :user="user" />
 			<p align="center">
 				{{ user.bio }}
 			</p>
@@ -69,6 +70,7 @@ import userAvatar from './userAvatar';
 import userName from './userName';
 import userMention from './userMention';
 import userStatistics from './userStatistics';
+import Invitation from './Invitation';
 import Follow from '~/components/common/Follow';
 import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
@@ -85,11 +87,12 @@ export default {
 		userName,
 		userMention,
 		userStatistics,
+		Invitation,
 		ProfileToolbar,
 		Blog,
 		Whishlist,
 	},
-	asyncData ({ store, params, redirect }) {
+	asyncData ({ store, params, redirect, query }) {
 		if (!params.id) {
 			return;
 		}
@@ -108,6 +111,7 @@ export default {
 		userId: null,
 		tabs: 0,
 		isScrolled: false,
+		invite: false,
 	}),
 	computed: {
 		...mapState([
@@ -127,6 +131,7 @@ export default {
 	},
 	mounted () {
 		this.userId = this.$route.params.id;
+		this.invite = this.$route.query ? this.$route.query.invite : false;
 		this.bindScroll();
 	},
 	methods: {

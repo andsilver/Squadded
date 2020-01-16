@@ -18,13 +18,18 @@ const ParamName = {
 };
 
 function getRoute (squadParam) {
-	const [name, value] = squadParam.split(':');
-	return {
+	const [name, param] = squadParam.split(':');
+	const [value, suffix] = param.split('_');
+	const route = {
 		name: `${name}-${ParamName[name]}`,
 		params: {
 			[ParamName[name]]: value,
 		},
 	};
+	if (suffix) {
+		route.query = { [suffix]: true };
+	}
+	return route;
 }
 
 export const SquadMutations = {

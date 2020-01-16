@@ -29,4 +29,20 @@ describe('Squad Store module', () => {
 			},
 		});
 	});
+
+	it('should convert params with suffix to route', () => {
+		const id = chance.guid();
+		const squadParam = `user:${id}_invite`;
+		store.commit(SquadMutations.setSquadParams, squadParam);
+
+		expect(store.state.route).toEqual({
+			name: 'user-id',
+			params: {
+				id,
+			},
+			query: {
+				invite: true,
+			},
+		});
+	});
 });

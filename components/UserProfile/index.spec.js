@@ -97,4 +97,29 @@ describe('User component', () => {
 
 		expect(redirect).toHaveBeenCalledWith('/me');
 	});
+
+	it('should show invitation section if invite is passed in query', () => {
+		const user = userMockBuilder().get();
+
+		const params = { id: user.userId };
+		const query = { invite: true };
+
+		wrapper = shallowMount(User, {
+			localVue,
+			store,
+			mocks: {
+				$route: { params, query },
+				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
+			},
+		});
+
+		wrapper.vm.other = user;
+		wrapper.vm.userId = user.userId;
+
+		const invitation = wrapper.ref('invitation');
+		expect(invitation.exists()).toBe(true);
+	});
 });
