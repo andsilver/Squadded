@@ -50,6 +50,10 @@
   "StartBuildingYourSquad": "You're almost done! After this, you'll start building your squad.",
   "EnterUsername": "Enter your username",
   "YouCanAlwaysChange": "Only letters, digits and underscores. You can always change it later.",
+  "Activities": "Activities",
+  "Wishlist": "Wishlist",
+  "Comments": "Comments",
+  "Likes": "Likes",
   "comment": {
     "pop": {
       "Action": "Action",
@@ -77,6 +81,11 @@
     "outfit": "Outfit",
     "photo": "Photo",
     "poll": "Poll"
+  },
+  "createDesc": {
+    "outfit": "Pair 2-4 items in a single post",
+    "photo": "Add a photo and tag items on it",
+    "poll": "Ask your followers to vote between 2 items"
   },
   "expiration": {
     "_15m": "15 min",
@@ -224,7 +233,10 @@
       "outfitPost": "Outfit",
       "galleryPost": "Gallery",
       "comments": "Comments"
-    }
+    },
+    "unwatchRachel": "Unwatch Rachel",
+    "addToMySquad": "Add to My Squad",
+    "removeRachel": "Remove Rachel"
   },
   "publicToggle": {
     "forEveryone": "Public posts are seen by everyone",
@@ -305,5 +317,11 @@
   "error": {
     "404": "Seems you got lost!",
     "other": "Go back to home screen"
+  },
+  "PairedItem": {
+    "all": "All",
+    "outfits": "Outfits",
+    "photos": "Photos",
+    "polls": "Polls"
   }
 }

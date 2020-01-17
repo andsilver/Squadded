@@ -45,14 +45,14 @@
 				@change="keepTab"
 			>
 				<v-tab class="tabs pt-3">
-					<span style="text-transform: capitalize;">Activities</span>
+					<span style="text-transform: capitalize;">{{ $t('Activities') }}</span>
 				</v-tab>
 				<v-tab class="tabs pt-3">
-					<span style="text-transform: capitalize">Wishlist</span>
+					<span style="text-transform: capitalize">{{ $t('Wishlist') }}</span>
 				</v-tab>
 			</v-tabs>
 			<v-tabs-items v-model="tabs">
-				<v-tab-item>
+				<v-tab-item class="mt-3">
 					<Blog />
 				</v-tab-item>
 				<v-tab-item>

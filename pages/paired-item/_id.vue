@@ -7,7 +7,7 @@
 					sqdi-arrow-pointing-to-left
 				</v-icon>
 			</v-btn>
-			<span class="paired-item-title">{{ tabSelected }}</span>
+			<span class="paired-item-title">{{ $t(`PairedItem.${ tabSelected }`) }}</span>
 		</h3>
 		<ItemDetails ref="item-details" :class="{paired_hide : pairedHide}" />
 		<HesitatingUsers ref="hesitating-users" :class="{paired_hide : pairedHide}" />
@@ -35,7 +35,7 @@ export default {
 	},
 	data: () => ({
 		pairedHide: false,
-		tabSelected: 'All',
+		tabSelected: 'all',
 	}),
 	computed: {
 		...mapState(['item']),

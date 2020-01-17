@@ -41,17 +41,17 @@ export default {
 		menu: [{
 			uri: '/create/outfit',
 			title: 'create.outfit',
-			des: 'Pair 2-4 items in a single post',
+			des: 'createDesc.outfit',
 			images: require('assets/img/outfit.svg'),
 		}, {
 			uri: '/create/photo',
 			title: 'create.photo',
-			des: 'Add a photo and tag items on it',
+			des: 'createDesc.photo',
 			images: require('assets/img/photo.svg'),
 		}, {
 			uri: '/create/poll',
 			title: 'create.poll',
-			des: 'Ask your followers to vote between 2 items',
+			des: 'createDesc.poll',
 			images: require('assets/img/poll.svg'),
 		}],
 	}),

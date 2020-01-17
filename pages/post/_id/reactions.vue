@@ -33,10 +33,10 @@
 				@change="keepTab"
 			>
 				<v-tab class="tabs bottom-line">
-					<span style="text-transform: capitalize;">Comments</span>
+					<span style="text-transform: capitalize;">{{ $t('Comments') }}</span>
 				</v-tab>
 				<v-tab class="tabs bottom-line">
-					<span style="text-transform: capitalize">Likes</span>
+					<span style="text-transform: capitalize">{{ $t('Likes') }}</span>
 				</v-tab>
 			</v-tabs>
 			<v-tabs-items v-model="tabs" class="tab-result-section">

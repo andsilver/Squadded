@@ -9,16 +9,16 @@
 			@click.native="changeTab"
 		>
 			<v-tab class="tabs bottom-line">
-				<span ref="all-tab" style="text-transform: capitalize;">All</span>
+				<span ref="all-tab" style="text-transform: capitalize;">{{ $t('PairedItem.all') }}</span>
 			</v-tab>
 			<v-tab class="tabs bottom-line">
-				<span ref="outfits-tab" style="text-transform: capitalize">Outfits</span>
+				<span ref="outfits-tab" style="text-transform: capitalize">{{ $t('PairedItem.outfits') }}</span>
 			</v-tab>
 			<v-tab class="tabs bottom-line">
-				<span ref="polls-tab" style="text-transform: capitalize">Polls</span>
+				<span ref="polls-tab" style="text-transform: capitalize">{{ $t('PairedItem.polls') }}</span>
 			</v-tab>
 			<v-tab class="tabs bottom-line">
-				<span ref="photos-tab" style="text-transform: capitalize">Photos</span>
+				<span ref="photos-tab" style="text-transform: capitalize">{{ $t('PairedItem.photos') }}</span>
 			</v-tab>
 		</v-tabs>
 		<v-tabs-items v-model="tabs" touchless :class="{paired_section: isPaired}">
@@ -51,7 +51,7 @@ export default {
 	data: () => ({
 		tabs: 0,
 		isPaired: true,
-		tabsLab: ['All', 'Outfits', 'Polls', 'Photos'],
+		tabsLab: ['all', 'outfits', 'polls', 'photos'],
 	}),
 	computed: {
 		...mapGetters({

@@ -58,17 +58,17 @@
 					</v-list-item>
 					<v-list-item class="post-menu-share comment-menu-unwatch comment-setting-option">
 						<v-list-item-title class="setting-label unwatch">
-							Unwatch Rachel
+							{{ $t(`post.unwatchRachel`) }}
 						</v-list-item-title>
 					</v-list-item>
 					<v-list-item class="post-menu-share comment-menu-addtomysquad comment-setting-option">
 						<v-list-item-title class="setting-label addtomysquad">
-							Add to My Squad
+							{{ $t(`post.addToMySquad`) }}
 						</v-list-item-title>
 					</v-list-item>
 					<v-list-item class="post-menu-share comment-menu-rmtomysquad comment-setting-option">
 						<v-list-item-title class="setting-label rmtomysquad">
-							Remove Rachel
+							{{ $t(`post.removeRachel`) }}
 						</v-list-item-title>
 					</v-list-item>
 				</template>
