@@ -14,16 +14,23 @@ export const state = () => ({
 });
 
 const ParamName = {
-	user: 'id',
+	user: {
+		name: 'user-id',
+		key: 'id',
+	},
+	post: {
+		name: 'post-id-reactions',
+		key: 'id',
+	},
 };
 
 function getRoute (squadParam) {
 	const [name, param] = squadParam.split(':');
 	const [value, suffix] = param.split('_');
 	const route = {
-		name: `${name}-${ParamName[name]}`,
+		name: ParamName[name].name,
 		params: {
-			[ParamName[name]]: value,
+			[ParamName[name].key]: value,
 		},
 	};
 	if (suffix) {

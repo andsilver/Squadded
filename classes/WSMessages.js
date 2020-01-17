@@ -162,4 +162,9 @@ export class WSMessages {
 		const { pairedItems } = message;
 		this.store.dispatch(`${PairedItemStore}/${PairedItemActions.setPairedItem}`, pairedItems);
 	}
+
+	post(message) {
+		const { post } = message;
+		this.store.commit(`${PostStore}/${PostMutations.setCurrentPost}`, post);
+	}
 };

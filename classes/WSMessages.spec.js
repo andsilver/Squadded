@@ -321,4 +321,15 @@ describe('WSMessages dispatch', () => {
 		wsMessages.dispatch(msg);
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPollResult}`, pollResult);
 	});
+
+	it(`should commit post to ${PostStore}/${PostMutations.setCurrentPost}`, () => {
+		const post = {};
+		const msg = {
+			type: 'post',
+			post,
+		};
+
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setCurrentPost}`, post);
+	});
 });

@@ -1,17 +1,17 @@
 <template>
 	<v-container class="reaction-section">
-		<BackBar :title="$t('post.reactions')" />
+		<BackBar ref="back-bar" :title="$t('post.reactions')" />
 		<v-layout v-if="post" flex-column>
 			<div class="d-flex align-center user-section">
-				<UserLink :user="post.user" />
-				<span class="user-name-type">
+				<UserLink ref="user-link" :user="post.user" />
+				<span ref="user-name-type" class="user-name-type">
 					<span class="user-name">{{ post.user.name || post.user.screenName }}</span>
 					<span v-if="post.type == 'singleItemPost'">{{ $t('post.addedItem') }}</span>
 					<span v-if="post.type == 'outfitPost'">{{ $t('post.addedOutfit', {'0': post.items.length}) }} </span>
 					<span v-if="post.type == 'pollPost'">{{ $t('post.addedPoll', {'0': 3}) }} </span>
 					<span v-if="post.type == 'galleryPost'">{{ $t('post.addedGallary', {'0': post.items.length}) }} </span>
 				</span>
-				<span class="product-image">
+				<span ref="product-image" class="product-image">
 					<img v-if="post.type == 'singleItemPost'" :src="post.item.img" class="item-image">
 					<img v-if="post.type == 'outfitPost'" :src="post.items[0].img" class="item-image">
 					<span v-if="post.type == 'outfitPost'" class="item-mast-count">+{{ (post.items.length - 1) }}</span>
@@ -41,10 +41,10 @@
 			</v-tabs>
 			<v-tabs-items v-model="tabs" class="tab-result-section">
 				<v-tab-item>
-					<Comments :post="post" />
+					<Comments ref="comments-tab" :post="post" />
 				</v-tab-item>
 				<v-tab-item>
-					<Likes :post="post" />
+					<Likes ref="likes-tab" :post="post" />
 				</v-tab-item>
 			</v-tabs-items>
 		</v-layout>
@@ -56,7 +56,9 @@ import BackBar from '~/components/common/BackBar';
 import Comments from '~/components/Comments';
 import Likes from '~/components/Likes';
 import UserLink from '~/components/UserLink';
-import { PostStore, PostGetters } from '~/store/post';
+import { PostStore, PostGetters, PostMutations } from '~/store/post';
+import { prefetch } from '~/helpers';
+import { FeedPost } from '~/classes/FeedPost';
 
 export default {
 	name: 'PostReactions',
@@ -75,11 +77,25 @@ export default {
 			this.tabs = 1;
 		}
 		const { id } = this.$route.params;
-		this.post = this.$store.getters[`${PostStore}/${PostGetters.getPostById}`](id);
+		this.setPost(id);
 	},
 	methods: {
 		keepTab () {
 			this.$router.push({ hash: this.tabs ? 'likes' : '' });
+		},
+		setPost(id) {
+			this.post = this.$store.getters[`${PostStore}/${PostGetters.getPostById}`](id);
+			if (this.post) {
+				return;
+			}
+			prefetch({
+				postId: id,
+				mutation: `${PostStore}/${PostMutations.setCurrentPost}`,
+				store: this.$store,
+				type: 'fetchPost',
+			}).then((post) => {
+				this.post = post ? new FeedPost(post) : null;
+			});
 		},
 	},
 };

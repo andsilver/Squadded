@@ -39,6 +39,7 @@ export const PostMutations = {
 	uploadURL: 'uploadURL',
 	setPollResult: 'setPollResult',
 	deleteComment: 'deleteComment',
+	setCurrentPost: 'setCurrentPost',
 };
 
 function suffix () {
@@ -138,6 +139,7 @@ export const mutations = {
 	[PostMutations.setPollResult]: (state, pollResult) => {
 		state.pollResult = pollResult ? new FeedPost(pollResult) : null;
 	},
+	[PostMutations.setCurrentPost]: () => {},
 };
 
 export const PostActions = {
