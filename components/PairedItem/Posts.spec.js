@@ -24,6 +24,9 @@ describe('Paired Item Posts', () => {
 		wrapper = shallowMount(Posts, {
 			store,
 			localVue,
+			mocks: {
+				$t: msg => msg,
+			},
 		});
 	});
 
