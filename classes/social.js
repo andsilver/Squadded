@@ -24,7 +24,7 @@ const OAUTH = {
 	instagram: {
 		endpoint: 'https://api.instagram.com/oauth/authorize?',
 		id: IG_CLIENT_ID,
-		scope: 'public_profile,email',
+		scope: 'user_profile',
 		display: 'popup',
 	},
 };
