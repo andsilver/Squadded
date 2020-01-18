@@ -74,6 +74,9 @@ export default {
 	margin-right 4.15vw
 	height auto
 	max-height 46.15vw
+	@media screen and (max-width: 350px)
+		width 26.3vw
+		margin-right 3.15vw
 .item-right-section
 	.price-buy-sec
 		margin-top 2.30vw
@@ -101,4 +104,7 @@ export default {
 		line-height 5.84vw
 		font-weight 500
 		color #B8B8BA
+		@media screen and (max-width: 350px)
+			font-size 3.30vw
+
 </style>

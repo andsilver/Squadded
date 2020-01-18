@@ -112,6 +112,30 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
+
+		<v-dialog v-model="showDeleteDialog" content-class="report-dialog delete-dialog">
+			<v-card>
+				<v-card-title class="card-title">
+					{{ $t('post.pop.deletePost.question') }}
+					<v-btn icon class="close-dialog" @click.native="hide">
+						<v-icon size="3.69vw">
+							sqdi-close-cross
+						</v-icon>
+					</v-btn>
+				</v-card-title>
+				<v-card-text class="report-options">
+					<span class="delete-text">{{ $t('post.pop.deletePost.description') }}</span>
+				</v-card-text>
+				<v-card-actions class="d-flex justify-center card-action">
+					<Button class="flex-grow-1 delete-button" @click.native="deletePost">
+						{{ $t('post.pop.deletePost.menu') }}
+					</Button>
+					<Button class="flex-grow-1" :active="false" @click.native="editPost">
+						{{ $t('post.pop.deletePost.decline') }}
+					</Button>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 
@@ -151,6 +175,7 @@ export default {
 		],
 		other: null,
 		showReasonDialog: false,
+		showDeleteDialog: false,
 	}),
 	computed: {
 		currentText () {
@@ -184,6 +209,7 @@ export default {
 		hide () {
 			this.current = null;
 			this.showReasonDialog = false;
+			this.showDeleteDialog = false;
 		},
 		confirm () {
 			this[this.current]();
@@ -229,8 +255,9 @@ export default {
 			});
 		},
 		promptDelete () {
-			this.current = 'deletePost';
-			this.prompt();
+			// this.current = 'deletePost';
+			// this.prompt();
+			this.showDeleteDialog = true;
 		},
 		setPrivate () {
 			this.menu = false;
@@ -291,6 +318,9 @@ export default {
 			this.showShare = true;
 		},
 		editPost () {
+			this.current = null;
+			this.showReasonDialog = false;
+			this.showDeleteDialog = false;
 			this.menu = false;
 		},
 	},
@@ -357,7 +387,7 @@ export default {
 				background-size 3vw
 				background-image url('~assets/img/delete.svg')
 				padding-left 6.73vw
-				background-position-y center
+				background-position-y 16px !important
 				background-position-x 2px
 			&.public
 				background-size 3.84vw
@@ -409,4 +439,13 @@ export default {
 		background-position-y 14px
 .grouped-post .v-menu__content
 	right 12px
+span.delete-text
+	font-size 3.69vw
+	color #000
+	line-height 4.92vw
+	margin-top 4VW
+	display block
+	text-align center
+.delete-button
+	background-color #FD6256 !important
 </style>

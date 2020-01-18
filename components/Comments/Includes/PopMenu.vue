@@ -34,7 +34,7 @@
 					</v-list-item-title>
 				</v-list-item>
 				<v-list-item v-if="comment.byMe || postIsMine" class="comment-menu-delete comment-setting-option">
-					<v-list-item-title ref="delete-comment" class="setting-label delete" @click="promptDeleteComment">
+					<v-list-item-title ref="delete-comment" class="setting-label delete" @click="deleteComment">
 						{{ $t(`comment.pop.deleteComment.menu`) }}
 					</v-list-item-title>
 				</v-list-item>
@@ -66,7 +66,7 @@
 					/>
 				</v-card-text>
 				<v-card-actions class="d-flex justify-center card-action">
-					<Button class="flex-grow-1" :disabled="disabled" @click.native="prompt">
+					<Button class="flex-grow-1" :disabled="disabled" @click.native="reportComment">
 						{{ $t('comment.pop.reportComment.menu') }}
 					</Button>
 					<Button class="flex-grow-1" :active="false" @click.native="hide">
@@ -247,12 +247,14 @@ export default {
 				background-image url('~assets/img/report.svg')
 				padding-left 5.73vw
 				background-size 4.15vw
-				background-position-y 3px
+				background-position-y 0px
+				font-size 3.38vw
 			&.delete
 				background-size 3vw
 				background-image url('~assets/img/delete.svg')
 				padding-left 5.73vw
 				background-position-y center
+				font-size 3.38vw
 		&.comment-menu-action
 			font-weight 400
 			color #b8b8ba !important
@@ -262,4 +264,5 @@ export default {
 				display flex
 				justify-content space-between
 				align-items center
+				font-size 3.38vw
 </style>

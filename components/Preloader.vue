@@ -2,7 +2,7 @@
 	<div class="suspense">
 		<v-progress-circular
 			color="primary"
-			size="150"
+			size="50"
 			indeterminate
 			class="progress"
 		/>

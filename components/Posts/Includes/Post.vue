@@ -120,5 +120,8 @@ export default {
 .grouped-post
 	.post-user-sec
 		padding 0 12px
+	.card_title
+		padding-right 12px !important
+		padding-left 12px !important
 
 </style>
