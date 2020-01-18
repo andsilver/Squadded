@@ -15,7 +15,7 @@ import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
 import TopBar from '~/components/common/TopBar.vue';
 import { onAuth } from '~/helpers';
-import { FeedActions, FeedGetters, FeedStore } from '~/store/feed';
+import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
 
 const feed = createNamespacedHelpers(FeedStore);
 const feedGetters = feed.mapGetters;
@@ -54,13 +54,19 @@ export default {
 			} else {
 				this.$root.$once('widget-open', () => this.fetchFeed(true));
 			}
+			if (this.items && this.items.length) {
+				this.$store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
+			}
 			setTimeout(() => {
 				this.loadNew = true;
 			}, 60 * 1000);
 		},
-		fetchFeed (loadNew = false) {
+		fetchFeed () {
 			this.loadNew = false;
-			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`, loadNew);
+			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
+			setTimeout(() => {
+				this.$store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
+			}, 4000);
 		},
 	},
 };

@@ -2,6 +2,7 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Feed from './feed.vue';
 import Store from '~/store';
+import { FeedMutations, FeedStore } from '~/store/feed';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -64,14 +65,24 @@ describe('Message Input', () => {
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
 
+	it('should set loading false after timeout', () => {
+		jest.useFakeTimers();
+		store.commit('SET_SOCKET_AUTH', true);
+		store.dispatch = jest.fn();
+		store.commit = jest.fn();
+		wrapper.vm.fetchFeed();
+		jest.advanceTimersByTime(4000);
+		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.setLoading}`, false);
+	});
+
 	it('loadNew should be true after 1 minute', () => {
 		jest.useFakeTimers();
 		store.commit('SET_SOCKET_AUTH', true);
 		store.state.feed.loading = true;
 		expect(wrapper.vm.loadNew).toBe(false);
+		jest.advanceTimersByTime(60 * 1000);
 		setTimeout(() => {
-			jest.runAllTimers();
 			expect(wrapper.vm.loadNew).toBe(true);
-		}, 1000);
+		});
 	});
 });

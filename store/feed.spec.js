@@ -91,6 +91,7 @@ describe('Feed store module', () => {
 		it('should fetch posts later than storred', () => {
 			const latestItem = { ts: new Date(chance.date()).getTime() };
 			root.state.feed.items = [latestItem];
+			root.state.feed.loading = false;
 
 			root.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 

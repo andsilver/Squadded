@@ -28,6 +28,7 @@ export const FeedMutations = {
 	removePost: 'removePost',
 	setItems: 'setItems',
 	markAllLoaded: 'markAllLoaded',
+	setLoading: 'setLoading',
 };
 
 export const mutations = {
@@ -57,6 +58,9 @@ export const mutations = {
 			state.allLoaded = true;
 		}
 	},
+	[FeedMutations.setLoading]: (state, loading) => {
+		state.loading = loading;
+	},
 };
 
 export const FeedActions = {
@@ -64,8 +68,8 @@ export const FeedActions = {
 };
 
 export const actions = {
-	[FeedActions.fetch]: ({ getters, rootState }, loadNew = false) => {
-		if (rootState.feed.allLoaded) {
+	[FeedActions.fetch]: ({ commit, getters, rootState }, loadNew = false) => {
+		if (rootState.feed.allLoaded || rootState.feed.loading) {
 			return;
 		}
 		const msg = { type: 'fetchPosts' };
@@ -79,7 +83,7 @@ export const actions = {
 			}
 			rootState.feed.loadedNew = false;
 		}
-		state.loading = true;
+		commit(FeedMutations.setLoading, true);
 		rootState.socket.$ws.sendObj(msg);
 	},
 };

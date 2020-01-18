@@ -100,6 +100,7 @@ describe('WSMessages dispatch', () => {
 			'existing1',
 			'feed',
 		]);
+		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.setLoading}`, false);
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.setItems}`, posts);
 
 		wsMessages.dispatch(msg);
