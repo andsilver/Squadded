@@ -60,6 +60,7 @@
 				</v-tab-item>
 			</v-tabs-items>
 		</v-layout>
+		<NotSignedInDialog ref="not-signed-in-dialog" :user="user" :show="!me" />
 	</v-container>
 </template>
 
@@ -76,6 +77,7 @@ import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
 import Blog from '~/components/Blog';
 import Whishlist from '~/components/Whishlist';
+import NotSignedInDialog from '~/components/LandingPost/NotSignedInDialog';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
@@ -91,6 +93,7 @@ export default {
 		ProfileToolbar,
 		Blog,
 		Whishlist,
+		NotSignedInDialog,
 	},
 	asyncData ({ store, params, redirect, query }) {
 		if (!params.id) {

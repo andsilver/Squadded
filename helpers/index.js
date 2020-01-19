@@ -31,3 +31,8 @@ export function flushPromises() {
 }
 
 export const price = (currency, cents, locale) => `${currency}${(cents / 100).toLocaleString(locale)}`;
+
+export default {
+	prefetch,
+	flushPromises,
+};

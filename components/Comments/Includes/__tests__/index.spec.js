@@ -6,6 +6,7 @@ import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { flushPromises } from '~/helpers';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { userMockBuilder } from '~/test/user.mock';
+import { commentMockBuilder } from '~/test/comment.mock';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -20,6 +21,7 @@ describe('Comments', () => {
 	let postBld;
 	let store;
 	let wrapper;
+	let showAll = true;
 
 	function mount () {
 		wrapper = shallowMount(Comments, {
@@ -29,6 +31,7 @@ describe('Comments', () => {
 			},
 			propsData: {
 				post,
+				showAll,
 			},
 			store,
 		});
@@ -92,5 +95,18 @@ describe('Comments', () => {
 		expect(comments.exists()).toBe(true);
 		expect(comments.props('post')).toBe(post);
 		expect(comments.props('action')).toBe(`${PostStore}/${PostActions.sendComment}`);
+	});
+
+	it('should showAll button and should show all on click', async () => {
+		const comments = new Array(5).fill(commentMockBuilder().get());
+		post.comments.messages = comments;
+		showAll = false;
+		mount();
+		await flushPromises();
+		const showAllBtn = wrapper.ref('show-all-btn');
+		expect(showAllBtn.exists()).toBe(true);
+		showAllBtn.trigger('click');
+		expect(wrapper.vm.showAll).toBe(true);
+		expect(wrapper.ref(COMMENTS_LIST).exists()).toBe(true);
 	});
 });

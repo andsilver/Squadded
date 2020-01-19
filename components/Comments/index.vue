@@ -1,13 +1,21 @@
 <template>
 	<section>
-		<v-list v-if="post.comments.messages.length" ref="comments-list" class="comment-listing">
-			<Comment
-				v-for="comment in post.comments.messages"
-				:key="comment.correlationId || comment._id"
-				:comment="comment"
-				:post="post"
-			/>
-		</v-list>
+		<template v-if="showAll || post.comments.messages.length === 1">
+			<v-list v-if="post.comments.messages.length" ref="comments-list" class="comment-listing">
+				<Comment
+					v-for="comment in post.comments.messages"
+					:key="comment.correlationId || comment._id"
+					:comment="comment"
+					:post="post"
+				/>
+			</v-list>
+		</template>
+		<template v-else-if="post.comments.messages.length">
+			<Comment :comment="post.comments.messages[0]" :post="post" />
+			<v-btn ref="show-all-btn" v-if="!showAll" class="ml-10 mb-10 font-weight-bold" small text @click="showAll = true">
+				{{ $t('comment.view_all_comments', { n: post.comments.messages.length }) }}
+			</v-btn>
+		</template>
 		<MessageInput
 			ref="comment-input"
 			class="post_comment_input"
@@ -41,6 +49,10 @@ export default {
 		post: {
 			type: Object,
 			required: true,
+		},
+		showAll: {
+			type: Boolean,
+			default: true,
 		},
 	},
 	data: () => ({

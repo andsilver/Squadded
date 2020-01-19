@@ -19,7 +19,7 @@ const ParamName = {
 		key: 'id',
 	},
 	post: {
-		name: 'post-id-reactions',
+		name: 'post-id',
 		key: 'id',
 	},
 };

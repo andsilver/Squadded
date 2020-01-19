@@ -14,7 +14,7 @@
 						hide-avatar
 					/>
 					{{ $t('notify.comment') }}
-					<span class="text-bold">
+					<span class="text-bold" @click="goToLandingPost">
 						{{ notification.post.text || $t('notify.post') }}
 					</span>
 				</span>
@@ -68,6 +68,11 @@ export default {
 		timeString () {
 			window.moment.locale(this._i18n.locale);
 			return window.moment(this.notification.ts).fromNow();
+		},
+	},
+	methods: {
+		goToLandingPost() {
+			this.$router.push(`/post/${this.notification.post.guid}#comments`);
 		},
 	},
 };

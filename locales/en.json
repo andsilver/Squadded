@@ -60,7 +60,8 @@
         "description": "Are you sure? This action can not be reverted.",
         "decline": "Ok, do not delete comment"
       }
-    }
+    },
+    "view_all_comments": "View all {n} comments"
   },
   "create": {
     "outfit": "Outfit",
@@ -200,7 +201,14 @@
         "decline": "Stay public"
       }
     },
-    "share": "Share Post"
+    "share": "Share Post",
+    "title": {
+      "singleItemPost": "Single",
+      "pollPost": "Poll",
+      "outfitPost": "Outfit",
+      "galleryPost": "Gallery",
+      "comments": "Comments"
+    }
   },
   "publicToggle": {
     "forEveryone": "Public posts are seen by everyone",
@@ -272,6 +280,11 @@
     "delete_account": "Delete account",
     "update_cover": "UPDATE COVER",
     "read": "read"
+  },
+  "landing_post": {
+    "interact_with_user": "Interact with {user}, pair and save items to your wishlist",
+    "sign_in": "sing in",
+    "skip": "skip"
   },
   "error": {
     "404": "Seems you got lost!",
