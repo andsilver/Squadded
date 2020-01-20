@@ -48,5 +48,10 @@ export default {
 	min-height 101px
 .paired_section .gallery-card .multi-item .v-image
 	height 65.76vw
-
+.grouped-post .v-image:after
+	background-color rgba(255,255,255,0.6)
+	content ''
+	width 100%
+.grouped-post .is_selected .v-image:after
+	background-color transparent
 </style>

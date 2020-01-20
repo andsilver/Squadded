@@ -322,6 +322,7 @@ export default {
 			this.showReasonDialog = false;
 			this.showDeleteDialog = false;
 			this.menu = false;
+			this.$emit('edit');
 		},
 	},
 };

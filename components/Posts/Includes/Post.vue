@@ -9,7 +9,7 @@
 				follow
 				size="10.76vw"
 			/>
-			<PopMenu :post="post" />
+			<PopMenu :post="post" @edit="toggleTextEditor" />
 		</div>
 		<h3
 			v-if="isTextVisible && !hideUser"

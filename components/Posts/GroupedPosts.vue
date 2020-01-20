@@ -10,6 +10,7 @@
 					:loading="!item.guid && !item.error"
 					:post-id="item.guid"
 					:post="post.items[index]"
+					:class="{ is_selected: selectedItemId == item.postId }"
 					group-post
 					@mousedown.native="() => itemSelected(item)"
 					@touchstart.native="() => itemSelected(item)"
@@ -46,6 +47,7 @@ export default {
 	data: () => ({
 		selectedItem: null,
 		self: this,
+		selectedItemId: '',
 	}),
 	computed: {
 		selected() {
@@ -55,6 +57,7 @@ export default {
 	methods: {
 		itemSelected(item) {
 			this.selectedItem = item;
+			this.selectedItemId = item.postId;
 		},
 	},
 };
