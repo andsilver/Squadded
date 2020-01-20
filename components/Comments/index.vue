@@ -12,7 +12,14 @@
 		</template>
 		<template v-else-if="post.comments.messages.length">
 			<Comment :comment="post.comments.messages[0]" :post="post" />
-			<v-btn ref="show-all-btn" v-if="!showAll" class="ml-10 mb-10 font-weight-bold" small text @click="showAll = true">
+			<v-btn
+				v-if="!showAll"
+				ref="show-all-btn"
+				class="ml-10 mb-10 font-weight-bold"
+				small
+				text
+				@click="showAll = true"
+			>
 				{{ $t('comment.view_all_comments', { n: post.comments.messages.length }) }}
 			</v-btn>
 		</template>

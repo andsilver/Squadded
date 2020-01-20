@@ -17,12 +17,12 @@ Wrapper.prototype.ref = function(id) {
 
 describe('Landing Post', () => {
 	let wrapper;
-	let user = userMockBuilder().short();
-	let post = aDefaultSingleItemMsgBuilder()
-		.withGUID()
-		.get();
 	let store;
 	let localVue;
+	const user = userMockBuilder().short();
+	const post = aDefaultSingleItemMsgBuilder()
+		.withGUID()
+		.get();
 
 	const $router = {
 		push: jest.fn(),
@@ -73,7 +73,7 @@ describe('Landing Post', () => {
 		expect(dialog.exists()).toBe(true);
 	});
 
-	it('should send fetchPost message', async () => {
+	it('should send fetchPost message', () => {
 		prefetch.mockReturnValue(Promise.resolve(post));
 		initLocalVue();
 		expect(prefetch).toHaveBeenCalledWith({
