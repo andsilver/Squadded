@@ -153,5 +153,8 @@ export default {
 		margin-bottom 0
 	.v-list-item__content
 		padding 0
-
+.notifications-container
+	.user_name
+		font-size 3.23vw
+		line-height 3.69vw
 </style>

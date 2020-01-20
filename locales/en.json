@@ -40,6 +40,11 @@
   "Save": "Save",
   "Saved": "Saved",
   "Undo": "Undo",
+  "Just": "Just",
+  "YourPoll": "your poll",
+  "YourItem": "your item",
+  "YourOutfit": "your outfit",
+  "YourPicture": "your picture",
   "ShopWithYourFriendsOn": "Shop with your friends on",
   "PoweredBy": "POWERED BY",
   "Signin": "Sign in",
@@ -147,7 +152,8 @@
     "placeholder": "Write a comment..."
   },
   "notify": {
-    "comment": "commented on",
+    "commentedq": "commented: ",
+    "commented": "commented",
     "isEmpty": "There is no notifications yet",
     "like": "liked",
     "pollend": "Your poll has expired - see the winner!",

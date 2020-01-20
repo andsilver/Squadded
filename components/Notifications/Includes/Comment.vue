@@ -1,7 +1,7 @@
 <template>
 	<section class="d-flex text-section">
 		<UserLink
-			size="40"
+			:size="banner ? '6.15vw' : '40'"
 			:user="notification.user"
 			hide-name
 		/>
@@ -13,23 +13,26 @@
 						:user="notification.user"
 						hide-avatar
 					/>
-					{{ $t('notify.comment') }}
-					<span class="text-bold" @click="goToLandingPost">
-						{{ notification.post.text || $t('notify.post') }}
+					{{ banner ? $t('Just') : '' }}
+					{{ banner ? $t('notify.commented') : $t('notify.commentedq') }}
+					{{ banner && notification.post.type == 'pollPost' ? $t('YourPoll') : '' }}
+					{{ banner && notification.post.type == 'singleItemPost' ? $t('YourItem') : '' }}
+					{{ banner && notification.post.type == 'galleryPost' ? $t('YourPicture') : '' }}
+					{{ banner && notification.post.type == 'outfitPost' ? $t('YourOutfit') : '' }}
+					<span v-if="!banner" @click="goToLandingPost">
+						{{ notification.text || $t('notify.post') }}
 					</span>
 				</span>
-				<span class="time-string-section">
+				<span v-if="!banner" class="time-string-section">
 					<v-avatar color="#000" size="4.923vw">
-						<v-icon dark size="2.76vw">
-							sqdi-chat-outlined
-						</v-icon>
+						<v-icon dark class="notify-comments" size="2.76vw" />
 					</v-avatar>
 					<span class="time-string">
 						{{ timeString }}
 					</span>
 				</span>
 			</div>
-			<div class="imgae-section">
+			<div v-if="!banner" class="imgae-section">
 				<img v-if="notification.post.type == 'singleItemPost'" :src="notification.post.item.img" class="notification-image">
 				<img v-if="notification.post.type == 'galleryPost'" :src="notification.post.img" class="notification-image">
 				<img v-if="notification.post.type == 'outfitPost'" :src="notification.post.items[0].img" class="notification-image">
@@ -138,4 +141,17 @@ export default {
 			width calc(100% - 19.9vw)
 	span.text-bold
 		font-weight 600
+.notify-comments
+	background-image url('~assets/img/notify-comment.svg') !important
+	background-repeat no-repeat !important
+	background-size 2.6vw !important
+	background-position center !important
+.notifications-container
+	.notification-message
+		align-self center
+		.message
+			width 100%
+			span
+				font-size 3.23vw
+				line-height 3.69vw
 </style>

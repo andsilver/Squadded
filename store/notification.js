@@ -30,9 +30,9 @@ export const mutations = {
 		message.viewed = message.viewed || false;
 		message.showBanner = true;
 		state.notifications.unshift(message);
-		setTimeout(() => {
+		/* setTimeout(() => {
 			message.showBanner = false;
-		}, TIMEOUT * 1000);
+		}, TIMEOUT * 1000); */
 		window.parent.postMessage(JSON.stringify({
 			type: 'notification',
 		}), '*');
