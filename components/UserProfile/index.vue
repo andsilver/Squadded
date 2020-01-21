@@ -34,6 +34,12 @@
 					<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : ''" />
 				</v-list-item-content>
 			</v-list-item>
+			<div v-if="user.isMe" class="edit-button-sec">
+				<span><img src="~assets/img/profile-Instagram.svg" class="insta-image"></span>
+				<Button class="edit-button" @click.native="edit">
+					{{ $t('user.edit') }}
+				</Button>
+			</div>
 			<userStatistics :user="user" />
 			<Follow ref="follow-btn" :user="user" class="follow" />
 			<Invitation v-if="invite" ref="invitation" :user="user" />
@@ -78,6 +84,7 @@ import { prefetch } from '~/helpers';
 import Blog from '~/components/Blog';
 import Whishlist from '~/components/Whishlist';
 import NotSignedInDialog from '~/components/LandingPost/NotSignedInDialog';
+import Button from '~/components/common/Button';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
@@ -94,6 +101,7 @@ export default {
 		Blog,
 		Whishlist,
 		NotSignedInDialog,
+		Button,
 	},
 	asyncData ({ store, params, redirect, query }) {
 		if (!params.id) {
@@ -156,6 +164,9 @@ export default {
 					this.$refs['follow-btn'].toggleFollow(true);
 				},
 			});
+		},
+		edit () {
+			this.$router.push('/profile-settings');
 		},
 	},
 };
@@ -255,9 +266,31 @@ export default {
 	.fixed_follow_btn span {
 		font-size: .75em;
 	}
-	.user-biodata{
+	.user-biodata {
 		margin-top: 4.46vw;
 		font-size: 4.30vw;
 		color: #000000;
+	}
+	.edit-button-sec {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin: 6.24vw 0;
+	}
+	.edit-button-sec span {
+		display: flex;
+	}
+	img.insta-image {
+		width: 6.76vw;
+		margin-right: 6.29vw;
+	}
+	button.edit-button.v-btn.v-btn--depressed.v-btn--rounded.theme--dark.v-size--default {
+		height: 9.23vw;
+		width: 26.92vw;
+		font-size: 2.15vw;
+		font-weight: 700;
+		line-height: 4.30vw;
+		letter-spacing: 1.5px;
+		margin: 0;
 	}
 </style>
