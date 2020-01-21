@@ -140,7 +140,11 @@
   "photo": {
     "browse": "Browse Gallery",
     "capture": "Take a Photo",
-    "textPlaceholder": "Today I'm wearing this"
+    "textPlaceholder": "Today I'm wearing this",
+    "upload": {
+      "done": "Finishing up",
+      "error": "Failed to upload"
+    }
   },
   "poll": {
     "expiration": "Expires in",

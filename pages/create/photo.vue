@@ -1,11 +1,11 @@
 <template>
 	<v-container v-if="socket.isAuth" grow>
 		<div :class="{ hide_section : !showPhoto }" class="photo-main-sec">
-			<BackBar ref="goback-button" :title="$t('Create')" />
+			<BackBar ref="goback-bar" :title="$t('Create')" />
 			<Tabs :active="1" />
 			<v-layout column grow class="mt-3">
-				<CapturePhoto v-show="!dataImg" @open="preview" />
-				<Browse v-show="!dataImg" @open="preview" />
+				<CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" />
+				<Browse v-show="!dataImg" ref="browse" @open="preview" />
 				<Tags v-if="dataImg" :post="post">
 					<div class="photo-menu-panel">
 						<v-btn icon width="40" height="40" @click="() => preview({})">
@@ -22,7 +22,7 @@
 					<SelectedItems ref="selected-items" />
 					<div class="button-section">
 						<Button
-							ref="done-button"
+							ref="next-button"
 							class="next-button"
 							:class="{ disable_btn :!complete}"
 							@click.native="next"
@@ -44,12 +44,26 @@
 					{{ $t('NewPost') }}
 				</h2>
 				<div v-if="dataImg" class="photo-create">
-					<UserInput v-model="text" :placeholder="$t('photo.textPlaceholder')" class="input-section" />
-					<PhotoView
-						v-if="dataImg"
-						:post="post"
-					/>
+					<div v-if="upload.started" ref="upload-status" class="d-flex align-center pa-2" style="background: #f4f4f5">
+						<img class="mr-6" :src="dataImg" width="30px" height="48px">
+						<v-btn v-if="!upload.done && !upload.error" icon loading />
+						<div v-if="upload.error" class="d-flex align-center">
+							<v-icon x-small color="red">
+								sqdi-close-cross
+							</v-icon>
+							<span class="ml-3">{{ $t('photo.upload.error') }}</span>
+						</div>
+						<div v-if="upload.done && !upload.error" class="d-flex align-center">
+							<v-icon>
+								mdi-check
+							</v-icon>
+							<span class="ml-3">{{ $t('photo.upload.done') }}</span>
+						</div>
+					</div>
+					<UserInput ref="user-input" v-model="text" :placeholder="$t('photo.textPlaceholder')" class="input-section" />
+					<PhotoView v-if="dataImg" ref="photo-view" :post="post" />
 					<Button
+						ref="edit-button"
 						class="edit-button"
 						@click.native="goBack"
 					>
@@ -121,6 +135,11 @@ export default {
 			img: '',
 		}),
 		text: '',
+		upload: {
+			started: false,
+			done: false,
+			failed: false,
+		},
 	}),
 	computed: {
 		...mapGetters([
@@ -135,8 +154,15 @@ export default {
 	},
 	methods: {
 		async create () {
+			this.upload.started = true;
+			this.upload.done = false;
+			this.upload.error = false;
 			const url = await this.getUploadUrl();
 			const img = await this.savePhoto(url);
+			this.upload.done = true;
+			if (this.upload.error) {
+				return;
+			}
 			this.savePost(img);
 		},
 		getUploadUrl () {
@@ -165,6 +191,7 @@ export default {
 				img.search = '';
 				return img.href;
 			} catch (error) {
+				this.upload.error = true;
 				return error;
 			}
 		},
@@ -192,6 +219,11 @@ export default {
 		},
 		goBack() {
 			this.showPhoto = true;
+			this.upload = {
+				started: false,
+				done: false,
+				failed: false,
+			};
 		},
 	},
 };
