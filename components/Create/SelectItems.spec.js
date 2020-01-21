@@ -75,4 +75,13 @@ describe('SelectItems Component', () => {
 		wrapper.destroy();
 		expect(post1.selected).toBe(false);
 	});
+
+	it('should filter posts on search', () => {
+		const posts = new Array(3).fill(regularPostBuilder().withGUID().get());
+		const searchText = 'testitemtitle';
+		posts[0].item.title = searchText;
+		store.state.activity.wishlist = posts;
+		wrapper.setData({ searchText });
+		expect(wrapper.vm.available[0].item.title).toBe(searchText);
+	});
 });

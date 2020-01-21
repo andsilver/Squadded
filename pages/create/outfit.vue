@@ -4,17 +4,6 @@
 			<BackBar ref="goback-button" :title="$t('Create')" />
 			<Tabs />
 			<v-layout column justify-center align-center class="tab-content-section">
-				<v-text-field
-					ref="search-text"
-					v-model="searchText"
-					class="search-plus"
-					:hide-details="true"
-					:placeholder="$t('Search')"
-				>
-					<v-icon slot="prepend" color="#B8B8BA" size="22">
-						sqdi-magnifying-glass-finder
-					</v-icon>
-				</v-text-field>
 				<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="4" />
 				<div :class="{ outfit_button_sec: isWishlistHasItems}">
 					<p v-if="isWishlistHasItems && !showError" class="tip-note">
@@ -123,7 +112,6 @@ export default {
 		OutfitView,
 	},
 	data: () => ({
-		searchText: '',
 		text: '',
 		isPublic: false,
 		showOutfit: true,
@@ -188,32 +176,6 @@ export default {
 <style lang="css" scoped>
 .hide_section {
 	display: none;
-}
-.search-plus.v-text-field {
-	padding-top: 0px;
-	margin-top: 8px;
-	padding-bottom: 0;
-	margin-bottom: 8px !important;
-	font-size: 3.230vw;
-	font-weight: 500;
-	width: 100%;
-}
-i.v-icon.sqdi-magnifying-glass-finder {
-	font-size: 4.69vw !important;
-}
-.search-plus .v-input__prepend-outer {
-	margin-right: 0.615vw;
-}
-.search-plus.theme--light.v-input:not(.v-input--is-disabled) input {
-	color: #B8B8BA;
-}
-.search-plus.v-text-field input {
-	padding: 0px 2.153vw 0px!important;
-	font-size: 3.80vw;
-}
-.search-plus.v-input__append-outer,.search-plus.v-input__prepend-outer{
-	margin-bottom: 0px;
-	margin-top: 0px;
 }
 .tab-content-section .choose-items {
 	max-height: calc(100vh - 52vh) !important;

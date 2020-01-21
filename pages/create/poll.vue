@@ -4,17 +4,6 @@
 			<BackBar ref="goback-button" :title="$t('Create')" />
 			<Tabs />
 			<v-layout column justify-center align-center class="tab-content-section">
-				<v-text-field
-					ref="search-text"
-					v-model="searchText"
-					class="search-plus"
-					:hide-details="true"
-					:placeholder="$t('Search')"
-				>
-					<v-icon slot="prepend" color="#B8B8BA" size="22">
-						sqdi-magnifying-glass-finder
-					</v-icon>
-				</v-text-field>
 				<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="2" />
 				<p v-if="isWishlistHasItems && !showError" class="tip-note">
 					{{ $t('tip.pollSelect') }}

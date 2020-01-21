@@ -18,18 +18,7 @@
 			</p>
 		</CardFrame>
 		<div class="scroll-items">
-			<v-text-field
-				ref="search-text"
-				v-model="searchText"
-				class="search-plus"
-				:hide-details="true"
-				:placeholder="$t('Search')"
-			>
-				<v-icon slot="prepend" color="#B8B8BA" size="22">
-					sqdi-magnifying-glass-finder
-				</v-icon>
-			</v-text-field>
-			<SelectItems ref="select-items" :max-count="4" narrow :style="{ 'max-height': maxHeight }" />
+			<SelectItems ref="select-items" :is-photo="true" :max-count="4" narrow :style="{ 'max-height': maxHeight }" />
 		</div>
 	</div>
 </template>
@@ -107,13 +96,6 @@ export default {
 	font-weight 500
 	text-align center
 	margin 16px 0 0 0
-.search-plus
-	padding 2px 18px 5px
-	font-size 3.23vw
-	position absolute
-	top 0
-	width 100%
-	background-color transparent
 .scroll-items::before
 	background -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%)
 	background -webkit-linear-gradient(top,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%)

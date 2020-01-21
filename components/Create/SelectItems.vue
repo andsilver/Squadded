@@ -1,19 +1,34 @@
 <template>
-	<div class="choose-items-section" :class="{ is_poll_tab: isPoll }">
-		<div class="choose-items mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
-			<ProductCard
-				v-for="post in available"
-				ref="items"
-				:key="post.guid"
-				:class="{ selected: post.selected }"
-				:item="post.item"
-				is-poll-post
-				@click.native="() => select(post)"
-			/>
+	<div style="width: 100%">
+		<v-text-field
+			ref="search-text"
+			v-model="searchText"
+			class="search-plus"
+			:class="{'for-photo': isPhoto, 'normal': !isPhoto}"
+			:hide-details="true"
+			:placeholder="$t('Search')"
+			clearable
+		>
+			<v-icon slot="prepend" color="#B8B8BA" size="22">
+				sqdi-magnifying-glass-finder
+			</v-icon>
+		</v-text-field>
+		<div class="choose-items-section" :class="{ is_poll_tab: isPoll }">
+			<div class="choose-items mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
+				<ProductCard
+					v-for="post in available"
+					ref="items"
+					:key="post.guid"
+					:class="{ selected: post.selected }"
+					:item="post.item"
+					is-poll-post
+					@click.native="() => select(post)"
+				/>
+			</div>
+			<!-- <p v-if="limitError" class="error-message">
+				{{ $t('tip.limitMessage') }}
+			</p> -->
 		</div>
-		<!-- <p v-if="limitError" class="error-message">
-			{{ $t('tip.limitMessage') }}
-		</p> -->
 	</div>
 </template>
 
@@ -46,17 +61,26 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		isPhoto: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data: () => ({
 		selected: [],
 		limitError: false,
+		searchText: '',
 	}),
 	computed: {
 		...mapState([
 			'wishlist',
 		]),
 		available () {
-			return this.wishlist && this.wishlist.filter(w => w.item !== this.exclude);
+			let available = this.wishlist && this.wishlist.filter(w => w.item !== this.exclude);
+			if (available && this.searchText) {
+				available = available.filter(w => w.item.title.toLowerCase().includes(this.searchText.toLowerCase()));
+			}
+			return available;
 		},
 	},
 	created () {
@@ -169,5 +193,53 @@ export default {
 .photo-main-sec .choose-items-section::before, .choose-items-section::after{
 	background: none;
 	height: 0;
+}
+.search-plus.normal {
+	&.v-text-field {
+		padding-top: 0px;
+		margin-top: 8px;
+		padding-bottom: 0;
+		font-size: 3.230vw;
+		font-weight: 500;
+		width: 100%;
+	}
+	.v-input__prepend-outer {
+		margin-right: 0.615vw;
+	}
+	&.v-input__append-outer, &.v-input__prepend-outer{
+		margin-bottom: 0px;
+		margin-top: 0px;
+	}
+	&.theme--light.v-input:not(.v-input--is-disabled) input {
+		color: #B8B8BA;
+	}
+	&.v-text-field input {
+		padding: 0px 2.153vw 0px!important;
+		font-size: 3.80vw;
+	}
+	i.v-icon.sqdi-magnifying-glass-finder {
+		font-size: 4.69vw !important;
+		color: black !important;
+	}
+	.v-input__icon.v-input__icon--clear {
+		background: black !important;
+	}
+	.v-input__control .v-input__append-inner .v-input__icon--clear{
+		background: black !important;
+
+		.v-icon{
+			color: white;
+			font-size: 16px;
+		}
+	}
+}
+
+.search-plus.for-photo {
+	padding: 2px 18px 5px;
+	font-size: 3.23vw;
+	position: absolute;
+	top: 0;
+	width: 100%;
+	background-color: transparent;
 }
 </style>
