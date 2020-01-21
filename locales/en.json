@@ -243,14 +243,7 @@
     },
     "unwatchRachel": "Unwatch Rachel",
     "addToMySquad": "Add to My Squad",
-    "removeRachel": "Remove Rachel",
-    "title": {
-      "singleItemPost": "Single",
-      "pollPost": "Poll",
-      "outfitPost": "Outfit",
-      "galleryPost": "Gallery",
-      "comments": "Comments"
-    }
+    "removeRachel": "Remove Rachel"
   },
   "publicToggle": {
     "forEveryone": "Public posts are seen by everyone",
