@@ -159,11 +159,22 @@ export default {
 		-moz-column-gap 3.07vw
 
 .load-new-button
-	width 130px
-	height 30px !important
+	padding 0 6.5vw !important
+	height 8.92vw !important
 	position absolute
 	top 20px
-	left calc(50% - 50px)
+	left 50%
 	z-index 9
 	text-transform none
+	-webkit-transform translate(-50%,-50%)
+	-ms-transform translate(-50%,-50%)
+	-o-transform translate(-50%,-50%)
+	transform translate(-50%,-50%)
+	-webkit-transition auto
+	transition auto
+	background-color #fff !important
+	letter-spacing 0
+	font-size 4VW
+	font-weight 600
+	box-shadow 0 0.92vw 4.61vw rgba(0,0,0,.25) !important
 </style>
