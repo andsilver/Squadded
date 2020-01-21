@@ -1,9 +1,18 @@
 <template>
 	<section v-if="!scrolled" class="user_statistics">
-		<h4 class="px-3 my_squad_title">
+		<!-- <h4 class="px-3 my_squad_title">
 			{{ $t('My Squad') }}
-		</h4>
+		</h4> -->
 		<section class="statistic">
+			<nuxt-link :to="{ path: `${userPath}/followers` }">
+				<v-list-item-title class="title">
+					{{ short(user.followers.count) }}
+				</v-list-item-title>
+				<v-list-item-subtitle class="subtitle">
+					{{ $t('user.InSquad') }}
+				</v-list-item-subtitle>
+			</nuxt-link>
+			<v-divider class="divider" inset vertical />
 			<nuxt-link :to="{ path: `${userPath}/followers` }">
 				<v-list-item-title class="title">
 					{{ short(user.followers.count) }}
@@ -62,7 +71,8 @@ export default {
 
 <style scoped>
 	.title {
-		font-weight: 500;
+		font-weight: 700;
+		font-size: 4.92VW !important;
 	}
 
 	.subtitle {
@@ -82,12 +92,13 @@ export default {
 	.statistic {
 		display: flex;
 		justify-content: space-around;
-		padding: 0 20%;
+		padding: 0 7.6vw;
 		text-align: center;
 	}
 
 	.user_statistics {
 		width: 100%;
+		margin-bottom: 8vw;
 	}
 
 	.divider {

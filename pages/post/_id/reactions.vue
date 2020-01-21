@@ -116,6 +116,7 @@ export default {
 			border-bottom 2px solid rgba(184,184,186,0.30)
 	span.user-name-type
 		width 100%
+		padding-right 2vw
 		.user-name
 			font-size 3.38vw
 			font-weight 600

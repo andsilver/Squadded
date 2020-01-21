@@ -20,23 +20,23 @@
 		</section>
 		<section class="profile_background_image">
 			<section class="background_shadow" />
-			<v-img height="122" src="https://picsum.photos/id/699/600/300" />
+			<v-img height="40.46vw" :src="require('~/assets/img/profile-cover-picture.svg')" />
 		</section>
 		<ProfileToolbar :user="user" />
 		<v-layout flex-column>
 			<v-list-item class="px-0 user_info">
 				<v-list-item-content align="center" class="py-1">
 					<userAvatar align="center" class="user_avatar my-0" :avatar="user.avatar" />
-					<userName class="mt-2" :name="user.name" />
+					<userName :name="user.name" />
+					<p align="center" class="user-biodata">
+						{{ user.bio }}
+					</p>
 					<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : ''" />
 				</v-list-item-content>
 			</v-list-item>
-			<userStatistics class="mb-4" :user="user" />
+			<userStatistics :user="user" />
 			<Follow ref="follow-btn" :user="user" class="follow" />
 			<Invitation v-if="invite" ref="invitation" :user="user" />
-			<p align="center">
-				{{ user.bio }}
-			</p>
 			<v-tabs
 				v-model="tabs"
 				class="px-1"
@@ -174,10 +174,10 @@ export default {
 	.tabs {
 		padding-bottom: 6%;
 		border-bottom: 2px solid rgba(0,0,0,.1);
-		font-size: 1em;
+		font-size: 4.30vw;
 		font-weight: 500;
-		opacity: .9;
 		color: #B8B8BA;
+		font-weight: 600;
 	}
 
 	.user_avatar {
@@ -186,7 +186,7 @@ export default {
 
 	.user_info {
 		background-color: transparent;
-		margin-top: 3%;
+		margin-top: 5.5vh;
 	}
 
 	.v-tab--active {
@@ -254,5 +254,10 @@ export default {
 
 	.fixed_follow_btn span {
 		font-size: .75em;
+	}
+	.user-biodata{
+		margin-top: 4.46vw;
+		font-size: 4.30vw;
+		color: #000000;
 	}
 </style>

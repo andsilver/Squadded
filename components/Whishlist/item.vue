@@ -162,7 +162,7 @@ export default {
 		margin: 0px 4.46vw 3vw;
 	}
 	.icon-mr {
-		margin-right: 1.53vw;
+		margin-right: 0.6vw;
 	}
 	.icon-count {
 		font-size: 3.23vw;

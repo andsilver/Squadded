@@ -21,10 +21,9 @@ export default {
 		position: relative;
 	}
 	img {
-		width: 28%;
+		width: 28.30vw;
 		border-radius: 50%;
-		border: 3px solid white;
-
+		border: 0.61vw solid white;
 		box-sizing: content-box;
 	}
 </style>

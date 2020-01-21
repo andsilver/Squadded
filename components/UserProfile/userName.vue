@@ -1,5 +1,7 @@
 <template>
-	<h4>{{ `@${name}` }}</h4>
+	<h4 class="username">
+		{{ `@${name}` }}
+	</h4>
 </template>
 
 <script>
@@ -13,5 +15,10 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="stylus" scoped>
+.username
+	font-size 3.69vw
+	margin-top 1.79vw
+	font-weight 600
+	color #B8B8BA
 </style>

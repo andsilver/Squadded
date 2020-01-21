@@ -5,11 +5,14 @@
 	>
 		<Menu v-if="user.isMe" ref="menu" :dark="isBgExist" @edit="edit" />
 		<GoBackBtn v-else :dark="isBgExist" />
-		<div class="flex-grow-1" />
+		<div class="flex-grow-1 user-full-name">
+			Jenyfer Smith
+		</div>
 		<v-btn
 			ref="share-btn"
 			icon
 			:dark="isBgExist"
+			class="hide-sec"
 			@click="share"
 		>
 			<v-icon>
@@ -119,6 +122,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+	.hide-sec
+		display none
 	.buttons
 		position relative
 	.v-btn
@@ -155,4 +160,12 @@ export default {
 		text-align center
 		font-weight 700
 		font-size .85em
+	.flex-grow-1.user-full-name
+		align-self center
+		display flex
+		justify-content center
+		padding-left 40px
+		font-size 4.30vw
+		color #fff
+		font-weight 700
 </style>

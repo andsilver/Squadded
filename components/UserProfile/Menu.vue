@@ -1,20 +1,20 @@
 <template>
 	<v-menu :attach="parentNode" bottom offset-y>
 		<template v-slot:activator="{ on }">
-			<v-btn icon class="button_more" :dark="dark" v-on="on">
+			<v-btn icon class="button_more" :dark="dark" v-on="on" @click="() => $emit('edit')">
 				<v-icon>
 					sqdi-more
 				</v-icon>
 			</v-btn>
 		</template>
 
-		<v-list>
+		<!-- <v-list>
 			<v-list-item>
 				<v-list-item-title @click="() => $emit('edit')">
 					{{ $t('user.edit') }}
 				</v-list-item-title>
 			</v-list-item>
-		</v-list>
+		</v-list> -->
 	</v-menu>
 </template>
 

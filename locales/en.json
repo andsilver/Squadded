@@ -263,8 +263,9 @@
   },
   "user": {
     "Follow": "Follow",
-    "Following": "Following",
-    "Followers": "Followers",
+    "Following": "Watching",
+    "Followers": "Watchers",
+    "InSquad": "In Squad",
     "followers": "{n} followers",
     "following": "{n} following",
     "Likes": "Likes",
