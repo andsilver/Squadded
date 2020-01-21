@@ -1,10 +1,14 @@
 <template>
-	<section>
-		<template v-if="showAll || post.comments.messages.length === 1">
-			<v-list v-if="post.comments.messages.length" ref="comments-list" class="comment-listing">
+	<section v-if="post.comments && post.comments.messages" :class="{'for-feed': forFeed}">
+		<template v-if="showAllComments || post.comments.messages.length === 1">
+			<v-list
+				v-if="post.comments.messages.length"
+				ref="comments-list"
+				class="comment-listing"
+			>
 				<Comment
-					v-for="comment in post.comments.messages"
-					:key="comment.correlationId || comment._id"
+					v-for="(comment, n) in post.comments.messages"
+					:key="n"
 					:comment="comment"
 					:post="post"
 				/>
@@ -13,19 +17,21 @@
 		<template v-else-if="post.comments.messages.length">
 			<Comment :comment="post.comments.messages[0]" :post="post" />
 			<v-btn
-				v-if="!showAll"
+				v-if="!showAllComments"
 				ref="show-all-btn"
-				class="ml-10 mb-10 font-weight-bold"
+				class="ml-7 font-weight-bold mb-2"
+				:class="{'mb-10': !forFeed}"
 				small
 				text
-				@click="showAll = true"
+				@click="showAllComments = true"
 			>
-				{{ $t('comment.view_all_comments', { n: post.comments.messages.length }) }}
+				{{ $t('comment.view_all_comments', { n: post.comments.messages.length - 1 }) }}
 			</v-btn>
 		</template>
 		<MessageInput
+			v-if="showInput"
 			ref="comment-input"
-			class="post_comment_input"
+			:class="forFeed ? 'post_comment_input_for_feed' : 'post_comment_input'"
 			:action="sendComment"
 			:placeholder="$t('input.placeholder')"
 			:post="post"
@@ -61,23 +67,38 @@ export default {
 			type: Boolean,
 			default: true,
 		},
+		forFeed: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data: () => ({
 		sendComment: `${PostStore}/${PostActions.sendComment}`,
+		showAllComments: true,
 	}),
+	computed: {
+		showInput() {
+			return !this.forFeed || (this.post.comments && this.post.comments.messages.length);
+		},
+	},
 	created () {
 		return prefetch({
 			guid: this.post.guid,
-			mutation: `${PostStore}/${PostMutations.receiveReaction}`,
+			mutation: `${PostStore}/${PostMutations.receiveComments}`,
 			store: this.$store,
 			type: 'fetchComments',
-		}).then((comments) => {
+			value: this.post.guid,
+			key: 'guid',
+		}).then(({ comments }) => {
 			const { post } = this;
 			const myUserId = this.$store.state.user.me.userId;
 			comments = comments.filter(c => !commentReported(c));
 			this.$store.commit(`${PostStore}/${PostMutations.resetComments}`, { comments, post, myUserId });
 			this.scroll();
 		});
+	},
+	mounted () {
+		this.showAllComments = this.showAll;
 	},
 	methods: {
 		scroll () {
@@ -114,8 +135,13 @@ export default {
 		position absolute
 		top -18px
 
+.post_comment_input_for_feed
+	width 100%
+	margin 0 0 24px
+
 .v-application.isTouch:not(.show-tabs) .post_comment_input
 	bottom 0
+
 .comment-listing
 	height calc(100vh - 230px)
 	overflow-y auto
@@ -124,6 +150,16 @@ export default {
 	margin-left -12px
 	margin-right -12px
 	padding-right 12px
+
 .show-tabs .comment-listing
 	height calc(100vh - 305px)
+
+.for-feed
+	.comment-listing
+		height unset !important
+		>>> .comment
+			margin-bottom 8px
+			padding-left 16px
+	>>> .comment
+		margin-bottom 8px
 </style>

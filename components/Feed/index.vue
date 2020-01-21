@@ -10,9 +10,15 @@
 		>
 			{{ $t('NewPosts') }}
 		</v-btn>
-		<template v-for="(post, n) in aggregatedItems">
-			<component :is="getComponent(post)" :key="n" :is-paired="paired" :post="post" />
-		</template>
+		<div v-for="(post, n) in aggregatedItems" :key="n">
+			<component :is="getComponent(post)" :is-paired="paired" :post="post" />
+			<Comments
+				v-if="showComments(post)"
+				:post="post"
+				:show-all="false"
+				:for-feed="true"
+			/>
+		</div>
 	</section>
 </template>
 
@@ -22,6 +28,7 @@ import MultiItemPost from '~/components/Posts/MultiItemPost';
 import SingleItemPost from '~/components/Posts/SingleItemPost';
 import PollPost from '~/components/Posts/PollPost';
 import GroupedPosts from '~/components/Posts/GroupedPosts';
+import Comments from '~/components/Comments';
 
 const MINUTES = 2; // 2 minutes
 
@@ -33,6 +40,7 @@ export default {
 		PollPost,
 		MultiItemPost,
 		GalleryPost,
+		Comments,
 	},
 	props: {
 		items: {
@@ -130,6 +138,9 @@ export default {
 		},
 		loadNewItems() {
 			this.$emit('loadNew');
+		},
+		showComments(post) {
+			return post.type && post.type !== 'groupedPosts' && !!this.getComponent(post);
 		},
 	},
 };

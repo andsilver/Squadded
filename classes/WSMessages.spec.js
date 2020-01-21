@@ -200,20 +200,24 @@ describe('WSMessages dispatch', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.addComment}`, { comment, post });
 	});
 
-	['comments', 'likes'].forEach((type) => {
-		it(`should accept reactions of type ${type}`, () => {
-			const reactions = {
-				comments: [{ text: 'text' }],
-				likes: [{ iLike: true }],
-			};
-			const msg = {
-				type,
-				[type]: reactions[type],
-			};
+	it('should accept reactions of type likes', () => {
+		const msg = {
+			type: 'likes',
+			likes: [{ iLike: true }],
+		};
 
-			wsMessages.dispatch(msg);
-			expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.receiveReaction}`, reactions[type]);
-		});
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.receiveReaction}`, msg.likes);
+	});
+
+	it('should accept reactions of type comments', () => {
+		const msg = {
+			type: 'comments',
+			comments: [],
+		};
+
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.receiveComments}`, msg);
 	});
 
 	it(`should commit visitor user to ${UserStore}/${UserMutations.setMe}`, () => {

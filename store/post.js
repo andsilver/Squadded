@@ -30,6 +30,7 @@ export const PostMutations = {
 	incrementVote: 'incrementVote',
 	postLoaded: 'postLoaded',
 	receiveReaction: 'receiveReaction',
+	receiveComments: 'receiveComments',
 	resetComments: 'resetComments',
 	resetLikes: 'resetLikes',
 	resquaddHasUpdated: 'resquaddHasUpdated',
@@ -82,6 +83,8 @@ export const mutations = {
 	},
 	[PostMutations.receiveReaction]: (state, reactions) => {
 	},
+	[PostMutations.receiveComments]: (state, reactions) => {
+	},
 	[PostMutations.resquaddHasUpdated]: (state, reactions) => {
 	},
 	[PostMutations.uploadURL]: (state, url) => {
@@ -90,6 +93,7 @@ export const mutations = {
 		comments.forEach((c) => {
 			c.byMe = c.author.guid === myUserId;
 		});
+		!post.comments && (post.comments = {});
 		post.comments.messages = comments;
 		post.comments.count = comments.length;
 	},

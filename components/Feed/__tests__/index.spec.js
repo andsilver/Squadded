@@ -1,6 +1,7 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import FeedComponent from '../index.vue';
+import Comments from '~/components/Comments';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import Store from '~/store';
 
@@ -93,5 +94,13 @@ describe('FeedComponent Empty State', () => {
 		wrapper.vm.$emit = jest.fn();
 		loadNewButton.trigger('click');
 		expect(wrapper.vm.$emit).toHaveBeenCalled();
+	});
+
+	it('should render comments for each post', () => {
+		wrapper.setProps({
+			...propsData,
+		});
+		const comments = wrapper.find(Comments);
+		expect(comments.exists()).toBe(true);
 	});
 });

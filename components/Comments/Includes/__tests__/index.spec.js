@@ -106,7 +106,7 @@ describe('Comments', () => {
 		const showAllBtn = wrapper.ref('show-all-btn');
 		expect(showAllBtn.exists()).toBe(true);
 		showAllBtn.trigger('click');
-		expect(wrapper.vm.showAll).toBe(true);
+		expect(wrapper.vm.showAllComments).toBe(true);
 		expect(wrapper.ref(COMMENTS_LIST).exists()).toBe(true);
 	});
 });

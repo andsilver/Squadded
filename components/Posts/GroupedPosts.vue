@@ -16,17 +16,26 @@
 				/>
 			</div>
 		</div>
+		<Comments
+			ref="post-comments"
+			class="mt-4 px-2"
+			:post="selected"
+			:show-all="false"
+			:for-feed="true"
+		/>
 	</Post>
 </template>
 
 <script>
 import Post from './Includes/Post';
 import ProductCard from './Includes/ProductCard';
+import Comments from '~/components/Comments';
 
 export default {
 	components: {
 		Post,
 		ProductCard,
+		Comments,
 	},
 	props: {
 		post: {

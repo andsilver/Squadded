@@ -44,7 +44,6 @@ export class WSMessages {
 	outfitPost = acceptPost;
 	galleryPost = acceptPost;
 
-	comments = receiveReaction;
 	likes = receiveReaction;
 
 	followers = squad;
@@ -66,6 +65,10 @@ export class WSMessages {
 			// TODO: gracefull report
 			// console.warn('Unknown message type', msg);
 		}
+	}
+
+	comments (message) {
+		this.store.commit(`${PostStore}/${PostMutations.receiveComments}`, message);
 	}
 
 	explore (message) {

@@ -1,6 +1,5 @@
 <template>
 	<v-img
-		:key="item.img"
 		:src="item.img"
 		@click="() => $emit('open')"
 	>
