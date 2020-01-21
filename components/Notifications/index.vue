@@ -31,24 +31,19 @@ export default {
 			},
 		},
 	},
+	data: () => ({
+		components: {
+			[NOTIFICATIONS.COMMENT]: Comment,
+			[NOTIFICATIONS.LIKE]: Like,
+			[NOTIFICATIONS.POLL_END]: PollEnd,
+			[NOTIFICATIONS.VOTE]: Vote,
+			[NOTIFICATIONS.ALERT]: Alert,
+			[NOTIFICATIONS.ACCEPT_SQUAD]: AcceptSquad,
+		},
+	}),
 	methods: {
 		getComponent (notification) {
-			switch (notification.type) {
-			case NOTIFICATIONS.COMMENT:
-				return Comment;
-			case NOTIFICATIONS.LIKE:
-				return Like;
-			case NOTIFICATIONS.POLL_END:
-				return PollEnd;
-			case NOTIFICATIONS.VOTE:
-				return Vote;
-			case NOTIFICATIONS.ALERT:
-				return Alert;
-			case NOTIFICATIONS.ACCEPT_SQUAD:
-				return AcceptSquad;
-			default:
-				return null;
-			}
+			return this.components[notification.type];
 		},
 	},
 };
