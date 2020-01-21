@@ -378,6 +378,7 @@ export default {
 		padding 0 4.53vw
 		font-size 3.38vw
 		font-weight 700
+		cursor pointer
 		.setting-label
 			&.report
 				background-image url('~assets/img/report.svg')

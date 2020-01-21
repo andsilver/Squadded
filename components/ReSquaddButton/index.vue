@@ -69,4 +69,12 @@ export default {
 	&.is-resquadded
 		background-color black
 		opacity 1
+.remove-button.resquadd.is-resquadded
+	background-color transparent
+	&.sqdi-squadded-icon:before
+		content ''
+		background-image url('~assets/img/remove-wl.svg')
+		width 3.69vw
+		height 3.69vw
+		background-size 3.69vw
 </style>

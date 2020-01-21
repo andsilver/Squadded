@@ -56,6 +56,7 @@
   "EnterUsername": "Enter your username",
   "YouCanAlwaysChange": "Only letters, digits and underscores. You can always change it later.",
   "Activities": "Activities",
+  "Posts": "Posts",
   "Wishlist": "Wishlist",
   "Comments": "Comments",
   "Likes": "Likes",
@@ -279,7 +280,7 @@
   },
   "wishlist": {
     "empty": "You don't have any items in your wishlist yet.",
-    "purchase": "PURCHASE"
+    "purchase": "Move to Bag"
   },
   "pairedItem": {
     "title": "View Item",
