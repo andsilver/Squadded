@@ -22,12 +22,16 @@ describe('Comments', () => {
 	let store;
 	let wrapper;
 	let showAll = true;
+	const $router = {
+		push: jest.fn(),
+	};
 
 	function mount () {
 		wrapper = shallowMount(Comments, {
 			localVue,
 			mocks: {
 				$t: msg => msg,
+				$router,
 			},
 			propsData: {
 				post,
@@ -106,7 +110,6 @@ describe('Comments', () => {
 		const showAllBtn = wrapper.ref('show-all-btn');
 		expect(showAllBtn.exists()).toBe(true);
 		showAllBtn.trigger('click');
-		expect(wrapper.vm.showAllComments).toBe(true);
-		expect(wrapper.ref(COMMENTS_LIST).exists()).toBe(true);
+		expect($router.push).toHaveBeenCalledWith(`/post/${post.guid}/reactions`);
 	});
 });

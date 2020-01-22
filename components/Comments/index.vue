@@ -23,13 +23,12 @@
 				:class="{'mb-10': !forFeed}"
 				small
 				text
-				@click="showAllComments = true"
+				@click="goToReactions"
 			>
-				{{ $t('comment.view_all_comments', { n: post.comments.messages.length - 1 }) }}
+				{{ $t('comment.view_all_comments', { n: post.comments.messages.length }) }}
 			</v-btn>
 		</template>
 		<MessageInput
-			v-if="showInput"
 			ref="comment-input"
 			:class="forFeed ? 'post_comment_input_for_feed' : 'post_comment_input'"
 			:action="sendComment"
@@ -77,11 +76,6 @@ export default {
 		sendComment: `${PostStore}/${PostActions.sendComment}`,
 		showAllComments: true,
 	}),
-	computed: {
-		showInput() {
-			return !this.forFeed || (this.post.comments && this.post.comments.messages.length);
-		},
-	},
 	created () {
 		return prefetch({
 			guid: this.post.guid,
@@ -112,6 +106,9 @@ export default {
 					behavior: 'smooth',
 				});
 			}, 10);
+		},
+		goToReactions() {
+			this.$router.push(`/post/${this.post.guid}/reactions`);
 		},
 	},
 };
