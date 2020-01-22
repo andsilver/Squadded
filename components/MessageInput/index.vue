@@ -58,6 +58,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		forFeed: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data: () => ({
 		textValue: '',
@@ -72,7 +76,9 @@ export default {
 	},
 	mounted () {
 		this.textValue = this.text;
-		this.$refs['text-field'].focus();
+		if (!this.forFeed) {
+			this.$refs['text-field'].focus();
+		}
 	},
 	methods: {
 		send () {

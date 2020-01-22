@@ -35,6 +35,7 @@
 			:action="sendComment"
 			:placeholder="$t('input.placeholder')"
 			:post="post"
+			:for-feed="forFeed"
 			user-link
 			@send="scroll"
 		/>
@@ -94,7 +95,9 @@ export default {
 			const myUserId = this.$store.state.user.me.userId;
 			comments = comments.filter(c => !commentReported(c));
 			this.$store.commit(`${PostStore}/${PostMutations.resetComments}`, { comments, post, myUserId });
-			this.scroll();
+			if (!this.forFeed) {
+				this.scroll();
+			}
 		});
 	},
 	mounted () {

@@ -5,7 +5,7 @@ const { FEED_STORE_LIMIT } = process.env;
 
 export const state = () => ({
 	items: [],
-	loading: true,
+	loading: false,
 	allLoaded: false,
 	loadedNew: false,
 });
@@ -72,6 +72,7 @@ export const actions = {
 		if (rootState.feed.allLoaded || rootState.feed.loading) {
 			return;
 		}
+		rootState.feed.loading = true;
 		const msg = { type: 'fetchPosts' };
 		const items = getters[FeedGetters.items];
 		if (loadNew || !items || !items.length) {
