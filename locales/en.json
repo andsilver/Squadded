@@ -262,7 +262,7 @@
     "tapPhotos": "tap photos for details"
   },
   "user": {
-    "Follow": "Follow",
+    "Follow": "Watch",
     "Following": "Watching",
     "Followers": "Watchers",
     "InSquad": "In Squad",
@@ -277,6 +277,16 @@
       "text": "@{user} wants to shop with you!\n Do you want @{user} to join your squad?",
       "accept": "accept",
       "deny": "deny"
+    },
+    "action": {
+      "reportUser": "Report User",
+      "Action": "Action",
+      "report": "Report",
+      "PushWatchers": "Push to watchers",
+      "Sharelink": "Share link",
+      "AddMySquad": "Add to My Squad",
+      "UnwatchSophie": "Unwatch Sophie",
+      "BlockSophie": "Block Sophie"
     }
   },
   "wishlist": {

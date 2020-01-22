@@ -49,20 +49,24 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.v-list-item
 	.v-btn
 	&.follow-btn
 		padding-left 32px
-		background-image url('~assets/img/plus.svg')
-		background-size 2.769vw
+		background-image url('~assets/img/eye.svg')
+		background-size 3.40vw
 		background-position-y center
-		background-position-x 3.07vw
-		width 23.076vw
+		background-position-x 4.7vw
+		width 26.92vw
 		font-size 2.153vw
+		font-weight 700
+		padding-left 8vw !important
 		&.following
-			background-color #F4F4F5 !important
-			border-color #F4F4F5 !important
+			background-color #F5F5F5 !important
+			border-color #F5F5F5 !important
 			color #000
 			background-image url('~assets/img/checked.svg')
-			width 27.69vw
+			width: 30VW
+			background-size 2.81vw
+			padding-left 6vw
+			background-position-x 4.07vw
 </style>

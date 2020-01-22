@@ -40,8 +40,14 @@
 					{{ $t('user.edit') }}
 				</Button>
 			</div>
+			<div v-if="!user.isMe" class="follow-button-sec  has-notification">
+				<span class="insta-image-sec image-section"><img src="~assets/img/profile-Instagram.svg" class="insta-image"></span>
+				<Follow ref="follow-btn" :user="user" class="follow" />
+				<span v-if="show_notification" class="notification-image-sec image-section" @click="toggleNotification"><img src="~assets/img/user-notifications-icon.svg" class="notification-image"></span>
+				<span v-if="!show_notification" class="notification-image-sec image-section" @click="toggleNotification"><img src="~assets/img/user-block-notifications.svg" class="notification-image"></span>
+				<Actions :user="user" class="popup-menu" />
+			</div>
 			<userStatistics :user="user" />
-			<Follow ref="follow-btn" :user="user" class="follow" />
 			<Invitation v-if="invite" ref="invitation" :user="user" />
 			<v-tabs
 				v-model="tabs"
@@ -78,6 +84,7 @@ import userName from './userName';
 import userMention from './userMention';
 import userStatistics from './userStatistics';
 import Invitation from './Invitation';
+import Actions from './Actions';
 import Follow from '~/components/common/Follow';
 import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
@@ -102,6 +109,7 @@ export default {
 		Whishlist,
 		NotSignedInDialog,
 		Button,
+		Actions,
 	},
 	asyncData ({ store, params, redirect, query }) {
 		if (!params.id) {
@@ -123,6 +131,7 @@ export default {
 		tabs: 0,
 		isScrolled: false,
 		invite: false,
+		show_notification: false,
 	}),
 	computed: {
 		...mapState([
@@ -168,6 +177,9 @@ export default {
 		edit () {
 			this.$router.push('/profile-settings');
 		},
+		toggleNotification () {
+			this.show_notification = !this.show_notification;
+		},
 	},
 };
 </script>
@@ -178,8 +190,8 @@ export default {
 	}
 
 	.v-btn.follow {
-		padding: 4.5% 14%;
-		height: auto;
+		height: 9.23vw;
+		margin: 0;
 	}
 
 	.tabs {
@@ -277,12 +289,31 @@ export default {
 		justify-content: center;
 		margin: 6.24vw 0;
 	}
-	.edit-button-sec span {
+	.edit-button-sec span{
 		display: flex;
 	}
 	img.insta-image {
 		width: 6.76vw;
 		margin-right: 6.29vw;
+	}
+	img.notification-image {
+		width: 5.53vw;
+		margin-left: 6.29vw;
+	}
+	.follow-button-sec{
+		margin: 6.24vw 0;
+		display: grid;
+		grid-template-columns: 1fr 13.05vw 1fr 1fr;
+		position: relative;
+	}
+	.follow-button-sec.has-notification{
+		grid-template-columns: 1fr 13.05vw 1fr 11.82vw 1fr;
+	}
+	.follow-button-sec span {
+		display: flex;
+	}
+	.insta-image-sec.image-section{
+		grid-column-start: 2;
 	}
 	button.edit-button.v-btn.v-btn--depressed.v-btn--rounded.theme--dark.v-size--default {
 		height: 9.23vw;
@@ -292,5 +323,10 @@ export default {
 		line-height: 4.30vw;
 		letter-spacing: 1.5px;
 		margin: 0;
+	}
+	.popup-menu {
+		display: flex;
+		align-self: center;
+		margin-left: auto;
 	}
 </style>

@@ -5,7 +5,7 @@
 	>
 		<Menu v-if="user.isMe" ref="menu" :dark="isBgExist" @edit="edit" />
 		<GoBackBtn v-else :dark="isBgExist" />
-		<div class="flex-grow-1 user-full-name">
+		<div class="flex-grow-1 user-full-name" :class="{ is_me: user.isMe }">
 			Jenyfer Smith
 		</div>
 		<v-btn
@@ -20,6 +20,7 @@
 			</v-icon>
 		</v-btn>
 		<v-btn
+			v-if="user.isMe"
 			ref="add-user-btn"
 			icon
 			:dark="isBgExist"
@@ -164,8 +165,9 @@ export default {
 		align-self center
 		display flex
 		justify-content center
-		padding-left 40px
 		font-size 4.30vw
 		color #fff
 		font-weight 700
+		&.is_me
+			padding-left 40px
 </style>
