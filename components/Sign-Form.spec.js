@@ -23,6 +23,7 @@ describe('SignForm', () => {
 	const EMAIL_FIELD = 'email-field';
 	const PIN_FIELD = 'pin-field';
 	const SIGNIN_BTN = 'signin-button';
+	const SIGNUP_OTP_BTN = 'signup-otp-btn';
 
 	beforeEach(() => {
 		wrapper = shallowMount(SignForm, {
@@ -48,10 +49,18 @@ describe('SignForm', () => {
 		expect(signinBtn.exists()).toBe(true);
 	});
 
-	it('should call requestOtp', () => {
+	it('should call requestOtp signin', () => {
 		wrapper.setData({ errors: { email: false } });
 		const signinBtn = wrapper.ref(SIGNIN_BTN);
 		signinBtn.trigger('click');
+		expect(requestOtp).toHaveBeenCalledWith(email);
+		expect(wrapper.vm.otpRequested).toBe(true);
+	});
+
+	it('should call requestOtp signup', () => {
+		wrapper.setData({ errors: { email: false }, signup: true });
+		const signupOtpBtn = wrapper.ref(SIGNUP_OTP_BTN);
+		signupOtpBtn.trigger('click');
 		expect(requestOtp).toHaveBeenCalledWith(email);
 		expect(wrapper.vm.otpRequested).toBe(true);
 	});

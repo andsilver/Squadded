@@ -99,13 +99,15 @@
 
 		<v-btn
 			v-if="signup"
+			ref="signup-otp-btn"
 			class="full-width sendmeotp-btn"
 			color="primary"
 			large
 			depressed
-			@click="validate"
+			:disabled="loginDisabled"
+			@click="() => emailLogin()"
 		>
-			{{ $t('form.send_me_otp') }}
+			{{ !otpRequested ? $t('form.send_me_otp') : $t('form.login') }}
 		</v-btn>
 
 		<v-btn
