@@ -7,6 +7,7 @@
 		<GoBackBtn v-else :dark="isBgExist" />
 		<div class="flex-grow-1 user-full-name" :class="{ is_me: user.isMe }">
 			Jenyfer Smith
+			<!-- TODO: Replace with User Full name which now functional yet -->
 		</div>
 		<v-btn
 			ref="share-btn"

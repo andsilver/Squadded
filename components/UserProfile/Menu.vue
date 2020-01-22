@@ -7,14 +7,6 @@
 				</v-icon>
 			</v-btn>
 		</template>
-
-		<!-- <v-list>
-			<v-list-item>
-				<v-list-item-title @click="() => $emit('edit')">
-					{{ $t('user.edit') }}
-				</v-list-item-title>
-			</v-list-item>
-		</v-list> -->
 	</v-menu>
 </template>
 

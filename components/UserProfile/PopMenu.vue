@@ -45,7 +45,7 @@
 				</v-list-item>
 				<v-list-item class="comment-menu-unwatch comment-setting-option">
 					<v-list-item-title class="setting-label unwatch">
-						{{ $t(`user.action.UnwatchSophie`) }}
+						{{ $t(`user.action.Unwatch`) }}
 					</v-list-item-title>
 				</v-list-item>
 				<v-list-item class="comment-menu-report comment-setting-option">
@@ -55,7 +55,7 @@
 				</v-list-item>
 				<v-list-item class="comment-menu-rmtomysquad comment-setting-option">
 					<v-list-item-title class="setting-label rmtomysquad">
-						{{ $t(`user.action.BlockSophie`) }}
+						{{ $t(`user.action.Block`) }}
 					</v-list-item-title>
 				</v-list-item>
 			</v-list>
