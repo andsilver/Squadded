@@ -52,9 +52,11 @@
 			flat
 			dense
 			class="email-field"
+			:class="{ error_email: showErrorMsg}"
 			hide-details
 			@update:error="(e) => errorHandle(e, 'email')"
 		/>
+		<span v-if="showErrorMsg" class="email-velid-message">{{ $t('form.rules.email.valid') }}</span>
 		<span class="comment-msg">{{ $t('Messageregarding') }}</span>
 		<v-text-field
 			v-if="otpRequested"
@@ -156,6 +158,40 @@
 			color #000000
 			line-height 4.92vw
 			font-weight 500
+	span.email-velid-message
+		background #FD6256
+		border-radius 1.53vw
+		height 6.76vw
+		text-align center
+		font-size 3.38vw
+		color #fff
+		display flex
+		align-items center
+		justify-content center
+		font-weight 500
+		line-height 4.61vw
+		margin-top 3.07vw
+	span.comment-msg
+		color #B8B8BA
+		font-weight 500
+		font-size 3.38vw
+		text-align center
+		display block
+		line-height 4.61vw
+		margin-bottom 5.89vw
+		margin-top 2.26vw
+	button.full-width.sendmeotp-btn
+		display block
+		width 43.84vw
+		margin 0 auto
+		background-color #000000 !important
+		border-radius 3.07vw
+		height 12.30vw !important
+		font-size 2.61vw
+		font-weight 700
+		line-height 4.3vw
+		letter-spacing 2px
+		text-transform uppercase
 .email-field
 	border 0.30vw solid #DBDBDB
 	border-radius 3.07vw
@@ -169,26 +205,12 @@
 	.v-input__control
 		height 10.76vw !important
 		min-height auto !important
-.comment-msg
-	color #B8B8BA
-	text-align center
-	display block
-	margin 2.26vw 0 5.89vw
-	font-size 3.38vw
-.sendmeotp-btn
-	width 43.84vw
-	height 12.30vw !important
-	border-radius 3.07vw
-	margin 0 auto
-	display block
-	font-size 2.61vw !important
-	letter-spacing 2px
-	text-transform uppercase !important
-	font-weight 700
+.email-field.error_email
+	border 0.3vw solid #FD6256
 </style>
 
 <script>
-import { requestOtp, loginWithPIN } from '~/services/otp';
+// import { requestOtp, loginWithPIN } from '~/services/otp';
 
 export default {
 	data: function () {
@@ -224,6 +246,7 @@ export default {
 				email: true,
 				pin: true,
 			},
+			showErrorMsg: false,
 		};
 	},
 	computed: {
@@ -246,15 +269,17 @@ export default {
 		},
 		emailLogin() {
 			if (!this.otpRequested) {
-				requestOtp(this.email);
-				this.otpRequested = true;
+				// requestOtp(this.email);
+				// this.otpRequested = true;
+				// console.log(this.email);
 				this.errors.email = false;
-				return;
+				this.showErrorMsg = true;
+				// return;
 			}
 
-			loginWithPIN(+this.pin, this.email).then(({ userId, token }) => {
+			/* loginWithPIN(+this.pin, this.email).then(({ userId, token }) => {
 				localStorage.setItem('userToken', token);
-			});
+			}); */
 		},
 		errorHandle(event, field) {
 			this.errors[field] = event;
