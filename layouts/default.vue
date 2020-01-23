@@ -103,7 +103,7 @@ export default {
 
 <style lang="stylus" scoped>
 .v-content
-	overflow hidden scroll
+	overflow hidden auto
 	.show-tabs &
 		padding-bottom 65px !important
 .v-content >>> .v-content__wrap,

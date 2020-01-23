@@ -13,7 +13,7 @@
 		<div v-for="(post, n) in aggregatedItems" :key="n">
 			<component :is="getComponent(post)" :is-paired="paired" :post="post" />
 			<Comments
-				v-if="showComments(post)"
+				v-if="showComments(post) && !paired"
 				:post="post"
 				:show-all="false"
 				:for-feed="true"
