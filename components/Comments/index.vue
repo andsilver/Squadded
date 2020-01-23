@@ -11,15 +11,16 @@
 					:key="n"
 					:comment="comment"
 					:post="post"
+					:for-feed="forFeed"
 				/>
 			</v-list>
 		</template>
 		<template v-else-if="post.comments.messages.length">
-			<Comment :comment="post.comments.messages[0]" :post="post" />
+			<Comment :comment="post.comments.messages[0]" :post="post" :for-feed="forFeed" />
 			<v-btn
 				v-if="!showAllComments"
 				ref="show-all-btn"
-				class="ml-7 font-weight-bold mb-2"
+				class="ml-7 font-weight-bold mb-2 allcomment"
 				:class="{'mb-10': !forFeed}"
 				small
 				text
@@ -155,11 +156,27 @@ export default {
 	height calc(100vh - 305px)
 
 .for-feed
+	.allcomment.v-btn
+		font-size 2.92vw
+		text-transform inherit
+		letter-spacing 0
+		font-weight 600
+		line-height 3.66vw
+		margin-bottom 3.83vw !important
+		height auto !important
+	.post_comment_input_for_feed
+		.v-text-field input
+			font-size 3.23vw
+			font-weight 500
+			line-height 4.30vw
+			color #B8B8BA
+		.v-input__slot
+			background #ffffff !important
 	.comment-listing
 		height unset !important
 		>>> .comment
 			margin-bottom 8px
 			padding-left 16px
 	>>> .comment
-		margin-bottom 8px
+			margin-bottom 3.01vw
 </style>

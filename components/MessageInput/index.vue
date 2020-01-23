@@ -9,7 +9,7 @@
 			solo
 			flat
 			dense
-			background-color="#F4F4F5"
+			:background-color="!forFeed ? '#F4F4F5' : '#FFFFFF'"
 			class="message-input"
 			@keydown="keydown"
 		>
@@ -132,4 +132,8 @@ body .v-application .message-icon
 		background-repeat no-repeat
 		background-position 4px
 		background-size 4.35vw
+
+.for-feed .message-input
+	border 0.307vw solid #DBDBDB
+	border-left 0
 </style>

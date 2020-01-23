@@ -117,8 +117,9 @@ export default {
 		min-width 0
 		min-height 0
 .user_name
-	font-size 4VW
+	font-size 3.23vw
 	font-weight 600
+	line-height 4vw
 .user_timestamp
 	font-size 3.230vw
 	font-weight 400
@@ -142,6 +143,7 @@ export default {
 		font-weight 600
 	.v-list-item__avatar
 		margin-top 0.46vw
+		margin-bottom 0
 .nofification-layout
 	.v-list-item__avatar
 		margin-top 0.46vw
@@ -157,4 +159,10 @@ export default {
 	.user_name
 		font-size 3.23vw
 		line-height 3.69vw
+.for-feed .message-user-image
+	background-color #FFFFFF
+	border-top-left-radius 3.07vw
+	border-bottom-left-radius 3.07vw
+	border 0.307vw solid #DBDBDB
+	border-right 0
 </style>

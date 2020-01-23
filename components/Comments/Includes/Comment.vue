@@ -19,13 +19,14 @@
 				class="comment_text"
 			>{{ comment.text }}</span>
 			<span
+				v-if="!forFeed"
 				class="message-time"
 			>
 				{{ timeString }}
 			</span>
 		</p>
 		<!--Since at this moment we don't have any functionality in PopMenu for User->ME, we are not displaying it for such User at all-->
-		<PopMenu :comment="comment" :post="post" />
+		<PopMenu v-if="!forFeed" :comment="comment" :post="post" />
 	</section>
 </template>
 
@@ -48,6 +49,10 @@ export default {
 		post: {
 			type: Object,
 			required: true,
+		},
+		forFeed: {
+			type: Boolean,
+			default: false,
 		},
 	},
 	computed: {
@@ -93,10 +98,13 @@ export default {
 		line-height 4VW
 		margin-bottom 0 !important
 		margin-right -5px
+		align-self center
 
 	.comment_text
-		color #000000
+		color #B8B8BA
 		font-weight 400
+		font-size 3.23vw
+		line-height 3.69vw
 
 	.comment_like_button
 		width 36px
