@@ -120,6 +120,8 @@
 <script>
 // import { requestOtp, loginWithPIN } from '~/services/otp';
 
+// TODO: Logic for send OTP on email thats's why i have commented code
+
 export default {
 	data: function () {
 		return {
@@ -179,10 +181,14 @@ export default {
 			if (!this.otpRequested) {
 				// requestOtp(this.email);
 				// this.otpRequested = true;
-				// console.log(this.email);
-				this.errors.email = false;
-				this.showErrorMsg = true;
-				// return;
+				// this.errors.email = true;
+				if (/.+@.+\..+/.test(this.email)) {
+					this.showErrorMsg = false;
+					this.$emit('sendOtp');
+				} else {
+					this.showErrorMsg = true;
+				}
+				// TODO: Logic for send OTP on email thats's why i have commented code
 			}
 
 			/* loginWithPIN(+this.pin, this.email).then(({ userId, token }) => {
