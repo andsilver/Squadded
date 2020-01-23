@@ -48,8 +48,10 @@
   "ShopWithYourFriendsOn": "Shop with your friends on",
   "PoweredBy": "POWERED BY",
   "Signin": "Sign in",
+  "enterCode": "Enter Code",
   "UseOneTimeCode": "Use one-time code",
   "noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
+  "spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
   "Messageregarding": "Message regarding phone charges",
   "PickUsername": "Pick a username",
   "StartBuildingYourSquad": "You're almost done! After this, you'll start building your squad.",
@@ -123,7 +125,7 @@
       },
       "email": {
         "required": "E-mail is required",
-        "valid": "E-mail must be valid"
+        "valid": "Please enter a valid email"
       },
       "password": {
         "required": "Password is required",
@@ -144,7 +146,8 @@
     "only_used_for_validation": "Only used for validation",
     "pin": "PIN",
     "send_me_otp": "Send code",
-    "done": "Done"
+    "done": "Done",
+    "validate": "Validate"
   },
   "feed": {
     "isEmpty": "There is no items yet"

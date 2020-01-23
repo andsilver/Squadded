@@ -10,37 +10,6 @@
 			</h3>
 			<span>{{ $t('noPasswordRemember') }}</span>
 		</div>
-		<div v-if="!signup">
-			<div class="my-4">
-				<span>{{ $t('or') }}</span>
-			</div>
-			<v-text-field
-				v-if="!signup"
-				v-model="token"
-				:label="Token"
-			/>
-			<v-btn
-				class="full-width my-4"
-				color="primary"
-				large
-				depressed
-				@click="injectToken"
-			/>
-		</div>
-
-		<div v-if="!signup" class="my-4">
-			<span>{{ $t('or') }}</span>
-		</div>
-
-		<v-text-field
-			v-if="signup"
-			v-model="name"
-			:rules="nameRules"
-			:label="$t('form.name')"
-			required
-			class="hide-element"
-		/>
-
 		<v-text-field
 			ref="email-field"
 			v-model="email"
@@ -58,47 +27,6 @@
 		/>
 		<span v-if="showErrorMsg" class="email-velid-message">{{ $t('form.rules.email.valid') }}</span>
 		<span class="comment-msg">{{ $t('Messageregarding') }}</span>
-		<v-text-field
-			v-if="otpRequested"
-			ref="pin-field"
-			v-model="pin"
-			:rules="pinRules"
-			:label="$t('form.pin')"
-			type="number"
-			required
-			@update:error="(e) => errorHandle(e, 'pin')"
-		/>
-
-		<v-checkbox
-			v-if="signup"
-			v-model="terms"
-			:rules="[v => !!v || $t('form.terms.message')]"
-			:label="$t('form.terms.label')"
-			required
-			:hide-details="true"
-			class="small hide-element"
-		/>
-
-		<v-checkbox
-			v-if="signup"
-			v-model="allowContact"
-			:rules="[v => !!v || $t('form.allowContact.message')]"
-			:label="$t('form.allowContact.label')"
-			required
-			:hide-details="true"
-			class="small hide-element"
-		/>
-
-		<v-checkbox
-			v-if="signup"
-			v-model="above16"
-			:rules="[v => !!v || $t('form.age.messsage')]"
-			:label="$t('form.age.label')"
-			required
-			:hide-details="true"
-			class="small hide-element"
-		/>
-
 		<v-btn
 			v-if="signup"
 			ref="signup-otp-btn"
@@ -111,30 +39,10 @@
 		>
 			{{ !otpRequested ? $t('form.send_me_otp') : $t('form.login') }}
 		</v-btn>
-
-		<v-btn
-			v-if="!signup"
-			ref="signin-button"
-			class="full-width my-4"
-			color="primary"
-			large
-			depressed
-			:disabled="loginDisabled"
-			@click="() => emailLogin()"
-		>
-			{{ !otpRequested ? $t('form.send_me_otp') : $t('form.login') }}
-		</v-btn>
-
-		<div class="m2 hide-element">
-			<span v-if="signup">{{ $t('form.onboard') }} <a @click="toggle">{{ $t('form.login') }}</a></span>
-			<span v-if="!signup">{{ $t('form.needAnAccount') }} <a @click="toggle">{{ $t('form.signup') }}</a></span>
-		</div>
 	</v-form>
 </template>
 
 <style lang="stylus">
-.hide-element
-	display none
 .v-form
 	.small.v-input
 		margin-top 0
@@ -212,6 +120,8 @@
 <script>
 // import { requestOtp, loginWithPIN } from '~/services/otp';
 
+// TODO: Logic for send OTP on email thats's why i have commented code
+
 export default {
 	data: function () {
 		return {
@@ -271,10 +181,14 @@ export default {
 			if (!this.otpRequested) {
 				// requestOtp(this.email);
 				// this.otpRequested = true;
-				// console.log(this.email);
-				this.errors.email = false;
-				this.showErrorMsg = true;
-				// return;
+				// this.errors.email = true;
+				if (/.+@.+\..+/.test(this.email)) {
+					this.showErrorMsg = false;
+					this.$emit('sendOtp');
+				} else {
+					this.showErrorMsg = true;
+				}
+				// TODO: Logic for send OTP on email thats's why i have commented code
 			}
 
 			/* loginWithPIN(+this.pin, this.email).then(({ userId, token }) => {
