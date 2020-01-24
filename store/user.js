@@ -81,6 +81,7 @@ export const actions = {
 			user: {
 				bio: user.bio,
 				private: user.private,
+				name: user.name,
 			},
 		});
 	},

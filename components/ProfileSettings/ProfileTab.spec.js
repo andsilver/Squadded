@@ -14,6 +14,9 @@ describe('Profile Settings Topbar', () => {
 	let store;
 	let localVue;
 	let user;
+	const $router = {
+		push: jest.fn(),
+	};
 
 	const NAME_FIELD = 'name-field';
 	const BIO_FIELD = 'bio-field';
@@ -32,6 +35,7 @@ describe('Profile Settings Topbar', () => {
 			localVue,
 			mocks: {
 				$t: msg => msg,
+				$router,
 			},
 		});
 	});
@@ -69,5 +73,17 @@ describe('Profile Settings Topbar', () => {
 		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
 		saveButton.trigger('click');
 		expect(store.dispatch).toHaveBeenCalledWith(`${UserStore}/${UserActions.setProfile}`, user);
+	});
+
+	it('should go back or profile page on save', async () => {
+		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
+		Object.defineProperty(global.history, 'length', {
+			get: jest.fn().mockReturnValueOnce(5).mockReturnValue(0),
+		});
+		history.back = jest.fn();
+		await wrapper.vm.saveProfile();
+		expect(history.back).toHaveBeenCalled();
+		await wrapper.vm.saveProfile();
+		expect($router.push).toHaveBeenCalledWith('/me');
 	});
 });

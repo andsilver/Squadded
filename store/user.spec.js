@@ -95,9 +95,11 @@ describe('User Store module', () => {
 	it('should set user', async () => {
 		const user = userMockBuilder().get();
 		const bio = chance.sentence();
+		const name = chance.first() + ' ' + chance.last();
 		const _private = chance.bool();
 		user.bio = bio;
 		user.private = _private;
+		user.name = name;
 		user.isMe = true;
 
 		await root.dispatch(`${UserStore}/${UserActions.setProfile}`, user);
@@ -107,9 +109,12 @@ describe('User Store module', () => {
 			user: {
 				bio,
 				private: _private,
+				name,
 			},
 		});
 
-		expect(root.state.user.me).toEqual(user);
+		expect(root.state.user.me.bio).toEqual(bio);
+		expect(root.state.user.me.private).toEqual(_private);
+		expect(root.state.user.me.name).toEqual(name);
 	});
 });

@@ -141,11 +141,16 @@ export default {
 			this.user.private = !this.user.private;
 			this.user = Object.assign({}, this.user);
 		},
-		saveProfile() {
-			this.$store.dispatch(
+		async saveProfile() {
+			await this.$store.dispatch(
 				`${UserStore}/${UserActions.setProfile}`,
 				this.user,
 			);
+			if (history.length) {
+				history.back();
+				return;
+			}
+			this.$router.push('/me');
 		},
 	},
 };
