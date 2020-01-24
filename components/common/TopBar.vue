@@ -9,8 +9,8 @@
 			<v-tab to="/feed">
 				{{ $t('My Squad') }}
 			</v-tab>
-			<v-tab to="/squadders">
-				{{ $t('Community') }}
+			<v-tab to="/all">
+				{{ $t('All') }}
 			</v-tab>
 		</v-tabs>
 		<section class="buttons">

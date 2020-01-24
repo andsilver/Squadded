@@ -4,12 +4,12 @@ export const ActivityStore = 'activity';
 
 export const state = () => ({
 	blog: null,
-	squadders: null,
+	community: null,
 	wishlist: null,
 	allLoaded: {
 		blog: false,
-		squadders: false,
 		wishlist: false,
+		community: false,
 	},
 	guid: {
 		blog: null,
@@ -67,7 +67,7 @@ export const mutations = {
 			return;
 		}
 		state.blog = state.blog && state.blog.filter(p => p.postId !== postId);
-		state.squadders = state.squadders && state.squadders.filter(p => p.postId !== postId);
+		state.community = state.community && state.community.filter(p => p.postId !== postId);
 		state.wishlist = state.wishlist && state.wishlist.filter(p => p.postId !== postId);
 	},
 	[ActivityMutations.removeWish]: (state, wish) => {
@@ -114,7 +114,7 @@ export const actions = {
 	},
 	[ActivityActions.fetchItems]: ({ rootState, commit }, { type, guid, loadNew }) => {
 		const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
-		if (type !== 'squadders' && guid !== rootState.activity.guid[type]) {
+		if (type !== 'community' && guid !== rootState.activity.guid[type]) {
 			commit(ActivityMutations[`clear${capitalized}`]);
 			rootState.activity.guid[type] = guid;
 			rootState.activity.allLoaded[type] = false;
@@ -123,7 +123,7 @@ export const actions = {
 			return;
 		}
 		const items = rootState.activity[type];
-		const mostRecent = items && items.length ? items[items.length - 1] : null;
+		const mostRecent = items && items.length && items[items.length - 1];
 		const msg = {
 			type: `fetch${capitalized}`,
 		};

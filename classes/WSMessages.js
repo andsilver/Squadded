@@ -16,7 +16,7 @@ async function acceptPost(message) {
 
 async function activity (message) {
 	const { type } = message;
-	const rawPostsList = message[type];
+	const rawPostsList = type === 'community' ? [...message.followers, ...message.community] : message[type];
 	if (type === 'wishlist') {
 		rawPostsList.forEach(w => (w.guid = w.item.itemId));
 	}
@@ -50,7 +50,7 @@ export class WSMessages {
 	following = squad;
 
 	blog = activity;
-	squadders = activity;
+	community = activity;
 	wishlist = activity;
 
 	constructor(store) {

@@ -279,19 +279,22 @@ describe('WSMessages dispatch', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: blog, type });
 	});
 
-	it(`should commit squadders to ${ActivityStore}/${ActivityMutations.setListOfType}`, async () => {
-		const squadders = ['somedata'];
-		const type = 'squadders';
+	it(`should commit community to ${ActivityStore}/${ActivityMutations.setListOfType}`, async () => {
+		const community = ['community'];
+		const followers = ['followers'];
+		const all = [...followers, ...community];
+		const type = 'community';
 		const msg = {
 			type,
-			squadders,
+			community,
+			followers,
 		};
-		store.getters[`${PostStore}/${PostGetters.getPostByIdList}`] = jest.fn().mockReturnValue(squadders);
+		store.getters[`${PostStore}/${PostGetters.getPostByIdList}`] = jest.fn().mockReturnValue(all);
 
 		wsMessages.dispatch(msg);
-		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, squadders);
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, all);
 		await flushPromises();
-		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: squadders, type });
+		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: all, type });
 	});
 
 	it(`should commit notifications to ${NotificationStore}/${NotificationMutations.receive}`, () => {

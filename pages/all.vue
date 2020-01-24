@@ -1,16 +1,16 @@
 <template>
-	<v-container v-if="socket.isAuth" class="layout-padding">
+	<v-container v-if="socket.isAuth" ref="main" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout>
-			<Preloader v-if="!squadders" ref="preloader" class="mt-8" />
-			<span v-else-if="!squadders.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
+			<Preloader v-if="!community" ref="preloader" class="mt-8" />
+			<span v-else-if="!community.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 			<Feed
 				v-else
 				ref="feed-layout"
-				:items="squadders"
+				:items="community"
 				:load-new="loadNew"
-				@loadMore="fetchSquadders"
-				@loadNew="() => fetchSquadders(true)"
+				@loadMore="fetchCommunity"
+				@loadNew="() => fetchCommunity(true)"
 			/>
 		</v-layout>
 	</v-container>
@@ -27,7 +27,7 @@ import { ActivityStore, ActivityActions } from '~/store/activity';
 const activities = createNamespacedHelpers(ActivityStore).mapState;
 
 export default {
-	name: 'SquaddersPage',
+	name: 'CommunityPage',
 	components: {
 		Feed,
 		Preloader,
@@ -38,7 +38,7 @@ export default {
 	}),
 	computed: {
 		...activities([
-			'squadders',
+			'community',
 		]),
 		...mapState([
 			'socket',
@@ -50,14 +50,14 @@ export default {
 	methods: {
 		async init() {
 			await onAuth(this.$store);
-			this.fetchSquadders(true);
+			this.fetchCommunity(true);
 			setTimeout(() => {
 				this.loadNew = true;
 			}, 60 * 1000);
 		},
-		fetchSquadders(loadNew = false) {
+		fetchCommunity(loadNew = false) {
 			this.loadNew = false;
-			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'squadders', loadNew });
+			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'community', loadNew });
 		},
 	},
 };
