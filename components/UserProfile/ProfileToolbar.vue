@@ -4,10 +4,9 @@
 		height="40"
 	>
 		<Menu v-if="user.isMe" ref="menu" :dark="isBgExist" @edit="edit" />
-		<GoBackBtn v-else :dark="isBgExist" />
-		<div class="flex-grow-1 user-full-name" :class="{ is_me: user.isMe }">
-			Jenyfer Smith
-			<!-- TODO: Replace with User Full name which now functional yet -->
+		<GoBackBtn v-else ref="go-back-btn" :dark="isBgExist" />
+		<div ref="screen-name" class="flex-grow-1 user-full-name" :class="{ is_me: user.isMe }">
+			{{ user.screenName }}
 		</div>
 		<v-btn
 			ref="share-btn"

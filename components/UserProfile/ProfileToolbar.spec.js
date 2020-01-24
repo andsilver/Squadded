@@ -13,6 +13,8 @@ describe('User Profile Toolbar', () => {
 	let wrapper;
 	let user;
 
+	const GO_BACK_BTN = 'go-back-btn';
+	const SCREEN_NAME = 'screen-name';
 	const MENU = 'menu';
 	const SHARE_BUTTON = 'share-btn';
 	const ADD_USER_BUTTON = 'add-user-btn';
@@ -44,11 +46,15 @@ describe('User Profile Toolbar', () => {
 
 		initLocalVue();
 
+		const goBackBtn = wrapper.ref(GO_BACK_BTN);
+		const screenName = wrapper.ref(SCREEN_NAME);
 		const menu = wrapper.ref(MENU);
 		const shareButton = wrapper.ref(SHARE_BUTTON);
 		const addUserButton = wrapper.ref(ADD_USER_BUTTON);
 		const shopButton = wrapper.ref(SHOP_BUTTON);
 
+		expect(goBackBtn.exists()).toBe(false);
+		expect(screenName.exists()).toBe(true);
 		expect(menu.exists()).toBe(true);
 		expect(shareButton.exists()).toBe(true);
 		expect(addUserButton.exists()).toBe(true);
@@ -62,7 +68,10 @@ describe('User Profile Toolbar', () => {
 		initLocalVue();
 
 		const menu = wrapper.ref(MENU);
+		const goBackBtn = wrapper.ref(GO_BACK_BTN);
+
 		expect(menu.exists()).toBe(false);
+		expect(goBackBtn.exists()).toBe(true);
 	});
 
 	it('should show share profile modal', () => {
