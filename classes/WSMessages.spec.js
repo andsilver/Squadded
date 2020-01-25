@@ -305,7 +305,7 @@ describe('WSMessages dispatch', () => {
 		};
 
 		wsMessages.dispatch(msg);
-		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.receive}`, notifications);
+		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.receive}`, { notifications });
 	});
 
 	it(`should dispatch resquadded to ${PostStore}/${PostActions.updateResquadd}`, () => {

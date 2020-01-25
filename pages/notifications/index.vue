@@ -11,11 +11,10 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import { prefetch } from '~/helpers';
 import BackBar from '~/components/common/BackBar';
 import Notifications from '~/components/Notifications';
 import Tabs from '~/components/Notifications/Tabs';
-import { NotificationStore, NotificationMutations } from '~/store/notification';
+import { NotificationStore, NotificationMutations, NotificationActions } from '~/store/notification';
 
 const notifMapState = createNamespacedHelpers(NotificationStore).mapState;
 
@@ -39,13 +38,7 @@ export default {
 	},
 	created () {
 		this.stayToView();
-		if (this.notifications.length) {
-			return;
-		}
-		prefetch({
-			store: this.$store,
-			type: 'fetchNotifications',
-		});
+		this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	},
 	destroyed () {
 		clearTimeout(this.stayTimeout);

@@ -133,7 +133,7 @@ export class WSMessages {
 	}
 
 	notifications (message) {
-		this.store.commit(`${NotificationStore}/${NotificationMutations.receive}`, message.notifications);
+		this.store.commit(`${NotificationStore}/${NotificationMutations.receive}`, { notifications: message.notifications });
 	}
 
 	ping () {

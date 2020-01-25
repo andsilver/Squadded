@@ -3,6 +3,7 @@ import VueNativeSock from 'vue-native-websocket';
 import { WSMessages } from '~/classes/WSMessages';
 import { WSToken } from '~/classes/WSToken';
 import { isHome } from '~/helpers';
+import { NotificationStore, NotificationActions } from '~/store/notification';
 
 export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
@@ -40,9 +41,14 @@ const signOut = (store, router) => {
 
 export const mutationListener = ctx => function mutationDispatcher (mutation, state) {
 	const { app, store, wsMessages } = ctx;
-	function fetchUser() {
+
+	const fetchUser = () => {
 		state.socket.$ws.sendObj({ type: 'fetchUser' });
-	}
+	};
+
+	const fetchNotifications = () => {
+		store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
+	};
 
 	if (mutation.type === 'SOCKET_ONOPEN') {
 		const $ws = new WSToken(state.socket._ws);
@@ -70,6 +76,7 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 				store.commit('SET_PENDING', false);
 			}
 			fetchUser();
+			fetchNotifications();
 		}
 
 		if (!state.socket.isAuth) {
