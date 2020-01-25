@@ -163,7 +163,7 @@ export default {
 		},
 		scrolled (e) {
 			// TODO calc actual height to tabs instead const
-			this.isScrolled = !!(window.scrollY > 300);
+			this.isScrolled = !!(window.scrollY > 350);
 		},
 		async promptFollow () {
 			await this.user;
