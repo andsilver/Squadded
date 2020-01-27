@@ -97,8 +97,10 @@ export default {
 	},
 	methods: {
 		selectPaired(itemId) {
-			const selectedPairedPost = this.available.find(i => i.item.itemId === itemId);
-			this.select(selectedPairedPost);
+			const selectedPairedPost = this.available && this.available.find(i => i.item.itemId === itemId);
+			if (selectedPairedPost) {
+				this.select(selectedPairedPost);
+			}
 		},
 		select (post) {
 			if (this.selected.length < this.maxCount || this.selected.includes(post)) {
