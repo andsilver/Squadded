@@ -157,4 +157,12 @@ export default {
 		width 100%
 .viewall-title
 	font-size 4.30vw
+.paired_hide_sec
+	-webkit-overflow-scrolling touch
+.paired_hide_sec::-webkit-scrollbar-thumb
+	background-color #B8B8BA
+	outline 0
+.paired_hide_sec::-webkit-scrollbar
+	width 5px
+	height auto
 </style>

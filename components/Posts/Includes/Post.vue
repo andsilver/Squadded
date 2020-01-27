@@ -110,6 +110,7 @@ export default {
 	font-size 3.692vw
 	font-weight 500
 	margin-bottom 3%
+	cursor pointer
 
 .placeholder
 	color #757575
@@ -122,6 +123,5 @@ export default {
 		padding 0 12px
 	.card_title
 		padding-right 12px !important
-		padding-left 12px !important
-
+		padding-left 12px !importan
 </style>

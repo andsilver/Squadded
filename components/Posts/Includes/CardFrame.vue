@@ -142,6 +142,7 @@ export default {
 		&.is_poll
 			margin-bottom 15px
 .card_frame
+	cursor pointer
 	border-radius 0 !important
 	box-shadow rgba(0, 0, 0, 0.1) 0px 0.92vw 6.153vw
 
@@ -149,6 +150,8 @@ export default {
 		margin-top 2%
 		&.card_inline
 			position relative
+			padding-left 0
+			padding-right 0
 	.post_price
 		padding 0
 		span
@@ -193,6 +196,7 @@ export default {
 		&.bag_inline
 			top 8%
 			bottom auto
+			right 0
 
 	.sqdi-shopping-bag-2:before
 		width 30px
@@ -209,6 +213,7 @@ export default {
 			margin-top 4%
 		.post_title
 			width 100%
+			margin-top 8px
 	.tap-photo
 		font-size 3.3846vw
 		text-align center
@@ -217,9 +222,10 @@ export default {
 		color #B8B8BA
 		font-weight 500
 	.refresh-icon
+		cursor pointer
 		position absolute
 		top 18%
-		right 27%
+		right 21%
 		.refresh-logo
 			width: 4.92VW;
 		.refresh-count
@@ -233,7 +239,7 @@ export default {
 			text-align center
 			color #fff
 			position absolute
-			bottom 5.307vw
+			bottom 4.307vw
 			left 3.307vw
 			line-height: 3.7vw
 &.single-item
@@ -284,7 +290,7 @@ export default {
 		box-shadow	none
 .poll-item
 	.refresh-icon
-		right 30%
+		right 23%
 		top 9%
 	.buy_button.bag_inline
 		top -2%

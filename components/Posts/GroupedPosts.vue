@@ -1,6 +1,6 @@
 <template>
 	<Post ref="grouped-post" :post="selected" group-post class="grouped-post">
-		<div class="overflow-x-auto d-flex px-2">
+		<div class="overflow-x-auto d-flex px-2 pt-3 fancy_scroll">
 			<div v-for="(item, index) of post.items" :key="index" class="grouped-post-item">
 				<ProductCard
 					ref="product-card"
@@ -73,4 +73,13 @@ export default {
 .grouped-post
 	margin-left -12px
 	margin-right -12px
+.fancy_scroll
+	-webkit-overflow-scrolling touch
+.fancy_scroll::-webkit-scrollbar-thumb
+	background-color #B8B8BA
+	outline 0
+.fancy_scroll::-webkit-scrollbar
+	width 5px
+	height 5px
+
 </style>

@@ -30,7 +30,8 @@
 				</div>
 			</CardFrame>
 			<div v-if="!isPaired" class="scroll-section" :class="{ shifted }">
-				<div class="scroll-items" :style="{ 'max-height': maxHeight }">
+				<span class="close" @click="fetch"><img src="~assets/img/close-white.svg" class="close-image"></span>
+				<div class="scroll-items fancy_scroll" :style="{ 'max-height': maxHeight }">
 					<ProductCard
 						v-for="item in post.items"
 						:key="item.itemId"
@@ -134,6 +135,30 @@ export default {
 .scroll-section
 	display inline-block
 	vertical-align top
+	.close
+		position absolute
+		opacity 0
+		width 8.61vw
+		height 8.61vw
+		background-color rgba(0,0,0,0.20)
+		z-index: 1
+		top: 1.92vw
+		left: 1.92vw
+		border-radius 50%
+		display flex
+		justify-content center
+		align-items center
+		transition all .2s
+		cursor pointer
+		img.close-image
+			width 3.69vw
+			height 3.69vw
+		&:hover
+			width 9.53vw
+			height 9.53vw
+			background-color rgba(0,0,0,0.40)
+	&.shifted .close
+		opacity 1
 .multi-item
 	width 100%
 	transition-property margin-left
@@ -156,7 +181,7 @@ export default {
 	margin-left -4px
 	vertical-align top
 	padding 4px
-	width 65%
+	width 70%
 	&.shifted
 		&::before
 			background -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%)
@@ -204,4 +229,13 @@ export default {
 		margin-bottom 0 !important
 	.grid
 		grid-gap 0.3vw
+.isTouch .close
+	display none
+.fancy_scroll
+	-webkit-overflow-scrolling touch
+.fancy_scroll::-webkit-scrollbar-thumb
+	background-color #B8B8BA
+	outline 0
+.fancy_scroll::-webkit-scrollbar
+	width 5px
 </style>

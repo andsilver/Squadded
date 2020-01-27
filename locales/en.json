@@ -261,9 +261,9 @@
     "outfitError": "You need to select 2 to 4 items to create an outfit",
     "pollSelect": "Select 2 items you hesitate with",
     "pollError": "You need to select 2 items to create a poll",
-    "createPhotoTag": "tap photo to tag items",
-    "photoError": "Tap the items you want to tag to post a picture.",
-    "tapPhotos": "tap photos for details"
+    "createPhotoTag": "click photo to tag items",
+    "photoError": "Click the items you want to tag to post a picture.",
+    "tapPhotos": "click photos for details"
   },
   "user": {
     "Follow": "Watch",
