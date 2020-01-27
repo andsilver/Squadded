@@ -106,8 +106,10 @@
 		font-size 3.69vw
 		color #000000 !important
 		width 100%
-		text-align center
 		margin-top 2px
+		text-align center
+	input
+		z-index 99
 	.v-input__control
 		height 10.76vw !important
 		min-height auto !important
