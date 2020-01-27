@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="show">
+	<v-dialog v-model="show" persistent>
 		<v-card>
 			<v-card-title />
 			<v-card-text ref="text" class="text">
