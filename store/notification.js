@@ -1,7 +1,7 @@
 export const NotificationStore = 'notification';
-export const TIMEOUT = 5; // 5 seconds
+export const TIMEOUT_SECONDS = 5; // 5 seconds
 export const STORAGE_NOTIFICATIONS_KEY = 'notifications';
-export const CACHE_TIME = 5; // minutes
+export const CACHE_TIME_MINUTES = 5; // minutes
 
 export const state = () => ({
 	notifications: [],
@@ -35,7 +35,7 @@ export const mutations = {
 		state.notifications.unshift(message);
 		setTimeout(() => {
 			message.showBanner = false;
-		}, TIMEOUT * 1000);
+		}, TIMEOUT_SECONDS * 1000);
 		window.parent.postMessage(JSON.stringify({
 			type: 'notification',
 		}), '*');
@@ -85,7 +85,7 @@ export const actions = {
 
 		if (notifications) {
 			const { ts, items } = notifications;
-			if (Date.now() - +ts < CACHE_TIME * 60 * 1000 && items.length) {
+			if (Date.now() - +ts < CACHE_TIME_MINUTES * 60 * 1000 && items.length) {
 				commit(NotificationMutations.receive, { notifications: items, ts });
 				return;
 			}
