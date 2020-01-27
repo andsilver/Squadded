@@ -29,10 +29,10 @@
 						<span>{{ $t('or') }}</span>
 					</div>
 				</div>
-				<div class="sign-step-one" :class="{ active: !showstepTwo, in_active: showstepTwo}">
-					<sign-form @sendOtp="showStepTwo" />
+				<div ref="step-one" class="sign-step-one" :class="{ active: !showstepTwo, in_active: showstepTwo}">
+					<sign-form ref="sign-form" @sendOtp="showStepTwo" />
 				</div>
-				<div class="sign-step-two" :class="{ active: showstepTwo , in_active: !showstepTwo}">
+				<div ref="step-two" class="sign-step-two" :class="{ active: showstepTwo , in_active: !showstepTwo}">
 					<h2>
 						<v-btn ref="go-back-btn" icon @click="goBack">
 							<v-icon>
@@ -46,7 +46,8 @@
 					</p>
 					<v-form ref="form">
 						<v-text-field
-							ref="number-field"
+							ref="pin-field"
+							v-model="pin"
 							:label="$t('form.pin')"
 							type="number"
 							solo
@@ -60,6 +61,7 @@
 							color="primary"
 							large
 							depressed
+							@click="validate"
 						>
 							{{ $t('validate') }}
 						</v-btn>
@@ -72,7 +74,6 @@
 		</v-layout>
 	</v-container>
 </template>
-
 <style lang="stylus">
 .social
 	display flex
@@ -230,6 +231,7 @@ import { mapState } from 'vuex';
 import SocialBtn from '~/components/Social-Button.vue';
 import SignForm from '~/components/Sign-Form.vue';
 import { DEFAULT_LANDING } from '~/store/squad';
+import { loginWithPIN } from '~/services/otp';
 
 export default {
 	components: {
@@ -243,6 +245,8 @@ export default {
 	},
 	data: () => ({
 		showstepTwo: false,
+		email: null,
+		pin: null,
 	}),
 	computed: {
 		...mapState([
@@ -250,11 +254,17 @@ export default {
 		]),
 	},
 	methods: {
-		showStepTwo () {
+		showStepTwo (email) {
+			this.email = email;
 			this.showstepTwo = true;
 		},
 		goBack() {
 			this.showstepTwo = false;
+		},
+		validate() {
+			loginWithPIN(+this.pin, this.email).then(({ userId, token }) => {
+				localStorage.setItem('userToken', token);
+			});
 		},
 	},
 };

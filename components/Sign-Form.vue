@@ -23,7 +23,6 @@
 			class="email-field"
 			:class="{ error_email: showErrorMsg}"
 			hide-details
-			@update:error="(e) => errorHandle(e, 'email')"
 		/>
 		<span v-if="showErrorMsg" class="email-velid-message">{{ $t('form.rules.email.valid') }}</span>
 		<span class="comment-msg">{{ $t('Messageregarding') }}</span>
@@ -34,10 +33,9 @@
 			color="primary"
 			large
 			depressed
-			:disabled="loginDisabled"
 			@click="() => emailLogin()"
 		>
-			{{ !otpRequested ? $t('form.send_me_otp') : $t('form.login') }}
+			{{ $t('form.send_me_otp') }}
 		</v-btn>
 	</v-form>
 </template>
@@ -118,9 +116,7 @@
 </style>
 
 <script>
-// import { requestOtp, loginWithPIN } from '~/services/otp';
-
-// TODO: Logic for send OTP on email thats's why i have commented code
+import { requestOtp } from '~/services/otp';
 
 export default {
 	data: function () {
@@ -151,18 +147,8 @@ export default {
 			allowContact: false,
 			above16: false,
 			token: '',
-			otpRequested: false,
-			errors: {
-				email: true,
-				pin: true,
-			},
 			showErrorMsg: false,
 		};
-	},
-	computed: {
-		loginDisabled() {
-			return this.otpRequested ? (this.errors.email || this.errors.pin) : this.errors.email;
-		},
 	},
 	methods: {
 		validate () {
@@ -179,24 +165,18 @@ export default {
 		},
 		emailLogin() {
 			if (!this.otpRequested) {
-				// requestOtp(this.email);
-				// this.otpRequested = true;
-				// this.errors.email = true;
 				if (/.+@.+\..+/.test(this.email)) {
 					this.showErrorMsg = false;
-					this.$emit('sendOtp');
+					requestOtp(this.email);
+					this.$emit('sendOtp', this.email);
 				} else {
 					this.showErrorMsg = true;
 				}
-				// TODO: Logic for send OTP on email thats's why i have commented code
 			}
 
 			/* loginWithPIN(+this.pin, this.email).then(({ userId, token }) => {
 				localStorage.setItem('userToken', token);
 			}); */
-		},
-		errorHandle(event, field) {
-			this.errors[field] = event;
 		},
 	},
 };
