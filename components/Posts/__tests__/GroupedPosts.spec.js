@@ -8,6 +8,8 @@ Wrapper.prototype.ref = function(id) {
 
 describe('GroupedPosts', () => {
 	const GROUPED_POST = 'grouped-post';
+	const NEXT_ITEM = 'next-item';
+	const PREV_ITEM = 'prev-item';
 	let post;
 	let wrapper;
 
@@ -34,10 +36,12 @@ describe('GroupedPosts', () => {
 
 	it('should render grouped post card', () => {
 		expect(wrapper.ref(GROUPED_POST).exists()).toBe(true);
+		expect(wrapper.ref(NEXT_ITEM).exists()).toBe(true);
+		expect(wrapper.ref(PREV_ITEM).exists()).toBe(true);
 	});
 
 	it('should render correct number of items', () => {
-		const items = wrapper.findAll('.grouped-post-item');
+		const items = wrapper.findAll('v-slide-item');
 		expect(items.length).toBe(post.items.length);
 	});
 });
