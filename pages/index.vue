@@ -202,12 +202,14 @@
 		display block
 		-webkit-animation slide-down 0.5s ease-out
 		-moz-animation slide-down 0.5s ease-out
+		margin-bottom 64px
 	.sign-step-one.in_active
 		display none
 		transition all 0.2s ease-in-out
 	.sign-step-one.active
 		display block
 		transition all 0.2s ease-in-out
+		margin-bottom 64px
 	@-webkit-keyframes slide-down
 		0% { opacity: 0; }
 		100% { opacity: 1; }
