@@ -63,6 +63,7 @@
   "Comments": "Comments",
   "Likes": "Likes",
   "viewAll": "View all",
+  "validate": "validate",
   "comment": {
     "pop": {
       "Action": "Action",
@@ -345,5 +346,11 @@
     "outfits": "Outfits",
     "photos": "Photos",
     "polls": "Polls"
+  },
+  "explore_page": {
+    "top_outfits": {
+      "title": "Top Outfits",
+      "description": "The trendiest outfits that generated the biggest reactions"
+    }
   }
 }

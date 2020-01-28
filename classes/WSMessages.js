@@ -4,6 +4,7 @@ import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { PostStore, PostActions, PostGetters, PostMutations } from '~/store/post';
 import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemActions } from '~/store/paired-item';
+import { ExploreStore, ExploreMutations } from '~/store/explore';
 
 async function acceptPost(message) {
 	if (!this.store.state.feed.items.length) {
@@ -65,6 +66,10 @@ export class WSMessages {
 			// TODO: gracefull report
 			// console.warn('Unknown message type', msg);
 		}
+	}
+
+	topOutfits (message) {
+		this.store.commit(`${ExploreStore}/${ExploreMutations.setTopOutfits}`, { items: message.outfits, ts: Date.now() });
 	}
 
 	comments (message) {

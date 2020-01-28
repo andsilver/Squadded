@@ -6,6 +6,7 @@ import { FeedStore, FeedGetters, FeedMutations } from '~/store/feed';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { PostActions, PostGetters, PostStore, PostMutations } from '~/store/post';
 import { UserStore, UserMutations } from '~/store/user';
+import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { userMockBuilder } from '~/test/user.mock';
 import TestPoll from '~/test/testpool.json';
 import TestAcceptSquad from '~/test/test-accept-squad.json';
@@ -80,6 +81,18 @@ describe('WSMessages dispatch', () => {
 			await flushPromises();
 			expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.addItem}`, post);
 		});
+	});
+
+	it('should accept top outfits', () => {
+		const outfits = [{ post: {}, score: 10 }];
+		const msg = {
+			type: 'topOutfits',
+			outfits,
+		};
+		const ts = 123456789;
+		global.Date.now = jest.fn().mockReturnValue(ts);
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setTopOutfits}`, { items: outfits, ts });
 	});
 
 	it('should accept bulk feed', async () => {
