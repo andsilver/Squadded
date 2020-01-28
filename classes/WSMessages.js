@@ -127,7 +127,7 @@ export class WSMessages {
 		this.store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post });
 	}
 
-	notifyPollEnd (message) {
+	notifEndPoll (message) {
 		const { guid } = message;
 		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
 		acceptPost.call(this, { closed: true, guid });

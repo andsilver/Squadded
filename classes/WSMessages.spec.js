@@ -166,11 +166,11 @@ describe('WSMessages dispatch', () => {
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.modifyLike}`, { mod: 1, post });
 	});
 
-	it('should update post and notifications on notifyPollEnd', () => {
+	it('should update post and notifications on notifEndPoll', () => {
 		const guid = chance.guid();
 		const msg = {
 			guid,
-			type: 'notifyPollEnd',
+			type: 'notifEndPoll',
 		};
 
 		wsMessages.dispatch(msg);

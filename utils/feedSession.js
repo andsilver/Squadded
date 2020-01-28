@@ -3,7 +3,7 @@ import { FeedStore } from '~/store/feed';
 const { FEED_STORE_LIMIT } = process.env;
 
 export const storeInSession = (post) => {
-	if (!post.guid) {
+	if (!post || !post.guid) {
 		return;
 	}
 	const keys = Object.keys(sessionStorage).filter(key => key.startsWith(FeedStore));
