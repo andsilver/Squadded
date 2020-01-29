@@ -3,6 +3,12 @@ import Vuex from 'vuex';
 import Feed from './feed.vue';
 import Store from '~/store';
 import { FeedMutations, FeedStore } from '~/store/feed';
+import { prefetch, onAuth } from '~/helpers';
+
+jest.mock('~/helpers', () => ({
+	prefetch: jest.fn(),
+	onAuth: jest.fn(),
+}));
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -19,6 +25,7 @@ describe('Feed Page', () => {
 	let wrapper;
 
 	beforeEach(() => {
+		onAuth.mockClear();
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 
@@ -83,6 +90,16 @@ describe('Feed Page', () => {
 		jest.advanceTimersByTime(60 * 1000);
 		setTimeout(() => {
 			expect(wrapper.vm.loadNew).toBe(true);
+		});
+	});
+
+	it('should fetch squadders', async () => {
+		prefetch.mockReturnValue(Promise.resolve([]));
+		await store.commit('SET_SOCKET_AUTH', true);
+		expect(prefetch).toHaveBeenCalledWith({
+			type: 'fetchSquadders',
+			store,
+			mutation: `${FeedStore}/${FeedMutations.receiveSquadders}`,
 		});
 	});
 });

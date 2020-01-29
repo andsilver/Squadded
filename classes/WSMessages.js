@@ -68,6 +68,10 @@ export class WSMessages {
 		}
 	}
 
+	squadders (message) {
+		this.store.commit(`${FeedStore}/${FeedMutations.receiveSquadders}`, message.squadders);
+	}
+
 	topOutfits (message) {
 		this.store.commit(`${ExploreStore}/${ExploreMutations.setTopOutfits}`, { items: message.outfits, ts: Date.now() });
 	}

@@ -4,6 +4,7 @@
 		<v-layout column>
 			<Preloader v-if="loading" ref="preloader" class="mt-4 mb-4" />
 			<span v-else-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
+			<Squadders v-if="squadders && squadders.length" :users="squadders" />
 			<Feed ref="feed-layout" :items="items" :load-new="loadNew" @loadMore="fetchFeed" @loadNew="() => fetchFeed(true)" />
 		</v-layout>
 	</v-container>
@@ -12,9 +13,10 @@
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
-import Preloader from '~/components/Preloader.vue';
-import TopBar from '~/components/common/TopBar.vue';
-import { onAuth } from '~/helpers';
+import Preloader from '~/components/Preloader';
+import TopBar from '~/components/common/TopBar';
+import Squadders from '~/components/Squadders';
+import { onAuth, prefetch } from '~/helpers';
 import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
 
 const feed = createNamespacedHelpers(FeedStore);
@@ -27,9 +29,11 @@ export default {
 		Feed,
 		Preloader,
 		TopBar,
+		Squadders,
 	},
 	data: () => ({
 		loadNew: false,
+		squadders: [],
 	}),
 	computed: {
 		...feedGetters([
@@ -60,6 +64,7 @@ export default {
 			setTimeout(() => {
 				this.loadNew = true;
 			}, 60 * 1000);
+			this.fetchSquadders();
 		},
 		fetchFeed () {
 			this.loadNew = false;
@@ -67,6 +72,13 @@ export default {
 			setTimeout(() => {
 				this.$store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
 			}, 4000);
+		},
+		async fetchSquadders () {
+			this.squadders = await prefetch({
+				type: 'fetchSquadders',
+				store: this.$store,
+				mutation: `${FeedStore}/${FeedMutations.receiveSquadders}`,
+			});
 		},
 	},
 };

@@ -29,6 +29,7 @@ export const FeedMutations = {
 	setItems: 'setItems',
 	markAllLoaded: 'markAllLoaded',
 	setLoading: 'setLoading',
+	receiveSquadders: 'receiveSquadders',
 };
 
 export const mutations = {
@@ -61,6 +62,7 @@ export const mutations = {
 	[FeedMutations.setLoading]: (state, loading) => {
 		state.loading = loading;
 	},
+	[FeedMutations.receiveSquadders]: () => {},
 };
 
 export const FeedActions = {
