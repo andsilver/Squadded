@@ -80,8 +80,9 @@ export const actions = {
 			type: 'setProfile',
 			user: {
 				bio: user.bio,
-				private: user.private,
+				private: !!user.private,
 				name: user.name,
+				avatar: user.avatar,
 			},
 		});
 	},

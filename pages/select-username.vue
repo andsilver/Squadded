@@ -1,13 +1,13 @@
 <template>
 	<v-container>
 		<v-layout
-			v-if="!socket.isPendingAuth"
+			v-if="socket.isAuth && user"
 			column
 		>
 			<div class="login">
 				<div class="text-center my-2">
 					<!--<span>{{ $t('getStarted') }}</span>-->
-					<div class="brand-section">
+					<div ref="brand-section" class="brand-section">
 						<div class="brand-title">
 							{{ $t('ShopWithYourFriendsOn') }}
 						</div>
@@ -18,18 +18,23 @@
 						</div>
 					</div>
 				</div>
-				<div class="pick-username-sec">
+				<div ref="pick-username-sec" class="pick-username-sec">
 					<h4>
 						{{ $t('PickUsername') }}
 					</h4>
 					<span>{{ $t('StartBuildingYourSquad') }}</span>
 				</div>
 				<div class="select-user-icon-sec">
-					<img src="../assets/img/select-user-icon.svg" class="select-user-icon">
-					<span class="edit-icon-sec"><img src="../assets/img/action-edit.svg" class="edit-icon-image"></span>
+					<img ref="user-avatar" :src="userAvatar" class="select-user-icon">
+					<input v-show="false" ref="avatar-input" type="file" accept="image/*" @change="read">
+					<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
+						<img src="../assets/img/action-edit.svg" class="edit-icon-image">
+					</v-btn>
 				</div>
 				<div class="username-form-sec">
 					<v-text-field
+						ref="username-field"
+						v-model="user.name"
 						:label="$t('EnterUsername')"
 						required
 						solo
@@ -40,10 +45,13 @@
 					/>
 					<span class="comment-msg">{{ $t('YouCanAlwaysChange') }}</span>
 					<v-btn
+						ref="save-btn"
 						class="full-width done-btn"
 						color="primary"
 						large
 						depressed
+						:disabled="!user.name || !user.avatar"
+						@click="saveProfile"
 					>
 						{{ $t('form.done') }}
 					</v-btn>
@@ -109,13 +117,13 @@
 	img.select-user-icon
 		width 100%
 		border-radius 50%
-	span.edit-icon-sec
+	.edit-icon-sec
 		position absolute
 		bottom 0
 		width 8.15vw
 		height 8.15vw
 		z-index 1
-		background #fff
+		background #fff !important
 		display flex
 		right 0
 		align-items center
@@ -163,19 +171,72 @@
 </style>
 
 <script>
-import { mapState } from 'vuex';
-import { DEFAULT_LANDING } from '~/store/squad';
+import { createNamespacedHelpers, mapState } from 'vuex';
+import { UserStore, UserActions } from '~/store/user';
+import { PostStore, PostMutations } from '~/store/post';
+import { prefetch } from '~/helpers';
+
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
-	asyncData ({ store, redirect }) {
-		if (store.state.socket.isAuth) {
-			redirect(DEFAULT_LANDING);
-		}
-	},
+	data: () => ({
+		user: null,
+		file: null,
+	}),
 	computed: {
+		...userState([
+			'me',
+		]),
 		...mapState([
 			'socket',
 		]),
+		userAvatar() {
+			return this.user.avatar || '../assets/img/select-user-icon.svg';
+		},
+	},
+	watch: {
+		me() {
+			this.user = Object.assign({}, this.me);
+		},
+	},
+	mounted () {
+		if (this.me && this.me.guid) {
+			this.user = Object.assign({}, this.me);
+		}
+	},
+	methods: {
+		openFileUpload() {
+			this.$refs['avatar-input'].value = null;
+			this.$refs['avatar-input'].click();
+		},
+		async saveProfile() {
+			await this.$store.dispatch(
+				`${UserStore}/${UserActions.setProfile}`,
+				this.user,
+			);
+			this.$router.push('/create-your-squad');
+		},
+		read () {
+			this.file = this.$refs['avatar-input'].files[0];
+			this.saveAvatar();
+		},
+		async saveAvatar() {
+			const uploadUrl = await prefetch({
+				contentType: this.file.type,
+				mutation: `${PostStore}/${PostMutations.uploadURL}`,
+				store: this.$store,
+				type: 'getUploadUrl',
+			});
+			const response = await fetch(uploadUrl, {
+				method: 'PUT',
+				body: this.file,
+			});
+			if (!response.ok) {
+				throw new Error(response.statusText);
+			}
+			const img = new URL(uploadUrl);
+			this.user.avatar = img.href;
+		},
 	},
 };
 </script>

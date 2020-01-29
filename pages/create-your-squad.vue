@@ -2,7 +2,7 @@
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout column class="create-your-squad">
-			<div class="create-text-sec">
+			<div ref="create-squad-text" class="create-text-sec">
 				<h2>
 					Create your squad
 				</h2>
@@ -10,10 +10,12 @@
 			</div>
 			<div class="invite-sec">
 				<v-btn
+					ref="invite-btn"
 					class="full-width invite-btn"
 					color="primary"
 					large
 					depressed
+					@click="share"
 				>
 					{{ $t('Send invite Link') }}
 				</v-btn>
@@ -33,6 +35,9 @@
 					</div>
 				</div>
 			</div>
+			<v-dialog v-model="showShare">
+				<ShareProfile ref="share-profile-modal" :user-link="userLink" />
+			</v-dialog>
 		</v-layout>
 	</v-container>
 </template>
@@ -40,23 +45,69 @@
 <style lang="stylus"></style>
 
 <script>
-import { mapState } from 'vuex';
-import { DEFAULT_LANDING } from '~/store/squad';
+import { createNamespacedHelpers, mapState } from 'vuex';
+import { UserStore } from '~/store/user';
 import TopBar from '~/components/common/TopBar.vue';
+import ShareProfile from '~/components/UserProfile/ShareProfile';
+
+const CANCALED_BY_USER = 20;
+
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	components: {
 		TopBar,
+		ShareProfile,
 	},
-	asyncData ({ store, redirect }) {
-		if (store.state.socket.isAuth) {
-			redirect(DEFAULT_LANDING);
-		}
-	},
+	data: () => ({
+		showShare: false,
+	}),
 	computed: {
+		...userState([
+			'me',
+		]),
 		...mapState([
 			'socket',
 		]),
+		target () {
+			const { siteUrl, siteTitle } = this.$store.state.merchant;
+			return {
+				id: this.me.userId,
+				url: siteUrl,
+				title: siteTitle,
+			};
+		},
+		userLink () {
+			const { API_ENDPOINT } = this.$store.state.squad;
+			const target = JSON.stringify(this.target);
+			return `${API_ENDPOINT}/community/invite?t=${btoa(target)}`;
+		},
+	},
+	methods: {
+		async share () {
+			this.showShare = false;
+			if (navigator && navigator.share) {
+				const { siteTitle } = this.$store.state.merchant;
+				const title = `${this.me.name} @ ${siteTitle}`;
+				try {
+					await navigator.share({
+						title,
+						text: title,
+						url: this.userLink,
+					});
+				} catch (error) {
+					if (error.code !== CANCALED_BY_USER) {
+						this.showModal();
+					}
+				}
+			} else {
+				this.showModal();
+			}
+		},
+		showModal () {
+			this.showShare = true;
+			this.$forceUpdate();
+		},
 	},
 };
 </script>
