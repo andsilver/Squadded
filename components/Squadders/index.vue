@@ -1,29 +1,25 @@
 <template>
-	<div v-if="users" class="squadders-users">
+	<div class="squadders-users">
 		<div class="left-sec">
 			<div>
 				<div
 					v-for="(user, index) in first5Users"
 					:key="user._id"
-					:style="{left: getPosition(index), 'z-index': 99 + index}"
+					:style="{left: getPosition(index), 'z-index': 10 + index}"
 					class="user-avatar-container"
 				>
 					<img :src="user.avatar" alt>
 				</div>
-				<Button
-					ref="expand-button"
-					class="expand hide-section"
-					:style="{left: getMorePosition(), 'z-index': 106}"
-				>
-					<v-icon
-						size="4.30vw"
-					>
-						sqdi-more-2
-					</v-icon>
-				</Button>
-				<h4 v-if="isMoreThan7" ref="count-squadders" :style="{left: getMorePosition(), 'z-index': 110}" class="count-squadders">
-					{{ "+" + countSquadders }}
-				</h4>
+				<div class="count-squadders d-flex align-center" :style="{left: getCountPosition()}">
+					<Button ref="plus-btn" class="plus-btn">
+						<v-icon small>
+							mdi-account-plus
+						</v-icon>
+					</Button>
+					<h4 v-if="isMoreThan5" ref="count-squadders" class="ml-2">
+						{{ "+" + (countSquadders - 5) }}
+					</h4>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -44,11 +40,11 @@ export default {
 	computed: {
 		first5Users() {
 			return this.users && this.users.length
-				? this.users.slice(0, 7)
+				? this.users.slice(0, 5)
 				: [];
 		},
-		isMoreThan7() {
-			return this.users && this.users.length > 7;
+		isMoreThan5() {
+			return this.users && this.users.length > 5;
 		},
 		countSquadders() {
 			return this.users && this.users.length
@@ -60,11 +56,8 @@ export default {
 		getPosition(index) {
 			return `${(9.48 - 1.69) * (index)}vw`;
 		},
-		getMorePosition() {
-			return `${(9.48 - 1.69) * (this.users.length - 1)}vw`;
-		},
 		getCountPosition() {
-			return `${(9.48 - 1.69) * (this.users.length + (this.isMoreThan7 ? 1 : 0)) + 2.98}vw`;
+			return `${(9.48 - 1.69) * (this.isMoreThan5 ? 5 : this.countSquadders)}vw`;
 		},
 	},
 };
@@ -82,17 +75,8 @@ export default {
 		width 65vw
 		position relative
 		.count-squadders
+			z-index 99
 			position absolute
-			width 9.48vw
-			height 9.48vw
-			border-radius: 50%
-			border 2px solid #fff
-			background #000
-			color #fff
-			display flex
-			align-items center
-			justify-content center
-			font-size 2.92vw
 
 .user-avatar-container, .expand {
 	position: absolute;
@@ -105,16 +89,13 @@ export default {
 	}
 }
 
-.expand {
-	width: 9.48vw !important;
-	height: 9.48vw !important;
-	border-radius: 50%;
-	padding: 0 !important;
-	min-width: 9.48vw !important;
-	border: 2px solid #fff;
-	border-color #fff !important;
-	&:before {
-		content;
-	}
-}
+.plus-btn
+	width: 9.48vw !important
+	height: 9.48vw !important
+	border-radius: 50%
+	padding: 0 !important
+	min-width: 9.48vw !important
+	border: 2px solid #fff
+	border-color #fff !important
+
 </style>

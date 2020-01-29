@@ -75,12 +75,13 @@ export default {
 				id: this.me.userId,
 				url: siteUrl,
 				title: siteTitle,
+				invite: true,
 			};
 		},
 		userLink () {
 			const { API_ENDPOINT } = this.$store.state.squad;
 			const target = JSON.stringify(this.target);
-			return `${API_ENDPOINT}/community/invite?t=${btoa(target)}`;
+			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
 		},
 	},
 	methods: {

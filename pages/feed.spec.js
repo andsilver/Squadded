@@ -23,6 +23,9 @@ describe('Feed Page', () => {
 	let localVue;
 	let store;
 	let wrapper;
+	const $router = {
+		push: jest.fn(),
+	};
 
 	beforeEach(() => {
 		onAuth.mockClear();
@@ -36,6 +39,7 @@ describe('Feed Page', () => {
 			localVue,
 			mocks: {
 				$t: msg => msg,
+				$router,
 			},
 		});
 	});
@@ -101,5 +105,12 @@ describe('Feed Page', () => {
 			store,
 			mutation: `${FeedStore}/${FeedMutations.receiveSquadders}`,
 		});
+	});
+
+	it('should go to \'create your squad\' page when no one in squad', async () => {
+		prefetch.mockReturnValue(Promise.resolve([]));
+		await store.commit('SET_SOCKET_AUTH', true);
+		await Promise.resolve();
+		expect($router.push).toHaveBeenCalledWith('/create-your-squad');
 	});
 });
