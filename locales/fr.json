@@ -14,7 +14,7 @@
 	"EnterUsername": "Ajouter un nom d'utilisateur",
 	"Explore": "Explorer",
 	"Home": "Accueil",
-	"Just": "",
+	"Just": "juste",
 	"Like": "J'aime",
 	"Likes": "J'aime",
 	"Messageregarding": "",
@@ -23,7 +23,7 @@
 	"NewOutfit": "Nouvelle tenue",
 	"NewPoll": "Nouveau sondage",
 	"NewPost": "Nouvelle Publication",
-	"NewPosts": "",
+	"NewPosts": "Nouvelles Publications",
 	"Next": "Suivant",
 	"Notifications": "Notifications",
 	"PairedItem": {
@@ -32,7 +32,7 @@
 		"photos": "Photos",
 		"polls": "Sondages"
 	},
-	"PickUsername": "Choisissez un nom d'utilisateur",
+	"PickUsername": "Choisissez votre nom d'utilisateur",
 	"Post": "Partager",
 	"Posts": "Publications",
 	"PoweredBy": "POWERED BY",
@@ -106,7 +106,7 @@
 	"expired": "Sondage terminé",
 	"explore_page": {
 		"top_outfits": {
-			"description": "Les tenues les plus stylés qui ont eu le plus de réactions",
+			"description": "Les tenues les plus stylés avec le plus de réactions",
 			"title": "Top tenues"
 		}
 	},
@@ -124,12 +124,12 @@
 			"message": "You must allow us to contact you!"
 		},
 		"bio": "Bio",
-		"done": "",
-		"email": "E-mail",
+		"done": "Fini",
+		"email": "Entrez votre adresse email",
 		"forgot": "Forgot password?",
 		"instagram_username": "Nom d'utilisateur",
 		"login": "Login",
-		"name": "Name",
+		"name": "Nom",
 		"needAnAccount": "Need an account?",
 		"onboard": "Already onboard?",
 		"only_used_for_validation": "Only used for validation",
@@ -149,8 +149,8 @@
 				"required": "Votre mot de passe est requis"
 			},
 			"pin": {
-				"required": "",
-				"valid": ""
+				"required": "Le code PIN est requis",
+				"valid": "Le code Pin doit comporter 4 chiffres"
 			}
 		},
 		"send_me_otp": "Envoyer un code",
@@ -170,7 +170,7 @@
 		"sign_in": "Se connecter",
 		"skip": "Passer"
 	},
-	"noPasswordRemember": "Pas de mot de passe à retenir. Nous vous envoyons un mot de passe unique pour être bien sur que c'est vous.",
+	"noPasswordRemember": "Plus de mot de passe à retenir. Nous vous envoyons un code unique pour être bien sur que c'est vous.",
 	"notify": {
 		"accepted_invite": "a accepté votre invitation",
 		"comment": "a commenté",
@@ -195,8 +195,8 @@
 		"capture": "Appareil Photo",
 		"textPlaceholder": "Ajouter une légende...",
 		"upload": {
-			"done": "",
-			"error": ""
+			"done": "Finalisation",
+			"error": "Le téléchargement a échoué"
 		}
 	},
 	"poll": {
@@ -204,7 +204,7 @@
 		"expiration": "Le sondage se terminera dans",
 		"expired": "Terminé",
 		"ongoing": "En cours",
-		"resultNote": "Le gagnant sera désigné apres ce délai.",
+		"resultNote": "Le gagnant sera désigné après ce délai.",
 		"results": "Résultats",
 		"textPlaceholder": "Ajouter une légende...",
 		"vote": "VOTEZ",
@@ -272,7 +272,7 @@
 	"private": "Privé",
 	"profile_settings": {
 		"delete_account": "Supprimer le compte",
-		"feedback": "Ecrivez nous",
+		"feedback": "Écrivez nous",
 		"general": "Général",
 		"language": {
 			"description": "How often do you want to get notifications?",
@@ -294,7 +294,7 @@
 		"read": "lus",
 		"share_your_opinion": "Partager votre avis",
 		"terms_of_service": {
-			"description": "Enutilisatn squadded vous les accepter",
+			"description": "En utilisant squadded vous les accepter",
 			"title": "Conditions d'utilisations"
 		},
 		"title": "Paramètres",
@@ -306,7 +306,7 @@
 		"forPrivate": "Seul votre squad pourra voir cette publication",
 		"toggle": "toggle"
 	},
-	"spamNote": "",
+	"spamNote": "Vous recevrew le code sous 1 minute. N'oubliez pas de verifiez vos spams.",
 	"tip": {
 		"addItems": "Ajoutez des articles a votre wishlist pour créer {0}.",
 		"createPhotoTag": "appuyez sur la photo pour identifier des articles",
@@ -319,29 +319,29 @@
 		"tapPhotos": "appuyez sur la photo pour plus de détails"
 	},
 	"user": {
-		"Follow": "Follow",
+		"Follow": "Suivre",
 		"Followers": "Followers",
 		"Following": "Following",
-		"InSquad": "",
+		"InSquad": "Dans mon Squad",
 		"Likes": "J'aime",
 		"Unfollow": "Unfollow",
 		"action": {
 			"Action": "",
-			"AddMySquad": "",
-			"Block": "",
+			"AddMySquad": "Ajouter a Mon Squad",
+			"Block": "Bloquer",
 			"PushWatchers": "",
-			"Sharelink": "",
+			"Sharelink": "Partager le lien",
 			"Unwatch": "",
-			"report": "",
-			"reportUser": ""
+			"report": "Signaler",
+			"reportUser": "signaler l'utilisateur"
 		},
 		"edit": "Modifier",
 		"followers": "{n} followers",
 		"following": "{n} following",
 		"invitation": {
-			"accept": "",
-			"deny": "",
-			"text": ""
+			"accept": "Accepter",
+			"deny": "Refuser",
+			"text": "@{user} veut faire du shopping avec vous!\nVoulez-vous que @{user} rejoigne votre squad?"
 		},
 		"promptFollow": "Do you want to follow {0}?",
 		"share": "Partager le profil"
