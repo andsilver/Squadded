@@ -6,24 +6,18 @@
 		class="px-3 toolbar"
 	>
 		<v-tabs>
+			<v-tab to="/all">
+				{{ $t('Home') }}
+			</v-tab>
 			<v-tab to="/feed">
 				{{ $t('My Squad') }}
 			</v-tab>
-			<v-tab to="/all">
-				{{ $t('All') }}
-			</v-tab>
 		</v-tabs>
 		<section class="buttons">
-			<v-btn icon class>
-				<v-icon>
-					sqdi-add-user
-				</v-icon>
-			</v-btn>
 			<v-btn icon class="bag_btn">
 				<v-icon>
 					sqdi-shopping-bag
 				</v-icon>
-				<span class="shopping_bag_count">4</span>
 			</v-btn>
 		</section>
 	</v-toolbar>
