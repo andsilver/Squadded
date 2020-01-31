@@ -18,8 +18,10 @@ import TopBar from '~/components/common/TopBar';
 import Squadders from '~/components/Squadders';
 import { onAuth, prefetch } from '~/helpers';
 import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
+import { UserStore } from '~/store/user';
 
 const feed = createNamespacedHelpers(FeedStore);
+const userState = createNamespacedHelpers(UserStore).mapState;
 const feedGetters = feed.mapGetters;
 const feedState = feed.mapState;
 
@@ -45,6 +47,9 @@ export default {
 		...mapState([
 			'socket',
 			'squad',
+		]),
+		...userState([
+			'me',
 		]),
 	},
 	created () {
@@ -81,7 +86,9 @@ export default {
 			});
 			if (!this.squadders || !this.squadders.length) {
 				this.$router.push('/create-your-squad');
+				return;
 			}
+			this.squadders.unshift(this.me);
 		},
 	},
 };

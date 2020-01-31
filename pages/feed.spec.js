@@ -27,13 +27,11 @@ describe('Feed Page', () => {
 		push: jest.fn(),
 	};
 
-	beforeEach(() => {
+	const initLocalVue = () => {
 		onAuth.mockClear();
 		localVue = createLocalVue();
 		localVue.use(Vuex);
-
 		store = new Vuex.Store(Store);
-
 		wrapper = shallowMount(Feed, {
 			store,
 			localVue,
@@ -42,6 +40,10 @@ describe('Feed Page', () => {
 				$router,
 			},
 		});
+	};
+
+	beforeEach(() => {
+		initLocalVue();
 	});
 
 	it('should not display content while pending auth', () => {
@@ -97,14 +99,18 @@ describe('Feed Page', () => {
 		});
 	});
 
-	it('should fetch squadders', async () => {
-		prefetch.mockReturnValue(Promise.resolve([]));
+	it('should fetch squadders and first user in squadder should be me', async () => {
+		prefetch.mockReturnValue(Promise.resolve([{ isMe: false }]));
+		initLocalVue();
 		await store.commit('SET_SOCKET_AUTH', true);
+		store.state.user.me = { isMe: true };
 		expect(prefetch).toHaveBeenCalledWith({
 			type: 'fetchSquadders',
 			store,
 			mutation: `${FeedStore}/${FeedMutations.receiveSquadders}`,
 		});
+		await Promise.resolve();
+		expect(wrapper.vm.squadders[0].isMe).toBe(true);
 	});
 
 	it('should go to \'create your squad\' page when no one in squad', async () => {
