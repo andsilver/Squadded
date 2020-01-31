@@ -165,7 +165,7 @@
     "pollend": "Your poll has expired - see the winner!",
     "post": "your post",
     "vote": "voted on",
-    "accepted_invite": "accepted your invite"
+    "accepted_invite": "wants to join your squad"
   },
   "outfit": {
     "textPlaceholder": "Type your description"
@@ -278,10 +278,16 @@
     "share": "Share profile",
     "Unfollow": "Unfollow",
     "edit": "Edit",
+    "MySquad": "My Squad",
+    "empty_squad": "You don't have squadders yet",
     "invitation": {
       "text": "@{user} wants to shop with you!\n Do you want @{user} to join your squad?",
       "accept": "accept",
-      "deny": "deny"
+      "deny": "deny",
+      "pending": "Pending...",
+      "pending_text": "As soon as @{user} confirms,\nyou will appear in each other's squad",
+      "accepted": "accepted",
+      "send_invite_link": "Send invite link"
     },
     "action": {
       "reportUser": "Report User",
@@ -292,6 +298,12 @@
       "AddMySquad": "Add to My Squad",
       "Unwatch": "Unwatch Sophie",
       "Block": "Block Sophie"
+    },
+    "remove_squad": {
+      "title": "Remove {user}?",
+      "description": "Removing {user} from your squad means you will no longer see and interact with each other's posts and wishlists",
+      "remove": "remove",
+      "cancel": "cancel"
     }
   },
   "wishlist": {

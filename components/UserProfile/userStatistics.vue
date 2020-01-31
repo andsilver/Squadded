@@ -4,7 +4,17 @@
 			{{ $t('My Squad') }}
 		</h4> -->
 		<section class="statistic">
-			<nuxt-link :to="{ path: `${userPath}/followers` }">
+			<nuxt-link v-if="inviteInPending" :to="{ path: `${userPath}/mysquad` }" :class="!user.isMe ? 'disabled' : ''">
+				<v-list-item-title class="title">
+					<v-icon>
+						mdi-account-check-outline
+					</v-icon>
+				</v-list-item-title>
+				<v-list-item-subtitle class="subtitle">
+					{{ $t('user.invitation.pending') }}
+				</v-list-item-subtitle>
+			</nuxt-link>
+			<nuxt-link v-else :to="{ path: `${userPath}/mysquad` }" :class="!user.isMe ? 'disabled' : ''">
 				<v-list-item-title class="title">
 					{{ short(user.followers.count) }}
 				</v-list-item-title>
@@ -59,6 +69,13 @@ export default {
 	computed: {
 		userPath () {
 			return this.user.isMe ? '/my' : `/user/${this.user.userId}`;
+		},
+		inviteInPending() {
+			return !this.user.isMe &&
+				this.user.squad &&
+				this.user.squad.exists &&
+				this.user.squad.pending &&
+				!this.user.squad.invitee;
 		},
 	},
 	methods: {
@@ -129,5 +146,9 @@ export default {
 		color: #B8B8BA;
 		margin-left: 8%;
 		font-weight: 500;
+	}
+
+	.disabled {
+		pointer-events: none;
 	}
 </style>

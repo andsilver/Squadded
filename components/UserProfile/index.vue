@@ -48,7 +48,7 @@
 				<Actions :user="user" class="popup-menu" />
 			</div>
 			<userStatistics :user="user" />
-			<Invitation v-if="invite" ref="invitation" :user="user" />
+			<Invitation v-if="showInvitation" ref="invitation" :user="user" @accept="acceptInvite" />
 			<v-tabs
 				v-model="tabs"
 				class="px-1"
@@ -140,6 +140,31 @@ export default {
 		user () {
 			return this.userId ? this.other : this.me;
 		},
+		isMySquad() {
+			if (!this.userId) {
+				return false;
+			}
+			const squad = this.userId ? this.other.squad : null;
+			return squad && squad.exists;
+		},
+		isPending() {
+			return this.isMySquad && this.other.squad.pending;
+		},
+		isInvitee() {
+			return this.isPending && this.other.squad.invitee;
+		},
+		showInvitation() {
+			if (!this.userId) {
+				return false;
+			}
+			if (this.isMySquad) {
+				if (!this.isPending) {
+					return false;
+				}
+				return this.isInvitee;
+			}
+			return this.invite;
+		},
 	},
 	created () {
 		if (this.$route.hash === '#wishlist') {
@@ -179,6 +204,21 @@ export default {
 		},
 		toggleNotification () {
 			this.show_notification = !this.show_notification;
+		},
+		acceptInvite () {
+			if (!this.isMySquad) {
+				this.other = Object.assign(this.other, {
+					...this.other,
+					squad: {
+						exists: true,
+						pending: true,
+						invitee: false,
+					},
+				});
+			} else {
+				this.other.squad.pending = false;
+				this.other = Object.assign({}, this.other);
+			}
 		},
 	},
 };

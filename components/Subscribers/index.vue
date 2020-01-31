@@ -1,12 +1,15 @@
 <template>
 	<v-container class="my-squad">
-		<BackBar :title="$tc('My Squad')" add-user />
+		<BackBar />
 		<v-tabs
 			v-model="tabs"
 			class="px-1 mt-2"
 			fixed-tabs
 			centered
 		>
+			<v-tab v-if="isMe" class="tabs bottom-line">
+				<span style="text-transform: capitalize;">{{ $tc('user.MySquad') }}</span>
+			</v-tab>
 			<v-tab class="tabs bottom-line">
 				<span style="text-transform: capitalize;">{{ $tc('user.Followers') }}</span>
 			</v-tab>
@@ -15,6 +18,9 @@
 			</v-tab>
 		</v-tabs>
 		<v-tabs-items v-model="tabs">
+			<v-tab-item v-if="isMe" class="top-shadow">
+				<MySquad />
+			</v-tab-item>
 			<v-tab-item class="top-shadow">
 				<List type="fetchFollowers" />
 			</v-tab-item>
@@ -26,7 +32,8 @@
 </template>
 
 <script>
-import BackBar from '~/components/common/BackBar';
+import MySquad from './MySquad';
+import BackBar from './BackBar';
 import List from '~/components/Subscribers/List';
 
 export default {
@@ -34,16 +41,21 @@ export default {
 	components: {
 		BackBar,
 		List,
+		MySquad,
 	},
 	data: () => ({
 		tabs: null,
+		isMe: false,
 	}),
 	created () {
 		const type = this.$route.name.split('-').slice(-1)[0];
-		if (type === 'followers') {
+		this.isMe = this.$route.path.includes('/my');
+		if (type === 'mysquad') {
 			this.tabs = 0;
+		} else if (type === 'followers') {
+			this.tabs = this.isMe ? 1 : 0;
 		} else {
-			this.tabs = 1;
+			this.tabs = this.isMe ? 2 : 1;
 		}
 	},
 };
@@ -69,4 +81,9 @@ export default {
 		top 0px
 		z-index 1
 
+.v-slide-group__prev
+	display none
+
+.v-tab
+	padding 0 !important
 </style>

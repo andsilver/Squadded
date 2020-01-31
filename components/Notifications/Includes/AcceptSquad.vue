@@ -15,12 +15,24 @@
 					/>
 					{{ $t('notify.accepted_invite') }}
 				</span>
-				<span ref="time-string" class="time-string-section">
-					<v-avatar color="#000" size="4.923vw">
-						<v-icon dark size="2.76vw">
+				<div v-if="!notification.accepted" ref="invite-actions" class="d-flex my-2">
+					<Button ref="accept-btn" class="ma-0 mr-2" @click.native="accept">
+						<v-icon x-small>
 							sqdi-checkmark
 						</v-icon>
-					</v-avatar>
+						<span class="ml-2">{{ $t('user.invitation.accept') }}</span>
+					</Button>
+					<v-btn ref="deny-btn" outlined depressed class="deny-btn">
+						{{ $t('user.invitation.deny') }}
+					</v-btn>
+				</div>
+				<v-btn v-else ref="accepted-mark" depressed class="mt-2 accepted-mark">
+					<v-icon x-small>
+						sqdi-checkmark
+					</v-icon>
+					<span class="ml-2">{{ $t('user.invitation.accepted') }}</span>
+				</v-btn>
+				<span ref="time-string" class="time-string-section">
 					<span class="time-string">
 						{{ timeString }}
 					</span>
@@ -32,11 +44,14 @@
 
 <script>
 import UserLink from '~/components/UserLink';
+import Button from '~/components/common/Button';
+import { NotificationStore, NotificationMutations } from '~/store/notification';
 
 export default {
 	name: 'NotifyAcceptSquad',
 	components: {
 		UserLink,
+		Button,
 	},
 	props: {
 		notification: {
@@ -54,7 +69,17 @@ export default {
 			return window.moment(this.notification.ts).fromNow();
 		},
 		acceptingUser () {
-			return this.notification.acceptingUser;
+			return this.notification.user;
+		},
+	},
+	methods: {
+		accept() {
+			this.$ws.sendObj({
+				type: 'acceptSquad',
+				targetUserId: this.notification.user.guid,
+			});
+			this.$store.commit(`${NotificationStore}/${NotificationMutations.setAcceptedSquad}`, this.notification._id);
+			this.$forceUpdate();
 		},
 	},
 };
@@ -80,4 +105,16 @@ i.sqdi-checkmark
 		vertical-align top
 	span.text-bold
 		font-weight 600
+.deny-btn
+	font-size 0.6em
+	font-weight 700
+	letter-spacing 1px
+	border-radius 10px
+.accepted-mark
+	font-size 0.6em
+	font-weight 700
+	letter-spacing 1px
+	border-radius 10px
+	background-color #fd6256 !important
+	color white
 </style>

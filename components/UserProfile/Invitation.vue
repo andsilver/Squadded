@@ -35,6 +35,7 @@ export default {
 				type: 'acceptSquad',
 				targetUserId: this.user.userId,
 			});
+			this.$emit('accept');
 		},
 	},
 };

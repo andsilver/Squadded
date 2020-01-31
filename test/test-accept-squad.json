@@ -1,9 +1,22 @@
 {
-    "type": "notifAcceptSquad",
-    "ts": 1576246455596,
-    "acceptingUser": {
-        "_id": "5df23d292a8e99a0ed1f883c",
-        "avatar": "https://i.imgur.com/Fa9kH2l.png",
-        "screenName": "Noemie C"
-    }
+	"_id": "5e32afa326c5cd5bfe1edf1a",
+	"type": "notifAcceptSquad",
+	"accepting": {
+		"_id": "5de524472a8e99a0eda7c440",
+		"fbId": "106492000834348",
+		"avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn-o-d4oDIX8goJV3aw5rkkemhewM_ylx1asm8DGberhwYY2gv&s",
+		"email": "elysa.kahn@gmail.com",
+		"name": "Elysa User",
+		"screenName": "Elysa Kahn",
+		"private": false
+	},
+	"userId": "5de524472a8e99a0eda7c440",
+	"targetUserId": "5d8a090ddc2113a2f6bbabb1",
+	"merchantId": "sam-advisor",
+	"ts": 1580380067681,
+	"user": {
+		"screenName": "Elysa Kahn",
+		"avatar": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQn-o-d4oDIX8goJV3aw5rkkemhewM_ylx1asm8DGberhwYY2gv&s",
+		"guid": "5de524472a8e99a0eda7c440"
+	}
 }

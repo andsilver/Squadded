@@ -20,6 +20,7 @@ export const NotificationMutations = {
 	viewAll: 'viewAll',
 	receive: 'receive',
 	view: 'view',
+	setAcceptedSquad: 'setAcceptedSquad',
 };
 
 const contain = state => ntf => state.notifications.find(n => ntf._id === n._id);
@@ -66,6 +67,13 @@ export const mutations = {
 		}
 		notification.viewed = true;
 		notification.showBanner = false;
+	},
+	[NotificationMutations.setAcceptedSquad]: (state, id) => {
+		const notification = state.notifications.find(n => n._id === id);
+		if (!notification) {
+			return;
+		}
+		notification.accepted = true;
 	},
 };
 

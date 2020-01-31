@@ -18,6 +18,7 @@ export class User {
 			screenName,
 			userId,
 			_id,
+			squad,
 		} = props;
 
 		this.avatar = avatar;
@@ -33,6 +34,7 @@ export class User {
 		this.userId = userId || guid || _id;
 		this.guid = this.userId;
 		this.private = props.private || false;
+		squad && (this.squad = squad);
 	}
 
 	short () {

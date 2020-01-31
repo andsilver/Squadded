@@ -112,7 +112,7 @@ export default {
 		top calc(50% - 24px)
 		border-radius 50%
 		background white
-		z-index 99
+		z-index 8
 	.next-item
 		right 24px
 	.prev-item

@@ -8,10 +8,11 @@ import {
 } from './notification';
 import store from './index';
 import { Storage } from '~/test/storage.mock';
+import TestAcceptSquad from '~/test/test-accept-squad.json';
 
 describe('Notification store module', () => {
 	describe('mutations', () => {
-		const { add, viewAll, receive } = mutations;
+		const { add, viewAll, receive, setAcceptedSquad } = mutations;
 
 		let state;
 
@@ -61,6 +62,12 @@ describe('Notification store module', () => {
 				'*',
 			);
 			expect(length).toBe(2);
+		});
+
+		it('should accept squad', () => {
+			state.notifications = [TestAcceptSquad];
+			setAcceptedSquad(state, TestAcceptSquad._id);
+			expect(TestAcceptSquad.accepted).toBe(true);
 		});
 	});
 

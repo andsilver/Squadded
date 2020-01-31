@@ -100,9 +100,58 @@ describe('User component', () => {
 
 	it('should show invitation section if invite is passed in query', () => {
 		const user = userMockBuilder().get();
-
 		const params = { id: user.userId };
 		const query = { invite: true };
+
+		wrapper = shallowMount(User, {
+			localVue,
+			store,
+			mocks: {
+				$route: { params, query },
+				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
+			},
+		});
+
+		wrapper.vm.other = user;
+		wrapper.vm.userId = user.userId;
+
+		const invitation = wrapper.ref('invitation');
+		expect(invitation.exists()).toBe(true);
+	});
+
+	it('should not show invitation if he is in your squad', () => {
+		const user = userMockBuilder().get();
+		const params = { id: user.userId };
+		const query = { invite: true };
+		user.squad = { exists: true, pending: false };
+
+		wrapper = shallowMount(User, {
+			localVue,
+			store,
+			mocks: {
+				$route: { params, query },
+				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
+			},
+		});
+
+		wrapper.vm.other = user;
+		wrapper.vm.userId = user.userId;
+
+		const invitation = wrapper.ref('invitation');
+		expect(invitation.exists()).toBe(false);
+	});
+
+	it('should show invitation if he accepted your invite', () => {
+		const user = userMockBuilder().get();
+		const params = { id: user.userId };
+		const query = { invite: true };
+		user.squad = { exists: true, pending: true, invitee: true };
 
 		wrapper = shallowMount(User, {
 			localVue,

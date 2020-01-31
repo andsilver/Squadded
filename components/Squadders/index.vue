@@ -5,7 +5,7 @@
 				<div
 					v-for="(user, index) in first5Users"
 					:key="user._id"
-					:style="{left: getPosition(index), 'z-index': 10 + index}"
+					:style="{left: getPosition(index), 'z-index': 2 + index}"
 					class="user-avatar-container"
 				>
 					<img :src="user.avatar" alt>
@@ -75,7 +75,7 @@ export default {
 		width 65vw
 		position relative
 		.count-squadders
-			z-index 99
+			z-index 9
 			position absolute
 
 .user-avatar-container, .expand {
