@@ -2,6 +2,7 @@
 	<v-tabs
 		grow
 		height="65"
+		@click.native="(e) => onTabClick(e)"
 	>
 		<Tab :tab="tabs[0]" @click.native="closeMenu" />
 		<Tab :tab="tabs[1]" @click.native="closeMenu" />
@@ -14,7 +15,7 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
 import CreateTab from './CreateTab';
 import Tab from './Tab';
 import Badge from '~/components/common/Badge';
@@ -52,10 +53,18 @@ export default {
 		...mapGetters([
 			NotificationGetters.notify,
 		]),
+		...mapState([
+			'socket',
+		]),
 	},
 	methods: {
 		closeMenu () {
 			this.$root.$emit('overlayClose', { });
+		},
+		onTabClick (e) {
+			if (!this.socket.isAuth) {
+				this.$router.push('/');
+			}
 		},
 	},
 };
