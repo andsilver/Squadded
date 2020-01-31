@@ -19,19 +19,25 @@
 				>
 					{{ $t('Send invite Link') }}
 				</v-btn>
-				<div class="invite-loop">
-					<div class="user-sec">
-						<img src="../assets/img/Avatar.png" class="user-image">
+				<div class="invite-loop d-flex justify-space-around">
+					<div>
+						<div class="user-sec">
+							<img :src="me && me.avatar" class="user-image">
+						</div>
 						<span class="user-name">You</span>
 					</div>
-					<div class="user-sec">
-						<img src="../assets/img/Avatar.png" class="user-image">
+					<div>
+						<div class="user-sec">
+							<v-icon>
+								mdi-account-plus-outline
+							</v-icon>
+						</div>
 					</div>
-					<div class="user-sec">
-						<img src="../assets/img/Avatar.png" class="user-image">
+					<div>
+						<div class="user-sec" />
 					</div>
-					<div class="user-sec">
-						<img src="../assets/img/Avatar.png" class="user-image">
+					<div>
+						<div class="user-sec" />
 					</div>
 				</div>
 			</div>
@@ -145,16 +151,24 @@ export default {
 			text-transform uppercase !important
 			font-weight 700
 		.invite-loop
-			display flex
 			.user-sec
-				width 25%
+				width 60px
+				height 60px
+				border-radius 50%
+				background #ececec
+				display flex
+				justify-content center
+				align-items center
+				flex-direction column
+			img
+				width 100%
+				height auto
+				border-radius 50%
+			span.user-name
+				font-weight 700
+				display block
+				margin-top 0px
+				font-size 3.69vw
 				text-align center
-				img.user-image
-					width 80%
-				span.user-name
-					font-weight 700
-					display block
-					margin-top 0px
-					font-size 3.69vw
 
 </style>

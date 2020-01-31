@@ -16,13 +16,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, createNamespacedHelpers } from 'vuex';
 import Preloader from '~/components/Preloader.vue';
 import Prompt from '~/components/common/Prompt';
 import TabBar from '~/components/common/TabBar.vue';
 import NotificationsBanner from '~/components/Notifications/Banner.vue';
-import { SquadStore, SquadMutations } from '~/store/squad';
+import { SquadStore, SquadMutations, DEFAULT_LANDING } from '~/store/squad';
+import { UserStore, UserMutations } from '~/store/user';
 import { isTouch, onToggleKeyboard } from '~/utils/device-input';
+
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	name: 'DefaultLayout',
@@ -46,10 +49,20 @@ export default {
 			'socket',
 			'squad',
 		]),
+		...userState([
+			'me',
+		]),
 		showTabs () {
 			return this.socket.isAuth && (!this.isTouch || !this.squad.virtualKeyboard);
 		},
 		isTouch,
+	},
+	watch: {
+		me () {
+			if (this.me && !this.me.name) {
+				this.$router.push('/select-username');
+			}
+		},
 	},
 	created () {
 		this.$root.$on('prompt', data => this.prompt(data));
@@ -59,6 +72,9 @@ export default {
 		this.unsubscribe = this.$store.subscribe((mutation) => {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
+			}
+			if (mutation.type === `${UserStore}/${UserMutations.setToken}` && mutation.payload) {
+				this.$router.push(DEFAULT_LANDING);
 			}
 		});
 		if (this.isTouch) {

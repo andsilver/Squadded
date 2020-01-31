@@ -1,6 +1,9 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Default from './default.vue';
+import Store from '~/store';
+import { DEFAULT_LANDING } from '~/store/squad';
+import { UserStore, UserMutations } from '~/store/user';
 import * as Device from '~/utils/device-input';
 
 jest.mock('~/utils/device-input', () => ({
@@ -23,6 +26,7 @@ describe('Default layout', () => {
 	let store;
 	let wrapper;
 	let $route;
+	let $router;
 
 	function initVue() {
 		localVue = createLocalVue();
@@ -31,24 +35,18 @@ describe('Default layout', () => {
 			name: 'index',
 			path: '/',
 		};
+		$router = {
+			push: jest.fn(),
+		};
 
-		store = new Vuex.Store({
-			state: {
-				socket: {
-					isPendingAuth: true,
-					isAuth: false,
-				},
-				squad: {
-					virtualKeyboard: false,
-				},
-			},
-		});
+		store = new Vuex.Store(Store);
 
 		wrapper = shallowMount(Default, {
 			store,
 			localVue,
 			mocks: {
 				$route,
+				$router,
 			},
 		});
 	}
@@ -108,6 +106,13 @@ describe('Default layout', () => {
 
 		cbArg(true);
 		expect(wrapper.vm.squad.virtualKeyboard).toBe(true);
+	});
+
+	it('should go to default landing page after signin', async () => {
+		global.atob = jest.fn();
+		global.JSON.parse = jest.fn().mockReturnValue({ sub: 'someid' });
+		await store.commit(`${UserStore}/${UserMutations.setToken}`, 'some.token');
+		expect($router.push).toHaveBeenCalledWith(DEFAULT_LANDING);
 	});
 
 	describe('Desktop', () => {
