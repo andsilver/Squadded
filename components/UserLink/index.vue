@@ -2,7 +2,10 @@
 	<nuxt-link ref="user-link" :to="getUserLink()">
 		<v-list-item v-if="!hideAvatar" class="pa-0 user_link_header">
 			<v-list-item-avatar class="mr-3" :size="size">
-				<img :src="user && user.avatar" :alt="user && user.screenName">
+				<img v-if="user && user.avatar" :src="user && user.avatar" :alt="user && user.screenName">
+				<v-icon v-else color="#b8b8ba">
+					mdi-account-circle-outline
+				</v-icon>
 				<v-btn
 					v-if="follow && user.guid !== me.userId"
 					class="follow"
