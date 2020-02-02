@@ -18,7 +18,7 @@
 					@click="goFollow"
 				>
 					<v-icon :size="`${sizeValue * 0.2571}${sizeLength}`">
-						sqdi-plus
+						mdi-eye-outline
 					</v-icon>
 				</v-btn>
 			</v-list-item-avatar>
@@ -153,6 +153,8 @@ export default {
 	.user_name
 		font-size 3.38vw
 .post_user_link
+	.v-avatar
+		overflow visible
 	.v-list-item__avatar
 		margin-top 0
 		margin-bottom 0

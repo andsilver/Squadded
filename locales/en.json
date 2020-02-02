@@ -364,5 +364,12 @@
       "title": "Top Outfits",
       "description": "The trendiest outfits that generated the biggest reactions"
     }
+  },
+  "community": {
+    "start_watching": {
+      "title": "Check out posts from all users",
+      "description": "Here you'll see all the activities of the online community",
+      "action": "start watching"
+    }
   }
 }

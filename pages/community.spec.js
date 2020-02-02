@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import Community from './community.vue';
 import Store from '~/store';
 import { SquadAPI } from '~/services/SquadAPI';
+import { Storage } from '~/test/storage.mock';
 
 jest.mock('~/services/SquadAPI', () => ({
 	SquadAPI: {
@@ -16,6 +17,7 @@ Wrapper.prototype.ref = function (id) {
 
 describe('Message Input', () => {
 	const STREET = 'street-layout';
+	const START_WATCHING_DIALOG = 'start-watching-dialog';
 
 	let $router;
 	let localVue;
@@ -26,6 +28,9 @@ describe('Message Input', () => {
 		SquadAPI.fetchStreet.mockClear();
 		localVue = createLocalVue();
 		localVue.use(Vuex);
+
+		global.sessionStorage = new Storage();
+		sessionStorage.clear();
 
 		$router = {
 			push: jest.fn(),
@@ -63,5 +68,9 @@ describe('Message Input', () => {
 		const street = wrapper.ref(STREET);
 		street.trigger('touchstart');
 		expect($router.push).toHaveBeenCalledWith('/');
+	});
+
+	it('should display StartWatchingDialog on first visit', () => {
+		expect(wrapper.ref(START_WATCHING_DIALOG).exists()).toBe(true);
 	});
 });
