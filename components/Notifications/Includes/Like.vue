@@ -1,6 +1,7 @@
 <template>
 	<section class="d-flex text-section">
 		<UserLink
+			ref="user-link-avatar"
 			:size="banner ? '6.15vw' : '40'"
 			:user="notification.user"
 			hide-name
@@ -9,6 +10,7 @@
 			<div class="message" :class="{ is_poll: notification.post.type == 'pollPost' }">
 				<span>
 					<UserLink
+						ref="user-link-name"
 						:user="notification.user"
 						hide-avatar
 					/>
@@ -18,11 +20,11 @@
 					{{ banner && notification.post.type == 'singleItemPost' ? $t('YourItem') : '' }}
 					{{ banner && notification.post.type == 'galleryPost' ? $t('YourPicture') : '' }}
 					{{ banner && notification.post.type == 'outfitPost' ? $t('YourOutfit') : '' }}
-					<span v-if="!banner" class="text-bold">
+					<span v-if="!banner" ref="post-title" class="text-bold" @click="goToLandingPost">
 						{{ notification.post.text || $t('notify.post') }}
 					</span>
 				</span>
-				<span v-if="!banner" class="time-string-section">
+				<span v-if="!banner" ref="timestring" class="time-string-section">
 					<v-avatar color="#000" size="4.923vw">
 						<v-icon dark size="2.6vw">
 							sqdi-favorite-heart-button
@@ -33,7 +35,7 @@
 					</span>
 				</span>
 			</div>
-			<div v-if="!banner" class="imgae-section">
+			<div v-if="!banner" ref="notification-image" class="imgae-section">
 				<img v-if="notification.post.type == 'singleItemPost'" :src="notification.post.item.img" class="notification-image">
 				<img v-if="notification.post.type == 'galleryPost'" :src="notification.post.img" class="notification-image">
 				<img v-if="notification.post.type == 'outfitPost'" :src="notification.post.items[0].img" class="notification-image">
@@ -72,6 +74,11 @@ export default {
 		timeString () {
 			window.moment.locale(this._i18n.locale);
 			return window.moment(this.notification.ts).fromNow();
+		},
+	},
+	methods: {
+		goToLandingPost() {
+			this.$router.push(`/post/${this.notification.postId}`);
 		},
 	},
 };

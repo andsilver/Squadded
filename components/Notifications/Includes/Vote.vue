@@ -1,6 +1,7 @@
 <template>
 	<section class="d-flex text-section">
 		<UserLink
+			ref="user-link-avatar"
 			size="40"
 			:user="votedUser"
 			hide-name
@@ -9,15 +10,16 @@
 			<div class="message">
 				<span>
 					<UserLink
+						ref="user-link-name"
 						:user="votedUser"
 						hide-avatar
 					/>
 					{{ $t('notify.vote') }}
-					<span class="text-bold">
+					<span ref="post-title" class="text-bold cursor-pointer" @click="goToLandingPost">
 						{{ notification.text || $t('notify.post') }}
 					</span>
 				</span>
-				<span class="time-string-section">
+				<span ref="timestring" class="time-string-section">
 					<v-avatar color="#000" size="4.923vw">
 						<v-icon dark size="2.76vw">
 							sqdi-checkmark
@@ -29,7 +31,12 @@
 				</span>
 			</div>
 			<div class="imgae-section">
-				<img v-if="notification.type == 'notifVote'" :src="notifImage" class="notification-image">
+				<img
+					v-if="notification.type == 'notifVote'"
+					ref="notification-image"
+					:src="notifImage"
+					class="notification-image"
+				>
 			</div>
 		</div>
 	</section>
@@ -63,6 +70,11 @@ export default {
 		},
 		votedUser () {
 			return this.notification.voter ? this.notification.voter : this.notification.user;
+		},
+	},
+	methods: {
+		goToLandingPost() {
+			this.$router.push(`/post/${this.notification.guid}`);
 		},
 	},
 };
@@ -107,4 +119,6 @@ i.sqdi-checkmark
 		vertical-align top
 	span.text-bold
 		font-weight 600
+.cursor-pointer
+	cursor pointer
 </style>
