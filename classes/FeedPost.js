@@ -44,7 +44,9 @@ export class FeedPost {
 
 		this.type = type;
 		this.likes = likes;
-		this.likes.users = this.likes.users || [];
+		if (typeof likes === 'object') {
+			this.likes.users = this.likes.users || [];
+		}
 		this.comments = {
 			count: comments.count || 0,
 			messages: comments.messages || [],

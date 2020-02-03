@@ -32,10 +32,12 @@ async function activity (message) {
 
 function topItems (message) {
 	const { type } = message;
+	const innerType = type.replace('top', '');
+	const lowercased = innerType.charAt(0).toLowerCase() + innerType.slice(1);
 	this.store.commit(`${ExploreStore}/${ExploreMutations.setItems}`, {
 		type,
 		content: {
-			items: message[type.replace('top', '').toLowerCase()],
+			items: message[lowercased],
 			ts: Date.now(),
 		},
 	});
@@ -67,6 +69,7 @@ export class WSMessages {
 
 	topGallery = topItems;
 	topOutfits = topItems;
+	endingPolls = topItems;
 
 	constructor(store) {
 		this.store = store;

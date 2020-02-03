@@ -1,17 +1,20 @@
 <template>
 	<v-container class="layout-padding">
+		<EndingPolls ref="ending-polls" class="mb-8" />
 		<TopOutfits ref="top-outfits" class="mb-8" />
 		<TopGallery ref="top-gallery" />
 	</v-container>
 </template>
 
 <script>
+import EndingPolls from '~/components/Explore/EndingPolls';
 import TopGallery from '~/components/Explore/TopGallery';
 import TopOutfits from '~/components/Explore/TopOutfits';
 
 export default {
 	name: 'ExplorePage',
 	components: {
+		EndingPolls,
 		TopOutfits,
 		TopGallery,
 	},

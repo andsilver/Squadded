@@ -1,9 +1,10 @@
-// import { FeedPost } from '../classes/FeedPost';
+import { FeedPost } from '~/classes/FeedPost';
 
 const CACHE_TIME_MINUTES = 5; // minutes
 export const STORAGE_KEYS = {
 	topOutfits: 'top-outfits',
 	topGallery: 'top-gallery',
+	endingPolls: 'ending-polls',
 };
 export const ExploreStore = 'explore';
 
@@ -13,6 +14,10 @@ export const state = () => ({
 		items: null,
 	},
 	topGallery: {
+		ts: null,
+		items: null,
+	},
+	endingPolls: {
 		ts: null,
 		items: null,
 	},
@@ -42,6 +47,8 @@ export const mutations = {
 					return item.post.type === 'outfitPost' ? item : null;
 				} else if (type === 'topGallery') {
 					return item.post.type === 'galleryPost' ? item : null;
+				} else if (type === 'endingPolls') {
+					return new FeedPost(item);
 				}
 			})
 			.filter(item => !!item);

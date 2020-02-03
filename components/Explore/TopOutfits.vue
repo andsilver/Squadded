@@ -1,13 +1,17 @@
 <template>
 	<div class="px-2">
-		<div class="d-flex align-start">
-			<v-icon class="mt-2" small color="black">
-				sqdi-favorite-heart-button-outline
-			</v-icon>
-			<div ref="outfits-title" class="ml-2">
-				<h3>{{ $t('explore_page.top_outfits.title') }}</h3>
-				<p>{{ $t('explore_page.top_outfits.description') }}</p>
+		<div ref="outfits-title">
+			<div class="d-flex align-center">
+				<v-icon color="black">
+					mdi-heart-outline
+				</v-icon>
+				<h3 class="ml-2">
+					{{ $t('explore_page.top_outfits.title') }}
+				</h3>
 			</div>
+			<p class="ml-8">
+				{{ $t('explore_page.top_outfits.description') }}
+			</p>
 		</div>
 		<div v-if="outfits && outfits.length" class="overflow-x-auto d-flex px-2">
 			<div v-for="({ post }, index) of outfits" :key="index" class="grouped-post-item">
