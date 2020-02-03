@@ -5,7 +5,7 @@
 		height="48"
 		class="px-3"
 	>
-		<v-tabs fixed-tabs class="mt-2">
+		<v-tabs v-model="tabs" fixed-tabs class="mt-2">
 			<v-tab color="#B8B8BA" to="/notifications">
 				{{ $t('All') }}
 			</v-tab>
@@ -18,6 +18,12 @@
 
 <script>
 export default {
+	data: () => ({
+		tabs: 0,
+	}),
+	mounted () {
+		this.tabs = this.$route.path.includes('/requests') ? 1 : 0;
+	},
 };
 </script>
 
