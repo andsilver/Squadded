@@ -55,6 +55,16 @@ export default {
 	created () {
 		this.onOpen();
 	},
+	mounted () {
+		if (!this.me) {
+			return;
+		}
+		if (!this.me.squaddersCount) {
+			this.$router.push('/create-your-squad');
+		} else {
+			this.fetchSquadders();
+		}
+	},
 	methods: {
 		async onOpen () {
 			await onAuth(this.$store);
@@ -69,7 +79,6 @@ export default {
 			setTimeout(() => {
 				this.loadNew = true;
 			}, 60 * 1000);
-			this.fetchSquadders();
 		},
 		fetchFeed () {
 			this.loadNew = false;

@@ -18,6 +18,7 @@ import Feed from '~/components/Feed';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
 import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
+import { DEFAULT_LANDING } from '~/store/squad';
 
 export default {
 	components: {
@@ -48,6 +49,11 @@ export default {
 			return;
 		}
 		this.$root.$once('widget-open', () => this.updateStreet());
+	},
+	mounted () {
+		if (this.socket.isAuth) {
+			this.$router.push(DEFAULT_LANDING);
+		}
 	},
 	methods: {
 		async updateStreet () {

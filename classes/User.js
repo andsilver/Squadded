@@ -19,6 +19,8 @@ export class User {
 			userId,
 			_id,
 			squad,
+			nameSelected,
+			squaddersCount,
 		} = props;
 
 		this.avatar = avatar;
@@ -35,6 +37,8 @@ export class User {
 		this.guid = this.userId;
 		this.private = props.private || false;
 		squad && (this.squad = squad);
+		this.nameSelected = !!nameSelected;
+		this.squaddersCount = squaddersCount || 0;
 	}
 
 	short () {

@@ -197,12 +197,14 @@ export default {
 	watch: {
 		me() {
 			this.user = Object.assign({}, this.me);
+			this.checkNameSelected();
 		},
 	},
 	mounted () {
 		if (this.me && this.me.guid) {
 			this.user = Object.assign({}, this.me);
 		}
+		this.checkNameSelected();
 	},
 	methods: {
 		openFileUpload() {
@@ -210,6 +212,10 @@ export default {
 			this.$refs['avatar-input'].click();
 		},
 		async saveProfile() {
+			if (!this.user.name || !this.user.avatar) {
+				return;
+			}
+			this.user.nameSelected = true;
 			await this.$store.dispatch(
 				`${UserStore}/${UserActions.setProfile}`,
 				this.user,
@@ -236,6 +242,11 @@ export default {
 			}
 			const img = new URL(uploadUrl);
 			this.user.avatar = img.href;
+		},
+		checkNameSelected () {
+			if (this.me && this.me.nameSelected) {
+				this.$router.push('/create-your-squad');
+			}
 		},
 	},
 };

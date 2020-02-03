@@ -95,7 +95,7 @@ describe('Select Username', () => {
 		await store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 		await store.commit('SET_SOCKET_AUTH', true);
 		await wrapper.ref(SAVE_BTN).trigger('click');
-		expect(store.dispatch).toHaveBeenCalledWith(`${UserStore}/${UserActions.setProfile}`, me);
+		expect(store.dispatch).toHaveBeenCalledWith(`${UserStore}/${UserActions.setProfile}`, { ...me, nameSelected: true });
 		expect($router.push).toHaveBeenCalledWith('/create-your-squad');
 	});
 });

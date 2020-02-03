@@ -4,6 +4,7 @@ import Feed from './feed.vue';
 import Store from '~/store';
 import { FeedMutations, FeedStore } from '~/store/feed';
 import { prefetch, onAuth } from '~/helpers';
+import { userMockBuilder } from '~/test/user.mock';
 
 jest.mock('~/helpers', () => ({
 	prefetch: jest.fn(),
@@ -23,6 +24,7 @@ describe('Feed Page', () => {
 	let localVue;
 	let store;
 	let wrapper;
+	let me = userMockBuilder().get();
 	const $router = {
 		push: jest.fn(),
 	};
@@ -32,6 +34,7 @@ describe('Feed Page', () => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
+		store.state.user.me = me;
 		wrapper = shallowMount(Feed, {
 			store,
 			localVue,
@@ -99,11 +102,18 @@ describe('Feed Page', () => {
 		});
 	});
 
+	it('should go to \'create your squad\' page when squaddersCount is 0', async () => {
+		await store.commit('SET_SOCKET_AUTH', true);
+		me = { isMe: true, squaddersCount: 0 };
+		initLocalVue();
+		expect($router.push).toHaveBeenCalledWith('/create-your-squad');
+	});
+
 	it('should fetch squadders and first user in squadder should be me', async () => {
 		prefetch.mockReturnValue(Promise.resolve([{ isMe: false }]));
-		initLocalVue();
 		await store.commit('SET_SOCKET_AUTH', true);
-		store.state.user.me = { isMe: true };
+		me = { isMe: true, squaddersCount: 2 };
+		initLocalVue();
 		expect(prefetch).toHaveBeenCalledWith({
 			type: 'fetchSquadders',
 			store,

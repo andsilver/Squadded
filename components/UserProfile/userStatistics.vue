@@ -16,7 +16,7 @@
 			</nuxt-link>
 			<nuxt-link v-else :to="{ path: `${userPath}/mysquad` }" :class="!user.isMe ? 'disabled' : ''">
 				<v-list-item-title class="title">
-					{{ short(user.followers.count) }}
+					{{ short(user.squaddersCount) }}
 				</v-list-item-title>
 				<v-list-item-subtitle class="subtitle">
 					{{ $t('user.InSquad') }}

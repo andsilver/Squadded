@@ -4,9 +4,11 @@
 		<v-layout column class="create-your-squad">
 			<div ref="create-squad-text" class="create-text-sec">
 				<h2>
-					Create your squad
+					{{ $t('create_your_squad.title') }}
 				</h2>
-				<span>Add your friends to join your squad. Once they join, you will be able to see and interact with each other’s wishlist.</span>
+				<span>
+					{{ $t('create_your_squad.description') }}
+				</span>
 			</div>
 			<div class="invite-sec">
 				<v-btn
@@ -40,6 +42,9 @@
 						<div class="user-sec" />
 					</div>
 				</div>
+				<v-btn ref="skip-btn" outlined depressed class="skip-btn" @click="skip">
+					{{ $t('create_your_squad.skip_for_now') }}
+				</v-btn>
 			</div>
 			<v-dialog v-model="showShare">
 				<ShareProfile ref="share-profile-modal" :user-link="userLink" />
@@ -90,6 +95,11 @@ export default {
 			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
 		},
 	},
+	mounted () {
+		if (this.me && !this.me.nameSelected) {
+			this.$router.push('/select-username');
+		}
+	},
 	methods: {
 		async share () {
 			this.showShare = false;
@@ -114,6 +124,9 @@ export default {
 		showModal () {
 			this.showShare = true;
 			this.$forceUpdate();
+		},
+		skip () {
+			this.$router.push('/all');
 		},
 	},
 };
@@ -170,5 +183,10 @@ export default {
 				margin-top 0px
 				font-size 3.69vw
 				text-align center
-
+.skip-btn
+	border-radius 10px
+	position fixed
+	bottom 90px
+	right 24px
+	font-size 12px
 </style>

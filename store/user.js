@@ -83,6 +83,7 @@ export const actions = {
 				private: !!user.private,
 				name: user.name,
 				avatar: user.avatar,
+				nameSelected: !!user.nameSelected,
 			},
 		});
 	},

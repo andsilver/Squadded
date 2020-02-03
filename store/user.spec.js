@@ -98,11 +98,13 @@ describe('User Store module', () => {
 		const name = chance.first() + ' ' + chance.last();
 		const _private = chance.bool();
 		const avatar = chance.url();
+		const nameSelected = chance.bool();
 		user.bio = bio;
 		user.private = _private;
 		user.name = name;
 		user.avatar = avatar;
 		user.isMe = true;
+		user.nameSelected = nameSelected;
 
 		await root.dispatch(`${UserStore}/${UserActions.setProfile}`, user);
 
@@ -113,6 +115,7 @@ describe('User Store module', () => {
 				private: _private,
 				name,
 				avatar,
+				nameSelected,
 			},
 		});
 
@@ -120,5 +123,6 @@ describe('User Store module', () => {
 		expect(root.state.user.me.private).toEqual(_private);
 		expect(root.state.user.me.name).toEqual(name);
 		expect(root.state.user.me.avatar).toEqual(avatar);
+		expect(root.state.user.me.nameSelected).toEqual(nameSelected);
 	});
 });

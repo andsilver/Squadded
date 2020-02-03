@@ -24,6 +24,8 @@ export const userMockBuilder = (isMe = false) => {
 		screenName: name,
 		userId,
 		private: chance.bool(),
+		squaddersCount: chance.natural({ max: 10e6 }),
+		nameSelected: chance.bool(),
 	};
 
 	const builder = {

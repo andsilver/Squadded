@@ -57,13 +57,6 @@ export default {
 		},
 		isTouch,
 	},
-	watch: {
-		me () {
-			if (this.me && !this.me.name) {
-				this.$router.push('/select-username');
-			}
-		},
-	},
 	created () {
 		this.$root.$on('prompt', data => this.prompt(data));
 		this.$root.$on('overlayToggle', data => this.overlayToggle(data));

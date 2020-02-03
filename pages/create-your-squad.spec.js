@@ -9,27 +9,39 @@ Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
 
-describe('Select Username', () => {
+describe('Create Your Squad', () => {
 	let wrapper;
 	let store;
 	let localVue;
+
+	const $router = {
+		push: jest.fn(),
+	};
 	const me = userMockBuilder().get();
 
 	const CREATE_SQUAD_TEXT = 'create-squad-text';
 	const INVITE_BTN = 'invite-btn';
 	const SHARE_PROFILE_MODAL = 'share-profile-modal';
 
-	beforeEach(() => {
+	const initLocalVue = (me) => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
+		if (me) {
+			store.state.user.me = me;
+		}
 		wrapper = shallowMount(CreateYourSquad, {
 			store,
 			localVue,
 			mocks: {
 				$t: msg => msg,
+				$router,
 			},
 		});
+	};
+
+	beforeEach(() => {
+		initLocalVue();
 	});
 
 	it('should not render if not auth', () => {
@@ -49,5 +61,11 @@ describe('Select Username', () => {
 		wrapper.ref(INVITE_BTN).trigger('click');
 		const shareProfileModal = wrapper.ref(SHARE_PROFILE_MODAL);
 		expect(shareProfileModal.exists()).toBe(true);
+	});
+
+	it('should go to \'select username\' page if nameSelected is false', () => {
+		me.nameSelected = false;
+		initLocalVue(me);
+		expect($router.push).toHaveBeenCalledWith('/select-username');
 	});
 });
