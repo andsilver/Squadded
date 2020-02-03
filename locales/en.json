@@ -363,6 +363,16 @@
     "top_outfits": {
       "title": "Top Outfits",
       "description": "The trendiest outfits that generated the biggest reactions"
+    },
+    "top_gallery": {
+      "title": "Hottest Looks"
+    },
+    "top_items": {
+      "title": "Trending Items"
+    },
+    "ending_polls": {
+      "title": "Ending Polls",
+      "description": "Hurry up, help others in their decision before their poll expires"
     }
   },
   "community": {

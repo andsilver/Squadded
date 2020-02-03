@@ -42,13 +42,10 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
 import { ExploreStore, ExploreGetters, ExploreActions } from '~/store/explore';
 import CardFrame from '~/components/Posts/Includes/CardFrame';
 import ItemImage from '~/components/Posts/Includes/ItemImage';
 import { price } from '~/helpers';
-
-const { mapGetters } = createNamespacedHelpers(ExploreStore);
 
 export default {
 	components: {
@@ -56,12 +53,12 @@ export default {
 		CardFrame,
 	},
 	computed: {
-		...mapGetters({
-			outfits: ExploreGetters.getTopOutfits,
-		}),
+		outfits () {
+			return this.$store.getters[`${ExploreStore}/${ExploreGetters.getItems}`]('topOutfits');
+		},
 	},
 	created() {
-		this.$store.dispatch(`${ExploreStore}/${ExploreActions.fetchTopOutfits}`);
+		this.$store.dispatch(`${ExploreStore}/${ExploreActions.fetchItems}`, 'topOutfits');
 	},
 	methods: {
 		totalPrice (post) {

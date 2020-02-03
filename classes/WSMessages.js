@@ -30,6 +30,17 @@ async function activity (message) {
 	this.store.commit(`${ActivityStore}/${ActivityMutations.markAllLoaded}`, { loadedPosts: rawPostsList, type });
 }
 
+function topItems (message) {
+	const { type } = message;
+	this.store.commit(`${ExploreStore}/${ExploreMutations.setItems}`, {
+		type,
+		content: {
+			items: message[type.replace('top', '').toLowerCase()],
+			ts: Date.now(),
+		},
+	});
+}
+
 function receiveReaction(message) {
 	const { type } = message;
 	this.store.commit(`${PostStore}/${PostMutations.receiveReaction}`, message[type]);
@@ -54,6 +65,9 @@ export class WSMessages {
 	community = activity;
 	wishlist = activity;
 
+	topGallery = topItems;
+	topOutfits = topItems;
+
 	constructor(store) {
 		this.store = store;
 	}
@@ -70,10 +84,6 @@ export class WSMessages {
 
 	squadders (message) {
 		this.store.commit(`${FeedStore}/${FeedMutations.receiveSquadders}`, message.squadders);
-	}
-
-	topOutfits (message) {
-		this.store.commit(`${ExploreStore}/${ExploreMutations.setTopOutfits}`, { items: message.outfits, ts: Date.now() });
 	}
 
 	comments (message) {

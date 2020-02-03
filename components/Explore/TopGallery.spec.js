@@ -1,17 +1,16 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import TopOutfits from './TopOutfits.vue';
+import TopGallery from './TopGallery.vue';
 import Store from '~/store';
-import CardFrame from '~/components/Posts/Includes/CardFrame';
 import { ExploreStore, ExploreMutations } from '~/store/explore';
-import { outfitPostBuilder } from '~/test/outfit.post.mock';
+import { galleryPostBuilder } from '~/test/gallery.post.mock';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
 
-describe('Top Outfits', () => {
-	const OUTFITS_TITLE = 'outfits-title';
+describe('Top Gallery', () => {
+	const TOP_GALLERY_TITLE = 'top-gallery-title';
 	const EMPTY_FEED_TEXT = 'empty-feed-text';
 
 	let wrapper;
@@ -23,7 +22,7 @@ describe('Top Outfits', () => {
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
 
-		wrapper = shallowMount(TopOutfits, {
+		wrapper = shallowMount(TopGallery, {
 			store,
 			localVue,
 			mocks: {
@@ -36,20 +35,18 @@ describe('Top Outfits', () => {
 	});
 
 	it('should render correct contents', () => {
-		const outfitsTitle = wrapper.ref(OUTFITS_TITLE);
-		const emptyFeedText = wrapper.ref(EMPTY_FEED_TEXT);
-		expect(outfitsTitle.exists()).toBe(true);
-		expect(emptyFeedText.exists()).toBe(true);
+		expect(wrapper.ref(TOP_GALLERY_TITLE).exists()).toBe(true);
+		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
 
-		const items = new Array(20).fill({ post: outfitPostBuilder().get() });
+		const items = new Array(20).fill({ post: galleryPostBuilder().get() });
 		store.commit(`${ExploreStore}/${ExploreMutations.setItems}`, {
-			type: 'topOutfits',
+			type: 'topGallery',
 			content: {
 				items,
 				ts: Date.now(),
 			},
 		});
-		const outfits = wrapper.findAll(CardFrame);
-		expect(outfits.length).toBe(20);
+		const galleryPosts = wrapper.findAll('.post-card');
+		expect(galleryPosts.length).toBe(20);
 	});
 });

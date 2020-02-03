@@ -92,7 +92,25 @@ describe('WSMessages dispatch', () => {
 		const ts = 123456789;
 		global.Date.now = jest.fn().mockReturnValue(ts);
 		wsMessages.dispatch(msg);
-		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setTopOutfits}`, { items: outfits, ts });
+		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setItems}`, {
+			content: { items: outfits, ts },
+			type: 'topOutfits',
+		});
+	});
+
+	it('should accept top gallery', () => {
+		const galleryPosts = [{ post: {}, score: 10 }];
+		const msg = {
+			type: 'topGallery',
+			gallery: galleryPosts,
+		};
+		const ts = 123456789;
+		global.Date.now = jest.fn().mockReturnValue(ts);
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setItems}`, {
+			content: { items: galleryPosts, ts },
+			type: 'topGallery',
+		});
 	});
 
 	it('should accept bulk feed', async () => {

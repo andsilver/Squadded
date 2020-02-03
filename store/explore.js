@@ -1,7 +1,10 @@
 // import { FeedPost } from '../classes/FeedPost';
 
 const CACHE_TIME_MINUTES = 5; // minutes
-export const STORAGE_TOPOUTFITS_KEY = 'top-outfits';
+export const STORAGE_KEYS = {
+	topOutfits: 'top-outfits',
+	topGallery: 'top-gallery',
+};
 export const ExploreStore = 'explore';
 
 export const state = () => ({
@@ -9,56 +12,69 @@ export const state = () => ({
 		ts: null,
 		items: null,
 	},
+	topGallery: {
+		ts: null,
+		items: null,
+	},
 });
 
 export const ExploreGetters = {
-	getTopOutfits: 'getTopOutfits',
+	getItems: 'getItems',
 };
 
 export const getters = {
-	[ExploreGetters.getTopOutfits]: state => state.topOutfits.items,
+	[ExploreGetters.getItems]: state => type => state[type] && state[type].items,
 };
 
 export const ExploreMutations = {
-	setTopOutfits: 'setTopOutfits',
+	setItems: 'setItems',
 };
 
 export const mutations = {
-	[ExploreMutations.setTopOutfits]: (state, outfits) => {
-		const { items, ts } = outfits;
-		if (+state.topOutfits.ts === +ts) {
+	[ExploreMutations.setItems]: (state, { content, type }) => {
+		const { items, ts } = content;
+		if (state[type].ts === ts) {
 			return;
 		}
-		state.topOutfits.items = items.filter(item => item.post.type === 'outfitPost');
-		state.topOutfits.ts = +ts;
-		sessionStorage.setItem(STORAGE_TOPOUTFITS_KEY, JSON.stringify(outfits));
+		state[type].items = items
+			.map((item) => {
+				if (type === 'topOutfits') {
+					return item.post.type === 'outfitPost' ? item : null;
+				} else if (type === 'topGallery') {
+					return item.post.type === 'galleryPost' ? item : null;
+				}
+			})
+			.filter(item => !!item);
+		state[type].ts = ts;
+		sessionStorage.setItem(STORAGE_KEYS[type], JSON.stringify(content));
 	},
 };
 
 export const ExploreActions = {
-	fetchTopOutfits: 'fetchTopOutfits',
+	fetchItems: 'fetchItems',
 };
 
 export const actions = {
-	[ExploreActions.fetchTopOutfits]: ({ rootState, commit }) => {
-		let outfits = sessionStorage.getItem(STORAGE_TOPOUTFITS_KEY);
+	[ExploreActions.fetchItems]: ({ rootState, commit }, type) => {
+		const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
+		let saved = sessionStorage.getItem(STORAGE_KEYS[type]);
 
 		try {
-			outfits = JSON.parse(outfits);
+			saved = JSON.parse(saved);
 		} catch (_) {
-			outfits = null;
+			saved = null;
 		}
 
-		if (outfits && outfits.items && outfits.items.length) {
-			const { ts } = outfits;
-			if (Date.now() - +ts < CACHE_TIME_MINUTES * 60 * 1000) {
-				commit(ExploreMutations.setTopOutfits, outfits);
+		if (saved && saved.items && saved.items.length) {
+			const { ts } = saved;
+			if ((Date.now() - ts) < CACHE_TIME_MINUTES * 60 * 1000) {
+				commit(ExploreMutations.setItems, { content: saved, type });
 				return;
 			}
 		}
 
 		rootState.socket.$ws.sendObj({
-			type: 'fetchTopOutfits',
+			type: `fetch${capitalized}`,
 		});
 	},
 };
