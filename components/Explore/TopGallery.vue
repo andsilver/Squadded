@@ -1,7 +1,7 @@
 <template>
 	<div class="px-2">
 		<div ref="top-gallery-title" class="d-flex align-center mb-3">
-			<img class="ml-1" :width="18" src="~assets/img/trending-icon.png" alt="">
+			<img class="ml-1" :width="16" src="~assets/img/trending-icon.png" alt="">
 			<h3 class="ml-3">
 				{{ $t('explore_page.top_gallery.title') }}
 			</h3>

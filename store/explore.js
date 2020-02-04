@@ -5,6 +5,7 @@ export const STORAGE_KEYS = {
 	topOutfits: 'top-outfits',
 	topGallery: 'top-gallery',
 	endingPolls: 'ending-polls',
+	topItems: 'top-items',
 };
 export const ExploreStore = 'explore';
 
@@ -18,6 +19,10 @@ export const state = () => ({
 		items: null,
 	},
 	endingPolls: {
+		ts: null,
+		items: null,
+	},
+	topItems: {
 		ts: null,
 		items: null,
 	},
@@ -47,7 +52,7 @@ export const mutations = {
 					return item.post.type === 'outfitPost' ? item : null;
 				} else if (type === 'topGallery') {
 					return item.post.type === 'galleryPost' ? item : null;
-				} else if (type === 'endingPolls') {
+				} else {
 					return new FeedPost(item);
 				}
 			})

@@ -1,5 +1,6 @@
 <template>
 	<v-container class="layout-padding">
+		<TopItems ref="top-items" class="mb-8" />
 		<EndingPolls ref="ending-polls" class="mb-8" />
 		<TopOutfits ref="top-outfits" class="mb-8" />
 		<TopGallery ref="top-gallery" />
@@ -7,6 +8,7 @@
 </template>
 
 <script>
+import TopItems from '~/components/Explore/TopItems';
 import EndingPolls from '~/components/Explore/EndingPolls';
 import TopGallery from '~/components/Explore/TopGallery';
 import TopOutfits from '~/components/Explore/TopOutfits';
@@ -14,6 +16,7 @@ import TopOutfits from '~/components/Explore/TopOutfits';
 export default {
 	name: 'ExplorePage',
 	components: {
+		TopItems,
 		EndingPolls,
 		TopOutfits,
 		TopGallery,

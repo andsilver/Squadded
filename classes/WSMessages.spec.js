@@ -128,6 +128,21 @@ describe('WSMessages dispatch', () => {
 		});
 	});
 
+	it('should accept top items', () => {
+		const topItems = [{}];
+		const msg = {
+			type: 'topItems',
+			items: topItems,
+		};
+		const ts = 123456789;
+		global.Date.now = jest.fn().mockReturnValue(ts);
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setItems}`, {
+			content: { items: topItems, ts },
+			type: 'topItems',
+		});
+	});
+
 	it('should accept bulk feed', async () => {
 		const existing1 = { guid: 'existing1' };
 		const feed = [{ guid: 'feed' }, existing1];

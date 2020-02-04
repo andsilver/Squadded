@@ -30,7 +30,7 @@ async function activity (message) {
 	this.store.commit(`${ActivityStore}/${ActivityMutations.markAllLoaded}`, { loadedPosts: rawPostsList, type });
 }
 
-function topItems (message) {
+function exploreItems (message) {
 	const { type } = message;
 	const innerType = type.replace('top', '');
 	const lowercased = innerType.charAt(0).toLowerCase() + innerType.slice(1);
@@ -67,9 +67,10 @@ export class WSMessages {
 	community = activity;
 	wishlist = activity;
 
-	topGallery = topItems;
-	topOutfits = topItems;
-	endingPolls = topItems;
+	topGallery = exploreItems;
+	topOutfits = exploreItems;
+	endingPolls = exploreItems;
+	topItems = exploreItems;
 
 	constructor(store) {
 		this.store = store;

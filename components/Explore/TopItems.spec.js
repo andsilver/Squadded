@@ -1,0 +1,52 @@
+import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
+import Vuex from 'vuex';
+import TopItems from './TopItems.vue';
+import Store from '~/store';
+import { ExploreStore, ExploreMutations } from '~/store/explore';
+import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
+
+Wrapper.prototype.ref = function(id) {
+	return this.find({ ref: id });
+};
+
+describe('Top Items', () => {
+	const TOP_ITEMS_TITLE = 'top-items-title';
+	const EMPTY_FEED_TEXT = 'empty-feed-text';
+
+	let wrapper;
+	let store;
+	let localVue;
+
+	beforeEach(() => {
+		localVue = createLocalVue();
+		localVue.use(Vuex);
+		store = new Vuex.Store(Store);
+
+		wrapper = shallowMount(TopItems, {
+			store,
+			localVue,
+			mocks: {
+				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
+			},
+		});
+	});
+
+	it('should render correct contents', () => {
+		expect(wrapper.ref(TOP_ITEMS_TITLE).exists()).toBe(true);
+		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
+
+		const items = new Array(20).fill(aDefaultSingleItemMsgBuilder().get());
+		store.commit(`${ExploreStore}/${ExploreMutations.setItems}`, {
+			type: 'topItems',
+			content: {
+				items,
+				ts: Date.now(),
+			},
+		});
+		const singlePosts = wrapper.findAll('.post-card');
+		expect(singlePosts.length).toBe(20);
+	});
+});
