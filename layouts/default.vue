@@ -9,7 +9,7 @@
 				<Prompt :text="promptOptions.text" @confirm="confirm" @decline="hide" />
 			</v-dialog>
 		</v-content>
-		<v-bottom-navigation height="65">
+		<v-bottom-navigation v-if="!isOnboarding" height="65">
 			<TabBar ref="tab-bar" />
 		</v-bottom-navigation>
 	</v-app>
@@ -23,6 +23,7 @@ import TabBar from '~/components/common/TabBar.vue';
 import NotificationsBanner from '~/components/Notifications/Banner.vue';
 import { SquadStore, SquadMutations, DEFAULT_LANDING } from '~/store/squad';
 import { UserStore, UserMutations } from '~/store/user';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { isTouch, onToggleKeyboard } from '~/utils/device-input';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
@@ -43,6 +44,7 @@ export default {
 		opacity: 0.46,
 		overlay: false,
 		zIndex: 11,
+		firstTime: true,
 	}),
 	computed: {
 		...mapState([
@@ -56,6 +58,9 @@ export default {
 			return this.socket.isAuth && (!this.isTouch || !this.squad.virtualKeyboard);
 		},
 		isTouch,
+		isOnboarding () {
+			return this.$route.name === 'onboarding';
+		},
 	},
 	created () {
 		this.$root.$on('prompt', data => this.prompt(data));
@@ -66,8 +71,21 @@ export default {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
 			}
-			if (mutation.type === `${UserStore}/${UserMutations.setToken}` && mutation.payload) {
+			if (mutation.type === `${UserStore}/${UserMutations.setMe}` && mutation.payload && this.firstTime) {
+				this.firstTime = false;
+				const user = mutation.payload;
+				if (!user.nameSelected) {
+					this.$router.push('/select-username');
+					return;
+				}
+				if (!user.squaddersCount) {
+					this.$router.push('/create-your-squad');
+					return;
+				}
 				this.$router.push(DEFAULT_LANDING);
+			}
+			if (mutation.type === `${ActivityStore}/${ActivityMutations.addPost}` && !this.socket.isAuth) {
+				this.$router.push('/onboarding');
 			}
 		});
 		if (this.isTouch) {

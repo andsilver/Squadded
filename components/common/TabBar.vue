@@ -32,7 +32,7 @@ export default {
 	data: () => ({
 		showCreate: false,
 		tabs: [{
-			uri: '/feed',
+			uri: '/all',
 			icon: 'sqdi-blank-house',
 			text: 'Home',
 		}, {

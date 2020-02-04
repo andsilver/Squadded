@@ -7,7 +7,6 @@
 				@mousedown.native="signin"
 				@touchstart.native="signin"
 			/>
-			<StartWatchingDialog v-if="showStartWatchingDialog" ref="start-watching-dialog" />
 		</v-layout>
 	</v-container>
 </template>
@@ -17,13 +16,11 @@ import { mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
-import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
 import { DEFAULT_LANDING } from '~/store/squad';
 
 export default {
 	components: {
 		Feed,
-		StartWatchingDialog,
 	},
 	data: () => ({
 		items: null,
@@ -38,12 +35,6 @@ export default {
 		]),
 	},
 	created () {
-		if (sessionStorage.getItem('visited')) {
-			this.showStartWatchingDialog = false;
-		} else {
-			this.showStartWatchingDialog = true;
-			sessionStorage.setItem('visited', `${Date.now()}`);
-		}
 		if (this.squad.widget.open) {
 			this.updateStreet();
 			return;

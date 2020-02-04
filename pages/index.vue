@@ -1,8 +1,9 @@
 <template>
-	<v-container>
+	<v-container class="flex-grow-1">
 		<v-layout
 			v-if="!socket.isPendingAuth"
 			column
+			class="justify-space-between"
 		>
 			<div class="login">
 				<div class="text-center my-2">
@@ -70,6 +71,13 @@
 						Still not receiving it?<span> Resend code</span>
 					</div>
 				</div>
+			</div>
+			<div style="margin-bottom: 64px">
+				<nuxt-link :to="{ path: '/community' }">
+					<h5 class="text-right">
+						{{ $t('sign_up_later') }}
+					</h5>
+				</nuxt-link>
 			</div>
 		</v-layout>
 	</v-container>

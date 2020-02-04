@@ -4,6 +4,7 @@ import Default from './default.vue';
 import Store from '~/store';
 import { DEFAULT_LANDING } from '~/store/squad';
 import { UserStore, UserMutations } from '~/store/user';
+import { userMockBuilder } from '~/test/user.mock';
 import * as Device from '~/utils/device-input';
 
 jest.mock('~/utils/device-input', () => ({
@@ -109,10 +110,20 @@ describe('Default layout', () => {
 	});
 
 	it('should go to default landing page after signin', async () => {
-		global.atob = jest.fn();
-		global.JSON.parse = jest.fn().mockReturnValue({ sub: 'someid' });
-		await store.commit(`${UserStore}/${UserMutations.setToken}`, 'some.token');
+		wrapper.setData({ firstTime: true });
+		const user = userMockBuilder().get();
+		user.nameSelected = true;
+		user.squaddersCount = 1;
+		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
 		expect($router.push).toHaveBeenCalledWith(DEFAULT_LANDING);
+	});
+
+	it('should go to select username after signin if username is not selected', async () => {
+		wrapper.setData({ firstTime: true });
+		const user = userMockBuilder().get();
+		user.nameSelected = false;
+		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
+		expect($router.push).toHaveBeenCalledWith('/select-username');
 	});
 
 	describe('Desktop', () => {

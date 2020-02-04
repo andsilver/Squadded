@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import All from './all.vue';
 import Store from '~/store';
 import { ActivityStore, ActivityActions } from '~/store/activity';
+import { Storage } from '~/test/storage.mock';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -22,6 +23,9 @@ describe('All', () => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 
+		global.localStorage = new Storage();
+		localStorage.clear();
+
 		store = new Vuex.Store(Store);
 
 		wrapper = shallowMount(All, {
@@ -31,6 +35,10 @@ describe('All', () => {
 				$t: msg => msg,
 			},
 		});
+	});
+
+	it('should display StartWatchingDialog on first visit', () => {
+		expect(wrapper.vm.showStartWatchingDialog).toBe(true);
 	});
 
 	it('should not display content while pending auth', () => {

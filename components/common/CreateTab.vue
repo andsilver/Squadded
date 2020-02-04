@@ -2,7 +2,7 @@
 	<v-tab class="create tab_item" @click="toggleMenu">
 		<v-menu top offset-y>
 			<template v-slot:activator="{ on }">
-				<v-btn ref="createTabBtn" icon v-on="on">
+				<v-btn ref="createTabBtn" icon :disabled="!socket.isAuth" v-on="on">
 					<v-icon
 						class="tab_icon plus_icon"
 					>
@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	data: () => ({
 		menu: [{
@@ -55,6 +57,11 @@ export default {
 			images: require('assets/img/poll.svg'),
 		}],
 	}),
+	computed: {
+		...mapState([
+			'socket',
+		]),
+	},
 	created() {
 		this.$root.$on('openCreateMenu', () => {
 			this.$refs.createTabBtn && this.$refs.createTabBtn.$el && this.$refs.createTabBtn.$el.click();
@@ -62,7 +69,9 @@ export default {
 	},
 	methods: {
 		toggleMenu () {
-			this.$root.$emit('overlayToggle', {});
+			if (this.socket.isAuth) {
+				this.$root.$emit('overlayToggle', {});
+			}
 		},
 		closeMenu () {
 			this.$root.$emit('overlayClose', {});

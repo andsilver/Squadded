@@ -5,7 +5,7 @@
 		height="40"
 		class="px-3 toolbar"
 	>
-		<v-tabs>
+		<v-tabs v-model="tab">
 			<v-tab to="/all">
 				{{ $t('Home') }}
 			</v-tab>
@@ -25,6 +25,9 @@
 
 <script>
 export default {
+	data: () => ({
+		tab: 0,
+	}),
 };
 </script>
 
