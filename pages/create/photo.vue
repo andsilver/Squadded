@@ -6,7 +6,7 @@
 			<v-layout column grow class="mt-3">
 				<CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" />
 				<Browse v-show="!dataImg" ref="browse" @open="preview" />
-				<Tags v-if="dataImg" :post="post">
+				<Tags v-if="dataImg" ref="tagsComponent" :post="post">
 					<div class="photo-menu-panel">
 						<v-btn icon width="40" height="40" @click="() => preview({})">
 							<v-icon color="#000">
@@ -212,6 +212,7 @@ export default {
 		next () {
 			if (this.dataImg && this.getSelected.length === 0) {
 				this.showError = true;
+				this.$refs.tagsComponent.toggleShifted();
 			} else if (this.dataImg && this.getSelected.length) {
 				this.showError = false;
 				this.showPhoto = false;
