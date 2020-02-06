@@ -5,21 +5,19 @@
 			:user="notification.user"
 			hide-name
 		/>
-		<div class="notification-message">
+		<div class="notification-message" @click="goToLandingPost">
 			<div class="message" :class="{ is_poll: notification.post.type == 'pollPost' }">
 				<span>
-					<UserLink
-						size="30"
-						:user="notification.user"
-						hide-avatar
-					/>
+					<span class="user_name">
+						{{ notification.user.screenName }}
+					</span>
 					{{ banner ? $t('Just') : '' }}
 					{{ banner ? $t('notify.commented') : $t('notify.commentedq') }}
 					{{ banner && notification.post.type == 'pollPost' ? $t('YourPoll') : '' }}
 					{{ banner && notification.post.type == 'singleItemPost' ? $t('YourItem') : '' }}
 					{{ banner && notification.post.type == 'galleryPost' ? $t('YourPicture') : '' }}
 					{{ banner && notification.post.type == 'outfitPost' ? $t('YourOutfit') : '' }}
-					<span v-if="!banner" @click="goToLandingPost">
+					<span v-if="!banner">
 						{{ notification.text || $t('notify.post') }}
 					</span>
 				</span>
@@ -154,4 +152,8 @@ export default {
 			span
 				font-size 3.23vw
 				line-height 3.69vw
+.user_name
+	font-size 3.23vw
+	font-weight 600
+	line-height 4vw
 </style>

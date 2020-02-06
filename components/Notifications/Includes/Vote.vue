@@ -6,16 +6,14 @@
 			:user="votedUser"
 			hide-name
 		/>
-		<div class="notification-message">
+		<div class="notification-message" @click="goToLandingPost">
 			<div class="message">
 				<span>
-					<UserLink
-						ref="user-link-name"
-						:user="votedUser"
-						hide-avatar
-					/>
+					<span class="user_name">
+						{{ notification.user.screenName }}
+					</span>
 					{{ $t('notify.vote') }}
-					<span ref="post-title" class="text-bold cursor-pointer" @click="goToLandingPost">
+					<span ref="post-title" class="text-bold cursor-pointer">
 						{{ notification.text || $t('notify.post') }}
 					</span>
 				</span>
@@ -121,4 +119,8 @@ i.sqdi-checkmark
 		font-weight 600
 .cursor-pointer
 	cursor pointer
+.user_name
+	font-size 3.23vw
+	font-weight 600
+	line-height 4vw
 </style>
