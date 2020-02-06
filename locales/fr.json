@@ -273,6 +273,10 @@
 	"profile_settings": {
 		"delete_account": "Supprimer le compte",
 		"feedback": "Écrivez nous",
+		"signout": {
+			"button": "Sign out",
+			"confirm": "Are you sure you want to sign out?"
+		},
 		"general": "Général",
 		"language": {
 			"description": "How often do you want to get notifications?",

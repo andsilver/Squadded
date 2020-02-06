@@ -132,6 +132,22 @@
 				<v-textarea outlined :rows="3" />
 			</div>
 		</div>
+		<section class="my-4 d-flex">
+			<div class="mr-3">
+				<v-btn icon>
+					<v-icon small color="black">
+						mdi-power
+					</v-icon>
+				</v-btn>
+			</div>
+			<div class="mt-1 flex-grow-1" @click="signout">
+				<div class="d-flex justify-space-between align-center">
+					<h5 style="margin-top: 4px;">
+						{{ $t('profile_settings.signout.button') }}
+					</h5>
+				</div>
+			</div>
+		</section>
 		<div class="mt-4 py-4 d-flex justify-center">
 			<Button ref="save-button" style="width: 100px;">
 				{{ $t('Save') }}
@@ -217,6 +233,15 @@ export default {
 		this.user = Object.assign({}, this.me);
 		this.user.language = this.languages[0];
 		this.user.notification = this.notifications[0].value;
+	},
+	methods: {
+		signout: function (event) {
+			if (confirm(this.$t('profile_settings.signout.confirm'))) {
+				localStorage.clear();
+				sessionStorage.clear();
+				location.reload();
+			}
+		},
 	},
 };
 </script>
