@@ -16,19 +16,20 @@
 				<v-list-item
 					v-for="link in menu"
 					:key="link.uri"
+					:class="$t(link.title)"
 					@click.native="closeMenu"
 				>
-					<div class="left-content-sec">
-						<img :src="link.images">
-					</div>
-					<div class="right-content-sec">
-						<nuxt-link :to="link.uri">
+					<nuxt-link :to="link.uri">
+						<div class="left-content-sec">
+							<img :src="link.images">
+						</div>
+						<div class="right-content-sec">
 							{{ $t(link.title) }}
 							<div class="discription">
 								{{ $t(link.des) }}
 							</div>
-						</nuxt-link>
-					</div>
+						</div>
+					</nuxt-link>
 				</v-list-item>
 			</v-list>
 		</v-menu>
@@ -121,7 +122,9 @@ export default {
     color: #000;
     font-size: 3.466vw;
     font-weight: 700;
-    padding-bottom: 1.07vw;
+	width: 100%;
+    display: flex;
+    align-items: center;
 }
 .open-add-section .v-list-item.theme--light {
     padding: 0;
@@ -129,6 +132,10 @@ export default {
 	align-items :center;
     padding-bottom: 3.280vw;
     border-bottom: 0.4vw solid #DBDBDB;
+	padding-top: 3.28vw;
+}
+.open-add-section .v-list-item.theme--light.Outfit {
+    padding-top: 0px;
 }
 .discription {
     color: #B8B8BA;
