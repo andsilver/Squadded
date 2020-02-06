@@ -2,6 +2,7 @@
 	<v-tab
 		:key="tab.uri"
 		:to="tab.uri"
+		:disabled="!socket.isAuth"
 		class="tab_item"
 	>
 		<v-icon class="tab_icon">
@@ -13,6 +14,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 
 export default {
 	props: {
@@ -20,6 +22,11 @@ export default {
 			type: Object,
 			required: true,
 		},
+	},
+	computed: {
+		...mapState([
+			'socket',
+		]),
 	},
 };
 </script>

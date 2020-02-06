@@ -175,6 +175,7 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import { UserStore, UserActions } from '~/store/user';
 import { PostStore, PostMutations } from '~/store/post';
 import { prefetch } from '~/helpers';
+import { DEFAULT_LANDING } from '~/store/squad';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -244,7 +245,12 @@ export default {
 			this.user.avatar = img.href;
 		},
 		checkNameSelected () {
-			if (this.me && this.me.nameSelected) {
+			if (!this.me) {
+				return;
+			}
+			if (this.me.squaddersCount) {
+				this.$router.push(DEFAULT_LANDING);
+			} else if (this.me.nameSelected) {
 				this.$router.push('/create-your-squad');
 			}
 		},

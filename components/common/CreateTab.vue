@@ -1,8 +1,8 @@
 <template>
-	<v-tab class="create tab_item" @click="toggleMenu">
+	<v-tab :disabled="!socket.isAuth" class="create tab_item" @click="toggleMenu">
 		<v-menu top offset-y>
 			<template v-slot:activator="{ on }">
-				<v-btn ref="createTabBtn" icon :disabled="!socket.isAuth" v-on="on">
+				<v-btn ref="createTabBtn" icon v-on="on">
 					<v-icon
 						class="tab_icon plus_icon"
 					>
@@ -69,9 +69,7 @@ export default {
 	},
 	methods: {
 		toggleMenu () {
-			if (this.socket.isAuth) {
-				this.$root.$emit('overlayToggle', {});
-			}
+			this.$root.$emit('overlayToggle', {});
 		},
 		closeMenu () {
 			this.$root.$emit('overlayClose', {});

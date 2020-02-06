@@ -10,6 +10,7 @@ describe('User Invitation', () => {
 	let wrapper;
 	let $ws;
 	let user;
+	let me;
 
 	const INVITE_TEXT = 'invite-text';
 	const INVITE_ACTIONS = 'invite-actions';
@@ -21,6 +22,8 @@ describe('User Invitation', () => {
 			sendObj: jest.fn(),
 		};
 		user = userMockBuilder().get();
+		me = userMockBuilder().get();
+		me.nameSelected = true;
 		wrapper = shallowMount(Invitation, {
 			mocks: {
 				$t: msg => msg,
@@ -28,6 +31,7 @@ describe('User Invitation', () => {
 			},
 			propsData: {
 				user,
+				me,
 			},
 		});
 	});

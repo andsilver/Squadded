@@ -114,7 +114,10 @@ describe('Default layout', () => {
 		const user = userMockBuilder().get();
 		user.nameSelected = true;
 		user.squaddersCount = 1;
+		global.JSON.parse = jest.fn().mockReturnValue({ sub: user.guid });
+		global.atob = jest.fn().mockReturnValue();
 		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
+		await store.commit(`${UserStore}/${UserMutations.setToken}`, 'token');
 		expect($router.push).toHaveBeenCalledWith(DEFAULT_LANDING);
 	});
 
@@ -122,7 +125,10 @@ describe('Default layout', () => {
 		wrapper.setData({ firstTime: true });
 		const user = userMockBuilder().get();
 		user.nameSelected = false;
+		global.JSON.parse = jest.fn().mockReturnValue({ sub: user.guid });
+		global.atob = jest.fn().mockReturnValue();
 		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
+		await store.commit(`${UserStore}/${UserMutations.setToken}`, 'token');
 		expect($router.push).toHaveBeenCalledWith('/select-username');
 	});
 

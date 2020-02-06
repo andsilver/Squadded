@@ -28,9 +28,17 @@ export default {
 			type: Object,
 			required: true,
 		},
+		me: {
+			type: Object,
+			required: true,
+		},
 	},
 	methods: {
 		accept() {
+			if (!this.me.nameSelected) {
+				this.$router.push('/select-username');
+				return;
+			}
 			this.$ws.sendObj({
 				type: 'acceptSquad',
 				targetUserId: this.user.userId,

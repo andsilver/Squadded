@@ -48,7 +48,7 @@
 				<Actions :user="user" class="popup-menu" />
 			</div>
 			<userStatistics :user="user" />
-			<Invitation v-if="showInvitation" ref="invitation" :user="user" @accept="acceptInvite" />
+			<Invitation v-if="showInvitation" ref="invitation" :user="user" :me="me" @accept="acceptInvite" />
 			<v-tabs
 				v-model="tabs"
 				class="px-1"
@@ -72,12 +72,12 @@
 				</v-tab-item>
 			</v-tabs-items>
 		</v-layout>
-		<NotSignedInDialog ref="not-signed-in-dialog" :user="user" :show="!me" />
+		<NotSignedInDialog ref="not-signed-in-dialog" :user="user" :show="!socket.isAuth" />
 	</v-container>
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
 import ProfileToolbar from './ProfileToolbar';
 import userAvatar from './userAvatar';
 import userName from './userName';
@@ -92,8 +92,9 @@ import Blog from '~/components/Blog';
 import Whishlist from '~/components/Whishlist';
 import NotSignedInDialog from '~/components/LandingPost/NotSignedInDialog';
 import Button from '~/components/common/Button';
+import { fetchUser } from '~/services/user';
 
-const { mapState } = createNamespacedHelpers(UserStore);
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	name: 'User',
@@ -118,6 +119,9 @@ export default {
 		if (params.id === store.state.user.me.userId) {
 			redirect('/me');
 		}
+		if (!store.state.socket.isAuth) {
+			return fetchUser(params.id);
+		}
 		return prefetch({
 			guid: params.id,
 			mutation: `${UserStore}/${UserMutations.setOther}`,
@@ -135,6 +139,9 @@ export default {
 	}),
 	computed: {
 		...mapState([
+			'socket',
+		]),
+		...userState([
 			'me',
 		]),
 		user () {

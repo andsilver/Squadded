@@ -1,6 +1,6 @@
 export const isHome = routeName => (routeName === 'index');
 
-export const isPublic = routeName => isHome(routeName) || routeName === 'community' || routeName === 'onboarding';
+export const isPublic = routeName => isHome(routeName) || ['community', 'onboarding', 'user-id'].includes(routeName);
 
 export const shortNumber = (number, locale = 'en') => new Intl.NumberFormat(locale, { notation: 'compact', compactDisplay: 'short' }).format(number);
 

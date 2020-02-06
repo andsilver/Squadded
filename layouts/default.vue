@@ -71,9 +71,8 @@ export default {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
 			}
-			if (mutation.type === `${UserStore}/${UserMutations.setMe}` && mutation.payload && this.firstTime) {
-				this.firstTime = false;
-				const user = mutation.payload;
+			if (mutation.type === `${UserStore}/${UserMutations.setToken}`) {
+				const user = this.me;
 				if (!user.nameSelected) {
 					this.$router.push('/select-username');
 					return;
@@ -90,6 +89,9 @@ export default {
 		});
 		if (this.isTouch) {
 			onToggleKeyboard(this.toggleKeyboard.bind(this));
+		}
+		if (this.squad.route.name === 'user-id') {
+			this.$router.push(this.squad.route);
 		}
 	},
 	destroyed() {

@@ -102,9 +102,9 @@ describe('Feed Page', () => {
 		});
 	});
 
-	it('should go to \'create your squad\' page when squaddersCount is 0', async () => {
+	it('should go to \'create your squad\' page when squaddersCount is 0 and nameSelected', async () => {
 		await store.commit('SET_SOCKET_AUTH', true);
-		me = { isMe: true, squaddersCount: 0 };
+		me = { isMe: true, squaddersCount: 0, nameSelected: true };
 		initLocalVue();
 		expect($router.push).toHaveBeenCalledWith('/create-your-squad');
 	});
@@ -112,7 +112,7 @@ describe('Feed Page', () => {
 	it('should fetch squadders and first user in squadder should be me', async () => {
 		prefetch.mockReturnValue(Promise.resolve([{ isMe: false }]));
 		await store.commit('SET_SOCKET_AUTH', true);
-		me = { isMe: true, squaddersCount: 2 };
+		me = { isMe: true, squaddersCount: 2, nameSelected: true };
 		initLocalVue();
 		expect(prefetch).toHaveBeenCalledWith({
 			type: 'fetchSquadders',

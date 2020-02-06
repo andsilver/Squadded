@@ -59,7 +59,9 @@ export default {
 		if (!this.me) {
 			return;
 		}
-		if (!this.me.squaddersCount) {
+		if (!this.me.nameSelected) {
+			this.$router.push('/select-username');
+		} else if (!this.me.squaddersCount) {
 			this.$router.push('/create-your-squad');
 		} else {
 			this.fetchSquadders();
