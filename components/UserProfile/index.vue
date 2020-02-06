@@ -225,6 +225,9 @@ export default {
 			} else {
 				this.other.squad.pending = false;
 				this.other = Object.assign({}, this.other);
+				const me = this.me;
+				me.squaddersCount ? me.squaddersCount += 1 : me.squaddersCount = 1;
+				this.$store.commit(`${UserStore}/${UserMutations.setMe}`, this.me);
 			}
 		},
 	},
