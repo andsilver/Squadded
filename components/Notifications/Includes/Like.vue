@@ -9,7 +9,7 @@
 		<div class="notification-message" @click="goToLandingPost">
 			<div class="message" :class="{ is_poll: notification.post.type == 'pollPost' }">
 				<span>
-					<span class="user_name">
+					<span ref="user-link-name" class="user_name">
 						{{ notification.user.screenName }}
 					</span>
 					{{ banner ? $t('Just') : '' }}

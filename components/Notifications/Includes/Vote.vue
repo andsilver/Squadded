@@ -9,7 +9,7 @@
 		<div class="notification-message" @click="goToLandingPost">
 			<div class="message">
 				<span>
-					<span class="user_name">
+					<span ref="user-link-name" class="user_name">
 						{{ notification.user.screenName }}
 					</span>
 					{{ $t('notify.vote') }}
