@@ -18,6 +18,9 @@
 				<p v-if="showError && getSelected.length === 0" class="tip-note error-note">
 					{{ $t('tip.photoError') }}
 				</p>
+				<p v-if="LimitshowError" class="tip-note error-note">
+					{{ $t('tip.photoLimitError') }}
+				</p>
 				<div class="bottom photo-create">
 					<SelectedItems ref="selected-items" />
 					<div class="button-section">
@@ -130,6 +133,7 @@ export default {
 		file: null,
 		showPhoto: true,
 		showError: false,
+		LimitshowError: false,
 		post: new FeedPost({
 			type: 'galleryPost',
 			img: '',
@@ -151,6 +155,9 @@ export default {
 		complete () {
 			return !!(this.getSelected.length);
 		},
+	},
+	created () {
+		this.$root.$on('selectProducts', data => this.selectProducts(data));
 	},
 	methods: {
 		async create () {
@@ -225,6 +232,13 @@ export default {
 				done: false,
 				failed: false,
 			};
+		},
+		selectProducts(options) {
+			if (this.getSelected.length >= 2 && !options) {
+				this.LimitshowError = false;
+			} else if (options) {
+				this.LimitshowError = true;
+			}
 		},
 	},
 };

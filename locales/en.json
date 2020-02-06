@@ -264,6 +264,7 @@
     "pollError": "You need to select 2 items to create a poll",
     "createPhotoTag": "click photo to tag items",
     "photoError": "Click the items you want to tag to post a picture.",
+    "photoLimitError": "You cannot tags more than 4 items",
     "tapPhotos": "click photos for details"
   },
   "user": {
