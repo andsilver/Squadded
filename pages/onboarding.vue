@@ -10,11 +10,18 @@
 </template>
 
 <script>
+import { DEFAULT_LANDING } from '~/store/squad';
 import Button from '~/components/common/Button';
 
 export default {
 	components: {
 		Button,
+	},
+	asyncData({ store, redirect }) {
+		if (!store.state.socket.isAuth) {
+			return;
+		}
+		redirect(DEFAULT_LANDING);
 	},
 	methods: {
 		skip () {

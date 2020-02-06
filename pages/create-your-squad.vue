@@ -60,6 +60,7 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import { UserStore } from '~/store/user';
 import TopBar from '~/components/common/TopBar.vue';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
+import { DEFAULT_LANDING } from '~/store/squad';
 
 const CANCALED_BY_USER = 20;
 
@@ -69,6 +70,17 @@ export default {
 	components: {
 		TopBar,
 		ShareProfile,
+	},
+	asyncData({ store, redirect }) {
+		const { me } = store.state.user;
+		if (!me.guid) {
+			return;
+		}
+		if (!me.nameSelected) {
+			redirect('/select-username');
+		} else if (me.squaddersCount) {
+			redirect(DEFAULT_LANDING);
+		}
 	},
 	data: () => ({
 		showShare: false,
@@ -94,11 +106,6 @@ export default {
 			const target = JSON.stringify(this.target);
 			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
 		},
-	},
-	mounted () {
-		if (this.me && !this.me.nameSelected) {
-			this.$router.push('/select-username');
-		}
 	},
 	methods: {
 		async share () {

@@ -33,6 +33,17 @@ export default {
 		TopBar,
 		Squadders,
 	},
+	asyncData({ store, redirect }) {
+		const { me } = store.state.user;
+		if (!me.guid) {
+			return;
+		}
+		if (!me.nameSelected) {
+			redirect('/select-username');
+		} else if (!me.squaddersCount) {
+			redirect('/create-your-squad');
+		}
+	},
 	data: () => ({
 		loadNew: false,
 		squadders: [],
@@ -54,18 +65,7 @@ export default {
 	},
 	created () {
 		this.onOpen();
-	},
-	mounted () {
-		if (!this.me) {
-			return;
-		}
-		if (!this.me.nameSelected) {
-			this.$router.push('/select-username');
-		} else if (!this.me.squaddersCount) {
-			this.$router.push('/create-your-squad');
-		} else {
-			this.fetchSquadders();
-		}
+		this.fetchSquadders();
 	},
 	methods: {
 		async onOpen () {

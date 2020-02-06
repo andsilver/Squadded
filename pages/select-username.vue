@@ -180,6 +180,15 @@ import { DEFAULT_LANDING } from '~/store/squad';
 const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
+	asyncData({ store, redirect }) {
+		const { me } = store.state.user;
+		if (me.squaddersCount) {
+			redirect(DEFAULT_LANDING);
+		} else if (me.nameSelected) {
+			redirect('/create-your-squad');
+		}
+		return { user: me };
+	},
 	data: () => ({
 		user: null,
 		file: null,
@@ -200,12 +209,6 @@ export default {
 			this.user = Object.assign({}, this.me);
 			this.checkNameSelected();
 		},
-	},
-	mounted () {
-		if (this.me && this.me.guid) {
-			this.user = Object.assign({}, this.me);
-		}
-		this.checkNameSelected();
 	},
 	methods: {
 		openFileUpload() {
@@ -245,7 +248,7 @@ export default {
 			this.user.avatar = img.href;
 		},
 		checkNameSelected () {
-			if (!this.me) {
+			if (!this.me.guid) {
 				return;
 			}
 			if (this.me.squaddersCount) {

@@ -62,10 +62,4 @@ describe('Create Your Squad', () => {
 		const shareProfileModal = wrapper.ref(SHARE_PROFILE_MODAL);
 		expect(shareProfileModal.exists()).toBe(true);
 	});
-
-	it('should go to \'select username\' page if nameSelected is false', () => {
-		me.nameSelected = false;
-		initLocalVue(me);
-		expect($router.push).toHaveBeenCalledWith('/select-username');
-	});
 });

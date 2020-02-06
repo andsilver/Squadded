@@ -70,20 +70,21 @@ export default {
 		this.unsubscribe = this.$store.subscribe((mutation) => {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
-			}
-			if (mutation.type === `${UserStore}/${UserMutations.setToken}`) {
-				const user = this.me;
-				if (!user.nameSelected) {
-					this.$router.push('/select-username');
-					return;
-				}
-				if (!user.squaddersCount) {
-					this.$router.push('/create-your-squad');
-					return;
-				}
-				this.$router.push(DEFAULT_LANDING);
-			}
-			if (mutation.type === `${ActivityStore}/${ActivityMutations.addPost}` && !this.socket.isAuth) {
+			} else if (mutation.type === `${UserStore}/${UserMutations.setToken}`) {
+				setTimeout(() => {
+					const { me } = this;
+					if (!me.guid) {
+						return;
+					}
+					if (!me.nameSelected) {
+						this.$router.push('/select-username');
+					} else if (!me.squaddersCount) {
+						this.$router.push('/create-your-squad');
+					} else {
+						this.$router.push(DEFAULT_LANDING);
+					}
+				}, 100);
+			} else if (mutation.type === `${ActivityStore}/${ActivityMutations.addPost}` && !this.socket.isAuth) {
 				this.$router.push('/onboarding');
 			}
 		});
