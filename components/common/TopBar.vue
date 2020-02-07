@@ -9,7 +9,10 @@
 			<v-tab to="/all">
 				{{ $t('Home') }}
 			</v-tab>
-			<v-tab to="/feed">
+			<v-tab v-if="!mySquad" to="/feed">
+				{{ $t('My Squad') }}
+			</v-tab>
+			<v-tab v-if="mySquad" to="/create-your-squad">
 				{{ $t('My Squad') }}
 			</v-tab>
 		</v-tabs>
@@ -25,6 +28,12 @@
 
 <script>
 export default {
+	props: {
+		mySquad: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	data: () => ({
 		tab: 0,
 	}),

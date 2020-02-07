@@ -1,6 +1,6 @@
 <template>
 	<v-container v-if="socket.isAuth" class="layout-padding">
-		<TopBar ref="top-bar" class="topBar" />
+		<TopBar ref="top-bar" my-squad class="topBar" />
 		<v-layout column class="create-your-squad">
 			<div ref="create-squad-text" class="create-text-sec">
 				<h2>
