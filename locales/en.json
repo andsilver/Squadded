@@ -246,6 +246,9 @@
       "galleryPost": "Gallery",
       "comments": "Comments"
     },
+    "watchUser": "Watch {user}",
+    "unwatchUser": "Unwatch {user}",
+    "removeUser": "Remove {user}",
     "unwatchRachel": "Unwatch Rachel",
     "addToMySquad": "Add to My Squad",
     "removeRachel": "Remove Rachel"

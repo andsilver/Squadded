@@ -31,6 +31,8 @@ export class FeedPost {
 			user = {
 				avatar: '',
 				screenName: '',
+				mysquad: false,
+				followed: false,
 			},
 			userId = null,
 			error = null,

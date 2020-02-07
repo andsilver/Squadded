@@ -18,7 +18,7 @@
 			</template>
 
 			<v-list class="comment-setting-options two_settings_options">
-				<v-list-item class="comment-menu-action comment-setting-option">
+				<v-list-item ref="close" class="comment-menu-action comment-setting-option">
 					<v-list-item-title class="setting-label action">
 						{{ $t(`comment.pop.Action`) }}
 						<v-btn icon height="30px" class="button_more" @click="menu = false">
@@ -28,47 +28,55 @@
 						</v-btn>
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="post-menu-share comment-menu-share comment-setting-option">
+				<v-list-item ref="sharelink" class="post-menu-share comment-menu-share comment-setting-option">
 					<v-list-item-title class="setting-label share" @click="share">
 						{{ $t(`post.pop.sharelink.menu`) }}
 					</v-list-item-title>
 				</v-list-item>
 				<template v-if="post.byMe">
-					<v-list-item class="post-menu-edit comment-menu-privpub comment-setting-option">
+					<v-list-item ref="toggle" class="post-menu-edit comment-menu-privpub comment-setting-option">
 						<v-list-item-title class="setting-label" :class="{ public: post.private, private: !post.private }" @click="togglePrivate">
 							{{ $t(`post.pop.${ post.private ? 'setPublic' : 'setPrivate' }.menu`) }}
 						</v-list-item-title>
 					</v-list-item>
 					<v-list-item class="post-menu-share comment-menu-edit comment-setting-option">
-						<v-list-item-title class="setting-label edit" @click="editPost">
+						<v-list-item-title ref="edit" class="setting-label edit" @click="editPost">
 							{{ $t(`post.pop.edit.menu`) }}
 						</v-list-item-title>
 					</v-list-item>
 					<v-list-item class="post-menu-edit comment-menu-delete comment-setting-option">
-						<v-list-item-title class="setting-label delete" @click="promptDelete">
+						<v-list-item-title ref="delete" class="setting-label delete" @click="promptDelete">
 							{{ $t(`post.pop.deletePost.menu`) }}
 						</v-list-item-title>
 					</v-list-item>
 				</template>
 				<template v-else>
 					<v-list-item class="post-menu-report comment-menu-report comment-setting-option">
-						<v-list-item-title class="setting-label report" @click="promptReportPost">
+						<v-list-item-title ref="report" class="setting-label report" @click="promptReportPost">
 							{{ $t(`post.pop.reportPost.menu`) }}
 						</v-list-item-title>
 					</v-list-item>
-					<v-list-item class="post-menu-share comment-menu-unwatch comment-setting-option">
+					<v-list-item v-if="post.user.followed" ref="unwatch" class="post-menu-share comment-menu-unwatch comment-setting-option">
 						<v-list-item-title class="setting-label unwatch">
-							{{ $t(`post.unwatchRachel`) }}
+							{{ $t(`post.unwatchUser`, { user: post.user.screenName }) }}
 						</v-list-item-title>
 					</v-list-item>
-					<v-list-item class="post-menu-share comment-menu-addtomysquad comment-setting-option">
+					<v-list-item v-else ref="watch" class="post-menu-share comment-menu-watch comment-setting-option">
+						<v-list-item-title class="setting-label">
+							<v-icon small color="black">
+								mdi-eye-outline
+							</v-icon>
+							<span class="ml-1">{{ $t(`post.watchUser`, { user: post.user.screenName }) }}</span>
+						</v-list-item-title>
+					</v-list-item>
+					<v-list-item v-if="!post.user.mysquad" ref="add" class="post-menu-share comment-menu-addtomysquad comment-setting-option">
 						<v-list-item-title class="setting-label addtomysquad">
 							{{ $t(`post.addToMySquad`) }}
 						</v-list-item-title>
 					</v-list-item>
-					<v-list-item class="post-menu-share comment-menu-rmtomysquad comment-setting-option">
+					<v-list-item v-else ref="remove" class="post-menu-share comment-menu-rmtomysquad comment-setting-option">
 						<v-list-item-title class="setting-label rmtomysquad">
-							{{ $t(`post.removeRachel`) }}
+							{{ $t(`post.removeUser`, { user: post.user.screenName }) }}
 						</v-list-item-title>
 					</v-list-item>
 				</template>
@@ -82,7 +90,7 @@
 			<v-card>
 				<v-card-title class="card-title">
 					{{ $t('post.pop.reportPost.question') }}
-					<v-btn icon class="close-dialog" @click.native="hide">
+					<v-btn ref="close-icon-btn-report-dialog" icon class="close-dialog" @click="hide">
 						<v-icon size="3.69vw">
 							sqdi-close-cross
 						</v-icon>
@@ -103,10 +111,10 @@
 					/>
 				</v-card-text>
 				<v-card-actions class="d-flex justify-center card-action">
-					<Button class="flex-grow-1" :disabled="disabled" @click.native="reportPost">
+					<Button ref="report-btn" class="flex-grow-1" :disabled="disabled" @click.native="reportPost">
 						{{ $t('comment.pop.reportComment.menu') }}
 					</Button>
-					<Button class="flex-grow-1" :active="false" @click.native="hide">
+					<Button ref="close-btn-report-dialog" class="flex-grow-1" :active="false" @click.native="hide">
 						{{ $t('Cancel') }}
 					</Button>
 				</v-card-actions>
@@ -127,7 +135,7 @@
 					<span class="delete-text">{{ $t('post.pop.deletePost.description') }}</span>
 				</v-card-text>
 				<v-card-actions class="d-flex justify-center card-action">
-					<Button class="flex-grow-1 delete-button" @click.native="deletePost">
+					<Button ref="delete-post-btn" class="flex-grow-1 delete-button" @click.native="deletePost">
 						{{ $t('post.pop.deletePost.menu') }}
 					</Button>
 					<Button class="flex-grow-1" :active="false" @click.native="editPost">
