@@ -234,11 +234,13 @@ p.tip-note.error-note {
 .public-right-section{
 	width: 100%;
     text-align: center;
-    position: fixed;
     bottom: 0;
     background: #fff;
     z-index: 111;
     height: 25vw;
+}
+.show-tabs .public-right-section{
+	position: fixed;
 }
 .bottom-post-sec button.mt-2.v-btn.v-size--default {
 	height: 42px;

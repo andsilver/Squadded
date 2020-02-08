@@ -81,7 +81,7 @@ img.logo {
 }
 .row.expire-section .col.col-6 {
     margin-left: 4.61vw;
-	margin-right: 10.6vw;
+	margin-right: 9.9vw;
 }
 label.expire-in {
     color: #000000;
