@@ -188,7 +188,7 @@
     "vote": "VOTE",
     "voted": "VOTED",
     "details": "Poll Details",
-    "expired": "Expired",
+    "expired": "Poll Ended",
     "votes": "votes | votes"
   },
   "post": {
