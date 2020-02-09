@@ -300,10 +300,12 @@ export const actions = {
 		commit(PostMutations.deleteComment, { post,	comment });
 		storeCommentReportInSession(comment);
 	},
-	[PostActions.reportPost]: ({ rootState }, { post }) => {
+	[PostActions.reportPost]: ({ rootState }, { post, reason, other }) => {
 		rootState.socket.$ws.sendObj({
 			type: 'report',
 			postId: post.postId || post.guid,
+			reason,
+			other,
 		});
 		storePostReportInSession(post);
 	},

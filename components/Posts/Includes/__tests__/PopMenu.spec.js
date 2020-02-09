@@ -111,8 +111,11 @@ describe('PopMenu', () => {
 		await wrapper.ref(CLOSE_BTN_REPORT_DIALOG).trigger('click');
 		expect(wrapper.vm.showReasonDialog).toBe(false);
 		await wrapper.ref(REPORT).trigger('click');
+		const reason = 'other';
+		const other = 'otherreason';
+		wrapper.setData({ reason, other });
 		await wrapper.ref(REPORT_BTN).trigger('click');
-		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.reportPost}`, { post });
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.reportPost}`, {	post, reason, other });
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.removePost}`, post.postId);
 		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.removePost}`, post.postId);
 		expect(store.commit).toHaveBeenCalledWith(`${PairedItemStore}/${PairedItemMutations.removePost}`, post.postId);

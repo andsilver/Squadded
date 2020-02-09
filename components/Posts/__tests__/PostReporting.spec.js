@@ -92,7 +92,10 @@ describe('PostReporting, current user IS NOT me', () => {
 	});
 
 	it('report method is called, it sends websocket event with correct payload', async () => {
+		const reason = 'other';
+		const other = 'other reason';
+		wrapper.setData({ reason, other });
 		await wrapper.vm.reportPost();
-		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.reportPost}`, { post });
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.reportPost}`, { post, other, reason });
 	});
 });

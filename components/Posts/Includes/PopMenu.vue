@@ -242,13 +242,19 @@ export default {
 				`${NotificationStore}/${NotificationMutations.add}`,
 				message,
 			);
+			this.hide();
 		},
 		reportPost () {
 			const { postId } = this.post;
-			this.$store.dispatch(`${PostStore}/${PostActions.reportPost}`, { post: this.post });
+			this.$store.dispatch(`${PostStore}/${PostActions.reportPost}`, {
+				post: this.post,
+				reason: this.reason,
+				other: this.other,
+			});
 			this.$store.commit(`${FeedStore}/${FeedMutations.removePost}`, postId);
 			this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
 			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.removePost}`, postId);
+			this.hide();
 		},
 		togglePrivate () {
 			this.post.private ? this.setPublic() : this.setPrivate();

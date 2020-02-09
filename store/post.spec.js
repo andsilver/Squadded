@@ -257,11 +257,15 @@ describe('Post store module', () => {
 
 	it('should report a post', async () => {
 		const post = aDefaultSingleItemMsgBuilder().withGUID().get();
+		const reason = 'reason';
+		const other = 'other';
 		global.sessionStorage = new Storage();
-		await root.dispatch(`${PostStore}/${PostActions.reportPost}`, { post });
+		await root.dispatch(`${PostStore}/${PostActions.reportPost}`, { post, reason, other });
 		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
 			type: 'report',
 			postId: post.postId,
+			reason,
+			other,
 		});
 		expect(postReported(post)).toBe(true);
 	});
