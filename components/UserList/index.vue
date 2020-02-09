@@ -7,7 +7,7 @@
 				size="35"
 				:user="user"
 			/>
-			<Follow v-if="notMe(user)" ref="follow-btn" :user="user" class="follow" />
+			<Follow v-if="notMe(user) && showFollow" ref="follow-btn" :user="user" class="follow" />
 		</v-list-item>
 	</v-list>
 </template>
@@ -25,6 +25,10 @@ export default {
 		users: {
 			type: Array,
 			default: () => [],
+		},
+		showFollow: {
+			type: Boolean,
+			default: true,
 		},
 	},
 	methods: {

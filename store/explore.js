@@ -26,6 +26,7 @@ export const state = () => ({
 		ts: null,
 		items: null,
 	},
+	friends: null,
 });
 
 export const ExploreGetters = {
@@ -38,6 +39,7 @@ export const getters = {
 
 export const ExploreMutations = {
 	setItems: 'setItems',
+	setFriends: 'setFriends',
 };
 
 export const mutations = {
@@ -60,10 +62,14 @@ export const mutations = {
 		state[type].ts = ts;
 		sessionStorage.setItem(STORAGE_KEYS[type], JSON.stringify(content));
 	},
+	[ExploreMutations.setFriends]: (state, friends) => {
+		state.friends = friends;
+	},
 };
 
 export const ExploreActions = {
 	fetchItems: 'fetchItems',
+	searchFriends: 'searchFriends',
 };
 
 export const actions = {
@@ -88,6 +94,16 @@ export const actions = {
 		rootState.socket.$ws.sendObj({
 			type: `fetch${capitalized}`,
 		});
+	},
+	[ExploreActions.searchFriends]: ({ rootState, commit }, text) => {
+		if (!text) {
+			commit(ExploreMutations.setFriends, null);
+			return;
+		}
+		if (text.length < 3) {
+			return;
+		}
+		rootState.socket.$ws.sendObj({ type: 'searchUsers', text });
 	},
 };
 

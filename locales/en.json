@@ -377,6 +377,9 @@
     "ending_polls": {
       "title": "Ending Polls",
       "description": "Hurry up, help others in their decision before their poll expires"
+    },
+    "search": {
+      "find_friends": "Find friends..."
     }
   },
   "community": {

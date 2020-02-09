@@ -1,32 +1,47 @@
 <template>
-	<v-container class="layout-padding">
-		<TopItems ref="top-items" class="mb-8" />
-		<EndingPolls ref="ending-polls" class="mb-8" />
-		<TopOutfits ref="top-outfits" class="mb-8" />
-		<TopGallery ref="top-gallery" />
-	</v-container>
+	<div class="pt-0">
+		<SearchFriends ref="search-field" />
+		<div v-if="!friends" class="explore-content">
+			<TopItems ref="top-items" class="mb-8" />
+			<EndingPolls ref="ending-polls" class="mb-8" />
+			<TopOutfits ref="top-outfits" class="mb-8" />
+			<TopGallery ref="top-gallery" />
+		</div>
+		<UserList v-else ref="user-list" :show-follow="false" class="px-2" :users="friends" />
+	</div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
+import SearchFriends from '~/components/Explore/SearchFriends';
 import TopItems from '~/components/Explore/TopItems';
 import EndingPolls from '~/components/Explore/EndingPolls';
 import TopGallery from '~/components/Explore/TopGallery';
 import TopOutfits from '~/components/Explore/TopOutfits';
+import UserList from '~/components/UserList';
+import { ExploreStore } from '~/store/explore';
+
+const { mapState } = createNamespacedHelpers(ExploreStore);
 
 export default {
 	name: 'ExplorePage',
 	components: {
+		SearchFriends,
 		TopItems,
 		EndingPolls,
 		TopOutfits,
 		TopGallery,
+		UserList,
+	},
+	computed: {
+		...mapState([
+			'friends',
+		]),
 	},
 };
 </script>
 
-<style lang="stylus">
-.container.layout-padding
-	padding 40px 0 0 0
-	.layout
-		padding 12px
+<style lang="stylus" scoped>
+.explore-content
+	padding 16px 8px 0 8px
 </style>

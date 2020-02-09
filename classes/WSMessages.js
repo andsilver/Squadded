@@ -193,4 +193,9 @@ export class WSMessages {
 		const { post } = message;
 		this.store.commit(`${PostStore}/${PostMutations.setCurrentPost}`, post);
 	}
+
+	friends(message) {
+		const { users } = message;
+		this.store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, users);
+	}
 };
