@@ -140,11 +140,19 @@
 					</v-icon>
 				</v-btn>
 			</div>
-			<div class="mt-1 flex-grow-1" @click="signout">
+			<div class="mt-1 flex-grow-1">
 				<div class="d-flex justify-space-between align-center">
-					<h5 style="margin-top: 4px;">
+					<v-btn
+						ref="sign-out-button"
+						style="background-color: #fff !important; padding: 0; font-weight: 700;"
+						class="sign-out-button"
+						rounded
+						depressed
+						small
+						@click.native="signout"
+					>
 						{{ $t('profile_settings.signout.button') }}
-					</h5>
+					</v-btn>
 				</div>
 			</div>
 		</section>
@@ -255,6 +263,10 @@ section .v-btn
 	color #9e9e9e
 	font-weight 500
 	font-size 14px
+
+.sign-out-button
+	text-transform capitalize
+	letter-spacing 0
 
 .select-control >>> .v-input
 	.v-input__control
