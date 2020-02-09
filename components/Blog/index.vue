@@ -7,12 +7,12 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 
-const { mapState } = createNamespacedHelpers(ActivityStore);
+const activityState = createNamespacedHelpers(ActivityStore).mapState;
 
 export default {
 	name: 'Blog',
@@ -21,8 +21,11 @@ export default {
 		Preloader,
 	},
 	computed: {
-		...mapState([
+		...activityState([
 			'blog',
+		]),
+		...mapState([
+			'socket',
 		]),
 	},
 	created () {
@@ -30,6 +33,9 @@ export default {
 	},
 	methods: {
 		fetchBlog() {
+			if (!this.socket.isAuth) {
+				return;
+			}
 			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
 				type: 'blog',
 				guid: this.$route.params.id,

@@ -5,6 +5,11 @@ import { flushPromises } from '~/helpers';
 import { UserStore, UserMutations } from '~/store/user';
 import Store from '~/store';
 import { userMockBuilder } from '~/test/user.mock';
+import { fetchUser } from '~/services/user';
+
+jest.mock('~/services/user', () => ({
+	fetchUser: jest.fn(),
+}));
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -72,9 +77,39 @@ describe('User component', () => {
 		});
 	});
 
+	it('should call fetchUser rest api if not authenticated', async () => {
+		const user = userMockBuilder().get();
+		const params = {
+			id: user.userId,
+		};
+		const $route = {
+			params,
+		};
+		store.commit = jest.fn();
+		wrapper = shallowMount(User, {
+			localVue,
+			store,
+			mocks: {
+				$route,
+				$t: msg => msg,
+				_i18n: {
+					locale: 'en',
+				},
+			},
+		});
+		fetchUser.mockReturnValue(Promise.resolve({ user, blog: [] }));
+		const asyncPromise = wrapper.vm.$options.asyncData({ store, params });
+		await flushPromises();
+		await asyncPromise.then((data) => {
+			wrapper.setData(data);
+			expect(fetchUser).toHaveBeenCalledWith(user.userId);
+			expect(wrapper.vm.other).toEqual(user);
+		});
+	});
+
 	it('should redirect myself to /me', () => {
 		const me = userMockBuilder().get();
-
+		store.commit('SET_SOCKET_AUTH', true);
 		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 
 		const params = {

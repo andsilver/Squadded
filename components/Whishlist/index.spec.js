@@ -2,7 +2,6 @@ import { Chance } from 'chance';
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Whishlist from './index.vue';
-import { flushPromises } from '~/helpers';
 import Store from '~/store';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 
@@ -54,18 +53,6 @@ describe('Whishlist Component', () => {
 		});
 	});
 
-	it('should fetchWishlist on create', async () => {
-		expect(wrapper.vm.wishlist).toBe(null);
-
-		store.commit('SET_SOCKET_AUTH', true);
-		await flushPromises();
-
-		expect(ws.sendObj).toHaveBeenCalledWith({
-			guid: params.id,
-			type: 'fetchWishlist',
-		});
-	});
-
 	it('should render preloader', () => {
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
@@ -82,6 +69,7 @@ describe('Whishlist Component', () => {
 
 	it('should fetch items', () => {
 		store.dispatch = jest.fn();
+		store.commit('SET_SOCKET_AUTH', true);
 
 		shallowMount(Whishlist, {
 			localVue,

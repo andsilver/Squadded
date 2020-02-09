@@ -62,6 +62,7 @@ describe('Blog Component', () => {
 
 	it('should fetch blog on created', () => {
 		store.dispatch = jest.fn();
+		store.commit('SET_SOCKET_AUTH', true);
 
 		shallowMount(Blog, {
 			localVue,
@@ -74,6 +75,7 @@ describe('Blog Component', () => {
 
 	it('should fetch blog on loadMore event from Feed', () => {
 		store.dispatch = jest.fn();
+		store.commit('SET_SOCKET_AUTH', true);
 
 		shallowMount(Blog, {
 			localVue,

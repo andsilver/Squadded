@@ -13,12 +13,12 @@
 </template>
 
 <script>
-import { createNamespacedHelpers } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
 import WhishlistItem from './item';
 import Preloader from '~/components/Preloader.vue';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 
-const { mapState } = createNamespacedHelpers(ActivityStore);
+const activityState = createNamespacedHelpers(ActivityStore).mapState;
 
 export default {
 	name: 'Whishlist',
@@ -27,8 +27,11 @@ export default {
 		WhishlistItem,
 	},
 	computed: {
-		...mapState([
+		...activityState([
 			'wishlist',
+		]),
+		...mapState([
+			'socket',
 		]),
 	},
 	created () {
@@ -53,6 +56,9 @@ export default {
 			}
 		},
 		fetchWishlist() {
+			if (!this.socket.isAuth) {
+				return;
+			}
 			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
 				type: 'wishlist',
 				guid: this.$route.params.id,
