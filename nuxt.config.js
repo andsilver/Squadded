@@ -33,16 +33,27 @@ if (!WS_LINK) {
 	throw new Error('WS_LINK environment variable is required!');
 }
 
-if (!GTAG_ID) {
-	throw new Error('GTAG_ID environment variable is required!');
-}
-
 const server = USE_SSL === 'true' ? {
 	https: {
 		key: fs.readFileSync(path.resolve(__dirname, './dev/server.key')),
 		cert: fs.readFileSync(path.resolve(__dirname, './dev/server.crt')),
 	},
 } : null;
+
+const modules = [
+	'@nuxtjs/vuetify',
+	'@nuxtjs/pwa',
+	'@nuxtjs/eslint-module',
+];
+
+if (GTAG_ID) {
+	modules.push([
+		'@nuxtjs/google-gtag',
+		{
+			id: GTAG_ID,
+		},
+	]);
+}
 
 export default {
 	mode: 'spa',
@@ -133,14 +144,7 @@ export default {
 	/*
 	** Nuxt.js modules
 	*/
-	modules: [
-		'@nuxtjs/vuetify',
-		'@nuxtjs/pwa',
-		'@nuxtjs/eslint-module',
-		['@nuxtjs/google-gtag', {
-			id: GTAG_ID,
-		}],
-	],
+	modules,
 	/*
 	** Build configuration
 	*/
