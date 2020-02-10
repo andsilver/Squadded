@@ -87,14 +87,12 @@ import Invitation from './Invitation';
 import Actions from './Actions';
 import Follow from '~/components/common/Follow';
 import { UserStore, UserMutations } from '~/store/user';
-import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { prefetch } from '~/helpers';
 import Blog from '~/components/Blog';
 import Whishlist from '~/components/Whishlist';
 import NotSignedInDialog from '~/components/LandingPost/NotSignedInDialog';
 import Button from '~/components/common/Button';
 import { fetchUser } from '~/services/user';
-import { FeedPost } from '~/classes/FeedPost';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -122,10 +120,8 @@ export default {
 			redirect('/me');
 		}
 		if (!store.state.socket.isAuth) {
-			return fetchUser(params.id).then(({ user, blog, wishlist }) => ({
+			return fetchUser(params.id).then(({ user }) => ({
 				other: user,
-				blog,
-				wishlist,
 			}));
 		}
 		return prefetch({
@@ -193,19 +189,6 @@ export default {
 		this.userId = this.$route.params.id;
 		this.invite = this.$route.query ? this.$route.query.invite : false;
 		this.bindScroll();
-
-		if (!this.socket.isAuth) {
-			const blog = (this.blog && this.blog.length) ? this.blog.map(p => new FeedPost(p)) : [];
-			const wishlist = (this.wishlist && this.wishlist.length) ? this.wishlist.map(p => new FeedPost(p)) : [];
-			this.$store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, {
-				type: 'blog',
-				posts: blog,
-			});
-			this.$store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, {
-				type: 'wishlist',
-				posts: wishlist,
-			});
-		}
 	},
 	methods: {
 		bindScroll () {

@@ -97,7 +97,7 @@ describe('User component', () => {
 				},
 			},
 		});
-		fetchUser.mockReturnValue(Promise.resolve({ user, blog: [] }));
+		fetchUser.mockReturnValue(Promise.resolve({ user }));
 		const asyncPromise = wrapper.vm.$options.asyncData({ store, params });
 		await flushPromises();
 		await asyncPromise.then((data) => {
