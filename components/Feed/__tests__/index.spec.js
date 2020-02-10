@@ -16,6 +16,9 @@ describe('FeedComponent Empty State', () => {
 	let localVue;
 	let store;
 	let wrapper;
+	const $route = {
+		query: {},
+	};
 
 	function initLocalVue () {
 		localVue = createLocalVue();
@@ -30,6 +33,7 @@ describe('FeedComponent Empty State', () => {
 			store,
 			mocks: {
 				$t: msg => msg,
+				$route,
 			},
 		});
 	}
@@ -102,5 +106,13 @@ describe('FeedComponent Empty State', () => {
 		});
 		const comments = wrapper.find(Comments);
 		expect(comments.exists()).toBe(true);
+	});
+
+	it('should render UploadDone if image url is passed in the route', () => {
+		$route.query = {
+			img: 'imageurl',
+		};
+		initLocalVue();
+		expect(wrapper.ref('uploading-done').exists()).toBe(true);
 	});
 });

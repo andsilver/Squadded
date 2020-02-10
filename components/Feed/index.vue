@@ -10,19 +10,23 @@
 		>
 			{{ $t('NewPosts') }}
 		</v-btn>
-		<div v-for="(post, n) in aggregatedItems" :key="n">
-			<component :is="getComponent(post)" :is-paired="paired" :post="post" />
-			<Comments
-				v-if="showComments(post) && !paired"
-				:post="post"
-				:show-all="false"
-				:for-feed="true"
-			/>
-		</div>
+		<UploadingDone v-if="image" ref="uploading-done" :image="image" />
+		<v-layout column>
+			<div v-for="(post, n) in aggregatedItems" :key="n">
+				<component :is="getComponent(post)" :is-paired="paired" :post="post" />
+				<Comments
+					v-if="showComments(post) && !paired"
+					:post="post"
+					:show-all="false"
+					:for-feed="true"
+				/>
+			</div>
+		</v-layout>
 	</section>
 </template>
 
 <script>
+import UploadingDone from './UploadingDone';
 import GalleryPost from '~/components/Posts/GalleryPost';
 import MultiItemPost from '~/components/Posts/MultiItemPost';
 import SingleItemPost from '~/components/Posts/SingleItemPost';
@@ -41,6 +45,7 @@ export default {
 		MultiItemPost,
 		GalleryPost,
 		Comments,
+		UploadingDone,
 	},
 	props: {
 		items: {
@@ -66,6 +71,7 @@ export default {
 			outfitPost: MultiItemPost,
 			galleryPost: GalleryPost,
 		},
+		image: null,
 	}),
 	computed: {
 		aggregatedItems() {
@@ -118,6 +124,7 @@ export default {
 	},
 	mounted() {
 		window.addEventListener('scroll', this.onScroll);
+		this.image = this.$route.query.img;
 	},
 	destroyed() {
 		window.removeEventListener('scroll', this.onScroll);

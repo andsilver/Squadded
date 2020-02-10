@@ -1,10 +1,12 @@
 <template>
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
-		<v-layout column>
+		<v-layout column class="px-0">
 			<Preloader v-if="loading" ref="preloader" class="mt-4 mb-4" />
-			<span v-else-if="!items.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
-			<Squadders :users="squadders" />
+			<span v-else-if="!items.length" ref="empty-feed-text" class="pa-4">
+				{{ $t('feed.isEmpty') }}
+			</span>
+			<Squadders :users="squadders" class="px-3" />
 			<Feed ref="feed-layout" :items="items" :load-new="loadNew" @loadMore="fetchFeed" @loadNew="() => fetchFeed(true)" />
 		</v-layout>
 	</v-container>

@@ -25,7 +25,6 @@ describe('Create Photo', () => {
 	const SELECTED_ITEMS = 'selected-items';
 	const DONE_BUTTON = 'done-button';
 	const GO_BACK_BTN = 'go-back-btn';
-	const UPLOAD_STATUS = 'upload-status';
 	const USER_INPUT = 'user-input';
 	const PHOTO_VIEW = 'photo-view';
 	const EDIT_BUTTON = 'edit-button';
@@ -58,7 +57,6 @@ describe('Create Photo', () => {
 		const selectedItems = wrapper.ref(SELECTED_ITEMS);
 		const doneButton = wrapper.ref(DONE_BUTTON);
 		const goBackBtn = wrapper.ref(GO_BACK_BTN);
-		const uploadStatus = wrapper.ref(UPLOAD_STATUS);
 		const userInput = wrapper.ref(USER_INPUT);
 		const photoView = wrapper.ref(PHOTO_VIEW);
 		const editButton = wrapper.ref(EDIT_BUTTON);
@@ -72,7 +70,6 @@ describe('Create Photo', () => {
 		expect(nextButton.exists()).toBe(true);
 		expect(doneButton.exists()).toBe(false);
 		expect(goBackBtn.exists()).toBe(true);
-		expect(uploadStatus.exists()).toBe(false);
 		expect(userInput.exists()).toBe(false);
 		expect(photoView.exists()).toBe(false);
 		expect(editButton.exists()).toBe(false);
@@ -123,10 +120,6 @@ describe('Create Photo', () => {
 		});
 
 		await Promise.resolve();
-
-		const uploadStatus = wrapper.ref(UPLOAD_STATUS);
-		expect(uploadStatus.exists()).toBe(true);
-
 		await Promise.resolve();
 
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, {

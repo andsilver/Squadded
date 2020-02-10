@@ -47,22 +47,6 @@
 					{{ $t('NewPost') }}
 				</h2>
 				<div v-if="dataImg" class="photo-create">
-					<div v-if="upload.started" ref="upload-status" class="d-flex align-center pa-2" style="background: #f4f4f5">
-						<img class="mr-6" :src="dataImg" width="30px" height="48px">
-						<v-btn v-if="!upload.done && !upload.error" icon loading />
-						<div v-if="upload.error" class="d-flex align-center">
-							<v-icon x-small color="red">
-								sqdi-close-cross
-							</v-icon>
-							<span class="ml-3">{{ $t('photo.upload.error') }}</span>
-						</div>
-						<div v-if="upload.done && !upload.error" class="d-flex align-center">
-							<v-icon>
-								mdi-check
-							</v-icon>
-							<span class="ml-3">{{ $t('photo.upload.done') }}</span>
-						</div>
-					</div>
 					<UserInput ref="user-input" v-model="text" :placeholder="$t('photo.textPlaceholder')" class="input-section" />
 					<PhotoView v-if="dataImg" ref="photo-view" :post="post" />
 					<Button
@@ -167,9 +151,6 @@ export default {
 			const url = await this.getUploadUrl();
 			const img = await this.savePhoto(url);
 			this.upload.done = true;
-			if (this.upload.error) {
-				return;
-			}
 			this.savePost(img);
 		},
 		getUploadUrl () {
@@ -214,7 +195,12 @@ export default {
 			};
 			const post = await this.$store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
-			this.$router.push('/feed');
+			this.$router.push({
+				path: '/feed',
+				query: {
+					img,
+				},
+			});
 		},
 		next () {
 			if (this.dataImg && this.getSelected.length === 0) {
