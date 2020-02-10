@@ -19,6 +19,8 @@ import PollEnd from './Includes/PollEnd';
 import Vote from './Includes/Vote';
 import Alert from './Includes/Alert';
 import AcceptSquad from './Includes/AcceptSquad';
+import Follow from './Includes/Follow';
+import FollowRequest from './Includes/FollowRequest';
 import { NOTIFICATIONS } from '~/consts/notifications';
 
 export default {
@@ -39,6 +41,8 @@ export default {
 			[NOTIFICATIONS.VOTE]: Vote,
 			[NOTIFICATIONS.ALERT]: Alert,
 			[NOTIFICATIONS.ACCEPT_SQUAD]: AcceptSquad,
+			[NOTIFICATIONS.FOLLOW]: Follow,
+			[NOTIFICATIONS.FOLLOW_REQUEST]: FollowRequest,
 		},
 	}),
 	methods: {

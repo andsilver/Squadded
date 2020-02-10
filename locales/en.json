@@ -165,7 +165,8 @@
     "pollend": "Your poll has expired - see the winner!",
     "post": "your post",
     "vote": "voted on",
-    "accepted_invite": "wants to join your squad"
+    "accepted_invite": "wants to join your squad",
+    "follow": "is now watching you"
   },
   "outfit": {
     "textPlaceholder": "Type your description"

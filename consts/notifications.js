@@ -5,4 +5,6 @@ export const NOTIFICATIONS = {
 	VOTE: 'notifVote',
 	ALERT: 'notifyAlert',
 	ACCEPT_SQUAD: 'notifAcceptSquad',
+	FOLLOW: 'notifFollow',
+	FOLLOW_REQUEST: 'notifFollowRequest',
 };

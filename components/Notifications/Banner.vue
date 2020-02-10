@@ -25,6 +25,8 @@ import PollEnd from './Includes/PollEnd';
 import Vote from './Includes/Vote';
 import Alert from './Includes/Alert';
 import AcceptSquad from './Includes/AcceptSquad';
+import Follow from './Includes/Follow';
+import FollowRequest from './Includes/FollowRequest';
 import {
 	NotificationStore,
 	NotificationGetters,
@@ -32,32 +34,28 @@ import {
 } from '~/store/notification';
 import { NOTIFICATIONS } from '~/consts/notifications';
 
-const { mapGetters } = createNamespacedHelpers(NotificationStore);
-const notifMapState = createNamespacedHelpers(NotificationStore).mapState;
+const { mapGetters, mapState } = createNamespacedHelpers(NotificationStore);
 
 export default {
+	data: () => ({
+		components: {
+			[NOTIFICATIONS.COMMENT]: Comment,
+			[NOTIFICATIONS.LIKE]: Like,
+			[NOTIFICATIONS.POLL_END]: PollEnd,
+			[NOTIFICATIONS.VOTE]: Vote,
+			[NOTIFICATIONS.ALERT]: Alert,
+			[NOTIFICATIONS.ACCEPT_SQUAD]: AcceptSquad,
+			[NOTIFICATIONS.FOLLOW]: Follow,
+			[NOTIFICATIONS.FOLLOW_REQUEST]: FollowRequest,
+		},
+	}),
 	computed: {
 		...mapGetters([NotificationGetters.notify]),
-		...notifMapState(['notifications']),
+		...mapState(['notifications']),
 	},
 	methods: {
 		getComponent (notification) {
-			switch (notification.type) {
-			case NOTIFICATIONS.COMMENT:
-				return Comment;
-			case NOTIFICATIONS.LIKE:
-				return Like;
-			case NOTIFICATIONS.POLL_END:
-				return PollEnd;
-			case NOTIFICATIONS.VOTE:
-				return Vote;
-			case NOTIFICATIONS.ALERT:
-				return Alert;
-			case NOTIFICATIONS.ACCEPT_SQUAD:
-				return AcceptSquad;
-			default:
-				return null;
-			}
+			return this.components[notification.type];
 		},
 		viewItem(item) {
 			this.$store.commit(

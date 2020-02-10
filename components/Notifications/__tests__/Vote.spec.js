@@ -1,6 +1,6 @@
 import { Wrapper, shallowMount } from '@vue/test-utils';
 import NotificationVote from '../Includes/Vote.vue';
-import { notifyVote } from '../../../test/notifications.mock';
+import { notifyVote } from '~/test/notifications.mock';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });

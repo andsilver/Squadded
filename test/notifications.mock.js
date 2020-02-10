@@ -166,3 +166,17 @@ export const notifyVote = {
 	},
 	_id: '5e26cfac77d10f30815c9e2e',
 };
+
+export const notifyFollow = {
+	_id: '5e40a8da44043217a82fccc1',
+	type: 'notifFollow',
+	userId: '5d8a090ddc2113a2f6bbabb1',
+	targetUserId: '5e3f58c43aa1d1443523b363',
+	merchantId: 'sam-advisor',
+	ts: 1581295834764,
+	user: {
+		screenName: 'Gabriel',
+		avatar: 'https://graph.facebook.com/1269748286527000/picture?type=square&width=512',
+		guid: '5d8a090ddc2113a2f6bbabb1',
+	},
+};
