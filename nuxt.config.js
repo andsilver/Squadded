@@ -10,6 +10,7 @@ const {
 	IG_CLIENT_ID,
 	USE_SSL,
 	WS_LINK,
+	GTAG_ID,
 } = process.env;
 
 if (!BASE) {
@@ -32,6 +33,10 @@ if (!WS_LINK) {
 	throw new Error('WS_LINK environment variable is required!');
 }
 
+if (!GTAG_ID) {
+	throw new Error('GTAG_ID environment variable is required!');
+}
+
 const server = USE_SSL === 'true' ? {
 	https: {
 		key: fs.readFileSync(path.resolve(__dirname, './dev/server.key')),
@@ -47,6 +52,7 @@ export default {
 		FEED_STORE_LIMIT,
 		IG_CLIENT_ID,
 		WS_LINK,
+		GTAG_ID,
 	},
 	/*
 	** Headers of the page
@@ -131,6 +137,9 @@ export default {
 		'@nuxtjs/vuetify',
 		'@nuxtjs/pwa',
 		'@nuxtjs/eslint-module',
+		['@nuxtjs/google-gtag', {
+			id: GTAG_ID,
+		}],
 	],
 	/*
 	** Build configuration
