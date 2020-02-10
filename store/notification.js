@@ -9,10 +9,14 @@ export const state = () => ({
 
 export const NotificationGetters = {
 	notify: 'notify',
+	newNotify: 'newNotify',
+	oldNotify: 'oldNotify',
 };
 
 export const getters = {
 	[NotificationGetters.notify]: state => state.notifications.filter(n => !n.viewed),
+	[NotificationGetters.newNotify]: state => state.notifications.filter(n => !n.viewed),
+	[NotificationGetters.oldNotify]: state => state.notifications.filter(n => n.viewed),
 };
 
 export const NotificationMutations = {
@@ -59,6 +63,7 @@ export const mutations = {
 		state.notifications.forEach((ntf) => {
 			ntf.viewed = true;
 		});
+		sessionStorage.removeItem(STORAGE_NOTIFICATIONS_KEY);
 	},
 	[NotificationMutations.view]: (state, notification) => {
 		notification = state.notifications.find(n => n._id === notification._id);
@@ -79,6 +84,7 @@ export const mutations = {
 
 export const NotificationActions = {
 	fetchNotifications: 'fetchNotifications',
+	viewNotifications: 'viewNotifications',
 };
 
 export const actions = {
@@ -101,6 +107,14 @@ export const actions = {
 
 		rootState.socket.$ws.sendObj({
 			type: 'fetchNotifications',
+		});
+	},
+	[NotificationActions.viewNotifications]: ({ rootState, commit }) => {
+		const notificationIds = getters[NotificationGetters.newNotify](rootState.notification).map(n => n._id);
+		commit(NotificationMutations.viewAll);
+		rootState.socket.$ws.sendObj({
+			type: 'viewNotifications',
+			notificationIds,
 		});
 	},
 };

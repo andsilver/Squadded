@@ -8,7 +8,7 @@
 		<Tab :tab="tabs[1]" @click.native="closeMenu" />
 		<CreateTab />
 		<Tab :tab="tabs[2]" @click.native="closeMenu">
-			<Badge class="badge" :value="notify.length" />
+			<Badge class="badge" :value="newNotify.length" />
 		</Tab>
 		<Tab :tab="tabs[3]" />
 	</v-tabs>
@@ -51,7 +51,7 @@ export default {
 	}),
 	computed: {
 		...mapGetters([
-			NotificationGetters.notify,
+			NotificationGetters.newNotify,
 		]),
 		...mapState([
 			'socket',
@@ -72,8 +72,8 @@ export default {
 
 <style lang="stylus" scoped>
 .badge
-	top 6px
-	left 45px
+	top 12px
+	left 39px
 
 @media screen and (max-width 300px)
 	.v-tabs

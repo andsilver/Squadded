@@ -104,5 +104,15 @@ describe('Notification store module', () => {
 			await root.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 			expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
 		});
+
+		it('should send viewNotifications', async () => {
+			const notifications = [{ _id: 1, viewed: true }, { _id: 2, viewed: false }];
+			root.state.notification.notifications = notifications;
+			await root.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`);
+			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
+				type: 'viewNotifications',
+				notificationIds: [2],
+			});
+		});
 	});
 });

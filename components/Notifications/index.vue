@@ -57,7 +57,6 @@ export default {
 .feed
 	width 100%
 	margin-top 3.69vw
-	height calc(100vh - 175px)
 	overflow-y auto
 	section.text-section
 		padding 2.46vw

@@ -166,7 +166,9 @@
     "post": "your post",
     "vote": "voted on",
     "accepted_invite": "wants to join your squad",
-    "follow": "is now watching you"
+    "follow": "is now watching you",
+    "new": "New",
+    "old": "Earlier"
   },
   "outfit": {
     "textPlaceholder": "Type your description"

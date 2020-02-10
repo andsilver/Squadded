@@ -3,8 +3,18 @@
 		<BackBar ref="goback-button" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">
-			<span v-if="!notifications.length" ref="empty-notif-text">{{ $t('notify.isEmpty') }}</span>
-			<Notifications v-else ref="notification-list" :items="notifications" />
+			<span v-if="!exists" ref="empty-notif-text">{{ $t('notify.isEmpty') }}</span>
+			<div v-else class="flex-grow-1">
+				<h5 class="mt-4 pl-3 d-flex align-center">
+					<span>{{ $t('notify.new') }}</span>
+					<span class="badge">{{ newNotify.length }}</span>
+				</h5>
+				<Notifications ref="new-notify" :items="newNotify" />
+				<h5 class="pt-2 pl-3">
+					{{ $t('notify.old') }}
+				</h5>
+				<Notifications ref="old-notify" :items="oldNotify" />
+			</div>
 		</v-layout>
 	</v-container>
 </template>
@@ -14,9 +24,10 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Notifications from '~/components/Notifications';
 import Tabs from '~/components/Notifications/Tabs';
-import { NotificationStore, NotificationMutations, NotificationActions } from '~/store/notification';
+import { NotificationStore, NotificationActions, NotificationGetters } from '~/store/notification';
 
-const notifMapState = createNamespacedHelpers(NotificationStore).mapState;
+const notificationStore = createNamespacedHelpers(NotificationStore);
+const notifMapGetters = notificationStore.mapGetters;
 
 export default {
 	name: 'NotificationsPage',
@@ -29,31 +40,34 @@ export default {
 		stayTimeout: null,
 	}),
 	computed: {
-		...notifMapState([
-			'notifications',
+		...notifMapGetters([
+			NotificationGetters.newNotify,
+			NotificationGetters.oldNotify,
 		]),
 		...mapState([
 			'socket',
 		]),
+		exists() {
+			return this.newNotify.length || this.oldNotify.length;
+		},
 	},
 	created () {
-		this.stayToView();
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	},
 	destroyed () {
-		clearTimeout(this.stayTimeout);
-	},
-	methods: {
-		stayToView () {
-			this.stayTimeout = setTimeout(() => {
-				this.$store.commit(`${NotificationStore}/${NotificationMutations.viewAll}`);
-			}, 5000);
-		},
+		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`);
 	},
 };
 </script>
 <style lang="stylus" scoped>
-.layout.nofification-layout
-	margin-left -12px
-	margin-right -12px
+.badge
+	font-size 0.7em
+	font-weight 600
+	line-height 14px
+	color #fff
+	background-color #fd6256
+	border-radius 7px
+	min-width 14px
+	padding 0 4px
+	margin-left 4px
 </style>

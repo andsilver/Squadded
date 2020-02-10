@@ -26,9 +26,6 @@ export default {
 		Notifications,
 		Tabs,
 	},
-	data: () => ({
-		stayTimeout: null,
-	}),
 	computed: {
 		...notifMapState([
 			'notifications',
@@ -42,9 +39,6 @@ export default {
 	},
 	created () {
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
-	},
-	destroyed () {
-		clearTimeout(this.stayTimeout);
 	},
 };
 </script>

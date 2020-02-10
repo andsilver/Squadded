@@ -15,7 +15,8 @@ describe('Notifications', () => {
 
 	const BACK_BAR = 'goback-button';
 	const EMPTY_NOTIF_TEXT = 'empty-notif-text';
-	const NOTIFICATIONS_LIST = 'notification-list';
+	const NEW_NOTIFICATIONS = 'new-notify';
+	const OLD_NOTIFICATIONS = 'old-notify';
 
 	const initLocalVue = () => {
 		wrapper = shallowMount(Notifications, {
@@ -38,10 +39,11 @@ describe('Notifications', () => {
 		initLocalVue();
 		const backBar = wrapper.ref(BACK_BAR);
 		let emptyNotifyText = wrapper.ref(EMPTY_NOTIF_TEXT);
-		let notificationList = wrapper.ref(NOTIFICATIONS_LIST);
+		let newNotifications = wrapper.ref(NEW_NOTIFICATIONS);
+		let oldNotifications = wrapper.ref(OLD_NOTIFICATIONS);
 		expect(backBar.exists()).toBe(true);
 		expect(emptyNotifyText.exists()).toBe(true);
-		expect(notificationList.exists()).toBe(false);
+		expect(newNotifications.exists()).toBe(false);
 
 		store.commit(`${NotificationStore}/${NotificationMutations.receive}`, {
 			notifications: [{
@@ -49,9 +51,11 @@ describe('Notifications', () => {
 			}],
 		});
 
-		notificationList = wrapper.ref(NOTIFICATIONS_LIST);
+		newNotifications = wrapper.ref(NEW_NOTIFICATIONS);
+		oldNotifications = wrapper.ref(OLD_NOTIFICATIONS);
 		emptyNotifyText = wrapper.ref(EMPTY_NOTIF_TEXT);
-		expect(notificationList.exists()).toBe(true);
+		expect(newNotifications.exists()).toBe(true);
+		expect(oldNotifications.exists()).toBe(true);
 		expect(emptyNotifyText.exists()).toBe(false);
 	});
 
@@ -61,11 +65,10 @@ describe('Notifications', () => {
 		expect(store.dispatch).toHaveBeenCalledWith(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	});
 
-	it('should set viewAll', () => {
-		jest.useFakeTimers();
-		store.commit = jest.fn();
+	it('should view notifications', () => {
+		store.dispatch = jest.fn();
 		initLocalVue();
-		jest.advanceTimersByTime(5000);
-		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.viewAll}`);
+		wrapper.destroy();
+		expect(store.dispatch).toHaveBeenCalledWith(`${NotificationStore}/${NotificationActions.viewNotifications}`);
 	});
 });

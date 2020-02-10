@@ -1,5 +1,5 @@
 <template>
-	<span v-if="value" class="badge">{{ short }}</span>
+	<span v-if="value" class="badge" />
 </template>
 
 <script>
@@ -28,7 +28,6 @@ export default {
 	line-height 14px
 	color #fff
 	background-color #FD6256
-	border-radius 7px
-	min-width 14px
-	padding 0 4px
+	border-radius 50%
+	padding 4px
 </style>
