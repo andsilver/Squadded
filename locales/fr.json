@@ -286,6 +286,7 @@
 			"description": "How often do you want to get notifications?",
 			"title": "Notifications"
 		},
+		"profile_privacy": "Profile privacy",
 		"private_profile": {
 			"description": "Seul votre squad peut voir votre wishlist et vos publications",
 			"title": "Profil privé"

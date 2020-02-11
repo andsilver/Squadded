@@ -325,6 +325,7 @@
     "title": "Edit Settings",
     "profile": "Profile",
     "general": "General",
+    "profile_privacy": "Profile privacy",
     "private_profile": {
       "title": "Private profile",
       "description": "Only your squad can see your activities and wishlist"
