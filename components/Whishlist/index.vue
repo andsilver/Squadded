@@ -1,7 +1,9 @@
 <template lang="html">
 	<section>
-		<Preloader v-if="!wishlist" ref="preloader" class="mt-8" />
-		<span v-else-if="!wishlist.length" ref="empty-whishlist-text">{{ $t('wishlist.empty') }}</span>
+		<Preloader v-if="!wishlist && socket.isAuth" ref="preloader" class="mt-8" />
+		<div v-else-if="!wishlist || !wishlist.length" ref="empty-whishlist-text" class="mt-3">
+			{{ socket.isAuth ? $t('wishlist.empty') : $t('wishlist.disabled_before_signin') }}
+		</div>
 		<div v-else>
 			<WhishlistItem
 				v-for="post in wishlist"

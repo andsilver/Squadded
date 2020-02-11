@@ -1,8 +1,10 @@
 <template>
 	<section>
-		<Preloader v-if="!blog" ref="preloader" class="mt-8" />
-		<span v-else-if="!blog.length" ref="empty-blog-text">{{ $t('feed.isEmpty') }}</span>
-		<Feed :items="blog" @loadMore="fetchBlog" />
+		<Preloader v-if="!blog && socket.isAuth" ref="preloader" class="mt-8" />
+		<span v-else-if="!blog || !blog.length" ref="empty-blog-text">
+			{{ socket.isAuth ? $t('feed.isEmpty') : $t('wishlist.disabled_before_signin') }}
+		</span>
+		<Feed v-else :items="blog" @loadMore="fetchBlog" />
 	</section>
 </template>
 

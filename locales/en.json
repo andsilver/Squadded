@@ -123,7 +123,8 @@
     },
     "rules": {
       "name": {
-        "required": "Name is required"
+        "required": "Name is required",
+        "valid": "Please enter a username"
       },
       "email": {
         "required": "E-mail is required",
@@ -311,11 +312,13 @@
       "description": "Removing {user} from your squad means you will no longer see and interact with each other's posts and wishlists",
       "remove": "remove",
       "cancel": "cancel"
-    }
+    },
+    "watch_users_you_like": "users you like, to make their posts appear first in your feed"
   },
   "wishlist": {
-    "empty": "You don't have any items in your wishlist yet.",
-    "purchase": "Move to Bag"
+    "empty": "There is not items yet.",
+    "purchase": "Move to Bag",
+    "disabled_before_signin": "Please sign in to see the items"
   },
   "pairedItem": {
     "title": "View Item",
@@ -358,7 +361,7 @@
   },
   "landing_post": {
     "interact_with_user": "Interact with {user}, pair and save items to your wishlist",
-    "sign_in": "sing in",
+    "sign_in": "sign in",
     "skip": "skip"
   },
   "error": {

@@ -72,7 +72,7 @@
 				</v-tab-item>
 			</v-tabs-items>
 		</v-layout>
-		<NotSignedInDialog ref="not-signed-in-dialog" :user="user" :show="!socket.isAuth" />
+		<NotSignedInDialog v-if="!socket.isAuth" ref="not-signed-in-dialog" :user="user" />
 	</v-container>
 </template>
 

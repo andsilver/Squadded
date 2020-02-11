@@ -12,7 +12,7 @@
 				@loadMore="fetchCommunity"
 				@loadNew="() => fetchCommunity(true)"
 			/>
-			<StartWatchingDialog v-if="showStartWatchingDialog" ref="start-watching-dialog" />
+			<StartWatchingDialog v-if="firstVisit" ref="start-watching-dialog" />
 		</v-layout>
 	</v-container>
 </template>
@@ -25,6 +25,7 @@ import TopBar from '~/components/common/TopBar.vue';
 import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
 import { onAuth } from '~/helpers';
 import { ActivityStore, ActivityActions } from '~/store/activity';
+import { STORAGE_VISITED_KEY } from '~/consts/keys';
 
 const activities = createNamespacedHelpers(ActivityStore).mapState;
 
@@ -38,6 +39,7 @@ export default {
 	},
 	data: () => ({
 		loadNew: false,
+		firstVisit: false,
 	}),
 	computed: {
 		...activities([
@@ -52,11 +54,8 @@ export default {
 	},
 	methods: {
 		async init() {
-			if (localStorage.getItem('visited')) {
-				this.showStartWatchingDialog = false;
-			} else {
-				this.showStartWatchingDialog = true;
-				localStorage.setItem('visited', `${Date.now()}`);
+			if (!localStorage.getItem(STORAGE_VISITED_KEY)) {
+				this.firstVisit = true;
 			}
 			await onAuth(this.$store);
 			this.fetchCommunity(true);
@@ -66,7 +65,10 @@ export default {
 		},
 		fetchCommunity(loadNew = false) {
 			this.loadNew = false;
-			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'community', loadNew });
+			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
+				type: 'community',
+				loadNew,
+			});
 		},
 	},
 };

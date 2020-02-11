@@ -1,14 +1,25 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import UserLink from './index.vue';
 import Store from '~/store';
 import { userMockBuilder } from '~/test/user.mock';
 import { UserStore, UserMutations } from '~/store/user';
 
+Wrapper.prototype.ref = function(id) {
+	return this.find({ ref: id });
+};
+
 describe('User link', () => {
 	let localVue;
 	let wrapper;
 	let store;
+
+	const mocks = {
+		_i18n: {
+			locale: 'en',
+		},
+		$t: msg => msg,
+	};
 
 	function initLocalVue () {
 		localVue = createLocalVue();
@@ -29,11 +40,7 @@ describe('User link', () => {
 			localVue,
 			propsData: { user: me.short() },
 			store,
-			mocks: {
-				_i18n: {
-					locale: 'en',
-				},
-			},
+			mocks,
 		});
 		store.commit(`${UserStore}/${UserMutations.setMe}`, me.get());
 
@@ -56,11 +63,7 @@ describe('User link', () => {
 			localVue,
 			propsData: { user },
 			store,
-			mocks: {
-				_i18n: {
-					locale: 'en',
-				},
-			},
+			mocks,
 		});
 		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 
@@ -71,5 +74,17 @@ describe('User link', () => {
 				id: user.userId,
 			},
 		});
+	});
+
+	it('should show popover', () => {
+		const user = userMockBuilder().short();
+		user.showPopover = true;
+		wrapper = shallowMount(UserLink, {
+			localVue,
+			propsData: { user },
+			store,
+			mocks,
+		});
+		expect(wrapper.ref('popover').exists()).toBe(true);
 	});
 });

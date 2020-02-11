@@ -41,6 +41,7 @@ export const ActivityMutations = {
 	setListOfType: 'setListOfType',
 	unsquadd: 'unsquadd',
 	markAllLoaded: 'markAllLoaded',
+	hidePopover: 'hidePopover',
 };
 
 export const mutations = {
@@ -89,6 +90,12 @@ export const mutations = {
 		if (loadedPosts.length === 0 && !state.loadedNew) {
 			state.allLoaded[type] = true;
 		}
+	},
+	[ActivityMutations.hidePopover]: (state) => {
+		state.community = state.community.map((post) => {
+			post.user && (post.user.showPopover = false);
+			return post;
+		});
 	},
 };
 

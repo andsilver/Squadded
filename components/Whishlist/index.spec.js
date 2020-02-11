@@ -54,17 +54,18 @@ describe('Whishlist Component', () => {
 	});
 
 	it('should render preloader', () => {
+		store.commit('SET_SOCKET_AUTH', true);
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
 
 	it('renders the correct message for empty Whishlist', () => {
 		expect.assertions(2);
-
 		store.state.activity.wishlist = [];
+		store.commit('SET_SOCKET_AUTH', false);
 
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
-		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('wishlist.empty');
+		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('wishlist.disabled_before_signin');
 	});
 
 	it('should fetch items', () => {

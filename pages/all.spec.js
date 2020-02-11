@@ -38,7 +38,7 @@ describe('All', () => {
 	});
 
 	it('should display StartWatchingDialog on first visit', () => {
-		expect(wrapper.vm.showStartWatchingDialog).toBe(true);
+		expect(wrapper.vm.firstVisit).toBe(true);
 	});
 
 	it('should not display content while pending auth', () => {

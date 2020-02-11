@@ -20,9 +20,11 @@ describe('Landing Post - NotSigendInDialog', () => {
 	beforeEach(() => {
 		user = userMockBuilder().short();
 		wrapper = shallowMount(NotSignedInDialog, {
+			data: {
+				show: true,
+			},
 			propsData: {
 				user,
-				show: true,
 			},
 			mocks: {
 				$t: msg => msg,

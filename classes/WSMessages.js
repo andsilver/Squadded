@@ -5,6 +5,7 @@ import { PostStore, PostActions, PostGetters, PostMutations } from '~/store/post
 import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemActions } from '~/store/paired-item';
 import { ExploreStore, ExploreMutations } from '~/store/explore';
+import { STORAGE_VISITED_KEY } from '~/consts/keys';
 
 async function acceptPost(message) {
 	if (!this.store.state.feed.items.length) {
@@ -26,6 +27,12 @@ async function activity (message) {
 	const uniqueIds = new Set([...existingItems, ...rawPostsList].map(p => p.guid));
 	const getter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
 	const posts = getter(Array.from(uniqueIds)).sort((a, b) => b.ts - a.ts);
+
+	if (!localStorage.getItem(STORAGE_VISITED_KEY) && type === 'community') {
+		posts[0].user.showPopover = true;
+		localStorage.setItem(STORAGE_VISITED_KEY, Date.now().toString());
+	}
+
 	this.store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
 	this.store.commit(`${ActivityStore}/${ActivityMutations.markAllLoaded}`, { loadedPosts: rawPostsList, type });
 }

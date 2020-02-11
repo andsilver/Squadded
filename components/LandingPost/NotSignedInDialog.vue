@@ -28,11 +28,10 @@ export default {
 			type: Object,
 			required: true,
 		},
-		show: {
-			type: Boolean,
-			default: false,
-		},
 	},
+	data: () => ({
+		show: true,
+	}),
 	methods: {
 		signin() {
 			this.$router.push('/');

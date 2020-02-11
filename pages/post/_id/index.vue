@@ -4,7 +4,7 @@
 		<div v-if="post" class="py-4">
 			<component :is="getComponent(post)" ref="post-component" :post="post" />
 			<Comments ref="post-comments" :post="post" :show-all="showAllComments" />
-			<NotSignedInDialog ref="dialog" :user="post.user" :show="showNotSignedInDialog" />
+			<NotSignedInDialog v-if="showNotSignedInDialog" ref="dialog" :user="post.user" />
 		</div>
 	</v-container>
 </template>

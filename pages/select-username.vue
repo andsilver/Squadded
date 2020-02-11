@@ -41,8 +41,10 @@
 						flat
 						dense
 						class="username-field"
+						:class="{ invalid: showError }"
 						hide-details
 					/>
+					<span v-if="showError" class="error-message">{{ $t('form.rules.name.valid') }}</span>
 					<span class="comment-msg">{{ $t('YouCanAlwaysChange') }}</span>
 					<v-btn
 						ref="save-btn"
@@ -50,7 +52,6 @@
 						color="primary"
 						large
 						depressed
-						:disabled="!user.name || !user.avatar"
 						@click="saveProfile"
 					>
 						{{ $t('form.done') }}
@@ -60,6 +61,102 @@
 		</v-layout>
 	</v-container>
 </template>
+
+<script>
+import { createNamespacedHelpers, mapState } from 'vuex';
+import { UserStore, UserActions } from '~/store/user';
+import { PostStore, PostMutations } from '~/store/post';
+import { prefetch } from '~/helpers';
+import { DEFAULT_LANDING } from '~/store/squad';
+
+const userState = createNamespacedHelpers(UserStore).mapState;
+
+export default {
+	asyncData({ store, redirect }) {
+		const { me } = store.state.user;
+		if (me.squaddersCount) {
+			redirect(DEFAULT_LANDING);
+		} else if (me.nameSelected) {
+			redirect('/create-your-squad');
+		}
+		return { user: me };
+	},
+	data: () => ({
+		user: null,
+		file: null,
+		submitted: false,
+	}),
+	computed: {
+		...userState([
+			'me',
+		]),
+		...mapState([
+			'socket',
+		]),
+		userAvatar() {
+			return this.user.avatar || '../assets/img/select-user-icon.svg';
+		},
+		showError() {
+			return this.submitted && this.user && !this.user.name;
+		},
+	},
+	watch: {
+		me() {
+			this.user = Object.assign({}, this.me);
+			this.checkNameSelected();
+		},
+	},
+	methods: {
+		openFileUpload() {
+			this.$refs['avatar-input'].value = null;
+			this.$refs['avatar-input'].click();
+		},
+		async saveProfile() {
+			if (!this.user.name || !this.user.avatar) {
+				this.submitted = true;
+				return;
+			}
+			this.user.nameSelected = true;
+			await this.$store.dispatch(
+				`${UserStore}/${UserActions.setProfile}`,
+				this.user,
+			);
+			this.$router.push('/create-your-squad');
+		},
+		read () {
+			this.file = this.$refs['avatar-input'].files[0];
+			this.saveAvatar();
+		},
+		async saveAvatar() {
+			const uploadUrl = await prefetch({
+				contentType: this.file.type,
+				mutation: `${PostStore}/${PostMutations.uploadURL}`,
+				store: this.$store,
+				type: 'getUploadUrl',
+			});
+			const response = await fetch(uploadUrl, {
+				method: 'PUT',
+				body: this.file,
+			});
+			if (!response.ok) {
+				throw new Error(response.statusText);
+			}
+			const img = new URL(uploadUrl);
+			this.user.avatar = img.href;
+		},
+		checkNameSelected () {
+			if (!this.me.guid) {
+				return;
+			}
+			if (this.me.squaddersCount) {
+				this.$router.push(DEFAULT_LANDING);
+			} else if (this.me.nameSelected) {
+				this.$router.push('/create-your-squad');
+			}
+		},
+	},
+};
+</script>
 
 <style lang="stylus">
 .social
@@ -151,6 +248,8 @@
 			min-height auto !important
 		input
 			font-weight 700
+		&.invalid
+			border 1px solid #FD6256
 	.comment-msg
 		color #B8B8BA
 		text-align center
@@ -168,95 +267,17 @@
 		letter-spacing 2px
 		text-transform uppercase !important
 		font-weight 700
+.error-message
+	background #FD6256
+	border-radius 1.53vw
+	height 6.76vw
+	text-align center
+	font-size 3.38vw
+	color #fff
+	display flex
+	align-items center
+	justify-content center
+	font-weight 500
+	line-height 4.61vw
+	margin-top 3.07vw
 </style>
-
-<script>
-import { createNamespacedHelpers, mapState } from 'vuex';
-import { UserStore, UserActions } from '~/store/user';
-import { PostStore, PostMutations } from '~/store/post';
-import { prefetch } from '~/helpers';
-import { DEFAULT_LANDING } from '~/store/squad';
-
-const userState = createNamespacedHelpers(UserStore).mapState;
-
-export default {
-	asyncData({ store, redirect }) {
-		const { me } = store.state.user;
-		if (me.squaddersCount) {
-			redirect(DEFAULT_LANDING);
-		} else if (me.nameSelected) {
-			redirect('/create-your-squad');
-		}
-		return { user: me };
-	},
-	data: () => ({
-		user: null,
-		file: null,
-	}),
-	computed: {
-		...userState([
-			'me',
-		]),
-		...mapState([
-			'socket',
-		]),
-		userAvatar() {
-			return this.user.avatar || '../assets/img/select-user-icon.svg';
-		},
-	},
-	watch: {
-		me() {
-			this.user = Object.assign({}, this.me);
-			this.checkNameSelected();
-		},
-	},
-	methods: {
-		openFileUpload() {
-			this.$refs['avatar-input'].value = null;
-			this.$refs['avatar-input'].click();
-		},
-		async saveProfile() {
-			if (!this.user.name || !this.user.avatar) {
-				return;
-			}
-			this.user.nameSelected = true;
-			await this.$store.dispatch(
-				`${UserStore}/${UserActions.setProfile}`,
-				this.user,
-			);
-			this.$router.push('/create-your-squad');
-		},
-		read () {
-			this.file = this.$refs['avatar-input'].files[0];
-			this.saveAvatar();
-		},
-		async saveAvatar() {
-			const uploadUrl = await prefetch({
-				contentType: this.file.type,
-				mutation: `${PostStore}/${PostMutations.uploadURL}`,
-				store: this.$store,
-				type: 'getUploadUrl',
-			});
-			const response = await fetch(uploadUrl, {
-				method: 'PUT',
-				body: this.file,
-			});
-			if (!response.ok) {
-				throw new Error(response.statusText);
-			}
-			const img = new URL(uploadUrl);
-			this.user.avatar = img.href;
-		},
-		checkNameSelected () {
-			if (!this.me.guid) {
-				return;
-			}
-			if (this.me.squaddersCount) {
-				this.$router.push(DEFAULT_LANDING);
-			} else if (this.me.nameSelected) {
-				this.$router.push('/create-your-squad');
-			}
-		},
-	},
-};
-</script>

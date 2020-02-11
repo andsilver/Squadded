@@ -342,7 +342,7 @@ describe('WSMessages dispatch', () => {
 
 	it(`should commit community to ${ActivityStore}/${ActivityMutations.setListOfType}`, async () => {
 		const community = ['community'];
-		const followers = ['followers'];
+		const followers = [{ user: {} }];
 		const all = [...followers, ...community];
 		const type = 'community';
 		const msg = {
@@ -356,6 +356,7 @@ describe('WSMessages dispatch', () => {
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, all);
 		await flushPromises();
 		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: all, type });
+		expect(all[0].user.showPopover).toBe(true);
 	});
 
 	it(`should commit notifications to ${NotificationStore}/${NotificationMutations.receive}`, () => {

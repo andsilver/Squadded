@@ -48,6 +48,7 @@ describe('Blog Component', () => {
 	});
 
 	it('should render preloader', () => {
+		store.commit('SET_SOCKET_AUTH', true);
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
@@ -55,9 +56,10 @@ describe('Blog Component', () => {
 	it('renders the correct message for empty Blog', () => {
 		expect.assertions(2);
 		store.state.activity.blog = [];
+		store.commit('SET_SOCKET_AUTH', false);
 
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
-		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
+		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('wishlist.disabled_before_signin');
 	});
 
 	it('should fetch blog on created', () => {
@@ -76,6 +78,7 @@ describe('Blog Component', () => {
 	it('should fetch blog on loadMore event from Feed', () => {
 		store.dispatch = jest.fn();
 		store.commit('SET_SOCKET_AUTH', true);
+		store.state.activity.blog = [{}];
 
 		shallowMount(Blog, {
 			localVue,

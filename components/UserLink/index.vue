@@ -9,6 +9,7 @@
 				<v-btn
 					v-if="follow && user.guid !== me.userId"
 					class="follow"
+					:class="{highlight: showPopover}"
 					dark
 					icon
 					outlined
@@ -21,6 +22,15 @@
 						mdi-eye-outline
 					</v-icon>
 				</v-btn>
+				<div
+					v-if="showPopover"
+					ref="popover"
+					class="pop-over"
+				>
+					<div class="pop-over-content">
+						<strong>{{ $t('user.Follow') }}</strong> {{ $t('user.watch_users_you_like') }}
+					</div>
+				</div>
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
 				<v-list-item-title class="user_name">
@@ -40,6 +50,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import { UserStore } from '~/store/user';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
@@ -71,6 +82,9 @@ export default {
 			required: true,
 		},
 	},
+	data: () => ({
+		showPopover: false,
+	}),
 	computed: {
 		...mapState([
 			'me',
@@ -87,6 +101,13 @@ export default {
 			const match = this.size.match(/[^\d]+$/);
 			return (match && match[0]) || 'px';
 		},
+	},
+	mounted() {
+		this.showPopover = !!this.user.showPopover;
+		document.addEventListener('click', () => {
+			this.showPopover = false;
+			this.$store.commit(`${ActivityStore}/${ActivityMutations.hidePopover}`);
+		});
 	},
 	methods: {
 		getUserLink() {
@@ -170,4 +191,36 @@ export default {
 	border-bottom-left-radius 3.07vw
 	border 0.307vw solid #DBDBDB
 	border-right 0
+.pop-over
+	position absolute
+	box-shadow 0px 3px 16px 0px #00000036
+	z-index 300
+	left 70px
+	top 2px
+	border-radius: 16px;
+	pointer-events none
+	&-content
+		width 207px
+		background #fff
+		border-radius 16px
+		color black
+		text-transform none
+		padding 12px 16px
+		text-align left
+		font-size 14px
+		line-height 20px
+		font-weight 500
+		&:after
+			margin-bottom -20px
+			content ''
+			border 15px solid transparent;
+			border-right-color #ffffff
+			border-left 0
+			position absolute
+			left -11px
+			top 44%
+			margin-top -20px
+.highlight
+	box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.4), 0 0 0 13px rgba(255, 255, 255, 0.2) !important
+	z-index 300
 </style>
