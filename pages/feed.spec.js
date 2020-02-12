@@ -5,6 +5,7 @@ import Store from '~/store';
 import { FeedMutations, FeedStore } from '~/store/feed';
 import { prefetch, onAuth } from '~/helpers';
 import { userMockBuilder } from '~/test/user.mock';
+import { NEW_POSTS_DISAPPEAR_TIMEOUT } from '~/consts';
 
 jest.mock('~/helpers', () => ({
 	prefetch: jest.fn(),
@@ -47,6 +48,11 @@ describe('Feed Page', () => {
 
 	beforeEach(() => {
 		initLocalVue();
+		jest.useFakeTimers();
+	});
+
+	afterEach(() => {
+		jest.runAllTimers();
 	});
 
 	it('should not display content while pending auth', () => {
@@ -91,15 +97,13 @@ describe('Feed Page', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.setLoading}`, false);
 	});
 
-	it('loadNew should be true after 1 minute', () => {
+	it('loadNew should be false after timeout of new posts available', (done) => {
 		jest.useFakeTimers();
 		store.commit('SET_SOCKET_AUTH', true);
 		store.state.feed.loading = true;
-		expect(wrapper.vm.loadNew).toBe(false);
-		jest.advanceTimersByTime(60 * 1000);
-		setTimeout(() => {
-			expect(wrapper.vm.loadNew).toBe(true);
-		});
+		jest.advanceTimersByTime(NEW_POSTS_DISAPPEAR_TIMEOUT);
+		expect(wrapper.vm.newPostsAvailable).toBe(false);
+		done();
 	});
 
 	it('should go to \'create your squad\' page when squaddersCount is 0 and nameSelected', async () => {
@@ -111,9 +115,17 @@ describe('Feed Page', () => {
 
 	it('should fetch squadders and first user in squadder should be me', async () => {
 		prefetch.mockReturnValue(Promise.resolve([{ isMe: false }]));
-		await store.commit('SET_SOCKET_AUTH', true);
 		me = { isMe: true, squaddersCount: 2, nameSelected: true };
-		initLocalVue();
+		store.state.user.me = me;
+		wrapper = shallowMount(Feed, {
+			store,
+			localVue,
+			mocks: {
+				$t: msg => msg,
+				$router,
+			},
+		});
+		await store.commit('SET_SOCKET_AUTH', true);
 		expect(prefetch).toHaveBeenCalledWith({
 			type: 'fetchSquadders',
 			store,

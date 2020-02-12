@@ -14,6 +14,9 @@ async function acceptPost(message) {
 	}
 	const post = await this.store.dispatch(`${PostStore}/${PostActions.receiveItem}`, message);
 	post && this.store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
+	if (message.mysquad) {
+		this.store.commit(`${FeedStore}/${FeedMutations.setNewPostsAvailable}`, true);
+	}
 }
 
 async function activity (message) {

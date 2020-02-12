@@ -7,7 +7,7 @@
 				{{ $t('feed.isEmpty') }}
 			</span>
 			<Squadders :users="squadders" class="px-3" />
-			<Feed ref="feed-layout" :items="items" :load-new="loadNew" @loadMore="fetchFeed" @loadNew="() => fetchFeed(true)" />
+			<Feed ref="feed-layout" :items="items" :load-new="newPostsAvailable" @loadMore="fetchFeed" @loadNew="() => fetchFeed(true)" />
 		</v-layout>
 	</v-container>
 </template>
@@ -21,6 +21,7 @@ import Squadders from '~/components/Squadders';
 import { onAuth, prefetch } from '~/helpers';
 import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
 import { UserStore } from '~/store/user';
+import { NEW_POSTS_DISAPPEAR_TIMEOUT, LOADING_TIMEOUT } from '~/consts';
 
 const feed = createNamespacedHelpers(FeedStore);
 const userState = createNamespacedHelpers(UserStore).mapState;
@@ -56,6 +57,7 @@ export default {
 		]),
 		...feedState([
 			'loading',
+			'newPostsAvailable',
 		]),
 		...mapState([
 			'socket',
@@ -65,9 +67,14 @@ export default {
 			'me',
 		]),
 	},
+	watch: {
+		newPostsAvailable (value) {
+			this.setHideNewPostsTimeout();
+		},
+	},
 	created () {
 		this.onOpen();
-		this.fetchSquadders();
+		this.setHideNewPostsTimeout();
 	},
 	methods: {
 		async onOpen () {
@@ -80,16 +87,11 @@ export default {
 			if (this.items && this.items.length) {
 				this.$store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
 			}
-			setTimeout(() => {
-				this.loadNew = true;
-			}, 60 * 1000);
+			this.fetchSquadders();
 		},
-		fetchFeed () {
-			this.loadNew = false;
-			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
-			setTimeout(() => {
-				this.$store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
-			}, 4000);
+		fetchFeed (loadNew = false) {
+			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`, loadNew);
+			this.setLoadingTimeout();
 		},
 		async fetchSquadders () {
 			this.squadders = await prefetch({
@@ -102,6 +104,18 @@ export default {
 				return;
 			}
 			this.squadders.unshift(this.me);
+		},
+		setHideNewPostsTimeout() {
+			if (this.newPostsAvailable) {
+				setTimeout(() => {
+					this.$store.commit(`${FeedStore}/${FeedMutations.setNewPostsAvailable}`, false);
+				}, NEW_POSTS_DISAPPEAR_TIMEOUT);
+			}
+		},
+		setLoadingTimeout() {
+			setTimeout(() => {
+				this.$store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
+			}, LOADING_TIMEOUT);
 		},
 	},
 };

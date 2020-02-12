@@ -25,7 +25,11 @@ import TopBar from '~/components/common/TopBar.vue';
 import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
 import { onAuth } from '~/helpers';
 import { ActivityStore, ActivityActions } from '~/store/activity';
-import { STORAGE_VISITED_KEY } from '~/consts/keys';
+import {
+	STORAGE_VISITED_KEY,
+	HOME_NEW_POSTS_INTERVAL,
+	NEW_POSTS_DISAPPEAR_TIMEOUT,
+} from '~/consts';
 
 const activities = createNamespacedHelpers(ActivityStore).mapState;
 
@@ -40,6 +44,7 @@ export default {
 	data: () => ({
 		loadNew: false,
 		firstVisit: false,
+		timeout: null,
 	}),
 	computed: {
 		...activities([
@@ -59,9 +64,6 @@ export default {
 			}
 			await onAuth(this.$store);
 			this.fetchCommunity(true);
-			setTimeout(() => {
-				this.loadNew = true;
-			}, 60 * 1000);
 		},
 		fetchCommunity(loadNew = false) {
 			this.loadNew = false;
@@ -69,6 +71,18 @@ export default {
 				type: 'community',
 				loadNew,
 			});
+			if (loadNew) {
+				this.setNewPostsTimeout();
+			}
+		},
+		setNewPostsTimeout() {
+			if (this.timeout) {
+				clearTimeout(this.timeout);
+			}
+			this.timeout = setTimeout(() => {
+				this.loadNew = true;
+				setTimeout(() => (this.loadNew = false), NEW_POSTS_DISAPPEAR_TIMEOUT);
+			}, HOME_NEW_POSTS_INTERVAL);
 		},
 	},
 };

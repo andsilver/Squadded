@@ -92,7 +92,7 @@ export const mutations = {
 		}
 	},
 	[ActivityMutations.hidePopover]: (state) => {
-		state.community = state.community.map((post) => {
+		state.community = (state.community || []).map((post) => {
 			post.user && (post.user.showPopover = false);
 			return post;
 		});

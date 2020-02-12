@@ -104,10 +104,12 @@ export default {
 	},
 	mounted() {
 		this.showPopover = !!this.user.showPopover;
-		document.addEventListener('click', () => {
-			this.showPopover = false;
-			this.$store.commit(`${ActivityStore}/${ActivityMutations.hidePopover}`);
-		});
+		if (this.showPopover) {
+			document.addEventListener('click', () => {
+				this.showPopover = false;
+				this.$store.commit(`${ActivityStore}/${ActivityMutations.hidePopover}`);
+			});
+		}
 	},
 	methods: {
 		getUserLink() {

@@ -8,6 +8,7 @@ export const state = () => ({
 	loading: false,
 	allLoaded: false,
 	loadedNew: false,
+	newPostsAvailable: true,
 });
 
 export const FeedGetters = {
@@ -30,6 +31,7 @@ export const FeedMutations = {
 	markAllLoaded: 'markAllLoaded',
 	setLoading: 'setLoading',
 	receiveSquadders: 'receiveSquadders',
+	setNewPostsAvailable: 'setNewPostsAvailable',
 };
 
 export const mutations = {
@@ -63,6 +65,9 @@ export const mutations = {
 		state.loading = loading;
 	},
 	[FeedMutations.receiveSquadders]: () => {},
+	[FeedMutations.setNewPostsAvailable]: (state, flag) => {
+		state.newPostsAvailable = flag;
+	},
 };
 
 export const FeedActions = {
@@ -79,6 +84,7 @@ export const actions = {
 		const items = getters[FeedGetters.items];
 		if (loadNew || !items || !items.length) {
 			rootState.feed.loadedNew = true;
+			commit(FeedMutations.setNewPostsAvailable, false);
 		} else {
 			const mostRecentPost = items[items.length - 1];
 			if (mostRecentPost) {

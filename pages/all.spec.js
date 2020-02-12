@@ -4,6 +4,10 @@ import All from './all.vue';
 import Store from '~/store';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 import { Storage } from '~/test/storage.mock';
+import {
+	HOME_NEW_POSTS_INTERVAL,
+	NEW_POSTS_DISAPPEAR_TIMEOUT,
+} from '~/consts';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -85,7 +89,9 @@ describe('All', () => {
 		jest.useFakeTimers();
 		store.commit('SET_SOCKET_AUTH', true);
 		await wrapper.vm.init();
-		jest.advanceTimersByTime(60 * 1000);
+		jest.advanceTimersByTime(HOME_NEW_POSTS_INTERVAL);
 		expect(wrapper.vm.loadNew).toBe(true);
+		jest.advanceTimersByTime(NEW_POSTS_DISAPPEAR_TIMEOUT);
+		expect(wrapper.vm.loadNew).toBe(false);
 	});
 });
