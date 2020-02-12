@@ -392,7 +392,8 @@
       "description": "Hurry up, help others in their decision before their poll expires"
     },
     "search": {
-      "find_friends": "Find friends..."
+      "find_friends": "Find friends...",
+      "no_results": "No results found for {text}"
     }
   },
   "community": {

@@ -27,6 +27,7 @@ export const state = () => ({
 		items: null,
 	},
 	friends: null,
+	searching: false,
 });
 
 export const ExploreGetters = {
@@ -40,6 +41,7 @@ export const getters = {
 export const ExploreMutations = {
 	setItems: 'setItems',
 	setFriends: 'setFriends',
+	setSearching: 'setSearching',
 };
 
 export const mutations = {
@@ -64,6 +66,9 @@ export const mutations = {
 	},
 	[ExploreMutations.setFriends]: (state, friends) => {
 		state.friends = friends;
+	},
+	[ExploreMutations.setSearching]: (state, searching) => {
+		state.searching = searching;
 	},
 };
 

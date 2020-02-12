@@ -6,26 +6,40 @@
 			class="search-plus"
 			:hide-details="true"
 			:placeholder="$t('explore_page.search.find_friends')"
-			clearable
+			@focus="() => setSearch(true)"
 			@input="isTyping = true"
 		>
 			<v-icon slot="prepend" color="#B8B8BA" size="22">
 				sqdi-magnifying-glass-finder
 			</v-icon>
 		</v-text-field>
+		<v-btn v-if="searching" ref="close-btn" class="close-btn" icon @click="() => setSearch(false)">
+			<v-icon small color="black">
+				mdi-close
+			</v-icon>
+		</v-btn>
 	</div>
 </template>
 
 <script>
-import { ExploreStore, ExploreActions } from '~/store/explore';
+import { createNamespacedHelpers } from 'vuex';
+import { ExploreStore, ExploreActions, ExploreMutations } from '~/store/explore';
+
+const { mapState } = createNamespacedHelpers(ExploreStore);
 
 export default {
 	data: () => ({
 		searchText: null,
 		isTyping: false,
 	}),
+	computed: {
+		...mapState([
+			'searching',
+		]),
+	},
 	watch: {
 		searchText() {
+			this.$emit('change', this.searchText);
 			this.debounced(() => (this.isTyping = false), 1000);
 		},
 		isTyping(value) {
@@ -46,6 +60,13 @@ export default {
 				timerId = null;
 			}, delay);
 		},
+		setSearch(flag) {
+			this.$store.commit(`${ExploreStore}/${ExploreMutations.setSearching}`, flag);
+			if (!flag) {
+				this.searchText = '';
+				this.$store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, null);
+			}
+		},
 	},
 };
 </script>
@@ -54,6 +75,13 @@ export default {
 .search-field {
 	box-shadow: 0px 3px 16px 0px #0000000f;
 	margin-bottom: 4px;
+	position: relative;
+
+	.close-btn {
+		position: absolute;
+		right: 4px;
+		top: 2px;
+	}
 }
 .search-plus {
 	&.v-text-field {

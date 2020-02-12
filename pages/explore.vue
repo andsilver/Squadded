@@ -1,13 +1,18 @@
 <template>
 	<div class="pt-0">
-		<SearchFriends ref="search-field" />
-		<div v-if="!friends" class="explore-content">
+		<SearchFriends ref="search-field" @change="(value) => searchText = value" />
+		<div v-if="!searching" class="explore-content">
 			<TopItems ref="top-items" class="mb-8" />
 			<EndingPolls ref="ending-polls" class="mb-8" />
 			<TopOutfits ref="top-outfits" class="mb-8" />
 			<TopGallery ref="top-gallery" />
 		</div>
-		<UserList v-else ref="user-list" :show-follow="false" class="px-2" :users="friends" />
+		<div v-else-if="searchText.length > 2">
+			<UserList v-if="friends && friends.length" ref="user-list" :show-follow="false" class="px-2" :users="friends" />
+			<div v-else ref="no-result" class="pa-4">
+				{{ $t('explore_page.search.no_results', { text: searchText }) }}
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -33,9 +38,13 @@ export default {
 		TopGallery,
 		UserList,
 	},
+	data: () => ({
+		searchText: '',
+	}),
 	computed: {
 		...mapState([
 			'friends',
+			'searching',
 		]),
 	},
 };

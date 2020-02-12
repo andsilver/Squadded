@@ -214,6 +214,7 @@ export default {
 	margin-top 9.46vw
 	img.select-user-icon
 		width 100%
+		height 100%
 		border-radius 50%
 	.edit-icon-sec
 		position absolute

@@ -2,7 +2,7 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import SearchFriends from './SearchFriends.vue';
 import Store from '~/store';
-import { ExploreStore, ExploreActions } from '~/store/explore';
+import { ExploreStore, ExploreActions, ExploreMutations } from '~/store/explore';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -14,6 +14,8 @@ describe('SearchFriends in Explore', () => {
 	let localVue;
 
 	const SEARCH_TEXT = 'search-text';
+	const CLOSE_BTN = 'close-btn';
+	const $emit = jest.fn();
 
 	beforeEach(() => {
 		localVue = createLocalVue();
@@ -25,6 +27,7 @@ describe('SearchFriends in Explore', () => {
 			store,
 			mocks: {
 				$t: msg => msg,
+				$emit,
 			},
 		});
 	});
@@ -36,6 +39,7 @@ describe('SearchFriends in Explore', () => {
 	it('should dispatch after 1s of debounce time', () => {
 		jest.useFakeTimers();
 		wrapper.setData({ searchText: 'abc', isTyping: true });
+		expect($emit).toHaveBeenCalledWith('change', wrapper.vm.searchText);
 		jest.advanceTimersByTime(1500);
 		expect(store.dispatch).toHaveBeenCalledWith(`${ExploreStore}/${ExploreActions.searchFriends}`, 'abc');
 	});
@@ -45,5 +49,15 @@ describe('SearchFriends in Explore', () => {
 		wrapper.setData({ searchText: 'abc', isTyping: true });
 		jest.advanceTimersByTime(500);
 		expect(store.dispatch).not.toHaveBeenCalled();
+	});
+
+	it('should show close button on focus and hide on click', async () => {
+		await wrapper.ref(SEARCH_TEXT).trigger('focus');
+		expect(wrapper.ref(CLOSE_BTN).exists()).toBe(true);
+		store.commit = jest.fn();
+		await wrapper.ref(SEARCH_TEXT).trigger('focus');
+		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setSearching}`, true);
+		await wrapper.ref(CLOSE_BTN).trigger('click');
+		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setSearching}`, false);
 	});
 });

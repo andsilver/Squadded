@@ -16,6 +16,7 @@ describe('Explore page', () => {
 	const TOP_GALLERY = 'top-gallery';
 	const SEARCH_FIELD = 'search-field';
 	const USER_LIST = 'user-list';
+	const NO_RESULT = 'no-result';
 
 	let wrapper;
 	let store;
@@ -38,12 +39,15 @@ describe('Explore page', () => {
 		expect(wrapper.ref(TOP_GALLERY).exists()).toBe(true);
 		expect(wrapper.ref(SEARCH_FIELD).exists()).toBe(true);
 		expect(wrapper.ref(USER_LIST).exists()).toBe(false);
+		expect(wrapper.ref(NO_RESULT).exists()).toBe(false);
 	});
 
 	it('should render user list when friends are available but not render other sections', async () => {
 		const friends = new Array(3).fill(userMockBuilder().short());
 		await store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, friends);
+		await store.commit(`${ExploreStore}/${ExploreMutations.setSearching}`, true);
+		wrapper.setData({ searchText: 'abc' });
+		expect(wrapper.ref(NO_RESULT).exists()).toBe(false);
 		expect(wrapper.ref(USER_LIST).exists()).toBe(true);
-		expect(wrapper.ref(TOP_OUTFITS).exists()).toBe(false);
 	});
 });

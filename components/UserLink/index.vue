@@ -113,8 +113,9 @@ export default {
 	},
 	methods: {
 		getUserLink() {
-			return (this.user.guid === this.me.userId ? { name: 'me' }
-				: { name: 'user-id', params: { id: this.user.guid } }
+			const userId = (this.user.guid || this.user.userId);
+			return (userId === this.me.userId ? { name: 'me' }
+				: { name: 'user-id', params: { id: userId } }
 			);
 		},
 		goFollow (e) {
