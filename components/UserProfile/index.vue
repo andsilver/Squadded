@@ -219,7 +219,7 @@ export default {
 	},
 	head () {
 		return {
-			title: this.userId ? 'UserProfil-Main' : 'MyProfile-Main',
+			title: this.userId ? 'UserProfile-Main' : 'MyProfile-Main',
 		};
 	},
 };
