@@ -91,7 +91,7 @@ export default {
 		if (this.isTouch) {
 			onToggleKeyboard(this.toggleKeyboard.bind(this));
 		}
-		if (this.squad.route.name === 'user-id') {
+		if (this.squad.route.name) {
 			this.$router.push(this.squad.route);
 		}
 	},

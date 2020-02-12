@@ -22,16 +22,20 @@ const ParamName = {
 		name: 'post-id',
 		key: 'id',
 	},
+	_error: {
+		name: 'error',
+	},
 };
 
 function getRoute (squadParam) {
 	const [name, param] = squadParam.split(':');
-	const [value, suffix] = param.split('_');
+	let value, suffix;
+	param && ([value, suffix] = param.split('_'));
 	const route = {
 		name: ParamName[name].name,
-		params: {
+		params: param ? {
 			[ParamName[name].key]: value,
-		},
+		} : {},
 	};
 	if (suffix) {
 		route.query = { [suffix]: true };

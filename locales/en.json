@@ -366,7 +366,9 @@
   },
   "error": {
     "404": "Seems you got lost!",
-    "other": "Go back to home screen"
+    "other": "Go back to home screen",
+    "oops": "Looks like you got lost during all this fun, let's get back to your friends",
+    "go_to_feed": "go to feed"
   },
   "PairedItem": {
     "all": "All",

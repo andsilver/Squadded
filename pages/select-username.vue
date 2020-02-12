@@ -142,6 +142,7 @@ export default {
 				throw new Error(response.statusText);
 			}
 			const img = new URL(uploadUrl);
+			img.search = '';
 			this.user.avatar = img.href;
 		},
 		checkNameSelected () {
