@@ -21,6 +21,9 @@ describe('Notifications AcceptSquad', () => {
 	const ACCEPT_BTN = 'accept-btn';
 	const DENY_BTN = 'deny-btn';
 	const ACCEPTED_MARK = 'accepted-mark';
+	const $router = {
+		push: jest.fn(),
+	};
 
 	beforeEach(() => {
 		localVue = createLocalVue();
@@ -48,6 +51,7 @@ describe('Notifications AcceptSquad', () => {
 					locale: 'en',
 				},
 				$ws,
+				$router,
 			},
 		});
 	});
@@ -68,6 +72,9 @@ describe('Notifications AcceptSquad', () => {
 	it('should accept squad', async () => {
 		store.commit = jest.fn();
 		const acceptButton = wrapper.ref(ACCEPT_BTN);
+		await acceptButton.trigger('click');
+		expect($router.push).toHaveBeenCalledWith('/select-username');
+		store.state.user.me.nameSelected = true;
 		await acceptButton.trigger('click');
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'acceptSquad',

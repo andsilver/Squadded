@@ -48,7 +48,7 @@
 				<Actions :user="user" class="popup-menu" />
 			</div>
 			<userStatistics :user="user" />
-			<Invitation v-if="showInvitation" ref="invitation" :user="user" :me="me" @accept="acceptInvite" />
+			<Invitation v-if="showInvitation" ref="invitation" :user="user" :me="me" />
 			<v-tabs
 				v-model="tabs"
 				class="px-1"
@@ -120,19 +120,18 @@ export default {
 			redirect('/me');
 		}
 		if (!store.state.socket.isAuth) {
-			return fetchUser(params.id).then(({ user }) => ({
-				other: user,
-			}));
+			return fetchUser(params.id).then(({ user }) => {
+				store.commit(`${UserStore}/${UserMutations.setOther}`, user);
+			});
 		}
 		return prefetch({
 			guid: params.id,
 			mutation: `${UserStore}/${UserMutations.setOther}`,
 			store,
 			type: 'fetchUser',
-		}).then(() => ({ other: store.state.user.other }));
+		});
 	},
 	data: () => ({
-		other: null,
 		userId: null,
 		tabs: 0,
 		isScrolled: false,
@@ -147,6 +146,7 @@ export default {
 		]),
 		...userState([
 			'me',
+			'other',
 		]),
 		user () {
 			return this.userId ? this.other : this.me;
@@ -215,24 +215,6 @@ export default {
 		},
 		toggleNotification () {
 			this.show_notification = !this.show_notification;
-		},
-		acceptInvite () {
-			if (!this.isMySquad) {
-				this.other = Object.assign(this.other, {
-					...this.other,
-					squad: {
-						exists: true,
-						pending: true,
-						invitee: false,
-					},
-				});
-			} else {
-				this.other.squad.pending = false;
-				this.other = Object.assign({}, this.other);
-				const me = this.me;
-				me.squaddersCount ? me.squaddersCount += 1 : me.squaddersCount = 1;
-				this.$store.commit(`${UserStore}/${UserMutations.setMe}`, this.me);
-			}
 		},
 	},
 };

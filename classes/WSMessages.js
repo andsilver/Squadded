@@ -163,6 +163,26 @@ export class WSMessages {
 
 	notifAcceptSquad (message) {
 		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+		const { other } = this.store.state.user;
+		if (other && other.guid === message.userId) {
+			this.store.state.socket._ws.sendObj({
+				type: 'fetchUser',
+				guid: other.guid,
+			});
+		}
+		this.store.state.socket._ws.sendObj({ type: 'fetchUser' });
+	}
+
+	inviteSqaudAccepted () {
+		this.store.commit(`${NotificationStore}/${NotificationMutations.inviteAccepted}`);
+		const { other } = this.store.state.user;
+		if (other) {
+			this.store.state.socket._ws.sendObj({
+				type: 'fetchUser',
+				guid: other.guid,
+			});
+		}
+		this.store.state.socket._ws.sendObj({ type: 'fetchUser' });
 	}
 
 	notifications (message) {

@@ -85,7 +85,6 @@ describe('User component', () => {
 		const $route = {
 			params,
 		};
-		store.commit = jest.fn();
 		wrapper = shallowMount(User, {
 			localVue,
 			store,
@@ -100,8 +99,7 @@ describe('User component', () => {
 		fetchUser.mockReturnValue(Promise.resolve({ user }));
 		const asyncPromise = wrapper.vm.$options.asyncData({ store, params });
 		await flushPromises();
-		await asyncPromise.then((data) => {
-			wrapper.setData(data);
+		await asyncPromise.then(() => {
 			expect(fetchUser).toHaveBeenCalledWith(user.userId);
 			expect(wrapper.vm.other).toEqual(user);
 		});
@@ -150,7 +148,7 @@ describe('User component', () => {
 			},
 		});
 
-		wrapper.vm.other = user;
+		store.state.user.other = user;
 		wrapper.vm.userId = user.userId;
 
 		const invitation = wrapper.ref('invitation');
@@ -175,7 +173,7 @@ describe('User component', () => {
 			},
 		});
 
-		wrapper.vm.other = user;
+		store.state.user.other = user;
 		wrapper.vm.userId = user.userId;
 
 		const invitation = wrapper.ref('invitation');
@@ -200,7 +198,7 @@ describe('User component', () => {
 			},
 		});
 
-		wrapper.vm.other = user;
+		store.state.user.other = user;
 		wrapper.vm.userId = user.userId;
 
 		const invitation = wrapper.ref('invitation');

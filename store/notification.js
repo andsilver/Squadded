@@ -25,6 +25,7 @@ export const NotificationMutations = {
 	receive: 'receive',
 	view: 'view',
 	setAcceptedSquad: 'setAcceptedSquad',
+	inviteAccepted: 'inviteAccepted',
 };
 
 const contain = state => ntf => state.notifications.find(n => ntf._id === n._id);
@@ -80,6 +81,7 @@ export const mutations = {
 		}
 		notification.accepted = true;
 	},
+	[NotificationMutations.inviteAccepted]: () => {},
 };
 
 export const NotificationActions = {

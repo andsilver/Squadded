@@ -74,9 +74,14 @@ export default {
 	},
 	methods: {
 		accept() {
+			const { me } = this.$store.state.user;
+			if (!me.nameSelected) {
+				this.$router.push('/select-username');
+				return;
+			}
 			this.$ws.sendObj({
 				type: 'acceptSquad',
-				targetUserId: this.notification.user.guid,
+				targetUserId: this.notification.userId,
 			});
 			this.$store.commit(`${NotificationStore}/${NotificationMutations.setAcceptedSquad}`, this.notification._id);
 			this.$forceUpdate();
@@ -99,7 +104,6 @@ i.sqdi-checkmark
 .notification-message
 	width 100%
 	.message
-		width calc(100% - 10.2vw)
 		padding-right 1.93vw
 		display inline-block
 		vertical-align top
