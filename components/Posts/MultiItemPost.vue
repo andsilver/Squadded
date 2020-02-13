@@ -19,21 +19,22 @@
 			>
 				<div class="grid" :class="`grid-snap-${post.items.length}`">
 					<ItemImage
-						v-for="item in post.items"
+						v-for="(item , index) in post.items"
 						ref="item-image"
 						:key="item.itemId"
 						:item="item"
 						:resquadd="false"
 						:class="{ is_selected: selectedItem == item.itemId }"
-						@click.native="() => imageSelected(item.itemId)"
+						@click.native="() => imageSelected(post.guid, item.itemId, index)"
 					/>
 				</div>
 			</CardFrame>
 			<div v-if="!isPaired" class="scroll-section" :class="{ shifted }">
 				<span class="close" @click="fetch"><img src="~assets/img/close-white.svg" class="close-image"></span>
-				<div class="scroll-items fancy_scroll" :style="{ 'max-height': maxHeight }">
+				<div :id="'scroll_post_'+post.guid" class="scroll-items fancy_scroll" :style="{ 'max-height': maxHeight }">
 					<ProductCard
 						v-for="item in post.items"
+						:id="'post_'+post.guid+'_item_' + item.itemId"
 						:key="item.itemId"
 						:post-id="post.guid"
 						:item="item"
@@ -120,7 +121,12 @@ export default {
 				// console.log(this.selectedItem);
 			}
 		},
-		imageSelected (itemId) {
+		imageSelected (postId, itemId, index) {
+			if (!this.shifted && !this.isPaired) {
+				const container = this.$el.querySelector('#scroll_post_' + postId);
+				const itemPos = this.$el.querySelector('#post_' + postId + '_item_' + itemId).clientHeight;
+				container.scrollTop = index * (itemPos + 17);
+			}
 			this.selectedItem = itemId;
 		},
 	},
