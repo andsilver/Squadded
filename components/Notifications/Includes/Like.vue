@@ -135,6 +135,7 @@ i.sqdi-favorite-heart-button
 				margin-left 0.1vw
 .notification-message
 	width 100%
+	cursor pointer
 	.message
 		width calc(100% - 10.2vw)
 		padding-right 1.93vw

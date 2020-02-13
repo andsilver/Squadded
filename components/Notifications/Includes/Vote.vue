@@ -110,6 +110,7 @@ i.sqdi-checkmark
 		max-height 13.38vw
 .notification-message
 	width 100%
+	cursor pointer
 	.message
 		width calc(100% - 10.2vw)
 		padding-right 1.93vw

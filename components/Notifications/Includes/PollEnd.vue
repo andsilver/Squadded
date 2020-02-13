@@ -8,7 +8,7 @@
 				sqdi-checkmark
 			</v-icon>
 		</v-avatar>
-		<div class="notification-message">
+		<div class="notification-message" @click="goToLandingPost">
 			<div class="message is_poll">
 				<span>
 					{{ $t('notify.pollend') }}
@@ -50,6 +50,12 @@ export default {
 		timeString () {
 			window.moment.locale(this._i18n.locale);
 			return window.moment(this.notification.ts).fromNow();
+		},
+	},
+	methods: {
+		goToLandingPost() {
+			console.log(this.notification);
+			this.$router.push(`/post/${this.notification.postId}`);
 		},
 	},
 };
@@ -108,6 +114,7 @@ i.sqdi-checkmark
 				margin-left 0.1vw
 .notification-message
 	width 100%
+	cursor pointer
 	.message
 		width calc(100% - 10.2vw)
 		padding-right 1.93vw
@@ -119,6 +126,7 @@ i.sqdi-checkmark
 	margin-right 12px
 	border 0.461vw solid #FD6256
 	position relative
+	overflow visible
 	.check-icon
 		position absolute
 		width 5.53vw

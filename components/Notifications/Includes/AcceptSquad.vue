@@ -103,6 +103,7 @@ i.sqdi-checkmark
 	display block
 .notification-message
 	width 100%
+	cursor pointer
 	.message
 		padding-right 1.93vw
 		display inline-block
