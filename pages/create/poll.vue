@@ -162,6 +162,9 @@ export default {
 			}
 		},
 	},
+	head: () => ({
+		title: 'Create-Poll',
+	}),
 };
 </script>
 

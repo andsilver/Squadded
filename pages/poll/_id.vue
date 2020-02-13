@@ -43,6 +43,9 @@ export default {
 			pollPostId: this.$route.params.id,
 		});
 	},
+	head: () => ({
+		title: 'Poll-Details',
+	}),
 };
 </script>
 

@@ -31,6 +31,9 @@ export default {
 			this.$router.push('/');
 		},
 	},
+	head: () => ({
+		title: 'Onboarding-Stories',
+	}),
 };
 </script>
 

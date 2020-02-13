@@ -46,17 +46,26 @@ export default {
 	data: () => ({
 		tabs: null,
 		isMe: false,
+		title: '',
 	}),
 	created () {
 		const type = this.$route.name.split('-').slice(-1)[0];
 		this.isMe = this.$route.path.includes('/my');
 		if (type === 'mysquad') {
 			this.tabs = 0;
+			this.title = 'MyProfil-My-Squad';
 		} else if (type === 'followers') {
 			this.tabs = this.isMe ? 1 : 0;
+			this.title = this.isMe ? 'MyProfil-Main-Followers' : 'UserProfil-Main-Followers';
 		} else {
 			this.tabs = this.isMe ? 2 : 1;
+			this.title = this.isMe ? 'MyProfil-Main-Following' : 'UserProfil-Main-Following';
 		}
+	},
+	head () {
+		return {
+			title: this.title,
+		};
 	},
 };
 </script>

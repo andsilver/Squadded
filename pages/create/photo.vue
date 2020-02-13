@@ -227,6 +227,9 @@ export default {
 			}
 		},
 	},
+	head: () => ({
+		title: 'Create-Photo',
+	}),
 };
 </script>
 

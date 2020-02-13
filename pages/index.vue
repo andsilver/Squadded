@@ -277,5 +277,8 @@ export default {
 			});
 		},
 	},
+	head: () => ({
+		title: 'Onboarding-Login',
+	}),
 };
 </script>

@@ -36,5 +36,8 @@ export default {
 	data: () => ({
 		tabs: 0,
 	}),
+	head: () => ({
+		title: 'MyProfil-Settings',
+	}),
 };
 </script>

@@ -136,6 +136,9 @@ export default {
 			this.$router.push('/all');
 		},
 	},
+	head: () => ({
+		title: 'Onboarding-Create your squad',
+	}),
 };
 </script>
 <style lang="stylus">

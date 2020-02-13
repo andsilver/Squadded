@@ -85,6 +85,9 @@ export default {
 			}, HOME_NEW_POSTS_INTERVAL);
 		},
 	},
+	head: () => ({
+		title: 'Feed-Home',
+	}),
 };
 </script>
 

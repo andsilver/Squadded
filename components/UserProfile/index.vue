@@ -217,6 +217,11 @@ export default {
 			this.show_notification = !this.show_notification;
 		},
 	},
+	head () {
+		return {
+			title: this.userId ? 'UserProfil-Main' : 'MyProfile-Main',
+		};
+	},
 };
 </script>
 

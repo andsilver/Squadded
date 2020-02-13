@@ -67,6 +67,9 @@ export default {
 			this.$root.$emit('postBack', '');
 		},
 	},
+	head: () => ({
+		title: 'Post-Paired-item',
+	}),
 };
 </script>
 <style lang="stylus" scoped>

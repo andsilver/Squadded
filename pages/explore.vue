@@ -47,6 +47,9 @@ export default {
 			'searching',
 		]),
 	},
+	head: () => ({
+		title: 'Main-Explore',
+	}),
 };
 </script>
 

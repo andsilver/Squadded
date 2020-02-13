@@ -98,6 +98,9 @@ export default {
 			});
 		},
 	},
+	head: () => ({
+		title: 'Post-Reactions',
+	}),
 };
 </script>
 

@@ -156,6 +156,9 @@ export default {
 			}
 		},
 	},
+	head: () => ({
+		title: 'Onboarding-Username',
+	}),
 };
 </script>
 

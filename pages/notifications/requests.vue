@@ -40,6 +40,9 @@ export default {
 	created () {
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	},
+	head: () => ({
+		title: 'Notifications-Requests',
+	}),
 };
 </script>
 <style lang="stylus" scoped>

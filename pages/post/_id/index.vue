@@ -81,6 +81,9 @@ export default {
 			return this.components[post.type];
 		},
 	},
+	head: () => ({
+		title: 'Post-Landing',
+	}),
 };
 </script>
 

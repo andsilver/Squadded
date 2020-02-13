@@ -57,6 +57,9 @@ export default {
 	destroyed () {
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`);
 	},
+	head: () => ({
+		title: 'Notifications-All',
+	}),
 };
 </script>
 <style lang="stylus" scoped>

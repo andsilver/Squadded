@@ -170,6 +170,9 @@ export default {
 			}
 		},
 	},
+	head: () => ({
+		title: 'Create-Outfit',
+	}),
 };
 </script>
 

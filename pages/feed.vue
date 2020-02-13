@@ -118,6 +118,9 @@ export default {
 			}, LOADING_TIMEOUT);
 		},
 	},
+	head: () => ({
+		title: 'Feed-My Squad',
+	}),
 };
 </script>
 

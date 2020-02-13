@@ -61,5 +61,8 @@ export default {
 			}
 		},
 	},
+	head: () => ({
+		title: 'Feed-Community',
+	}),
 };
 </script>
