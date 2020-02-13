@@ -6,14 +6,16 @@
 			class="multi-item pa-4 mb-4"
 			:class="{ shifted }"
 			:show-bag="false"
-			@click.native="toggleShifted"
 		>
 			<ItemImage
+				v-if="!cropActive"
 				ref="post-main-image"
 				:item="post"
 				:resquadd="false"
+				@click.native="toggleShifted"
 			/>
-			<p class="tip">
+			<ImageCrop v-if="cropActive" ref="photo-crop-view" :item="post" @doneCrop="$emit('doneCrop')" />
+			<p v-if="!cropActive" class="tip">
 				{{ $t('tip.createPhotoTag') }}
 			</p>
 		</CardFrame>
@@ -26,6 +28,7 @@
 <script>
 import SelectItems from './SelectItems';
 import CardFrame from '~/components/Posts/Includes/CardFrame';
+import ImageCrop from '~/components/Posts/Includes/ImageCrop';
 import ItemImage from '~/components/Posts/Includes/ItemImage';
 import { FeedPost } from '~/classes/FeedPost';
 
@@ -35,11 +38,17 @@ export default {
 		CardFrame,
 		ItemImage,
 		SelectItems,
+		ImageCrop,
 	},
 	props: {
 		post: {
 			type: FeedPost,
 			required: true,
+		},
+		cropActive: {
+			type: Boolean,
+			required: false,
+			default: false,
 		},
 	},
 	data: () => ({
@@ -50,8 +59,10 @@ export default {
 	}),
 	methods: {
 		toggleShifted () {
-			this.maxHeight = `${(this.$refs['tag-card'].$el.offsetHeight - 40)}px`;
-			this.shifted = !this.shifted;
+			if (!this.cropActive) {
+				this.maxHeight = `${(this.$refs['tag-card'].$el.offsetHeight - 40)}px`;
+				this.shifted = !this.shifted;
+			}
 		},
 	},
 };
@@ -115,4 +126,6 @@ export default {
 	left 0
 	position absolute
 	bottom 0px
+.multi-item
+	max-width calc(100% - 80px)
 </style>

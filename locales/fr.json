@@ -321,7 +321,8 @@
 		"photoError": "Identifiez des articles pour publier la photo",
 		"pollError": "Vous devez sélectionner 2 articles pour créer un sondage",
 		"pollSelect": "Sélectionnez les 2 articles de votre sondage",
-		"tapPhotos": "appuyez sur la photo pour plus de détails"
+		"tapPhotos": "appuyez sur la photo pour plus de détails",
+		"crop": "move points to crop"
 	},
 	"user": {
 		"Follow": "Suivre",

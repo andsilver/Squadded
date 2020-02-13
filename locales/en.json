@@ -272,7 +272,8 @@
     "createPhotoTag": "click photo to tag items",
     "photoError": "Click the items you want to tag to post a picture.",
     "photoLimitError": "You cannot tag more than 4 items",
-    "tapPhotos": "click photos for details"
+    "tapPhotos": "click photos for details",
+    "crop": "move points to crop"
   },
   "user": {
     "Follow": "Watch",

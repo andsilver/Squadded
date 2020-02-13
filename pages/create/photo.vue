@@ -6,11 +6,16 @@
 			<v-layout column grow class="mt-3">
 				<CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" />
 				<Browse v-show="!dataImg" ref="browse" @open="preview" />
-				<Tags v-if="dataImg" ref="tagsComponent" :post="post">
+				<Tags v-if="dataImg" ref="tagsComponent" :post="post" :crop-active="cropActive" @doneCrop="cropActive=false">
 					<div class="photo-menu-panel">
 						<v-btn icon width="40" height="40" @click="() => preview({})">
 							<v-icon color="#000">
 								sqdi-refresh
+							</v-icon>
+						</v-btn>
+						<v-btn icon width="40" height="40" @click="() => cropActive = !cropActive">
+							<v-icon :color="cropActive? '#fd756a' : '#000'">
+								mdi-crop
 							</v-icon>
 						</v-btn>
 					</div>
@@ -114,6 +119,7 @@ export default {
 	},
 	data: () => ({
 		dataImg: null,
+		cropActive: false,
 		file: null,
 		showPhoto: true,
 		showError: false,
@@ -321,4 +327,7 @@ export default {
 	padding 4VW 0
 	margin-top 4VW
 	border-top 0.46vw solid #DBDBDB
+
+.photo-menu-panel button
+	display block
 </style>
