@@ -16,7 +16,7 @@
 			</v-list>
 		</template>
 		<template v-else-if="post.comments.messages.length">
-			<Comment :comment="post.comments.messages[0]" :post="post" :for-feed="forFeed" />
+			<Comment :comment="post.comments.messages[post.comments.messages.length - 1]" :post="post" :for-feed="forFeed" />
 			<v-btn
 				v-if="!showAllComments"
 				ref="show-all-btn"
