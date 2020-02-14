@@ -55,7 +55,7 @@ export default {
 	methods: {
 		goToLandingPost() {
 			console.log(this.notification);
-			this.$router.push(`/post/${this.notification.postId}`);
+			this.$router.push(`/post/${this.notification.guid}`);
 		},
 	},
 };
