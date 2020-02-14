@@ -14,7 +14,7 @@
 			</p>
 		</div>
 		<div v-if="items && items.length" class="overflow-x-auto d-flex">
-			<div v-for="(post, index) of items" :key="index">
+			<div v-for="(post, index) of items" :key="index" @click="goToLandingPost(post)">
 				<div class="wrapper mb-2" :class="{ my_post_wrapper: isMyPost(post) }">
 					<VoteSlider :post="post" style="pointer-events: none" />
 					<div class="poll-post grid">
@@ -81,6 +81,10 @@ export default {
 					SquadAPI.openProduct(post.item2);
 				}
 			}
+		},
+		goToLandingPost(post) {
+			console.log(post);
+			// this.$router.push('/post/5e1f1c666f8a8d5384454d7a');
 		},
 	},
 };

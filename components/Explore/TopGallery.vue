@@ -7,7 +7,7 @@
 			</h3>
 		</div>
 		<div v-if="items && items.length" class="overflow-x-auto d-flex pb-2">
-			<div v-for="({ post }, index) of items" :key="index">
+			<div v-for="({ post }, index) of items" :key="index" @click="goToLandingPost(post)">
 				<div
 					ref="post-card"
 					class="post-card"
@@ -32,6 +32,11 @@ export default {
 	},
 	created() {
 		this.$store.dispatch(`${ExploreStore}/${ExploreActions.fetchItems}`, 'topGallery');
+	},
+	methods: {
+		goToLandingPost(post) {
+			this.$router.push(`/post/${post._id}`);
+		},
 	},
 };
 </script>

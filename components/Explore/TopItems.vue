@@ -7,7 +7,7 @@
 			</h3>
 		</div>
 		<div v-if="items && items.length" class="overflow-x-auto d-flex">
-			<div v-for="(post, index) of items" :key="index">
+			<div v-for="(post, index) of items" :key="index" @click="openProduct(post)">
 				<div ref="post-card" class="post-card">
 					<CardFrame
 						ref="card-frame"
@@ -40,6 +40,7 @@ import { ExploreStore, ExploreGetters, ExploreActions } from '~/store/explore';
 import CardFrame from '~/components/Posts/Includes/CardFrame';
 import ItemImage from '~/components/Posts/Includes/ItemImage';
 import { price } from '~/helpers';
+import { SquadAPI } from '~/services/SquadAPI';
 
 export default {
 	components: {
@@ -64,6 +65,9 @@ export default {
 			} else {
 				return '';
 			}
+		},
+		openProduct (post) {
+			SquadAPI.openProduct(post.item);
 		},
 	},
 };

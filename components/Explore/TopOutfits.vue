@@ -14,7 +14,7 @@
 			</p>
 		</div>
 		<div v-if="outfits && outfits.length" class="overflow-x-auto d-flex px-2">
-			<div v-for="({ post }, index) of outfits" :key="index" class="grouped-post-item">
+			<div v-for="({ post }, index) of outfits" :key="index" class="grouped-post-item" @click="goToLandingPost(post)">
 				<div ref="outfit-card" class="outfit-card">
 					<CardFrame
 						ref="multi-item"
@@ -68,6 +68,9 @@ export default {
 		totalPrice (post) {
 			const total = post.items.map(i => i.price).reduce((a, b) => (a + (+b)), 0);
 			return price(post.items[0].currency, total, this._i18n.locale);
+		},
+		goToLandingPost(post) {
+			this.$router.push(`/post/${post._id}`);
 		},
 	},
 };
