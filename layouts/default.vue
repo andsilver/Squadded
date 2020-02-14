@@ -43,7 +43,7 @@ export default {
 		absolute: false,
 		opacity: 0.46,
 		overlay: false,
-		zIndex: 11,
+		zIndex: 200,
 		firstTime: true,
 	}),
 	computed: {
@@ -144,7 +144,7 @@ export default {
 .v-bottom-navigation
 	position fixed
 	bottom 0
-	z-index 100
+	z-index 201
 	transition-property bottom
 	transition-duration 0.1s
 	.v-application.isTouch:not(.show-tabs) &
