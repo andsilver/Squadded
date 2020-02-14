@@ -233,6 +233,10 @@ export default {
 	.multi-item
 		padding 0 !important
 		margin-bottom 0 !important
+		&.shifted
+			margin-left 0
+			.is_selected::after
+				background-color transparent
 	.grid
 		grid-gap 0.3vw
 .isTouch .close
