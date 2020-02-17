@@ -4,6 +4,7 @@ import MySquad from './MySquad.vue';
 import { prefetch } from '~/helpers';
 import Store from '~/store';
 import { FeedStore, FeedMutations } from '~/store/feed';
+import { UserStore, UserActions } from '~/store/user';
 import { userMockBuilder } from '~/test/user.mock';
 import UserLink from '~/components/UserLink';
 
@@ -30,6 +31,9 @@ describe('MySquad component', () => {
 	const DESCRIPTION = 'description';
 	const REMOVE_BTN = 'remove-btn';
 	const CANCEL_BTN = 'cancel-btn';
+	const $ws = {
+		sendObj: jest.fn(),
+	};
 
 	function initLocalVue () {
 		localVue = createLocalVue();
@@ -43,6 +47,7 @@ describe('MySquad component', () => {
 			store,
 			mocks: {
 				$t: msg => msg,
+				$ws,
 			},
 		});
 	}
@@ -91,5 +96,21 @@ describe('MySquad component', () => {
 		expect(wrapper.ref(DESCRIPTION).exists()).toBe(true);
 		expect(wrapper.ref(REMOVE_BTN).exists()).toBe(true);
 		expect(wrapper.ref(CANCEL_BTN).exists()).toBe(true);
+	});
+
+	it('should remove squadder', async () => {
+		user.squaddersCount = 2;
+		prefetch.mockReturnValue(Promise.resolve(squadders));
+		initLocalVue();
+		store.dispatch = jest.fn();
+		await Promise.resolve();
+		const squadder = squadders[0];
+		await wrapper.vm.removeSquad(squadder);
+		await wrapper.ref(REMOVE_BTN).trigger('click');
+		expect($ws.sendObj).toHaveBeenCalledWith({
+			type: 'removeSquadder',
+			guid: squadder.userId,
+		});
+		expect(store.dispatch).toHaveBeenCalledWith(`${UserStore}/${UserActions.setProfile}`, user);
 	});
 });

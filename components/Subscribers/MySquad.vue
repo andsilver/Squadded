@@ -65,7 +65,7 @@
 					</h4>
 				</v-card-text>
 				<v-card-actions class="px-4">
-					<v-btn ref="remove-btn" outlined depressed class="remove-btn flex-grow-1">
+					<v-btn ref="remove-btn" outlined depressed class="remove-btn flex-grow-1" @click="removeSquadAction">
 						<v-icon x-small color="white">
 							sqdi-close-cross
 						</v-icon>
@@ -82,7 +82,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { UserStore } from '~/store/user';
+import { UserStore, UserActions } from '~/store/user';
 import UserLink from '~/components/UserLink';
 import Button from '~/components/common/Button';
 import { FeedStore, FeedMutations } from '~/store/feed';
@@ -144,6 +144,18 @@ export default {
 		removeSquad(squadder) {
 			this.showSquadderRemoveDialog = true;
 			this.removingSquadder = squadder;
+		},
+		removeSquadAction () {
+			this.showSquadderRemoveDialog = false;
+			this.$ws.sendObj({
+				type: 'removeSquadder',
+				guid: this.removingSquadder.userId,
+			});
+			const index = this.squadders.indexOf(this.removingSquadder);
+			this.squadders.splice(index, 1);
+			const { me } = this;
+			me.squaddersCount -= 1;
+			this.$store.dispatch(`${UserStore}/${UserActions.setProfile}`, me);
 		},
 		async share () {
 			this.showShare = false;
