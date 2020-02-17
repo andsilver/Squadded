@@ -7,10 +7,11 @@
 					:key="user._id"
 					:style="{left: getPosition(index), 'z-index': 2 + index}"
 					class="user-avatar-container"
+					@click="goToMySquad"
 				>
 					<img :src="user.avatar" alt>
 				</div>
-				<div class="count-squadders d-flex align-center" :style="{left: getCountPosition()}">
+				<div class="count-squadders d-flex align-center" :style="{left: getCountPosition()}" @click="shareAccount">
 					<Button ref="plus-btn" class="plus-btn">
 						<v-icon small>
 							mdi-account-plus
@@ -25,7 +26,10 @@
 	</div>
 </template>
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import Button from '~/components/common/Button';
+import { UserStore } from '~/store/user';
+const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	components: {
@@ -38,6 +42,9 @@ export default {
 		},
 	},
 	computed: {
+		...mapState([
+			'me',
+		]),
 		first5Users() {
 			return this.users && this.users.length
 				? this.users.slice(0, 5)
@@ -51,6 +58,15 @@ export default {
 				? this.users.length
 				: 0;
 		},
+		target () {
+			const { siteUrl, siteTitle } = this.$store.state.merchant;
+			return {
+				id: this.me.userId,
+				url: siteUrl,
+				title: siteTitle,
+				invite: true,
+			};
+		},
 	},
 	methods: {
 		getPosition(index) {
@@ -58,6 +74,22 @@ export default {
 		},
 		getCountPosition() {
 			return `${(9.48 - 1.69) * (this.isMoreThan5 ? 5 : this.countSquadders)}vw`;
+		},
+		goToMySquad() {
+			this.$router.push('/my/mysquad');
+		},
+		shareAccount() {
+			const title = 'Share profile';
+			const { API_ENDPOINT } = this.$store.state.squad;
+			const target = JSON.stringify(this.target);
+			const url = `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
+			if (navigator.share) {
+				navigator.share({ title, url }).then(() => {
+					// Shared
+				});
+			} else {
+				// Share Not supported 🙅‍'
+			}
 		},
 	},
 };
