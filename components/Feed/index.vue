@@ -71,7 +71,6 @@ export default {
 			outfitPost: MultiItemPost,
 			galleryPost: GalleryPost,
 		},
-		image: null,
 	}),
 	computed: {
 		aggregatedItems() {
@@ -121,10 +120,12 @@ export default {
 
 			return items;
 		},
+		image () {
+			return this.$store.state.post.uploadingPicture;
+		},
 	},
 	mounted() {
 		window.addEventListener('scroll', this.onScroll);
-		this.image = this.$route.query.img;
 	},
 	destroyed() {
 		window.removeEventListener('scroll', this.onScroll);

@@ -7,6 +7,7 @@ export const PostStore = 'post';
 export const state = () => ({
 	all: [],
 	pollResult: null,
+	uploadingPicture: null,
 });
 
 export const PostGetters = {
@@ -41,6 +42,7 @@ export const PostMutations = {
 	setPollResult: 'setPollResult',
 	deleteComment: 'deleteComment',
 	setCurrentPost: 'setCurrentPost',
+	setUploadingPicture: 'setUploadingPicture',
 };
 
 function suffix () {
@@ -144,6 +146,9 @@ export const mutations = {
 		state.pollResult = pollResult ? new FeedPost(pollResult) : null;
 	},
 	[PostMutations.setCurrentPost]: () => {},
+	[PostMutations.setUploadingPicture]: (state, pic) => {
+		state.uploadingPicture = pic;
+	},
 };
 
 export const PostActions = {

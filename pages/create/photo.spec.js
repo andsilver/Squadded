@@ -14,6 +14,13 @@ Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
 
+class URLMock {
+	constructor() {
+		this.href = 'href';
+		this.search = null;
+	}
+}
+
 describe('Create Photo', () => {
 	let wrapper;
 	let store;
@@ -94,23 +101,33 @@ describe('Create Photo', () => {
 	it('should save post and show uploading status', async () => {
 		await store.commit('SET_SOCKET_AUTH', true);
 		const uploadUrl = 'uploadurl';
-		const imageUrl = 'imageurl';
 		const post = aDefaultSingleItemMsgBuilder().get();
+		const file = {
+			type: 'image',
+		};
+		const image = 'imagedata';
+
+		wrapper.setData({ file });
+
 		post.selected = true;
 		store.state.activity.wishlist = [post];
 		store.dispatch = jest.fn();
+		store.commit = jest.fn();
 		prefetch.mockReturnValue(uploadUrl);
+		global.fetch = jest.fn().mockReturnValue({ ok: true });
+		global.URL = URLMock;
 		wrapper.vm.preview({
-			image: 'imagedata',
-			file: {
-				type: 'image',
-			},
+			image,
+			file,
 		});
-		wrapper.vm.savePhoto = jest.fn().mockReturnValue(imageUrl);
+
 		const nextButton = wrapper.ref(NEXT_BUTTON);
 		nextButton.trigger('click');
 		const doneButton = wrapper.ref(DONE_BUTTON);
-		doneButton.trigger('click');
+		await doneButton.trigger('click');
+		await Promise.resolve();
+
+		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setUploadingPicture}`, image);
 
 		expect(prefetch).toHaveBeenCalledWith({
 			contentType: 'image',
@@ -119,11 +136,21 @@ describe('Create Photo', () => {
 			type: 'getUploadUrl',
 		});
 
-		await Promise.resolve();
-		await Promise.resolve();
+		expect(global.fetch).toHaveBeenCalledWith(uploadUrl, {
+			method: 'PUT',
+			body: file,
+		});
 
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, {
-			img: imageUrl,
+			img: 'href',
+			items: [post.item],
+			private: !wrapper.vm.$refs['public-toggle'].isPublic,
+			text: wrapper.vm.text,
+			type: 'galleryPost',
+		});
+
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, {
+			img: 'href',
 			items: [post.item],
 			private: !wrapper.vm.$refs['public-toggle'].isPublic,
 			text: wrapper.vm.text,

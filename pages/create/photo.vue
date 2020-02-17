@@ -94,7 +94,7 @@ import UserInput from '~/components/common/UserInput';
 import PhotoView from '~/components/common/PhotoView';
 import { FeedPost } from '~/classes/FeedPost';
 import { ActivityStore, ActivityGetters } from '~/store/activity';
-import { FeedStore, FeedMutations } from '~/store/feed';
+import { FeedStore, FeedActions } from '~/store/feed';
 import {
 	PostStore,
 	PostActions,
@@ -103,6 +103,40 @@ import {
 import { prefetch } from '~/helpers';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
+
+const createPost = async ({ file, store, text, isPublic, selected, image }) => {
+	try {
+		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, image);
+		const url = await prefetch({
+			contentType: file.type,
+			mutation: `${PostStore}/${PostMutations.uploadURL}`,
+			store: store,
+			type: 'getUploadUrl',
+		});
+		const response = await fetch(url, {
+			method: 'PUT',
+			body: file,
+		});
+		if (!response.ok) {
+			store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
+			return;
+		}
+		const img = new URL(url);
+		img.search = '';
+		const msg = {
+			img: img.href,
+			items: selected.map(post => post.item),
+			private: !isPublic,
+			text,
+			type: 'galleryPost',
+		};
+		await store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
+		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
+		store.dispatch(`${FeedStore}/${FeedActions.fetch}`, true);
+	} catch (err) {
+		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
+	}
+};
 
 export default {
 	components: {
@@ -129,11 +163,6 @@ export default {
 			img: '',
 		}),
 		text: '',
-		upload: {
-			started: false,
-			done: false,
-			failed: false,
-		},
 	}),
 	computed: {
 		...mapGetters([
@@ -150,63 +179,23 @@ export default {
 		this.$root.$on('selectProducts', data => this.selectProducts(data));
 	},
 	methods: {
-		async create () {
-			this.upload.started = true;
-			this.upload.done = false;
-			this.upload.error = false;
-			const url = await this.getUploadUrl();
-			const img = await this.savePhoto(url);
-			this.upload.done = true;
-			this.savePost(img);
-		},
-		getUploadUrl () {
-			return prefetch({
-				contentType: this.file.type,
-				mutation: `${PostStore}/${PostMutations.uploadURL}`,
+		create () {
+			createPost({
+				file: this.file,
 				store: this.$store,
-				type: 'getUploadUrl',
+				text: this.text,
+				isPublic: this.$refs['public-toggle'].isPublic,
+				selected: this.getSelected,
+				image: this.dataImg,
+			});
+			this.$router.push({
+				path: '/feed',
 			});
 		},
 		preview (data) {
 			this.dataImg = data.image;
 			this.post.img = data.image;
 			this.file = data.file;
-		},
-		async savePhoto (url) {
-			try {
-				const response = await fetch(url, {
-					method: 'PUT',
-					body: this.file,
-				});
-				if (!response.ok) {
-					throw new Error(response.statusText);
-				}
-				const img = new URL(url);
-				img.search = '';
-				return img.href;
-			} catch (error) {
-				this.upload.error = true;
-				return error;
-			}
-		},
-		async savePost (img) {
-			const { text } = this;
-			const { isPublic } = this.$refs['public-toggle'];
-			const msg = {
-				img,
-				items: this.getSelected.map(post => post.item),
-				private: !isPublic,
-				text,
-				type: 'galleryPost',
-			};
-			const post = await this.$store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
-			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
-			this.$router.push({
-				path: '/feed',
-				query: {
-					img,
-				},
-			});
 		},
 		next () {
 			if (this.dataImg && this.getSelected.length === 0) {
@@ -219,11 +208,6 @@ export default {
 		},
 		goBack() {
 			this.showPhoto = true;
-			this.upload = {
-				started: false,
-				done: false,
-				failed: false,
-			};
 		},
 		selectProducts(options) {
 			if (this.getSelected.length >= 2 && !options) {

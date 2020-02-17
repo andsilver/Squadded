@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import FeedComponent from '../index.vue';
 import Comments from '~/components/Comments';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
+import { PostStore, PostMutations } from '~/store/post';
 import Store from '~/store';
 
 Wrapper.prototype.ref = function (id) {
@@ -16,9 +17,6 @@ describe('FeedComponent Empty State', () => {
 	let localVue;
 	let store;
 	let wrapper;
-	const $route = {
-		query: {},
-	};
 
 	function initLocalVue () {
 		localVue = createLocalVue();
@@ -33,7 +31,6 @@ describe('FeedComponent Empty State', () => {
 			store,
 			mocks: {
 				$t: msg => msg,
-				$route,
 			},
 		});
 	}
@@ -108,11 +105,8 @@ describe('FeedComponent Empty State', () => {
 		expect(comments.exists()).toBe(true);
 	});
 
-	it('should render UploadDone if image url is passed in the route', () => {
-		$route.query = {
-			img: 'imageurl',
-		};
-		initLocalVue();
+	it('should render UploadDone if image is uploading', () => {
+		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, 'picture');
 		expect(wrapper.ref('uploading-done').exists()).toBe(true);
 	});
 });
