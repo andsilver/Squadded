@@ -20,7 +20,7 @@ describe('Squad Store module', () => {
 	it('should convert params to route', () => {
 		const id = chance.guid();
 		const squadParam = `user:${id}`;
-		store.commit(SquadMutations.setSquadParams, squadParam);
+		store.commit(SquadMutations.setSquadParams, { squad: squadParam });
 
 		expect(store.state.route).toEqual({
 			name: 'user-id',
@@ -33,7 +33,7 @@ describe('Squad Store module', () => {
 	it('should convert params with suffix to route', () => {
 		const id = chance.guid();
 		const squadParam = `user:${id}_invite`;
-		store.commit(SquadMutations.setSquadParams, squadParam);
+		store.commit(SquadMutations.setSquadParams, { squad: squadParam });
 
 		expect(store.state.route).toEqual({
 			name: 'user-id',

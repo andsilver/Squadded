@@ -49,7 +49,7 @@ export const SquadMutations = {
 };
 
 export const mutations = {
-	[SquadMutations.setSquadParams]: (state, squad) => {
+	[SquadMutations.setSquadParams]: (state, { squad }) => {
 		if (!squad) {
 			return;
 		}

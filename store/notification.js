@@ -44,6 +44,7 @@ export const mutations = {
 		}, TIMEOUT_SECONDS * 1000);
 		window.parent.postMessage(JSON.stringify({
 			type: 'notification',
+			message,
 		}), '*');
 	},
 	[NotificationMutations.receive]: (state, { notifications, ts }) => {

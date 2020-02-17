@@ -86,6 +86,10 @@ export default {
 				}, 100);
 			} else if (mutation.type === `${ActivityStore}/${ActivityMutations.addPost}` && !this.socket.isAuth) {
 				this.$router.push('/onboarding');
+			} else if (mutation.type === `${SquadStore}/${SquadMutations.setSquadParams}` && mutation.payload) {
+				if (mutation.payload.navigate) {
+					setTimeout(() => this.$router.push(this.squad.route), 100);
+				}
 			}
 		});
 		if (this.isTouch) {

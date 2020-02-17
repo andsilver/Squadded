@@ -81,7 +81,7 @@ describe('Dispatcher', () => {
 		ipc.dispatch(msg);
 
 		expect(store.commit).toHaveBeenCalledTimes(2);
-		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setSquadParams}`, msg.squad);
+		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setSquadParams}`, { squad: msg.squad });
 		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setWidgetState}`, msg.state.open);
 	});
 });
