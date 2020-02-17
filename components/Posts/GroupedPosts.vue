@@ -21,12 +21,12 @@
 					/>
 				</v-slide-item>
 			</v-slide-group>
-			<v-btn ref="prev-item" icon class="prev-item" @click="prev">
+			<v-btn v-if="!firstSelcted" ref="prev-item" icon class="prev-item" @click="prev">
 				<v-icon>
 					mdi-chevron-left
 				</v-icon>
 			</v-btn>
-			<v-btn ref="next-item" icon class="next-item" @click="next">
+			<v-btn v-if="!lastSelcted" ref="next-item" icon class="next-item" @click="next">
 				<v-icon>
 					mdi-chevron-right
 				</v-icon>
@@ -61,14 +61,23 @@ export default {
 	},
 	data: () => ({
 		selectedItem: null,
-		selectedIndex: 0,
+		selectedIndex: 1,
 		self: this,
-		model: 3,
+		model: 1,
+		firstSelcted: false,
+		lastSelcted: false,
 	}),
 	computed: {
 		selected() {
 			return this.selectedItem || this.post.items[0];
 		},
+	},
+	mounted () {
+		if (this.post.items.length === 2) {
+			this.model = 0;
+			this.selectedIndex = 0;
+			this.firstSelcted = true;
+		}
 	},
 	methods: {
 		itemSelected(toggle, item, index) {
@@ -77,19 +86,27 @@ export default {
 			this.selectedIndex = index;
 		},
 		next() {
+			this.firstSelcted = false;
 			if (this.selectedIndex === this.post.items.length - 1) {
 				return;
 			}
 			const posts = this.$refs['product-card'];
 			const nextPost = posts[this.selectedIndex + 1];
+			if (this.selectedIndex + 1 === this.post.items.length - 1) {
+				this.lastSelcted = true;
+			}
 			nextPost.$el.click();
 		},
 		prev() {
+			this.lastSelcted = false;
 			if (this.selectedIndex === 0) {
 				return;
 			}
 			const posts = this.$refs['product-card'];
 			const prevPost = posts[this.selectedIndex - 1];
+			if ((this.selectedIndex - 1) === 0) {
+				this.firstSelcted = true;
+			}
 			prevPost.$el.click();
 		},
 	},
@@ -119,5 +136,13 @@ export default {
 		left 24px
 	.next-item--disabled,
 	.prev-item--disabled
-		pointer-events unset
+		display none
+	.single-item:last-child
+		margin-right 15.5vw !important
+	.single-item:first-child
+		margin-left 15.5vw !important
+.isTouch .grouped-post
+	.prev-item,
+	.next-item
+		display none
 </style>
