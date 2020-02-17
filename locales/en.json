@@ -64,6 +64,7 @@
   "Likes": "Likes",
   "viewAll": "View all",
   "validate": "validate",
+  "ok": "ok",
   "comment": {
     "pop": {
       "Action": "Action",
@@ -409,5 +410,9 @@
     "description": "Add your friends to join your squad. Once they join, you will be able to see and interact with each other’s wishlist.",
     "skip_for_now": "skip for now"
   },
-  "sign_up_later": "Sign up later"
+  "sign_up_later": "Sign up later",
+  "moderation": {
+    "violation": "Possible Violation",
+    "text": "Seems like your post goes against our guidelines, our moderators will review it. If your post goes against our guidelines, your account maybe suspended."
+  }
 }

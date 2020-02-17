@@ -109,4 +109,9 @@ describe('FeedComponent Empty State', () => {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, 'picture');
 		expect(wrapper.ref('uploading-done').exists()).toBe(true);
 	});
+
+	it('should show violation dialog', () => {
+		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, 'violation');
+		expect(wrapper.ref('violation').exists()).toBe(true);
+	});
 });

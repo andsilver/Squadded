@@ -409,4 +409,9 @@ describe('WSMessages dispatch', () => {
 		wsMessages.dispatch(msg);
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, msg);
 	});
+
+	it('should commit setUploadingPicture with `violation`', () => {
+		wsMessages.dispatch({ type: 'moderationFailed' });
+		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setUploadingPicture}`, 'violation');
+	});
 });

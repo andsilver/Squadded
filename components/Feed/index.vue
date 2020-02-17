@@ -10,7 +10,7 @@
 		>
 			{{ $t('NewPosts') }}
 		</v-btn>
-		<UploadingDone v-if="image" ref="uploading-done" :image="image" />
+		<UploadingDone v-if="image && image !== 'violation'" ref="uploading-done" :image="image" />
 		<v-layout column>
 			<div v-for="(post, n) in aggregatedItems" :key="n">
 				<component :is="getComponent(post)" :is-paired="paired" :post="post" />
@@ -22,17 +22,20 @@
 				/>
 			</div>
 		</v-layout>
+		<ViolationDialog v-if="image === 'violation'" ref="violation" @close="closeViolationDialog" />
 	</section>
 </template>
 
 <script>
 import UploadingDone from './UploadingDone';
+import ViolationDialog from './ViolationDialog';
 import GalleryPost from '~/components/Posts/GalleryPost';
 import MultiItemPost from '~/components/Posts/MultiItemPost';
 import SingleItemPost from '~/components/Posts/SingleItemPost';
 import PollPost from '~/components/Posts/PollPost';
 import GroupedPosts from '~/components/Posts/GroupedPosts';
 import Comments from '~/components/Comments';
+import { PostStore, PostMutations } from '~/store/post';
 
 const MINUTES = 2; // 2 minutes
 
@@ -46,6 +49,7 @@ export default {
 		GalleryPost,
 		Comments,
 		UploadingDone,
+		ViolationDialog,
 	},
 	props: {
 		items: {
@@ -149,6 +153,9 @@ export default {
 		},
 		showComments(post) {
 			return post.type && post.type !== 'groupedPosts' && !!this.getComponent(post);
+		},
+		closeViolationDialog() {
+			this.$store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
 		},
 	},
 };

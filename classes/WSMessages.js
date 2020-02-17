@@ -228,4 +228,8 @@ export class WSMessages {
 		const { users } = message;
 		this.store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, users);
 	}
+
+	moderationFailed() {
+		this.store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, 'violation');
+	}
 };
