@@ -77,7 +77,7 @@ export default {
 	methods: {
 		vote (vote) {
 			if (this.isPaired) {
-				this.$root.$emit('postTaped', '');
+				this.$root.$emit('postTaped', this.post.postId);
 				return;
 			}
 			if (!this.isVoted) {

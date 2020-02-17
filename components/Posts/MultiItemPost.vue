@@ -98,7 +98,7 @@ export default {
 	methods: {
 		fetch () {
 			if (this.isPaired) {
-				this.$root.$emit('postTaped', '');
+				this.$root.$emit('postTaped', this.post.postId);
 				return;
 			}
 			if (this.fetched) {

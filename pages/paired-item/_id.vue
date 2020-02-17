@@ -11,7 +11,7 @@
 		</h3>
 		<ItemDetails ref="item-details" :class="{paired_hide : pairedHide}" />
 		<HesitatingUsers ref="hesitating-users" :class="{paired_hide : pairedHide}" />
-		<Posts ref="posts" :class="{paired_hide_sec : pairedHide}" />
+		<Posts id="postSection" ref="posts" :class="{paired_hide_sec : pairedHide}" />
 	</div>
 </template>
 
@@ -58,6 +58,19 @@ export default {
 	methods: {
 		postTaped(options) {
 			this.pairedHide = true;
+			setTimeout(() => {
+				const element = document.querySelector('.v-window-item--active #post_id_' + options);
+				const container = document.querySelector('#postSection');
+				if (element.offsetTop < container.scrollTop) {
+					container.scrollTop = element.offsetTop;
+				} else {
+					const offsetBottom = element.offsetTop + element.offsetHeight;
+					const scrollBottom = container.scrollTop + container.offsetHeight;
+					if (offsetBottom > scrollBottom) {
+						container.scrollTop = offsetBottom - container.offsetHeight;
+					}
+				}
+			}, 500);
 		},
 		tabChange(options) {
 			this.tabSelected = options;

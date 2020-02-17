@@ -12,7 +12,7 @@
 		</v-btn>
 		<UploadingDone v-if="image && image !== 'violation'" ref="uploading-done" :image="image" />
 		<v-layout column>
-			<div v-for="(post, n) in aggregatedItems" :key="n">
+			<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + post.postId" :key="n">
 				<component :is="getComponent(post)" :is-paired="paired" :post="post" />
 				<Comments
 					v-if="showComments(post) && !paired"
