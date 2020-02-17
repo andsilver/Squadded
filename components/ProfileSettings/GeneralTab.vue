@@ -134,7 +134,7 @@
 		</div>
 		<section class="my-4 d-flex">
 			<div class="mr-3">
-				<v-btn icon>
+				<v-btn icon @click="promptSignout">
 					<v-icon small color="black">
 						mdi-power
 					</v-icon>
@@ -149,7 +149,7 @@
 						rounded
 						depressed
 						small
-						@click.native="signout"
+						@click.native="promptSignout"
 					>
 						{{ $t('profile_settings.signout.button') }}
 					</v-btn>
@@ -205,6 +205,30 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
+
+		<v-dialog v-model="showSignoutDialog" content-class="report-dialog delete-dialog">
+			<v-card>
+				<v-card-title class="card-title">
+					{{ $t('profile_settings.signout.button') }}
+					<v-btn icon class="close-dialog" @click.native="hide">
+						<v-icon size="3.69vw">
+							sqdi-close-cross
+						</v-icon>
+					</v-btn>
+				</v-card-title>
+				<v-card-text class="report-options">
+					<span class="delete-text">{{ $t('profile_settings.signout.confirm') }}</span>
+				</v-card-text>
+				<v-card-actions class="d-flex justify-center card-action">
+					<Button class="flex-grow-1 delete-button" @click.native="signout">
+						{{ $t('profile_settings.signout.button') }}
+					</Button>
+					<Button class="flex-grow-1" :active="false" @click.native="hide">
+						{{ $t('Cancel') }}
+					</Button>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 	</div>
 </template>
 <script>
@@ -228,6 +252,7 @@ export default {
 			},
 		],
 		showTerms: false,
+		showSignoutDialog: false,
 	}),
 	computed: {
 		...mapState(['me']),
@@ -243,12 +268,16 @@ export default {
 		this.user.notification = this.notifications[0].value;
 	},
 	methods: {
+		promptSignout () {
+			this.showSignoutDialog = true;
+		},
+		hide () {
+			this.showSignoutDialog = false;
+		},
 		signout: function (event) {
-			if (confirm(this.$t('profile_settings.signout.confirm'))) {
-				localStorage.clear();
-				sessionStorage.clear();
-				location.reload();
-			}
+			localStorage.clear();
+			sessionStorage.clear();
+			location.reload();
 		},
 	},
 };
