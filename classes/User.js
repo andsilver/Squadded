@@ -32,7 +32,7 @@ export class User {
 		this.likes = likes;
 		this.mention = mention;
 		this.name = name || screenName;
-		this.screenName = this.name;
+		this.screenName = screenName;
 		this.userId = userId || guid || _id;
 		this.guid = this.userId;
 		this.private = props.private || false;

@@ -82,6 +82,7 @@ export const actions = {
 				bio: user.bio,
 				private: !!user.private,
 				name: user.name,
+				screenName: user.screenName,
 				avatar: user.avatar,
 				nameSelected: !!user.nameSelected,
 			},

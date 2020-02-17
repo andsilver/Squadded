@@ -102,6 +102,7 @@ describe('User Store module', () => {
 		user.bio = bio;
 		user.private = _private;
 		user.name = name;
+		user.screenName = name;
 		user.avatar = avatar;
 		user.isMe = true;
 		user.nameSelected = nameSelected;
@@ -114,6 +115,7 @@ describe('User Store module', () => {
 				bio,
 				private: _private,
 				name,
+				screenName: name,
 				avatar,
 				nameSelected,
 			},
