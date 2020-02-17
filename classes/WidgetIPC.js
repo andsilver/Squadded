@@ -37,6 +37,15 @@ export class WidgetIPC {
 	}
 
 	async singleItemPost (msg) {
+		if (!localStorage.getItem('interacted')) {
+			window.parent.postMessage(JSON.stringify({
+				type: 'first-interaction',
+			}), '*');
+		}
+		localStorage.setItem('interacted', Date.now().toString());
+		if (!this.store.state.socket || !this.store.state.socket.isAuth) {
+			return;
+		}
 		if (!this.store.state.feed.items.length) {
 			// tmp patch while infinite scroll not ready
 			this.store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
@@ -45,12 +54,6 @@ export class WidgetIPC {
 		const post = await this.store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		this.store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 		this.store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, post);
-		if (!localStorage.getItem('interacted')) {
-			window.parent.postMessage(JSON.stringify({
-				type: 'first-interaction',
-			}), '*');
-		}
-		localStorage.setItem('interacted', Date.now().toString());
 	}
 
 	widgetState (msg) {

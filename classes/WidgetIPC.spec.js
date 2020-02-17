@@ -23,6 +23,9 @@ describe('Dispatcher', () => {
 				feed: {
 					items: [],
 				},
+				socket: {
+					isAuth: true,
+				},
 			},
 			commit: jest.fn(),
 			dispatch: jest.fn(),

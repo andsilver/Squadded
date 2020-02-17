@@ -13,8 +13,9 @@ export const connect = function (store) {
 
 	const userToken = store.state.user.me.userId;
 	if (!userToken) {
-		return store.commit('SET_PENDING', false);
+		return;
 	}
+	store.commit('SET_PENDING', false);
 	Vue.prototype.$connect();
 };
 
