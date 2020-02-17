@@ -6,10 +6,10 @@
 			<v-layout column justify-center align-center class="tab-content-section">
 				<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="4" />
 				<div :class="{ outfit_button_sec: isWishlistHasItems}">
-					<p v-if="isWishlistHasItems && !showError" class="tip-note">
+					<p v-if="isWishlistHasItems && !showError && getSelected.length === 0" class="tip-note">
 						{{ $t('tip.outfitSelect') }}
 					</p>
-					<p v-if="isWishlistHasItems && showError" class="tip-note error-note">
+					<p v-if="isWishlistHasItems && showError && getSelected.length === 0" class="tip-note error-note">
 						{{ $t('tip.outfitError') }}
 					</p>
 					<p v-if="!isWishlistHasItems" class="tip-note">
@@ -184,7 +184,6 @@ export default {
 	max-height: calc(100vh - 52vh) !important;
 }
 .merge-selected, .outfit_button_sec {
-	position: fixed;
 	width: 100%;
 	z-index: 999;
 	padding: 0;
@@ -193,6 +192,10 @@ export default {
 	left: 0;
 	right: 0;
 }
+.show-tabs .merge-selected, .show-tabs .outfit_button_sec {
+	position: fixed;
+}
+
 .outfit_button_sec{
 	text-align: center;
 }
@@ -226,7 +229,7 @@ p.tip-note.error-note {
     position: fixed;
     bottom: 0;
     background: #fff;
-    z-index: 111;
+    z-index: 202;
     height: 25vw;
 }
 .bottom-post-sec button.mt-2.v-btn.v-size--default {

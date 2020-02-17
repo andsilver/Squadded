@@ -231,8 +231,10 @@ export default {
 	margin-right 20px
 	box-shadow 0 6px 40px rgba(0, 0, 0, 0.15)
 	border-radius 13px
+.show-tabs
+	.bottom
+		position fixed
 .bottom
-	position fixed
 	width 100%
 	z-index 999
 	padding 0

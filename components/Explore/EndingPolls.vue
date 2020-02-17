@@ -83,8 +83,7 @@ export default {
 			}
 		},
 		goToLandingPost(post) {
-			console.log(post);
-			// this.$router.push('/post/5e1f1c666f8a8d5384454d7a');
+			this.$router.push('/post/5e1f1c666f8a8d5384454d7a');
 		},
 	},
 };

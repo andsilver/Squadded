@@ -201,8 +201,10 @@ i.v-icon.sqdi-magnifying-glass-finder {
 .tab-content-section .choose-items {
 	max-height: calc(100vh - 52vh) !important;
 }
-.merge-selected {
+.show-tabs .merge-selected{
 	position: fixed;
+}
+.merge-selected {
 	width: 100%;
 	z-index: 999;
 	padding: 0;

@@ -126,10 +126,10 @@ export default {
 	background-color: transparent;
 	margin-top: 0px !important;
 }
-.outfit-main-sec .choose-items, .poll-main-sec .choose-items{
+.show-tabs .outfit-main-sec .choose-items,.show-tabs .poll-main-sec .choose-items{
 	max-height: calc(100vh - 355px);
 }
-.outfit-main-sec .choose-items.no_item_selected{
+.show-tabs .outfit-main-sec .choose-items.no_item_selected{
 	max-height: calc(100vh - 260px);
 }
 .choose-items-section{
