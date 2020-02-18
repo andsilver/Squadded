@@ -11,11 +11,11 @@ export const connect = function (store) {
 		return;
 	}
 
+	store.commit('SET_PENDING', false);
 	const userToken = store.state.user.me.userId;
 	if (!userToken) {
 		return;
 	}
-	store.commit('SET_PENDING', false);
 	Vue.prototype.$connect();
 };
 
