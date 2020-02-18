@@ -123,9 +123,11 @@ export default {
 		},
 		imageSelected (postId, itemId, index) {
 			if (!this.shifted && !this.isPaired) {
-				const container = this.$el.querySelector('#scroll_post_' + postId);
-				const itemPos = this.$el.querySelector('#post_' + postId + '_item_' + itemId).clientHeight;
-				container.scrollTop = index * (itemPos + 17);
+				setTimeout(() => {
+					const container = this.$el.querySelector('#scroll_post_' + postId);
+					const itemPos = this.$el.querySelector('#post_' + postId + '_item_' + itemId).clientHeight;
+					container.scrollTop = index * (itemPos + 17);
+				}, 500);
 			}
 			this.selectedItem = itemId;
 		},
