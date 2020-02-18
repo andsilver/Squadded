@@ -157,4 +157,12 @@ export default {
 			return config;
 		},
 	},
+	generate: {
+		devtools: true,
+	},
+	vue: {
+		config: {
+		  devtools: true,
+		},
+	},
 };
