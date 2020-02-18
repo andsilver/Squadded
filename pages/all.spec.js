@@ -2,7 +2,7 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import All from './all.vue';
 import Store from '~/store';
-import { ActivityStore, ActivityActions } from '~/store/activity';
+import { ActivityStore, ActivityActions, ActivityMutations } from '~/store/activity';
 import { Storage } from '~/test/storage.mock';
 import {
 	HOME_NEW_POSTS_INTERVAL,
@@ -93,5 +93,11 @@ describe('All', () => {
 		expect(wrapper.vm.loadNew).toBe(true);
 		jest.advanceTimersByTime(NEW_POSTS_DISAPPEAR_TIMEOUT);
 		expect(wrapper.vm.loadNew).toBe(false);
+	});
+
+	it('should clear community when destroyed', () => {
+		store.commit = jest.fn();
+		wrapper.destroy();
+		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.clearCommunity}`);
 	});
 });

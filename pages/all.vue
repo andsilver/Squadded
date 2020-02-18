@@ -24,7 +24,7 @@ import Preloader from '~/components/Preloader.vue';
 import TopBar from '~/components/common/TopBar.vue';
 import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
 import { onAuth } from '~/helpers';
-import { ActivityStore, ActivityActions } from '~/store/activity';
+import { ActivityStore, ActivityActions, ActivityMutations } from '~/store/activity';
 import {
 	STORAGE_VISITED_KEY,
 	HOME_NEW_POSTS_INTERVAL,
@@ -57,12 +57,18 @@ export default {
 	created () {
 		this.init();
 	},
+	destroyed() {
+		this.$store.commit(`${ActivityStore}/${ActivityMutations.clearCommunity}`);
+	},
 	methods: {
 		async init() {
 			if (!localStorage.getItem(STORAGE_VISITED_KEY)) {
 				this.firstVisit = true;
 			}
 			await onAuth(this.$store);
+			if (this.community && this.community.length) {
+				return;
+			}
 			this.fetchCommunity(true);
 		},
 		fetchCommunity(loadNew = false) {

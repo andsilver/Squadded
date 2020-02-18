@@ -34,6 +34,7 @@ describe('Post', () => {
 			},
 			store,
 		});
+		wrapper.setData({ visible: true });
 	}
 
 	beforeEach(() => {

@@ -39,6 +39,9 @@ describe('Comments', () => {
 			},
 			store,
 		});
+		wrapper.setData({
+			visible: true,
+		});
 	}
 
 	function initLocalVue () {

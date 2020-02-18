@@ -140,6 +140,7 @@ export default {
 		'@plugins/messaging',
 		{ src: '@plugins/init/ws', ssr: false },
 		{ src: '@plugins/init/restoreFeed', ssr: false },
+		'@plugins/visibility',
 	],
 	/*
 	** Nuxt.js modules

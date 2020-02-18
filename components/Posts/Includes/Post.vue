@@ -1,37 +1,40 @@
 <template>
 	<div class="full_post">
-		<div v-if="!hideUser" class="d-flex post-user-sec">
-			<UserLink
-				ref="user-link"
-				class="post_user_link"
-				:user="post.user"
-				:ts="post.ts"
-				follow
-				size="10.76vw"
+		<span v-if="!visible" v-observe-visibility="visibilityChanged" class="visibility" />
+		<template v-if="visible">
+			<div v-if="!hideUser" class="d-flex post-user-sec">
+				<UserLink
+					ref="user-link"
+					class="post_user_link"
+					:user="post.user"
+					:ts="post.ts"
+					follow
+					size="10.76vw"
+				/>
+				<PopMenu :post="post" @edit="toggleTextEditor" />
+			</div>
+			<h3
+				v-if="isTextVisible && !hideUser"
+				ref="post-text"
+				:class="{card_title: true, placeholder: isPlaceHolder, 'px-2': groupPost}"
+				@click="toggleTextEditor"
+			>
+				{{ post.text || (isPlaceHolder && $t('post.textPlaceholder')) }}
+			</h3>
+			<MessageInput
+				v-if="showTextEditor"
+				ref="post-text-input"
+				class="mb-3"
+				:action="editPostText"
+				:placeholder="$t('post.textPlaceholder')"
+				:post="post"
+				:text="post.text"
+				@send="toggleTextEditor"
+				@cancel="toggleTextEditor"
 			/>
-			<PopMenu :post="post" @edit="toggleTextEditor" />
-		</div>
-		<h3
-			v-if="isTextVisible && !hideUser"
-			ref="post-text"
-			:class="{card_title: true, placeholder: isPlaceHolder, 'px-2': groupPost}"
-			@click="toggleTextEditor"
-		>
-			{{ post.text || (isPlaceHolder && $t('post.textPlaceholder')) }}
-		</h3>
-		<MessageInput
-			v-if="showTextEditor"
-			ref="post-text-input"
-			class="mb-3"
-			:action="editPostText"
-			:placeholder="$t('post.textPlaceholder')"
-			:post="post"
-			:text="post.text"
-			@send="toggleTextEditor"
-			@cancel="toggleTextEditor"
-		/>
-		<slot />
-		<Actions v-if="!hideUser && !groupPost" :post="post" />
+			<slot />
+			<Actions v-if="!hideUser && !groupPost" :post="post" />
+		</template>
 	</div>
 </template>
 
@@ -65,6 +68,7 @@ export default {
 		},
 	},
 	data: () => ({
+		visible: false,
 		showTextEditor: false,
 		editPostText: `${PostStore}/${PostActions.editText}`,
 	}),
@@ -82,6 +86,9 @@ export default {
 				return;
 			}
 			this.showTextEditor = !this.showTextEditor;
+		},
+		visibilityChanged(isVisible) {
+			this.visible = this.visible || isVisible;
 		},
 	},
 };
@@ -124,4 +131,10 @@ export default {
 	.card_title
 		padding-right 12px !important
 		padding-left 12px !importan
+
+.visibility
+	width 3px
+	height 500px
+	display block
+	background transparent
 </style>

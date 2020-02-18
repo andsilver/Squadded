@@ -36,6 +36,7 @@ export const ActivityMutations = {
 	addPost: 'addPost',
 	removePost: 'removePost',
 	removeWish: 'removeWish',
+	clearCommunity: 'clearCommunity',
 	clearWishlist: 'clearWishlist',
 	clearBlog: 'clearBlog',
 	setListOfType: 'setListOfType',
@@ -52,6 +53,11 @@ export const mutations = {
 		if (isSameUser(state.wishlist, post.userId)) {
 			state.wishlist.unshift(post);
 		}
+	},
+	[ActivityMutations.clearCommunity]: (state) => {
+		state.community = null;
+		state.allLoaded.community = false;
+		state.loadedNew = false;
 	},
 	[ActivityMutations.clearWishlist]: (state) => {
 		state.wishlist = null;

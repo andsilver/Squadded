@@ -1,44 +1,47 @@
 <template>
 	<section v-if="post.comments && post.comments.messages" :class="{'for-feed': forFeed}">
-		<template v-if="showAllComments || post.comments.messages.length === 1">
-			<v-list
-				v-if="post.comments.messages.length"
-				ref="comments-list"
-				class="comment-listing"
-			>
-				<Comment
-					v-for="(comment, n) in post.comments.messages"
-					:key="n"
-					:comment="comment"
-					:post="post"
-					:for-feed="forFeed"
-				/>
-			</v-list>
+		<span v-if="!visible" v-observe-visibility="visibilityChanged" class="visibility" />
+		<template v-if="visible">
+			<template v-if="showAllComments || post.comments.messages.length === 1">
+				<v-list
+					v-if="post.comments.messages.length"
+					ref="comments-list"
+					class="comment-listing"
+				>
+					<Comment
+						v-for="(comment, n) in post.comments.messages"
+						:key="n"
+						:comment="comment"
+						:post="post"
+						:for-feed="forFeed"
+					/>
+				</v-list>
+			</template>
+			<template v-else-if="post.comments.messages.length">
+				<Comment :comment="post.comments.messages[post.comments.messages.length - 1]" :post="post" :for-feed="forFeed" />
+				<v-btn
+					v-if="!showAllComments"
+					ref="show-all-btn"
+					class="ml-7 font-weight-bold mb-2 allcomment"
+					:class="{'mb-10': !forFeed}"
+					small
+					text
+					@click="goToReactions"
+				>
+					{{ $t('comment.view_all_comments', { n: post.comments.messages.length }) }}
+				</v-btn>
+			</template>
+			<MessageInput
+				ref="comment-input"
+				:class="forFeed ? 'post_comment_input_for_feed' : 'post_comment_input'"
+				:action="sendComment"
+				:placeholder="$t('input.placeholder')"
+				:post="post"
+				:for-feed="forFeed"
+				user-link
+				@send="scroll"
+			/>
 		</template>
-		<template v-else-if="post.comments.messages.length">
-			<Comment :comment="post.comments.messages[post.comments.messages.length - 1]" :post="post" :for-feed="forFeed" />
-			<v-btn
-				v-if="!showAllComments"
-				ref="show-all-btn"
-				class="ml-7 font-weight-bold mb-2 allcomment"
-				:class="{'mb-10': !forFeed}"
-				small
-				text
-				@click="goToReactions"
-			>
-				{{ $t('comment.view_all_comments', { n: post.comments.messages.length }) }}
-			</v-btn>
-		</template>
-		<MessageInput
-			ref="comment-input"
-			:class="forFeed ? 'post_comment_input_for_feed' : 'post_comment_input'"
-			:action="sendComment"
-			:placeholder="$t('input.placeholder')"
-			:post="post"
-			:for-feed="forFeed"
-			user-link
-			@send="scroll"
-		/>
 	</section>
 </template>
 
@@ -76,6 +79,7 @@ export default {
 	data: () => ({
 		sendComment: `${PostStore}/${PostActions.sendComment}`,
 		showAllComments: true,
+		visible: false,
 	}),
 	created () {
 		return prefetch({
@@ -110,6 +114,9 @@ export default {
 		},
 		goToReactions() {
 			this.$router.push(`/post/${this.post.guid}/reactions`);
+		},
+		visibilityChanged(isVisible) {
+			this.visible = this.visible || isVisible;
 		},
 	},
 };
@@ -179,4 +186,9 @@ export default {
 			padding-left 16px
 	>>> .comment
 			margin-bottom 3.01vw
+.visibility
+	width 3px
+	height 40px
+	display block
+	background transparent
 </style>

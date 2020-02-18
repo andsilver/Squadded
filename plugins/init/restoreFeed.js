@@ -1,5 +1,5 @@
 import { FeedStore } from '~/store/feed';
-import { PostStore, PostActions, PostGetters } from '~/store/post';
+import { PostStore, PostActions } from '~/store/post';
 
 export default async ({ store }) => {
 	const posts = [];
@@ -14,7 +14,13 @@ export default async ({ store }) => {
 	}
 
 	await store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, posts);
-	const postsGetter = store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
-	const feed = postsGetter(posts.map(p => p.guid));
-	store.state.feed.items = feed;
+
+	/**
+	 * Commented below line for performance. It takes time on rendering posts.
+	 *
+	 */
+
+	// const postsGetter = store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
+	// const feed = postsGetter(posts.map(p => p.guid));
+	// store.state.activity.community = feed;
 };
