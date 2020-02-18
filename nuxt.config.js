@@ -162,7 +162,7 @@ export default {
 	},
 	vue: {
 		config: {
-		  devtools: true,
+			devtools: true,
 		},
 	},
 };
