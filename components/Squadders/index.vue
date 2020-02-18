@@ -11,7 +11,7 @@
 				>
 					<img :src="user.avatar" alt>
 				</div>
-				<div class="count-squadders d-flex align-center" :style="{left: getCountPosition()}" @click="shareAccount">
+				<div class="count-squadders d-flex align-center" :style="{left: getCountPosition()}" @click="share">
 					<Button ref="plus-btn" class="plus-btn">
 						<v-icon small>
 							mdi-account-plus
@@ -23,17 +23,25 @@
 				</div>
 			</div>
 		</div>
+		<v-dialog v-model="showShare">
+			<ShareProfile ref="share-profile-modal" :user-link="userLink" />
+		</v-dialog>
 	</div>
 </template>
 <script>
+
 import { createNamespacedHelpers } from 'vuex';
+import ShareProfile from '~/components/UserProfile/ShareProfile';
 import Button from '~/components/common/Button';
 import { UserStore } from '~/store/user';
 const { mapState } = createNamespacedHelpers(UserStore);
 
+const CANCALED_BY_USER = 20;
+
 export default {
 	components: {
 		Button,
+		ShareProfile,
 	},
 	props: {
 		users: {
@@ -41,6 +49,10 @@ export default {
 			required: true,
 		},
 	},
+	data: () => ({
+		showShare: false,
+		userLink: '',
+	}),
 	computed: {
 		...mapState([
 			'me',
@@ -78,18 +90,32 @@ export default {
 		goToMySquad() {
 			this.$router.push('/my/mysquad');
 		},
-		shareAccount() {
-			const title = 'Share profile';
+		async share () {
 			const { API_ENDPOINT } = this.$store.state.squad;
 			const target = JSON.stringify(this.target);
-			const url = `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
-			if (navigator.share) {
-				navigator.share({ title, url }).then(() => {
-					// Shared
-				});
+			this.userLink = `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
+			this.showShare = false;
+			if (navigator && navigator.share) {
+				const { siteTitle } = this.$store.state.merchant;
+				const title = `${this.me.name} @ ${siteTitle}`;
+				try {
+					await navigator.share({
+						title,
+						text: title,
+						url: this.userLink,
+					});
+				} catch (error) {
+					if (error.code !== CANCALED_BY_USER) {
+						this.showModal();
+					}
+				}
 			} else {
-				// Share Not supported 🙅‍'
+				this.showModal();
 			}
+		},
+		showModal () {
+			this.showShare = true;
+			this.$forceUpdate();
 		},
 	},
 };
