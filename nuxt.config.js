@@ -141,6 +141,7 @@ export default {
 		{ src: '@plugins/init/ws', ssr: false },
 		{ src: '@plugins/init/restoreFeed', ssr: false },
 		'@plugins/visibility',
+		'@plugins/touch-events',
 	],
 	/*
 	** Nuxt.js modules

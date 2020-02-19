@@ -89,6 +89,7 @@ export default {
 			});
 			this.$emit('send');
 			this.textValue = '';
+			this.$refs['text-field'].blur();
 		},
 		keydown (e) {
 			if (e.keyCode === 13 && this.textValue.length) {

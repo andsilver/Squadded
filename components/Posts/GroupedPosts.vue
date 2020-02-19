@@ -18,6 +18,8 @@
 						:class="{ is_selected: index == selectedIndex }"
 						group-post
 						@click.native="itemSelected(toggle, item, index)"
+						v-touch:swipe.right="prev"
+						v-touch:swipe.left="next"
 					/>
 				</v-slide-item>
 			</v-slide-group>
@@ -108,6 +110,9 @@ export default {
 				this.firstSelcted = true;
 			}
 			prevPost.$el.click();
+		},
+		test() {
+			console.log('yes');
 		},
 	},
 };
