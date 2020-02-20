@@ -279,8 +279,11 @@ export default {
 			this.showstepTwo = false;
 		},
 		validate() {
-			loginWithPIN(+this.pin, this.email).then(({ userId, token }) => {
-				localStorage.setItem('userToken', token);
+			loginWithPIN(+this.pin, this.email).then(({ token }) => {
+				window.postMessage(JSON.stringify({
+					type: 'loggedIn',
+					userToken: token,
+				}));
 			});
 		},
 	},

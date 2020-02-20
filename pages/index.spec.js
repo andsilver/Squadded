@@ -3,9 +3,7 @@ import Vuex from 'vuex';
 import Signup from './index.vue';
 import Store from '~/store';
 import { loginWithPIN } from '~/services/otp';
-import { Storage } from '~/test/storage.mock';
 
-const userId = '123456789';
 const token = 'sometoken';
 const email = 'test@test.com';
 const pin = 1234;
@@ -72,18 +70,20 @@ describe('Signup', () => {
 		expect(stepOne.classes('in_active')).toBe(true);
 	});
 
-	it('should set token in local storage', async () => {
-		global.localStorage = new Storage();
+	it('should post loggedIn message', async () => {
 		store.commit('SET_SOCKET_AUTH', false);
 		store.commit('SET_PENDING', false);
 		wrapper.setData({ pin });
 		const signForm = wrapper.ref(SIGN_FORM);
 		const validateBtn = wrapper.ref(VALIDATE_BTN);
-		loginWithPIN.mockReturnValue(Promise.resolve({ userId, token }));
+		loginWithPIN.mockReturnValue(Promise.resolve({ token }));
 		signForm.vm.$emit('sendOtp', email);
+		window.postMessage = jest.fn();
 		await validateBtn.trigger('click');
 		expect(loginWithPIN).toHaveBeenCalledWith(pin, email);
-		const userToken = localStorage.getItem('userToken');
-		expect(userToken).toBe(token);
+		expect(window.postMessage).toHaveBeenCalledWith(JSON.stringify({
+			type: 'loggedIn',
+			userToken: token,
+		}));
 	});
 });
