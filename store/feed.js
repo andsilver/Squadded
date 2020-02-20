@@ -1,10 +1,11 @@
 import { storeInSession } from '~/utils/feedSession';
 import { postReported } from '~/utils/reportSession';
+import { LOADING_TIMEOUT } from '~/consts';
 
 const { FEED_STORE_LIMIT } = process.env;
 
 export const state = () => ({
-	items: [],
+	items: null,
 	loading: false,
 	allLoaded: false,
 	loadedNew: false,
@@ -17,8 +18,8 @@ export const FeedGetters = {
 };
 
 export const getters = {
-	[FeedGetters.items]: state => Array.from(state.items).sort((a, b) => b.ts - a.ts),
-	[FeedGetters.getPostById]: state => id => state.items.find(i => i.guid === id),
+	[FeedGetters.items]: state => state.items && Array.from(state.items).sort((a, b) => b.ts - a.ts),
+	[FeedGetters.getPostById]: state => id => (state.items || []).find(i => i.guid === id),
 };
 
 export const FeedStore = 'feed';
@@ -43,6 +44,7 @@ export const mutations = {
 			.forEach(storeInSession);
 	},
 	[FeedMutations.addItem]: (state, post) => {
+		!state.items && (state.items = []);
 		state.items.unshift(post);
 		storeInSession(post);
 	},
@@ -54,7 +56,7 @@ export const mutations = {
 		if (!postId) {
 			return;
 		}
-		state.items = state.items.filter(p => p.postId !== postId);
+		state.items = (state.items || []).filter(p => p.postId !== postId);
 	},
 	[FeedMutations.markAllLoaded]: (state, loadedFeed) => {
 		if (loadedFeed.length === 0 && !state.loadedNew) {
@@ -93,6 +95,9 @@ export const actions = {
 			rootState.feed.loadedNew = false;
 		}
 		commit(FeedMutations.setLoading, true);
+		setTimeout(() => {
+			commit(FeedMutations.setLoading, false);
+		}, LOADING_TIMEOUT);
 		rootState.socket.$ws.sendObj(msg);
 	},
 };

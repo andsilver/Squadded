@@ -188,7 +188,7 @@ export default {
 			margin-bottom 3.01vw
 .visibility
 	width 3px
-	height 40px
+	height 41.19px
 	display block
 	background transparent
 </style>

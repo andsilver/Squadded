@@ -46,6 +46,7 @@ function getRoute (squadParam) {
 export const SquadMutations = {
 	setSquadParams: 'setSquadParams',
 	setWidgetState: 'setWidgetState',
+	interaction: 'interaction',
 };
 
 export const mutations = {
@@ -58,6 +59,7 @@ export const mutations = {
 	[SquadMutations.setWidgetState]: (state, open) => {
 		state.widget.open = open;
 	},
+	[SquadMutations.interaction]: () => {},
 };
 
 export default {

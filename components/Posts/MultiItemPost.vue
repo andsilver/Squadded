@@ -117,8 +117,6 @@ export default {
 			this.shifted = !this.shifted;
 			if (!this.shifted) {
 				this.selectedItem = '';
-			} else {
-				// console.log(this.selectedItem);
 			}
 		},
 		imageSelected (postId, itemId, index) {

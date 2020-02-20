@@ -12,13 +12,14 @@
 <script>
 import { DEFAULT_LANDING } from '~/store/squad';
 import Button from '~/components/common/Button';
+import { isAuth } from '~/utils/isAuth';
 
 export default {
 	components: {
 		Button,
 	},
-	asyncData({ store, redirect }) {
-		if (!store.state.socket.isAuth) {
+	asyncData({ redirect }) {
+		if (!isAuth()) {
 			return;
 		}
 		redirect(DEFAULT_LANDING);

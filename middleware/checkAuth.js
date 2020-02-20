@@ -1,8 +1,9 @@
-import { isHome, isPublic } from '~/helpers';
+import { isPublic } from '~/helpers';
+import { isAuth } from '~/utils/isAuth';
 
-export default function ({ from, route, redirect }) {
-	const userToken = localStorage.getItem('userToken');
-	if (!userToken && ((isHome(route.name) && isHome(from.name)) || !isPublic(route.name))) {
+export default function (param) {
+	const { route, redirect } = param;
+	if (!isAuth() && !isPublic(route.name)) {
 		redirect({ path: '/onboarding' });
 	}
 }

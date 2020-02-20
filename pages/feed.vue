@@ -2,12 +2,15 @@
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout column class="px-0">
-			<Preloader v-if="loading" ref="preloader" class="mt-4 mb-4" />
+			<Preloader v-if="!items" ref="preloader" class="mt-4 mb-4" />
 			<span v-else-if="!items.length" ref="empty-feed-text" class="pa-4">
 				{{ $t('feed.isEmpty') }}
 			</span>
-			<Squadders :users="squadders" class="px-3" />
-			<Feed ref="feed-layout" :items="items" :load-new="newPostsAvailable" @loadMore="fetchFeed" @loadNew="() => fetchFeed(true)" />
+			<template v-else>
+				<Squadders :users="squadders" class="px-3" />
+				<Feed ref="feed-layout" :items="items" :load-new="newPostsAvailable" @loadMore="fetchFeed" @loadNew="() => fetchFeed(true)" />
+			</template>
+			<Preloader v-if="items && loading" ref="preloader-more" class="mt-4 mb-4" />
 		</v-layout>
 	</v-container>
 </template>
@@ -21,7 +24,8 @@ import Squadders from '~/components/Squadders';
 import { onAuth, prefetch } from '~/helpers';
 import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
 import { UserStore } from '~/store/user';
-import { NEW_POSTS_DISAPPEAR_TIMEOUT, LOADING_TIMEOUT } from '~/consts';
+import { NEW_POSTS_DISAPPEAR_TIMEOUT } from '~/consts';
+import { nameSelected } from '~/utils/nameSelected';
 
 const feed = createNamespacedHelpers(FeedStore);
 const userState = createNamespacedHelpers(UserStore).mapState;
@@ -38,12 +42,9 @@ export default {
 	},
 	asyncData({ store, redirect }) {
 		const { me } = store.state.user;
-		if (!me.guid) {
-			return;
-		}
-		if (!me.nameSelected) {
+		if (!nameSelected()) {
 			redirect('/select-username');
-		} else if (!me.squaddersCount) {
+		} else if (me.guid && !me.squaddersCount) {
 			redirect('/create-your-squad');
 		}
 	},
@@ -91,7 +92,6 @@ export default {
 		},
 		fetchFeed (loadNew = false) {
 			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`, loadNew);
-			this.setLoadingTimeout();
 		},
 		async fetchSquadders () {
 			this.squadders = await prefetch({
@@ -111,11 +111,6 @@ export default {
 					this.$store.commit(`${FeedStore}/${FeedMutations.setNewPostsAvailable}`, false);
 				}, NEW_POSTS_DISAPPEAR_TIMEOUT);
 			}
-		},
-		setLoadingTimeout() {
-			setTimeout(() => {
-				this.$store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
-			}, LOADING_TIMEOUT);
 		},
 	},
 	head: () => ({

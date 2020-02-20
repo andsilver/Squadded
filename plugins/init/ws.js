@@ -2,8 +2,9 @@ import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
 import { WSMessages } from '~/classes/WSMessages';
 import { WSToken } from '~/classes/WSToken';
-import { isHome } from '~/helpers';
+import { isHome, isOnboardingPath } from '~/helpers';
 import { NotificationStore, NotificationActions } from '~/store/notification';
+import { nameSelected } from '~/utils/nameSelected';
 
 export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
@@ -70,9 +71,9 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 		} else if (message.type === 'authOk') {
 			store.commit('SET_SOCKET_AUTH', true);
 			state.socket.$ws.keepAlive();
-			if (isHome(ctx.route.name)) {
-				const { route } = state.squad;
-				app.router.push(route, () => store.commit('SET_PENDING', false));
+			const { route } = state.squad;
+			if (isHome(ctx.route.name) && !isOnboardingPath(route.path)) {
+				app.router.push(nameSelected() ? route : '/select-username', () => store.commit('SET_PENDING', false));
 			} else {
 				store.commit('SET_PENDING', false);
 			}

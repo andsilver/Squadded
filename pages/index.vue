@@ -242,6 +242,8 @@ import SocialBtn from '~/components/Social-Button.vue';
 import SignForm from '~/components/Sign-Form.vue';
 import { DEFAULT_LANDING } from '~/store/squad';
 import { loginWithPIN } from '~/services/otp';
+import { nameSelected } from '~/utils/nameSelected';
+import { isAuth } from '~/utils/isAuth';
 
 export default {
 	components: {
@@ -249,8 +251,13 @@ export default {
 		'sign-form': SignForm,
 	},
 	asyncData ({ store, redirect }) {
-		if (store.state.socket.isAuth) {
+		if (!isAuth()) {
+			return;
+		}
+		if (nameSelected()) {
 			redirect(DEFAULT_LANDING);
+		} else {
+			redirect('/select-username');
 		}
 	},
 	data: () => ({

@@ -23,8 +23,8 @@ import TabBar from '~/components/common/TabBar.vue';
 import NotificationsBanner from '~/components/Notifications/Banner.vue';
 import { SquadStore, SquadMutations, DEFAULT_LANDING } from '~/store/squad';
 import { UserStore, UserMutations } from '~/store/user';
-import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { isTouch, onToggleKeyboard } from '~/utils/device-input';
+import { nameSelected } from '~/utils/nameSelected';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -44,7 +44,6 @@ export default {
 		opacity: 0.46,
 		overlay: false,
 		zIndex: 200,
-		firstTime: true,
 	}),
 	computed: {
 		...mapState([
@@ -71,25 +70,15 @@ export default {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
 			} else if (mutation.type === `${UserStore}/${UserMutations.setToken}`) {
-				setTimeout(() => {
-					const { me } = this;
-					if (!me.guid) {
-						return;
-					}
-					if (!me.nameSelected) {
-						this.$router.push('/select-username');
-					} else if (!me.squaddersCount) {
-						this.$router.push('/create-your-squad');
-					} else {
-						this.$router.push(DEFAULT_LANDING);
-					}
-				}, 100);
-			} else if (mutation.type === `${ActivityStore}/${ActivityMutations.addPost}` && !this.socket.isAuth) {
+				if (!nameSelected()) {
+					this.$router.push('/select-username');
+					return;
+				}
+				this.$router.push(DEFAULT_LANDING);
+			} else if (mutation.type === `${SquadStore}/${SquadMutations.interaction}`) {
 				this.$router.push('/onboarding');
 			} else if (mutation.type === `${SquadStore}/${SquadMutations.setSquadParams}` && mutation.payload) {
-				if (mutation.payload.navigate) {
-					setTimeout(() => this.$router.push(this.squad.route), 100);
-				}
+				this.$router.push(this.squad.route);
 			}
 		});
 		if (this.isTouch) {

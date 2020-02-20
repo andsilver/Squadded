@@ -3,6 +3,7 @@ import ws, * as wsPlugin from './ws';
 import { WSMessages } from '~/classes/WSMessages';
 import { PostActions, PostStore } from '~/store/post';
 import { FeedStore, FeedGetters } from '~/store/feed';
+import { setNameSelected } from '~/utils/nameSelected';
 
 describe('WS Plugin', () => {
 	const mockToken = 'head.payload.sign';
@@ -216,6 +217,7 @@ describe('WS Plugin', () => {
 			beforeEach(clear);
 
 			it('should redirect to feed from home on auth', () => {
+				setNameSelected();
 				const mutation = {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },

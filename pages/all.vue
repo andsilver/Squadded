@@ -1,7 +1,7 @@
 <template>
 	<v-container v-if="socket.isAuth" ref="main" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
-		<v-layout>
+		<v-layout column>
 			<Preloader v-if="!community" ref="preloader" class="mt-8" />
 			<span v-else-if="!community.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 			<Feed
@@ -12,6 +12,7 @@
 				@loadMore="fetchCommunity"
 				@loadNew="() => fetchCommunity(true)"
 			/>
+			<Preloader v-if="community && loading.community" ref="preloader-more" />
 			<StartWatchingDialog v-if="firstVisit" ref="start-watching-dialog" />
 		</v-layout>
 	</v-container>
@@ -49,6 +50,7 @@ export default {
 	computed: {
 		...activities([
 			'community',
+			'loading',
 		]),
 		...mapState([
 			'socket',

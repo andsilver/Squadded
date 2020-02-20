@@ -9,6 +9,8 @@
 				>
 					<ProductCard
 						ref="product-card"
+						v-touch:swipe.right="prev"
+						v-touch:swipe.left="next"
 						class="mx-auto pa-4 w-78 mb-4 single-item"
 						:item="item.item"
 						show-refreshicon
@@ -18,8 +20,6 @@
 						:class="{ is_selected: index == selectedIndex }"
 						group-post
 						@click.native="itemSelected(toggle, item, index)"
-						v-touch:swipe.right="prev"
-						v-touch:swipe.left="next"
 					/>
 				</v-slide-item>
 			</v-slide-group>
@@ -110,9 +110,6 @@ export default {
 				this.firstSelcted = true;
 			}
 			prevPost.$el.click();
-		},
-		test() {
-			console.log('yes');
 		},
 	},
 };

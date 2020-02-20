@@ -4,6 +4,7 @@ import CreateYourSquad from './create-your-squad.vue';
 import { userMockBuilder } from '~/test/user.mock';
 import Store from '~/store';
 import { UserStore, UserMutations } from '~/store/user';
+import { DEFAULT_LANDING } from '~/store/squad';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
@@ -61,5 +62,11 @@ describe('Create Your Squad', () => {
 		wrapper.ref(INVITE_BTN).trigger('click');
 		const shareProfileModal = wrapper.ref(SHARE_PROFILE_MODAL);
 		expect(shareProfileModal.exists()).toBe(true);
+	});
+
+	it('should go to landing page if there is someone in squad', () => {
+		me.squaddersCount = 2;
+		initLocalVue();
+		expect($router.push).toHaveBeenCalledWith(DEFAULT_LANDING);
 	});
 });

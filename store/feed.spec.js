@@ -93,12 +93,14 @@ describe('Feed store module', () => {
 			root.state.feed.items = [latestItem];
 			root.state.feed.loading = false;
 
+			root.commit = jest.fn();
 			root.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 
 			expect($ws.sendObj).toHaveBeenCalledWith({
 				type: 'fetchPosts',
 				from: latestItem.ts,
 			});
+			expect(root.state.feed.loading).toBe(true);
 		});
 
 		it('should add any item', async () => {

@@ -4,6 +4,7 @@ import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions } from '~/store/post';
 import { SquadStore, SquadMutations } from '~/store/squad';
 import { UserStore, UserMutations } from '~/store/user';
+import { INTERACTED_KEY } from '~/consts/keys';
 
 export class WidgetIPC {
 	constructor(store) {
@@ -37,12 +38,13 @@ export class WidgetIPC {
 	}
 
 	async singleItemPost (msg) {
-		if (!localStorage.getItem('interacted')) {
+		if (!localStorage.getItem(INTERACTED_KEY)) {
 			window.parent.postMessage(JSON.stringify({
 				type: 'first-interaction',
 			}), '*');
+			this.store.commit(`${SquadStore}/${SquadMutations.interaction}`);
 		}
-		localStorage.setItem('interacted', Date.now().toString());
+		localStorage.setItem(INTERACTED_KEY, Date.now().toString());
 		if (!this.store.state.socket || !this.store.state.socket.isAuth) {
 			return;
 		}

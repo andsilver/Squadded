@@ -1,4 +1,5 @@
 import { postReported } from '~/utils/reportSession';
+import { LOADING_TIMEOUT } from '~/consts/time-values';
 
 export const ActivityStore = 'activity';
 
@@ -14,6 +15,9 @@ export const state = () => ({
 	guid: {
 		blog: null,
 		wishlist: null,
+	},
+	loading: {
+		community: false,
 	},
 	loadedNew: false,
 });
@@ -43,6 +47,7 @@ export const ActivityMutations = {
 	unsquadd: 'unsquadd',
 	markAllLoaded: 'markAllLoaded',
 	hidePopover: 'hidePopover',
+	setLoading: 'setLoading',
 };
 
 export const mutations = {
@@ -103,6 +108,9 @@ export const mutations = {
 			return post;
 		});
 	},
+	[ActivityMutations.setLoading]: (state, { type, loading }) => {
+		state.loading[type] = loading;
+	},
 };
 
 export const ActivityActions = {
@@ -148,6 +156,8 @@ export const actions = {
 		}
 		guid && (msg.guid = guid);
 		rootState.socket.$ws.sendObj(msg);
+		commit(ActivityMutations.setLoading, { type, loading: true });
+		setTimeout(() => commit(ActivityMutations.setLoading, { type, loading: false }), LOADING_TIMEOUT);
 	},
 };
 

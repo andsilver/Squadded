@@ -21,6 +21,7 @@ describe('Feed Page', () => {
 	const MAIN = 'feed-layout';
 	const TOP_BAR = 'top-bar';
 	const PRELOADER = 'preloader';
+	const PRELOADER_MORE = 'preloader-more';
 
 	let localVue;
 	let store;
@@ -75,26 +76,22 @@ describe('Feed Page', () => {
 
 	it('should render the correct message for empty Feed', () => {
 		store.commit('SET_SOCKET_AUTH', true);
-		store.state.feed.loading = false;
+		store.state.feed.items = [];
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
 	});
 
-	it('should display a preloader while loading', () => {
+	it('should render a preloader if items not exist', () => {
 		store.commit('SET_SOCKET_AUTH', true);
-		store.state.feed.loading = true;
+		store.state.feed.items = null;
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
-		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
 
-	it('should set loading false after timeout', () => {
-		jest.useFakeTimers();
+	it('should display a preloader while loading more', () => {
 		store.commit('SET_SOCKET_AUTH', true);
-		store.dispatch = jest.fn();
-		store.commit = jest.fn();
-		wrapper.vm.fetchFeed();
-		jest.advanceTimersByTime(4000);
-		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.setLoading}`, false);
+		store.state.feed.loading = true;
+		store.state.feed.items = [{}];
+		expect(wrapper.ref(PRELOADER_MORE).exists()).toBe(true);
 	});
 
 	it('loadNew should be false after timeout of new posts available', (done) => {

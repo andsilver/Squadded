@@ -38,6 +38,7 @@ async function activity (message) {
 
 	this.store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
 	this.store.commit(`${ActivityStore}/${ActivityMutations.markAllLoaded}`, { loadedPosts: rawPostsList, type });
+	this.store.commit(`${ActivityStore}/${ActivityMutations.setLoading}`, { type, loading: false });
 }
 
 function exploreItems (message) {
@@ -116,10 +117,10 @@ export class WSMessages {
 	async feed (message) {
 		await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, message.feed);
 		const postsGetter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
-		const uniqueIds = new Set([...this.store.state.feed.items, ...message.feed].map(p => p.guid));
+		const uniqueIds = new Set([...(this.store.state.feed.items || []), ...message.feed].map(p => p.guid));
 		const posts = postsGetter(Array.from(uniqueIds));
 		this.store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
-		this.store.commit(`${FeedStore}/${FeedMutations.setItems}`, posts);
+		this.store.commit(`${FeedStore}/${FeedMutations.setItems}`, posts || []);
 		this.store.commit(`${FeedStore}/${FeedMutations.markAllLoaded}`, message.feed);
 	}
 

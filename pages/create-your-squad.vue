@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="socket.isAuth" class="layout-padding">
+	<v-container v-if="socket.isAuth && me.guid" class="layout-padding">
 		<TopBar ref="top-bar" my-squad class="topBar" />
 		<v-layout column class="create-your-squad">
 			<div ref="create-squad-text" class="create-text-sec">
@@ -61,6 +61,7 @@ import { UserStore } from '~/store/user';
 import TopBar from '~/components/common/TopBar.vue';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
 import { DEFAULT_LANDING } from '~/store/squad';
+import { nameSelected } from '~/utils/nameSelected';
 
 const CANCALED_BY_USER = 20;
 
@@ -73,10 +74,7 @@ export default {
 	},
 	asyncData({ store, redirect }) {
 		const { me } = store.state.user;
-		if (!me.guid) {
-			return;
-		}
-		if (!me.nameSelected) {
+		if (!nameSelected()) {
 			redirect('/select-username');
 		} else if (me.squaddersCount) {
 			redirect(DEFAULT_LANDING);
@@ -106,6 +104,18 @@ export default {
 			const target = JSON.stringify(this.target);
 			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
 		},
+	},
+	watch: {
+		me() {
+			if (this.me.squaddersCount) {
+				this.$router.push(DEFAULT_LANDING);
+			}
+		},
+	},
+	created () {
+		if (this.me.squaddersCount) {
+			this.$router.push(DEFAULT_LANDING);
+		}
 	},
 	methods: {
 		async share () {

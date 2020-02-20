@@ -1,7 +1,7 @@
 <template>
 	<v-container>
 		<v-layout
-			v-if="socket.isAuth && user"
+			v-if="socket.isAuth && user.guid"
 			column
 		>
 			<div class="login">
@@ -68,6 +68,7 @@ import { UserStore, UserActions } from '~/store/user';
 import { PostStore, PostMutations } from '~/store/post';
 import { prefetch } from '~/helpers';
 import { DEFAULT_LANDING } from '~/store/squad';
+import { nameSelected, setNameSelected } from '~/utils/nameSelected';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -76,10 +77,9 @@ export default {
 		const { me } = store.state.user;
 		if (me.squaddersCount) {
 			redirect(DEFAULT_LANDING);
-		} else if (me.nameSelected) {
+		} else if (nameSelected()) {
 			redirect('/create-your-squad');
 		}
-		return { user: me };
 	},
 	data: () => ({
 		user: null,
@@ -103,8 +103,10 @@ export default {
 	watch: {
 		me() {
 			this.user = Object.assign({}, this.me);
-			this.checkNameSelected();
 		},
+	},
+	created () {
+		this.user = Object.assign({}, this.me);
 	},
 	methods: {
 		openFileUpload() {
@@ -116,6 +118,7 @@ export default {
 				this.submitted = true;
 				return;
 			}
+			setNameSelected();
 			this.user.nameSelected = true;
 			await this.$store.dispatch(
 				`${UserStore}/${UserActions.setProfile}`,
@@ -144,16 +147,6 @@ export default {
 			const img = new URL(uploadUrl);
 			img.search = '';
 			this.user.avatar = img.href;
-		},
-		checkNameSelected () {
-			if (!this.me.guid) {
-				return;
-			}
-			if (this.me.squaddersCount) {
-				this.$router.push(DEFAULT_LANDING);
-			} else if (this.me.nameSelected) {
-				this.$router.push('/create-your-squad');
-			}
 		},
 	},
 	head: () => ({

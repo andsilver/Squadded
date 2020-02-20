@@ -4,8 +4,8 @@ import Default from './default.vue';
 import Store from '~/store';
 import { DEFAULT_LANDING } from '~/store/squad';
 import { UserStore, UserMutations } from '~/store/user';
-import { userMockBuilder } from '~/test/user.mock';
 import * as Device from '~/utils/device-input';
+import { setNameSelected } from '~/utils/nameSelected';
 
 jest.mock('~/utils/device-input', () => ({
 	isTouch: jest.fn(() => true),
@@ -39,6 +39,8 @@ describe('Default layout', () => {
 		$router = {
 			push: jest.fn(),
 		};
+
+		localStorage.clear();
 
 		store = new Vuex.Store(Store);
 
@@ -110,29 +112,17 @@ describe('Default layout', () => {
 	});
 
 	it('should go to default landing page after signin', async () => {
-		wrapper.setData({ firstTime: true });
-		const user = userMockBuilder().get();
-		user.nameSelected = true;
-		user.squaddersCount = 1;
-		jest.useFakeTimers();
-		global.JSON.parse = jest.fn().mockReturnValue({ sub: user.guid });
+		global.JSON.parse = jest.fn().mockReturnValue({ sub: 'sub' });
 		global.atob = jest.fn().mockReturnValue();
-		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
+		setNameSelected();
 		await store.commit(`${UserStore}/${UserMutations.setToken}`, 'token');
-		jest.advanceTimersByTime(100);
 		expect($router.push).toHaveBeenCalledWith(DEFAULT_LANDING);
 	});
 
 	it('should go to select username after signin if username is not selected', async () => {
-		wrapper.setData({ firstTime: true });
-		const user = userMockBuilder().get();
-		user.nameSelected = false;
-		global.JSON.parse = jest.fn().mockReturnValue({ sub: user.guid });
+		global.JSON.parse = jest.fn().mockReturnValue({ sub: 'sub' });
 		global.atob = jest.fn().mockReturnValue();
-		jest.useFakeTimers();
-		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
 		await store.commit(`${UserStore}/${UserMutations.setToken}`, 'token');
-		jest.advanceTimersByTime(100);
 		expect($router.push).toHaveBeenCalledWith('/select-username');
 	});
 

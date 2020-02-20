@@ -11,6 +11,7 @@ import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions } from '~/store/post';
 import { SquadStore, SquadMutations } from '~/store/squad';
+import { INTERACTED_KEY, USER_TOKEN_KEY } from '~/consts/keys';
 
 describe('Dispatcher', () => {
 	let store;
@@ -58,6 +59,8 @@ describe('Dispatcher', () => {
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, msg);
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.addItem}`, post);
 		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.addPost}`, post);
+		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.interaction}`);
+		expect(localStorage.getItem(INTERACTED_KEY)).toBeTruthy();
 	});
 
 	it('should commit merchant id', () => {
@@ -107,6 +110,6 @@ describe('Login', () => {
 			userToken,
 		});
 		expect(Vue.prototype.$connect).toHaveBeenCalledTimes(1);
-		expect(localStorage.getItem('userToken')).toBe(userToken);
+		expect(localStorage.getItem(USER_TOKEN_KEY)).toBe(userToken);
 	});
 });

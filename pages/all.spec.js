@@ -18,6 +18,7 @@ describe('All', () => {
 	const MAIN = 'main';
 	const TOP_BAR = 'top-bar';
 	const PRELOADER = 'preloader';
+	const PRELOADER_MORE = 'preloader-more';
 
 	let localVue;
 	let store;
@@ -78,11 +79,19 @@ describe('All', () => {
 	it('should call fetchItems', async () => {
 		store.commit('SET_SOCKET_AUTH', true);
 		store.dispatch = jest.fn();
+		store.state.activity.community = [];
 		await wrapper.vm.init();
 		expect(store.dispatch).toHaveBeenCalledWith(`${ActivityStore}/${ActivityActions.fetchItems}`, {
 			type: 'community',
 			loadNew: true,
 		});
+	});
+
+	it('should render preloader for load more', async () => {
+		store.commit('SET_SOCKET_AUTH', true);
+		store.state.activity.community = [{}];
+		await wrapper.vm.fetchCommunity();
+		expect(wrapper.ref(PRELOADER_MORE).exists()).toBe(true);
 	});
 
 	it('should set loadNew button after timeout', async () => {
