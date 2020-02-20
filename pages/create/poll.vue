@@ -239,9 +239,9 @@ p.tip-note.error-note {
 .public-right-section{
 	width: 100%;
     text-align: center;
-    bottom: 60px;
+    bottom: 0px;
     background: #fff;
-    z-index: 111;
+    z-index: 202;
     height: 25vw;
 }
 .show-tabs .public-right-section{
