@@ -10,7 +10,7 @@ import root from '~/store/index';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions } from '~/store/post';
-import { SquadStore, SquadMutations } from '~/store/squad';
+import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
 import { INTERACTED_KEY, USER_TOKEN_KEY } from '~/consts/keys';
 
 describe('Dispatcher', () => {
@@ -89,6 +89,17 @@ describe('Dispatcher', () => {
 		expect(store.commit).toHaveBeenCalledTimes(2);
 		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setSquadParams}`, { squad: msg.squad });
 		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setWidgetState}`, msg.state.open);
+	});
+
+	it('should dispatch postCheckout action', () => {
+		const msg = {
+			type: 'checkout',
+			items: [],
+			totalPrice: 0,
+		};
+		ipc.dispatch(msg);
+
+		expect(store.dispatch).toHaveBeenCalledWith(`${SquadStore}/${SquadActions.postCheckout}`, msg);
 	});
 });
 

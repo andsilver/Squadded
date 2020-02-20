@@ -1,13 +1,16 @@
 import { Chance } from 'chance';
 import Vuex from 'vuex';
 import { createLocalVue } from '@vue/test-utils';
-import squad, { SquadMutations } from './squad';
+import squad, { SquadMutations, SquadActions, SquadStore } from './squad';
+import Store from './index';
 
 const chance = new Chance();
 
 describe('Squad Store module', () => {
 	let localVue;
 	let store;
+	let root;
+	const $ws = { sendObj: jest.fn() };
 
 	beforeEach(() => {
 		localStorage.clear();
@@ -15,6 +18,10 @@ describe('Squad Store module', () => {
 		localVue.use(Vuex);
 
 		store = new Vuex.Store(squad);
+		root = new Vuex.Store(Store);
+		root.state.socket.isConnected = true;
+		root.state.merchant.id = 'aDummyMerchantId';
+		root.state.socket.$ws = $ws;
 	});
 
 	it('should convert params to route', () => {
@@ -43,6 +50,18 @@ describe('Squad Store module', () => {
 			query: {
 				invite: true,
 			},
+		});
+	});
+
+	it('should send check message', () => {
+		const items = [];
+		const totalPrice = 0;
+
+		root.dispatch(`${SquadStore}/${SquadActions.postCheckout}`, { items, totalPrice });
+		expect($ws.sendObj).toHaveBeenCalledWith({
+			type: 'checkout',
+			items,
+			totalPrice,
 		});
 	});
 });

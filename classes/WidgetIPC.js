@@ -2,7 +2,7 @@ import { connect } from '~/plugins/init/ws';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions } from '~/store/post';
-import { SquadStore, SquadMutations } from '~/store/squad';
+import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
 import { UserStore, UserMutations } from '~/store/user';
 import { INTERACTED_KEY } from '~/consts/keys';
 
@@ -62,5 +62,12 @@ export class WidgetIPC {
 		const { open } = msg;
 
 		this.store.commit(`${SquadStore}/${SquadMutations.setWidgetState}`, open);
+	}
+
+	checkout (msg) {
+		if (!this.store.state.socket || !this.store.state.socket.isAuth) {
+			return;
+		}
+		this.store.dispatch(`${SquadStore}/${SquadActions.postCheckout}`, msg);
 	}
 }

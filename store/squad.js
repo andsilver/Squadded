@@ -62,8 +62,23 @@ export const mutations = {
 	[SquadMutations.interaction]: () => {},
 };
 
+export const SquadActions = {
+	postCheckout: 'postCheckout',
+};
+
+export const actions = {
+	[SquadActions.postCheckout]: ({ rootState }, { items, totalPrice }) => {
+		rootState.socket.$ws.sendObj({
+			type: 'checkout',
+			items,
+			totalPrice,
+		});
+	},
+};
+
 export default {
 	mutations,
 	namespaced: true,
 	state,
+	actions,
 };
