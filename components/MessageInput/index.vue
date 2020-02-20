@@ -76,9 +76,6 @@ export default {
 	},
 	mounted () {
 		this.textValue = this.text;
-		if (!this.forFeed) {
-			this.$refs['text-field'].focus();
-		}
 	},
 	methods: {
 		send () {

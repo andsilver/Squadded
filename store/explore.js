@@ -57,6 +57,7 @@ export const mutations = {
 				} else if (type === 'topGallery') {
 					return item.post.type === 'galleryPost' ? item : null;
 				} else {
+					item.postId = item._id;
 					return new FeedPost(item);
 				}
 			})
