@@ -55,7 +55,9 @@
 							flat
 							dense
 							class="otp-field"
+							:class="{ invalid: showError }"
 						/>
+						<span v-if="showError" ref="error-message" class="error-message">{{ $t('form.rules.pin.valid') }}</span>
 						<v-btn
 							ref="signup-validate-btn"
 							class="full-width validate-btn"
@@ -82,6 +84,72 @@
 		</v-layout>
 	</v-container>
 </template>
+
+<script>
+import { mapState } from 'vuex';
+import SocialBtn from '~/components/Social-Button.vue';
+import SignForm from '~/components/Sign-Form.vue';
+import { DEFAULT_LANDING } from '~/store/squad';
+import { loginWithPIN } from '~/services/otp';
+import { nameSelected } from '~/utils/nameSelected';
+import { isAuth } from '~/utils/isAuth';
+
+export default {
+	components: {
+		'social-btn': SocialBtn,
+		'sign-form': SignForm,
+	},
+	asyncData ({ store, redirect }) {
+		if (!isAuth()) {
+			return;
+		}
+		if (nameSelected()) {
+			redirect(DEFAULT_LANDING);
+		} else {
+			redirect('/select-username');
+		}
+	},
+	data: () => ({
+		showstepTwo: false,
+		email: null,
+		pin: null,
+		showError: false,
+	}),
+	computed: {
+		...mapState([
+			'socket',
+		]),
+	},
+	methods: {
+		showStepTwo (email) {
+			this.email = email;
+			this.showstepTwo = true;
+		},
+		goBack() {
+			this.showstepTwo = false;
+			this.showError = false;
+			this.pin = null;
+		},
+		validate() {
+			loginWithPIN(+this.pin, this.email).then(({ error, token }) => {
+				if (error) {
+					this.showError = true;
+					return;
+				}
+				this.showError = false;
+				window.postMessage(JSON.stringify({
+					type: 'loggedIn',
+					userToken: token,
+				}));
+			});
+		},
+	},
+	head: () => ({
+		title: 'Onboarding-Login',
+	}),
+};
+</script>
+
 <style lang="stylus">
 .social
 	display flex
@@ -172,7 +240,9 @@
 			color #000000
 			line-height 4.92vw
 			font-weight 400
-			margin-bottom 6.15vw
+			margin-bottom 3.15vw
+			&.invalid
+				border 1px solid #FD6256
 		.otp-field input,
 		.otp-field label
 			font-size 3.69vw
@@ -195,6 +265,7 @@
 			letter-spacing 2px
 			text-transform uppercase
 			margin-bottom 13.03vw
+			margin-top 3.15vw
 		.resend-code
 			text-align center
 			font-size 3.38vw
@@ -234,61 +305,17 @@
 	.otp-field .v-input__control
 		height 10.76vw !important
 		min-height auto !important
+.error-message
+	background #FD6256
+	border-radius 1.53vw
+	height 6.76vw
+	text-align center
+	font-size 3.38vw
+	color #fff
+	display flex
+	align-items center
+	justify-content center
+	font-weight 500
+	line-height 4.61vw
+	margin-top 3.07vw
 </style>
-
-<script>
-import { mapState } from 'vuex';
-import SocialBtn from '~/components/Social-Button.vue';
-import SignForm from '~/components/Sign-Form.vue';
-import { DEFAULT_LANDING } from '~/store/squad';
-import { loginWithPIN } from '~/services/otp';
-import { nameSelected } from '~/utils/nameSelected';
-import { isAuth } from '~/utils/isAuth';
-
-export default {
-	components: {
-		'social-btn': SocialBtn,
-		'sign-form': SignForm,
-	},
-	asyncData ({ store, redirect }) {
-		if (!isAuth()) {
-			return;
-		}
-		if (nameSelected()) {
-			redirect(DEFAULT_LANDING);
-		} else {
-			redirect('/select-username');
-		}
-	},
-	data: () => ({
-		showstepTwo: false,
-		email: null,
-		pin: null,
-	}),
-	computed: {
-		...mapState([
-			'socket',
-		]),
-	},
-	methods: {
-		showStepTwo (email) {
-			this.email = email;
-			this.showstepTwo = true;
-		},
-		goBack() {
-			this.showstepTwo = false;
-		},
-		validate() {
-			loginWithPIN(+this.pin, this.email).then(({ token }) => {
-				window.postMessage(JSON.stringify({
-					type: 'loggedIn',
-					userToken: token,
-				}));
-			});
-		},
-	},
-	head: () => ({
-		title: 'Onboarding-Login',
-	}),
-};
-</script>

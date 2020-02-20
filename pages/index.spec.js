@@ -27,6 +27,7 @@ describe('Signup', () => {
 	const GO_BACK_BTN = 'go-back-btn';
 	const PIN_FIELD = 'pin-field';
 	const VALIDATE_BTN = 'signup-validate-btn';
+	const ERROR_MESSAGE = 'error-message';
 
 	beforeEach(() => {
 		localVue = createLocalVue();
@@ -85,5 +86,17 @@ describe('Signup', () => {
 			type: 'loggedIn',
 			userToken: token,
 		}));
+	});
+
+	it('should show error message if pin is not correct', async () => {
+		store.commit('SET_SOCKET_AUTH', false);
+		store.commit('SET_PENDING', false);
+		wrapper.setData({ pin });
+		const signForm = wrapper.ref(SIGN_FORM);
+		const validateBtn = wrapper.ref(VALIDATE_BTN);
+		loginWithPIN.mockReturnValue(Promise.resolve({ error: true }));
+		signForm.vm.$emit('sendOtp', email);
+		await validateBtn.trigger('click');
+		expect(wrapper.ref(ERROR_MESSAGE).exists()).toBe(true);
 	});
 });
