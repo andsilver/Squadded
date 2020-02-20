@@ -21,12 +21,7 @@
 						size="35"
 						:user="squadder"
 					/>
-					<v-btn depressed class="px-2" @click="() => removeSquad(squadder)">
-						<v-icon>
-							mdi-account-outline
-						</v-icon>
-						<span class="in-squad-text">{{ $t('user.InSquad') }}</span>
-					</v-btn>
+					<RemoveSquad ref="remove-squad" :user="squadder" @remove="() => removeSquadAction(index)" />
 				</div>
 				<v-divider />
 			</div>
@@ -42,71 +37,36 @@
 		<v-dialog v-model="showShare">
 			<ShareProfile ref="share-profile-modal" :user-link="userLink" />
 		</v-dialog>
-		<v-dialog v-model="showSquadderRemoveDialog">
-			<v-card v-if="removingSquadder" ref="removing-squadder">
-				<v-card-title>
-					<v-row align="center" justify="space-between">
-						<v-avatar ref="squadder-avatar" :size="36">
-							<v-img :src="removingSquadder.avatar" />
-						</v-avatar>
-						<h5 ref="title" style="color: black">
-							{{ $t('user.remove_squad.title', { user: removingSquadder.screenName }) }}
-						</h5>
-						<v-btn ref="close-btn" icon @click="showSquadderRemoveDialog = false">
-							<v-icon x-small>
-								sqdi-close-cross
-							</v-icon>
-						</v-btn>
-					</v-row>
-				</v-card-title>
-				<v-card-text class="px-4 mt-3 text-center">
-					<h4 ref="description" style="color: black">
-						{{ $t('user.remove_squad.description', { user: removingSquadder.screenName }) }}
-					</h4>
-				</v-card-text>
-				<v-card-actions class="px-4">
-					<v-btn ref="remove-btn" outlined depressed class="remove-btn flex-grow-1" @click="removeSquadAction">
-						<v-icon x-small color="white">
-							sqdi-close-cross
-						</v-icon>
-						<span class="ml-2">{{ $t('user.remove_squad.remove') }}</span>
-					</v-btn>
-					<v-btn ref="cancel-btn" outlined depressed class="cancel-btn flex-grow-1" @click="showSquadderRemoveDialog = false">
-						{{ $t('user.remove_squad.cancel') }}
-					</v-btn>
-				</v-card-actions>
-			</v-card>
-		</v-dialog>
 	</div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { UserStore, UserActions } from '~/store/user';
 import UserLink from '~/components/UserLink';
 import Button from '~/components/common/Button';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { prefetch } from '~/helpers';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
+import RemoveSquad from '~/components/common/RemoveSquad';
+import { UserStore } from '~/store/user';
 
 const CANCALED_BY_USER = 20;
-const { mapState } = createNamespacedHelpers(UserStore);
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	components: {
 		UserLink,
 		Button,
 		ShareProfile,
+		RemoveSquad,
 	},
 	data: () => ({
 		squadders: [],
 		searchText: '',
-		showSquadderRemoveDialog: false,
-		removingSquadder: null,
 		showShare: false,
 	}),
 	computed: {
-		...mapState([
+		...userState([
 			'me',
 		]),
 		filtered() {
@@ -141,21 +101,8 @@ export default {
 				mutation: `${FeedStore}/${FeedMutations.receiveSquadders}`,
 			});
 		},
-		removeSquad(squadder) {
-			this.showSquadderRemoveDialog = true;
-			this.removingSquadder = squadder;
-		},
-		removeSquadAction () {
-			this.showSquadderRemoveDialog = false;
-			this.$ws.sendObj({
-				type: 'removeSquadder',
-				guid: this.removingSquadder.userId,
-			});
-			const index = this.squadders.indexOf(this.removingSquadder);
+		removeSquadAction (index) {
 			this.squadders.splice(index, 1);
-			const { me } = this;
-			me.squaddersCount -= 1;
-			this.$store.dispatch(`${UserStore}/${UserActions.setProfile}`, me);
 		},
 		async share () {
 			this.showShare = false;
@@ -224,24 +171,6 @@ export default {
 			font-size: 16px;
 		}
 	}
-}
-
-.in-squad-text {
-	font-size: 10px;
-	margin-left: 4px;
-	font-weight: 700;
-}
-
-.remove-btn, .cancel-btn {
-	font-size: 0.6em;
-	font-weight: 700;
-	letter-spacing: 1px;
-	border-radius: 10px;
-}
-
-.remove-btn {
-	background-color: #fd6256 !important;
-	color: white;
 }
 
 .send-invite {

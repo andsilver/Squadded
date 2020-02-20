@@ -115,7 +115,7 @@ export default {
 
 	.user_statistics {
 		width: 100%;
-		margin-bottom: 8vw;
+		margin-bottom: 2vw;
 	}
 
 	.divider {

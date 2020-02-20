@@ -176,8 +176,8 @@ describe('User component', () => {
 		store.state.user.other = user;
 		wrapper.vm.userId = user.userId;
 
-		const invitation = wrapper.ref('invitation');
-		expect(invitation.exists()).toBe(false);
+		expect(wrapper.ref('invitation').exists()).toBe(false);
+		expect(wrapper.ref('my-squad').exists()).toBe(true);
 	});
 
 	it('should show invitation if he accepted your invite', () => {

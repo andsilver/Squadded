@@ -174,8 +174,7 @@ export class WSMessages {
 		this.store.state.socket._ws.sendObj({ type: 'fetchUser' });
 	}
 
-	inviteSqaudAccepted () {
-		this.store.commit(`${NotificationStore}/${NotificationMutations.inviteAccepted}`);
+	squadUpdated () {
 		const { other } = this.store.state.user;
 		if (other) {
 			this.store.state.socket._ws.sendObj({

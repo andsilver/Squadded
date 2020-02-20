@@ -291,7 +291,7 @@
     "MySquad": "My Squad",
     "empty_squad": "You don't have squadders yet",
     "invitation": {
-      "text": "@{user} wants to shop with you!\n Do you want @{user} to join your squad?",
+      "text": "You are invited to join @{user}'s squad",
       "accept": "accept",
       "deny": "deny",
       "pending": "Pending...",

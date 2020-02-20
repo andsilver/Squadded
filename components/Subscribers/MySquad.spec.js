@@ -4,7 +4,6 @@ import MySquad from './MySquad.vue';
 import { prefetch } from '~/helpers';
 import Store from '~/store';
 import { FeedStore, FeedMutations } from '~/store/feed';
-import { UserStore, UserActions } from '~/store/user';
 import { userMockBuilder } from '~/test/user.mock';
 import UserLink from '~/components/UserLink';
 
@@ -24,13 +23,6 @@ describe('MySquad component', () => {
 	let squadders;
 
 	const SEARCH_PLUS = 'search-plus';
-	const REMOVING_SQUADDER = 'removing-squadder';
-	const SQUADDER_AVATAR = 'squadder-avatar';
-	const TITLE = 'title';
-	const CLOSE_BTN = 'close-btn';
-	const DESCRIPTION = 'description';
-	const REMOVE_BTN = 'remove-btn';
-	const CANCEL_BTN = 'cancel-btn';
 	const $ws = {
 		sendObj: jest.fn(),
 	};
@@ -79,38 +71,5 @@ describe('MySquad component', () => {
 		initLocalVue();
 		await Promise.resolve();
 		expect(wrapper.vm.filtered[0].screenName).toBe(searchText);
-	});
-
-	it('should show removing squadder dialog', async () => {
-		prefetch.mockReturnValue(Promise.resolve(squadders));
-		initLocalVue();
-		await Promise.resolve();
-		const squadder = squadders[0];
-		wrapper.vm.removeSquad(squadder);
-		expect(wrapper.vm.showSquadderRemoveDialog).toBe(true);
-		expect(wrapper.vm.removingSquadder).toEqual(squadder);
-		expect(wrapper.ref(REMOVING_SQUADDER).exists()).toBe(true);
-		expect(wrapper.ref(SQUADDER_AVATAR).exists()).toBe(true);
-		expect(wrapper.ref(TITLE).exists()).toBe(true);
-		expect(wrapper.ref(CLOSE_BTN).exists()).toBe(true);
-		expect(wrapper.ref(DESCRIPTION).exists()).toBe(true);
-		expect(wrapper.ref(REMOVE_BTN).exists()).toBe(true);
-		expect(wrapper.ref(CANCEL_BTN).exists()).toBe(true);
-	});
-
-	it('should remove squadder', async () => {
-		user.squaddersCount = 2;
-		prefetch.mockReturnValue(Promise.resolve(squadders));
-		initLocalVue();
-		store.dispatch = jest.fn();
-		await Promise.resolve();
-		const squadder = squadders[0];
-		await wrapper.vm.removeSquad(squadder);
-		await wrapper.ref(REMOVE_BTN).trigger('click');
-		expect($ws.sendObj).toHaveBeenCalledWith({
-			type: 'removeSquadder',
-			guid: squadder.userId,
-		});
-		expect(store.dispatch).toHaveBeenCalledWith(`${UserStore}/${UserActions.setProfile}`, user);
 	});
 });

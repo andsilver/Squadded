@@ -40,15 +40,22 @@
 					{{ $t('user.edit') }}
 				</Button>
 			</div>
-			<div v-if="!user.isMe" class="follow-button-sec  has-notification">
-				<span class="insta-image-sec image-section"><img src="~assets/img/profile-Instagram.svg" class="insta-image"></span>
-				<Follow ref="follow-btn" :user="user" class="follow" />
-				<span v-if="show_notification" class="notification-image-sec image-section" @click="toggleNotification"><img src="~assets/img/user-notifications-icon.svg" class="notification-image"></span>
-				<span v-if="!show_notification" class="notification-image-sec image-section" @click="toggleNotification"><img src="~assets/img/user-block-notifications.svg" class="notification-image"></span>
+			<userStatistics :user="user" />
+			<div v-if="showInvitation" ref="invite-text" class="invite-text text-center mt-4">
+				{{ $t('user.invitation.text', { user: user.name }) }}
+			</div>
+			<div v-if="!user.isMe" class="postion-relative my-4 d-flex justify-space-between align-center">
+				<!-- <span class="insta-image-sec image-section"><img src="~assets/img/profile-Instagram.svg" class="insta-image"></span> -->
+				<span class="px-3" />
+				<div>
+					<RemoveSquad v-if="isMySquad" ref="my-squad" :user="user" />
+					<Invitation v-else-if="showInvitation" ref="invitation" :user="user" :me="me" />
+					<Follow v-else ref="follow-btn" :user="user" class="follow" />
+				</div>
+				<!-- <span v-if="show_notification" class="notification-image-sec image-section" @click="toggleNotification"><img src="~assets/img/user-notifications-icon.svg" class="notification-image"></span> -->
+				<!-- <span v-if="!show_notification" class="notification-image-sec image-section" @click="toggleNotification"><img src="~assets/img/user-block-notifications.svg" class="notification-image"></span> -->
 				<Actions :user="user" class="popup-menu" />
 			</div>
-			<userStatistics :user="user" />
-			<Invitation v-if="showInvitation" ref="invitation" :user="user" :me="me" />
 			<v-tabs
 				v-model="tabs"
 				class="px-1"
@@ -92,6 +99,7 @@ import Blog from '~/components/Blog';
 import Whishlist from '~/components/Whishlist';
 import NotSignedInDialog from '~/components/LandingPost/NotSignedInDialog';
 import Button from '~/components/common/Button';
+import RemoveSquad from '~/components/common/RemoveSquad';
 import { fetchUser } from '~/services/user';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
@@ -111,6 +119,7 @@ export default {
 		NotSignedInDialog,
 		Button,
 		Actions,
+		RemoveSquad,
 	},
 	asyncData ({ store, params, redirect, query }) {
 		if (!params.id) {
@@ -151,15 +160,18 @@ export default {
 		user () {
 			return this.userId ? this.other : this.me;
 		},
-		isMySquad() {
+		squadPossible() {
 			if (!this.userId) {
 				return false;
 			}
 			const squad = this.userId ? this.other.squad : null;
 			return squad && squad.exists;
 		},
+		isMySquad () {
+			return this.squadPossible && !this.other.squad.pending;
+		},
 		isPending() {
-			return this.isMySquad && this.other.squad.pending;
+			return this.squadPossible && this.other.squad.pending;
 		},
 		isInvitee() {
 			return this.isPending && this.other.squad.invitee;
@@ -168,7 +180,7 @@ export default {
 			if (!this.userId) {
 				return false;
 			}
-			if (this.isMySquad) {
+			if (this.squadPossible) {
 				if (!this.isPending) {
 					return false;
 				}
@@ -341,18 +353,6 @@ export default {
 		width: 5.53vw;
 		margin-left: 6.29vw;
 	}
-	.follow-button-sec{
-		margin: 6.24vw 0;
-		display: grid;
-		grid-template-columns: 1fr 13.05vw 1fr 1fr;
-		position: relative;
-	}
-	.follow-button-sec.has-notification{
-		grid-template-columns: 1fr 13.05vw 1fr 11.82vw 1fr;
-	}
-	.follow-button-sec span {
-		display: flex;
-	}
 	.insta-image-sec.image-section{
 		grid-column-start: 2;
 	}
@@ -365,9 +365,15 @@ export default {
 		letter-spacing: 1.5px;
 		margin: 0;
 	}
-	.popup-menu {
-		display: flex;
-		align-self: center;
-		margin-left: auto;
+	.invite-text {
+		background: #f5f5f5;
+		padding: 10px 12px;
+		color: black;
+		font-size: 12px;
+		font-weight: 600;
+		border-radius: 16px;
+	}
+	.postion-relative {
+		position: relative;
 	}
 </style>

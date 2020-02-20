@@ -12,7 +12,6 @@ describe('User Invitation', () => {
 	let user;
 	let me;
 
-	const INVITE_TEXT = 'invite-text';
 	const INVITE_ACTIONS = 'invite-actions';
 	const ACCEPT_BUTTON = 'accept-btn';
 	const DENY_BUTTON = 'deny-btn';
@@ -37,11 +36,9 @@ describe('User Invitation', () => {
 	});
 
 	it('should render correct contents', () => {
-		const inviteText = wrapper.ref(INVITE_TEXT);
 		const inviteActions = wrapper.ref(INVITE_ACTIONS);
 		const acceptButton = wrapper.ref(ACCEPT_BUTTON);
 		const denyButton = wrapper.ref(DENY_BUTTON);
-		expect(inviteText.exists()).toBe(true);
 		expect(inviteActions.exists()).toBe(true);
 		expect(acceptButton.exists()).toBe(true);
 		expect(denyButton.exists()).toBe(true);
