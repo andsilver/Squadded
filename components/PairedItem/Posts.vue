@@ -137,6 +137,7 @@ export default {
 	height calc(100vh - 120px)
 	overflow-y auto
 	overflow-x hidden
+	width 100%
 .tabs
 	&.bottom-line
 		border-bottom 0.46vw solid rgba(184,184,186,0.30)
@@ -157,8 +158,6 @@ export default {
 		width 100%
 .viewall-title
 	font-size 4.30vw
-.paired_hide_sec
-	-webkit-overflow-scrolling touch
 .paired_hide_sec::-webkit-scrollbar-thumb
 	background-color #B8B8BA
 	outline 0

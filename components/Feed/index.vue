@@ -11,7 +11,7 @@
 			{{ $t('NewPosts') }}
 		</v-btn>
 		<UploadingDone v-if="image && image !== 'violation'" ref="uploading-done" :image="image" />
-		<v-layout column>
+		<v-layout column class="gallery_layout">
 			<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + post.postId" :key="n">
 				<component :is="getComponent(post)" :is-paired="paired" :post="post" />
 				<Comments
@@ -192,4 +192,6 @@ export default {
 	font-size 4VW
 	font-weight 600
 	box-shadow 0 0.92vw 4.61vw rgba(0,0,0,.25) !important
+.gallery_layout
+	display block
 </style>
