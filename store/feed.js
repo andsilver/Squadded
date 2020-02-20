@@ -78,7 +78,7 @@ export const FeedActions = {
 
 export const actions = {
 	[FeedActions.fetch]: ({ commit, getters, rootState }, loadNew = false) => {
-		if (rootState.feed.allLoaded || rootState.feed.loading) {
+		if (!loadNew && (rootState.feed.allLoaded || rootState.feed.loading)) {
 			return;
 		}
 		rootState.feed.loading = true;

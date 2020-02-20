@@ -132,7 +132,9 @@ const createPost = async ({ file, store, text, isPublic, selected, image }) => {
 		};
 		await store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
-		store.dispatch(`${FeedStore}/${FeedActions.fetch}`, true);
+		setTimeout(() => {
+			store.dispatch(`${FeedStore}/${FeedActions.fetch}`, true);
+		}, 1000);
 	} catch (err) {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
 	}
