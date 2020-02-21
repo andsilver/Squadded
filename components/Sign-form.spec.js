@@ -42,7 +42,7 @@ describe('SignForm', () => {
 	it('should call requestOtp', () => {
 		wrapper.setData({ errors: { email: false } });
 		const signinBtn = wrapper.ref(SIGNIN_BTN);
-		signinBtn.trigger('click');
+		signinBtn.trigger('submit');
 		expect(requestOtp).toHaveBeenCalledWith(email);
 	});
 });

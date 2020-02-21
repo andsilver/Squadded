@@ -45,7 +45,11 @@
 					<p class="description">
 						{{ $t('spamNote') }}
 					</p>
-					<v-form ref="form">
+					<v-form
+						ref="form"
+						@submit.prevent
+						@submit="validate"
+					>
 						<v-text-field
 							ref="pin-field"
 							v-model="pin"
@@ -62,15 +66,16 @@
 							ref="signup-validate-btn"
 							class="full-width validate-btn"
 							color="primary"
+							type="submit"
 							large
 							depressed
-							@click="validate"
 						>
 							{{ $t('validate') }}
 						</v-btn>
 					</v-form>
 					<div class="resend-code">
-						Still not receiving it?<span> Resend code</span>
+						Still not receiving it?
+						<span @click="requestOtp"> Resend code</span>
 					</div>
 				</div>
 			</div>
@@ -90,7 +95,7 @@ import { mapState } from 'vuex';
 import SocialBtn from '~/components/Social-Button.vue';
 import SignForm from '~/components/Sign-Form.vue';
 import { DEFAULT_LANDING } from '~/store/squad';
-import { loginWithPIN } from '~/services/otp';
+import { loginWithPIN, requestOtp } from '~/services/otp';
 import { nameSelected } from '~/utils/nameSelected';
 import { isAuth } from '~/utils/isAuth';
 
@@ -142,6 +147,9 @@ export default {
 					userToken: token,
 				}));
 			});
+		},
+		requestOtp() {
+			requestOtp(this.email);
 		},
 	},
 	head: () => ({
@@ -274,6 +282,7 @@ export default {
 			color #B8B8BA
 			span
 				color #000000
+				cursor pointer
 	.sign-step-two.in_active
 		display none
 		transition all 0.2s ease-in-out

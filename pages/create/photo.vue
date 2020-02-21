@@ -94,7 +94,7 @@ import UserInput from '~/components/common/UserInput';
 import PhotoView from '~/components/common/PhotoView';
 import { FeedPost } from '~/classes/FeedPost';
 import { ActivityStore, ActivityGetters } from '~/store/activity';
-import { FeedStore, FeedActions } from '~/store/feed';
+import { FeedStore, FeedMutations } from '~/store/feed';
 import {
 	PostStore,
 	PostActions,
@@ -132,9 +132,7 @@ const createPost = async ({ file, store, text, isPublic, selected, image }) => {
 		};
 		await store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
-		setTimeout(() => {
-			store.dispatch(`${FeedStore}/${FeedActions.fetch}`, true);
-		}, 1000);
+		store.commit(`${FeedStore}/${FeedMutations.addItem}`, msg);
 	} catch (err) {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
 	}

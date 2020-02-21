@@ -3,6 +3,8 @@
 		ref="form"
 		v-model="valid"
 		lazy-validation
+		@submit.prevent
+		@submit="emailLogin"
 	>
 		<div class="text-sec">
 			<h3>
@@ -29,11 +31,11 @@
 		<v-btn
 			v-if="signup"
 			ref="signup-otp-btn"
+			type="submit"
 			class="full-width sendmeotp-btn"
 			color="primary"
 			large
 			depressed
-			@click="() => emailLogin()"
 		>
 			{{ $t('form.send_me_otp') }}
 		</v-btn>

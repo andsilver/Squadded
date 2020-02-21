@@ -80,7 +80,7 @@ describe('Signup', () => {
 		loginWithPIN.mockReturnValue(Promise.resolve({ token }));
 		signForm.vm.$emit('sendOtp', email);
 		window.postMessage = jest.fn();
-		await validateBtn.trigger('click');
+		await validateBtn.trigger('submit');
 		expect(loginWithPIN).toHaveBeenCalledWith(pin, email);
 		expect(window.postMessage).toHaveBeenCalledWith(JSON.stringify({
 			type: 'loggedIn',
@@ -96,7 +96,7 @@ describe('Signup', () => {
 		const validateBtn = wrapper.ref(VALIDATE_BTN);
 		loginWithPIN.mockReturnValue(Promise.resolve({ error: true }));
 		signForm.vm.$emit('sendOtp', email);
-		await validateBtn.trigger('click');
+		await validateBtn.trigger('submit');
 		expect(wrapper.ref(ERROR_MESSAGE).exists()).toBe(true);
 	});
 });
