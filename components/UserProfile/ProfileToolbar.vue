@@ -47,8 +47,8 @@
 			{{ $t('Profile') }}
 		</span>
 
-		<v-dialog v-model="showShare">
-			<ShareProfile ref="share-profile-modal" :user-link="userLink" />
+		<v-dialog v-model="showShare" content-class="share_box">
+			<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
 		</v-dialog>
 	</section>
 </template>
@@ -117,6 +117,9 @@ export default {
 		},
 		edit () {
 			this.$router.push('/profile-settings');
+		},
+		hideShare () {
+			this.showShare = false;
 		},
 	},
 };

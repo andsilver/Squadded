@@ -23,8 +23,8 @@
 				</div>
 			</div>
 		</div>
-		<v-dialog v-model="showShare">
-			<ShareProfile ref="share-profile-modal" :user-link="userLink" />
+		<v-dialog v-model="showShare" content-class="share_box">
+			<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
 		</v-dialog>
 	</div>
 </template>
@@ -116,6 +116,9 @@ export default {
 		showModal () {
 			this.showShare = true;
 			this.$forceUpdate();
+		},
+		hideShare () {
+			this.showShare = false;
 		},
 	},
 };

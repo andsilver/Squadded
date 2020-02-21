@@ -46,8 +46,8 @@
 					{{ $t('create_your_squad.skip_for_now') }}
 				</v-btn>
 			</div>
-			<v-dialog v-model="showShare">
-				<ShareProfile ref="share-profile-modal" :user-link="userLink" />
+			<v-dialog v-model="showShare" content-class="share_box">
+				<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
 			</v-dialog>
 		</v-layout>
 	</v-container>
@@ -144,6 +144,9 @@ export default {
 		},
 		skip () {
 			this.$router.push('/all');
+		},
+		hideShare () {
+			this.showShare = false;
 		},
 	},
 	head: () => ({
