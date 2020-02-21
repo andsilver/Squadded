@@ -58,16 +58,16 @@
 			</v-tab>
 		</v-tabs>
 		<v-tabs-items v-model="tabs" touchless :class="{paired_section: isPaired}">
-			<v-tab-item class="tab-sec">
+			<v-tab-item class="tab-sec paired-feed">
 				<Feed :items="allPosts" :paired="isPaired" />
 			</v-tab-item>
-			<v-tab-item class="tab-sec">
+			<v-tab-item class="tab-sec paired-feed">
 				<Feed :items="outfitPosts" :paired="isPaired" />
 			</v-tab-item>
-			<v-tab-item class="tab-sec">
+			<v-tab-item class="tab-sec paired-feed">
 				<Feed :items="pollPosts" :paired="isPaired" />
 			</v-tab-item>
-			<v-tab-item class="tab-sec">
+			<v-tab-item class="tab-sec paired-feed">
 				<Feed :items="galleryPosts" :paired="isPaired" />
 			</v-tab-item>
 		</v-tabs-items>
@@ -164,4 +164,10 @@ export default {
 .paired_hide_sec::-webkit-scrollbar
 	width 5px
 	height auto
+.paired-feed
+	margin-right -12px
+	margin-left -12px
+	padding-right 12px
+	padding-left 12px
+	overflow-x hidden
 </style>
