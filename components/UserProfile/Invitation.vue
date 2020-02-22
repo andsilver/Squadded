@@ -6,7 +6,7 @@
 			</v-icon>
 			<span class="ml-2">{{ $t('user.invitation.accept') }}</span>
 		</Button>
-		<v-btn ref="deny-btn" outlined depressed class="deny-btn">
+		<v-btn ref="deny-btn" outlined depressed class="deny-btn" @click="deny">
 			{{ $t('user.invitation.deny') }}
 		</v-btn>
 	</div>
@@ -38,6 +38,16 @@ export default {
 				type: 'acceptSquad',
 				targetUserId: this.user.userId,
 			});
+		},
+		deny() {
+			if (this.user.squad && this.user.squad.exists) {
+				this.$ws.sendObj({
+					type: 'removeSquadder',
+					guid: this.user.userId,
+				});
+			} else {
+				this.$emit('deny');
+			}
 		},
 	},
 };

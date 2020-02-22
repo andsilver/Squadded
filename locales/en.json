@@ -291,7 +291,8 @@
     "MySquad": "My Squad",
     "empty_squad": "You don't have squadders yet",
     "invitation": {
-      "text": "You are invited to join @{user}'s squad",
+      "invite": "Invite",
+      "invited_text": "You are invited to join @{user}'s squad\nto interact with each other's wishlist",
       "accept": "accept",
       "deny": "deny",
       "pending": "Pending...",

@@ -40,22 +40,24 @@
 					{{ $t('user.edit') }}
 				</Button>
 			</div>
-			<userStatistics :user="user" />
-			<div v-if="showInvitation" ref="invite-text" class="invite-text text-center mt-4">
-				{{ $t('user.invitation.text', { user: user.name }) }}
-			</div>
-			<div v-if="!user.isMe" class="postion-relative my-4 d-flex justify-space-between align-center">
-				<!-- <span class="insta-image-sec image-section"><img src="~assets/img/profile-Instagram.svg" class="insta-image"></span> -->
-				<span class="px-3" />
-				<div>
-					<RemoveSquad v-if="isMySquad" ref="my-squad" :user="user" />
-					<Invitation v-else-if="showInvitation" ref="invitation" :user="user" :me="me" />
-					<Follow v-else ref="follow-btn" :user="user" class="follow" />
+			<userStatistics :user="user" :invited="invite" />
+			<template v-if="!user.isMe ">
+				<div v-if="isPending" ref="invite-text" class="invite-text text-center mt-4">
+					{{ $t(isInvitee ? 'user.invitation.invited_text' : 'user.invitation.pending_text', { user: user.name }) }}
 				</div>
-				<!-- <span v-if="show_notification" class="notification-image-sec image-section" @click="toggleNotification"><img src="~assets/img/user-notifications-icon.svg" class="notification-image"></span> -->
-				<!-- <span v-if="!show_notification" class="notification-image-sec image-section" @click="toggleNotification"><img src="~assets/img/user-block-notifications.svg" class="notification-image"></span> -->
-				<Actions :user="user" class="popup-menu" />
-			</div>
+				<div v-else-if="!squadPossible && invite" class="invite-text text-center mt-4">
+					{{ $t('user.invitation.invited_text', { user: user.name }) }}
+				</div>
+				<div class="postion-relative my-4 d-flex justify-space-between align-center">
+					<span class="px-3" />
+					<div>
+						<RemoveSquad v-if="isMySquad" ref="my-squad" :user="user" />
+						<Invitation v-else-if="showInvitation" ref="invitation" :user="user" :me="me" @deny="deny" />
+						<Follow v-else ref="follow-btn" :user="user" class="follow" />
+					</div>
+					<Actions :user="user" class="popup-menu" />
+				</div>
+			</template>
 			<v-tabs
 				v-model="tabs"
 				class="px-1"
@@ -164,7 +166,7 @@ export default {
 			if (!this.userId) {
 				return false;
 			}
-			const squad = this.userId ? this.other.squad : null;
+			const squad = this.other.squad;
 			return squad && squad.exists;
 		},
 		isMySquad () {
@@ -199,7 +201,7 @@ export default {
 	},
 	mounted () {
 		this.userId = this.$route.params.id;
-		this.invite = this.$route.query ? this.$route.query.invite : false;
+		this.invite = !!this.$route.query;
 		this.bindScroll();
 	},
 	methods: {
@@ -227,6 +229,9 @@ export default {
 		},
 		toggleNotification () {
 			this.show_notification = !this.show_notification;
+		},
+		deny() {
+			this.invite = false;
 		},
 	},
 	head () {

@@ -12,6 +12,8 @@ describe('User Invitation', () => {
 	let user;
 	let me;
 
+	const $emit = jest.fn();
+
 	const INVITE_ACTIONS = 'invite-actions';
 	const ACCEPT_BUTTON = 'accept-btn';
 	const DENY_BUTTON = 'deny-btn';
@@ -27,6 +29,7 @@ describe('User Invitation', () => {
 			mocks: {
 				$t: msg => msg,
 				$ws,
+				$emit,
 			},
 			propsData: {
 				user,
@@ -50,6 +53,29 @@ describe('User Invitation', () => {
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'acceptSquad',
 			targetUserId: user.userId,
+		});
+	});
+
+	it('should emit remove event', () => {
+		const denyButton = wrapper.ref(DENY_BUTTON);
+		denyButton.trigger('click');
+		expect($emit).toHaveBeenCalled();
+	});
+
+	it('should send remove squad msg', () => {
+		wrapper.setProps({
+			user: {
+				...user,
+				squad: {
+					exists: true,
+				},
+			},
+		});
+		const denyButton = wrapper.ref(DENY_BUTTON);
+		denyButton.trigger('click');
+		expect($ws.sendObj).toHaveBeenCalledWith({
+			type: 'removeSquadder',
+			guid: user.userId,
 		});
 	});
 });

@@ -4,17 +4,7 @@
 			{{ $t('My Squad') }}
 		</h4> -->
 		<section class="statistic">
-			<nuxt-link v-if="inviteInPending" :to="{ path: `${userPath}/mysquad` }" :class="!user.isMe ? 'disabled' : ''">
-				<v-list-item-title class="title">
-					<v-icon>
-						mdi-account-check-outline
-					</v-icon>
-				</v-list-item-title>
-				<v-list-item-subtitle class="subtitle">
-					{{ $t('user.invitation.pending') }}
-				</v-list-item-subtitle>
-			</nuxt-link>
-			<nuxt-link v-else :to="{ path: `${userPath}/mysquad` }" :class="!user.isMe ? 'disabled' : ''">
+			<nuxt-link v-if="user.isMe" :to="{ path: `${userPath}/mysquad` }">
 				<v-list-item-title class="title">
 					{{ short(user.squaddersCount) }}
 				</v-list-item-title>
@@ -22,6 +12,44 @@
 					{{ $t('user.InSquad') }}
 				</v-list-item-subtitle>
 			</nuxt-link>
+			<div v-else-if="isMySquad">
+				<v-list-item-title class="title" style="color: #b8b8ba">
+					{{ short(user.squaddersCount) }}
+				</v-list-item-title>
+				<v-list-item-subtitle class="subtitle">
+					{{ $t('user.InSquad') }}
+				</v-list-item-subtitle>
+			</div>
+			<div v-else-if="isInvitee || (!squadPossible && invited)">
+				<v-list-item-title class="title">
+					<v-icon color="#fd6256">
+						mdi-account-check-outline
+					</v-icon>
+				</v-list-item-title>
+				<v-list-item-subtitle class="subtitle" style="color: #fd6256">
+					{{ $t('user.invitation.accept') }}
+				</v-list-item-subtitle>
+			</div>
+			<div v-else-if="isPending || invited">
+				<v-list-item-title class="title">
+					<v-icon color="#B8B8BA">
+						mdi-account-check-outline
+					</v-icon>
+				</v-list-item-title>
+				<v-list-item-subtitle class="subtitle">
+					{{ $t('user.invitation.pending') }}
+				</v-list-item-subtitle>
+			</div>
+			<div v-else>
+				<v-list-item-title class="title">
+					<v-icon color="black">
+						mdi-account-plus-outline
+					</v-icon>
+				</v-list-item-title>
+				<v-list-item-subtitle class="subtitle">
+					{{ $t('user.invitation.invite') }}
+				</v-list-item-subtitle>
+			</div>
 			<v-divider class="divider" inset vertical />
 			<nuxt-link :to="{ path: `${userPath}/followers` }">
 				<v-list-item-title class="title">
@@ -65,6 +93,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		invited: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	computed: {
 		userPath () {
@@ -76,6 +108,22 @@ export default {
 				this.user.squad.exists &&
 				this.user.squad.pending &&
 				!this.user.squad.invitee;
+		},
+		squadPossible() {
+			if (this.user.isMe) {
+				return false;
+			}
+			const squad = this.user.squad;
+			return squad && squad.exists;
+		},
+		isMySquad () {
+			return this.squadPossible && !this.user.squad.pending;
+		},
+		isPending() {
+			return this.squadPossible && this.user.squad.pending;
+		},
+		isInvitee() {
+			return this.isPending && this.user.squad.invitee;
 		},
 	},
 	methods: {
