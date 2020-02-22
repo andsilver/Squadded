@@ -1,5 +1,5 @@
 <template>
-	<section class="d-flex text-section">
+	<section class="d-flex text-section align-center">
 		<UserLink
 			ref="user-link-avatar"
 			size="40"
@@ -10,14 +10,14 @@
 			<div class="message">
 				<span>
 					<span ref="user-link-name" class="user_name">
-						{{ notification.user.screenName }}
+						{{ votedUser.screenName }}
 					</span>
 					{{ $t('notify.vote') }}
 					<span ref="post-title" class="text-bold cursor-pointer">
 						{{ notification.text || $t('notify.post') }}
 					</span>
 				</span>
-				<span ref="timestring" class="time-string-section">
+				<span v-if="!banner" ref="timestring" class="time-string-section">
 					<v-avatar color="#000" size="4.923vw">
 						<v-icon dark size="2.76vw">
 							sqdi-checkmark
@@ -28,14 +28,14 @@
 					</span>
 				</span>
 			</div>
-			<div class="imgae-section">
-				<img
-					v-if="notification.type == 'notifVote'"
-					ref="notification-image"
-					:src="notifImage"
-					class="notification-image"
-				>
-			</div>
+		</div>
+		<div class="imgae-section">
+			<img
+				v-if="notification.type == 'notifVote'"
+				ref="notification-image"
+				:src="notifImage"
+				class="notification-image"
+			>
 		</div>
 	</section>
 </template>
@@ -112,7 +112,6 @@ i.sqdi-checkmark
 	width 100%
 	cursor pointer
 	.message
-		width calc(100% - 10.2vw)
 		padding-right 1.93vw
 		display inline-block
 		vertical-align top

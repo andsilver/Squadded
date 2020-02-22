@@ -45,6 +45,7 @@ describe('Notification Vote', () => {
 		expect(wrapper.ref(POST_TITLE).exists()).toBe(true);
 		expect(wrapper.ref(TIMESTRING).exists()).toBe(true);
 		expect(wrapper.ref(NOTIFICATION_IMAGE).exists()).toBe(true);
+		expect(wrapper.ref(USER_LINK_NAME).text()).toBe(notifyVote.voter.screenName);
 	});
 
 	it('should go to post landing page by clicking on post title', () => {

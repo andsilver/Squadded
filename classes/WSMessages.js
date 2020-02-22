@@ -156,6 +156,10 @@ export class WSMessages {
 		this.store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post });
 	}
 
+	notifVote (message) {
+		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+	}
+
 	notifEndPoll (message) {
 		const { guid } = message;
 		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);

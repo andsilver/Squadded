@@ -10,6 +10,7 @@ import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { userMockBuilder } from '~/test/user.mock';
 import TestPoll from '~/test/testpool.json';
 import TestAcceptSquad from '~/test/test-accept-squad.json';
+import { notifyVote } from '~/test/notifications.mock';
 
 const chance = new Chance();
 
@@ -413,5 +414,11 @@ describe('WSMessages dispatch', () => {
 	it('should commit setUploadingPicture with `violation`', () => {
 		wsMessages.dispatch({ type: 'moderationFailed' });
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setUploadingPicture}`, 'violation');
+	});
+
+	it('should commit notification on notifyVote', () => {
+		const msg = notifyVote;
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, msg);
 	});
 });
