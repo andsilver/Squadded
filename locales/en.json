@@ -154,7 +154,8 @@
     "validate": "Validate"
   },
   "feed": {
-    "isEmpty": "There is no items yet"
+    "isEmpty": "You have no posts",
+    "create": "Create Something"
   },
   "input": {
     "placeholder": "Write a comment..."
@@ -319,9 +320,10 @@
     "watch_users_you_like": "users you like, to make their posts appear first in your feed"
   },
   "wishlist": {
-    "empty": "There is not items yet.",
+    "empty": "Add something to your Wishlist",
     "purchase": "Move to Bag",
-    "disabled_before_signin": "Please sign in to see the items"
+    "disabled_before_signin": "Please sign in to see the items",
+    "discover": "Discover Items"
   },
   "pairedItem": {
     "title": "View Item",

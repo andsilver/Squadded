@@ -1,8 +1,20 @@
 <template lang="html">
 	<section>
 		<Preloader v-if="!wishlist && socket.isAuth" ref="preloader" class="mt-8" />
-		<div v-else-if="!wishlist || !wishlist.length" ref="empty-whishlist-text" class="mt-3">
-			{{ socket.isAuth ? $t('wishlist.empty') : $t('wishlist.disabled_before_signin') }}
+		<div v-else-if="!wishlist || !wishlist.length" class="mt-3">
+			<div class="whislist_empty">
+				<div class="whish_img">
+					<p><img src="~assets/img/squad-logo-white.svg" class="insta-image"></p>
+				</div>
+				<div class="txt">
+					<p ref="empty-whishlist-text" align="center">
+						{{ socket.isAuth ? $t('wishlist.empty') : $t('wishlist.disabled_before_signin') }}
+					</p>
+					<Button class="flex-grow-1 wish_btn">
+						{{ $t('wishlist.discover') }}
+					</Button>
+				</div>
+			</div>
 		</div>
 		<div v-else>
 			<WhishlistItem
@@ -69,3 +81,70 @@ export default {
 	},
 };
 </script>
+
+<style lang="stylus" scoped>
+.whislist_empty
+	width 82.15vw
+	margin 13.38vw auto 0
+	.whish_img
+		width 53.53vw
+		height 27.69vw
+		background #F5F5F5
+		margin 0 auto
+		position relative
+		p
+			position absolute
+			right 2.5vw
+			top 2.7vw
+			background #000000
+			border-radius 50%
+			width 8.61vw
+			height 8.61vw
+			display flex
+			justify-content center
+			align-items center
+			margin 0
+			z-index 1
+			img
+				width 4.92vw
+				height 3.69vw
+		&:after
+			content ''
+			width 12.30vw
+			height 12.30vw
+			position absolute
+			background #B8B8BA
+			border-radius 50%
+			z-index 0
+			right 0.76vw
+			top 0.76vw
+		&:before
+			content ''
+			width 18.46vw
+			height 18.46vw
+			position absolute
+			background #DBDBDB
+			border-radius 50%
+			z-index 0
+			right -2.30vw
+			top -2.30vw
+	.txt
+		p
+			font-size 3.69vw
+			font-weight 500
+			color #000
+			margin-top 3.69vw
+		.wish_btn
+			margin 0 auto
+			border 0.461vw solid #000
+			height 12.30vw
+			width 46.92vw
+			font-size: 2.61vw
+			padding: 0 8px
+			display: block
+			font-weight bold
+			border-radius 3.07vw
+			text-transform uppercase
+			margin-bottom 3.07vw
+			letter-spacing 2px
+</style>
