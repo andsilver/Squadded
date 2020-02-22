@@ -130,12 +130,30 @@ export default {
 		position absolute
 		top calc(50% - 24px)
 		border-radius 50%
-		background white
+		background rgba(0, 0, 0, 0.2)
 		z-index 3
+		height: 8.61vw;
+		width: 8.61vw;
 	.next-item
 		right 24px
+		&:hover
+			background rgba(0, 0, 0, 0.4)
+			opacity 1
+			transform scale(1.1)
+		.v-btn__content
+			.v-icon
+				color white
+				font-size: 8.92vw;
 	.prev-item
 		left 24px
+		&:hover
+			background rgba(0, 0, 0, 0.4)
+			opacity 1
+			transform scale(1.1)
+		.v-btn__content
+			.v-icon
+				color white
+				font-size: 8.92vw;
 	.next-item--disabled,
 	.prev-item--disabled
 		display none
