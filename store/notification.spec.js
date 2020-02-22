@@ -9,6 +9,7 @@ import {
 import store from './index';
 import { Storage } from '~/test/storage.mock';
 import TestAcceptSquad from '~/test/test-accept-squad.json';
+import { NOTIFICATIONS_LIMIT } from '~/consts/notifications';
 
 describe('Notification store module', () => {
 	describe('mutations', () => {
@@ -68,6 +69,14 @@ describe('Notification store module', () => {
 			state.notifications = [TestAcceptSquad];
 			setAcceptedSquad(state, TestAcceptSquad._id);
 			expect(TestAcceptSquad.accepted).toBe(true);
+		});
+
+		it(`should keep only last ${NOTIFICATIONS_LIMIT} notifications`, () => {
+			state.notifications = [];
+			receive(state, { notifications: new Array(NOTIFICATIONS_LIMIT + 3).fill(TestAcceptSquad) });
+			expect(state.notifications.length).toBe(NOTIFICATIONS_LIMIT);
+			add(state, TestAcceptSquad);
+			expect(state.notifications.length).toBe(NOTIFICATIONS_LIMIT);
 		});
 	});
 

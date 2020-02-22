@@ -8,3 +8,5 @@ export const NOTIFICATIONS = {
 	FOLLOW: 'notifFollow',
 	FOLLOW_REQUEST: 'notifFollowRequest',
 };
+
+export const NOTIFICATIONS_LIMIT = 30;

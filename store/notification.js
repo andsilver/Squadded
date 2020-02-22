@@ -1,3 +1,5 @@
+import { NOTIFICATIONS_LIMIT } from '~/consts/notifications';
+
 export const NotificationStore = 'notification';
 export const TIMEOUT_SECONDS = 5; // 5 seconds
 export const STORAGE_NOTIFICATIONS_KEY = 'notifications';
@@ -38,6 +40,9 @@ export const mutations = {
 		message.viewed = message.viewed || false;
 		message.showBanner = true;
 		state.notifications.unshift(message);
+		if (state.notifications.length > NOTIFICATIONS_LIMIT) {
+			state.notifications.pop();
+		}
 		setTimeout(() => {
 			message.showBanner = false;
 		}, TIMEOUT_SECONDS * 1000);
@@ -49,7 +54,7 @@ export const mutations = {
 	[NotificationMutations.receive]: (state, { notifications, ts }) => {
 		const unique = notifications.filter(n => !contain(state)(n));
 		unique.forEach(ntf => (ntf.viewed = ntf.viewed || false));
-		state.notifications = [...unique, ...state.notifications];
+		state.notifications = [...unique, ...state.notifications].slice(0, NOTIFICATIONS_LIMIT);
 		sessionStorage.setItem(STORAGE_NOTIFICATIONS_KEY, JSON.stringify({
 			items: state.notifications,
 			ts: ts || Date.now(),
