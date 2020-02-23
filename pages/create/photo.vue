@@ -104,7 +104,7 @@ import { prefetch } from '~/helpers';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
-const createPost = async ({ file, store, text, isPublic, selected, image }) => {
+const createPost = async ({ file, store, text, isPublic, selected, image, user }) => {
 	try {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, image);
 		const url = await prefetch({
@@ -132,7 +132,12 @@ const createPost = async ({ file, store, text, isPublic, selected, image }) => {
 		};
 		await store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
-		store.commit(`${FeedStore}/${FeedMutations.addItem}`, msg);
+		store.commit(`${FeedStore}/${FeedMutations.addItem}`, new FeedPost({
+			...msg,
+			guid: `new-${Date.now()}`,
+			user,
+			ts: Date.now(),
+		}));
 	} catch (err) {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
 	}
@@ -170,6 +175,7 @@ export default {
 		]),
 		...mapState([
 			'socket',
+			'user',
 		]),
 		complete () {
 			return !!(this.getSelected.length);
@@ -187,6 +193,7 @@ export default {
 				isPublic: this.$refs['public-toggle'].isPublic,
 				selected: this.getSelected,
 				image: this.dataImg,
+				user: this.user.me.short(),
 			});
 			this.$router.push({
 				path: '/feed',

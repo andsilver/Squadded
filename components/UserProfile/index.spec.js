@@ -20,6 +20,7 @@ describe('User component', () => {
 	let wrapper;
 	let store;
 	let $ws;
+	let query = {};
 
 	function initLocalVue () {
 		document.getElementById = jest.fn(() => document.createElement('div'));
@@ -44,6 +45,7 @@ describe('User component', () => {
 		};
 		const $route = {
 			params,
+			query,
 		};
 
 		store.commit('SET_SOCKET_AUTH', true);
@@ -84,6 +86,7 @@ describe('User component', () => {
 		};
 		const $route = {
 			params,
+			query,
 		};
 		wrapper = shallowMount(User, {
 			localVue,
@@ -118,7 +121,7 @@ describe('User component', () => {
 			localVue,
 			store,
 			mocks: {
-				$route: { params },
+				$route: { params, query },
 				$t: msg => msg,
 				_i18n: {
 					locale: 'en',
@@ -134,7 +137,7 @@ describe('User component', () => {
 	it('should show invitation section if invite is passed in query', () => {
 		const user = userMockBuilder().get();
 		const params = { id: user.userId };
-		const query = { invite: true };
+		query = { invite: true };
 
 		wrapper = shallowMount(User, {
 			localVue,

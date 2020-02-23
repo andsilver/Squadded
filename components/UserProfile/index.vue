@@ -201,7 +201,7 @@ export default {
 	},
 	mounted () {
 		this.userId = this.$route.params.id;
-		this.invite = !!this.$route.query;
+		this.invite = !!this.$route.query.invite;
 		this.bindScroll();
 	},
 	methods: {
