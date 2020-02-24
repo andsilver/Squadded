@@ -39,6 +39,8 @@
   "dependencies": {
     "@nuxtjs/google-gtag": "^1.0.4",
     "@nuxtjs/pwa": "^3.0.0-beta.19",
+    "@sentry/browser": "^5.12.4",
+    "@sentry/integrations": "^5.12.4",
     "nuxt": "^2.11.0",
     "vue": "^2.6.11",
     "vue-advanced-cropper": "^0.16.0",

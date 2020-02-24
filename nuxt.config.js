@@ -11,6 +11,8 @@ const {
 	USE_SSL,
 	WS_LINK,
 	GTAG_ID,
+	SENTRY_KEY,
+	SENTRY_PROJECT_ID,
 } = process.env;
 
 if (!BASE) {
@@ -55,6 +57,19 @@ if (GTAG_ID) {
 	]);
 }
 
+const plugins = [
+	'@plugins/i18n',
+	'@plugins/messaging',
+	{ src: '@plugins/init/ws', ssr: false },
+	{ src: '@plugins/init/restoreFeed', ssr: false },
+	'@plugins/visibility',
+	'@plugins/touch-events',
+];
+
+if (SENTRY_KEY && SENTRY_PROJECT_ID) {
+	plugins.push('@plugins/sentry');
+}
+
 export default {
 	mode: 'spa',
 	env: {
@@ -64,6 +79,8 @@ export default {
 		IG_CLIENT_ID,
 		WS_LINK,
 		GTAG_ID,
+		SENTRY_KEY,
+		SENTRY_PROJECT_ID,
 	},
 	/*
 	** Headers of the page
@@ -135,14 +152,7 @@ export default {
 	/*
 	** Plugins to load before mounting the App
 	*/
-	plugins: [
-		'@plugins/i18n',
-		'@plugins/messaging',
-		{ src: '@plugins/init/ws', ssr: false },
-		{ src: '@plugins/init/restoreFeed', ssr: false },
-		'@plugins/visibility',
-		'@plugins/touch-events',
-	],
+	plugins,
 	/*
 	** Nuxt.js modules
 	*/
