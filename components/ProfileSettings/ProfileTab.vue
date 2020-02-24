@@ -5,7 +5,20 @@
 				<v-avatar ref="user-avatar" class="user_avatar" width="100px" height="100px" min-width="none">
 					<v-img :key="user.avatar" :src="user.avatar" />
 				</v-avatar>
-				<input v-show="false" ref="avatar-input" type="file" accept="image/*" @change="read">
+				<client-only>
+					<ImageUploader
+						v-show="false"
+						id="avatar-input"
+						ref="avatar-input"
+						:max-width="200"
+						:debug="1"
+						:quality="0.9"
+						accept="image/*"
+						output-format="verbose"
+						@input="setImage"
+						@onComplete="completeCompress"
+					/>
+				</client-only>
 				<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
 					<img src="../../assets/img/action-edit.svg" class="edit-icon-image" width="14px" height="14px">
 				</v-btn>
@@ -123,6 +136,8 @@
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import ImageUploader from 'vue-image-upload-resize';
+import { dataURItoBlob } from '~/utils/dataUriToBlob';
 import { PostStore, PostMutations } from '~/store/post';
 import { prefetch } from '~/helpers';
 import Button from '~/components/common/Button';
@@ -133,6 +148,7 @@ const { mapState } = createNamespacedHelpers(UserStore);
 export default {
 	components: {
 		Button,
+		ImageUploader,
 	},
 	data: () => ({
 		user: null,
@@ -140,6 +156,7 @@ export default {
 			{ value: false, name: 'Public' },
 			{ value: true, name: 'Private' },
 		],
+		input: null,
 	}),
 	computed: {
 		...mapState(['me']),
@@ -158,8 +175,9 @@ export default {
 			this.user = Object.assign({}, this.user);
 		},
 		openFileUpload() {
-			this.$refs['avatar-input'].value = null;
-			this.$refs['avatar-input'].click();
+			const el = document.getElementById('avatar-input');
+			el.value = null;
+			el.click();
 		},
 		read () {
 			this.file = this.$refs['avatar-input'].files[0];
@@ -180,6 +198,7 @@ export default {
 				throw new Error(response.statusText);
 			}
 			const img = new URL(uploadUrl);
+			img.search = '';
 			this.user.avatar = img.href;
 		},
 		async saveProfile() {
@@ -192,6 +211,14 @@ export default {
 				return;
 			}
 			this.$router.push('/me');
+		},
+		setImage (input) {
+			this.input = input;
+		},
+		completeCompress(e) {
+			const { info, dataUrl: image } = this.input;
+			this.file = dataURItoBlob(image, info.type);
+			this.saveAvatar();
 		},
 	},
 };

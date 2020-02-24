@@ -65,6 +65,7 @@ const plugins = [
 	{ src: '@plugins/init/restoreFeed', ssr: false },
 	'@plugins/visibility',
 	'@plugins/touch-events',
+	'@plugins/image-uploader',
 ];
 
 if (SENTRY_KEY && SENTRY_PROJECT_ID) {

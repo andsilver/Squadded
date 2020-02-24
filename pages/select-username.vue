@@ -26,7 +26,20 @@
 				</div>
 				<div class="select-user-icon-sec">
 					<img ref="user-avatar" :src="userAvatar" class="select-user-icon">
-					<input v-show="false" ref="avatar-input" type="file" accept="image/*" @change="read">
+					<client-only>
+						<ImageUploader
+							v-show="false"
+							id="avatar-input"
+							ref="avatar-input"
+							:max-width="200"
+							:debug="1"
+							:quality="0.9"
+							accept="image/*"
+							output-format="verbose"
+							@input="setImage"
+							@onComplete="completeCompress"
+						/>
+					</client-only>
 					<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
 						<img src="../assets/img/action-edit.svg" class="edit-icon-image">
 					</v-btn>
@@ -64,6 +77,8 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
+import ImageUploader from 'vue-image-upload-resize';
+import { dataURItoBlob } from '~/utils/dataUriToBlob';
 import { UserStore, UserActions } from '~/store/user';
 import { PostStore, PostMutations } from '~/store/post';
 import { prefetch } from '~/helpers';
@@ -73,6 +88,9 @@ import { nameSelected, setNameSelected } from '~/utils/nameSelected';
 const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
+	components: {
+		ImageUploader,
+	},
 	asyncData({ store, redirect }) {
 		const { me } = store.state.user;
 		if (me.squaddersCount) {
@@ -85,6 +103,7 @@ export default {
 		user: null,
 		file: null,
 		submitted: false,
+		input: null,
 	}),
 	computed: {
 		...userState([
@@ -110,8 +129,9 @@ export default {
 	},
 	methods: {
 		openFileUpload() {
-			this.$refs['avatar-input'].value = null;
-			this.$refs['avatar-input'].click();
+			const el = document.getElementById('avatar-input');
+			el.value = null;
+			el.click();
 		},
 		async saveProfile() {
 			if (!this.user.name || !this.user.avatar) {
@@ -125,10 +145,6 @@ export default {
 				this.user,
 			);
 			this.$router.push('/create-your-squad');
-		},
-		read () {
-			this.file = this.$refs['avatar-input'].files[0];
-			this.saveAvatar();
 		},
 		async saveAvatar() {
 			const uploadUrl = await prefetch({
@@ -147,6 +163,14 @@ export default {
 			const img = new URL(uploadUrl);
 			img.search = '';
 			this.user.avatar = img.href;
+		},
+		setImage (input) {
+			this.input = input;
+		},
+		completeCompress(e) {
+			const { info, dataUrl: image } = this.input;
+			this.file = dataURItoBlob(image, info.type);
+			this.saveAvatar();
 		},
 	},
 	head: () => ({

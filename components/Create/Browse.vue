@@ -1,25 +1,51 @@
 <template>
 	<button @click="browse">
-		<input ref="input-file" type="file" accept="image/jpeg,image/jpg,image/png" @change="read">
+		<client-only>
+			<ImageUploader
+				v-show="false"
+				:id="id"
+				ref="input-file"
+				:max-width="600"
+				:quality="0.9"
+				accept="image/jpeg,image/jpg,image/png"
+				output-format="verbose"
+				@input="setImage"
+				@onComplete="completeCompress"
+			/>
+		</client-only>
 		<img src="~assets/img/gallery.svg">
 		<span>{{ $t('photo.browse') }}</span>
 	</button>
 </template>
 
 <script>
-import { toBase64 } from '~/utils/toBase64';
+import ImageUploader from 'vue-image-upload-resize';
+import { dataURItoBlob } from '~/utils/dataUriToBlob';
 
 export default {
+	components: {
+		ImageUploader,
+	},
+	data: () => ({
+		id: null,
+		input: null,
+	}),
+	created () {
+		this.id = `${Math.floor(Math.random())}${Date.now()}`;
+	},
 	methods: {
 		browse () {
-			this.$refs['input-file'].value = null;
-			this.$refs['input-file'].click();
+			const el = document.getElementById(this.id);
+			el.value = null;
+			el.click();
 		},
-		async read () {
-			const file = this.$refs['input-file'].files[0];
-			const base64 = await toBase64(file);
-			const image = base64.length ? base64 : null;
-			image && this.$emit('open', { image, file });
+		setImage (input) {
+			this.input = input;
+		},
+		completeCompress(e) {
+			const { info, dataUrl: image } = this.input;
+			const file = dataURItoBlob(image, info.type);
+			this.$emit('open', { image, file });
 		},
 	},
 };
