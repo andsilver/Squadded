@@ -3,7 +3,14 @@
 		<BackBar ref="goback-button" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">
-			<span v-if="!notifications.length" ref="empty-notif-text">{{ $t('notify.isEmpty') }}</span>
+			<div v-if="!notifications.length" class="empty_feed">
+				<p class="feed_img">
+					<img src="~assets/img/add-user-black.svg" class="insta-image">
+				</p>
+				<p ref="empty-notif-text" align="center" class="txt">
+					{{ $t('notify.requestEmpty') }}
+				</p>
+			</div>
 			<Notifications v-else ref="notification-list" :items="filtered" />
 		</v-layout>
 	</v-container>
@@ -49,4 +56,25 @@ export default {
 .layout.nofification-layout
 	margin-left -12px
 	margin-right -12px
+.empty_feed
+	width 82.15vw
+	margin 13.38vw auto 0
+	text-align center
+	.feed_img
+		background rgba(218,217,221,0.30)
+		width 30.76vw
+		height 30.76vw
+		display flex
+		justify-content center
+		align-items center
+		border-radius 50%
+		margin 0 auto
+		img
+			width 10.769vw
+			height 10.769vw
+	.txt
+		font-size 3.69vw
+		font-weight 500
+		color #000
+		margin-top 3.69vw
 </style>

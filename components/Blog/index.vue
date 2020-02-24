@@ -60,7 +60,7 @@ export default {
 	margin 13.38vw auto 0
 	text-align center
 	.feed_img
-		background #DAD9DD
+		background rgba(218,217,221,0.30)
 		width 30.76vw
 		height 30.76vw
 		display flex

@@ -171,7 +171,8 @@
     "accepted_invite": "wants to join your squad",
     "follow": "is now watching you",
     "new": "New",
-    "old": "Earlier"
+    "old": "Earlier",
+    "requestEmpty": "You have no new requests"
   },
   "outfit": {
     "textPlaceholder": "Type your description"
