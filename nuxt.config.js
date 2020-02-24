@@ -13,6 +13,7 @@ const {
 	GTAG_ID,
 	SENTRY_KEY,
 	SENTRY_PROJECT_ID,
+	FULLSTORY_ENABLE,
 } = process.env;
 
 if (!BASE) {
@@ -70,6 +71,18 @@ if (SENTRY_KEY && SENTRY_PROJECT_ID) {
 	plugins.push('@plugins/sentry');
 }
 
+const script = [{
+	type: 'text/javascript',
+	src: `${BASE}vendor/moment.fr.min.js`,
+}];
+
+if (FULLSTORY_ENABLE) {
+	script.push({
+		type: 'text/javascript',
+		src: 'scripts/fullstory.js',
+	});
+}
+
 export default {
 	mode: 'spa',
 	env: {
@@ -101,12 +114,7 @@ export default {
 				'https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap',
 			},
 		],
-		script: [
-			{
-				type: 'text/javascript',
-				src: `${BASE}vendor/moment.fr.min.js`,
-			},
-		],
+		script,
 	},
 	/*
 	** Customize the progress-bar color
