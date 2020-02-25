@@ -6,6 +6,7 @@ import { UserStore, UserMutations } from '~/store/user';
 import Store from '~/store';
 import { userMockBuilder } from '~/test/user.mock';
 import { fetchUser } from '~/services/user';
+import { USER_TOKEN_KEY } from '~/consts/keys';
 
 jest.mock('~/services/user', () => ({
 	fetchUser: jest.fn(),
@@ -32,6 +33,7 @@ describe('User component', () => {
 			sendObj: jest.fn(),
 		};
 		store.commit('jSocket', $ws);
+		localStorage.clear();
 	}
 
 	beforeEach(initLocalVue);
@@ -48,6 +50,7 @@ describe('User component', () => {
 			query,
 		};
 
+		localStorage.setItem(USER_TOKEN_KEY, 'token');
 		store.commit('SET_SOCKET_AUTH', true);
 
 		wrapper = shallowMount(User, {
@@ -110,6 +113,7 @@ describe('User component', () => {
 
 	it('should redirect myself to /me', () => {
 		const me = userMockBuilder().get();
+		localStorage.setItem(USER_TOKEN_KEY, 'token');
 		store.commit('SET_SOCKET_AUTH', true);
 		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 

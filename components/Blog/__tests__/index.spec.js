@@ -4,6 +4,7 @@ import Blog from '../index.vue';
 import Feed from '~/components/Feed';
 import Store from '~/store';
 import { ActivityStore, ActivityActions } from '~/store/activity';
+import { USER_TOKEN_KEY } from '~/consts/keys';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -27,6 +28,7 @@ describe('Blog Component', () => {
 		store.commit('jSocket', {
 			sendObj: jest.fn(),
 		});
+		localStorage.clear();
 	}
 
 	beforeEach(() => {
@@ -40,6 +42,7 @@ describe('Blog Component', () => {
 				params,
 			},
 		};
+		localStorage.setItem(USER_TOKEN_KEY, 'token');
 		wrapper = shallowMount(Blog, {
 			localVue,
 			store,
@@ -64,6 +67,7 @@ describe('Blog Component', () => {
 
 	it('should fetch blog on created', () => {
 		store.dispatch = jest.fn();
+		localStorage.setItem(USER_TOKEN_KEY, 'token');
 		store.commit('SET_SOCKET_AUTH', true);
 
 		shallowMount(Blog, {

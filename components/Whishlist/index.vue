@@ -31,6 +31,7 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import WhishlistItem from './item';
 import Preloader from '~/components/Preloader.vue';
 import { ActivityStore, ActivityActions } from '~/store/activity';
+import { isAuth } from '~/utils/isAuth';
 
 const activityState = createNamespacedHelpers(ActivityStore).mapState;
 
@@ -47,6 +48,9 @@ export default {
 		...mapState([
 			'socket',
 		]),
+		isAuth () {
+			return isAuth();
+		},
 	},
 	created () {
 		this.fetchWishlist();
@@ -70,7 +74,7 @@ export default {
 			}
 		},
 		fetchWishlist() {
-			if (!this.socket.isAuth) {
+			if (!isAuth()) {
 				return;
 			}
 			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {

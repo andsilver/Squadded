@@ -4,6 +4,7 @@ import Vuex from 'vuex';
 import Whishlist from './index.vue';
 import Store from '~/store';
 import { ActivityStore, ActivityActions } from '~/store/activity';
+import { USER_TOKEN_KEY } from '~/consts/keys';
 
 const chance = new Chance();
 
@@ -46,6 +47,7 @@ describe('Whishlist Component', () => {
 		};
 		global.window.addEventListener = jest.fn();
 		global.window.removeEventListener = jest.fn();
+		localStorage.setItem(USER_TOKEN_KEY, 'token');
 		wrapper = shallowMount(Whishlist, {
 			localVue,
 			store,
