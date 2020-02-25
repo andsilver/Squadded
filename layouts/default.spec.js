@@ -2,7 +2,7 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Default from './default.vue';
 import Store from '~/store';
-import { DEFAULT_LANDING } from '~/store/squad';
+import { DEFAULT_LANDING, SquadStore, SquadMutations } from '~/store/squad';
 import { UserStore, UserMutations } from '~/store/user';
 import * as Device from '~/utils/device-input';
 import { setNameSelected } from '~/utils/nameSelected';
@@ -124,6 +124,12 @@ describe('Default layout', () => {
 		global.atob = jest.fn().mockReturnValue();
 		await store.commit(`${UserStore}/${UserMutations.setToken}`, 'token');
 		expect($router.push).toHaveBeenCalledWith('/select-username');
+	});
+
+	it('should go to post landing with comments hash', async () => {
+		const postId = 'postid';
+		await store.commit(`${SquadStore}/${SquadMutations.openPost}`, postId);
+		expect($router.push).toHaveBeenCalledWith(`post/${postId}#comments`);
 	});
 
 	describe('Desktop', () => {

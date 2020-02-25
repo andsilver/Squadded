@@ -101,6 +101,19 @@ describe('Dispatcher', () => {
 
 		expect(store.dispatch).toHaveBeenCalledWith(`${SquadStore}/${SquadActions.postCheckout}`, msg);
 	});
+
+	it('should commit openPost and widgetState open', () => {
+		const postId = 'postid';
+		const msg = {
+			type: 'openPost',
+			postId,
+		};
+
+		ipc.dispatch(msg);
+
+		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.openPost}`, postId);
+		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setWidgetState}`, true);
+	});
 });
 
 describe('Login', () => {

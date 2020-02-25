@@ -79,6 +79,8 @@ export default {
 				this.$router.push('/onboarding');
 			} else if (mutation.type === `${SquadStore}/${SquadMutations.setSquadParams}` && mutation.payload) {
 				this.$router.push(this.squad.route);
+			} else if (mutation.type === `${SquadStore}/${SquadMutations.openPost}` && mutation.payload) {
+				this.$router.push(`post/${mutation.payload}#comments`);
 			}
 		});
 		if (this.isTouch) {

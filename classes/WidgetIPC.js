@@ -70,4 +70,10 @@ export class WidgetIPC {
 		}
 		this.store.dispatch(`${SquadStore}/${SquadActions.postCheckout}`, msg);
 	}
+
+	openPost (msg) {
+		const { postId } = msg;
+		this.widgetState({ open: true });
+		this.store.commit(`${SquadStore}/${SquadMutations.openPost}`, postId);
+	}
 }

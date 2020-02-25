@@ -1,5 +1,5 @@
 export const notifyComment = {
-	postId: '5e1bfe9550d5bd0129dac40d',
+	postId: '5e3fe6c630e6f92a5ff80771',
 	userId: '5de5f4c52a8e99a0edd760c2',
 	text: 'Hello Yash how are you .?',
 	ts: 1579601456592,
@@ -57,7 +57,7 @@ export const notifyComment = {
 			},
 		],
 		ts: 1578892949382,
-		guid: '5e1bfe9550d5bd0129dac40d',
+		guid: '5e3fe6c630e6f92a5ff80771',
 	},
 	_id: '5e26ce3077d10f8f9b5c9e2b',
 };

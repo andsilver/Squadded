@@ -47,6 +47,7 @@ export const SquadMutations = {
 	setSquadParams: 'setSquadParams',
 	setWidgetState: 'setWidgetState',
 	interaction: 'interaction',
+	openPost: 'openPost',
 };
 
 export const mutations = {
@@ -60,6 +61,7 @@ export const mutations = {
 		state.widget.open = open;
 	},
 	[SquadMutations.interaction]: () => {},
+	[SquadMutations.openPost]: () => {},
 };
 
 export const SquadActions = {
