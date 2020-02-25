@@ -66,6 +66,7 @@ const plugins = [
 	'@plugins/visibility',
 	'@plugins/touch-events',
 	'@plugins/image-uploader',
+	'@plugins/anime',
 ];
 
 if (SENTRY_KEY && SENTRY_PROJECT_ID) {
