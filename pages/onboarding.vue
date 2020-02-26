@@ -1,8 +1,6 @@
 <template>
 	<div
 		ref="onboarding"
-		v-touch:swipe.right="swipeRight"
-		v-touch:swipe.left="swipeLeft"
 		class="onboarding-page"
 	>
 		<nav ref="onboarding-nav" :style="{ gridTemplateColumns: `repeat(${videos.length}, 1fr)` }">
@@ -110,31 +108,9 @@ export default {
 		signin () {
 			this.$router.push('/');
 		},
-		swipeRight() {
-			this.$refs.video[this.current].player.play();
-			if (this.current < this.videos.length - 1) {
-				this.current += 1;
-			} else {
-				this.current = 0;
-			}
-			this.switchTimeline();
-		},
-		swipeLeft() {
-			this.$refs.video[this.current].player.play();
-			if (this.current > 0) {
-				this.current -= 1;
-			} else {
-				this.current += this.videos.length - 1;
-			}
-			this.switchTimeline();
-		},
 		switchTimeline() {
 			this.timeline.pause();
-			let time = 0;
-			for (let i = 0; i < this.current; i++) {
-				time += this.videos[i].duration;
-			}
-			this.timeline.seek(time);
+			this.timeline.seek(this.current * 3000);
 			this.timeline.play();
 		},
 	},
