@@ -6,7 +6,7 @@
 			<v-layout column grow class="mt-3">
 				<CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" />
 				<Browse v-show="!dataImg" ref="browse" @open="preview" />
-				<Tags v-if="dataImg" ref="tagsComponent" :post="post" :crop-active="cropActive" @doneCrop="cropActive=false">
+				<Tags v-if="dataImg" ref="tagsComponent" :post="post" :crop-active="cropActive" @doneCrop="doneCrop">
 					<div class="photo-menu-panel">
 						<v-btn icon width="40" height="40" @click="() => preview({})">
 							<v-icon color="#000">
@@ -104,11 +104,11 @@ import { prefetch } from '~/helpers';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
-const createPost = async ({ file, store, text, isPublic, selected, image, user }) => {
+const createPost = async ({ file, store, text, isPublic, selected, image, user, type }) => {
 	try {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, image);
 		const url = await prefetch({
-			contentType: file.type,
+			contentType: type,
 			mutation: `${PostStore}/${PostMutations.uploadURL}`,
 			store: store,
 			type: 'getUploadUrl',
@@ -160,6 +160,7 @@ export default {
 		dataImg: null,
 		cropActive: false,
 		file: null,
+		type: null,
 		showPhoto: true,
 		showError: false,
 		LimitshowError: false,
@@ -194,6 +195,7 @@ export default {
 				selected: this.getSelected,
 				image: this.dataImg,
 				user: this.user.me.short(),
+				type: this.type,
 			});
 			this.$router.push({
 				path: '/feed',
@@ -203,6 +205,11 @@ export default {
 			this.dataImg = data.image;
 			this.post.img = data.image;
 			this.file = data.file;
+			data.type && (this.type = data.type);
+		},
+		doneCrop(data) {
+			this.cropActive = false;
+			this.preview(data);
 		},
 		next () {
 			if (this.dataImg && this.getSelected.length === 0) {

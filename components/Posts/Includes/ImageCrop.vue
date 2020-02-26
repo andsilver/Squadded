@@ -23,6 +23,7 @@
 <script>
 import { Cropper } from 'vue-advanced-cropper';
 import Button from '~/components/common/Button';
+import { dataURItoBlob } from '~/utils/dataUriToBlob';
 
 export default {
 	components: {
@@ -47,12 +48,14 @@ export default {
 		canvas: null,
 	}),
 	methods: {
-		change({ coordinates, canvas }) {
-			this.canvas = canvas;
+		change(value) {
+			this.canvas = value.canvas;
 		},
 		cropImage() {
-			this.item.img = this.canvas.toDataURL();
-			this.$emit('doneCrop');
+			const image = this.canvas.toDataURL();
+			const file = dataURItoBlob(image);
+			this.item.img = image;
+			this.$emit('doneCrop', { image, file });
 		},
 	},
 };

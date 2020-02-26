@@ -102,6 +102,7 @@ describe('Create Photo', () => {
 		await store.commit('SET_SOCKET_AUTH', true);
 		const uploadUrl = 'uploadurl';
 		const post = aDefaultSingleItemMsgBuilder().get();
+		const type = 'image';
 		const file = {
 			type: 'image',
 		};
@@ -119,6 +120,7 @@ describe('Create Photo', () => {
 		wrapper.vm.preview({
 			image,
 			file,
+			type,
 		});
 
 		const nextButton = wrapper.ref(NEXT_BUTTON);
@@ -139,14 +141,6 @@ describe('Create Photo', () => {
 		expect(global.fetch).toHaveBeenCalledWith(uploadUrl, {
 			method: 'PUT',
 			body: file,
-		});
-
-		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, {
-			img: 'href',
-			items: [post.item],
-			private: !wrapper.vm.$refs['public-toggle'].isPublic,
-			text: wrapper.vm.text,
-			type: 'galleryPost',
 		});
 
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, {

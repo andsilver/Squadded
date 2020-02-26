@@ -14,7 +14,7 @@
 				:resquadd="false"
 				@click.native="toggleShifted"
 			/>
-			<ImageCrop v-if="cropActive" ref="photo-crop-view" :item="post" @doneCrop="$emit('doneCrop')" />
+			<ImageCrop v-if="cropActive" ref="photo-crop-view" :item="post" @doneCrop="(data) => $emit('doneCrop', data)" />
 			<p v-if="!cropActive" class="tip">
 				{{ $t('tip.createPhotoTag') }}
 			</p>

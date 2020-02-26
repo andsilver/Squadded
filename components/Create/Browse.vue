@@ -44,8 +44,9 @@ export default {
 		},
 		completeCompress(e) {
 			const { info, dataUrl: image } = this.input;
-			const file = dataURItoBlob(image, info.type);
-			this.$emit('open', { image, file });
+			const { type } = info;
+			const file = dataURItoBlob(image, type);
+			this.$emit('open', { image, file, type });
 		},
 	},
 };
