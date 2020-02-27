@@ -14,7 +14,7 @@ export const requestOtp = (email) => {
 };
 
 export const loginWithPIN = (pin, email) => {
-	return fetch(`${AUTH_ENDPOINT}/email/signin`, {
+	return fetch(`${AUTH_ENDPOINT}/email/signup`, {
 		method: 'POST',
 		body: JSON.stringify({
 			pin,
