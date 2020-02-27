@@ -100,6 +100,15 @@ export default {
 			timeline.play();
 			this.$refs.video[this.current].player.play();
 		});
+		hammertime.on('tap', (e) => {
+			if (e.center.x > window.innerWidth / 2 && this.current < this.videos.length - 1) {
+				this.current += 1;
+				this.switchTimeline();
+			} else if (e.center.x < window.innerWidth / 2 && this.current > 0) {
+				this.current -= 1;
+				this.switchTimeline();
+			}
+		});
 	},
 	methods: {
 		skip () {
