@@ -104,18 +104,6 @@ export default {
 			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
 		},
 	},
-	watch: {
-		me() {
-			if (this.me.squaddersCount) {
-				this.$router.push(DEFAULT_LANDING);
-			}
-		},
-	},
-	created () {
-		if (this.me.squaddersCount) {
-			this.$router.push(DEFAULT_LANDING);
-		}
-	},
 	methods: {
 		async share () {
 			this.showShare = false;

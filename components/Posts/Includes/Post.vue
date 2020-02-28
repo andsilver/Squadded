@@ -8,7 +8,6 @@
 					class="post_user_link"
 					:user="post.user"
 					:ts="post.ts"
-					follow
 					size="10.76vw"
 				/>
 				<PopMenu :post="post" @edit="toggleTextEditor" />

@@ -8,6 +8,7 @@
 import Button from '~/components/common/Button';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
+import { HomeStore, HomeMutations } from '~/store/home';
 import { isBoolean } from '~/utils/isBoolean';
 
 export default {
@@ -41,6 +42,7 @@ export default {
 				follow,
 			});
 			this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
+			this.$store.commit(`${HomeStore}/${HomeMutations.clear}`);
 			this.$store.commit(`${UserStore}/${UserMutations.setFollow}`, { follow, user });
 			this.$forceUpdate();
 		},

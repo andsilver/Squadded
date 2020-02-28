@@ -7,9 +7,10 @@
 					mdi-account-circle-outline
 				</v-icon>
 				<v-btn
-					v-if="follow && user.guid !== me.userId"
+					v-if="showFollow"
+					ref="watch-btn"
 					class="follow"
-					:class="{highlight: showPopover}"
+					:class="{ highlight: showPopover, following: user.followed }"
 					dark
 					icon
 					outlined
@@ -18,8 +19,11 @@
 					height="60%"
 					@click="goFollow"
 				>
-					<v-icon :size="`${sizeValue * 0.2571}${sizeLength}`">
+					<v-icon v-if="!user.followed" ref="watch-icon" :size="`${sizeValue * 0.2571}${sizeLength}`">
 						mdi-eye-outline
+					</v-icon>
+					<v-icon v-else ref="watching-icon" :size="`${sizeValue * 0.2571}${sizeLength}`" color="black">
+						mdi-check
 					</v-icon>
 				</v-btn>
 				<div
@@ -34,7 +38,12 @@
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
 				<v-list-item-title class="user_name">
-					{{ user.name || user.screenName }}
+					<span>{{ user.name || user.screenName }}</span>
+					<template v-if="showFollow">
+						<span class="mx-1">-</span>
+						<span v-if="!user.followed" ref="watch-text" style="color: #fd6256">{{ $t('user.Follow') }}</span>
+						<span v-else ref="watching-text" style="color: #00000099">{{ $t('user.Following') }}</span>
+					</template>
 				</v-list-item-title>
 				<v-list-item-subtitle v-if="ts" class="user_timestamp">
 					{{ timeString }}
@@ -49,8 +58,9 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { UserStore } from '~/store/user';
+import { UserStore, UserMutations } from '~/store/user';
 import { HomeStore, HomeMutations } from '~/store/home';
+import { FeedStore, FeedMutations } from '~/store/feed';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
@@ -84,6 +94,7 @@ export default {
 	},
 	data: () => ({
 		showPopover: false,
+		isFeedHome: false,
 	}),
 	computed: {
 		...mapState([
@@ -101,9 +112,17 @@ export default {
 			const match = this.size.match(/[^\d]+$/);
 			return (match && match[0]) || 'px';
 		},
+		showFollow () {
+			return this.user.guid !== this.me.userId &&
+				this.isFeedHome &&
+				!this.user.mysquad &&
+				!this.hideName &&
+				!this.hideAvatar;
+		},
 	},
 	mounted() {
 		this.showPopover = !!this.user.showPopover;
+		this.isFeedHome = this.$route.name === 'all';
 		if (this.showPopover) {
 			document.addEventListener('click', () => {
 				this.showPopover = false;
@@ -121,9 +140,14 @@ export default {
 		goFollow (e) {
 			e.stopPropagation();
 			e.preventDefault();
-			const to = this.getUserLink();
-			to.hash = '#follow';
-			this.$router.push(to);
+			this.$ws.sendObj({
+				type: 'follow',
+				guid: this.user.guid,
+				follow: !this.user.followed,
+			});
+			this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
+			this.$store.commit(`${UserStore}/${UserMutations.setFollow}`, { follow: !this.user.followed, user: this.user });
+			this.$store.commit(`${HomeStore}/${HomeMutations.follow}`, this.user);
 		},
 	},
 };
@@ -143,6 +167,8 @@ export default {
 		width auto
 		min-width 0
 		min-height 0
+.following
+	background-color #b8b8ba !important
 .user_name
 	font-size 3.23vw
 	font-weight 600

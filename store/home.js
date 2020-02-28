@@ -14,16 +14,17 @@ export const state = () => ({
 });
 
 export const HomeMutations = {
-	clearHome: 'clearHome',
+	clear: 'clear',
 	receive: 'receive',
 	markAllLoaded: 'markAllLoaded',
 	setLoading: 'setLoading',
 	removePost: 'removePost',
 	hidePopover: 'hidePopover',
+	follow: 'follow',
 };
 
 export const mutations = {
-	[HomeMutations.clearHome]: (state) => {
+	[HomeMutations.clear]: (state) => {
 		state.posts = null;
 		state.watchers = [];
 		state.public = [];
@@ -56,6 +57,10 @@ export const mutations = {
 	},
 	[HomeMutations.setLoading]: (state, loading) => {
 		state.loading = loading;
+	},
+	[HomeMutations.follow]: (state, user) => {
+		state.posts.forEach(p => (p.user.guid === user.guid && (p.user.followed = !p.user.followed)));
+		state.posts = Object.assign([], state.posts);
 	},
 };
 

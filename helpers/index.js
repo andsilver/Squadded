@@ -1,12 +1,8 @@
-import { DEFAULT_LANDING } from '~/store/squad';
-
 export const isHome = routeName => (routeName === 'index');
 
-export const isOnboarding = routeName => (routeName === 'onboarding');
+export const isOnboarding = routeName => (routeName === 'onboarding' || routeName === 'select-username' || routeName === 'create-your-squad');
 
 export const isPublic = routeName => isHome(routeName) || ['community', 'onboarding', 'user-id', 'error'].includes(routeName);
-
-export const isOnboardingPath = path => ['/select-username', '/create-your-squad', DEFAULT_LANDING].includes(path);
 
 export const shortNumber = (number, locale = 'en') => new Intl.NumberFormat(locale, { notation: 'compact', compactDisplay: 'short' }).format(number);
 

@@ -107,11 +107,6 @@ export default {
 			return this.submitted && this.user && !this.user.name;
 		},
 	},
-	watch: {
-		me() {
-			this.user = Object.assign({}, this.me);
-		},
-	},
 	created () {
 		this.user = Object.assign({}, this.me);
 	},

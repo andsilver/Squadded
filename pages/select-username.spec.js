@@ -38,6 +38,7 @@ describe('Select Username', () => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
+		store.state.user.me = me;
 		wrapper = shallowMount(SelectUsername, {
 			store,
 			localVue,
@@ -53,7 +54,6 @@ describe('Select Username', () => {
 	});
 
 	it('should render contents after auth', async () => {
-		await store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 		await store.commit('SET_SOCKET_AUTH', true);
 		expect(wrapper.ref(BRAND_SECTION).exists()).toBe(true);
 		expect(wrapper.ref(PICK_USERNAME_SEC).exists()).toBe(true);
@@ -66,7 +66,6 @@ describe('Select Username', () => {
 
 	it('should save avatar', async () => {
 		const url = 'https://example.com/avatar.png';
-		await store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 		await store.commit('SET_SOCKET_AUTH', true);
 		prefetch.mockReturnValue(Promise.resolve(url));
 		global.fetch = jest.fn().mockReturnValue(Promise.resolve({ ok: true }));
@@ -92,6 +91,14 @@ describe('Select Username', () => {
 	it('should save username and avatar', async () => {
 		store.dispatch = jest.fn();
 		me.isMe = true;
+		wrapper = shallowMount(SelectUsername, {
+			store,
+			localVue,
+			mocks: {
+				$router,
+				$t: msg => msg,
+			},
+		});
 		await store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 		await store.commit('SET_SOCKET_AUTH', true);
 		await wrapper.ref(SAVE_BTN).trigger('click');

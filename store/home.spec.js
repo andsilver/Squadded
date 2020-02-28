@@ -18,7 +18,7 @@ describe('Home store module', () => {
 	});
 
 	describe('mutations', () => {
-		const { clearHome, receive, markAllLoaded, removePost } = mutations;
+		const { clear, receive, markAllLoaded, removePost } = mutations;
 
 		let state;
 
@@ -73,7 +73,7 @@ describe('Home store module', () => {
 		});
 
 		it('should clear home', () => {
-			clearHome(state);
+			clear(state);
 			expect(state.posts).toBe(null);
 			expect(state.allLoaded).toBe(false);
 			expect(state.loadedNew).toBe(false);
