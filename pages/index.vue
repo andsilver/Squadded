@@ -94,25 +94,12 @@
 import { mapState } from 'vuex';
 import SocialBtn from '~/components/Social-Button.vue';
 import SignForm from '~/components/Sign-Form.vue';
-import { DEFAULT_LANDING } from '~/store/squad';
 import { loginWithPIN, requestOtp } from '~/services/otp';
-import { nameSelected } from '~/utils/nameSelected';
-import { isAuth } from '~/utils/isAuth';
 
 export default {
 	components: {
 		'social-btn': SocialBtn,
 		'sign-form': SignForm,
-	},
-	asyncData ({ store, redirect }) {
-		if (!isAuth()) {
-			return;
-		}
-		if (nameSelected()) {
-			redirect(DEFAULT_LANDING);
-		} else {
-			redirect('/select-username');
-		}
 	},
 	data: () => ({
 		showstepTwo: false,

@@ -103,7 +103,7 @@ import NotSignedInDialog from '~/components/LandingPost/NotSignedInDialog';
 import Button from '~/components/common/Button';
 import RemoveSquad from '~/components/common/RemoveSquad';
 import { fetchUser } from '~/services/user';
-import { isAuth } from '~/utils/isAuth';
+import { tokenExist } from '~/utils/isAuth';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -131,7 +131,7 @@ export default {
 		if (params.id === store.state.user.me.userId) {
 			redirect('/me');
 		}
-		if (!isAuth()) {
+		if (!tokenExist()) {
 			return fetchUser(params.id).then(({ user }) => {
 				store.commit(`${UserStore}/${UserMutations.setOther}`, user);
 			});

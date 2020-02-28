@@ -2,9 +2,10 @@ import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
 import { WSMessages } from '~/classes/WSMessages';
 import { WSToken } from '~/classes/WSToken';
-import { isHome, isOnboardingPath } from '~/helpers';
+import { isHome, isOnboarding, prefetch } from '~/helpers';
 import { NotificationStore, NotificationActions } from '~/store/notification';
-import { nameSelected } from '~/utils/nameSelected';
+import { UserStore, UserMutations } from '~/store/user';
+import { DEFAULT_LANDING } from '~/store/squad';
 
 export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
@@ -41,12 +42,8 @@ const signOut = (store, router) => {
 	router.push('/');
 };
 
-export const mutationListener = ctx => function mutationDispatcher (mutation, state) {
+export const mutationListener = ctx => async function mutationDispatcher (mutation, state) {
 	const { app, store, wsMessages } = ctx;
-
-	const fetchUser = () => {
-		state.socket.$ws.sendObj({ type: 'fetchUser' });
-	};
 
 	const fetchNotifications = () => {
 		store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
@@ -71,13 +68,29 @@ export const mutationListener = ctx => function mutationDispatcher (mutation, st
 		} else if (message.type === 'authOk') {
 			store.commit('SET_SOCKET_AUTH', true);
 			state.socket.$ws.keepAlive();
-			const { route } = state.squad;
-			if (isHome(ctx.route.name) && !isOnboardingPath(route.path)) {
-				app.router.push(nameSelected() ? route : '/select-username', () => store.commit('SET_PENDING', false));
-			} else {
-				store.commit('SET_PENDING', false);
+			const user = await prefetch({
+				mutation: `${UserStore}/${UserMutations.setMe}`,
+				store,
+				type: 'fetchUser',
+			});
+			store.commit('SET_PENDING', false);
+			if (window.FS) {
+				window.FS.identify(user.userId, {
+					displayName: user.screenName || user.name,
+				});
 			}
-			fetchUser();
+
+			const { route } = state.squad;
+			if (route.name) {
+				app.router.push(route);
+			} else if (!user.nameSelected) {
+				app.router.push('/select-username');
+			} else if (!user.squaddersCount) {
+				app.router.push('/create-your-squad');
+			} else {
+				const { name } = ctx.route;
+				app.router.push((isHome(name) || isOnboarding(name)) ? DEFAULT_LANDING : ctx.route.path);
+			}
 			fetchNotifications();
 		}
 

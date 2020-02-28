@@ -35,20 +35,12 @@
 <script>
 import Hammer from 'hammerjs';
 import VideoBackground from 'vue-responsive-video-background-player';
-import { DEFAULT_LANDING } from '~/store/squad';
 import Button from '~/components/common/Button';
-import { isAuth } from '~/utils/isAuth';
 
 export default {
 	components: {
 		Button,
 		VideoBackground,
-	},
-	asyncData({ redirect }) {
-		if (!isAuth()) {
-			return;
-		}
-		redirect(DEFAULT_LANDING);
 	},
 	data: () => ({
 		current: 0,

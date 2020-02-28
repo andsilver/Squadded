@@ -80,22 +80,12 @@ import { dataURItoBlob } from '~/utils/dataUriToBlob';
 import { UserStore, UserActions } from '~/store/user';
 import { PostStore, PostMutations } from '~/store/post';
 import { prefetch } from '~/helpers';
-import { DEFAULT_LANDING } from '~/store/squad';
-import { nameSelected, setNameSelected } from '~/utils/nameSelected';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	components: {
 		ImageUploader,
-	},
-	asyncData({ store, redirect }) {
-		const { me } = store.state.user;
-		if (me.squaddersCount) {
-			redirect(DEFAULT_LANDING);
-		} else if (nameSelected()) {
-			redirect('/create-your-squad');
-		}
 	},
 	data: () => ({
 		user: null,
@@ -136,7 +126,6 @@ export default {
 				this.submitted = true;
 				return;
 			}
-			setNameSelected();
 			this.user.nameSelected = true;
 			await this.$store.dispatch(
 				`${UserStore}/${UserActions.setProfile}`,

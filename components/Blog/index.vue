@@ -21,7 +21,7 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
 import { ActivityStore, ActivityActions } from '~/store/activity';
-import { isAuth } from '~/utils/isAuth';
+import { tokenExist } from '~/utils/isAuth';
 
 const activityState = createNamespacedHelpers(ActivityStore).mapState;
 
@@ -44,7 +44,7 @@ export default {
 	},
 	methods: {
 		fetchBlog() {
-			if (!isAuth()) {
+			if (!tokenExist()) {
 				return;
 			}
 			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {

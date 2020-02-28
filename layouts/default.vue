@@ -21,10 +21,10 @@ import Preloader from '~/components/Preloader.vue';
 import Prompt from '~/components/common/Prompt';
 import TabBar from '~/components/common/TabBar.vue';
 import NotificationsBanner from '~/components/Notifications/Banner.vue';
-import { SquadStore, SquadMutations, DEFAULT_LANDING } from '~/store/squad';
-import { UserStore, UserMutations } from '~/store/user';
+import { SquadStore, SquadMutations } from '~/store/squad';
+import { UserStore } from '~/store/user';
 import { isTouch, onToggleKeyboard } from '~/utils/device-input';
-import { nameSelected } from '~/utils/nameSelected';
+import { tokenExist } from '~/utils/isAuth';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -69,25 +69,18 @@ export default {
 		this.unsubscribe = this.$store.subscribe((mutation) => {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
-			} else if (mutation.type === `${UserStore}/${UserMutations.setToken}`) {
-				if (!nameSelected()) {
-					this.$router.push('/select-username');
-					return;
-				}
-				this.$router.push(DEFAULT_LANDING);
-			} else if (mutation.type === `${SquadStore}/${SquadMutations.interaction}`) {
+			} else if (mutation.type === `${SquadStore}/${SquadMutations.interaction}` && !tokenExist()) {
 				this.$router.push('/onboarding');
 			} else if (mutation.type === `${SquadStore}/${SquadMutations.setSquadParams}` && mutation.payload) {
-				this.$router.push(this.squad.route);
+				if (this.socket.isAuth || !tokenExist()) {
+					this.$router.push(this.squad.route);
+				}
 			} else if (mutation.type === `${SquadStore}/${SquadMutations.openPost}` && mutation.payload) {
 				this.$router.push(`post/${mutation.payload}#comments`);
 			}
 		});
 		if (this.isTouch) {
 			onToggleKeyboard(this.toggleKeyboard.bind(this));
-		}
-		if (this.squad.route.name) {
-			this.$router.push(this.squad.route);
 		}
 	},
 	destroyed() {

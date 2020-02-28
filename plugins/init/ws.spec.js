@@ -3,7 +3,15 @@ import ws, * as wsPlugin from './ws';
 import { WSMessages } from '~/classes/WSMessages';
 import { PostActions, PostStore } from '~/store/post';
 import { FeedStore, FeedGetters } from '~/store/feed';
-import { setNameSelected } from '~/utils/nameSelected';
+import { isHome, isOnboarding, prefetch } from '~/helpers';
+import { UserStore, UserMutations } from '~/store/user';
+import { DEFAULT_LANDING } from '~/store/squad';
+
+jest.mock('~/helpers', () => ({
+	prefetch: jest.fn(),
+	isHome: jest.fn(),
+	isOnboarding: jest.fn(),
+}));
 
 describe('WS Plugin', () => {
 	const mockToken = 'head.payload.sign';
@@ -130,29 +138,20 @@ describe('WS Plugin', () => {
 				});
 			});
 
-			it('should set socket auth true on authOk', () => {
+			it('should set socket auth true on authOk', async () => {
 				const mutation = {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },
 				};
 				route.name = 'not-home';
 
+				prefetch.mockReturnValue(Promise.resolve({}));
+
 				mutationDispatcher(mutation, state);
+
+				await Promise.resolve();
 
 				expect(ctx.store.commit).toHaveBeenCalledWith('SET_SOCKET_AUTH', true);
-				expect(ctx.store.commit).toHaveBeenCalledWith('SET_PENDING', false);
-			});
-
-			it('should set pending false if authOk occur after destination page was mounted', () => {
-				const mutation = {
-					type: 'SOCKET_ONMESSAGE',
-					payload: { type: 'authOk' },
-				};
-				route.name = 'notHome';
-
-				mutationDispatcher(mutation, state);
-
-				expect(ctx.store.commit).toHaveBeenCalledTimes(2);
 				expect(ctx.store.commit).toHaveBeenCalledWith('SET_PENDING', false);
 			});
 
@@ -207,7 +206,9 @@ describe('WS Plugin', () => {
 
 				mutationDispatcher(mutation, state);
 
-				expect(_ws.sendObj).toHaveBeenCalledWith({
+				expect(prefetch).toHaveBeenCalledWith({
+					mutation: `${UserStore}/${UserMutations.setMe}`,
+					store: ctx.store,
 					type: 'fetchUser',
 				});
 			});
@@ -216,17 +217,88 @@ describe('WS Plugin', () => {
 		describe('redirect', () => {
 			beforeEach(clear);
 
-			it('should redirect to feed from home on auth', () => {
-				setNameSelected();
+			it('should redirect to squad route if exists on auth', async () => {
 				const mutation = {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },
 				};
 
+				state.squad.route.name = 'someroute';
+				prefetch.mockReturnValue(Promise.resolve({}));
+
 				mutationDispatcher(mutation, state);
+				await Promise.resolve();
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
-				expect(ctx.app.router.push).toHaveBeenCalledWith(state.squad.route, jasmine.any(Function));
+				expect(ctx.app.router.push).toHaveBeenCalledWith(state.squad.route);
+			});
+
+			it('should redirect to select-username if username was not selected on auth', async () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+
+				state.squad.route.name = '';
+				prefetch.mockReturnValue(Promise.resolve({ nameSelected: false }));
+
+				mutationDispatcher(mutation, state);
+				await Promise.resolve();
+
+				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
+				expect(ctx.app.router.push).toHaveBeenCalledWith('/select-username');
+			});
+
+			it('should redirect to create-your-squad if squadderCount is 0 on auth', async () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+
+				state.squad.route.name = '';
+				prefetch.mockReturnValue(Promise.resolve({ nameSelected: true, squadderCount: 0 }));
+
+				mutationDispatcher(mutation, state);
+				await Promise.resolve();
+
+				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
+				expect(ctx.app.router.push).toHaveBeenCalledWith('/create-your-squad');
+			});
+
+			it('should redirect to landing if current path is home or onboarding on auth', async () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+
+				state.squad.route.name = '';
+				prefetch.mockReturnValue(Promise.resolve({ nameSelected: true, squaddersCount: 2 }));
+				isOnboarding.mockReturnValue(true);
+
+				mutationDispatcher(mutation, state);
+				await Promise.resolve();
+
+				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
+				expect(ctx.app.router.push).toHaveBeenCalledWith(DEFAULT_LANDING);
+			});
+
+			it('should redirect to current path on auth', async () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+
+				state.squad.route.name = '';
+				prefetch.mockReturnValue(Promise.resolve({ nameSelected: true, squaddersCount: 2 }));
+				isOnboarding.mockReturnValue(false);
+				isHome.mockReturnValue(false);
+				ctx.route.path = '/abc';
+
+				mutationDispatcher(mutation, state);
+				await Promise.resolve();
+
+				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
+				expect(ctx.app.router.push).toHaveBeenCalledWith(ctx.route.path);
 			});
 
 			it('should redirect to home from any on unauth', () => {

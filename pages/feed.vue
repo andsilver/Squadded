@@ -25,7 +25,6 @@ import { onAuth, prefetch } from '~/helpers';
 import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
 import { UserStore } from '~/store/user';
 import { NEW_POSTS_DISAPPEAR_TIMEOUT } from '~/consts';
-import { nameSelected } from '~/utils/nameSelected';
 
 const feed = createNamespacedHelpers(FeedStore);
 const userState = createNamespacedHelpers(UserStore).mapState;
@@ -42,9 +41,9 @@ export default {
 	},
 	asyncData({ store, redirect }) {
 		const { me } = store.state.user;
-		if (!nameSelected()) {
+		if (!me.nameSelected) {
 			redirect('/select-username');
-		} else if (me.guid && !me.squaddersCount) {
+		} else if (!me.squaddersCount) {
 			redirect('/create-your-squad');
 		}
 	},

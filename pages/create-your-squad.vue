@@ -61,7 +61,6 @@ import { UserStore } from '~/store/user';
 import TopBar from '~/components/common/TopBar.vue';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
 import { DEFAULT_LANDING } from '~/store/squad';
-import { nameSelected } from '~/utils/nameSelected';
 
 const CANCALED_BY_USER = 20;
 
@@ -74,7 +73,7 @@ export default {
 	},
 	asyncData({ store, redirect }) {
 		const { me } = store.state.user;
-		if (!nameSelected()) {
+		if (!me.nameSelected) {
 			redirect('/select-username');
 		} else if (me.squaddersCount) {
 			redirect(DEFAULT_LANDING);

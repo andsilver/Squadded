@@ -2,10 +2,8 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Default from './default.vue';
 import Store from '~/store';
-import { DEFAULT_LANDING, SquadStore, SquadMutations } from '~/store/squad';
-import { UserStore, UserMutations } from '~/store/user';
+import { SquadStore, SquadMutations } from '~/store/squad';
 import * as Device from '~/utils/device-input';
-import { setNameSelected } from '~/utils/nameSelected';
 
 jest.mock('~/utils/device-input', () => ({
 	isTouch: jest.fn(() => true),
@@ -109,21 +107,6 @@ describe('Default layout', () => {
 
 		cbArg(true);
 		expect(wrapper.vm.squad.virtualKeyboard).toBe(true);
-	});
-
-	it('should go to default landing page after signin', async () => {
-		global.JSON.parse = jest.fn().mockReturnValue({ sub: 'sub' });
-		global.atob = jest.fn().mockReturnValue();
-		setNameSelected();
-		await store.commit(`${UserStore}/${UserMutations.setToken}`, 'token');
-		expect($router.push).toHaveBeenCalledWith(DEFAULT_LANDING);
-	});
-
-	it('should go to select username after signin if username is not selected', async () => {
-		global.JSON.parse = jest.fn().mockReturnValue({ sub: 'sub' });
-		global.atob = jest.fn().mockReturnValue();
-		await store.commit(`${UserStore}/${UserMutations.setToken}`, 'token');
-		expect($router.push).toHaveBeenCalledWith('/select-username');
 	});
 
 	it('should go to post landing with comments hash', async () => {
