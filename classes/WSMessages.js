@@ -1,3 +1,4 @@
+import { FeedPost } from './FeedPost';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
@@ -6,6 +7,7 @@ import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemActions } from '~/store/paired-item';
 import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { STORAGE_VISITED_KEY } from '~/consts/keys';
+import { HomeStore, HomeMutations } from '~/store/home';
 
 async function acceptPost(message) {
 	if (!this.store.state.feed.items.length) {
@@ -21,7 +23,7 @@ async function acceptPost(message) {
 
 async function activity (message) {
 	const { type } = message;
-	const rawPostsList = type === 'community' ? [...message.followers, ...message.community] : message[type];
+	const rawPostsList = message[type];
 	if (type === 'wishlist') {
 		rawPostsList.forEach(w => (w.guid = w.item.itemId));
 	}
@@ -30,11 +32,6 @@ async function activity (message) {
 	const uniqueIds = new Set([...existingItems, ...rawPostsList].map(p => p.guid));
 	const getter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
 	const posts = getter(Array.from(uniqueIds)).sort((a, b) => b.ts - a.ts);
-
-	if (!localStorage.getItem(STORAGE_VISITED_KEY) && type === 'community') {
-		posts[0].user.showPopover = true;
-		localStorage.setItem(STORAGE_VISITED_KEY, Date.now().toString());
-	}
 
 	this.store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
 	this.store.commit(`${ActivityStore}/${ActivityMutations.markAllLoaded}`, { loadedPosts: rawPostsList, type });
@@ -75,7 +72,6 @@ export class WSMessages {
 	following = squad;
 
 	blog = activity;
-	community = activity;
 	wishlist = activity;
 
 	topGallery = exploreItems;
@@ -122,6 +118,31 @@ export class WSMessages {
 		this.store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
 		this.store.commit(`${FeedStore}/${FeedMutations.setItems}`, posts || []);
 		this.store.commit(`${FeedStore}/${FeedMutations.markAllLoaded}`, message.feed);
+	}
+
+	feedHome (message) {
+		const { home } = this.store.state;
+		let { watchers, public: publicPosts, interactions } = message;
+		watchers = watchers.filter(p => !home.watchers.find(w => w.guid === p.guid));
+		publicPosts = publicPosts.filter(p => !home.public.find(pp => pp.guid === p.guid));
+		interactions = interactions.filter(i => !home.interactions.find(ip => ip.post.guid === i.post.guid));
+
+		const interactionPosts = (interactions || []).map(p => p.post);
+		const newPosts = [...watchers, ...publicPosts, ...interactionPosts].map(p => new FeedPost(p));
+
+		if (!localStorage.getItem(STORAGE_VISITED_KEY)) {
+			newPosts.length && (newPosts[0].user.showPopover = true);
+			localStorage.setItem(STORAGE_VISITED_KEY, Date.now().toString());
+		}
+
+		this.store.commit(`${HomeStore}/${HomeMutations.receive}`, {
+			posts: newPosts,
+			watchers,
+			publicPosts,
+			interactions,
+		});
+		this.store.commit(`${HomeStore}/${HomeMutations.markAllLoaded}`, newPosts);
+		this.store.commit(`${HomeStore}/${HomeMutations.setLoading}`, false);
 	}
 
 	like (message) {

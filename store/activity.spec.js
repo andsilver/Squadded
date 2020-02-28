@@ -4,7 +4,7 @@ import { aDefaultSingleItemMsgBuilder } from '../test/feed.item.mock';
 import { ActivityStore, ActivityActions, mutations } from './activity';
 import store from './index';
 
-const types = ['community', 'blog', 'wishlist'];
+const types = ['blog', 'wishlist'];
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
@@ -34,18 +34,20 @@ describe('Activity store module', () => {
 		beforeEach(() => {
 			state = {
 				blog: [],
-				community: [],
 				wishlist: [],
 				allLoaded: {
 					blog: false,
 					wishlist: false,
-					community: false,
 				},
 				guid: {
 					blog: null,
 					wishlist: null,
 				},
 				loadedNew: false,
+				loading: {
+					blog: false,
+					wishlist: false,
+				},
 			};
 		});
 
@@ -65,11 +67,9 @@ describe('Activity store module', () => {
 				.withGUID()
 				.get();
 			state.blog = [post];
-			state.community = [post];
 			state.wishlist = [post];
 			removePost(state, post.postId);
 			expect(state.blog.length).toBe(0);
-			expect(state.community.length).toBe(0);
 			expect(state.wishlist.length).toBe(0);
 		});
 
@@ -151,14 +151,10 @@ describe('Activity store module', () => {
 				root.state.activity.guid[type] = guid;
 			}
 			const msg = {
-				type: 'fetchCommunity',
+				type: 'fetchBlog',
 				from: post.ts,
+				guid,
 			};
-			await root.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'community', loadedNew: false });
-			expect($ws.sendObj).toHaveBeenCalledWith(msg);
-
-			msg.type = 'fetchBlog';
-			msg.guid = guid;
 			await root.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'blog', loadedNew: false, guid });
 			expect($ws.sendObj).toHaveBeenCalledWith(msg);
 		});

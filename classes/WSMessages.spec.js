@@ -1,4 +1,5 @@
 import { Chance } from 'chance';
+import { FeedPost } from './FeedPost';
 import { flushPromises } from '~/helpers';
 import { WSMessages } from '~/classes/WSMessages';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
@@ -11,6 +12,7 @@ import { userMockBuilder } from '~/test/user.mock';
 import TestPoll from '~/test/testpool.json';
 import TestAcceptSquad from '~/test/test-accept-squad.json';
 import { notifyVote } from '~/test/notifications.mock';
+import { HomeStore, HomeMutations } from '~/store/home';
 
 const chance = new Chance();
 
@@ -36,6 +38,12 @@ describe('WSMessages dispatch', () => {
 			activity: {
 				guid: {},
 				allLoaded: {},
+			},
+			home: {
+				posts: null,
+				watchers: [],
+				interactions: [],
+				public: [],
 			},
 		},
 	};
@@ -341,22 +349,27 @@ describe('WSMessages dispatch', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: blog, type });
 	});
 
-	it(`should commit community to ${ActivityStore}/${ActivityMutations.setListOfType}`, async () => {
-		const community = ['community'];
-		const followers = [{ user: {} }];
-		const all = [...followers, ...community];
-		const type = 'community';
+	it(`should commit feedHome to ${HomeStore}/${HomeMutations.receive}`, () => {
+		const watchers = [{ user: {} }];
+		const publicPosts = [{}];
+		const interactions = [{ post: {}, score: 3 }];
+		const all = [...watchers, ...publicPosts, ...interactions.map(p => p.post)].map(p => new FeedPost(p));
+		const type = 'feedHome';
 		const msg = {
 			type,
-			community,
-			followers,
+			watchers,
+			public: publicPosts,
+			interactions,
 		};
-		store.getters[`${PostStore}/${PostGetters.getPostByIdList}`] = jest.fn().mockReturnValue(all);
 
 		wsMessages.dispatch(msg);
-		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, all);
-		await flushPromises();
-		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: all, type });
+		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.receive}`, {
+			posts: all,
+			watchers,
+			publicPosts,
+			interactions,
+		});
+		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.markAllLoaded}`, all);
 		expect(all[0].user.showPopover).toBe(true);
 	});
 

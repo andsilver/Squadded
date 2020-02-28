@@ -85,42 +85,44 @@ export default {
 				return [];
 			}
 
+			let index = 0;
+
 			for (const item of this.items) {
 				if (item.type !== 'singleItemPost') {
 					items.push(item);
+					index++;
 					continue;
 				}
 
 				if (!groupsByAuthor[item.userId]) {
 					groupsByAuthor[item.userId] = {
+						index,
 						ts: item.ts,
 						guid: item.guid,
 						items: [item],
 						type: 'groupedPosts',
 					};
-					continue;
-				}
-
-				const diff = Math.abs(
-					+item.ts - +groupsByAuthor[item.userId].ts,
-				);
-
-				if (diff < MINUTES * 60 * 1000) {
-					groupsByAuthor[item.userId].items.push(item);
-				} else {
 					items.push(item);
+					index++;
+					continue;
+				} else {
+					const diff = Math.abs(
+						+item.ts - +groupsByAuthor[item.userId].ts,
+					);
+
+					if (diff > MINUTES * 60 * 1000) {
+						continue;
+					}
+					const single = items[groupsByAuthor[item.userId].index];
+
+					if (single.type === 'groupedPosts') {
+						single.items.push(item);
+						continue;
+					}
+					items[groupsByAuthor[item.userId].index] = groupsByAuthor[item.userId];
+					items[groupsByAuthor[item.userId].index].items.push(item);
 				}
 			}
-
-			Object.keys(groupsByAuthor).forEach((key) => {
-				if (groupsByAuthor[key].items.length === 1) {
-					items.push(groupsByAuthor[key].items[0]);
-				} else {
-					items.push(groupsByAuthor[key]);
-				}
-			});
-
-			items.sort((a, b) => (a.ts > b.ts ? -1 : 1));
 
 			return items;
 		},

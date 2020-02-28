@@ -2,12 +2,12 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import All from './all.vue';
 import Store from '~/store';
-import { ActivityStore, ActivityActions, ActivityMutations } from '~/store/activity';
 import { Storage } from '~/test/storage.mock';
 import {
 	HOME_NEW_POSTS_INTERVAL,
 	NEW_POSTS_DISAPPEAR_TIMEOUT,
 } from '~/consts';
+import { HomeStore, HomeActions } from '~/store/home';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -64,14 +64,14 @@ describe('All', () => {
 
 	it('should render the correct message for empty Community', () => {
 		store.commit('SET_SOCKET_AUTH', true);
-		store.state.activity.community = [];
+		store.state.home.posts = [];
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
 	});
 
 	it('should display a preloader while community is null', () => {
 		store.commit('SET_SOCKET_AUTH', true);
-		store.state.activity.community = null;
+		store.state.home.posts = null;
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(false);
 	});
@@ -79,18 +79,15 @@ describe('All', () => {
 	it('should call fetchItems', async () => {
 		store.commit('SET_SOCKET_AUTH', true);
 		store.dispatch = jest.fn();
-		store.state.activity.community = [];
+		store.state.home.posts = [];
 		await wrapper.vm.init();
-		expect(store.dispatch).toHaveBeenCalledWith(`${ActivityStore}/${ActivityActions.fetchItems}`, {
-			type: 'community',
-			loadNew: true,
-		});
+		expect(store.dispatch).toHaveBeenCalledWith(`${HomeStore}/${HomeActions.fetch}`, true);
 	});
 
 	it('should render preloader for load more', async () => {
 		store.commit('SET_SOCKET_AUTH', true);
-		store.state.activity.community = [{}];
-		await wrapper.vm.fetchCommunity();
+		store.state.home.posts = [{}];
+		await wrapper.vm.fetchHome();
 		expect(wrapper.ref(PRELOADER_MORE).exists()).toBe(true);
 	});
 
@@ -102,11 +99,5 @@ describe('All', () => {
 		expect(wrapper.vm.loadNew).toBe(true);
 		jest.advanceTimersByTime(NEW_POSTS_DISAPPEAR_TIMEOUT);
 		expect(wrapper.vm.loadNew).toBe(false);
-	});
-
-	it('should clear community when destroyed', () => {
-		store.commit = jest.fn();
-		wrapper.destroy();
-		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.clearCommunity}`);
 	});
 });

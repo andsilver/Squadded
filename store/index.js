@@ -6,6 +6,7 @@ import squad from './squad';
 import user from './user';
 import pairedItem from './paired-item';
 import explore from './explore';
+import home from './home';
 
 export const state = () => ({
 	locales: ['en', 'fr'],
@@ -74,6 +75,7 @@ export const modules = {
 	user,
 	pairedItem,
 	explore,
+	home,
 };
 
 export default {

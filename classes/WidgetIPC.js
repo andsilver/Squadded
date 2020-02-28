@@ -48,7 +48,7 @@ export class WidgetIPC {
 		if (!this.store.state.socket || !this.store.state.socket.isAuth) {
 			return;
 		}
-		if (!this.store.state.feed.items.length) {
+		if (!this.store.state.feed.items || !this.store.state.feed.items.length) {
 			// tmp patch while infinite scroll not ready
 			this.store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 		}

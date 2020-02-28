@@ -50,7 +50,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import { UserStore } from '~/store/user';
-import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { HomeStore, HomeMutations } from '~/store/home';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
@@ -107,8 +107,8 @@ export default {
 		if (this.showPopover) {
 			document.addEventListener('click', () => {
 				this.showPopover = false;
-				this.$store.commit(`${ActivityStore}/${ActivityMutations.hidePopover}`);
-			});
+				this.$store.commit(`${HomeStore}/${HomeMutations.hidePopover}`);
+			}, true);
 		}
 	},
 	methods: {

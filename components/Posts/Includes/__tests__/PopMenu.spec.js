@@ -8,6 +8,7 @@ import { FeedMutations, FeedStore } from '~/store/feed';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
+import { HomeStore, HomeMutations } from '~/store/home';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -119,6 +120,7 @@ describe('PopMenu', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.removePost}`, post.postId);
 		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.removePost}`, post.postId);
 		expect(store.commit).toHaveBeenCalledWith(`${PairedItemStore}/${PairedItemMutations.removePost}`, post.postId);
+		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.removePost}`, post.postId);
 	});
 
 	it('should toggle private', async () => {
@@ -159,6 +161,7 @@ describe('PopMenu', () => {
 		});
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.removePost}`, post.postId);
 		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.removePost}`, post.postId);
+		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.removePost}`, post.postId);
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, {
 			type: 'notifAlert',
 			alertType: 'checkmark',

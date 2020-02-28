@@ -5,21 +5,20 @@ export const ActivityStore = 'activity';
 
 export const state = () => ({
 	blog: null,
-	community: null,
 	wishlist: null,
 	allLoaded: {
 		blog: false,
 		wishlist: false,
-		community: false,
 	},
 	guid: {
 		blog: null,
 		wishlist: null,
 	},
-	loading: {
-		community: false,
-	},
 	loadedNew: false,
+	loading: {
+		blog: false,
+		wishlist: false,
+	},
 });
 
 export const ActivityGetters = {
@@ -40,13 +39,11 @@ export const ActivityMutations = {
 	addPost: 'addPost',
 	removePost: 'removePost',
 	removeWish: 'removeWish',
-	clearCommunity: 'clearCommunity',
 	clearWishlist: 'clearWishlist',
 	clearBlog: 'clearBlog',
 	setListOfType: 'setListOfType',
 	unsquadd: 'unsquadd',
 	markAllLoaded: 'markAllLoaded',
-	hidePopover: 'hidePopover',
 	setLoading: 'setLoading',
 };
 
@@ -58,11 +55,6 @@ export const mutations = {
 		if (isSameUser(state.wishlist, post.userId)) {
 			state.wishlist.unshift(post);
 		}
-	},
-	[ActivityMutations.clearCommunity]: (state) => {
-		state.community = null;
-		state.allLoaded.community = false;
-		state.loadedNew = false;
 	},
 	[ActivityMutations.clearWishlist]: (state) => {
 		state.wishlist = null;
@@ -79,7 +71,6 @@ export const mutations = {
 			return;
 		}
 		state.blog = state.blog && state.blog.filter(p => p.postId !== postId);
-		state.community = state.community && state.community.filter(p => p.postId !== postId);
 		state.wishlist = state.wishlist && state.wishlist.filter(p => p.postId !== postId);
 	},
 	[ActivityMutations.removeWish]: (state, wish) => {
@@ -101,12 +92,6 @@ export const mutations = {
 		if (loadedPosts.length === 0 && !state.loadedNew) {
 			state.allLoaded[type] = true;
 		}
-	},
-	[ActivityMutations.hidePopover]: (state) => {
-		state.community = (state.community || []).map((post) => {
-			post.user && (post.user.showPopover = false);
-			return post;
-		});
 	},
 	[ActivityMutations.setLoading]: (state, { type, loading }) => {
 		state.loading[type] = loading;
@@ -135,7 +120,7 @@ export const actions = {
 	},
 	[ActivityActions.fetchItems]: ({ rootState, commit }, { type, guid, loadNew }) => {
 		const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
-		if (type !== 'community' && guid !== rootState.activity.guid[type]) {
+		if (guid !== rootState.activity.guid[type]) {
 			commit(ActivityMutations[`clear${capitalized}`]);
 			rootState.activity.guid[type] = guid;
 			rootState.activity.allLoaded[type] = false;

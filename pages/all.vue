@@ -2,17 +2,17 @@
 	<v-container v-if="socket.isAuth" ref="main" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout column>
-			<Preloader v-if="!community" ref="preloader" class="mt-8" />
-			<span v-else-if="!community.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
+			<Preloader v-if="!posts" ref="preloader" class="mt-8" />
+			<span v-else-if="!posts.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 			<Feed
 				v-else
 				ref="feed-layout"
-				:items="community"
+				:items="posts"
 				:load-new="loadNew"
-				@loadMore="fetchCommunity"
-				@loadNew="() => fetchCommunity(true)"
+				@loadMore="fetchHome"
+				@loadNew="() => fetchHome(true)"
 			/>
-			<Preloader v-if="community && loading.community" ref="preloader-more" />
+			<Preloader v-if="posts && loading" ref="preloader-more" />
 			<StartWatchingDialog v-if="firstVisit" ref="start-watching-dialog" />
 		</v-layout>
 	</v-container>
@@ -25,14 +25,14 @@ import Preloader from '~/components/Preloader.vue';
 import TopBar from '~/components/common/TopBar.vue';
 import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
 import { onAuth } from '~/helpers';
-import { ActivityStore, ActivityActions, ActivityMutations } from '~/store/activity';
+import { HomeStore, HomeActions } from '~/store/home';
 import {
 	STORAGE_VISITED_KEY,
 	HOME_NEW_POSTS_INTERVAL,
 	NEW_POSTS_DISAPPEAR_TIMEOUT,
 } from '~/consts';
 
-const activities = createNamespacedHelpers(ActivityStore).mapState;
+const homeState = createNamespacedHelpers(HomeStore).mapState;
 
 export default {
 	name: 'AllPage',
@@ -48,19 +48,16 @@ export default {
 		timeout: null,
 	}),
 	computed: {
-		...activities([
-			'community',
-			'loading',
-		]),
 		...mapState([
 			'socket',
+		]),
+		...homeState([
+			'posts',
+			'loading',
 		]),
 	},
 	created () {
 		this.init();
-	},
-	destroyed() {
-		this.$store.commit(`${ActivityStore}/${ActivityMutations.clearCommunity}`);
 	},
 	methods: {
 		async init() {
@@ -68,17 +65,14 @@ export default {
 				this.firstVisit = true;
 			}
 			await onAuth(this.$store);
-			if (this.community && this.community.length) {
+			if (this.posts && this.posts.length) {
 				return;
 			}
-			this.fetchCommunity(true);
+			this.fetchHome(true);
 		},
-		fetchCommunity(loadNew = false) {
+		fetchHome(loadNew = false) {
 			this.loadNew = false;
-			this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
-				type: 'community',
-				loadNew,
-			});
+			this.$store.dispatch(`${HomeStore}/${HomeActions.fetch}`, loadNew);
 			if (loadNew) {
 				this.setNewPostsTimeout();
 			}

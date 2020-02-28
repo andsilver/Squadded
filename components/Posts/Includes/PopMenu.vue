@@ -152,6 +152,7 @@ import SharePost from './SharePost';
 import Button from '~/components/common/Button';
 import { PostStore, PostActions } from '~/store/post';
 import { FeedMutations, FeedStore } from '~/store/feed';
+import { HomeStore, HomeMutations } from '~/store/home';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
@@ -230,6 +231,7 @@ export default {
 				postId,
 			});
 			this.$store.commit(`${FeedStore}/${FeedMutations.removePost}`, postId);
+			this.$store.commit(`${HomeStore}/${HomeMutations.removePost}`, postId);
 			this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
 			const message = {
 				type: 'notifAlert',
@@ -252,6 +254,7 @@ export default {
 				other: this.other,
 			});
 			this.$store.commit(`${FeedStore}/${FeedMutations.removePost}`, postId);
+			this.$store.commit(`${HomeStore}/${HomeMutations.removePost}`, postId);
 			this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
 			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.removePost}`, postId);
 			this.hide();
