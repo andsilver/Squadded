@@ -33,6 +33,7 @@ export const FeedMutations = {
 	setLoading: 'setLoading',
 	receiveSquadders: 'receiveSquadders',
 	setNewPostsAvailable: 'setNewPostsAvailable',
+	setSquad: 'setSquad',
 };
 
 export const mutations = {
@@ -49,8 +50,10 @@ export const mutations = {
 		storeInSession(post);
 	},
 	[FeedMutations.clear]: (state, payload) => {
-		state.items = [];
-		state.loading = true;
+		state.items = null;
+		state.loading = false;
+		state.allLoaded = false;
+		state.loadedNew = false;
 	},
 	[FeedMutations.removePost]: (state, postId) => {
 		if (!postId) {
@@ -69,6 +72,13 @@ export const mutations = {
 	[FeedMutations.receiveSquadders]: () => {},
 	[FeedMutations.setNewPostsAvailable]: (state, flag) => {
 		state.newPostsAvailable = flag;
+	},
+	[FeedMutations.setSquad]: (state, user) => {
+		if (!state.items) {
+			return;
+		}
+		state.items.forEach(p => (p.user.guid === user.guid && (p.user.mysquad = !p.user.mysquad)));
+		state.items = Object.assign([], state.items);
 	},
 };
 

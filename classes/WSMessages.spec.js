@@ -355,11 +355,13 @@ describe('WSMessages dispatch', () => {
 		const interactions = [{ post: {}, score: 3 }];
 		const all = [...watchers, ...publicPosts, ...interactions.map(p => p.post)].map(p => new FeedPost(p));
 		const type = 'feedHome';
+		const interactionPage = 1;
 		const msg = {
 			type,
 			watchers,
 			public: publicPosts,
 			interactions,
+			interactionPage,
 		};
 
 		wsMessages.dispatch(msg);
@@ -368,6 +370,7 @@ describe('WSMessages dispatch', () => {
 			watchers,
 			publicPosts,
 			interactions,
+			interactionPage,
 		});
 		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.markAllLoaded}`, all);
 		expect(all[0].user.showPopover).toBe(true);

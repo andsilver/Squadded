@@ -11,6 +11,7 @@ export const state = () => ({
 	watchers: [],
 	public: [],
 	interactions: [],
+	interactionPage: null,
 });
 
 export const HomeMutations = {
@@ -21,6 +22,7 @@ export const HomeMutations = {
 	removePost: 'removePost',
 	hidePopover: 'hidePopover',
 	follow: 'follow',
+	setSquad: 'setSquad',
 };
 
 export const mutations = {
@@ -32,11 +34,12 @@ export const mutations = {
 		state.allLoaded = false;
 		state.loadedNew = false;
 	},
-	[HomeMutations.receive]: (state, { posts, watchers, publicPosts, interactions }) => {
+	[HomeMutations.receive]: (state, { posts, watchers, publicPosts, interactions, interactionPage }) => {
 		state.posts = (state.posts || []).concat(posts.filter(p => !postReported(p)));
 		state.watchers = state.watchers.concat(watchers);
 		state.public = state.public.concat(publicPosts);
 		state.interactions = state.interactions.concat(interactions);
+		state.interactionPage = interactionPage;
 	},
 	[HomeMutations.removePost]: (state, postId) => {
 		if (!postId) {
@@ -62,6 +65,10 @@ export const mutations = {
 		state.posts.forEach(p => (p.user.guid === user.guid && (p.user.followed = !p.user.followed)));
 		state.posts = Object.assign([], state.posts);
 	},
+	[HomeMutations.setSquad]: (state, user) => {
+		state.posts.forEach(p => (p.user.guid === user.guid && (p.user.mysquad = !p.user.mysquad)));
+		state.posts = Object.assign([], state.posts);
+	},
 };
 
 export const HomeActions = {
@@ -76,12 +83,15 @@ export const actions = {
 		const msg = {
 			type: 'fetchHome',
 		};
-		const { watchers, public: publicPosts, interactions } = rootState.home;
+		const { watchers, public: publicPosts, interactions, interactionPage } = rootState.home;
 		if (!loadNew) {
 			rootState.home.loadedNew = false;
 			watchers.length && (msg.watcherFrom = watchers[watchers.length - 1].ts);
 			publicPosts.length && (msg.publicFrom = publicPosts[publicPosts.length - 1].ts);
-			interactions.length && (msg.lastPost = interactions[interactions.length - 1].post.guid);
+			if (interactions.length) {
+				msg.interactLastPost = interactions[interactions.length - 1].post.guid;
+				msg.interactLastPage = interactionPage;
+			}
 		} else {
 			rootState.home.loadedNew = true;
 		}

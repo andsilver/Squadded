@@ -25,7 +25,7 @@ import Preloader from '~/components/Preloader.vue';
 import TopBar from '~/components/common/TopBar.vue';
 import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
 import { onAuth } from '~/helpers';
-import { HomeStore, HomeActions } from '~/store/home';
+import { HomeStore, HomeActions, HomeMutations } from '~/store/home';
 import {
 	STORAGE_VISITED_KEY,
 	HOME_NEW_POSTS_INTERVAL,
@@ -58,6 +58,9 @@ export default {
 	},
 	created () {
 		this.init();
+	},
+	destroyed () {
+		this.$store.commit(`${HomeStore}/${HomeMutations.clear}`);
 	},
 	methods: {
 		async init() {

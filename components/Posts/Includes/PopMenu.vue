@@ -6,7 +6,6 @@
 			absolute
 			origin="right top"
 			transition="scale-transition"
-			:close-on-content-click="false"
 			class="comment-settings"
 		>
 			<template v-slot:activator="{ on }">
@@ -69,15 +68,26 @@
 							<span class="ml-1">{{ $t(`post.watchUser`, { user: post.user.screenName }) }}</span>
 						</v-list-item-title>
 					</v-list-item>
-					<v-list-item v-if="!post.user.mysquad" ref="add" class="post-menu-share comment-menu-addtomysquad comment-setting-option">
+					<v-list-item
+						v-if="!post.user.mysquad"
+						ref="add"
+						class="post-menu-share comment-menu-addtomysquad comment-setting-option"
+						@click="invite"
+					>
 						<v-list-item-title class="setting-label addtomysquad">
 							{{ $t(`post.addToMySquad`) }}
 						</v-list-item-title>
 					</v-list-item>
-					<v-list-item v-else ref="remove" class="post-menu-share comment-menu-rmtomysquad comment-setting-option">
+					<v-list-item
+						v-else
+						ref="remove"
+						class="post-menu-share comment-menu-rmtomysquad comment-setting-option"
+						@click="removeSquad"
+					>
 						<v-list-item-title class="setting-label rmtomysquad">
 							{{ $t(`post.removeUser`, { user: post.user.screenName }) }}
 						</v-list-item-title>
+						<RemoveSquadBtn v-show="false" ref="remove-squad" :user="post.user" />
 					</v-list-item>
 				</template>
 			</v-list>
@@ -150,6 +160,7 @@
 <script>
 import SharePost from './SharePost';
 import Button from '~/components/common/Button';
+import RemoveSquadBtn from '~/components/common/RemoveSquad';
 import { PostStore, PostActions } from '~/store/post';
 import { FeedMutations, FeedStore } from '~/store/feed';
 import { HomeStore, HomeMutations } from '~/store/home';
@@ -163,6 +174,7 @@ export default {
 	components: {
 		Button,
 		SharePost,
+		RemoveSquadBtn,
 	},
 	props: {
 		post: {
@@ -341,6 +353,15 @@ export default {
 			this.menu = false;
 			this.$emit('edit');
 		},
+		removeSquad () {
+			this.$refs['remove-squad'].$refs['remove-trigger'].$el.click();
+		},
+		invite () {
+			this.$ws.sendObj({
+				type: 'acceptSquad',
+				targetUserId: this.post.user.guid || this.post.user.userId,
+			});
+		},
 	},
 };
 </script>
@@ -379,7 +400,6 @@ export default {
 	box-shadow 0px 0.92vw 6.153vw rgba(0,0,0,0.15)
 .comment-setting-options
 	padding-top 2.95vw
-	padding-bottom 3.32vw
 	&.two_settings_options
 		.setting-label
 			margin-bottom 0
@@ -389,7 +409,6 @@ export default {
 			font-size 3.38vw
 		.comment-setting-option:last-child .setting-label, .comment-setting-option:first-child .setting-label
 			margin-bottom 0
-			padding-bottom 0
 			border-bottom 0px;
 	.comment-setting-option
 		padding 0 4.53vw

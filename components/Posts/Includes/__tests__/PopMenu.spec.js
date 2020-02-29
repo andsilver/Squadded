@@ -39,6 +39,9 @@ describe('PopMenu', () => {
 	const $root = {
 		$emit: jest.fn(),
 	};
+	const $ws = {
+		sendObj: jest.fn(),
+	};
 
 	const initLocalVue = () => {
 		wrapper = shallowMount(PopMenu, {
@@ -50,9 +53,7 @@ describe('PopMenu', () => {
 			mocks: {
 				$t: msg => msg,
 				$root,
-				$ws: {
-					sendObj: jest.fn(),
-				},
+				$ws,
 			},
 		});
 	};
@@ -168,6 +169,17 @@ describe('PopMenu', () => {
 			text: 'Your post has been deleted',
 			ts: new MockDate(),
 			_id: new MockDate(),
+		});
+	});
+
+	it('should send invite to the user', async () => {
+		post.user.mysquad = false;
+		post.byMe = false;
+		initLocalVue();
+		await wrapper.ref(ADD).trigger('click');
+		expect($ws.sendObj).toHaveBeenCalledWith({
+			type: 'acceptSquad',
+			targetUserId: post.user.guid || post.user.userId,
 		});
 	});
 });

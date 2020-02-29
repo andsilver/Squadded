@@ -1,5 +1,9 @@
 import { Wrapper, shallowMount } from '@vue/test-utils';
 import RemoveSquad from '../RemoveSquad.vue';
+import { HomeStore, HomeMutations, HomeActions } from '~/store/home';
+import { FeedStore, FeedMutations, FeedActions } from '~/store/feed';
+import { UserStore, UserMutations } from '~/store/user';
+import { prefetch } from '~/helpers';
 import { userMockBuilder } from '~/test/user.mock';
 
 Wrapper.prototype.ref = function (id) {
@@ -25,6 +29,11 @@ describe('RemoveSquad component', () => {
 	const $ws = {
 		sendObj: jest.fn(),
 	};
+	const $emit = jest.fn();
+	const $store = {
+		commit: jest.fn(),
+		dispatch: jest.fn(),
+	};
 
 	function initLocalVue () {
 		user = userMockBuilder().get();
@@ -32,6 +41,8 @@ describe('RemoveSquad component', () => {
 			mocks: {
 				$t: msg => msg,
 				$ws,
+				$emit,
+				$store,
 			},
 			propsData: {
 				user,
@@ -56,13 +67,26 @@ describe('RemoveSquad component', () => {
 		expect(wrapper.ref(CANCEL_BTN).exists()).toBe(true);
 	});
 
-	it('should remove squadder', () => {
+	it('should remove squadder', async () => {
 		initLocalVue();
+		prefetch.mockReturnValue(Promise.resolve());
 		wrapper.ref(REMOVE_TRIGGER).trigger('click');
 		wrapper.ref(REMOVE_BTN).trigger('click');
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'removeSquadder',
 			guid: user.userId,
 		});
+		expect($emit).toHaveBeenCalledWith('remove');
+		expect(prefetch).toHaveBeenCalledWith({
+			mutation: `${UserStore}/${UserMutations.setMe}`,
+			store: $store,
+			type: 'removeSquadder',
+			guid: user.userId || user.guid,
+		});
+		await Promise.resolve();
+		expect($store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.clear}`);
+		expect($store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.clear}`);
+		expect($store.dispatch).toHaveBeenCalledWith(`${HomeStore}/${HomeActions.fetch}`);
+		expect($store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.fetch}`);
 	});
 });

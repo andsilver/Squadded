@@ -140,6 +140,7 @@ export class WSMessages {
 			watchers,
 			publicPosts,
 			interactions,
+			interactionPage: message.interactionPage,
 		});
 		this.store.commit(`${HomeStore}/${HomeMutations.markAllLoaded}`, newPosts);
 		this.store.commit(`${HomeStore}/${HomeMutations.setLoading}`, false);

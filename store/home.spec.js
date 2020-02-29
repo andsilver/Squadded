@@ -31,6 +31,7 @@ describe('Home store module', () => {
 				allLoaded: false,
 				loading: false,
 				loadedNew: false,
+				interactionPage: null,
 			};
 		});
 
@@ -64,12 +65,14 @@ describe('Home store module', () => {
 					.withGUID()
 					.get(),
 			);
+			const interactionPage = 1;
 
-			receive(state, { posts, watchers, publicPosts, interactions });
+			receive(state, { posts, watchers, publicPosts, interactions, interactionPage });
 			expect(state.posts).toStrictEqual(posts);
 			expect(state.watchers).toStrictEqual(watchers);
 			expect(state.public).toStrictEqual(publicPosts);
 			expect(state.interactions).toStrictEqual(interactions);
+			expect(state.interactionPage).toBe(interactionPage);
 		});
 
 		it('should clear home', () => {
@@ -111,11 +114,13 @@ describe('Home store module', () => {
 			root.state.home.interactions = [{ post: interactionPost }];
 			root.state.home.public = [publicPost];
 			root.state.home.watchers = [watcher];
+			root.state.home.interactionPage = 1;
 			const msg = {
 				type: 'fetchHome',
 				watcherFrom: watcher.ts,
 				publicFrom: publicPost.ts,
-				lastPost: interactionPost.guid,
+				interactLastPost: interactionPost.guid,
+				interactLastPage: 1,
 			};
 			await root.dispatch(`${HomeStore}/${HomeActions.fetch}`, false);
 			expect($ws.sendObj).toHaveBeenCalledWith(msg);

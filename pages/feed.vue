@@ -71,6 +71,11 @@ export default {
 		newPostsAvailable (value) {
 			this.setHideNewPostsTimeout();
 		},
+		me (value) {
+			if (!value.squaddersCount) {
+				this.$router.push('/create-your-squad');
+			}
+		},
 	},
 	created () {
 		this.onOpen();

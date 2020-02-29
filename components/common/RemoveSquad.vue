@@ -45,6 +45,11 @@
 </template>
 
 <script>
+import { HomeStore, HomeMutations, HomeActions } from '~/store/home';
+import { FeedStore, FeedMutations, FeedActions } from '~/store/feed';
+import { UserStore, UserMutations } from '~/store/user';
+import { prefetch } from '~/helpers';
+
 export default {
 	props: {
 		user: {
@@ -59,13 +64,23 @@ export default {
 		removeSquad() {
 			this.showSquadderRemoveDialog = true;
 		},
-		removeSquadAction () {
+		async removeSquadAction () {
 			this.showSquadderRemoveDialog = false;
 			this.$ws.sendObj({
 				type: 'removeSquadder',
-				guid: this.user.userId,
+				guid: this.user.userId || this.user.guid,
 			});
 			this.$emit('remove');
+			await prefetch({
+				mutation: `${UserStore}/${UserMutations.setMe}`,
+				store: this.$store,
+				type: 'removeSquadder',
+				guid: this.user.userId || this.user.guid,
+			});
+			this.$store.commit(`${HomeStore}/${HomeMutations.clear}`);
+			this.$store.dispatch(`${HomeStore}/${HomeActions.fetch}`);
+			this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
+			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 		},
 	},
 };
