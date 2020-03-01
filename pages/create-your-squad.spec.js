@@ -4,6 +4,8 @@ import CreateYourSquad from './create-your-squad.vue';
 import { userMockBuilder } from '~/test/user.mock';
 import Store from '~/store';
 import { UserStore, UserMutations } from '~/store/user';
+import { FeedActions, FeedStore } from '~/store/feed';
+import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
@@ -22,6 +24,7 @@ describe('Create Your Squad', () => {
 	const CREATE_SQUAD_TEXT = 'create-squad-text';
 	const INVITE_BTN = 'invite-btn';
 	const SHARE_PROFILE_MODAL = 'share-profile-modal';
+	const FEED = 'feed-layout';
 
 	const initLocalVue = (me) => {
 		localVue = createLocalVue();
@@ -30,6 +33,7 @@ describe('Create Your Squad', () => {
 		if (me) {
 			store.state.user.me = me;
 		}
+		store.dispatch = jest.fn();
 		wrapper = shallowMount(CreateYourSquad, {
 			store,
 			localVue,
@@ -61,5 +65,13 @@ describe('Create Your Squad', () => {
 		wrapper.ref(INVITE_BTN).trigger('click');
 		const shareProfileModal = wrapper.ref(SHARE_PROFILE_MODAL);
 		expect(shareProfileModal.exists()).toBe(true);
+	});
+
+	it('should render feed when there is my items', () => {
+		expect(store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.fetch}`, true);
+		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
+		store.commit('SET_SOCKET_AUTH', true);
+		store.state.feed.items = [aDefaultSingleItemMsgBuilder().get()];
+		expect(wrapper.ref(FEED).exists()).toBe(true);
 	});
 });

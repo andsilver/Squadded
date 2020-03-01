@@ -42,9 +42,26 @@
 						<div class="user-sec" />
 					</div>
 				</div>
-				<v-btn ref="skip-btn" outlined depressed class="skip-btn" @click="skip">
+				<v-btn
+					v-if="!items || !items.length"
+					ref="skip-btn"
+					outlined
+					depressed
+					class="skip-btn"
+					@click="skip"
+				>
 					{{ $t('create_your_squad.skip_for_now') }}
 				</v-btn>
+			</div>
+			<div v-if="items && items.length">
+				<div class="pt-6 pb-3">
+					<v-divider />
+				</div>
+				<Feed
+					ref="feed-layout"
+					:items="items"
+					@loadMore="fetchFeed"
+				/>
 			</div>
 			<v-dialog v-model="showShare" content-class="share_box">
 				<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
@@ -61,15 +78,21 @@ import { UserStore } from '~/store/user';
 import TopBar from '~/components/common/TopBar.vue';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
 import { DEFAULT_LANDING } from '~/store/squad';
+import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
+import Feed from '~/components/Feed';
 
 const CANCALED_BY_USER = 20;
 
 const userState = createNamespacedHelpers(UserStore).mapState;
+const feed = createNamespacedHelpers(FeedStore);
+const feedGetters = feed.mapGetters;
+const feedState = feed.mapState;
 
 export default {
 	components: {
 		TopBar,
 		ShareProfile,
+		Feed,
 	},
 	asyncData({ store, redirect }) {
 		const { me } = store.state.user;
@@ -89,6 +112,12 @@ export default {
 		...mapState([
 			'socket',
 		]),
+		...feedState([
+			'loading',
+		]),
+		...feedGetters([
+			FeedGetters.items,
+		]),
 		target () {
 			const { siteUrl, siteTitle } = this.$store.state.merchant;
 			return {
@@ -107,11 +136,23 @@ export default {
 	watch: {
 		me (value) {
 			if (value.squaddersCount) {
+				this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
 				this.$router.push(DEFAULT_LANDING);
 			}
 		},
 	},
+	created () {
+		if (!this.items || !this.items.length) {
+			this.fetchFeed(true);
+		}
+		if (this.items && this.items.length) {
+			this.$store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
+		}
+	},
 	methods: {
+		fetchFeed (loadNew = false) {
+			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`, loadNew);
+		},
 		async share () {
 			this.showShare = false;
 			if (navigator && navigator.share) {

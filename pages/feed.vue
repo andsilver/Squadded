@@ -73,6 +73,7 @@ export default {
 		},
 		me (value) {
 			if (!value.squaddersCount) {
+				this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
 				this.$router.push('/create-your-squad');
 			}
 		},
