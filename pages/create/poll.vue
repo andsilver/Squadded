@@ -129,6 +129,7 @@ export default {
 		async create () {
 			const { text } = this;
 			const { isPublic } = this.$refs['public-toggle'];
+			const expires = this.$refs.expiration.expiration + Date.now();
 			const items = this.getSelected.map(post => post.item);
 			const item1 = items[0];
 			const item2 = items[1];
@@ -137,6 +138,7 @@ export default {
 				item2,
 				private: !isPublic,
 				text,
+				expires,
 				type: 'pollPost',
 			};
 			const post = await this.$store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);

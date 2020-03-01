@@ -37,6 +37,7 @@ export default {
 	},
 	data: () => ({
 		selected: 2,
+		expiration: 60 * 60 * 1000,
 		defalutItem: '',
 		items: [
 			{ label: '15m', amount: 15, interval: 'm', key: 0 },
@@ -61,6 +62,14 @@ export default {
 	methods: {
 		switchDate (i) {
 			this.selected = i;
+			const item = this.items[i];
+			const m = 1000 * 60;
+			const unit = {
+				m,
+				h: m * 60,
+				d: m * 60 * 24,
+			};
+			this.expiration = item.amount * unit[item.interval];
 		},
 	},
 };
