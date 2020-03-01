@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="show">
+	<v-dialog v-model="show" @input="close">
 		<v-card>
 			<v-card-title ref="title">
 				{{ $t('profile_settings.saving_confirm.title') }}
@@ -41,6 +41,9 @@ export default {
 		},
 		save () {
 			this.$emit('save');
+		},
+		close () {
+			this.$emit('close');
 		},
 	},
 };

@@ -19,7 +19,7 @@
 				<GeneralTab ref="general" />
 			</v-tab-item>
 		</v-tabs-items>
-		<SaveConfirmDialog v-if="next" @save="save" @leave="leave" />
+		<SaveConfirmDialog v-if="next" @save="save" @leave="leave" @close="next = null" />
 	</div>
 </template>
 
