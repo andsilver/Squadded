@@ -52,7 +52,7 @@
 				</Button>
 				<div class="bottom-post-sec hide_section">
 					<ExpirationPicker v-show="getSelected.length > 0" ref="expiration" class="poll-expiration" />
-					<PublicToggle ref="public-toggle" />
+					<PublicToggle ref="public-toggle" :public="!user.me.private" />
 				</div>
 				<div class="public-right-section">
 					<Button
@@ -112,6 +112,7 @@ export default {
 		]),
 		...mapState([
 			'socket',
+			'user',
 		]),
 		complete () {
 			return !!(this.getSelected.length >= 2 && this.getSelected.length <= 4);

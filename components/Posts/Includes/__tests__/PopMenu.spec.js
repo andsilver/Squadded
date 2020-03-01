@@ -23,8 +23,6 @@ describe('PopMenu', () => {
 	const EDIT = 'edit';
 	const DELETE = 'delete';
 	const REPORT = 'report';
-	const UNWATCH = 'unwatch';
-	const WATCH = 'watch';
 	const ADD = 'add';
 	const REMOVE = 'remove';
 	const SHARE_POST_MODAL = 'share-post-modal';
@@ -81,7 +79,6 @@ describe('PopMenu', () => {
 		post.byMe = false;
 		initLocalVue();
 		expect(wrapper.ref(REPORT).exists()).toBe(true);
-		expect(wrapper.ref(WATCH).exists()).toBe(true);
 		expect(wrapper.ref(ADD).exists()).toBe(true);
 	});
 
@@ -90,7 +87,6 @@ describe('PopMenu', () => {
 		post.user.mysquad = true;
 		post.byMe = false;
 		initLocalVue();
-		expect(wrapper.ref(UNWATCH).exists()).toBe(true);
 		expect(wrapper.ref(REMOVE).exists()).toBe(true);
 	});
 

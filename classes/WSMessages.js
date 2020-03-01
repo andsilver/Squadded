@@ -25,6 +25,13 @@ async function activity (message) {
 	const { type } = message;
 	const rawPostsList = message[type];
 	if (type === 'wishlist') {
+		if (rawPostsList.private) {
+			this.store.state.activity.isPrivate = true;
+			this.store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: [], type });
+			this.store.commit(`${ActivityStore}/${ActivityMutations.markAllLoaded}`, { loadedPosts: [], type });
+			this.store.commit(`${ActivityStore}/${ActivityMutations.setLoading}`, { type, loading: false });
+			return;
+		}
 		rawPostsList.forEach(w => (w.guid = w.item.itemId));
 	}
 	await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, rawPostsList);

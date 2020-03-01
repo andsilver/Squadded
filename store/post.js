@@ -207,18 +207,21 @@ export const actions = {
 
 		commit(PostMutations.postLoaded, rawPostData);
 	},
-	[PostActions.reSquaddItem]: ({ dispatch }, payload) => {
+	[PostActions.reSquaddItem]: ({ rootState, dispatch }, payload) => {
 		return dispatch(PostActions.saveItem, {
 			...payload,
 			type: 'singleItemPost',
+			private: rootState.user.me.private,
 		});
 	},
 	[PostActions.saveItem]: ({ rootState, commit }, rawPost) => {
+		const hasPrivateKey = Object.prototype.hasOwnProperty.call(rawPost, 'private');
 		const post = new FeedPost({
 			...rawPost,
 			byMe: true,
 			correlationId: `${Date.now()}${suffix()}`,
 			user: rootState.user.me.short(),
+			private: hasPrivateKey ? rawPost.private : rootState.user.me.private,
 		});
 
 		commit(PostMutations.addPost, post);

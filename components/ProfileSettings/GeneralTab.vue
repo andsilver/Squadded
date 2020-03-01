@@ -253,6 +253,7 @@ export default {
 		],
 		showTerms: false,
 		showSignoutDialog: false,
+		editing: false,
 	}),
 	computed: {
 		...mapState(['me']),
@@ -260,6 +261,17 @@ export default {
 	watch: {
 		me() {
 			this.user = Object.assign({}, this.me);
+		},
+		user: {
+			deep: true,
+			handler() {
+				const {
+					language,
+					notification,
+					...pure
+				} = this.user;
+				this.editing = Object.keys(pure).some(k => pure[k] !== this.me[k]);
+			},
 		},
 	},
 	mounted() {
@@ -278,6 +290,9 @@ export default {
 			localStorage.clear();
 			sessionStorage.clear();
 			location.reload();
+		},
+		save() {
+			this.editing = false;
 		},
 	},
 };

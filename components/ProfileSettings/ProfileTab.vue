@@ -155,6 +155,7 @@ export default {
 			{ value: true, name: 'Private' },
 		],
 		input: null,
+		editing: false,
 	}),
 	computed: {
 		...mapState(['me']),
@@ -163,8 +164,14 @@ export default {
 		me() {
 			this.user = Object.assign({}, this.me);
 		},
+		user: {
+			deep: true,
+			handler() {
+				this.editing = Object.keys(this.user).some(k => this.user[k] !== this.me[k]);
+			},
+		},
 	},
-	mounted() {
+	mounted () {
 		this.user = Object.assign({}, this.me);
 	},
 	methods: {
@@ -200,6 +207,7 @@ export default {
 			this.user.avatar = img.href;
 		},
 		async saveProfile() {
+			this.editing = false;
 			await this.$store.dispatch(
 				`${UserStore}/${UserActions.setProfile}`,
 				this.user,
@@ -298,13 +306,13 @@ section .v-btn
 
 .edit-icon-sec {
 	position: absolute;
-    right: 1px;
-    top: 72px;
-    background-color: #fff !important;
-    padding: 5px;
-    border-radius: 50%;
-    box-shadow: 0px 1px 4px -1px #ccc;
+	right: 1px;
+	top: 72px;
+	background-color: #fff !important;
+	padding: 5px;
+	border-radius: 50%;
+	box-shadow: 0px 1px 4px -1px #ccc;
 	height: 28px;
-    width: 28px;
+	width: 28px;
 }
 </style>

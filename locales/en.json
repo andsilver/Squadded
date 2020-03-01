@@ -255,9 +255,9 @@
     },
     "watchUser": "Watch {user}",
     "unwatchUser": "Unwatch {user}",
-    "removeUser": "Remove {user}",
+    "removeUser": "Remove {user} from My Squad",
     "unwatchRachel": "Unwatch Rachel",
-    "addToMySquad": "Add to My Squad",
+    "addToMySquad": "Add {user} to My Squad",
     "removeRachel": "Remove Rachel"
   },
   "publicToggle": {
@@ -324,7 +324,8 @@
     "empty": "Add something to your Wishlist",
     "purchase": "Move to Bag",
     "disabled_before_signin": "Please sign in to see the items",
-    "discover": "Discover Items"
+    "discover": "Discover Items",
+    "private": "This account is private\n Only @{user}'s squad\n can see their posts."
   },
   "pairedItem": {
     "title": "View Item",
@@ -363,7 +364,12 @@
     "share_your_opinion": "Share your opinion",
     "delete_account": "Delete account",
     "update_cover": "UPDATE COVER",
-    "read": "read"
+    "read": "read",
+    "saving_confirm": {
+      "title": "Save changes?",
+      "description": "If you leave this page, the changes you made will not be saved."
+    },
+    "leave": "leave"
   },
   "landing_post": {
     "interact_with_user": "Interact with {user}, pair and save items to your wishlist",

@@ -195,6 +195,7 @@ describe('Post store module', () => {
 		root.state.user.me = me;
 
 		msg.correlationId = jasmine.any(String);
+		msg.private = true;
 		await root.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		expect(root.state.post.all).toEqual([{
 			...msg,

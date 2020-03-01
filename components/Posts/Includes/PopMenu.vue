@@ -55,19 +55,6 @@
 							{{ $t(`post.pop.reportPost.menu`) }}
 						</v-list-item-title>
 					</v-list-item>
-					<v-list-item v-if="post.user.followed" ref="unwatch" class="post-menu-share comment-menu-unwatch comment-setting-option">
-						<v-list-item-title class="setting-label unwatch">
-							{{ $t(`post.unwatchUser`, { user: post.user.screenName }) }}
-						</v-list-item-title>
-					</v-list-item>
-					<v-list-item v-else ref="watch" class="post-menu-share comment-menu-watch comment-setting-option">
-						<v-list-item-title class="setting-label">
-							<v-icon small color="black">
-								mdi-eye-outline
-							</v-icon>
-							<span class="ml-1">{{ $t(`post.watchUser`, { user: post.user.screenName }) }}</span>
-						</v-list-item-title>
-					</v-list-item>
 					<v-list-item
 						v-if="!post.user.mysquad"
 						ref="add"
@@ -75,7 +62,7 @@
 						@click="invite"
 					>
 						<v-list-item-title class="setting-label addtomysquad">
-							{{ $t(`post.addToMySquad`) }}
+							{{ $t(`post.addToMySquad`, { user: post.user.screenName }) }}
 						</v-list-item-title>
 					</v-list-item>
 					<v-list-item

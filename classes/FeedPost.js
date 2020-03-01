@@ -42,6 +42,7 @@ export class FeedPost {
 			ts = INFINITE_FUTURE_TS_FOR_ALWAYS_ON_TOP,
 			correlationId,
 			creationTs,
+			private: privacy,
 		} = props;
 
 		this.type = type;
@@ -66,6 +67,7 @@ export class FeedPost {
 		this.correlationId = correlationId;
 		this.creationTs = creationTs;
 		this.selected = false;
+		this.private = !!privacy;
 
 		if (type === 'pollPost') {
 			this.item1 = composeItem(item1);

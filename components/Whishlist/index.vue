@@ -3,17 +3,29 @@
 		<Preloader v-if="!wishlist && socket.isAuth" ref="preloader" class="mt-8" />
 		<div v-else-if="!wishlist || !wishlist.length" class="mt-3">
 			<div class="whislist_empty">
-				<div class="whish_img">
-					<p><img src="~assets/img/squad-logo-white.svg" class="insta-image"></p>
-				</div>
-				<div class="txt">
-					<p ref="empty-whishlist-text" align="center">
-						{{ socket.isAuth ? $t('wishlist.empty') : $t('wishlist.disabled_before_signin') }}
-					</p>
-					<Button class="flex-grow-1 wish_btn">
-						{{ $t('wishlist.discover') }}
-					</Button>
-				</div>
+				<temp v-if="isPrivate && socket.isAuth">
+					<div ref="private-image" class="d-flex justify-center">
+						<img src="~assets/img/lock.png" width="100px">
+					</div>
+					<div ref="private-text" class="txt text-center font-weight-medium" style="padding: 10px 50px">
+						{{ $t('wishlist.private', { user: user.other.screenName }) }}
+					</div>
+				</temp>
+				<temp v-else>
+					<div class="whish_img">
+						<p>
+							<img src="~assets/img/squad-logo-white.svg" class="insta-image">
+						</p>
+					</div>
+					<div class="txt">
+						<p ref="empty-whishlist-text" align="center">
+							{{ socket.isAuth ? $t('wishlist.empty') : $t('wishlist.disabled_before_signin') }}
+						</p>
+						<Button class="flex-grow-1 wish_btn">
+							{{ $t('wishlist.discover') }}
+						</Button>
+					</div>
+				</temp>
 			</div>
 		</div>
 		<div v-else>
@@ -44,9 +56,11 @@ export default {
 	computed: {
 		...activityState([
 			'wishlist',
+			'isPrivate',
 		]),
 		...mapState([
 			'socket',
+			'user',
 		]),
 		isAuth () {
 			return tokenExist();

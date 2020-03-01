@@ -20,9 +20,18 @@
 
 <script>
 export default {
+	props: {
+		public: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	data: () => ({
 		isPublic: true,
 	}),
+	mounted () {
+		this.isPublic = this.public;
+	},
 	methods: {
 		toggle() {
 			this.isPublic = !this.isPublic;

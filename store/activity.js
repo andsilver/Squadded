@@ -19,6 +19,7 @@ export const state = () => ({
 		blog: false,
 		wishlist: false,
 	},
+	isPrivate: false,
 });
 
 export const ActivityGetters = {
