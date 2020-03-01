@@ -9,14 +9,14 @@
 			</v-col>
 			<v-col cols="4">
 				<v-select
-					v-model="defalutItem"
+					v-model="defaultItem"
 					:items="items"
 					item-text="label"
 					item-value="key"
 					:hide-details="true"
 					:menu-props="{ top: true }"
 					class="expire-custom-select"
-					@change="switchDate(`${defalutItem}`)"
+					@change="switchDate(`${defaultItem}`)"
 				>
 					<template slot="selection" slot-scope="data">
 						<span class="expire-option">{{ $t(`expiration._${data.item.label}`) }}</span>
@@ -37,8 +37,8 @@ export default {
 	},
 	data: () => ({
 		selected: 2,
-		expiration: 60 * 60 * 1000,
-		defalutItem: '',
+		expiration: 60 * 60 * 1000 * 24,
+		defaultItem: '',
 		items: [
 			{ label: '15m', amount: 15, interval: 'm', key: 0 },
 			{ label: '1h', amount: 1, interval: 'h', key: 1 },
@@ -57,7 +57,7 @@ export default {
 		},
 	},
 	created () {
-		this.defalutItem = this.items[this.selected];
+		this.defaultItem = this.items[this.selected];
 	},
 	methods: {
 		switchDate (i) {
