@@ -50,6 +50,7 @@ export default {
 	computed: {
 		...mapState([
 			'socket',
+			'user',
 		]),
 		...homeState([
 			'posts',
@@ -64,7 +65,7 @@ export default {
 	},
 	methods: {
 		async init() {
-			if (!localStorage.getItem(STORAGE_VISITED_KEY)) {
+			if (!localStorage.getItem(STORAGE_VISITED_KEY) && !this.user.me.nameSelected) {
 				this.firstVisit = true;
 			}
 			await onAuth(this.$store);

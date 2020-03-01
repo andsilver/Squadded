@@ -137,7 +137,7 @@ export class WSMessages {
 		const interactionPosts = (interactions || []).map(p => p.post);
 		const newPosts = [...watchers, ...publicPosts, ...interactionPosts].map(p => new FeedPost(p));
 
-		if (!localStorage.getItem(STORAGE_VISITED_KEY)) {
+		if (!localStorage.getItem(STORAGE_VISITED_KEY) && !this.store.state.user.me.nameSelected) {
 			newPosts.length && (newPosts[0].user.showPopover = true);
 			localStorage.setItem(STORAGE_VISITED_KEY, Date.now().toString());
 		}
