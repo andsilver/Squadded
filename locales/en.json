@@ -53,7 +53,7 @@
   "noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
   "spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
   "Messageregarding": "Message regarding phone charges",
-  "PickUsername": "Pick a username",
+  "PickUsername": "You're almost done!",
   "StartBuildingYourSquad": "You're almost done! After this, you'll start building your squad.",
   "EnterUsername": "Enter your username",
   "YouCanAlwaysChange": "Only letters, digits and underscores. You can always change it later.",
@@ -65,6 +65,11 @@
   "viewAll": "View all",
   "validate": "validate",
   "ok": "ok",
+  "signemail": "Sign in with email",
+  "Wecare": "We care about your security. Help us keep our community safe.",
+  "agree_left": "Please check the box to confirm that you agree to our",
+  "agree_right": "terms and conditions.",
+  "resend_code": "Resend code",
   "comment": {
     "pop": {
       "Action": "Action",

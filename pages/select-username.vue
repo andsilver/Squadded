@@ -5,16 +5,32 @@
 			column
 		>
 			<div class="login">
-				<div class="text-center my-2">
-					<!--<span>{{ $t('getStarted') }}</span>-->
-					<div ref="brand-section" class="brand-section">
-						<div class="brand-title">
+				<div class="text-center">
+					<div class="brand-section">
+						<!-- <div class="brand-title">
 							{{ $t('ShopWithYourFriendsOn') }}
-						</div>
-						<img src="../assets/img/logo-dcm.svg" class="b-logo">
-						<div class="poweredby">
-							{{ $t('PoweredBy') }}
-							<img src="../assets/img/squaddedcyrcleB_trim.svg" class="powerdby-image">
+						</div> -->
+						<img src="../assets/img/bglogin.svg" class="b-logo">
+						<div class="select-user-icon-sec">
+							<img ref="user-avatar" :src="userAvatar" class="select-user-icon">
+							<client-only>
+								<ImageUploader
+									v-show="false"
+									id="avatar-input"
+									ref="avatar-input"
+									:max-width="600"
+									accept="image/*"
+									output-format="verbose"
+									@input="setImage"
+									@onComplete="completeCompress"
+								/>
+							</client-only>
+							<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
+								<img src="../assets/img/action-edit.svg" class="edit-icon-image">
+							</v-btn>
+							<p class="user_name">
+								@username
+							</p>
 						</div>
 					</div>
 				</div>
@@ -172,9 +188,8 @@ export default {
 		font-weight 600
 		text-transform capitalize
 .brand-section
-	background #F4F4F5
-	padding 4.87vw 12.36vw 2.55vw 15.32vw
 	border-radius 4vw
+	position relative
 	.brand-title
 		font-family: 'Montserrat', sans-serif
 		font-weight: 600
@@ -182,21 +197,15 @@ export default {
 		line-height: 3.66vw
 		padding-bottom: 3.27vw
 	img.b-logo
-		width 23.38vw
-		height 15.23vw
-		margin-bottom 4.46vw
-	.poweredby
-		font-size 2.92vw
-		font-weight 600
-		display flex
-		align-items center
-		justify-content center
-		img.powerdby-image
-			width 22.76vw
-			margin-left 1.23vw
+		width 100%
+		height 45.84vw
+	.user_name
+		color #B8B8BA
+		font-size 3.69vw
+		font-weight 400
 .pick-username-sec
 	text-align center
-	margin 10vw auto 0
+	margin 25vw auto 0
 	width 90%
 	h4
 		font-size 4.30vw
@@ -207,14 +216,15 @@ export default {
 		line-height 4.92vw
 		margin-top 5.38vw
 		display: block
-		font-weight 500
 .select-user-icon-sec
-	width 24.61vw
-	height 24.61vw
-	margin 0 auto
+	width 27.69vw
+	height 27.69vw
 	display block
-	position relative
-	margin-top 9.46vw
+	position absolute
+	z-index 10
+	bottom -35px
+	left 50%
+	transform translateX(-50%)
 	img.select-user-icon
 		width 100%
 		height 100%

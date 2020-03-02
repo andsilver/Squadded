@@ -9,7 +9,7 @@ import Social from '~/classes/social';
 
 const fullname = {
 	fb: 'facebook',
-	inst: 'instagram',
+	inst: 'D.C.M Jennyfer',
 };
 export default {
 	props: {
@@ -38,14 +38,31 @@ export default {
 	border 0.46vw solid #000
 	height 12.30vw
 	&.instagram-btn
-		margin-left 3.61vw
-		background-image url('~assets/img/instagram-logo.svg')
-		background-size 5.24VW
-		background-position 9.5vw center
-		padding-left 7.08VW
+		background-image url('~assets/img/dcm-logo.svg')
+		background-size 10.84vw
+		background-position 15.69vw center
+		width 84.92vw
+		margin 0 auto
+		display block
+		background-color #790fff
+		border 3px solid #790fff
+		border-radius 3.07vw
+		color #fff
+		text-align right
+		padding-right 17.2vw
 	&.facebook-btn
 		background-image url('~assets/img/facebook-logo.svg')
-		background-size 2.67VW
-		background-position 9vw center
-		padding-left 3.08VW
+		background-size 3.84VW
+		background-position 19.23vw center
+		width 84.92vw
+		margin 0 auto
+		display block
+		background-color #1877f2
+		border 3px solid #1877f2
+		border-radius 3.07vw
+		color #fff
+		text-align right
+		padding-right 28.98vw
+		margin-bottom 5.38vw
+
 </style>

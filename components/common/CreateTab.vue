@@ -92,11 +92,12 @@ export default {
 	height: 45px;
 	width: 45px;
 	min-width:auto;
+	background: #000;
 }
 .plus_icon:before{
-	color : black;
+	color : #fff;
 	font-size : 0.6em !important;
-	margin-bottom: 0;
+	margin-bottom: 4px;
 }
 .v-menu__content.theme--light.v-menu__content--fixed.menuable__content__active {
     min-width: 100% !important;
