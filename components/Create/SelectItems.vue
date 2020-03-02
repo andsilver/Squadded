@@ -36,9 +36,9 @@
 import { createNamespacedHelpers } from 'vuex';
 import ProductCard from '~/components/Posts/Includes/ProductCard';
 import { prefetch } from '~/helpers';
-import { ActivityStore } from '~/store/activity';
+import { ActivityStore, ActivityGetters } from '~/store/activity';
 
-const { mapState } = createNamespacedHelpers(ActivityStore);
+const { mapState, mapGetters } = createNamespacedHelpers(ActivityStore);
 
 export default {
 	components: {
@@ -79,12 +79,20 @@ export default {
 		...mapState([
 			'wishlist',
 		]),
+		...mapGetters([
+			ActivityGetters.getSelected,
+		]),
 		available () {
 			let available = this.wishlist && this.wishlist.filter(w => w.item !== this.exclude);
 			if (available && this.searchText) {
 				available = available.filter(w => w.item.title.toLowerCase().includes(this.searchText.toLowerCase()));
 			}
 			return available;
+		},
+	},
+	watch: {
+		getSelected (value) {
+			this.selected = this.selected.filter(c => value.find(s => s.postId === c.postId));
 		},
 	},
 	created () {

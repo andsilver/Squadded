@@ -85,12 +85,24 @@ export default {
 
 		const hammertime = new Hammer(this.$refs.onboarding);
 		hammertime.on('press', (e) => {
-			timeline.pause();
-			this.$refs.video[this.current].player.pause();
+			if (!this.timeline) {
+				return;
+			}
+			this.timeline.pause();
+			const current = this.$refs.video[this.current];
+			if (current && current.player) {
+				current.player.pause();
+			}
 		});
 		hammertime.on('pressup', (e) => {
-			timeline.play();
-			this.$refs.video[this.current].player.play();
+			if (!this.timeline) {
+				return;
+			}
+			this.timeline.play();
+			const current = this.$refs.video[this.current];
+			if (current && current.player) {
+				current.player.play();
+			}
 		});
 		hammertime.on('tap', (e) => {
 			if (e.center.x > window.innerWidth / 2 && this.current < this.videos.length - 1) {
