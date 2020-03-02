@@ -3,14 +3,14 @@
 		<Preloader v-if="!wishlist && socket.isAuth" ref="preloader" class="mt-8" />
 		<div v-else-if="!wishlist || !wishlist.length" class="mt-3">
 			<div class="whislist_empty">
-				<temp v-if="isPrivate && socket.isAuth">
+				<template v-if="isPrivate && socket.isAuth">
 					<div ref="private-image" class="d-flex justify-center">
 						<img src="~assets/img/lock.png" width="100px">
 					</div>
 					<div ref="private-text" class="txt text-center font-weight-medium" style="padding: 10px 50px">
-						{{ $t('wishlist.private', { user: user.other.screenName }) }}
+						{{ $t('wishlist.private', { user: user.other.name || user.other.screenName }) }}
 					</div>
-				</temp>
+				</template>
 				<temp v-else>
 					<div class="whish_img">
 						<p>

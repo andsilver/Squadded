@@ -11,8 +11,9 @@
 						id="avatar-input"
 						ref="avatar-input"
 						:max-width="600"
-						accept="image/*"
+						accept="image/jpeg,image/jpg,image/png"
 						output-format="verbose"
+						auto-rotate
 						@input="setImage"
 						@onComplete="completeCompress"
 					/>

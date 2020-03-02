@@ -6,6 +6,7 @@
 				:id="id"
 				ref="input-file"
 				:max-width="1024"
+				auto-rotate
 				accept="image/jpeg,image/jpg,image/png"
 				output-format="verbose"
 				@input="setImage"
@@ -43,6 +44,10 @@ export default {
 		},
 		completeCompress(e) {
 			const { info, dataUrl: image } = this.input;
+			if (!info) {
+				this.$emit('error');
+				return;
+			}
 			const { type } = info;
 			const file = dataURItoBlob(image, type);
 			this.$emit('open', { image, file, type });

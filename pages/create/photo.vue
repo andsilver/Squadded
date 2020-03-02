@@ -4,8 +4,8 @@
 			<BackBar ref="goback-bar" :title="$t('Create')" />
 			<Tabs :active="1" />
 			<v-layout column grow class="mt-3">
-				<CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" />
-				<Browse v-show="!dataImg" ref="browse" @open="preview" />
+				<CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" @error="fileTypeError = true" />
+				<Browse v-show="!dataImg" ref="browse" @open="preview" @error="fileTypeError = true" />
 				<Tags v-if="dataImg" ref="tagsComponent" :post="post" :crop-active="cropActive" @doneCrop="doneCrop">
 					<div class="photo-menu-panel">
 						<v-btn icon width="40" height="40" @click="() => preview({})">
@@ -25,6 +25,9 @@
 				</p>
 				<p v-if="LimitshowError" class="tip-note error-note">
 					{{ $t('tip.photoLimitError') }}
+				</p>
+				<p v-if="fileTypeError" class="tip-note error-note">
+					{{ $t('createDesc.unsupported_file_format') }}
 				</p>
 				<div class="bottom photo-create">
 					<SelectedItems ref="selected-items" />
@@ -162,6 +165,7 @@ export default {
 		showPhoto: true,
 		showError: false,
 		LimitshowError: false,
+		fileTypeError: false,
 		post: new FeedPost({
 			type: 'galleryPost',
 			img: '',
@@ -204,6 +208,7 @@ export default {
 			});
 		},
 		preview (data) {
+			this.fileTypeError = false;
 			this.dataImg = data.image;
 			this.post.img = data.image;
 			this.file = data.file;

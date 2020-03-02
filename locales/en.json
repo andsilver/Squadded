@@ -96,7 +96,8 @@
   "createDesc": {
     "outfit": "Pair 2-4 items in a single post",
     "photo": "Add a photo and tag items on it",
-    "poll": "Ask your followers to vote between 2 items"
+    "poll": "Ask your followers to vote between 2 items",
+    "unsupported_file_format": "This image format is not supported"
   },
   "expiration": {
     "_15m": "15 min",

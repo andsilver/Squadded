@@ -8,6 +8,7 @@
 				:max-width="1024"
 				capture="camera"
 				accept="image/jpeg,image/jpg,image/png"
+				auto-rotate
 				output-format="verbose"
 				@input="setImage"
 				@onComplete="completeCompress"
@@ -44,6 +45,10 @@ export default {
 		},
 		completeCompress(e) {
 			const { info, dataUrl: image } = this.input;
+			if (!info) {
+				this.$emit('error');
+				return;
+			}
 			const { type } = info;
 			const file = dataURItoBlob(image, type);
 			this.$emit('open', { image, file, type });
