@@ -1,5 +1,5 @@
 <template>
-	<nuxt-link ref="user-link" :to="getUserLink()">
+	<nuxt-link v-if="user" ref="user-link" :to="getUserLink()">
 		<v-list-item v-if="!hideAvatar" class="pa-0 user_link_header">
 			<v-list-item-avatar class="mr-3" :size="size">
 				<img v-if="user && user.avatar" :src="user && user.avatar" :alt="user && user.screenName">
@@ -121,6 +121,9 @@ export default {
 		},
 	},
 	mounted() {
+		if (!this.user) {
+			return;
+		}
 		this.showPopover = !!this.user.showPopover;
 		this.isFeedHome = this.$route.name === 'all';
 		if (this.showPopover) {

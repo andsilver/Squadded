@@ -88,7 +88,7 @@ export default {
 	},
 	methods: {
 		confirm () {
-			this.promptOptions.confirm();
+			this.promptOptions.confirm && this.promptOptions.confirm();
 			this.hide();
 		},
 		hide () {

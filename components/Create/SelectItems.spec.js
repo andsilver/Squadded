@@ -100,6 +100,7 @@ describe('SelectItems Component', () => {
 		store.state.activity.wishlist = [post1];
 		wrapper.setProps({
 			coords: [],
+			isPhoto: true,
 		});
 		wrapper.vm.$refs[ITEM][0].$el.click();
 		expect(wrapper.vm.$emit).not.toHaveBeenCalled();

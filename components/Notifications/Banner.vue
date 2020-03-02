@@ -34,7 +34,7 @@ import {
 } from '~/store/notification';
 import { NOTIFICATIONS } from '~/consts/notifications';
 
-const { mapGetters, mapState } = createNamespacedHelpers(NotificationStore);
+const { mapGetters } = createNamespacedHelpers(NotificationStore);
 
 export default {
 	data: () => ({
@@ -51,7 +51,6 @@ export default {
 	}),
 	computed: {
 		...mapGetters([NotificationGetters.notify]),
-		...mapState(['notifications']),
 	},
 	methods: {
 		getComponent (notification) {

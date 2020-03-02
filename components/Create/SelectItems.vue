@@ -115,18 +115,19 @@ export default {
 			}
 		},
 		select (post) {
-			if (!post.selected && (this.coords.length <= this.selected.length)) {
+			if (!post.selected) {
 				if (this.selected.length >= this.maxCount) {
 					this.limitError = true;
-				} else {
+					this.$root.$emit('selectProducts', this.limitError);
+					return;
+				} else if (this.coords.length <= this.selected.length && this.isPhoto) {
 					return;
 				}
-			} else {
-				this.limitError = false;
-				post.selected = !post.selected;
-				this.selected = this.available.filter(post => post.selected);
-				this.$emit('select', this.selected.map(post => post.item), post.postId);
 			}
+			this.limitError = false;
+			post.selected = !post.selected;
+			this.selected = this.available.filter(post => post.selected);
+			this.$emit('select', this.selected.map(post => post.item), post.postId);
 			this.$root.$emit('selectProducts', this.limitError);
 			this.$forceUpdate();
 		},
