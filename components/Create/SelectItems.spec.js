@@ -10,7 +10,7 @@ Wrapper.prototype.ref = function (id) {
 };
 
 describe('SelectItems Component', () => {
-	const ITEMS = 'items';
+	const ITEM = 'item';
 	let mocks;
 
 	let localVue;
@@ -38,6 +38,13 @@ describe('SelectItems Component', () => {
 			localVue,
 			store,
 			mocks,
+			propsData: {
+				coords: [{
+					x: 10,
+					y: 10,
+					id: 'someid',
+				}],
+			},
 		});
 	});
 
@@ -59,10 +66,10 @@ describe('SelectItems Component', () => {
 		wrapper.vm.$emit = jest.fn();
 		store.state.activity.wishlist = [post1];
 
-		wrapper.vm.$refs[ITEMS][0].$el.click();
+		wrapper.vm.$refs[ITEM][0].$el.click();
 
 		expect(wrapper.vm.selected).toEqual([post1]);
-		expect(wrapper.vm.$emit).toHaveBeenCalledWith('select', [post1.item]);
+		expect(wrapper.vm.$emit).toHaveBeenCalledWith('select', [post1.item], post1.postId);
 	});
 
 	it('should unselect all wishlist posts', () => {
@@ -83,5 +90,18 @@ describe('SelectItems Component', () => {
 		store.state.activity.wishlist = posts;
 		wrapper.setData({ searchText });
 		expect(wrapper.vm.available[0].item.title).toBe(searchText);
+	});
+
+	it('should not select if select tags are less than selected items', () => {
+		const post1 = regularPostBuilder()
+			.withGUID()
+			.get();
+		wrapper.vm.$emit = jest.fn();
+		store.state.activity.wishlist = [post1];
+		wrapper.setProps({
+			coords: [],
+		});
+		wrapper.vm.$refs[ITEM][0].$el.click();
+		expect(wrapper.vm.$emit).not.toHaveBeenCalled();
 	});
 });

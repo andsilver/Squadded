@@ -7,7 +7,7 @@
 				ref="input-file"
 				:max-width="1024"
 				capture="camera"
-				accept="image/*"
+				accept="image/jpeg,image/jpg,image/png"
 				output-format="verbose"
 				@input="setImage"
 				@onComplete="completeCompress"

@@ -43,6 +43,7 @@ export class FeedPost {
 			correlationId,
 			creationTs,
 			private: privacy,
+			coords,
 		} = props;
 
 		this.type = type;
@@ -68,6 +69,7 @@ export class FeedPost {
 		this.creationTs = creationTs;
 		this.selected = false;
 		this.private = !!privacy;
+		coords && (this.coords = coords);
 
 		if (type === 'pollPost') {
 			this.item1 = composeItem(item1);

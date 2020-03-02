@@ -14,10 +14,10 @@
 			</v-icon>
 		</v-text-field>
 		<div class="choose-items-section" :class="{ is_poll_tab: isPoll }">
-			<div class="choose-items mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
+			<div ref="items" class="choose-items mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
 				<ProductCard
 					v-for="post in available"
-					ref="items"
+					ref="item"
 					:key="post.guid"
 					:class="{ selected: post.selected }"
 					:item="post.item"
@@ -65,6 +65,10 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		coords: {
+			type: Array,
+			default: () => [],
+		},
 	},
 	data: () => ({
 		selected: [],
@@ -103,16 +107,28 @@ export default {
 			}
 		},
 		select (post) {
-			if (this.selected.length < this.maxCount || this.selected.includes(post)) {
+			if (!post.selected && (this.coords.length <= this.selected.length)) {
+				if (this.selected.length >= this.maxCount) {
+					this.limitError = true;
+				} else {
+					return;
+				}
+			} else {
 				this.limitError = false;
 				post.selected = !post.selected;
-			} else {
-				this.limitError = true;
+				this.selected = this.available.filter(post => post.selected);
+				this.$emit('select', this.selected.map(post => post.item), post.postId);
 			}
 			this.$root.$emit('selectProducts', this.limitError);
-			this.selected = this.available.filter(post => post.selected);
-			this.$emit('select', this.selected.map(post => post.item));
 			this.$forceUpdate();
+		},
+		tagClick (coord) {
+			let index = this.available.findIndex(item => item.postId === coord.id);
+			if (index === -1) {
+				index = 0;
+			}
+			const item = this.$refs.item[index];
+			return item.$el.offsetTop - 64;
 		},
 	},
 };

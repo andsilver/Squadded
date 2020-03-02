@@ -13,7 +13,7 @@
 								sqdi-refresh
 							</v-icon>
 						</v-btn>
-						<v-btn icon width="40" height="40" @click="() => cropActive = !cropActive">
+						<v-btn :disabled="!!getSelected.length" icon width="40" height="40" @click="() => cropActive = !cropActive">
 							<v-icon :color="cropActive? '#fd756a' : '#000'">
 								mdi-crop
 							</v-icon>
@@ -104,7 +104,7 @@ import { prefetch } from '~/helpers';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
-const createPost = async ({ file, store, text, isPublic, selected, image, type }) => {
+const createPost = async ({ file, store, text, isPublic, selected, image, type, coords }) => {
 	try {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, image);
 		const url = await prefetch({
@@ -129,6 +129,7 @@ const createPost = async ({ file, store, text, isPublic, selected, image, type }
 			private: !isPublic,
 			text,
 			type: 'galleryPost',
+			coords,
 		};
 		const post = await store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		post.ts = Date.now();
@@ -184,6 +185,10 @@ export default {
 	},
 	methods: {
 		create () {
+			let { coords } = this.$refs.tagsComponent;
+			if (coords && coords.length) {
+				coords = coords.filter(c => c.id);
+			}
 			createPost({
 				file: this.file,
 				store: this.$store,
@@ -192,6 +197,7 @@ export default {
 				selected: this.getSelected,
 				image: this.dataImg,
 				type: this.type,
+				coords,
 			});
 			this.$router.push({
 				path: '/feed',

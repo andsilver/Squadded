@@ -20,12 +20,21 @@
 					ref="item-image"
 					:item="post"
 					:resquadd="false"
-				/>
+				>
+					<TagButton
+						v-for="(coord, index) in coords"
+						:key="index"
+						class="tag-button"
+						:style="{ top: coord.y + '%', left: coord.x + '%' }"
+						@click="() => tagClick(coord)"
+					/>
+				</ItemImage>
 			</CardFrame>
 			<div v-if="!isPaired" class="scroll-section">
-				<div class="scroll-items" :style="{ 'height': maxHeight }">
+				<div ref="items" class="scroll-items" :style="{ 'height': maxHeight }">
 					<ProductCard
 						v-for="item in post.items"
+						ref="item"
 						:key="item.itemId"
 						:post-id="post.guid"
 						:item="item"
@@ -42,6 +51,7 @@
 import Post from './Includes/Post';
 import CardFrame from './Includes/CardFrame';
 import ItemImage from './Includes/ItemImage';
+import TagButton from './Includes/TagButton';
 import ProductCard from './Includes/ProductCard';
 import { prefetch, price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
@@ -54,6 +64,7 @@ export default {
 		ItemImage,
 		Post,
 		ProductCard,
+		TagButton,
 	},
 	props: {
 		post: {
@@ -75,6 +86,9 @@ export default {
 			const total = this.post.items.map(i => i.price).reduce((a, b) => (a + (+b)), 0);
 			return price(this.post.items[0].currency, total, this._i18n.locale);
 		},
+		coords () {
+			return this.post.coords || [];
+		},
 	},
 	methods: {
 		fetch () {
@@ -95,6 +109,18 @@ export default {
 		toggleShifted () {
 			this.fetched = true;
 			this.shifted = !this.shifted;
+		},
+		tagClick (coord) {
+			let index = this.post.items.findIndex(item => item.itemId === coord.id);
+			if (index === -1) {
+				index = 0;
+			}
+			const item = this.$refs.item[index];
+			this.$refs.items.scrollTo({
+				top: item.$el.offsetTop - 80,
+				behavior: 'smooth',
+			});
+			this.shifted = true;
 		},
 	},
 };
@@ -163,4 +189,8 @@ export default {
 		width 100%
 		padding 0 !important
 		margin 0 !important
+.item-image
+	position relative
+.tag-button
+	position absolute
 </style>

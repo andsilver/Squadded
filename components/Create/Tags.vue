@@ -13,24 +13,45 @@
 				:item="post"
 				:resquadd="false"
 				@click.native="toggleShifted"
-			/>
+			>
+				<TagButton
+					v-for="(coord, index) in coords"
+					:key="index"
+					class="tag-button"
+					:style="{ top: coord.y + '%', left: coord.x + '%' }"
+					@click="() => tagClick(coord)"
+				/>
+			</ItemImage>
 			<ImageCrop v-if="cropActive" ref="photo-crop-view" :item="post" @doneCrop="(data) => $emit('doneCrop', data)" />
 			<p v-if="!cropActive" class="tip">
 				{{ $t('tip.createPhotoTag') }}
 			</p>
 		</CardFrame>
-		<div class="scroll-items">
-			<SelectItems ref="select-items" :is-photo="true" :max-count="4" narrow :style="{ 'max-height': maxHeight }" />
+		<div ref="scroll" class="scroll-items">
+			<SelectItems
+				ref="select-items"
+				:is-photo="true"
+				:max-count="4"
+				narrow
+				:style="{ 'max-height': maxHeight }"
+				:coords="coords"
+				@select="select"
+			/>
 		</div>
 	</div>
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import SelectItems from './SelectItems';
 import CardFrame from '~/components/Posts/Includes/CardFrame';
 import ImageCrop from '~/components/Posts/Includes/ImageCrop';
 import ItemImage from '~/components/Posts/Includes/ItemImage';
 import { FeedPost } from '~/classes/FeedPost';
+import TagButton from '~/components/Posts/Includes/TagButton';
+import { ActivityStore, ActivityGetters } from '~/store/activity';
+
+const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
 export default {
 	name: 'MultiItemPost',
@@ -39,6 +60,7 @@ export default {
 		ItemImage,
 		SelectItems,
 		ImageCrop,
+		TagButton,
 	},
 	props: {
 		post: {
@@ -56,13 +78,52 @@ export default {
 		fetched: false,
 		shifted: false,
 		maxHeight: '250px',
+		coords: [],
 	}),
+	computed: {
+		...mapGetters([
+			ActivityGetters.getSelected,
+		]),
+	},
+	watch: {
+		getSelected (value) {
+			this.coords = this.coords.filter(c => value.find(s => s.selected && c.id === s.postId));
+		},
+	},
 	methods: {
-		toggleShifted () {
-			if (!this.cropActive) {
-				this.maxHeight = `${(this.$refs['tag-card'].$el.offsetHeight - 40)}px`;
-				this.shifted = !this.shifted;
+		toggleShifted (e) {
+			if (this.cropActive) {
+				return;
 			}
+			this.maxHeight = `${(this.$refs['tag-card'].$el.offsetHeight - 40)}px`;
+			if (this.shifted) {
+				this.coords = this.coords.filter(c => c.id);
+			} else if (this.getSelected.length < 4 && e) {
+				const rect = e.target.getBoundingClientRect();
+				const { left, top } = rect;
+				this.coords.push({
+					x: (e.pageX - window.scrollX - left - 12) / e.target.clientWidth * 100,
+					y: (e.pageY - window.scrollY - top - 12) / e.target.clientHeight * 100,
+				});
+			}
+			this.shifted = !this.shifted;
+		},
+		select(selected, id) {
+			const index = this.coords.findIndex(c => c.id === id);
+			if (index > -1) {
+				this.coords[index].id = null;
+			} else if (!this.coords[this.coords.length - 1].id) {
+				this.coords[this.coords.length - 1].id = id;
+			}
+			this.toggleShifted();
+		},
+		tagClick(coord) {
+			this.shifted = true;
+			const top = this.$refs['select-items'].tagClick(coord);
+			this.$refs.scroll.scrollTo({
+				top,
+				behavior: 'smooth',
+			});
 		},
 	},
 };
@@ -128,4 +189,8 @@ export default {
 	bottom 0px
 .multi-item
 	max-width calc(100% - 80px)
+.post-main-image
+	position relative
+.tag-button
+	position absolute
 </style>

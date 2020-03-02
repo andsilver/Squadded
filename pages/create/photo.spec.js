@@ -41,6 +41,12 @@ describe('Create Photo', () => {
 	const $router = {
 		push: jest.fn(),
 	};
+	const $refs = {
+		tagsComponent: {
+			coords: [{ id: 'id' }],
+		},
+		'public-toggle': true,
+	};
 
 	beforeEach(() => {
 		localVue = createLocalVue();
@@ -52,6 +58,7 @@ describe('Create Photo', () => {
 			mocks: {
 				$router,
 				$t: msg => msg,
+				$refs,
 			},
 		});
 	});
