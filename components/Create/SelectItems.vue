@@ -105,7 +105,7 @@ export default {
 		});
 	},
 	destroyed () {
-		this.wishlist.forEach(post => (post.selected = false));
+		this.wishlist && this.wishlist.forEach(post => (post.selected = false));
 	},
 	methods: {
 		selectPaired(itemId) {

@@ -106,6 +106,9 @@ export default {
 		scroll () {
 			setTimeout(() => {
 				const { $el } = this;
+				if (!$el) {
+					return;
+				}
 				window.scroll({
 					top: getScroll($el.getBoundingClientRect(), window.scrollY),
 					behavior: 'smooth',

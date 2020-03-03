@@ -48,6 +48,7 @@ describe('Notifications', () => {
 		store.commit(`${NotificationStore}/${NotificationMutations.receive}`, {
 			notifications: [{
 				viewed: false,
+				user: {},
 			}],
 		});
 

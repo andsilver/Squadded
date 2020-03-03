@@ -24,13 +24,13 @@ describe('Notification store module', () => {
 		});
 
 		it('should add a notification', () => {
-			const notification = { _id: 'id' };
+			const notification = { _id: 'id', user: {} };
 			add(state, notification);
 			expect(state.notifications.length).toBe(1);
 		});
 
 		it('should view all notifications', () => {
-			const notification = { _id: 'id' };
+			const notification = { _id: 'id', user: {} };
 			state.notifications = [notification];
 			viewAll(state);
 			expect(notification.viewed).toBe(true);
@@ -39,16 +39,18 @@ describe('Notification store module', () => {
 		it('should receive notifications', () => {
 			global.sessionStorage = new Storage();
 			window.parent.postMessage = jest.fn();
-			const notifications = [{ _id: 1, viewed: false }];
+			const notifications = [{ _id: 1, viewed: false, user: {} }];
 			state.notifications = notifications;
 			const newNotifications = [
 				{
 					_id: 1,
 					viewed: false,
+					user: {},
 				},
 				{
 					_id: 2,
 					viewed: false,
+					user: {},
 				},
 			];
 			receive(state, {

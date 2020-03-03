@@ -1,4 +1,4 @@
-import { NOTIFICATIONS_LIMIT } from '~/consts/notifications';
+import { NOTIFICATIONS_LIMIT, NOTIFICATIONS } from '~/consts/notifications';
 
 export const NotificationStore = 'notification';
 export const TIMEOUT_SECONDS = 5; // 5 seconds
@@ -31,6 +31,15 @@ export const NotificationMutations = {
 
 const contain = state => ntf => state.notifications.find(n => ntf._id === n._id);
 const unreadExist = state => state.notifications.find(n => !n.viewed);
+const checkUser = (notification) => {
+	if (notification.type === NOTIFICATIONS.POLL_END) {
+		return true;
+	}
+	if (notification.type === NOTIFICATIONS.VOTE) {
+		return !!notification.voter;
+	}
+	return !!notification.user;
+};
 
 export const mutations = {
 	[NotificationMutations.add]: (state, message) => {
@@ -54,7 +63,9 @@ export const mutations = {
 	[NotificationMutations.receive]: (state, { notifications, ts }) => {
 		const unique = notifications.filter(n => !contain(state)(n));
 		unique.forEach(ntf => (ntf.viewed = ntf.viewed || false));
-		state.notifications = [...unique, ...state.notifications].slice(0, NOTIFICATIONS_LIMIT);
+		state.notifications = [...unique, ...state.notifications]
+			.filter(checkUser)
+			.slice(0, NOTIFICATIONS_LIMIT);
 		sessionStorage.setItem(STORAGE_NOTIFICATIONS_KEY, JSON.stringify({
 			items: state.notifications,
 			ts: ts || Date.now(),

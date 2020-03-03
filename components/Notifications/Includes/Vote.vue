@@ -67,7 +67,7 @@ export default {
 			return this.notification.vote === 1 ? this.notification.item1.img : this.notification.item2.img;
 		},
 		votedUser () {
-			return this.notification.voter || this.notification.user;
+			return this.notification.voter;
 		},
 	},
 	methods: {

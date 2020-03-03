@@ -58,6 +58,7 @@ export const mutations = {
 		post.comments.count = post.comments.messages.length;
 	},
 	[PostMutations.addLike]: (state, { post, user }) => {
+		!post.likes.users && (post.likes.users = []);
 		post.likes.users.unshift(user);
 		post.likes.count = post.likes.users.length;
 	},

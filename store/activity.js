@@ -50,6 +50,8 @@ export const ActivityMutations = {
 
 export const mutations = {
 	[ActivityMutations.addPost]: (state, post) => {
+		!state.blog && (state.blog = []);
+		!state.wishlist && (state.wishlist = []);
 		if (isSameUser(state.blog, post.userId)) {
 			state.blog.unshift(post);
 		}
