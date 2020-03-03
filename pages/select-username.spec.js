@@ -27,7 +27,6 @@ describe('Select Username', () => {
 
 	const BRAND_SECTION = 'brand-section';
 	const PICK_USERNAME_SEC = 'pick-username-sec';
-	const USER_AVATAR = 'user-avatar';
 	const AVATAR_INPUT = 'avatar-input';
 	const AVATAR_UPLOAD_BTN = 'avatar-upload-btn';
 	const USERNAME_FIELD = 'username-field';
@@ -55,9 +54,7 @@ describe('Select Username', () => {
 
 	it('should render contents after auth', async () => {
 		await store.commit('SET_SOCKET_AUTH', true);
-		// expect(wrapper.ref(BRAND_SECTION).exists()).toBe(true);
 		expect(wrapper.ref(PICK_USERNAME_SEC).exists()).toBe(true);
-		expect(wrapper.ref(USER_AVATAR).exists()).toBe(true);
 		expect(wrapper.ref(AVATAR_INPUT).exists()).toBe(true);
 		expect(wrapper.ref(AVATAR_UPLOAD_BTN).exists()).toBe(true);
 		expect(wrapper.ref(USERNAME_FIELD).exists()).toBe(true);

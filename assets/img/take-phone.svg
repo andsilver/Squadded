@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="36" viewBox="0 0 24 36">
+  <g id="Phone" transform="translate(-378 -453)">
+    <g id="Casing" transform="translate(378 489) rotate(-90)" fill="none" stroke="#000" stroke-width="3">
+      <rect width="36" height="24" rx="5" stroke="none"/>
+      <rect x="1.5" y="1.5" width="33" height="21" rx="3.5" fill="none"/>
+    </g>
+    <g id="Button" transform="translate(387.867 479.267)" fill="#fff" stroke="#000" stroke-width="2">
+      <circle cx="2.133" cy="2.133" r="2.133" stroke="none"/>
+      <circle cx="2.133" cy="2.133" r="1.133" fill="none"/>
+    </g>
+    <g id="Camera" transform="translate(384.8 461.867)">
+      <g id="Angle" transform="translate(8 8)">
+        <line id="Line_3" data-name="Line 3" x2="2.667" transform="translate(0 2.667)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+        <line id="Line_4" data-name="Line 4" x2="2.667" transform="translate(2.667 2.667) rotate(-90)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+      </g>
+      <g id="Angle-2" data-name="Angle" transform="translate(0 8)">
+        <line id="Line_3-2" data-name="Line 3" x1="2.667" transform="translate(0 2.667)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+        <line id="Line_4-2" data-name="Line 4" x2="2.667" transform="translate(0 2.667) rotate(-90)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+      </g>
+      <g id="Angle-3" data-name="Angle" transform="translate(8)">
+        <line id="Line_3-3" data-name="Line 3" x2="2.667" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+        <line id="Line_4-3" data-name="Line 4" x2="2.667" transform="translate(2.667) rotate(90)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+      </g>
+      <g id="Angle-4" data-name="Angle">
+        <line id="Line_3-4" data-name="Line 3" x1="2.667" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+        <line id="Line_4-4" data-name="Line 4" x2="2.667" transform="rotate(90)" fill="none" stroke="#000" stroke-linecap="round" stroke-width="2"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -83,43 +83,49 @@
 						<div class="pin_sec">
 							<v-text-field
 								ref="pin-field1"
-								v-model="pin"
+								v-model="p1"
 								type="number"
 								solo
 								flat
 								dense
 								class="otp-field pin_opt"
 								:class="{ invalid: showError }"
+								@input="p1up"
 							/>
 							<v-text-field
 								ref="pin-field2"
-								v-model="pin"
+								v-model="p2"
 								type="number"
 								solo
 								flat
 								dense
 								class="otp-field pin_opt"
 								:class="{ invalid: showError }"
+								@input="p2up"
+								@keyup.native.delete="backPin('pin-field1')"
 							/>
 							<v-text-field
 								ref="pin-field3"
-								v-model="pin"
+								v-model="p3"
 								type="number"
 								solo
 								flat
 								dense
 								class="otp-field pin_opt"
 								:class="{ invalid: showError }"
+								@input="p3up"
+								@keyup.native.delete="backPin('pin-field2')"
 							/>
 							<v-text-field
 								ref="pin-field4"
-								v-model="pin"
+								v-model="p4"
 								type="number"
 								solo
 								flat
 								dense
 								class="otp-field pin_opt"
 								:class="{ invalid: showError }"
+								@keyup.native.delete="backPin('pin-field3')"
 							/>
 						</div>
 						<span v-if="showError" ref="error-message" class="error-message">{{ $t('form.rules.pin.valid') }}</span>
@@ -162,6 +168,10 @@ export default {
 		email: null,
 		pin: null,
 		showError: false,
+		p1: null,
+		p2: null,
+		p3: null,
+		p4: null,
 	}),
 	computed: {
 		...mapState([
@@ -169,6 +179,24 @@ export default {
 		]),
 	},
 	methods: {
+		p1up () {
+			if (this.p1 !== '') {
+				this.$refs['pin-field2'].focus();
+			}
+		},
+		p2up () {
+			if (this.p2 !== '') {
+				this.$refs['pin-field3'].focus();
+			}
+		},
+		p3up () {
+			if (this.p3 !== '') {
+				this.$refs['pin-field4'].focus();
+			}
+		},
+		backPin (refEle) {
+			this.$refs[refEle].focus();
+		},
 		showStepTwo (email) {
 			this.email = email;
 			this.showstepTwo = false;

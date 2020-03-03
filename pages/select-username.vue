@@ -1,5 +1,5 @@
 <template>
-	<v-container>
+	<v-container class="pd">
 		<v-layout
 			v-if="socket.isAuth && user.guid"
 			column
@@ -25,9 +25,10 @@
 									@onComplete="completeCompress"
 								/>
 							</client-only>
-							<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
+							<PopMenu ref="avatar-upload-btn" />
+							<!-- <v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
 								<img src="../assets/img/action-edit.svg" class="edit-icon-image">
-							</v-btn>
+							</v-btn> -->
 							<p class="user_name">
 								@username
 							</p>
@@ -39,25 +40,6 @@
 						{{ $t('PickUsername') }}
 					</h4>
 					<span>{{ $t('StartBuildingYourSquad') }}</span>
-				</div>
-				<div class="select-user-icon-sec">
-					<img ref="user-avatar" :src="userAvatar" class="select-user-icon">
-					<client-only>
-						<ImageUploader
-							v-show="false"
-							id="avatar-input"
-							ref="avatar-input"
-							:max-width="600"
-							accept="image/jpeg,image/jpg,image/png"
-							auto-rotate
-							output-format="verbose"
-							@input="setImage"
-							@onComplete="completeCompress"
-						/>
-					</client-only>
-					<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
-						<img src="../assets/img/action-edit.svg" class="edit-icon-image">
-					</v-btn>
 				</div>
 				<div class="username-form-sec">
 					<v-text-field
@@ -93,6 +75,7 @@
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
 import ImageUploader from 'vue-image-upload-resize';
+import PopMenu from '../components/UserProfile/EditPopMenu';
 import { dataURItoBlob } from '~/utils/dataUriToBlob';
 import { UserStore, UserActions } from '~/store/user';
 import { PostStore, PostMutations } from '~/store/post';
@@ -103,6 +86,7 @@ const userState = createNamespacedHelpers(UserStore).mapState;
 export default {
 	components: {
 		ImageUploader,
+		PopMenu,
 	},
 	data: () => ({
 		user: null,
@@ -295,4 +279,9 @@ export default {
 	font-weight 500
 	line-height 4.61vw
 	margin-top 3.07vw
+.container.pd
+	padding 0
+	.v-menu__content
+		top 47vw !important
+		left 5vw !important
 </style>
