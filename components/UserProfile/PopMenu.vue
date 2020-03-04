@@ -6,7 +6,6 @@
 			absolute
 			origin="right top"
 			transition="scale-transition"
-			:close-on-content-click="false"
 			class="comment-settings"
 		>
 			<template v-slot:activator="{ on }">
@@ -28,38 +27,76 @@
 						</v-btn>
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="comment-menu-pushwatchers comment-setting-option">
+				<!-- <v-list-item class="comment-menu-pushwatchers comment-setting-option">
 					<v-list-item-title class="setting-label pushwatchers">
 						{{ $t(`user.action.PushWatchers`) }}
 					</v-list-item-title>
-				</v-list-item>
-				<v-list-item class="post-menu-share comment-menu-share comment-setting-option">
-					<v-list-item-title class="setting-label share" @click="menu = false">
-						{{ $t(`user.action.Sharelink`) }}
+				</v-list-item> -->
+				<v-list-item class="comment-menu-report comment-setting-option">
+					<v-list-item-title ref="report" class="setting-label report" @click="promptReportUser">
+						{{ $t(`user.action.report`) }}
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="comment-menu-addtomysquad comment-setting-option">
+				<v-list-item
+					v-if="!isMysquad"
+					ref="add-to-squad"
+					class="comment-menu-addtomysquad comment-setting-option"
+					@click="addToSquad"
+				>
 					<v-list-item-title class="setting-label addtomysquad">
 						{{ $t(`user.action.AddMySquad`) }}
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="comment-menu-unwatch comment-setting-option">
+				<v-list-item
+					v-if="isMysquad"
+					ref="remove-squad"
+					class="comment-menu-addtomysquad comment-setting-option"
+					@click="removeSquad"
+				>
+					<v-list-item-title class="setting-label rmtomysquad">
+						{{ $t(`user.action.Remove`) }}
+					</v-list-item-title>
+				</v-list-item>
+				<v-list-item
+					v-if="!isMysquad && user.followers.me"
+					ref="unwatch"
+					class="comment-menu-unwatch comment-setting-option"
+					@click="toggleFollow"
+				>
 					<v-list-item-title class="setting-label unwatch">
 						{{ $t(`user.action.Unwatch`) }}
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="comment-menu-report comment-setting-option">
-					<v-list-item-title ref="report-comment" class="setting-label report" @click="promptReportUser">
-						{{ $t(`user.action.report`) }}
+				<v-list-item
+					v-if="!isMysquad && !user.followers.me"
+					ref="watch"
+					class="comment-menu-unwatch comment-setting-option"
+					@click="toggleFollow"
+				>
+					<v-list-item-title class="setting-label">
+						<v-icon small color="black">
+							mdi-eye-outline
+						</v-icon>
+						<span class="ml-1">
+							{{ $t(`user.Follow`) }}
+						</span>
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="comment-menu-rmtomysquad comment-setting-option">
+				<!-- <v-list-item class="comment-menu-rmtomysquad comment-setting-option">
 					<v-list-item-title class="setting-label rmtomysquad">
 						{{ $t(`user.action.Block`) }}
+					</v-list-item-title>
+				</v-list-item> -->
+				<v-list-item ref="share" class="post-menu-share comment-menu-share comment-setting-option">
+					<v-list-item-title class="setting-label share" @click="share">
+						{{ $t(`user.action.Sharelink`) }}
 					</v-list-item-title>
 				</v-list-item>
 			</v-list>
 		</v-menu>
+
+		<Follow v-show="false" ref="follow" :user="user" />
+		<RemoveSquad v-show="false" ref="remove" :user="user" />
 
 		<v-dialog v-model="showReasonDialog" content-class="report-dialog">
 			<v-card>
@@ -95,15 +132,27 @@
 				</v-card-actions>
 			</v-card>
 		</v-dialog>
+
+		<v-dialog v-model="showShare" content-class="share_box">
+			<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
+		</v-dialog>
 	</div>
 </template>
 
 <script>
 import Button from '~/components/common/Button';
+import Follow from '~/components/common/Follow';
+import RemoveSquad from '~/components/common/RemoveSquad';
+import ShareProfile from '~/components/UserProfile/ShareProfile';
+
+const CANCALED_BY_USER = 20;
 
 export default {
 	components: {
 		Button,
+		Follow,
+		RemoveSquad,
+		ShareProfile,
 	},
 	props: {
 		user: {
@@ -122,10 +171,27 @@ export default {
 		],
 		other: null,
 		showReasonDialog: false,
+		showShare: false,
 	}),
 	computed: {
 		disabled() {
 			return !this.reason || (this.reason === 'other' && !this.other);
+		},
+		isMysquad () {
+			return this.user.squad && this.user.squad.exists && !this.user.squad.pending;
+		},
+		target () {
+			const { siteUrl, siteTitle } = this.$store.state.merchant;
+			return {
+				id: this.user.userId,
+				url: siteUrl,
+				title: siteTitle,
+			};
+		},
+		userLink () {
+			const { API_ENDPOINT } = this.$store.state.squad;
+			const target = JSON.stringify(this.target);
+			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
 		},
 	},
 	mounted() {
@@ -144,6 +210,45 @@ export default {
 		promptReportUser() {
 			this.reason = this.reasons[0];
 			this.showReasonDialog = true;
+		},
+		toggleFollow () {
+			this.$refs.follow.toggleFollow();
+		},
+		addToSquad() {
+			this.$ws.sendObj({
+				type: 'acceptSquad',
+				targetUserId: this.user.userId,
+			});
+		},
+		removeSquad () {
+			this.$refs.remove.removeSquad();
+		},
+		async share () {
+			this.showShare = false;
+			if (navigator && navigator.share) {
+				const { siteTitle } = this.$store.state.merchant;
+				const title = `${this.user.name || this.user.screenName} @ ${siteTitle}`;
+				try {
+					await navigator.share({
+						title,
+						text: title,
+						url: this.userLink,
+					});
+				} catch (error) {
+					if (error.code !== CANCALED_BY_USER) {
+						this.showModal();
+					}
+				}
+			} else {
+				this.showModal();
+			}
+		},
+		showModal () {
+			this.showShare = true;
+			this.$forceUpdate();
+		},
+		hideShare () {
+			this.showShare = false;
 		},
 	},
 };
@@ -250,6 +355,11 @@ export default {
 			&.unwatch
 				background-size 3.84vw
 				background-image url('~assets/img/action-unwatch.svg')
+				padding-left 6.73vw
+				background-position-y center
+			&.watch
+				background-size 3.84vw
+				background-image url('~assets/img/eye.svg')
 				padding-left 6.73vw
 				background-position-y center
 

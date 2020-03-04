@@ -315,7 +315,8 @@
       "PushWatchers": "Push to watchers",
       "Sharelink": "Share link",
       "AddMySquad": "Add to My Squad",
-      "Unwatch": "Unwatch Sophie",
+      "Remove": "Remove",
+      "Unwatch": "Unwatch",
       "Block": "Block Sophie"
     },
     "remove_squad": {
