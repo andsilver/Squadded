@@ -364,6 +364,9 @@
       "description": "How often do you want to get notifications?"
     },
     "feedback": "Feedback",
+    "submit": "submit",
+    "submitted_notification": "Thank you. Your report has been sent",
+    "feedback_warning": "Please only leave feedback about Squadded and our features. All reports are subject to our terms of use.",
     "signout": {
       "button": "Sign out",
       "confirm": "Are you sure you want to sign out?"

@@ -3,7 +3,7 @@ export const NOTIFICATIONS = {
 	LIKE: 'notifLike',
 	POLL_END: 'notifEndPoll',
 	VOTE: 'notifVote',
-	ALERT: 'notifyAlert',
+	ALERT: 'notifAlert',
 	ACCEPT_SQUAD: 'notifAcceptSquad',
 	FOLLOW: 'notifFollow',
 	FOLLOW_REQUEST: 'notifFollowRequest',

@@ -124,12 +124,17 @@
 		</section>
 		<v-divider />
 		<div class="mt-4">
-			<div class="d-flex justify-space-between">
-				<span class="input-label">{{ $t('profile_settings.feedback') }}</span>
-				<span class="input-label">{{ $t('profile_settings.share_your_opinion') }}</span>
+			<div class="d-flex align-center justify-space-between">
+				<span ref="feedback-label" class="input-label" :class="{ isError }">{{ $t('profile_settings.feedback') }}</span>
+				<v-btn ref="submit-btn" small text color="#fd6256" @click="submit">
+					{{ $t('profile_settings.submit') }}
+				</v-btn>
 			</div>
 			<div class="mt-2">
-				<v-textarea outlined :rows="3" />
+				<v-textarea ref="feedback-field" v-model="feedback" outlined :rows="3" hide-details />
+			</div>
+			<div class="mt-2 input-label" style="font-size: 12px">
+				{{ $t('profile_settings.feedback_warning') }}
 			</div>
 		</div>
 		<section class="my-4 d-flex">
@@ -235,6 +240,8 @@
 import { createNamespacedHelpers } from 'vuex';
 import Button from '~/components/common/Button';
 import { UserStore } from '~/store/user';
+import { NotificationStore, NotificationMutations } from '~/store/notification';
+import { NOTIFICATIONS } from '~/consts/notifications';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
@@ -254,9 +261,14 @@ export default {
 		showTerms: false,
 		showSignoutDialog: false,
 		editing: false,
+		submitted: false,
+		feedback: '',
 	}),
 	computed: {
 		...mapState(['me']),
+		isError () {
+			return this.submitted && !this.feedback;
+		},
 	},
 	watch: {
 		me() {
@@ -293,6 +305,28 @@ export default {
 		},
 		save() {
 			this.editing = false;
+		},
+		submit () {
+			this.submitted = true;
+			if (!this.feedback) {
+				return;
+			}
+			this.$ws.sendObj({
+				type: 'feedbackPost',
+				feedback: this.feedback,
+			});
+			const message = {
+				type: NOTIFICATIONS.ALERT,
+				text: this.$t('profile_settings.submitted_notification'),
+				ts: Date.now(),
+				_id: Date.now(),
+			};
+			this.$store.commit(
+				`${NotificationStore}/${NotificationMutations.add}`,
+				message,
+			);
+			this.feedback = '';
+			this.submitted = false;
 		},
 	},
 };
@@ -351,4 +385,7 @@ section .v-btn
 
 .v-card__text *
 	color black
+
+.isError
+	color #fd6256
 </style>
