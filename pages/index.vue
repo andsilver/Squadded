@@ -220,6 +220,7 @@ export default {
 			this.pin = null;
 		},
 		validate() {
+			this.pin = this.p1 + this.p2 + this.p3 + this.p4;
 			loginWithPIN(+this.pin, this.email, this.merchant.id).then(({ error, token }) => {
 				if (error) {
 					this.showError = true;

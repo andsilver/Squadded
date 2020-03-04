@@ -49,11 +49,9 @@ describe('Signup', () => {
 
 		const signForm = wrapper.ref(SIGN_FORM);
 		const goBackBtn = wrapper.ref(GO_BACK_BTN);
-		// const pinField = wrapper.ref(PIN_FIELD);
 		const validateBtn = wrapper.ref(VALIDATE_BTN);
 		expect(signForm.exists()).toBe(true);
 		expect(goBackBtn.exists()).toBe(true);
-		// expect(pinField.exists()).toBe(true);
 		expect(validateBtn.exists()).toBe(true);
 	});
 
@@ -81,7 +79,6 @@ describe('Signup', () => {
 		signForm.vm.$emit('sendOtp', email);
 		window.postMessage = jest.fn();
 		await validateBtn.trigger('submit');
-		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, merchantId);
 		expect(window.postMessage).toHaveBeenCalledWith(JSON.stringify({
 			type: 'loggedIn',
 			userToken: token,
