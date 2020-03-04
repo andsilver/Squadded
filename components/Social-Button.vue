@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Social from '~/classes/social';
 
 const fullname = {
@@ -23,9 +24,14 @@ export default {
 			title: `${fullname[this.for]}`,
 		};
 	},
+	computed: {
+		...mapState([
+			'merchant',
+		]),
+	},
 	methods: {
 		login () {
-			Social.oauth(fullname[this.for]);
+			Social.oauth(fullname[this.for], this.merchant.id);
 		},
 	},
 };

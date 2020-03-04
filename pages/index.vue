@@ -176,6 +176,7 @@ export default {
 	computed: {
 		...mapState([
 			'socket',
+			'merchant',
 		]),
 	},
 	methods: {
@@ -219,7 +220,7 @@ export default {
 			this.pin = null;
 		},
 		validate() {
-			loginWithPIN(+this.pin, this.email).then(({ error, token }) => {
+			loginWithPIN(+this.pin, this.email, this.merchant.id).then(({ error, token }) => {
 				if (error) {
 					this.showError = true;
 					return;

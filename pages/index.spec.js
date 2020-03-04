@@ -25,7 +25,6 @@ describe('Signup', () => {
 	const STEP_TWO = 'step-two';
 	const SIGN_FORM = 'sign-form';
 	const GO_BACK_BTN = 'go-back-btn';
-	// const PIN_FIELD = 'pin-field';
 	const VALIDATE_BTN = 'signup-validate-btn';
 	const ERROR_MESSAGE = 'error-message';
 
@@ -64,7 +63,6 @@ describe('Signup', () => {
 		const stepOne = wrapper.ref(STEP_ONE);
 		const stepTwo = wrapper.ref(STEP_TWO);
 		const signForm = wrapper.ref(SIGN_FORM);
-		// expect(stepOne.classes('active')).toBe(true);
 		expect(stepTwo.classes('in_active')).toBe(true);
 		signForm.vm.$emit('sendOtp', email);
 		expect(stepTwo.classes('active')).toBe(true);
@@ -75,13 +73,15 @@ describe('Signup', () => {
 		store.commit('SET_SOCKET_AUTH', false);
 		store.commit('SET_PENDING', false);
 		wrapper.setData({ pin });
+		const merchantId = 'merchant-id';
+		store.state.merchant.id = merchantId;
 		const signForm = wrapper.ref(SIGN_FORM);
 		const validateBtn = wrapper.ref(VALIDATE_BTN);
 		loginWithPIN.mockReturnValue(Promise.resolve({ token }));
 		signForm.vm.$emit('sendOtp', email);
 		window.postMessage = jest.fn();
 		await validateBtn.trigger('submit');
-		expect(loginWithPIN).toHaveBeenCalledWith(pin, email);
+		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, merchantId);
 		expect(window.postMessage).toHaveBeenCalledWith(JSON.stringify({
 			type: 'loggedIn',
 			userToken: token,

@@ -30,18 +30,18 @@ const OAUTH = {
 };
 
 export default class Social {
-	static redirectUrl (providerName) {
-		return `${AUTH_REDIRECT_ROOT}${providerName}/callback`;
+	static redirectUrl (providerName, merchantId) {
+		return `${AUTH_REDIRECT_ROOT}${providerName}/callback?merchantId=${merchantId}`;
 	}
 
-	static oauth (providerName) {
+	static oauth (providerName, merchantId) {
 		if (!OAUTH[providerName]) {
 			return;
 		}
 
 		const uri = OAUTH[providerName].endpoint +
 			`app_id=${OAUTH[providerName].id}` +
-			`&redirect_uri=${Social.redirectUrl(providerName)}` +
+			`&redirect_uri=${Social.redirectUrl(providerName, merchantId)}` +
 			'&response_type=code' +
 			(OAUTH[providerName].scope ? `&scope=${OAUTH[providerName].scope}` : '') +
 			(OAUTH[providerName].display ? `&display=${OAUTH[providerName].display}` : '');
