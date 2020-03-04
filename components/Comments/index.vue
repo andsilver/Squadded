@@ -1,6 +1,6 @@
 <template>
 	<section v-if="post.comments && post.comments.messages" :class="{'for-feed': forFeed}">
-		<span v-if="!visible" v-observe-visibility="visibilityChanged" class="visibility" />
+		<span v-observe-visibility="visibilityChanged" :class="{ hide_visibility: visible }" class="visibility" />
 		<template v-if="visible">
 			<template v-if="showAllComments || post.comments.messages.length === 1">
 				<v-list
@@ -33,7 +33,12 @@
 			</template>
 			<MessageInput
 				ref="comment-input"
-				:class="forFeed ? 'post_comment_input_for_feed' : 'post_comment_input'"
+				:class="{
+					comment_input: true,
+					post_comment_input_for_feed: forFeed,
+					post_comment_input: !forFeed,
+					hide_comment_input: !showInput,
+				}"
 				:action="sendComment"
 				:placeholder="$t('input.placeholder')"
 				:post="post"
@@ -80,8 +85,13 @@ export default {
 		sendComment: `${PostStore}/${PostActions.sendComment}`,
 		showAllComments: true,
 		visible: false,
+		showInput: false,
+		showInputTimeout: null,
 	}),
 	created () {
+		if (!this.forFeed) {
+			this.showInput = true;
+		}
 		return prefetch({
 			guid: this.post.guid,
 			mutation: `${PostStore}/${PostMutations.receiveComments}`,
@@ -120,6 +130,12 @@ export default {
 		},
 		visibilityChanged(isVisible) {
 			this.visible = this.visible || isVisible;
+			this.showInputTimeout && clearTimeout(this.showInputTimeout);
+			if (isVisible) {
+				this.showInputTimeout = setTimeout(() => {
+					this.showInput = true;
+				}, 4000);
+			}
 		},
 	},
 };
@@ -149,6 +165,11 @@ export default {
 .post_comment_input_for_feed
 	width 100%
 	margin 0 0 24px
+
+.comment_input
+	transition all ease .5s
+	opacity 1
+	height 42px
 
 .v-application.isTouch:not(.show-tabs) .post_comment_input
 	bottom 0
@@ -190,8 +211,17 @@ export default {
 	>>> .comment
 			margin-bottom 3.01vw
 .visibility
-	width 3px
+	width 0px
 	height 41.19px
 	display block
 	background transparent
+
+.hide_comment_input
+	height 1px
+	opacity 0
+	overflow hidden
+	margin 0
+
+.hide_visibility
+	height 0
 </style>
