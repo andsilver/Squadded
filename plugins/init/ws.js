@@ -13,11 +13,12 @@ export const connect = function (store) {
 		return;
 	}
 
-	store.commit('SET_PENDING', false);
 	const userToken = store.state.user.me.userId;
 	if (!userToken) {
+		store.commit('SET_PENDING', false);
 		return;
 	}
+	store.commit('SET_PENDING', true);
 	Vue.prototype.$connect();
 };
 
@@ -64,6 +65,9 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				userToken: localStorage.getItem('userToken'),
 				merchantId: state.merchant.id,
 			});
+			setTimeout(() => {
+				store.commit('SET_PENDING', false);
+			}, 8000);
 			return;
 		} else if (message.type === 'authOk') {
 			store.commit('SET_SOCKET_AUTH', true);
@@ -73,7 +77,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				store,
 				type: 'fetchUser',
 			});
-			store.commit('SET_PENDING', false);
+
 			if (window.FS) {
 				window.FS.identify(user.userId, {
 					displayName: user.screenName || user.name,
@@ -81,15 +85,20 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			}
 
 			const { route } = state.squad;
+			const setPendingFalse = () => store.commit('SET_PENDING', false);
+
 			if (route.name) {
-				app.router.push(route);
+				app.router.push(route, setPendingFalse);
 			} else if (!user.nameSelected) {
-				app.router.push('/select-username');
+				app.router.push('/select-username', setPendingFalse);
 			} else if (!user.squaddersCount) {
-				app.router.push('/create-your-squad');
+				app.router.push('/create-your-squad', setPendingFalse);
 			} else {
 				const { name } = ctx.route;
-				app.router.push((isHome(name) || isOnboarding(name)) ? DEFAULT_LANDING : ctx.route.path);
+				app.router.push(
+					(isHome(name) || isOnboarding(name)) ? DEFAULT_LANDING : ctx.route.path,
+					setPendingFalse,
+				);
 			}
 			fetchNotifications();
 		}

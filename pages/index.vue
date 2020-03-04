@@ -11,7 +11,7 @@
 						<!-- <div class="brand-title">
 							{{ $t('ShopWithYourFriendsOn') }}
 						</div> -->
-						<img src="../assets/img/bglogin.svg" class="b-logo">
+						<img src="~/assets/img/bglogin.svg" class="b-logo">
 					</div>
 				</div>
 				<div class="signin-main-section">
@@ -20,7 +20,7 @@
 					</div>
 					<div class="poweredby">
 						{{ $t('PoweredBy') }}
-						<img src="../assets/img/squaddedcyrcleB_trim.svg" class="powerdby-image">
+						<img src="~/assets/img/squaddedcyrcleB_trim.svg" class="powerdby-image">
 					</div>
 				</div>
 				<div ref="socialstep-one" class="social_step-one" :class="{ active: showstepOne, in_active: !showstepOne}">
@@ -75,71 +75,22 @@
 					<p class="description">
 						{{ $t('spamNote') }}
 					</p>
-					<v-form
-						ref="form"
-						@submit.prevent
-						@submit="validate"
-					>
+					<div>
 						<div class="pin_sec">
-							<v-text-field
-								ref="pin-field1"
-								v-model="p1"
-								type="number"
-								solo
-								flat
-								dense
-								class="otp-field pin_opt"
-								:class="{ invalid: showError }"
-								@input="p1up"
-							/>
-							<v-text-field
-								ref="pin-field2"
-								v-model="p2"
-								type="number"
-								solo
-								flat
-								dense
-								class="otp-field pin_opt"
-								:class="{ invalid: showError }"
-								@input="p2up"
-								@keyup.native.delete="backPin('pin-field1')"
-							/>
-							<v-text-field
-								ref="pin-field3"
-								v-model="p3"
-								type="number"
-								solo
-								flat
-								dense
-								class="otp-field pin_opt"
-								:class="{ invalid: showError }"
-								@input="p3up"
-								@keyup.native.delete="backPin('pin-field2')"
-							/>
-							<v-text-field
-								ref="pin-field4"
-								v-model="p4"
-								type="number"
-								solo
-								flat
-								dense
-								class="otp-field pin_opt"
-								:class="{ invalid: showError }"
-								@keyup.native.delete="backPin('pin-field3')"
-							/>
+							<Pin ref="pin" :invalid="showError" @enter="validate" @change="pinChange" />
 						</div>
 						<span v-if="showError" ref="error-message" class="error-message">{{ $t('form.rules.pin.valid') }}</span>
 						<v-btn
 							ref="signup-validate-btn"
 							class="full-width validate-btn"
 							color="primary"
-							type="submit"
 							large
 							depressed
+							@click="validate"
 						>
 							{{ $t('validate') }}
 						</v-btn>
-					</v-form>
+					</div>
 					<div class="resend-code">
 						Still not receiving it?
 						<span @click="requestOtp"> {{ $t('resend_code') }}</span>
@@ -155,11 +106,13 @@ import { mapState } from 'vuex';
 import SocialBtn from '~/components/Social-Button.vue';
 import SignForm from '~/components/Sign-Form.vue';
 import { loginWithPIN, requestOtp } from '~/services/otp';
+import Pin from '~/components/Pin';
 
 export default {
 	components: {
 		'social-btn': SocialBtn,
 		'sign-form': SignForm,
+		Pin,
 	},
 	data: () => ({
 		showstepTwo: false,
@@ -168,10 +121,6 @@ export default {
 		email: null,
 		pin: null,
 		showError: false,
-		p1: null,
-		p2: null,
-		p3: null,
-		p4: null,
 	}),
 	computed: {
 		...mapState([
@@ -180,24 +129,6 @@ export default {
 		]),
 	},
 	methods: {
-		p1up () {
-			if (this.p1 !== '') {
-				this.$refs['pin-field2'].focus();
-			}
-		},
-		p2up () {
-			if (this.p2 !== '') {
-				this.$refs['pin-field3'].focus();
-			}
-		},
-		p3up () {
-			if (this.p3 !== '') {
-				this.$refs['pin-field4'].focus();
-			}
-		},
-		backPin (refEle) {
-			this.$refs[refEle].focus();
-		},
 		showStepTwo (email) {
 			this.email = email;
 			this.showstepTwo = false;
@@ -219,9 +150,27 @@ export default {
 			this.showError = false;
 			this.pin = null;
 		},
+		pinChange(pin) {
+			this.pin = pin;
+		},
 		validate() {
-			this.pin = this.p1 + this.p2 + this.p3 + this.p4;
-			loginWithPIN(+this.pin, this.email, this.merchant.id).then(({ error, token }) => {
+			if (!this.pin || this.pin.length < 4) {
+				this.showError = true;
+				return;
+			}
+			const { userId, postId } = this.$route.query;
+			const params = {
+				merchantId: this.merchant.id,
+				origin: 'normal',
+			};
+			if (userId) {
+				params.userId = userId;
+				params.origin = 'invitation';
+			} else if (postId) {
+				params.postId = postId;
+				params.origin = 'share';
+			}
+			loginWithPIN(+this.pin, this.email, params).then(({ error, token }) => {
 				if (error) {
 					this.showError = true;
 					return;
@@ -307,30 +256,6 @@ export default {
 			font-weight 500
 			text-align center
 			line-height 4.92vw
-		.v-input.otp-field
-			height 10.79vw
-			border-bottom 0.3vw solid #707070
-			border-radius 0
-			font-size 3.69vw
-			color #000000
-			line-height 4.92vw
-			font-weight 400
-			margin-bottom 3.15vw
-			width 9.69vw
-			flex inherit
-			&.invalid
-				border 1px solid #FD6256
-		.otp-field input,
-		.otp-field label
-			font-size 3.69vw
-			color #000000
-			line-height 4.92vw
-			font-weight 400
-			text-align center
-			width 100%
-			margin-top 2px
-		.otp-field input
-			color #FD6256
 		button.full-width.validate-btn
 			display block
 			width 43.84vw
@@ -342,7 +267,6 @@ export default {
 			font-weight 700
 			line-height 4.3vw
 			letter-spacing 2px
-			text-transform uppercase
 			margin-bottom 13.03vw
 			margin-top 3.15vw
 		.resend-code
@@ -446,11 +370,6 @@ export default {
 		transition all 0.2s ease-in-out
 		margin-top: 25.35vw;
 		padding 0 7.69vw
-		.pin_sec
-			display flex
-			justify-content space-between
-			max-width 52.76vw
-			margin 0 auto
 	.sign-step-two.active
 		display block
 		-webkit-animation slide-down 0.5s ease-out

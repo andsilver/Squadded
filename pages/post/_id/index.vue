@@ -4,7 +4,7 @@
 		<div v-if="post" class="py-4">
 			<component :is="getComponent(post)" ref="post-component" :post="post" />
 			<Comments ref="post-comments" :post="post" :show-all="showAllComments" />
-			<NotSignedInDialog v-if="showNotSignedInDialog" ref="dialog" :user="post.user" />
+			<NotSignedInDialog v-if="showNotSignedInDialog" ref="dialog" :post-id="postId" :user="post.user" />
 		</div>
 	</v-container>
 </template>
@@ -42,6 +42,7 @@ export default {
 			outfitPost: MultiItemPost,
 			galleryPost: GalleryPost,
 		},
+		postId: null,
 	}),
 	computed: {
 		title() {
@@ -50,15 +51,19 @@ export default {
 			}
 			return this.post ? this.$t(`post.title.${this.post.type}`) : '';
 		},
+		isAuth() {
+			return this.$store.state.socket.isAuth;
+		},
 	},
 	created () {
 		if (this.$route.hash === '#comments') {
 			this.showAllComments = true;
 		}
 		const { id } = this.$route.params;
+		this.postId = id;
 		this.setPost(id);
 
-		if (!this.$store.state.socket.isAuth) {
+		if (!this.isAuth) {
 			this.showNotSignedInDialog = true;
 		}
 	},

@@ -75,6 +75,7 @@ describe('Landing Post', () => {
 
 	it('should send fetchPost message', () => {
 		prefetch.mockReturnValue(Promise.resolve(post));
+		store.commit('SET_SOCKET_AUTH', true);
 		initLocalVue();
 		expect(prefetch).toHaveBeenCalledWith({
 			postId: $route.params.id,

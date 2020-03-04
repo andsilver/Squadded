@@ -20,6 +20,9 @@ describe('Signup', () => {
 	let localVue;
 	let store;
 	let wrapper;
+	const $route = {
+		query: {},
+	};
 
 	const STEP_ONE = 'step-one';
 	const STEP_TWO = 'step-two';
@@ -39,6 +42,7 @@ describe('Signup', () => {
 			localVue,
 			mocks: {
 				$t: msg => msg,
+				$route,
 			},
 		});
 	});
@@ -78,7 +82,8 @@ describe('Signup', () => {
 		loginWithPIN.mockReturnValue(Promise.resolve({ token }));
 		signForm.vm.$emit('sendOtp', email);
 		window.postMessage = jest.fn();
-		await validateBtn.trigger('submit');
+		await validateBtn.trigger('click');
+		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, { merchantId, origin: 'normal' });
 		expect(window.postMessage).toHaveBeenCalledWith(JSON.stringify({
 			type: 'loggedIn',
 			userToken: token,
@@ -93,7 +98,63 @@ describe('Signup', () => {
 		const validateBtn = wrapper.ref(VALIDATE_BTN);
 		loginWithPIN.mockReturnValue(Promise.resolve({ error: true }));
 		signForm.vm.$emit('sendOtp', email);
-		await validateBtn.trigger('submit');
+		await validateBtn.trigger('click');
 		expect(wrapper.ref(ERROR_MESSAGE).exists()).toBe(true);
+	});
+
+	it('should post login with invitation origin', async () => {
+		const userId = 'userId';
+		$route.query = { userId };
+		wrapper = shallowMount(Signup, {
+			store,
+			localVue,
+			mocks: {
+				$t: msg => msg,
+				$route,
+			},
+		});
+		store.commit('SET_SOCKET_AUTH', false);
+		store.commit('SET_PENDING', false);
+		wrapper.setData({ pin });
+		const merchantId = 'merchant-id';
+		store.state.merchant.id = merchantId;
+		const signForm = wrapper.ref(SIGN_FORM);
+		const validateBtn = wrapper.ref(VALIDATE_BTN);
+		loginWithPIN.mockReturnValue(Promise.resolve({ token }));
+		signForm.vm.$emit('sendOtp', email);
+		await validateBtn.trigger('click');
+		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, {
+			merchantId,
+			origin: 'invitation',
+			userId,
+		});
+	});
+
+	it('should post login with share origin', async () => {
+		const postId = 'postId';
+		$route.query = { postId };
+		wrapper = shallowMount(Signup, {
+			store,
+			localVue,
+			mocks: {
+				$t: msg => msg,
+				$route,
+			},
+		});
+		store.commit('SET_SOCKET_AUTH', false);
+		store.commit('SET_PENDING', false);
+		wrapper.setData({ pin });
+		const merchantId = 'merchant-id';
+		store.state.merchant.id = merchantId;
+		const signForm = wrapper.ref(SIGN_FORM);
+		const validateBtn = wrapper.ref(VALIDATE_BTN);
+		loginWithPIN.mockReturnValue(Promise.resolve({ token }));
+		signForm.vm.$emit('sendOtp', email);
+		await validateBtn.trigger('click');
+		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, {
+			merchantId,
+			origin: 'share',
+			postId,
+		});
 	});
 });

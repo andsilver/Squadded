@@ -30,21 +30,24 @@ const OAUTH = {
 };
 
 export default class Social {
-	static redirectUrl (providerName, merchantId) {
-		return `${AUTH_REDIRECT_ROOT}${providerName}/callback?merchantId=${merchantId}`;
+	static redirectUrl (providerName) {
+		return `${AUTH_REDIRECT_ROOT}${providerName}/callback`;
 	}
 
-	static oauth (providerName, merchantId) {
+	static oauth (providerName, queryParams) {
 		if (!OAUTH[providerName]) {
 			return;
 		}
 
+		const state = queryParams ? JSON.stringify(queryParams) : '';
+
 		const uri = OAUTH[providerName].endpoint +
 			`app_id=${OAUTH[providerName].id}` +
-			`&redirect_uri=${Social.redirectUrl(providerName, merchantId)}` +
+			`&redirect_uri=${Social.redirectUrl(providerName)}` +
 			'&response_type=code' +
 			(OAUTH[providerName].scope ? `&scope=${OAUTH[providerName].scope}` : '') +
-			(OAUTH[providerName].display ? `&display=${OAUTH[providerName].display}` : '');
+			(OAUTH[providerName].display ? `&display=${OAUTH[providerName].display}` : '') +
+			`?state=${state}`;
 		window.open(uri, 'OAuth', 'width=520,height=570');
 	}
 }

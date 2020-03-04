@@ -13,13 +13,13 @@ export const requestOtp = (email) => {
 	});
 };
 
-export const loginWithPIN = (pin, email, merchantId) => {
+export const loginWithPIN = (pin, email, params) => {
 	return fetch(`${AUTH_ENDPOINT}/email/signup`, {
 		method: 'POST',
 		body: JSON.stringify({
 			pin,
 			email,
-			merchantId,
+			...params,
 		}),
 	})
 		.then(res => res.json())

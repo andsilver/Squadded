@@ -31,7 +31,19 @@ export default {
 	},
 	methods: {
 		login () {
-			Social.oauth(fullname[this.for], this.merchant.id);
+			const { userId, postId } = this.$route.query;
+			const params = {
+				merchantId: this.merchant.id,
+				origin: 'normal',
+			};
+			if (userId) {
+				params.userId = userId;
+				params.origin = 'invitation';
+			} else if (postId) {
+				params.postId = postId;
+				params.origin = 'share';
+			}
+			Social.oauth(fullname[this.for], params);
 		},
 	},
 };

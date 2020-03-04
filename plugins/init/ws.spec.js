@@ -152,7 +152,6 @@ describe('WS Plugin', () => {
 				await Promise.resolve();
 
 				expect(ctx.store.commit).toHaveBeenCalledWith('SET_SOCKET_AUTH', true);
-				expect(ctx.store.commit).toHaveBeenCalledWith('SET_PENDING', false);
 			});
 
 			it('should not dispatch socket messages while not auth', () => {
@@ -230,7 +229,7 @@ describe('WS Plugin', () => {
 				await Promise.resolve();
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
-				expect(ctx.app.router.push).toHaveBeenCalledWith(state.squad.route);
+				expect(ctx.app.router.push).toHaveBeenCalledWith(state.squad.route, expect.anything());
 			});
 
 			it('should redirect to select-username if username was not selected on auth', async () => {
@@ -246,7 +245,7 @@ describe('WS Plugin', () => {
 				await Promise.resolve();
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
-				expect(ctx.app.router.push).toHaveBeenCalledWith('/select-username');
+				expect(ctx.app.router.push).toHaveBeenCalledWith('/select-username', expect.anything());
 			});
 
 			it('should redirect to create-your-squad if squadderCount is 0 on auth', async () => {
@@ -262,7 +261,7 @@ describe('WS Plugin', () => {
 				await Promise.resolve();
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
-				expect(ctx.app.router.push).toHaveBeenCalledWith('/create-your-squad');
+				expect(ctx.app.router.push).toHaveBeenCalledWith('/create-your-squad', expect.anything());
 			});
 
 			it('should redirect to landing if current path is home or onboarding on auth', async () => {
@@ -279,7 +278,7 @@ describe('WS Plugin', () => {
 				await Promise.resolve();
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
-				expect(ctx.app.router.push).toHaveBeenCalledWith(DEFAULT_LANDING);
+				expect(ctx.app.router.push).toHaveBeenCalledWith(DEFAULT_LANDING, expect.anything());
 			});
 
 			it('should redirect to current path on auth', async () => {
@@ -298,7 +297,7 @@ describe('WS Plugin', () => {
 				await Promise.resolve();
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
-				expect(ctx.app.router.push).toHaveBeenCalledWith(ctx.route.path);
+				expect(ctx.app.router.push).toHaveBeenCalledWith(ctx.route.path, expect.anything());
 			});
 
 			it('should redirect to home from any on unauth', () => {

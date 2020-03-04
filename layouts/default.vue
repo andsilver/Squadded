@@ -4,7 +4,6 @@
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
 		<v-content id="main" class="d-flex">
 			<nuxt ref="main-content" />
-			<Preloader v-if="socket.isPendingAuth" ref="preloader" />
 			<v-dialog v-if="promptOptions" v-model="showPrompt">
 				<Prompt :text="promptOptions.text" @confirm="confirm" @decline="hide" />
 			</v-dialog>
@@ -12,12 +11,14 @@
 		<v-bottom-navigation v-if="!isOnboarding" height="65">
 			<TabBar ref="tab-bar" />
 		</v-bottom-navigation>
+		<div v-if="socket.isPendingAuth" ref="preloader" class="pending d-flex justify-center align-center">
+			<img src="~/assets/img/loading.gif">
+		</div>
 	</v-app>
 </template>
 
 <script>
 import { mapState, createNamespacedHelpers } from 'vuex';
-import Preloader from '~/components/Preloader.vue';
 import Prompt from '~/components/common/Prompt';
 import TabBar from '~/components/common/TabBar.vue';
 import NotificationsBanner from '~/components/Notifications/Banner.vue';
@@ -31,7 +32,6 @@ const userState = createNamespacedHelpers(UserStore).mapState;
 export default {
 	name: 'DefaultLayout',
 	components: {
-		Preloader,
 		Prompt,
 		TabBar,
 		NotificationsBanner,
@@ -137,4 +137,13 @@ export default {
 	transition-duration 0.1s
 	.v-application.isTouch:not(.show-tabs) &
 		bottom -65px
+
+.pending
+	position fixed
+	top 0
+	left 0
+	width 100%
+	height 100%
+	background white
+	z-index 999
 </style>

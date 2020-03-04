@@ -28,13 +28,26 @@ export default {
 			type: Object,
 			required: true,
 		},
+		postId: {
+			type: String,
+			default: null,
+		},
 	},
 	data: () => ({
 		show: true,
 	}),
 	methods: {
 		signin() {
-			this.$router.push('/');
+			const query = {};
+			if (this.postId) {
+				query.postId = this.postId;
+			} else {
+				query.userId = this.user.userId || this.user.guid;
+			}
+			this.$router.push({
+				path: '/',
+				query,
+			});
 		},
 	},
 };
