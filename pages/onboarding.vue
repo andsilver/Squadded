@@ -122,6 +122,9 @@ export default {
 			this.$router.push('/');
 		},
 		switchTimeline() {
+			if (!this.timeline) {
+				return;
+			}
 			this.timeline.pause();
 			this.timeline.seek(this.current * 3000);
 			this.timeline.play();
