@@ -86,7 +86,6 @@ export default {
 		showAllComments: true,
 		visible: false,
 		showInput: false,
-		showInputTimeout: null,
 	}),
 	created () {
 		if (!this.forFeed) {
@@ -130,12 +129,6 @@ export default {
 		},
 		visibilityChanged(isVisible) {
 			this.visible = this.visible || isVisible;
-			this.showInputTimeout && clearTimeout(this.showInputTimeout);
-			if (isVisible) {
-				this.showInputTimeout = setTimeout(() => {
-					this.showInput = true;
-				}, 4000);
-			}
 		},
 	},
 };
@@ -167,7 +160,7 @@ export default {
 	margin 0 0 24px
 
 .comment_input
-	transition all ease .5s
+	transition all linear .2s
 	opacity 1
 	height 42px
 

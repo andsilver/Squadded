@@ -12,10 +12,16 @@
 		</v-btn>
 		<UploadingDone v-if="image && image !== 'violation'" ref="uploading-done" :image="image" />
 		<v-layout column class="gallery_layout">
-			<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + post.postId" :key="n">
-				<component :is="getComponent(post)" :is-paired="paired" :post="post" />
+			<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + (post.postId || 'group')" ref="post" :key="n">
+				<component
+					:is="getComponent(post)"
+					ref="component"
+					:is-paired="paired"
+					:post="post"
+				/>
 				<Comments
 					v-if="showComments(post) && !paired"
+					ref="comments"
 					:post="post"
 					:show-all="false"
 					:for-feed="true"
@@ -75,6 +81,7 @@ export default {
 			outfitPost: MultiItemPost,
 			galleryPost: GalleryPost,
 		},
+		showCommentInputTimeout: null,
 	}),
 	computed: {
 		aggregatedItems() {
@@ -131,6 +138,7 @@ export default {
 		},
 	},
 	mounted() {
+		this.checkCommentInput();
 		window.addEventListener('scroll', this.onScroll);
 	},
 	destroyed() {
@@ -141,6 +149,7 @@ export default {
 			return this.components[post.type];
 		},
 		onScroll () {
+			this.checkCommentInput();
 			const bottomOfWindow = Math.max(
 				window.pageYOffset,
 				document.documentElement.scrollTop,
@@ -158,6 +167,68 @@ export default {
 		},
 		closeViolationDialog() {
 			this.$store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
+		},
+		checkCommentInput () {
+			if (!this.$refs.post) {
+				return;
+			}
+			const element = this.$refs.post
+				.map((element, index) => ({
+					index,
+					element,
+					overlap: this.overlap(element),
+				}))
+				.filter(e => e.overlap)
+				.sort((a, b) => b.overlap - a.overlap)[0];
+			this.setShowCommentInput(element);
+		},
+		overlap (element) {
+			const view = {
+				top: document.documentElement.scrollTop,
+				bottom: document.documentElement.scrollTop + window.innerHeight,
+			};
+			const self = {
+				top: element.offsetTop + 40,
+				bottom: element.offsetTop + element.offsetHeight - 80,
+			};
+
+			if (
+				(self.top >= view.top && self.top <= view.bottom) &&
+				(self.bottom >= view.top && self.bottom <= view.bottom)
+			) {
+				return 1000;
+			}
+
+			if (self.top >= view.top && self.top <= view.bottom) {
+				return view.bottom - self.top;
+			}
+
+			if (self.bottom >= view.top && self.bottom <= view.bottom) {
+				return self.bottom - view.top;
+			}
+			return 0;
+		},
+		setShowCommentInput (item) {
+			this.showCommentInputTimeout && clearTimeout(this.showCommentInputTimeout);
+			if (!item) {
+				return;
+			}
+			let comment;
+			if (item.element.id.includes('group')) {
+				comment = this.$refs.component.find(c => c.$el.parentNode === item.element);
+			} else {
+				comment = this.$refs.comments.find(c => c.$el.parentNode === item.element);
+			}
+			if (!comment) {
+				return;
+			}
+			this.showCommentInputTimeout = setTimeout(() => {
+				if (comment.$refs['post-comments']) {
+					comment.$refs['post-comments'].showInput = true;
+				} else {
+					comment.showInput = true;
+				}
+			}, 4000);
 		},
 	},
 };
