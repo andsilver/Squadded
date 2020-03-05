@@ -1,6 +1,7 @@
 <template>
 	<Post ref="grouped-post" :post="selected" group-post class="grouped-post">
-		<div>
+		<Slider v-if="isMobile()" :post="post" @selected="selectItem" />
+		<div v-else>
 			<v-slide-group v-model="model" center-active mandatory>
 				<v-slide-item
 					v-for="(item, index) of post.items"
@@ -48,12 +49,15 @@
 import Post from './Includes/Post';
 import ProductCard from './Includes/ProductCard';
 import Comments from '~/components/Comments';
+import Slider from '~/components/Slider';
+import { isMobile } from '~/utils/device-input';
 
 export default {
 	components: {
 		Post,
 		ProductCard,
 		Comments,
+		Slider,
 	},
 	props: {
 		post: {
@@ -68,6 +72,7 @@ export default {
 		model: 1,
 		firstSelcted: false,
 		lastSelcted: false,
+		isMobile,
 	}),
 	computed: {
 		selected() {
@@ -110,6 +115,10 @@ export default {
 				this.firstSelcted = true;
 			}
 			prevPost.$el.click();
+		},
+		selectItem(index) {
+			this.selectedIndex = index;
+			this.selectedItem = this.post.items[index];
 		},
 	},
 };

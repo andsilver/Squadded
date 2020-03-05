@@ -47,7 +47,7 @@ export default class Social {
 			'&response_type=code' +
 			(OAUTH[providerName].scope ? `&scope=${OAUTH[providerName].scope}` : '') +
 			(OAUTH[providerName].display ? `&display=${OAUTH[providerName].display}` : '') +
-			`?state=${state}`;
+			`&state=${state}`;
 		window.open(uri, 'OAuth', 'width=520,height=570');
 	}
 }

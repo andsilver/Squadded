@@ -49,6 +49,7 @@ export default {
 .paired_section .gallery-card .multi-item .v-image
 	height 65.76vw
 .grouped-post .v-image:after
+	transition background-color linear .2s
 	background-color rgba(255,255,255,0.6)
 	content ''
 	width 100%
