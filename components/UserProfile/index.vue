@@ -40,7 +40,7 @@
 					{{ $t('user.edit') }}
 				</Button>
 			</div>
-			<userStatistics :user="user" :invited="invite" />
+			<userStatistics :user="user" :invited="invite" @invite="sendInvite" />
 			<template v-if="!user.isMe ">
 				<div v-if="isPending" ref="invite-text" class="invite-text text-center mt-4">
 					{{ $t(isInvitee ? 'user.invitation.invited_text' : 'user.invitation.pending_text', { user: user.name }) }}
@@ -233,6 +233,12 @@ export default {
 		},
 		deny() {
 			this.invite = false;
+		},
+		sendInvite() {
+			this.$ws.sendObj({
+				type: 'acceptSquad',
+				targetUserId: this.user.userId,
+			});
 		},
 	},
 	head () {

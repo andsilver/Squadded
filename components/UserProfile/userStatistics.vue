@@ -42,9 +42,11 @@
 			</div>
 			<div v-else>
 				<v-list-item-title class="title">
-					<v-icon color="black">
-						mdi-account-plus-outline
-					</v-icon>
+					<v-btn icon small @click="invite">
+						<v-icon color="black">
+							mdi-account-plus-outline
+						</v-icon>
+					</v-btn>
 				</v-list-item-title>
 				<v-list-item-subtitle class="subtitle">
 					{{ $t('user.invitation.invite') }}
@@ -129,6 +131,9 @@ export default {
 	methods: {
 		short(number) {
 			return shortNumber(number, this._i18n.locale);
+		},
+		invite() {
+			this.$emit('invite');
 		},
 	},
 };
