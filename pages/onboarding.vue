@@ -75,7 +75,7 @@ export default {
 			timeline.add({
 				targets: this.$refs['onboarding-nav'].children[index].children[0],
 				width: '100%',
-				changeBegin: (a) => {
+				changeBegin: () => {
 					this.current = index;
 				},
 			});

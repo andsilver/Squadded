@@ -10,7 +10,7 @@ import { STORAGE_VISITED_KEY } from '~/consts/keys';
 import { HomeStore, HomeMutations } from '~/store/home';
 
 async function acceptPost(message) {
-	if (!this.store.state.feed.items.length) {
+	if (!this.store.state.feed.items || !this.store.state.feed.items.length) {
 		// tmp patch while infinite scroll not ready
 		this.store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 	}

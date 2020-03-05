@@ -113,6 +113,10 @@ export default {
 		},
 		scrolled (e) {
 			// TODO calc actual height to tabs instead const
+			const section = this.$refs.itemDetailsSec;
+			if (!section) {
+				return;
+			}
 			const itemSecHight = this.$refs.itemDetailsSec.getBoundingClientRect().top;
 			this.isScrolled = !!(itemSecHight < 0);
 		},
