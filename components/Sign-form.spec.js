@@ -1,6 +1,5 @@
 import { Wrapper, shallowMount } from '@vue/test-utils';
 import SignForm from './Sign-Form.vue';
-import { requestOtp } from '~/services/otp';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
@@ -9,7 +8,6 @@ Wrapper.prototype.ref = function(id) {
 const email = 'test@test.com';
 
 jest.mock('~/services/otp', () => ({
-	requestOtp: jest.fn(),
 	loginWithPIN: jest.fn(),
 }));
 
@@ -43,6 +41,5 @@ describe('SignForm', () => {
 		wrapper.setData({ errors: { email: false } });
 		const signinBtn = wrapper.ref(SIGNIN_BTN);
 		signinBtn.trigger('submit');
-		expect(requestOtp).toHaveBeenCalledWith(email);
 	});
 });

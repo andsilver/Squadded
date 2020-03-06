@@ -27,7 +27,17 @@
 			hide-details
 		/>
 		<span v-if="showErrorMsg" class="email-velid-message">{{ $t('form.rules.email.valid') }}</span>
-		<span class="comment-msg">{{ $t('Messageregarding') }}</span>
+		<span v-if="terms_error && !showErrorMsg" class="email-velid-message">{{ $t('form.rules.terms.valid') }}</span>
+		<span class="comment-msg" />
+		<div class="term-section">
+			<p>{{ $t('Wecare') }}</p>
+		</div>
+		<div class="custom-chk">
+			<div class="form-group">
+				<input id="html1" v-model="terms" type="checkbox" @change="changeTerms()">
+				<label class="term-text" :class="{error_terms: terms_error}" for="html1">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span> </label>
+			</div>
+		</div>
 		<v-btn
 			v-if="signup"
 			ref="signup-otp-btn"
@@ -100,6 +110,16 @@
 		line-height 4.3vw
 		letter-spacing 2px
 		text-transform uppercase
+	.term-section p
+		color #000000
+		font-size 3.69vw
+		font-weight 500
+		line-height 4.92vw
+		text-align center
+	.custom-chk
+		padding-left 0 !important
+		padding-right 0 !important
+		text-align center
 .email-field
 	border 0.30vw solid #DBDBDB
 	border-radius 3.07vw
@@ -117,12 +137,37 @@
 		min-height auto !important
 .email-field.error_email
 	border 0.3vw solid #FD6256
+.terms_error_msg
+	background #fd6256
+	border-radius 1.53vw
+	height 6.76vw
+	font-size 3.38vw
+	color #fff
+	display -webkit-box
+	display flex
+	-webkit-box-align center
+	align-items center
+	-webkit-box-pack center
+	justify-content center
+	font-weight 500
+	line-height 4.61vw
+	position absolute
+	width 90%
+	left 50%
+	transform translateX(-50%)
+	bottom 2.30vw
 </style>
 
 <script>
 import { requestOtp } from '~/services/otp';
 
 export default {
+	props: {
+		termsStatus: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	data: function () {
 		return {
 			Token: '',
@@ -152,6 +197,7 @@ export default {
 			above16: false,
 			token: '',
 			showErrorMsg: false,
+			terms_error: false,
 		};
 	},
 	methods: {
@@ -159,6 +205,9 @@ export default {
 			if (this.$refs.form.validate()) {
 				this.snackbar = true;
 			}
+		},
+		changeTermsStatus () {
+			this.terms = !this.termsStatus;
 		},
 		toggle () {
 			this.signup = !this.signup;
@@ -171,8 +220,12 @@ export default {
 			if (!this.otpRequested) {
 				if (/.+@.+\..+/.test(this.email)) {
 					this.showErrorMsg = false;
-					requestOtp(this.email);
-					this.$emit('sendOtp', this.email);
+					if (this.terms) {
+						requestOtp(this.email);
+						this.$emit('sendOtp', this.email);
+					} else {
+						this.terms_error = true;
+					}
 				} else {
 					this.showErrorMsg = true;
 				}
@@ -181,6 +234,9 @@ export default {
 			/* loginWithPIN(+this.pin, this.email).then(({ userId, token }) => {
 				localStorage.setItem('userToken', token);
 			}); */
+		},
+		changeTerms() {
+			this.terms_error = false;
 		},
 	},
 };

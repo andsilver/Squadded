@@ -7,7 +7,7 @@
 			:value="otp[i]"
 			:is-last-child="i === numInputs - 1"
 			:invalid="invalid"
-			:class="{ 'mr-2': i !== numInputs - 1 }"
+			:class="{ 'mr-pin': i !== numInputs - 1 }"
 			@change="handleOnChange"
 			@keydown="handleOnKeyDown"
 			@paste="handleOnPaste"

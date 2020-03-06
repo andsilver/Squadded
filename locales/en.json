@@ -142,8 +142,11 @@
         "length": "Name must contain more than {n} characters"
       },
       "pin": {
-        "required": "Pin is required",
+        "required": "Please enter a valid code",
         "valid": "Please input correct pin code"
+      },
+      "terms": {
+        "valid": "Please agree to our terms"
       }
     },
     "signup": "Sign up",

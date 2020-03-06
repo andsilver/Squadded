@@ -26,24 +26,22 @@
 				<div ref="socialstep-one" class="social_step-one" :class="{ active: showstepOne, in_active: !showstepOne}">
 					<div class="social-text-section" :class="{ hide_socila: showstepTwo}">
 						<div class="social">
-							<social-btn for="fb" class="facebook-btn social-btn" />
-							<social-btn for="inst" class="instagram-btn social-btn" />
+							<social-btn for="fb" :terms-status="terms" class="facebook-btn social-btn" @termsError="shwoTermsError" />
+							<social-btn for="inst" :terms-status="terms" class="instagram-btn social-btn" @termsError="shwoTermsError" />
 						</div>
-						<!-- <div class="or-section">
-							<span>{{ $t('or') }}</span>
-						</div> -->
 					</div>
 					<div class="text-center">
 						<div class="signemail" @click="email_link">
 							{{ $t('signemail') }}
+							<span v-if="terms_error" class="terms_error_msg">{{ $t('form.rules.terms.valid') }}</span>
 						</div>
 						<div class="term-section">
 							<p>{{ $t('Wecare') }}</p>
 						</div>
 						<div class="custom-chk">
 							<div class="form-group">
-								<input id="html" type="checkbox">
-								<label class="term-text" for="html">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span> </label>
+								<input id="html" v-model="terms" type="checkbox" @change="changeTerms()">
+								<label class="term-text" :class="{error_terms: terms_error}" for="html">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span> </label>
 							</div>
 						</div>
 					</div>
@@ -61,7 +59,7 @@
 							sqdi-arrow-pointing-to-left
 						</v-icon>
 					</v-btn>
-					<sign-form ref="sign-form" @sendOtp="showStepTwo" />
+					<sign-form ref="signForm" :terms-status="terms" @sendOtp="showStepTwo" />
 				</div>
 				<div ref="step-two" class="sign-step-two" :class="{ active: showstepThree, in_active: !showstepThree}">
 					<h2>
@@ -77,9 +75,10 @@
 					</p>
 					<div>
 						<div class="pin_sec">
-							<Pin ref="pin" :invalid="showError" @enter="validate" @change="pinChange" />
+							<Pin ref="pin" :invalid="showDigitError" @enter="validate" @change="pinChange" />
 						</div>
 						<span v-if="showError" ref="error-message" class="error-message">{{ $t('form.rules.pin.valid') }}</span>
+						<span v-if="showOtpError" ref="error-message" class="error-message">{{ $t('form.rules.pin.required') }}</span>
 						<v-btn
 							ref="signup-validate-btn"
 							class="full-width validate-btn"
@@ -121,6 +120,10 @@ export default {
 		email: null,
 		pin: null,
 		showError: false,
+		showOtpError: false,
+		terms_error: false,
+		terms: false,
+		showDigitError: false,
 	}),
 	computed: {
 		...mapState([
@@ -142,21 +145,36 @@ export default {
 			this.showstepTwo = true;
 			this.showstepThree = false;
 			this.showError = false;
+			this.showDigitError = false;
+			this.showOtpError = false;
 			this.pin = null;
 		},
 		emailback() {
 			this.showstepTwo = false;
 			this.showstepOne = true;
 			this.showError = false;
+			this.showDigitError = false;
+			this.showOtpError = false;
 			this.pin = null;
+		},
+		changeTerms() {
+			this.terms_error = false;
+			this.$refs.signForm.changeTermsStatus();
 		},
 		pinChange(pin) {
 			this.pin = pin;
 		},
+		shwoTermsError() {
+			this.terms_error = true;
+		},
 		validate() {
 			if (!this.pin || this.pin.length < 4) {
-				this.showError = true;
+				this.showOtpError = true;
+				this.showDigitError = true;
 				return;
+			} else {
+				this.showOtpError = false;
+				this.showDigitError = false;
 			}
 			const { userId, postId } = this.$route.query;
 			const params = {
@@ -173,9 +191,11 @@ export default {
 			loginWithPIN(+this.pin, this.email, params).then(({ error, token }) => {
 				if (error) {
 					this.showError = true;
+					this.showDigitError = true;
 					return;
 				}
 				this.showError = false;
+				this.showDigitError = false;
 				window.postMessage(JSON.stringify({
 					type: 'loggedIn',
 					userToken: token,
@@ -194,7 +214,7 @@ export default {
 
 <style lang="stylus">
 .pd
-    padding 0
+    padding 0 !important
 .social
 	display block
 	margin 0 auto
@@ -299,10 +319,11 @@ export default {
 			-webkit-appearance none
 			border 2px solid #DBDBDB
 			display inline-block
-			position relative
+			position absolute
 			vertical-align middle
 			cursor pointer
 			margin-right 2.36vW
+			left 0
 			width 7.69vw
 			height 7.69vw
 			border-radius 2.69vw
@@ -320,21 +341,25 @@ export default {
 				top -0.3px
 				left 4.2px
 			@media screen and (min-width 360px)
-				top -1px
-				left 4.4px
+				top -0.3px
+				left 4.5px
 	.term-section p
 		color #000000
 		font-size 3.69vw
 		font-weight 500
 		line-height 4.92vw
 	label.term-text
-    color #B8B8BA
-    font-size 3.38vw
-    font-weight 500
-    line-height 4.92vw
+		color #B8B8BA
+		font-size 3.38vw
+		font-weight 500
+		line-height 4.92vw
+		padding-left 9.69vw
+		&.error_terms
+			&:before
+				border 2px solid #ef6256
 	.signin-main-section
 		position absolute
-		top 10.6%
+		top 20.61vw
 		left 50%
 		background #fff
 		box-shadow 0 6px 40px rgba(0,0,0,0.1)
@@ -365,6 +390,26 @@ export default {
 		padding-top 8.26vw
 		padding-bottom 12.76vw
 		line-height 5.84vw
+		position relative
+		.terms_error_msg
+			background #fd6256
+			border-radius 1.53vw
+			height 6.76vw
+			font-size 3.38vw
+			color #fff
+			display -webkit-box
+			display flex
+			-webkit-box-align center
+			align-items center
+			-webkit-box-pack center
+			justify-content center
+			font-weight 500
+			line-height 4.61vw
+			position absolute
+			width 90%
+			left 50%
+			transform translateX(-50%)
+			bottom 2.30vw
 	.sign-step-two
 		display none
 		transition all 0.2s ease-in-out
@@ -409,7 +454,7 @@ export default {
 		transition max-height 0.2s ease-out
 		max-height 500px
 		height auto
-		padding-top 38.35vw
+		padding-top 35.35vw
 		&.hide_socila
 			max-height 0
 	.otp-field .v-input__control

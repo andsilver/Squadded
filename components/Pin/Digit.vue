@@ -104,12 +104,14 @@ input
 	height 10.79vw
 	border-bottom 0.3vw solid #707070
 	border-radius 0
-	font-size 3.69vw
+	font-size: 6.46vw;
 	font-weight 400
 	margin-bottom 3.15vw
 	width 9.69vw
+	&.mr-pin
+		margin-right 4.15vw
 	&.invalid
-		border 1px solid #FD6256
+		color #FD6256
 	&:focus
 		outline none
 </style>

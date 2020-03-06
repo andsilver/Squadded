@@ -26,7 +26,7 @@ describe('Signup', () => {
 
 	const STEP_ONE = 'step-one';
 	const STEP_TWO = 'step-two';
-	const SIGN_FORM = 'sign-form';
+	const SIGN_FORM = 'signForm';
 	const GO_BACK_BTN = 'go-back-btn';
 	const VALIDATE_BTN = 'signup-validate-btn';
 	const ERROR_MESSAGE = 'error-message';

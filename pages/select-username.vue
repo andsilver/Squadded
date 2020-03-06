@@ -7,12 +7,9 @@
 			<div class="login">
 				<div class="text-center">
 					<div class="brand-section">
-						<!-- <div class="brand-title">
-							{{ $t('ShopWithYourFriendsOn') }}
-						</div> -->
 						<img src="../assets/img/bglogin.svg" class="b-logo">
 						<div class="select-user-icon-sec">
-							<img ref="user-avatar" :src="userAvatar" class="select-user-icon">
+							<img ref="user-avatar" :class="{ dummy_image: !user.avatar }" :src="userAvatar" class="select-user-icon">
 							<client-only>
 								<ImageUploader
 									v-show="false"
@@ -25,12 +22,12 @@
 									@onComplete="completeCompress"
 								/>
 							</client-only>
-							<PopMenu ref="avatar-upload-btn" />
+							<PopMenu ref="avatar-upload-btn" @fileUpload="openFileUpload" />
 							<!-- <v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
 								<img src="../assets/img/action-edit.svg" class="edit-icon-image">
 							</v-btn> -->
 							<p class="user_name">
-								@username
+								@{{ username }}
 							</p>
 						</div>
 					</div>
@@ -44,7 +41,7 @@
 				<div class="username-form-sec">
 					<v-text-field
 						ref="username-field"
-						v-model="user.name"
+						v-model="username"
 						:label="$t('EnterUsername')"
 						required
 						solo
@@ -93,6 +90,7 @@ export default {
 		file: null,
 		submitted: false,
 		input: null,
+		username: null,
 	}),
 	computed: {
 		...userState([
@@ -102,14 +100,16 @@ export default {
 			'socket',
 		]),
 		userAvatar() {
-			return this.user.avatar || '../assets/img/select-user-icon.svg';
+			return this.user.avatar || '/widget/_nuxt/assets/img/dummy_avater.svg';
 		},
 		showError() {
-			return this.submitted && this.user && !this.user.name;
+			return this.submitted && this.user && !this.username;
 		},
 	},
 	created () {
 		this.user = Object.assign({}, this.me);
+		const userName = this.user.name.split('@');
+		this.username = userName[0];
 	},
 	methods: {
 		openFileUpload() {
@@ -118,6 +118,7 @@ export default {
 			el.click();
 		},
 		async saveProfile() {
+			this.user.name = this.username;
 			if (!this.user.name || !this.user.avatar) {
 				this.submitted = true;
 				return;
@@ -213,6 +214,8 @@ export default {
 		width 100%
 		height 100%
 		border-radius 50%
+		border 0.92vw solid #fff
+		background-color #F5F5F5
 	.edit-icon-sec
 		position absolute
 		bottom 0
@@ -246,7 +249,7 @@ export default {
 			height 10.76vw !important
 			min-height auto !important
 		input
-			font-weight 700
+			font-weight 500
 		&.invalid
 			border 1px solid #FD6256
 	.comment-msg
@@ -280,8 +283,13 @@ export default {
 	line-height 4.61vw
 	margin-top 3.07vw
 .container.pd
-	padding 0
+	padding 0 !important
 	.v-menu__content
 		top 47vw !important
 		left 5vw !important
+.dummy_image
+	background-image url('../assets/img/dummy_avater.svg')
+	background-position center
+	background-size 55%
+	background-repeat no-repeat
 </style>

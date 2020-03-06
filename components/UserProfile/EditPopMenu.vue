@@ -24,15 +24,15 @@
 						</v-btn>
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="edit-menu-take edit-setting-option">
+				<v-list-item class="edit-menu-take edit-setting-option" @click="photoUpdate">
 					<img src="~assets/img/take-phone.svg" class="take-icon-image">
 					<v-list-item-title class="setting-label pushwatchers">
 						{{ $t(`Take a Photo`) }}
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="edit-menu-browse edit-setting-option">
+				<v-list-item class="edit-menu-browse edit-setting-option" @click="photoUpdate">
 					<img src="~assets/img/take-picture.svg" class="browse-icon-image">
-					<v-list-item-title class="setting-label share" @click="menu = false">
+					<v-list-item-title class="setting-label share">
 						{{ $t(`Browse Gallery`) }}
 					</v-list-item-title>
 				</v-list-item>
@@ -54,6 +54,10 @@ export default {
 	methods: {
 		hide() {
 			this.showReasonDialog = false;
+		},
+		photoUpdate() {
+			this.menu = false;
+			this.$emit('fileUpload');
 		},
 	},
 };

@@ -18,6 +18,10 @@ export default {
 			type: String,
 			default: 'fb',
 		},
+		termsStatus: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data: function () {
 		return {
@@ -31,19 +35,23 @@ export default {
 	},
 	methods: {
 		login () {
-			const { userId, postId } = this.$route.query;
-			const params = {
-				merchantId: this.merchant.id,
-				origin: 'normal',
-			};
-			if (userId) {
-				params.userId = userId;
-				params.origin = 'invitation';
-			} else if (postId) {
-				params.postId = postId;
-				params.origin = 'share';
+			if (!this.termsStatus) {
+				this.$emit('termsError');
+			} else {
+				const { userId, postId } = this.$route.query;
+				const params = {
+					merchantId: this.merchant.id,
+					origin: 'normal',
+				};
+				if (userId) {
+					params.userId = userId;
+					params.origin = 'invitation';
+				} else if (postId) {
+					params.postId = postId;
+					params.origin = 'share';
+				}
+				Social.oauth(fullname[this.for], params);
 			}
-			Social.oauth(fullname[this.for], params);
 		},
 	},
 };
