@@ -70,7 +70,7 @@
 							<Button
 								ref="done-button"
 								class="post-button"
-								:disabled="!complete"
+								:disabled="!complete || compressing"
 								@click.native="create"
 							>
 								{{ $t('Post') }}
@@ -79,11 +79,22 @@
 					</div>
 				</div>
 			</v-layout>
+			<ImageUploader
+				v-show="false"
+				ref="resizer"
+				:max-width="1024"
+				auto-rotate
+				accept="image/jpeg,image/jpg,image/png"
+				output-format="verbose"
+				@input="setImage"
+				@onComplete="completeCompress"
+			/>
 		</div>
 	</v-container>
 </template>
 
 <script>
+import ImageUploader from 'vue-image-upload-resize';
 import { createNamespacedHelpers, mapState } from 'vuex';
 import CapturePhoto from '~/components/Create/CapturePhoto';
 import BackBar from '~/components/common/BackBar';
@@ -104,6 +115,8 @@ import {
 	PostMutations,
 } from '~/store/post';
 import { prefetch } from '~/helpers';
+import { toFile } from '~/utils/toFile';
+import { dataURItoBlob } from '~/utils/dataUriToBlob';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
@@ -156,6 +169,7 @@ export default {
 		Tags,
 		UserInput,
 		PhotoView,
+		ImageUploader,
 	},
 	data: () => ({
 		dataImg: null,
@@ -171,6 +185,8 @@ export default {
 			img: '',
 		}),
 		text: '',
+		input: null,
+		compressing: false,
 	}),
 	computed: {
 		...mapGetters([
@@ -188,26 +204,19 @@ export default {
 		this.$root.$on('selectProducts', data => this.selectProducts(data));
 	},
 	methods: {
-		create () {
-			let { coords } = this.$refs.tagsComponent;
-			if (coords && coords.length) {
-				coords = coords.filter(c => c.id);
-			}
-			createPost({
-				file: this.file,
-				store: this.$store,
-				text: this.text,
-				isPublic: this.$refs['public-toggle'].isPublic,
-				selected: this.getSelected,
-				image: this.dataImg,
-				type: this.type,
-				coords,
-			});
-			this.$router.push({
-				path: '/feed',
+		async create () {
+			this.compressing = true;
+			this.file = await toFile(this.dataImg, 'file');
+			this.$refs.resizer.uploadFile({
+				target: {
+					files: [this.file],
+				},
 			});
 		},
 		preview (data) {
+			if (!data) {
+				return;
+			}
 			this.fileTypeError = false;
 			this.dataImg = data.image;
 			this.post.img = data.image;
@@ -236,6 +245,31 @@ export default {
 			} else if (options) {
 				this.LimitshowError = true;
 			}
+		},
+		setImage (input) {
+			this.input = input;
+		},
+		completeCompress (e) {
+			let { coords } = this.$refs.tagsComponent;
+			if (coords && coords.length) {
+				coords = coords.filter(c => c.id);
+			}
+			const { info, dataUrl: image } = this.input;
+			const { type } = info;
+			const file = dataURItoBlob(image, type);
+			createPost({
+				file,
+				store: this.$store,
+				text: this.text,
+				isPublic: this.$refs['public-toggle'].isPublic,
+				selected: this.getSelected,
+				image,
+				type,
+				coords,
+			});
+			this.$router.push({
+				path: '/feed',
+			});
 		},
 	},
 	head: () => ({

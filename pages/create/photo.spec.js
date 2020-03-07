@@ -5,9 +5,19 @@ import Store from '~/store';
 import { PostStore, PostMutations, PostActions } from '~/store/post';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { prefetch } from '~/helpers';
+import { toFile } from '~/utils/toFile';
+import { dataURItoBlob } from '~/utils/dataUriToBlob';
 
 jest.mock('~/helpers', () => ({
 	prefetch: jest.fn(),
+}));
+
+jest.mock('~/utils/toFile', () => ({
+	toFile: jest.fn(),
+}));
+
+jest.mock('~/utils/dataUriToBlob', () => ({
+	dataURItoBlob: jest.fn(),
 }));
 
 Wrapper.prototype.ref = function(id) {
@@ -105,7 +115,42 @@ describe('Create Photo', () => {
 		expect(photoView.exists()).toBe(true);
 	});
 
-	it('should save post and show uploading status', async () => {
+	it('should compress image', async () => {
+		await store.commit('SET_SOCKET_AUTH', true);
+		const post = aDefaultSingleItemMsgBuilder().get();
+		const type = 'image';
+		const file = {
+			type: 'image',
+		};
+		const image = 'imagedata';
+
+		post.selected = true;
+		store.state.activity.wishlist = [post];
+		wrapper.setData({ file });
+		wrapper.vm.preview({
+			image,
+			file,
+			type,
+		});
+
+		const nextButton = wrapper.ref(NEXT_BUTTON);
+		nextButton.trigger('click');
+		const doneButton = wrapper.ref(DONE_BUTTON);
+		const ref = wrapper.ref('resizer');
+		ref.vm.uploadFile = jest.fn();
+		toFile.mockReturnValue(Promise.resolve(file));
+		await doneButton.trigger('click');
+		await Promise.resolve();
+
+		expect(toFile).toHaveBeenCalledWith(image, 'file');
+		expect(ref.vm.uploadFile).toHaveBeenCalledWith({
+			target: {
+				files: [file],
+			},
+		});
+	});
+
+	it('should upload image and save post', async () => {
 		await store.commit('SET_SOCKET_AUTH', true);
 		const uploadUrl = 'uploadurl';
 		const post = aDefaultSingleItemMsgBuilder().get();
@@ -116,7 +161,6 @@ describe('Create Photo', () => {
 		const image = 'imagedata';
 
 		wrapper.setData({ file });
-
 		post.selected = true;
 		store.state.activity.wishlist = [post];
 		store.dispatch = jest.fn();
@@ -124,18 +168,22 @@ describe('Create Photo', () => {
 		prefetch.mockReturnValue(uploadUrl);
 		global.fetch = jest.fn().mockReturnValue({ ok: true });
 		global.URL = URLMock;
+		dataURItoBlob.mockReturnValue(file);
+
 		wrapper.vm.preview({
 			image,
 			file,
 			type,
 		});
 
-		const nextButton = wrapper.ref(NEXT_BUTTON);
-		nextButton.trigger('click');
-		const doneButton = wrapper.ref(DONE_BUTTON);
-		await doneButton.trigger('click');
-		await Promise.resolve();
+		const info = { type };
+		const dataUrl = image;
+		const ref = wrapper.ref('resizer');
 
+		ref.vm.$emit('input', { info, dataUrl });
+		ref.vm.$emit('onComplete');
+
+		expect(dataURItoBlob).toHaveBeenCalledWith(image, type);
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setUploadingPicture}`, image);
 
 		expect(prefetch).toHaveBeenCalledWith({
@@ -145,10 +193,14 @@ describe('Create Photo', () => {
 			type: 'getUploadUrl',
 		});
 
+		await Promise.resolve();
+
 		expect(global.fetch).toHaveBeenCalledWith(uploadUrl, {
 			method: 'PUT',
 			body: file,
 		});
+
+		await Promise.resolve();
 
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, {
 			img: 'href',
