@@ -3,17 +3,24 @@
 		:post="post"
 		:hide-user="isPaired"
 	>
-		<div class="outfit-card gallery-card">
+		<MountedEmitter
+			ref="card"
+			class="outfit-card gallery-card"
+			@mounted="bindEvents"
+		>
 			<CardFrame
 				ref="multi-item"
 				class="multi-item pa-4 mb-4"
-				:class="{ shifted }"
+				:class="{ shifted, moving }"
 				:price="totalPrice"
 				show-tap
 				:post-length="post.items.length"
 				:loading="!post.guid && !post.error"
 				:post-id="post.guid"
 				:is-paired="isPaired"
+				:style="{
+					'margin-left': `${marginLeft}px`,
+				}"
 				@click.native="fetch"
 			>
 				<ItemImage
@@ -37,13 +44,16 @@
 						ref="item"
 						:key="item.itemId"
 						:post-id="post.guid"
+						:post="post"
 						:item="item"
+						:shifted="shifted"
 						show-refreshicon
 						class="mx-auto mb-4"
+						@shift="fetch"
 					/>
 				</div>
 			</div>
-		</div>
+		</MountedEmitter>
 	</Post>
 </template>
 
@@ -53,6 +63,7 @@ import CardFrame from './Includes/CardFrame';
 import ItemImage from './Includes/ItemImage';
 import TagButton from './Includes/TagButton';
 import ProductCard from './Includes/ProductCard';
+import MountedEmitter from '~/components/common/MountedEmitter';
 import { prefetch, price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostMutations } from '~/store/post';
@@ -65,6 +76,7 @@ export default {
 		Post,
 		ProductCard,
 		TagButton,
+		MountedEmitter,
 	},
 	props: {
 		post: {
@@ -80,6 +92,10 @@ export default {
 		fetched: false,
 		shifted: false,
 		maxHeight: '115.69vw',
+		moving: false,
+		marginLeft: 0,
+		prev: 999,
+		moved: false,
 	}),
 	computed: {
 		totalPrice () {
@@ -91,6 +107,13 @@ export default {
 		},
 	},
 	methods: {
+		bindEvents () {
+			if (!this.$refs.card || !this.$refs.card.$el) {
+				return;
+			}
+			this.$refs.card.$el.addEventListener('touchstart', e => this.onStart(e));
+			this.$refs.card.$el.addEventListener('touchmove', e => this.onMove(e));
+		},
 		fetch () {
 			if (this.isPaired) {
 				this.$root.$emit('postTaped', this.post.postId);
@@ -109,6 +132,8 @@ export default {
 		toggleShifted () {
 			this.fetched = true;
 			this.shifted = !this.shifted;
+			this.marginLeft = this.shifted ? -148 : 0;
+			this.moving = false;
 		},
 		tagClick (coord) {
 			let index = this.post.items.findIndex(item => item.itemId === coord.id);
@@ -121,6 +146,38 @@ export default {
 				behavior: 'smooth',
 			});
 			this.shifted = true;
+			this.moving = false;
+			this.marginLeft = this.shifted ? -148 : 0;
+		},
+		onStart (e) {
+			this.prev = e.touches[0].clientX;
+			this.moving = true;
+		},
+		onMove (e) {
+			if (!this.moving) {
+				return;
+			}
+			const current = e.touches[0].clientX;
+			const trans = current - this.prev;
+			const margin = this.marginLeft + trans;
+			this.prev = current;
+			if (Math.abs(trans) < 6 ||
+				(trans > 0 && !this.shifted) ||
+				(trans < 0 && this.shifted)
+			) {
+				this.moved = false;
+			} else {
+				this.moved = true;
+				this.marginLeft = margin;
+			}
+			this.onEnd();
+		},
+		onEnd (e) {
+			if (this.moved) {
+				this.toggleShifted();
+			}
+			this.moving = false;
+			this.moved = false;
 		},
 	},
 };
@@ -136,10 +193,9 @@ export default {
 	vertical-align top
 .multi-item
 	width 78.46vw
-	transition-property margin-left
-	transition-delay .2s
-	&.shifted
-		margin-left -47%
+	transition margin-left linear .2s
+.moving
+	transition margin-left linear !important
 .scroll-section
 	position relative
 	margin-left -4px

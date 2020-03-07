@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import ProductCard from '../ProductCard.vue';
 import Store from '~/store';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
+import { galleryPostBuilder } from '~/test/gallery.post.mock';
 import { SquadAPI } from '~/services/SquadAPI';
 
 jest.mock('~/services/SquadAPI', () => ({
@@ -20,6 +21,7 @@ describe('ProductCard', () => {
 	const CARD = 'card-frame';
 	let post;
 	let wrapper;
+	const $emit = jest.fn();
 
 	function initLocalVue () {
 		SquadAPI.openProduct.mockClear();
@@ -61,5 +63,17 @@ describe('ProductCard', () => {
 
 	it('should set price with currency', () => {
 		expect(wrapper.ref(CARD).props('price')).toBe(`€${(post.item.price / 100).toLocaleString('en')}`);
+	});
+
+	it('should emit shifted event if post is galleryPost', () => {
+		const post = galleryPostBuilder().get();
+		wrapper.setProps({
+			post,
+			shifted: false,
+		});
+		const card = wrapper.ref(CARD);
+		wrapper.vm.$emit = $emit;
+		card.vm.$emit('open');
+		expect($emit).toHaveBeenCalledWith('shift');
 	});
 });

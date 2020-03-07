@@ -71,6 +71,10 @@ export default {
 			required: false,
 			default: () => {},
 		},
+		shifted: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	computed: {
 		price () {
@@ -92,6 +96,10 @@ export default {
 	},
 	methods: {
 		openProduct () {
+			if (this.post && this.post.type === 'galleryPost' && !this.shifted) {
+				this.$emit('shift');
+				return;
+			}
 			this.isClickable && SquadAPI.openProduct(this.item);
 		},
 	},
