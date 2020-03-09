@@ -11,13 +11,24 @@
 				<p v-if="isWishlistHasItems && showError" class="tip-note error-note">
 					{{ $t('tip.pollError') }}
 				</p>
-				<p v-if="!isWishlistHasItems" class="tip-note">
-					{{ $t('wishlist.empty') }}
-				</p>
-				<p v-if="!isWishlistHasItems" class="tip-note">
-					{{ $t('tip.addItems', [$t('an outfit')]) }}
-				</p>
-				<div class="merge-selected OutfitSelected">
+				<div v-if="!isWishlistHasItems" :class="{ empty_wishlist_container: !isWishlistHasItems}">
+					<div v-if="!isWishlistHasItems" class="whislist_empty">
+						<div class="whish_img">
+							<p>
+								<img src="~assets/img/squad-logo-white.svg" class="insta-image">
+							</p>
+						</div>
+						<div class="txt">
+							<p ref="empty-whishlist-text" align="center">
+								{{ $t('wishlist.postempty') }}
+							</p>
+							<Button class="flex-grow-1 wish_btn" @click.native="discoverItem">
+								{{ $t('wishlist.discover') }}
+							</Button>
+						</div>
+					</div>
+				</div>
+				<div v-show="isWishlistHasItems" class="merge-selected OutfitSelected">
 					<SelectedItems ref="selected-items" is-poll />
 					<Button
 						class="mt-2 next-button"
@@ -164,6 +175,9 @@ export default {
 				this.showError = true;
 			}
 		},
+		discoverItem() {
+			this.$router.push('/explore');
+		},
 	},
 	head: () => ({
 		title: 'Create-Poll',
@@ -292,5 +306,92 @@ p.tip-note.error-note {
 	width: 42.46vw;
 	height: 12.30vw !important;
 	margin-top: 6.50vw !important;
+}
+.whislist_empty{
+    width: 82.15vw;
+    margin: 0 auto 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.whislist_empty .whish_img{
+	width: 53.53vw;
+	height: 24.61vw;
+	background: #F5F5F5;
+	margin: 0 auto;
+	position: relative;
+}
+.whislist_empty .whish_img p{
+	position: absolute;
+	right: 1.8vw;
+	top: 1.8vw;
+	background: #000000;
+	border-radius: 50%;
+	width: 10.76vw;
+	height: 10.76vw;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+	z-index: 1;
+}
+.whislist_empty .whish_img:after{
+	content: '';
+	width: 15.38vw;
+	height: 15.38vw;
+	position: absolute;
+	background: #B8B8BA;
+	border-radius: 50%;
+	z-index: 0;
+	right: -0.5vw;
+	top: -0.5vw;
+}
+.whislist_empty .whish_img:before{
+	content: '';
+	width: 23.07vw;
+	height: 23.07vw;
+	position: absolute;
+	background: #DBDBDB;
+	border-radius: 50%;
+	z-index: 0;
+	right: -4.3vw;
+	top: -4.3vw;
+}
+.whislist_empty .whish_img p img{
+	width: 6.15vw;
+    height: 4.66vw;
+}
+.whislist_empty .txt p{
+    font-size: 3.69vw;
+    font-weight: 500;
+    color: #000;
+    width: 90%;
+    margin: 6.87vw auto;
+}
+.whislist_empty .txt .wish_btn{
+	margin: 0 auto;
+	border: 0.461vw solid #000;
+	height: 12.30vw;
+	width: 46.92vw;
+	font-size: 2.61vw;
+	padding: 0 8px;
+	display: block;
+	font-weight: bold;
+	border-radius: 3.07vw;
+	text-transform: uppercase;
+	margin-bottom: 3.07vw;
+	letter-spacing: 2px;
+	background-color: #fff !important;
+	color: #000;
+}
+.empty_wishlist_container {
+    width: 100%;
+    height: calc(100vh - 90px);
+    background-color: white;
+    z-index: 202;
+    position: fixed;
+    bottom: 0;
+	left: 0;
 }
 </style>
