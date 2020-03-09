@@ -3,7 +3,7 @@
 		<Preloader v-if="!wishlist && socket.isAuth" ref="preloader" class="mt-8" />
 		<div v-else-if="!wishlist || !wishlist.length" class="mt-3">
 			<div class="whislist_empty">
-				<template v-if="isPrivate && socket.isAuth">
+				<template v-if="isPrivate && socket.isAuth && !isMe">
 					<div ref="private-image" class="d-flex justify-center">
 						<img src="~assets/img/lock.png" width="100px">
 					</div>
@@ -11,7 +11,7 @@
 						{{ $t('wishlist.private', { user: user.other.name || user.other.screenName }) }}
 					</div>
 				</template>
-				<temp v-else>
+				<div v-else>
 					<div class="whish_img">
 						<p>
 							<img src="~assets/img/squad-logo-white.svg" class="insta-image">
@@ -21,11 +21,11 @@
 						<p ref="empty-whishlist-text" align="center">
 							{{ socket.isAuth ? $t('wishlist.empty') : $t('wishlist.disabled_before_signin') }}
 						</p>
-						<Button class="flex-grow-1 wish_btn">
+						<Button v-if="isMe" class="flex-grow-1 wish_btn" @click="discoverItem">
 							{{ $t('wishlist.discover') }}
 						</Button>
 					</div>
-				</temp>
+				</div>
 			</div>
 		</div>
 		<div v-else>
@@ -52,6 +52,12 @@ export default {
 	components: {
 		Preloader,
 		WhishlistItem,
+	},
+	props: {
+		isMe: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	computed: {
 		...activityState([
@@ -95,6 +101,9 @@ export default {
 				type: 'wishlist',
 				guid: this.$route.params.id,
 			});
+		},
+		discoverItem() {
+			this.$router.push('/explore');
 		},
 	},
 };

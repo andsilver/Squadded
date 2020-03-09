@@ -7,7 +7,7 @@
 				<p ref="empty-blog-text" align="center" class="txt">
 					{{ socket.isAuth ? $t('feed.isEmpty') : $t('wishlist.disabled_before_signin') }}
 				</p>
-				<Button class="flex-grow-1 wish_btn">
+				<Button v-if="isMe" class="flex-grow-1 wish_btn" @click="openPopup">
 					{{ $t('feed.create') }}
 				</Button>
 			</div>
@@ -31,6 +31,12 @@ export default {
 		Feed,
 		Preloader,
 	},
+	props: {
+		isMe: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	computed: {
 		...activityState([
 			'blog',
@@ -51,6 +57,9 @@ export default {
 				type: 'blog',
 				guid: this.$route.params.id,
 			});
+		},
+		openPopup() {
+			this.$root.$emit('openCreateMenu');
 		},
 	},
 };

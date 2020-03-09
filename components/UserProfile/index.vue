@@ -74,10 +74,10 @@
 			</v-tabs>
 			<v-tabs-items v-model="tabs" touchless>
 				<v-tab-item class="mt-3">
-					<Blog />
+					<Blog :is-me="user.isMe" />
 				</v-tab-item>
 				<v-tab-item>
-					<Whishlist />
+					<Whishlist :is-me="user.isMe" />
 				</v-tab-item>
 			</v-tabs-items>
 		</v-layout>
