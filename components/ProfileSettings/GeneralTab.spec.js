@@ -3,7 +3,9 @@ import Vuex from 'vuex';
 import GeneralTab from './GeneralTab.vue';
 import Store from '~/store';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
+import { UserStore, UserActions, UserMutations } from '~/store/user';
 import { NOTIFICATIONS } from '~/consts/notifications';
+import { userMockBuilder } from '~/test/user.mock';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
@@ -13,6 +15,7 @@ describe('Profile Settings Topbar', () => {
 	let wrapper;
 	let store;
 	let localVue;
+	let user;
 	const $router = {
 		push: jest.fn(),
 	};
@@ -21,10 +24,12 @@ describe('Profile Settings Topbar', () => {
 	};
 
 	const SIGN_OUT_BUTTON = 'sign-out-button';
+	const SAVE_BUTTON = 'save-button';
 
 	beforeEach(() => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
+		user = userMockBuilder().get();
 		store = new Vuex.Store(Store);
 		wrapper = shallowMount(GeneralTab, {
 			store,
@@ -71,5 +76,15 @@ describe('Profile Settings Topbar', () => {
 			ts: 123456789,
 			_id: 123456789,
 		});
+	});
+
+	it('should save profile on save button click', async () => {
+		const saveButton = wrapper.ref(SAVE_BUTTON);
+		user.language = 'fr';
+		user.isMe = true;
+		store.dispatch = jest.fn();
+		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
+		saveButton.trigger('click');
+		expect(store.dispatch).toHaveBeenCalledWith(`${UserStore}/${UserActions.setProfile}`, user);
 	});
 });

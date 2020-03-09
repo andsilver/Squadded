@@ -162,7 +162,7 @@
 			</div>
 		</section>
 		<div class="mt-4 py-4 d-flex justify-center">
-			<Button ref="save-button" style="width: 100px;">
+			<Button ref="save-button" style="width: 100px;" @click.native="save">
 				{{ $t('Save') }}
 			</Button>
 		</div>
@@ -239,7 +239,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import Button from '~/components/common/Button';
-import { UserStore } from '~/store/user';
+import { UserStore, UserActions } from '~/store/user';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { NOTIFICATIONS } from '~/consts/notifications';
 
@@ -251,7 +251,15 @@ export default {
 	},
 	data: () => ({
 		user: null,
-		languages: ['english', 'français'],
+		languages: [
+			{
+				text: 'english',
+				value: 'en',
+			}, {
+				text: 'français',
+				value: 'fr',
+			},
+		],
 		notifications: [
 			{
 				text: '15 minutes',
@@ -278,7 +286,6 @@ export default {
 			deep: true,
 			handler() {
 				const {
-					language,
 					notification,
 					...pure
 				} = this.user;
@@ -288,7 +295,7 @@ export default {
 	},
 	mounted() {
 		this.user = Object.assign({}, this.me);
-		this.user.language = this.languages[0];
+		this.user.language = this.user.language || this.languages[0].value;
 		this.user.notification = this.notifications[0].value;
 	},
 	methods: {
@@ -303,8 +310,18 @@ export default {
 			sessionStorage.clear();
 			location.reload();
 		},
-		save() {
+		async save() {
 			this.editing = false;
+			await this.$store.dispatch(
+				`${UserStore}/${UserActions.setProfile}`,
+				this.user,
+			);
+			this.$root.$i18n.fallbackLocale = this.user.language;
+			if (history.length) {
+				history.back();
+				return;
+			}
+			this.$router.push('/me');
 		},
 		submit () {
 			this.submitted = true;

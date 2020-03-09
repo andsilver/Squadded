@@ -87,6 +87,7 @@ export const actions = {
 				screenName: user.screenName,
 				avatar: user.avatar,
 				nameSelected: !!user.nameSelected,
+				language: user.language,
 			},
 		});
 	},

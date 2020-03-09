@@ -84,6 +84,10 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				});
 			}
 
+			if (user.language) {
+				app.i18n.fallbackLocale = user.language;
+			}
+
 			const { route } = state.squad;
 			const setPendingFalse = () => store.commit('SET_PENDING', false);
 

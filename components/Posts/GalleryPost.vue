@@ -119,7 +119,7 @@ export default {
 				this.$root.$emit('postTaped', this.post.postId);
 				return;
 			}
-			if (this.fetched) {
+			if (this.fetched || this.post.guid.includes('new')) {
 				return this.toggleShifted();
 			}
 			prefetch({

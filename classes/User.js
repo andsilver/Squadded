@@ -21,6 +21,7 @@ export class User {
 			squad,
 			nameSelected,
 			squaddersCount,
+			language,
 		} = props;
 
 		this.avatar = avatar;
@@ -39,6 +40,7 @@ export class User {
 		squad && (this.squad = squad);
 		this.nameSelected = !!nameSelected;
 		this.squaddersCount = squaddersCount || 0;
+		this.language = language;
 	}
 
 	short () {
