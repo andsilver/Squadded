@@ -5,6 +5,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Button from '~/components/common/Button';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
@@ -25,9 +26,15 @@ export default {
 		following () {
 			return (this.user.followers && this.user.followers.me);
 		},
+		...mapState([
+			'socket',
+		]),
 	},
 	methods: {
 		toggleFollow (follow) {
+			if (!this.socket.isAuth) {
+				return this.$router.push('/');
+			}
 			const { user } = this;
 			follow = isBoolean(follow) ? follow : !user.followers.me;
 			if (user.isMe) {

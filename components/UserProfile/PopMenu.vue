@@ -140,6 +140,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import Button from '~/components/common/Button';
 import Follow from '~/components/common/Follow';
 import RemoveSquad from '~/components/common/RemoveSquad';
@@ -193,6 +194,9 @@ export default {
 			const target = JSON.stringify(this.target);
 			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
 		},
+		...mapState([
+			'socket',
+		]),
 	},
 	mounted() {
 		this.parentNode = this.$parent.$el;
@@ -202,6 +206,9 @@ export default {
 			this.showReasonDialog = false;
 		},
 		reportUser() {
+			if (!this.socket.isAuth) {
+				return this.$router.push('/');
+			}
 			this.showReasonDialog = false;
 			/**
 			 * todo - see the same not about reporting User
@@ -212,9 +219,15 @@ export default {
 			this.showReasonDialog = true;
 		},
 		toggleFollow () {
+			if (!this.socket.isAuth) {
+				return this.$router.push('/');
+			}
 			this.$refs.follow.toggleFollow();
 		},
 		addToSquad() {
+			if (!this.socket.isAuth) {
+				return this.$router.push('/');
+			}
 			this.$ws.sendObj({
 				type: 'acceptSquad',
 				targetUserId: this.user.userId,

@@ -7,6 +7,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
 	props: {
 		dark: {
@@ -14,9 +16,18 @@ export default {
 			default: false,
 		},
 	},
+	computed: {
+		...mapState([
+			'socket',
+		]),
+	},
 	methods: {
 		goBack() {
-			history.back();
+			if (this.socket.isAuth) {
+				history.back();
+			} else {
+				this.$router.push('/community');
+			}
 		},
 	},
 };

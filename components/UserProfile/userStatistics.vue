@@ -40,13 +40,11 @@
 					{{ $t('user.invitation.pending') }}
 				</v-list-item-subtitle>
 			</div>
-			<div v-else>
+			<div v-else style="cursor: pointer" @click="invite">
 				<v-list-item-title class="title">
-					<v-btn icon small @click="invite">
-						<v-icon color="black">
-							mdi-account-plus-outline
-						</v-icon>
-					</v-btn>
+					<v-icon color="black">
+						mdi-account-plus-outline
+					</v-icon>
 				</v-list-item-title>
 				<v-list-item-subtitle class="subtitle">
 					{{ $t('user.invitation.invite') }}

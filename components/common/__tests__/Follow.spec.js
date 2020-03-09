@@ -17,6 +17,9 @@ describe('Follow button', () => {
 	let user;
 	let wrapper;
 	let $ws;
+	const $router = {
+		push: jest.fn(),
+	};
 
 	function initLocalVue () {
 		localVue = createLocalVue();
@@ -26,12 +29,14 @@ describe('Follow button', () => {
 			sendObj: jest.fn(),
 		};
 		user = userMockBuilder().get();
+		store.commit('SET_SOCKET_AUTH', true);
 		wrapper = shallowMount(Follow, {
 			store,
 			mocks: {
 				$store: store,
 				$t: msg => msg,
 				$ws,
+				$router,
 			},
 			propsData: {
 				user,

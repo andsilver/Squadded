@@ -40,6 +40,9 @@ describe('PopMenu', () => {
 	const $ws = {
 		sendObj: jest.fn(),
 	};
+	const $router = {
+		push: jest.fn(),
+	};
 
 	const initLocalVue = () => {
 		wrapper = shallowMount(PopMenu, {
@@ -52,6 +55,7 @@ describe('PopMenu', () => {
 				$t: msg => msg,
 				$root,
 				$ws,
+				$router,
 			},
 		});
 	};
@@ -172,6 +176,7 @@ describe('PopMenu', () => {
 		post.user.mysquad = false;
 		post.byMe = false;
 		initLocalVue();
+		store.state.socket.isAuth = true;
 		await wrapper.ref(ADD).trigger('click');
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'acceptSquad',

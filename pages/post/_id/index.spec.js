@@ -9,6 +9,7 @@ import { prefetch } from '~/helpers';
 
 jest.mock('~/helpers', () => ({
 	prefetch: jest.fn(),
+	onAuth: jest.fn().mockReturnValue(Promise.resolve()),
 }));
 
 Wrapper.prototype.ref = function(id) {
@@ -62,21 +63,25 @@ describe('Landing Post', () => {
 	});
 
 	it('should render correct contents', async () => {
+		post.private = false;
 		prefetch.mockReturnValue(Promise.resolve(post));
+		store.commit('SET_SOCKET_AUTH', true);
 		initLocalVue();
-		await prefetch();
+		await Promise.resolve();
+		await Promise.resolve();
 		const backBar = wrapper.ref(BACK_BAR);
 		const postComponent = wrapper.ref(POST_COMPONENT);
 		const dialog = wrapper.ref(DIALOG);
 		expect(backBar.exists()).toBe(true);
 		expect(postComponent.exists()).toBe(true);
-		expect(dialog.exists()).toBe(true);
+		expect(dialog.exists()).toBe(false);
 	});
 
-	it('should send fetchPost message', () => {
+	it('should send fetchPost message', async () => {
 		prefetch.mockReturnValue(Promise.resolve(post));
 		store.commit('SET_SOCKET_AUTH', true);
 		initLocalVue();
+		await Promise.resolve();
 		expect(prefetch).toHaveBeenCalledWith({
 			postId: $route.params.id,
 			mutation: `${PostStore}/${PostMutations.setCurrentPost}`,
@@ -87,15 +92,21 @@ describe('Landing Post', () => {
 
 	it('should show NotSignedInDialog when not signed in', async () => {
 		prefetch.mockReturnValue(Promise.resolve(post));
+		store.commit('SET_SOCKET_AUTH', false);
+		store.commit('SET_PENDING', false);
 		initLocalVue();
-		await prefetch();
+		await Promise.resolve();
 		expect(wrapper.vm.showNotSignedInDialog).toBe(true);
 	});
 
 	it('should display correct title', async () => {
+		post.private = false;
 		prefetch.mockReturnValue(Promise.resolve(post));
+
+		store.commit('SET_SOCKET_AUTH', true);
 		initLocalVue();
-		await prefetch();
+		await Promise.resolve();
+		await Promise.resolve();
 		expect(wrapper.vm.title).toBe('post.title.singleItemPost');
 
 		$route.hash = '#comments';
@@ -104,13 +115,16 @@ describe('Landing Post', () => {
 		expect(wrapper.vm.title).toBe('post.title.comments');
 	});
 
-	it('should go to user profile page if the post is private', async () => {
+	it('should go to user profile page if the post is private and user is not mysquad', async () => {
 		post.private = true;
 		post.byMe = false;
+		post.user.mysquad = false;
 		post.userId = 'auserid';
 		prefetch.mockReturnValue(Promise.resolve(post));
+		store.commit('SET_SOCKET_AUTH', true);
 		initLocalVue();
-		await prefetch();
-		expect($router.push).toHaveBeenCalledWith(`/user/${post.userId}`);
+		await Promise.resolve();
+		await Promise.resolve();
+		expect($router.push).toHaveBeenCalledWith(`/user/${post.userId}#wishlist`);
 	});
 });

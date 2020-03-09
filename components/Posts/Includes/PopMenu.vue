@@ -145,6 +145,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import SharePost from './SharePost';
 import Button from '~/components/common/Button';
 import RemoveSquadBtn from '~/components/common/RemoveSquad';
@@ -209,6 +210,9 @@ export default {
 			const target = JSON.stringify(this.target);
 			return `${API_ENDPOINT}/community/post?t=${btoa(target)}`;
 		},
+		...mapState([
+			'socket',
+		]),
 	},
 	mounted () {
 		this.parentNode = this.$parent.$el;
@@ -344,6 +348,9 @@ export default {
 			this.$refs['remove-squad'].$refs['remove-trigger'].$el.click();
 		},
 		invite () {
+			if (!this.socket.isAuth) {
+				return this.$router.push('/');
+			}
 			this.$ws.sendObj({
 				type: 'acceptSquad',
 				targetUserId: this.post.user.guid || this.post.user.userId,

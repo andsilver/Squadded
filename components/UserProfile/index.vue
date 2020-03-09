@@ -235,6 +235,9 @@ export default {
 			this.invite = false;
 		},
 		sendInvite() {
+			if (!this.socket.isAuth) {
+				return this.$router.push('/');
+			}
 			this.$ws.sendObj({
 				type: 'acceptSquad',
 				targetUserId: this.user.userId,
