@@ -172,24 +172,25 @@ export default {
 			if (!this.$refs.post) {
 				return;
 			}
-			const element = this.$refs.post
+			const elements = this.$refs.post
 				.map((element, index) => ({
 					index,
 					element,
 					overlap: this.overlap(element),
 				}))
 				.filter(e => e.overlap)
-				.sort((a, b) => b.overlap - a.overlap)[0];
+				.sort((a, b) => b.overlap - a.overlap);
+			const element = elements[0];
 			this.setShowCommentInput(element);
 		},
 		overlap (element) {
 			const view = {
-				top: document.documentElement.scrollTop,
-				bottom: document.documentElement.scrollTop + window.innerHeight,
+				top: document.documentElement.scrollTop - 70,
+				bottom: document.documentElement.scrollTop + window.innerHeight - 70 - 65,
 			};
 			const self = {
 				top: element.offsetTop + 40,
-				bottom: element.offsetTop + element.offsetHeight - 80,
+				bottom: element.offsetTop + 40 + element.offsetHeight,
 			};
 
 			if (

@@ -11,6 +11,16 @@
 				sqdi-add-user
 			</v-icon>
 		</v-btn>
+		<v-btn
+			v-if="showSignIn"
+			outlined
+			depressed
+			small
+			class="signin-button"
+			to="/"
+		>
+			{{ $t('landing_post.sign_in') }}
+		</v-btn>
 	</h2>
 </template>
 
@@ -27,6 +37,10 @@ export default {
 			default: '',
 		},
 		addUser: {
+			type: Boolean,
+			default: false,
+		},
+		showSignIn: {
 			type: Boolean,
 			default: false,
 		},
@@ -50,4 +64,13 @@ h2
 		&.add-user-button
 			right 0
 			left auto
+	.signin-button
+		right 0
+		position absolute
+		top 2px
+		left auto
+		font-size 0.6em
+		font-weight 700
+		letter-spacing 1px
+		border-radius 6px
 </style>

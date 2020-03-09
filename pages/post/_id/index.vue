@@ -1,6 +1,6 @@
 <template>
 	<v-container class="post-landing">
-		<BackBar ref="back-bar" :title="title" />
+		<BackBar ref="back-bar" :title="title" :show-sign-in="!isAuth" />
 		<div v-if="post" class="py-4">
 			<component :is="getComponent(post)" ref="post-component" :post="post" />
 			<Comments v-if="isAuth" ref="post-comments" :post="post" :show-all="showAllComments" />
