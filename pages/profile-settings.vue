@@ -2,7 +2,7 @@
 	<div>
 		<Topbar ref="top-bar" />
 		<div class="px-3">
-			<v-tabs v-model="tabs" fixed-tabs center-active>
+			<v-tabs v-model="tabs" fixed-tabs>
 				<v-tab class="tabs pt-3">
 					<span ref="profile-tab">{{ $t('profile_settings.profile') }}</span>
 				</v-tab>

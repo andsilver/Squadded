@@ -187,6 +187,7 @@
     "textPlaceholder": "Type your description"
   },
   "photo": {
+    "update": "Update Photo",
     "browse": "Browse Gallery",
     "capture": "Take a Photo",
     "textPlaceholder": "Today I'm wearing this",
@@ -347,20 +348,21 @@
     "profile": "Profile",
     "general": "General",
     "profile_privacy": "Profile privacy",
+    "crop_photo": "Crop photo",
     "private_profile": {
       "title": "Private profile",
-      "description": "Only your squad can see your activities and wishlist"
+      "description": "Only your squad can see your activity and wishlist"
     },
     "public_profile": {
       "title": "Public profile",
-      "description": "Everyone can see your activities and wishlist"
+      "description": "Everyone will be able to see your activity and wishlist"
     },
     "language": {
       "title": "Language",
       "description": "How often do you want to get notifications?"
     },
     "terms_of_service": {
-      "title": "Terms of Service",
+      "title": "Terms of Use",
       "description": "By using the widget you agree to them"
     },
     "notifications": {
@@ -383,7 +385,12 @@
       "title": "Save changes?",
       "description": "If you leave this page, the changes you made will not be saved."
     },
-    "leave": "leave"
+    "leave": "leave",
+    "delete_confirm": "Are you sure you want to delete your account? You can always delete a post or signout, and come back next time.",
+    "deleted_statement": {
+      "first": "We're sorry to hear that you'd like to delete your account. Please write us at",
+      "second": "and let us know why. Our team will process your request and delete your account."
+    }
   },
   "landing_post": {
     "interact_with_user": "Interact with {user}, pair and save items to your wishlist",

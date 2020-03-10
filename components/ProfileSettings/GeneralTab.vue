@@ -1,31 +1,6 @@
 <template>
 	<div v-if="user" class="pa-3">
-		<div>
-			<label class="input-label" for="email">{{ $t('form.email') }}</label>
-			<v-text-field
-				id="email"
-				ref="email-field"
-				v-model="user.email"
-				hide-details
-				outlined
-				dense
-			/>
-		</div>
-		<section class="mt-4">
-			<div class="d-flex justify-space-between align-center">
-				<label class="input-label" for="phone_number">{{ $t('form.phone_number') }}</label>
-				<span class="input-label">{{ $t('form.only_used_for_validation') }}</span>
-			</div>
-			<v-text-field
-				id="phone_number"
-				ref="phone-number-field"
-				v-model="user.phone"
-				hide-details
-				outlined
-				dense
-			/>
-		</section>
-		<section class="my-4 d-flex">
+		<section class="my-6 d-flex">
 			<div class="mr-3">
 				<v-btn icon>
 					<v-icon small color="black">
@@ -49,16 +24,10 @@
 						/>
 					</div>
 				</div>
-				<div
-					ref="language-description"
-					class="mt-2 input-label"
-				>
-					{{ $t('profile_settings.language.description') }}
-				</div>
 			</div>
 		</section>
 		<v-divider />
-		<section class="my-4 d-flex">
+		<section class="my-6 d-flex">
 			<div class="mr-3">
 				<v-btn icon>
 					<v-icon small color="black">
@@ -80,46 +49,6 @@
 						{{ $t('profile_settings.read') }}
 					</v-btn>
 				</div>
-				<div
-					ref="terms-of-service-description"
-					class="mt-2 input-label"
-				>
-					{{ $t('profile_settings.terms_of_service.description') }}
-				</div>
-			</div>
-		</section>
-		<v-divider />
-		<section class="my-4 d-flex">
-			<div class="mr-3">
-				<v-btn icon>
-					<v-icon small color="black">
-						mdi-bell-outline
-					</v-icon>
-				</v-btn>
-			</div>
-			<div class="mt-1 flex-grow-1">
-				<div class="d-flex justify-space-between align-center">
-					<h5>{{ $t('profile_settings.notifications.title') }}</h5>
-					<div class="select-control">
-						<v-select
-							v-model="user.notification"
-							:items="notifications"
-							item-text="text"
-							item-value="value"
-							solo
-							flat
-							rounded
-							hide-details
-							color="black"
-						/>
-					</div>
-				</div>
-				<div
-					ref="notifications-description"
-					class="mt-2 input-label"
-				>
-					{{ $t('profile_settings.notifications.description') }}
-				</div>
 			</div>
 		</section>
 		<v-divider />
@@ -137,28 +66,32 @@
 				{{ $t('profile_settings.feedback_warning') }}
 			</div>
 		</div>
-		<section class="my-4 d-flex">
+		<section class="my-4 d-flex align-center">
 			<div class="mr-3">
-				<v-btn icon @click="promptSignout">
-					<v-icon small color="black">
+				<v-btn ref="sign-out-button" icon @click="showSignoutDialog = true">
+					<v-icon color="#fd6256">
 						mdi-power
 					</v-icon>
 				</v-btn>
 			</div>
-			<div class="mt-1 flex-grow-1">
-				<div class="d-flex justify-space-between align-center">
-					<v-btn
-						ref="sign-out-button"
-						style="background-color: #fff !important; padding: 0; font-weight: 700;"
-						class="sign-out-button"
-						rounded
-						depressed
-						small
-						@click.native="promptSignout"
-					>
-						{{ $t('profile_settings.signout.button') }}
-					</v-btn>
-				</div>
+			<div class="flex-grow-1">
+				<span class="action-button">
+					{{ $t('profile_settings.signout.button') }}
+				</span>
+			</div>
+		</section>
+		<section class="my-4 d-flex align-center">
+			<div class="mr-3">
+				<v-btn ref="delete-account-button" icon @click="showDeleteAccountDialog = true">
+					<v-icon color="black">
+						mdi-close
+					</v-icon>
+				</v-btn>
+			</div>
+			<div class="flex-grow-1">
+				<span class="action-button">
+					{{ $t('profile_settings.delete_account') }}
+				</span>
 			</div>
 		</section>
 		<div class="mt-4 py-4 d-flex justify-center">
@@ -193,7 +126,7 @@
 						and locations (“Events”), and a variety of other travel and non-travel related services.
 					</p>
 					<p>
-						`1.2 As the provider of the Airbnb Platform, Airbnb does not own, create, sell, resell, provide,
+						1.2 As the provider of the Airbnb Platform, Airbnb does not own, create, sell, resell, provide,
 						control, manage, offer, deliver, or supply any Listings or Host Services, nor is Airbnb an
 						organiser or retailer of travel packages under Directive (EU) 2015/2302. Hosts alone are responsible
 						for their Listings and Host Services. When Members make or accept a booking, they are entering into
@@ -211,11 +144,11 @@
 			</v-card>
 		</v-dialog>
 
-		<v-dialog v-model="showSignoutDialog" content-class="report-dialog delete-dialog">
+		<v-dialog v-model="showSignoutDialog" content-class="report-dialog">
 			<v-card>
 				<v-card-title class="card-title">
 					{{ $t('profile_settings.signout.button') }}
-					<v-btn icon class="close-dialog" @click.native="hide">
+					<v-btn icon class="close-dialog" @click.native="showSignoutDialog = false">
 						<v-icon size="3.69vw">
 							sqdi-close-cross
 						</v-icon>
@@ -225,11 +158,63 @@
 					<span class="delete-text">{{ $t('profile_settings.signout.confirm') }}</span>
 				</v-card-text>
 				<v-card-actions class="d-flex justify-center card-action">
-					<Button class="flex-grow-1 delete-button" @click.native="signout">
+					<Button class="skip-button flex-grow-1" :active="false" @click.native="showSignoutDialog = false">
+						{{ $t('Cancel') }}
+					</Button>
+					<Button class="flex-grow-1" @click.native="signout">
 						{{ $t('profile_settings.signout.button') }}
 					</Button>
-					<Button class="flex-grow-1" :active="false" @click.native="hide">
-						{{ $t('Cancel') }}
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+
+		<v-dialog v-model="showDeleteAccountDialog" content-class="report-dialog">
+			<v-card>
+				<v-card-title class="card-title">
+					{{ $t('profile_settings.delete_account') }}
+					<v-btn icon class="close-dialog" @click.native="showDeleteAccountDialog = false">
+						<v-icon size="3.69vw">
+							sqdi-close-cross
+						</v-icon>
+					</v-btn>
+				</v-card-title>
+				<v-card-text class="text-center px-2 black--text font-weight-medium">
+					{{ $t('profile_settings.delete_confirm') }}
+				</v-card-text>
+				<v-card-actions class="d-flex justify-center card-action">
+					<Button class="flex-grow-1 skip-button" :active="false" @click.native="signout">
+						{{ $t('profile_settings.signout.button') }}
+					</Button>
+					<Button class="flex-grow-1 delete-button" @click.native="deleteAccount">
+						<v-icon color="white" small>
+							mdi-close
+						</v-icon>
+						<span class="ml-1">
+							{{ $t('Delete') }}
+						</span>
+					</Button>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
+
+		<v-dialog v-model="showDeletedDialog" content-class="report-dialog" persistent>
+			<v-card>
+				<v-card-title class="card-title">
+					{{ $t('profile_settings.delete_account') }}
+					<v-btn icon class="close-dialog" @click.native="closeDeletedDialog">
+						<v-icon size="3.69vw">
+							sqdi-close-cross
+						</v-icon>
+					</v-btn>
+				</v-card-title>
+				<v-card-text class="text-center px-2 black--text font-weight-medium">
+					<span>{{ $t('profile_settings.deleted_statement.first') }}</span>
+					<strong> support@squadded.co </strong>
+					<span>{{ $t('profile_settings.deleted_statement.second') }}</span>
+				</v-card-text>
+				<v-card-actions class="d-flex justify-center card-action">
+					<Button class="px-12" @click.native="closeDeletedDialog">
+						{{ $t('Close') }}
 					</Button>
 				</v-card-actions>
 			</v-card>
@@ -268,6 +253,8 @@ export default {
 		],
 		showTerms: false,
 		showSignoutDialog: false,
+		showDeleteAccountDialog: false,
+		showDeletedDialog: false,
 		editing: false,
 		submitted: false,
 		feedback: '',
@@ -299,16 +286,18 @@ export default {
 		this.user.notification = this.notifications[0].value;
 	},
 	methods: {
-		promptSignout () {
-			this.showSignoutDialog = true;
-		},
-		hide () {
-			this.showSignoutDialog = false;
-		},
-		signout: function (event) {
+		signout () {
 			localStorage.clear();
 			sessionStorage.clear();
 			location.reload();
+		},
+		deleteAccount () {
+			this.showDeletedDialog = true;
+			this.showDeleteAccountDialog = false;
+		},
+		closeDeletedDialog () {
+			this.showDeletedDialog = false;
+			this.signout();
 		},
 		async save() {
 			this.editing = false;
@@ -359,9 +348,10 @@ section .v-btn
 	font-weight 500
 	font-size 14px
 
-.sign-out-button
-	text-transform capitalize
-	letter-spacing 0
+.action-button
+	color black
+	font-size 14px
+	font-weight 600
 
 .select-control >>> .v-input
 	.v-input__control
@@ -385,10 +375,13 @@ section .v-btn
 	.v-btn
 		height 12.30vw
 		font-size 2.61vw
-		+.v-btn
-			margin-left 3.07vw !important
-			background-color #fff !important
-			border 0.461vw solid #000
+	.skip-button
+		margin-left 3.07vw !important
+		background-color #fff !important
+		border 0.461vw solid #000
+		color black
+	.delete-button
+		background-color #fd6256 !important
 
 .v-dialog > .v-card > .v-card__title.card-title
 	justify-content center

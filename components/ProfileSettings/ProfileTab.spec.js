@@ -55,15 +55,6 @@ describe('Profile Settings Topbar', () => {
 		expect(wrapper.ref('private-description').exists()).toBe(true);
 	});
 
-	it('should toggle user private', async () => {
-		user.private = false;
-		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
-		expect(wrapper.ref('private-description').exists()).toBe(false);
-		// const toggleButton = wrapper.ref(TOGGLE_PRIVATE);
-		// toggleButton.trigger('click');
-		// expect(wrapper.ref('private-description').exists()).toBe(true);
-	});
-
 	it('should save profile on save button click', async () => {
 		const saveButton = wrapper.ref(SAVE_BUTTON);
 		user.bio = 'testbio';

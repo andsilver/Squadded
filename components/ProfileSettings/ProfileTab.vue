@@ -1,37 +1,77 @@
 <template>
 	<div v-if="user" class="py-4 profile-content">
-		<div class="px-3">
-			<section class="fixed_profile">
+		<div class="pa-3">
+			<section ref="uploader" class="fixed_profile d-flex justify-center">
 				<v-avatar ref="user-avatar" class="user_avatar" width="100px" height="100px" min-width="none">
 					<v-img :key="user.avatar" :src="user.avatar" />
 				</v-avatar>
-				<client-only>
-					<ImageUploader
-						v-show="false"
-						id="avatar-input"
-						ref="avatar-input"
-						:max-width="600"
-						accept="image/jpeg,image/jpg,image/png"
-						output-format="verbose"
-						auto-rotate
-						@input="setImage"
-						@onComplete="completeCompress"
-					/>
-				</client-only>
-				<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
-					<img src="../../assets/img/action-edit.svg" class="edit-icon-image" width="14px" height="14px">
-				</v-btn>
+				<v-menu
+					v-model="menu"
+					:attach="$refs.uploader"
+					origin="right top"
+					transition="scale-transition"
+					content-class="photo-menu"
+				>
+					<template v-slot:activator="{ on }">
+						<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon :loading="compressing" v-on="on">
+							<img src="../../assets/img/action-edit.svg" class="edit-icon-image" width="14px" height="14px">
+						</v-btn>
+					</template>
+
+					<v-list>
+						<v-list-item class="pr-1">
+							<v-list-item-title class="d-flex justify-space-between align-center">
+								<span class="input-label">{{ $t('photo.update') }}</span>
+								<v-btn icon>
+									<img src="../../assets/img/action-edit.svg" class="edit-icon-image" width="14px" height="14px">
+								</v-btn>
+							</v-list-item-title>
+						</v-list-item>
+						<v-list-item class="py-3">
+							<v-list-item-title class="d-flex align-center" @click="upload('capture')">
+								<v-icon small color="black">
+									mdi-cellphone-screenshot
+								</v-icon>
+								<span class="caption font-weight-medium ml-2 black--text">{{ $t('photo.capture') }}</span>
+							</v-list-item-title>
+						</v-list-item>
+						<v-divider />
+						<v-list-item class="py-3">
+							<v-list-item-title class="d-flex align-center" @click="upload('browse')">
+								<v-icon small color="black">
+									mdi-image
+								</v-icon>
+								<span class="caption font-weight-medium ml-2 black--text">{{ $t('photo.browse') }}</span>
+							</v-list-item-title>
+						</v-list-item>
+					</v-list>
+				</v-menu>
+				<input
+					v-show="false"
+					ref="browse-input"
+					type="file"
+					accept="image/jpeg,image/jpg,image/png"
+					@change="() => onPhotoUpload('browse')"
+				>
+				<input
+					v-show="false"
+					ref="capture-input"
+					type="file"
+					capture="camera"
+					accept="image/jpeg,image/jpg,image/png"
+					@change="() => onPhotoUpload('capture')"
+				>
+				<ImageUploader
+					v-show="false"
+					ref="resizer"
+					:max-width="600"
+					accept="image/jpeg,image/jpg,image/png"
+					output-format="verbose"
+					auto-rotate
+					@input="setImage"
+					@onComplete="completeCompress"
+				/>
 			</section>
-			<section class="profile_background_image">
-				<section class="background_shadow" />
-				<v-img height="162" src="https://picsum.photos/id/699/600/300" />
-			</section>
-			<v-btn class="btn-update-cover" hidden>
-				<v-icon>
-					mdi-settings
-				</v-icon>
-				<span class="ml-1">{{ $t('profile_settings.update_cover') }}</span>
-			</v-btn>
 		</div>
 		<div class="form-area px-3">
 			<section>
@@ -71,7 +111,7 @@
 				<div class="mr-2">
 					<v-btn icon>
 						<v-icon small color="black">
-							{{ user.private ? 'mdi-lock-outline': 'mdi-lock-open-outline' }}
+							{{ user.private ? 'mdi-lock-outline': 'mdi-web' }}
 						</v-icon>
 					</v-btn>
 				</div>
@@ -82,7 +122,6 @@
 						</h5>
 						<div class="select-control">
 							<v-select
-								id="private-select"
 								ref="toggle-private"
 								v-model="user.private"
 								:items="profileTypes"
@@ -96,51 +135,35 @@
 						</div>
 					</div>
 					<div
-						v-if="user.private"
 						ref="private-description"
 						class="mt-2 input-label"
 					>
-						{{ $t('profile_settings.private_profile.description') }}
+						{{ user.private ? $t('profile_settings.private_profile.description') : $t('profile_settings.public_profile.description') }}
 					</div>
 				</div>
 			</section>
 		</div>
-		<!--section class="delete-account pa-3 d-flex mt-4">
-			<v-btn icon style="background: #fea7a0;">
-				<v-icon x-small color="black">
-					sqdi-close-cross
-				</v-icon>
-			</v-btn>
-			<div class="ml-2 d-flex flex-grow-1 justify-space-between align-center">
-				<h5>
-					{{ $t('profile_settings.delete_account') }}
-				</h5>
-				<v-btn
-					ref="delete-button"
-					style="background: #fea7a0; text-transform: lowercase;"
-					rounded
-					depressed
-					small
-				>
-					{{ $t('Delete') }}
-				</v-btn>
-			</div>
-		</section-->
 		<div class="mt-4 py-4 d-flex justify-center">
 			<Button ref="save-button" style="width: 100px;" @click.native="saveProfile">
 				{{ $t('Save') }}
 			</Button>
 		</div>
+		<v-dialog v-model="showCropper" content-class="cropper-dialog">
+			<ImageCrop v-if="avatarImg" :img="avatarImg" @doneCrop="doneCrop" />
+		</v-dialog>
 	</div>
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import ImageUploader from 'vue-image-upload-resize';
+import ImageCrop from './ImageCrop';
 import { dataURItoBlob } from '~/utils/dataUriToBlob';
 import { PostStore, PostMutations } from '~/store/post';
 import { prefetch } from '~/helpers';
 import Button from '~/components/common/Button';
 import { UserStore, UserActions } from '~/store/user';
+import { toBase64 } from '~/utils/toBase64';
+import { toFile } from '~/utils/toFile';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
@@ -148,6 +171,7 @@ export default {
 	components: {
 		Button,
 		ImageUploader,
+		ImageCrop,
 	},
 	data: () => ({
 		user: null,
@@ -157,6 +181,11 @@ export default {
 		],
 		input: null,
 		editing: false,
+		menu: false,
+		avatarImg: null,
+		avatarFile: null,
+		showCropper: false,
+		compressing: false,
 	}),
 	computed: {
 		...mapState(['me']),
@@ -180,15 +209,6 @@ export default {
 			this.user.private = !this.user.private;
 			this.user = Object.assign({}, this.user);
 		},
-		openFileUpload() {
-			const el = document.getElementById('avatar-input');
-			el.value = null;
-			el.click();
-		},
-		read () {
-			this.file = this.$refs['avatar-input'].files[0];
-			this.saveAvatar();
-		},
 		async saveAvatar() {
 			const uploadUrl = await prefetch({
 				contentType: this.file.type,
@@ -206,6 +226,7 @@ export default {
 			const img = new URL(uploadUrl);
 			img.search = '';
 			this.user.avatar = img.href;
+			this.compressing = false;
 		},
 		async saveProfile() {
 			this.editing = false;
@@ -226,6 +247,35 @@ export default {
 			const { info, dataUrl: image } = this.input;
 			this.file = dataURItoBlob(image, info.type);
 			this.saveAvatar();
+		},
+		upload (type) {
+			this.$refs[`${type}-input`].value = null;
+			this.$refs[`${type}-input`].click();
+		},
+		async onPhotoUpload (type) {
+			const file = this.$refs[`${type}-input`].files[0];
+			if (!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
+				return;
+			}
+			const base64 = await toBase64(file);
+			this.avatarImg = base64.length ? base64 : null;
+			this.showCropper = true;
+		},
+		async doneCrop (data) {
+			this.showCropper = false;
+			if (!data) {
+				this.file = null;
+				this.avatarImg = null;
+				return;
+			}
+			const { image } = data;
+			this.compressing = true;
+			const file = await toFile(image, 'file');
+			this.$refs.resizer.uploadFile({
+				target: {
+					files: [file],
+				},
+			});
 		},
 	},
 };
@@ -249,29 +299,29 @@ export default {
 }
 
 .fixed_profile {
-	position: absolute;
-	top: 132px;
-	left: calc(50% - 50px);
 	z-index: 99;
 	border: 3px solid white;
 	border-radius: 50%;
 	background: white;
+	position: relative;
+
+	.edit-icon-sec {
+		position: absolute;
+		right: 35%;
+		bottom: 0;
+		background-color: #fff !important;
+		box-shadow: 0px 1px 4px -1px #ccc;
+		height: 28px;
+		width: 28px;
+	}
 }
 
-.btn-update-cover {
-	font-size: 10px;
-	border-radius: 8px;
-	opacity: 0.8;
-	padding: 0px 8px !important;
-	position: absolute;
-	top: 30px;
-	left: 16px;
-	background: white;
-}
-
-.form-area {
-	margin-top: 80px;
-}
+.photo-menu
+	left 39px !important
+	top 60px !important
+	width 180px
+	.v-list-item
+		cursor pointer
 
 .select-control >>> .v-input
 	.v-input__control
@@ -290,30 +340,21 @@ export default {
 
 	max-width 120px
 
+.v-input__control
+	border-radius 10px
+
 .input-label {
 	color: #9e9e9e;
 	font-weight: 500;
 	font-size: 14px;
 }
 
-.delete-account {
-	background: #ffedeb;
-}
-
 section .v-btn
 	background-color rgba(218, 217, 221, 0.3)
 	color black
 	font-weight 600
-
-.edit-icon-sec {
-	position: absolute;
-	right: 1px;
-	top: 72px;
-	background-color: #fff !important;
-	padding: 5px;
-	border-radius: 50%;
-	box-shadow: 0px 1px 4px -1px #ccc;
-	height: 28px;
-	width: 28px;
-}
+</style>
+<style lang="stylus">
+.cropper-dialog
+	border-radius 25px
 </style>
