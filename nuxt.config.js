@@ -173,6 +173,7 @@ export default {
 	},
 	generate: {
 		devtools: true,
+		minify: false,
 	},
 	vue: {
 		config: {
