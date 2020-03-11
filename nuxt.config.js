@@ -14,6 +14,7 @@ const {
 	SENTRY_KEY,
 	SENTRY_PROJECT_ID,
 	FULLSTORY_ENABLE,
+	NO_MINIFY,
 } = process.env;
 
 if (!BASE) {
@@ -168,13 +169,13 @@ export default {
 		*/
 		extend(config, ctx) {
 			config.output.publicPath = `${BASE}_nuxt/`;
-			config.optimization.minimize = false;
+			config.optimization.minimize = !NO_MINIFY;
 			return config;
 		},
 	},
 	generate: {
 		devtools: true,
-		minify: false,
+		minify: !NO_MINIFY,
 	},
 	vue: {
 		config: {

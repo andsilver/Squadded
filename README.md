@@ -32,6 +32,8 @@ For detailed explanation on how things work, checkout [Nuxt.js docs](https://nux
 - `IG_CLIENT_ID`
 - `API_ENDPOINT`: the fully qualified endpoint root of the backend services, no trailing slash (example: `https://api.squadded.co`)
 
+You can also define `NO_MINIFY=1` at build-time to generate a non-minified bundle.
+
 ## Use in local dev against prod backend
 
 In order to use a dev version of the Widget with production backend, you must do the following:
