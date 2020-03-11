@@ -20,20 +20,12 @@ if (!BASE) {
 	throw new Error('BASE environment variable is required!');
 }
 
-if (!API_ENDPOINT) {
-	throw new Error('API_ENDPOINT environment variable is required!');
-}
-
 if (!FB_APP_ID) {
 	throw new Error('FB_APP_ID environment variable is required!');
 }
 
 if (!IG_CLIENT_ID) {
 	throw new Error('IG_CLIENT_ID environment variable is required!');
-}
-
-if (!WS_LINK) {
-	throw new Error('WS_LINK environment variable is required!');
 }
 
 const server = USE_SSL === 'true' ? {

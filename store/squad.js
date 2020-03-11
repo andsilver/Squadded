@@ -1,4 +1,4 @@
-const { API_ENDPOINT } = process.env;
+import { API_ENDPOINT } from '~/config';
 
 export const SquadStore = 'squad';
 

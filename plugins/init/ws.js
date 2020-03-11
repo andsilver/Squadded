@@ -6,6 +6,7 @@ import { isHome, isOnboarding, prefetch } from '~/helpers';
 import { NotificationStore, NotificationActions } from '~/store/notification';
 import { UserStore, UserMutations } from '~/store/user';
 import { DEFAULT_LANDING } from '~/store/squad';
+import { WS_LINK } from '~/config';
 
 export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
@@ -130,7 +131,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 
 export default (ctx) => {
 	const { store } = ctx;
-	const { WS_LINK } = process.env;
 	if (!WS_LINK) {
 		throw new Error('WebSocket connection link is not provided.');
 	}

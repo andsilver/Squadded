@@ -1,4 +1,5 @@
-const { API_ENDPOINT } = process.env;
+import { API_ENDPOINT } from '~/config';
+
 const COMMUNITY_ENDPOINT = `${API_ENDPOINT}/community`;
 
 export const fetchPost = async (postId) => {

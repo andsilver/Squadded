@@ -1,12 +1,13 @@
+import { API_ENDPOINT as apiEndpoint } from '~/config';
+
 function extractNonWorkingDestruct() {
 	const FB_APP_ID = process.env.FB_APP_ID;
 	const IG_CLIENT_ID = process.env.IG_CLIENT_ID;
-	const API_ENDPOINT = process.env.API_ENDPOINT;
 
 	return {
 		FB_APP_ID,
 		IG_CLIENT_ID,
-		API_ENDPOINT,
+		API_ENDPOINT: apiEndpoint,
 	};
 }
 

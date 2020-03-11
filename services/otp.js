@@ -1,4 +1,5 @@
-const { API_ENDPOINT } = process.env;
+import { API_ENDPOINT } from '~/config';
+
 const AUTH_ENDPOINT = `${API_ENDPOINT}/auth`;
 
 export const requestOtp = (email) => {
