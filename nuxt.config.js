@@ -168,6 +168,7 @@ export default {
 		*/
 		extend(config, ctx) {
 			config.output.publicPath = `${BASE}_nuxt/`;
+			config.optimization.minimize = false;
 			return config;
 		},
 	},
