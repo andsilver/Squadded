@@ -30,9 +30,7 @@
 					</div>
 					<div>
 						<div class="user-sec">
-							<v-icon>
-								mdi-account-plus-outline
-							</v-icon>
+							<img src="~assets/img/invite-user.svg" class="invite-user">
 						</div>
 					</div>
 					<div>
@@ -235,12 +233,15 @@ export default {
 				width 100%
 				height 100%
 				border-radius 50%
+				&.invite-user
+					width 6.46vw
 			span.user-name
 				font-weight 700
 				display block
 				margin-top 0px
 				font-size 3.69vw
 				text-align center
+
 .skip-btn
 	border-radius 10px
 	position fixed

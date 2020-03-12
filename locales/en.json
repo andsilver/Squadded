@@ -70,6 +70,7 @@
   "agree_left": "Please check the box to confirm that you agree to our",
   "agree_right": "terms and conditions.",
   "resend_code": "Resend code",
+  "resendNotify": "New code has been sent",
   "comment": {
     "pop": {
       "Action": "Action",

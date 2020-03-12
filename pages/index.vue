@@ -5,6 +5,29 @@
 			column
 			class="justify-space-between"
 		>
+			<div class="notifications-container">
+				<v-slide-y-transition v-if="resendNotify">
+					<v-card
+						class="d-flex w-100 justify-space-between align-center notification-message"
+						:elevation="5"
+						transition="scroll-y-transition"
+					>
+						<div class="d-flex align-center">
+							<div class="notification-icon">
+								<v-icon size="2.34vw" color="#FFFFFF">
+									sqdi-checkmark
+								</v-icon>
+							</div>
+							<div class="d-flex flex-column justify-center">
+								<span class="notification-text">{{ $t('resendNotify') }}</span>
+							</div>
+						</div>
+						<v-icon color="#B8B8BA" x-small @click="hideNotify">
+							sqdi-close-cross
+						</v-icon>
+					</v-card>
+				</v-slide-y-transition>
+			</div>
 			<div class="login">
 				<div class="text-center">
 					<div class="brand-section">
@@ -47,7 +70,7 @@
 					</div>
 					<div class="signup-letter">
 						<nuxt-link :to="{ path: '/community' }">
-							<h5 class="text-right">
+							<h5 class="text-center">
 								{{ $t('sign_up_later') }}
 							</h5>
 						</nuxt-link>
@@ -124,6 +147,7 @@ export default {
 		terms_error: false,
 		terms: false,
 		showDigitError: false,
+		resendNotify: false,
 	}),
 	computed: {
 		...mapState([
@@ -202,7 +226,11 @@ export default {
 				}));
 			});
 		},
+		hideNotify() {
+			this.resendNotify = false;
+		},
 		requestOtp() {
+			this.resendNotify = true;
 			requestOtp(this.email);
 		},
 	},
@@ -461,12 +489,12 @@ export default {
 		height 10.76vw !important
 		min-height auto !important
 .signup-letter
-	margin-top 20VW
+	margin-top 8.26vw
 	h5
 		font-size 3.69vw
 		line-height 5.84vw
 		font-weight 700
-		padding-right 7.2vw
+		padding-right 0
 .error-message
 	background #FD6256
 	border-radius 1.53vw
@@ -480,5 +508,33 @@ export default {
 	font-weight 500
 	line-height 4.61vw
 	margin-top 3.07vw
-
+.notifications-container
+	position fixed
+	z-index 99
+	width 100%
+	.notification-message
+		margin 0 3.07vw
+		padding 3.30vw 3.07vw
+		border-radius 0 0 15px 15px !important
+		border-bottom-left-radius 20px
+		border-bottom-right-radius 20px
+		&::after
+			content ''
+			position absolute
+			width calc(100% - 6vw)
+			height 0.76vw
+			background-color #ee5f53
+			bottom -0.32vw
+			border-radius 0 0 3.07vw 3.07vw
+.notification-icon
+	padding 0 1.9vw
+	height 6.15vw
+	margin-right 2.13vw
+	background-color #FD6256
+	border-radius 50%
+	text-align center
+.notification-text
+	font-size 3.230vw
+	color #000
+	width 58vw
 </style>

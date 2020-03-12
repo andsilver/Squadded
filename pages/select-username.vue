@@ -9,7 +9,8 @@
 					<div class="brand-section">
 						<img src="../assets/img/bglogin.svg" class="b-logo">
 						<div class="select-user-icon-sec">
-							<img ref="user-avatar" :class="{ dummy_image: !user.avatar }" :src="userAvatar" class="select-user-icon">
+							<img v-if="user.avatar" ref="user-avatar" :src="userAvatar" class="select-user-icon">
+							<div v-if="!user.avatar" ref="user-avatar" :class="{ dummy_image: !user.avatar }" class="select-user-icon" />
 							<client-only>
 								<ImageUploader
 									v-show="false"
@@ -164,14 +165,6 @@ export default {
 </script>
 
 <style lang="stylus">
-.social
-	display flex
-	justify-content space-between
-	margin-top 6.81vw
-	span
-		font-size 3.23vw
-		font-weight 600
-		text-transform capitalize
 .brand-section
 	border-radius 4vw
 	position relative
@@ -210,7 +203,7 @@ export default {
 	bottom -35px
 	left 50%
 	transform translateX(-50%)
-	img.select-user-icon
+	.select-user-icon
 		width 100%
 		height 100%
 		border-radius 50%
