@@ -1,4 +1,4 @@
-import { API_ENDPOINT as apiEndpoint } from '~/config';
+import { API_ENDPOINT } from '~/config';
 
 function extractNonWorkingDestruct() {
 	const FB_APP_ID = process.env.FB_APP_ID;
@@ -7,11 +7,10 @@ function extractNonWorkingDestruct() {
 	return {
 		FB_APP_ID,
 		IG_CLIENT_ID,
-		API_ENDPOINT: apiEndpoint,
 	};
 }
 
-const { FB_APP_ID, IG_CLIENT_ID, API_ENDPOINT } = extractNonWorkingDestruct();
+const { FB_APP_ID, IG_CLIENT_ID } = extractNonWorkingDestruct();
 
 const AUTH_REDIRECT_ROOT = `${API_ENDPOINT}/auth/`;
 

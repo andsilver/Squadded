@@ -3,11 +3,15 @@
 		:post="post"
 		:hide-user="isPaired"
 	>
-		<div class="outfit-card">
+		<MountedEmitter
+			ref="card"
+			class="outfit-card"
+			@mounted="bindEvents"
+		>
 			<CardFrame
 				ref="multi-item"
 				class="multi-item pa-4 mb-4"
-				:class="{ shifted }"
+				:class="{ shifted, moving }"
 				:price="totalPrice"
 				:origin-price="originPrice"
 				show-tap
@@ -15,6 +19,9 @@
 				:loading="!post.guid && !post.error"
 				:post-id="post.guid"
 				:is-paired="isPaired"
+				:style="{
+					'margin-left': `${marginLeft}px`,
+				}"
 				@click.native="fetch"
 			>
 				<div class="grid" :class="`grid-snap-${post.items.length}`">
@@ -25,25 +32,28 @@
 						:item="item"
 						:resquadd="false"
 						:class="{ is_selected: selectedItem == item.itemId }"
-						@click.native="() => imageSelected(post.guid, item.itemId, index)"
+						@click.native="() => imageSelected(item.itemId, index)"
 					/>
 				</div>
 			</CardFrame>
 			<div v-if="!isPaired" class="scroll-section" :class="{ shifted }">
 				<span class="close" @click="fetch"><img src="~assets/img/close-white.svg" class="close-image"></span>
-				<div :id="'scroll_post_'+post.guid" class="scroll-items fancy_scroll" :style="{ 'max-height': maxHeight }">
+				<div ref="items" class="scroll-items fancy_scroll" :style="{ 'max-height': maxHeight }">
 					<ProductCard
 						v-for="item in post.items"
-						:id="'post_'+post.guid+'_item_' + item.itemId"
+						ref="item"
 						:key="item.itemId"
 						:post-id="post.guid"
+						:post="post"
 						:item="item"
+						:shifted="shifted"
 						show-refreshicon
 						class="mx-auto mb-4"
+						@shift="fetch"
 					/>
 				</div>
 			</div>
-		</div>
+		</MountedEmitter>
 	</Post>
 </template>
 
@@ -55,6 +65,7 @@ import ProductCard from './Includes/ProductCard';
 import { prefetch, price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostMutations } from '~/store/post';
+import MountedEmitter from '~/components/common/MountedEmitter';
 
 export default {
 	name: 'MultiItemPost',
@@ -63,6 +74,7 @@ export default {
 		ItemImage,
 		Post,
 		ProductCard,
+		MountedEmitter,
 	},
 	props: {
 		post: {
@@ -79,6 +91,10 @@ export default {
 		shifted: false,
 		maxHeight: '250px',
 		selectedItem: '',
+		moving: false,
+		marginLeft: 0,
+		prev: 999,
+		moved: false,
 	}),
 	computed: {
 		totalPrice () {
@@ -96,6 +112,13 @@ export default {
 		},
 	},
 	methods: {
+		bindEvents () {
+			if (!this.$refs.card || !this.$refs.card.$el) {
+				return;
+			}
+			this.$refs.card.$el.addEventListener('touchstart', e => this.onStart(e));
+			this.$refs.card.$el.addEventListener('touchmove', e => this.onMove(e));
+		},
 		fetch () {
 			if (this.isPaired) {
 				this.$root.$emit('postTaped', this.post.postId);
@@ -118,16 +141,51 @@ export default {
 			if (!this.shifted) {
 				this.selectedItem = '';
 			}
+			this.marginLeft = this.shifted ? -185 : 0;
+			this.moving = false;
 		},
-		imageSelected (postId, itemId, index) {
+		imageSelected (itemId, index) {
 			if (!this.shifted && !this.isPaired) {
-				setTimeout(() => {
-					const container = this.$el.querySelector('#scroll_post_' + postId);
-					const itemPos = this.$el.querySelector('#post_' + postId + '_item_' + itemId).clientHeight;
-					container.scrollTop = index * (itemPos + 17);
-				}, 500);
+				if (index === -1) {
+					index = 0;
+				}
+				const item = this.$refs.item[index];
+				this.$refs.items.scrollTo({
+					top: item.$el.offsetTop - 24,
+					behavior: 'smooth',
+				});
 			}
 			this.selectedItem = itemId;
+		},
+		onStart (e) {
+			this.prev = e.touches[0].clientX;
+			this.moving = true;
+		},
+		onMove (e) {
+			if (!this.moving) {
+				return;
+			}
+			const current = e.touches[0].clientX;
+			const trans = current - this.prev;
+			const margin = this.marginLeft + trans;
+			this.prev = current;
+			if (Math.abs(trans) < 6 ||
+				(trans > 0 && !this.shifted) ||
+				(trans < 0 && this.shifted)
+			) {
+				this.moved = false;
+			} else {
+				this.moved = true;
+				this.marginLeft = margin;
+			}
+			this.onEnd();
+		},
+		onEnd (e) {
+			if (this.moved) {
+				this.toggleShifted();
+			}
+			this.moving = false;
+			this.moved = false;
 		},
 	},
 };
@@ -167,10 +225,8 @@ export default {
 		opacity 1
 .multi-item
 	width 100%
-	transition-property margin-left
-	transition-delay .2s
+	transition margin-left linear .2s
 	&.shifted
-		margin-left -65%
 		.is_selected
 			position relative
 			&::after
@@ -182,6 +238,8 @@ export default {
 				height 100%
 				z-index 1
 				background-color rgba(0,0,0,0.40)
+.moving
+	transition margin-left linear !important
 .scroll-section
 	position relative
 	margin-left -4px

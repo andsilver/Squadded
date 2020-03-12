@@ -96,7 +96,10 @@ export default {
 	},
 	methods: {
 		openProduct () {
-			if (this.post && this.post.type === 'galleryPost' && !this.shifted) {
+			if (this.post &&
+				(this.post.type === 'galleryPost' || this.post.type === 'outfitPost') &&
+				!this.shifted
+			) {
 				this.$emit('shift');
 				return;
 			}
