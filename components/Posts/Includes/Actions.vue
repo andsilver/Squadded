@@ -1,6 +1,6 @@
 <template>
 	<section class="post_buttons">
-		<v-btn class="counter-icon like_button" @click="toggleLike">
+		<v-btn :ripple="false" class="counter-icon like_button" @click="toggleLike">
 			<v-icon
 				ref="likes-icon"
 				class="buttons_icon"
@@ -18,7 +18,7 @@
 			<span v-if="commentsCount" ref="comments-count" class="count comments-count">{{ short(commentsCount) }}</span>
 			<span class="action-label">{{ $t('Comment') }}</span>
 		</v-btn>
-		<v-btn class="counter-icon like_count">
+		<v-btn nuxt :to="`/post/${post.postId}/reactions#likes`" class="counter-icon like_count">
 			<v-icon
 				class="buttons_icon like_icon"
 				size="3.38vw"
@@ -106,6 +106,10 @@ export default {
 		width 15.38vw
 		margin-right 6.69vw
 		min-width auto
+		&:focus:before
+			opacity 0
+		&:hover:before
+			opacity 0
 	.like_count
 		width 10.46vw
 		min-width auto

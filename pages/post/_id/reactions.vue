@@ -81,7 +81,8 @@ export default {
 	},
 	methods: {
 		keepTab () {
-			this.$router.push({ hash: this.tabs ? 'likes' : '' });
+			// Keep commented in future we need to add #path in URL
+			// this.$router.push({ hash: this.tabs ? 'likes' : '' });
 		},
 		setPost(id) {
 			this.post = this.$store.getters[`${PostStore}/${PostGetters.getPostById}`](id);
