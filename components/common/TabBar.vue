@@ -57,6 +57,9 @@ export default {
 			'socket',
 		]),
 	},
+	created () {
+		this.$root.$on('notiPageLoad', data => this.onNoticationPage());
+	},
 	methods: {
 		closeMenu () {
 			this.$root.$emit('overlayClose', { });
@@ -65,6 +68,8 @@ export default {
 			if (!this.socket.isAuth) {
 				this.$router.push('/');
 			}
+		},
+		onNoticationPage () {
 		},
 	},
 };

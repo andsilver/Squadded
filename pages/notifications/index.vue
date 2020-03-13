@@ -5,7 +5,7 @@
 		<v-layout class="nofification-layout">
 			<span v-if="!exists" ref="empty-notif-text">{{ $t('notify.isEmpty') }}</span>
 			<div v-else class="flex-grow-1">
-				<h5 class="mt-4 pl-3 d-flex align-center">
+				<h5 v-if="newNotify.length" class="mt-4 pl-3 d-flex align-center">
 					<span>{{ $t('notify.new') }}</span>
 					<span class="badge">{{ newNotify.length }}</span>
 				</h5>
@@ -52,6 +52,7 @@ export default {
 		},
 	},
 	created () {
+		this.$root.$emit('notiPageLoad', {});
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	},
 	destroyed () {
