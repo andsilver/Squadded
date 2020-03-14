@@ -12,6 +12,7 @@
 	</div>
 </template>
 <script>
+import { mapState } from 'vuex';
 import Button from '~/components/common/Button';
 
 export default {
@@ -28,11 +29,18 @@ export default {
 			required: true,
 		},
 	},
+	computed: {
+		...mapState([
+			'socket',
+		]),
+	},
 	methods: {
 		accept() {
+			if (!this.socket.isAuth) {
+				return this.$router.push({ path: '/', query: { userId: this.user.guid || this.user.userId } });
+			}
 			if (!this.me.nameSelected) {
-				this.$router.push('/select-username');
-				return;
+				return this.$router.push('/select-username');
 			}
 			this.$ws.sendObj({
 				type: 'acceptSquad',
@@ -40,6 +48,9 @@ export default {
 			});
 		},
 		deny() {
+			if (!this.socket.isAuth) {
+				return this.$router.push('/');
+			}
 			if (this.user.squad && this.user.squad.exists) {
 				this.$ws.sendObj({
 					type: 'removeSquadder',

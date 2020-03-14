@@ -22,6 +22,9 @@ export class User {
 			nameSelected,
 			squaddersCount,
 			language,
+			origin,
+			originUserId,
+			originPostId,
 		} = props;
 
 		this.avatar = avatar;
@@ -41,6 +44,9 @@ export class User {
 		this.nameSelected = !!nameSelected;
 		this.squaddersCount = squaddersCount || 0;
 		this.language = language;
+		this.origin = origin;
+		this.originUserId = originUserId;
+		this.originPostId = originPostId;
 	}
 
 	short () {

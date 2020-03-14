@@ -89,7 +89,7 @@ export default {
 				});
 			} else {
 				fetchPost(id).then((post) => {
-					if (post.private) {
+					if (post && post.private) {
 						return this.$router.push(`/user/${post.userId}`);
 					}
 					this.post = post ? new FeedPost(post) : null;

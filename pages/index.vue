@@ -206,10 +206,10 @@ export default {
 				origin: 'normal',
 			};
 			if (userId) {
-				params.userId = userId;
+				params.originUserId = userId;
 				params.origin = 'invitation';
 			} else if (postId) {
-				params.postId = postId;
+				params.originPostId = postId;
 				params.origin = 'share';
 			}
 			loginWithPIN(+this.pin, this.email, params).then(({ error, token }) => {

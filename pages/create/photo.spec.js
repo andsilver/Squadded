@@ -7,6 +7,7 @@ import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { prefetch } from '~/helpers';
 import { toFile } from '~/utils/toFile';
 import { dataURItoBlob } from '~/utils/dataUriToBlob';
+import { userMockBuilder } from '~/test/user.mock';
 
 jest.mock('~/helpers', () => ({
 	prefetch: jest.fn(),
@@ -35,7 +36,7 @@ describe('Create Photo', () => {
 	let wrapper;
 	let store;
 	let localVue;
-
+	const user = userMockBuilder().get();
 	const GOBACK_BAR = 'goback-bar';
 	const CAPTURE_PHOTO = 'capture-photo';
 	const BROWSE = 'browse';
@@ -62,6 +63,7 @@ describe('Create Photo', () => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
+		store.state.user.me = user;
 		wrapper = shallowMount(Photo, {
 			store,
 			localVue,

@@ -40,6 +40,11 @@ describe('Profile Settings Topbar', () => {
 				$ws,
 			},
 		});
+		wrapper.vm.$root = {
+			$i18n: {
+				fallbackLocale: 'en',
+			},
+		};
 	});
 
 	it('should have cleared the sessionStorage and localStorage', () => {

@@ -126,7 +126,7 @@ describe('Signup', () => {
 		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, {
 			merchantId,
 			origin: 'invitation',
-			userId,
+			originUserId: userId,
 		});
 	});
 
@@ -154,7 +154,7 @@ describe('Signup', () => {
 		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, {
 			merchantId,
 			origin: 'share',
-			postId,
+			originPostId: postId,
 		});
 	});
 });

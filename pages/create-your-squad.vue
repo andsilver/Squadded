@@ -21,23 +21,58 @@
 				>
 					{{ $t('Send invite Link') }}
 				</v-btn>
-				<div class="invite-loop d-flex justify-space-around">
-					<div>
+				<div class="invite-loop d-flex justify-space-between">
+					<div class="d-flex flex-column flex-grow-1 align-center">
 						<div class="user-sec">
 							<img :src="me && me.avatar" class="user-image">
 						</div>
 						<span class="user-name">You</span>
 					</div>
-					<div>
-						<div class="user-sec">
+					<div class="d-flex flex-column flex-grow-1 align-center">
+						<template v-if="showInvite">
+							<div class="user-sec invited">
+								<img :src="other.avatar">
+							</div>
+							<span class="user-name">{{ other.name }}</span>
+						</template>
+						<div v-else class="user-sec">
 							<img src="~assets/img/invite-user.svg" class="invite-user">
 						</div>
 					</div>
-					<div>
+					<div class="d-flex flex-column flex-grow-1 align-center">
+						<div v-if="showInvite" class="user-sec">
+							<img src="~assets/img/invite-user.svg" class="invite-user">
+						</div>
+						<div v-else class="user-sec" />
+					</div>
+					<div class="d-flex flex-column flex-grow-1 align-center">
 						<div class="user-sec" />
 					</div>
-					<div>
-						<div class="user-sec" />
+				</div>
+				<div v-if="showInvite">
+					<div class="d-flex flex-column justify-center align-center invited-sec" :class="{ isPending }">
+						<div v-if="isPending" ref="invite-text" class="invite-text text-center mt-4">
+							{{ $t('user.invitation.pending_text', { user: other.name }) }}
+						</div>
+						<template v-else>
+							<div style="font-weight: 700;">
+								{{ $t('create_your_squad.invited_you') }}
+							</div>
+							<div>
+								{{ $t('create_your_squad.invited_text', { user: other.name }) }}
+							</div>
+							<div ref="invite-actions" class="d-flex justify-center mt-2">
+								<Button ref="accept-btn" class="ma-0 mr-1" @click.native="accept">
+									<v-icon class="mt-1" x-small>
+										sqdi-checkmark
+									</v-icon>
+									<span class="ml-2">{{ $t('user.invitation.accept') }}</span>
+								</Button>
+								<v-btn ref="deny-btn" outlined depressed class="deny-btn" @click="deny">
+									{{ $t('user.invitation.deny') }}
+								</v-btn>
+							</div>
+						</template>
 					</div>
 				</div>
 				<v-btn
@@ -72,12 +107,14 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import { UserStore } from '~/store/user';
+import { UserStore, UserMutations } from '~/store/user';
 import TopBar from '~/components/common/TopBar.vue';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
 import { DEFAULT_LANDING } from '~/store/squad';
 import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
 import Feed from '~/components/Feed';
+import { prefetch } from '~/helpers';
+import Button from '~/components/common/Button';
 
 const CANCALED_BY_USER = 20;
 
@@ -91,6 +128,7 @@ export default {
 		TopBar,
 		ShareProfile,
 		Feed,
+		Button,
 	},
 	asyncData({ store, redirect }) {
 		const { me } = store.state.user;
@@ -102,10 +140,12 @@ export default {
 	},
 	data: () => ({
 		showShare: false,
+		denied: false,
 	}),
 	computed: {
 		...userState([
 			'me',
+			'other',
 		]),
 		...mapState([
 			'socket',
@@ -130,6 +170,12 @@ export default {
 			const target = JSON.stringify(this.target);
 			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
 		},
+		isPending() {
+			return this.other && this.other.squad && this.other.squad.pending;
+		},
+		showInvite() {
+			return !!this.other && !this.denied;
+		},
 	},
 	watch: {
 		me (value) {
@@ -146,6 +192,10 @@ export default {
 		if (this.items && this.items.length) {
 			this.$store.commit(`${FeedStore}/${FeedMutations.setLoading}`, false);
 		}
+		if (this.me.origin === 'invitation' && !this.denied) {
+			this.fetchInviteUser();
+		}
+		this.denied = !!localStorage.getItem('denided_signup_invite');
 	},
 	methods: {
 		fetchFeed (loadNew = false) {
@@ -180,6 +230,31 @@ export default {
 		},
 		hideShare () {
 			this.showShare = false;
+		},
+		fetchInviteUser() {
+			prefetch({
+				guid: this.me.originUserId,
+				mutation: `${UserStore}/${UserMutations.setOther}`,
+				store: this.$store,
+				type: 'fetchUser',
+			});
+		},
+		accept() {
+			this.$ws.sendObj({
+				type: 'acceptSquad',
+				targetUserId: this.other.userId || this.other.guid,
+			});
+		},
+		deny() {
+			if (this.other.squad && this.other.squad.exists) {
+				this.$ws.sendObj({
+					type: 'removeSquadder',
+					guid: this.other.userId,
+				});
+			} else {
+				this.denied = true;
+				localStorage.setItem('denided_signup_invite', this.other.userId);
+			}
 		},
 	},
 	head: () => ({
@@ -229,18 +304,36 @@ export default {
 				justify-content center
 				align-items center
 				flex-direction column
+				&.invited
+					opacity .5
 			img
 				width 100%
 				height 100%
 				border-radius 50%
 				&.invite-user
-					width 6.46vw
+					width 24px
 			span.user-name
 				font-weight 700
 				display block
 				margin-top 0px
 				font-size 3.69vw
 				text-align center
+	.invited-sec
+		width 168px
+		margin-left 38px
+		font-weight 500
+		font-size 12px
+		text-align center
+		&.isPending
+			margin-left 38px
+		button
+			height 32px
+			min-height 32px
+		.deny-btn
+			font-size 0.6em
+			font-weight 700
+			letter-spacing 1px
+			border-radius 10px
 
 .skip-btn
 	border-radius 10px

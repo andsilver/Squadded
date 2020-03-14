@@ -1,6 +1,8 @@
-import { Wrapper, shallowMount } from '@vue/test-utils';
+import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
+import Vuex from 'vuex';
 import Invitation from './Invitation.vue';
 import { userMockBuilder } from '~/test/user.mock';
+import Store from '~/store';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
@@ -11,6 +13,8 @@ describe('User Invitation', () => {
 	let $ws;
 	let user;
 	let me;
+	let store;
+	let localVue;
 
 	const $emit = jest.fn();
 
@@ -22,6 +26,9 @@ describe('User Invitation', () => {
 		$ws = {
 			sendObj: jest.fn(),
 		};
+		localVue = createLocalVue();
+		localVue.use(Vuex);
+		store = new Vuex.Store(Store);
 		user = userMockBuilder().get();
 		me = userMockBuilder().get();
 		me.nameSelected = true;
@@ -31,6 +38,8 @@ describe('User Invitation', () => {
 				$ws,
 				$emit,
 			},
+			localVue,
+			store,
 			propsData: {
 				user,
 				me,
@@ -48,6 +57,7 @@ describe('User Invitation', () => {
 	});
 
 	it('should send acceptSquad message', () => {
+		store.commit('SET_SOCKET_AUTH', true);
 		const acceptButton = wrapper.ref(ACCEPT_BUTTON);
 		acceptButton.trigger('click');
 		expect($ws.sendObj).toHaveBeenCalledWith({
@@ -57,12 +67,14 @@ describe('User Invitation', () => {
 	});
 
 	it('should emit remove event', () => {
+		store.commit('SET_SOCKET_AUTH', true);
 		const denyButton = wrapper.ref(DENY_BUTTON);
 		denyButton.trigger('click');
 		expect($emit).toHaveBeenCalled();
 	});
 
 	it('should send remove squad msg', () => {
+		store.commit('SET_SOCKET_AUTH', true);
 		wrapper.setProps({
 			user: {
 				...user,

@@ -78,6 +78,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				store,
 				type: 'fetchUser',
 			});
+			fetchNotifications();
 
 			if (window.FS) {
 				window.FS.identify(user.userId, {
@@ -92,6 +93,14 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			const { route } = state.squad;
 			const setPendingFalse = () => store.commit('SET_PENDING', false);
 
+			if (user.origin === 'invitation') {
+				if (!user.nameSelected) {
+					return app.router.push('/select-username', setPendingFalse);
+				} else if (!user.squaddersCount) {
+					return app.router.push('/create-your-squad', setPendingFalse);
+				}
+			}
+
 			if (route.name) {
 				app.router.push(route, setPendingFalse);
 			} else if (!user.nameSelected) {
@@ -105,7 +114,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 					setPendingFalse,
 				);
 			}
-			fetchNotifications();
 		}
 
 		if (!state.socket.isAuth) {

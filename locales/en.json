@@ -440,7 +440,9 @@
   "create_your_squad": {
     "title": "Create your squad",
     "description": "Add your friends to join your squad. Once they join, you will be able to see and interact with each other’s wishlist.",
-    "skip_for_now": "skip for now"
+    "skip_for_now": "skip for now",
+    "invited_you": "invited you",
+    "invited_text": "Do you want {user} to join your squad?"
   },
   "sign_up_later": "Sign up later",
   "moderation": {
