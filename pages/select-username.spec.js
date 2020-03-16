@@ -27,10 +27,12 @@ describe('Select Username', () => {
 
 	const BRAND_SECTION = 'brand-section';
 	const PICK_USERNAME_SEC = 'pick-username-sec';
-	const AVATAR_INPUT = 'avatar-input';
 	const AVATAR_UPLOAD_BTN = 'avatar-upload-btn';
 	const USERNAME_FIELD = 'username-field';
 	const SAVE_BTN = 'save-btn';
+	const BROWSER_INPUT = 'browse-input';
+	const CAPTURE_INPUT = 'capture-input';
+	const RESIZER = 'resizer';
 
 	beforeEach(() => {
 		onAuth.mockClear();
@@ -55,10 +57,12 @@ describe('Select Username', () => {
 	it('should render contents after auth', async () => {
 		await store.commit('SET_SOCKET_AUTH', true);
 		expect(wrapper.ref(PICK_USERNAME_SEC).exists()).toBe(true);
-		expect(wrapper.ref(AVATAR_INPUT).exists()).toBe(true);
 		expect(wrapper.ref(AVATAR_UPLOAD_BTN).exists()).toBe(true);
 		expect(wrapper.ref(USERNAME_FIELD).exists()).toBe(true);
 		expect(wrapper.ref(SAVE_BTN).exists()).toBe(true);
+		expect(wrapper.ref(BROWSER_INPUT).exists()).toBe(true);
+		expect(wrapper.ref(CAPTURE_INPUT).exists()).toBe(true);
+		expect(wrapper.ref(RESIZER).exists()).toBe(true);
 	});
 
 	it('should save avatar', async () => {

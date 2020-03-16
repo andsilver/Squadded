@@ -11,19 +11,32 @@
 						<div class="select-user-icon-sec">
 							<img v-if="user.avatar" ref="user-avatar" :src="userAvatar" class="select-user-icon">
 							<div v-if="!user.avatar" ref="user-avatar" :class="{ dummy_image: !user.avatar }" class="select-user-icon" />
-							<client-only>
-								<ImageUploader
-									v-show="false"
-									id="avatar-input"
-									ref="avatar-input"
-									:max-width="600"
-									accept="image/*"
-									output-format="verbose"
-									@input="setImage"
-									@onComplete="completeCompress"
-								/>
-							</client-only>
-							<PopMenu ref="avatar-upload-btn" @fileUpload="openFileUpload" />
+							<input
+								v-show="false"
+								ref="browse-input"
+								type="file"
+								accept="image/jpeg,image/jpg,image/png"
+								@change="() => onPhotoUpload('browse')"
+							>
+							<input
+								v-show="false"
+								ref="capture-input"
+								type="file"
+								capture="camera"
+								accept="image/jpeg,image/jpg,image/png"
+								@change="() => onPhotoUpload('capture')"
+							>
+							<ImageUploader
+								v-show="false"
+								ref="resizer"
+								:max-width="600"
+								accept="image/jpeg,image/jpg,image/png"
+								output-format="verbose"
+								auto-rotate
+								@input="setImage"
+								@onComplete="completeCompress"
+							/>
+							<PopMenu ref="avatar-upload-btn" :compressing="compressing" @fileUpload="openFileUpload" />
 							<!-- <v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
 								<img src="../assets/img/action-edit.svg" class="edit-icon-image">
 							</v-btn> -->
@@ -66,6 +79,9 @@
 					</v-btn>
 				</div>
 			</div>
+			<v-dialog v-model="showCropper" content-class="cropper-dialog">
+				<ImageCrop v-if="avatarImg" :img="avatarImg" @doneCrop="doneCrop" />
+			</v-dialog>
 		</v-layout>
 	</v-container>
 </template>
@@ -74,10 +90,13 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import ImageUploader from 'vue-image-upload-resize';
 import PopMenu from '../components/UserProfile/EditPopMenu';
+import ImageCrop from '~/components/ProfileSettings/ImageCrop';
 import { dataURItoBlob } from '~/utils/dataUriToBlob';
 import { UserStore, UserActions } from '~/store/user';
 import { PostStore, PostMutations } from '~/store/post';
 import { prefetch } from '~/helpers';
+import { toBase64 } from '~/utils/toBase64';
+import { toFile } from '~/utils/toFile';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -85,6 +104,7 @@ export default {
 	components: {
 		ImageUploader,
 		PopMenu,
+		ImageCrop,
 	},
 	data: () => ({
 		user: null,
@@ -92,6 +112,10 @@ export default {
 		submitted: false,
 		input: null,
 		username: null,
+		avatarImg: null,
+		avatarFile: null,
+		showCropper: false,
+		compressing: false,
 	}),
 	computed: {
 		...userState([
@@ -113,10 +137,9 @@ export default {
 		this.username = userName[0];
 	},
 	methods: {
-		openFileUpload() {
-			const el = document.getElementById('avatar-input');
-			el.value = null;
-			el.click();
+		openFileUpload(type) {
+			this.$refs[`${type}-input`].value = null;
+			this.$refs[`${type}-input`].click();
 		},
 		async saveProfile() {
 			this.user.name = this.username;
@@ -148,6 +171,7 @@ export default {
 			const img = new URL(uploadUrl);
 			img.search = '';
 			this.user.avatar = img.href;
+			this.compressing = false;
 		},
 		setImage (input) {
 			this.input = input;
@@ -156,6 +180,31 @@ export default {
 			const { info, dataUrl: image } = this.input;
 			this.file = dataURItoBlob(image, info.type);
 			this.saveAvatar();
+		},
+		async onPhotoUpload (type) {
+			const file = this.$refs[`${type}-input`].files[0];
+			if (!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
+				return;
+			}
+			const base64 = await toBase64(file);
+			this.avatarImg = base64.length ? base64 : null;
+			this.showCropper = true;
+		},
+		async doneCrop (data) {
+			this.showCropper = false;
+			if (!data) {
+				this.file = null;
+				this.avatarImg = null;
+				return;
+			}
+			const { image } = data;
+			this.compressing = true;
+			const file = await toFile(image, 'file');
+			this.$refs.resizer.uploadFile({
+				target: {
+					files: [file],
+				},
+			});
 		},
 	},
 	head: () => ({

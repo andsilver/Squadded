@@ -57,7 +57,6 @@ describe('Landing Post', () => {
 	};
 
 	beforeEach(() => {
-		prefetch.mockReturnValue(Promise.resolve(post));
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);

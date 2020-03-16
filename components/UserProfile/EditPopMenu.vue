@@ -10,7 +10,7 @@
 			class="edit-settings"
 		>
 			<template v-slot:activator="{ on }">
-				<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon v-on="on">
+				<v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon :loading="compressing" v-on="on">
 					<img src="~assets/img/action-edit.svg" class="edit-icon-image">
 				</v-btn>
 			</template>
@@ -24,13 +24,13 @@
 						</v-btn>
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="edit-menu-take edit-setting-option" @click="photoUpdate">
+				<v-list-item class="edit-menu-take edit-setting-option" @click="() => photoUpdate('capture')">
 					<img src="~assets/img/take-phone.svg" class="take-icon-image">
 					<v-list-item-title class="setting-label pushwatchers">
 						{{ $t(`Take a Photo`) }}
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item class="edit-menu-browse edit-setting-option" @click="photoUpdate">
+				<v-list-item class="edit-menu-browse edit-setting-option" @click="() => photoUpdate('browse')">
 					<img src="~assets/img/take-picture.svg" class="browse-icon-image">
 					<v-list-item-title class="setting-label share">
 						{{ $t(`Browse Gallery`) }}
@@ -44,6 +44,12 @@
 <script>
 
 export default {
+	props: {
+		compressing: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	data: () => ({
 		menu: false,
 		parentNode: null,
@@ -55,9 +61,9 @@ export default {
 		hide() {
 			this.showReasonDialog = false;
 		},
-		photoUpdate() {
+		photoUpdate(method) {
 			this.menu = false;
-			this.$emit('fileUpload');
+			this.$emit('fileUpload', method);
 		},
 	},
 };
