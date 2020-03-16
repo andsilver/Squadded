@@ -77,4 +77,7 @@ export default {
 		width 3.69vw
 		height 3.69vw
 		background-size 3.69vw
+.post-card
+	button.resquadd.is-resquadded
+		background-color rgba(0, 0, 0, 30%)
 </style>

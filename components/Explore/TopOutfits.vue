@@ -1,7 +1,7 @@
 <template>
-	<div class="px-2">
+	<div class="px-0">
 		<div ref="outfits-title">
-			<div class="d-flex align-center">
+			<div class="d-flex align-center ma-3 ml-2 mt-0">
 				<v-icon color="black">
 					mdi-heart-outline
 				</v-icon>
@@ -9,16 +9,19 @@
 					{{ $t('explore_page.top_outfits.title') }}
 				</h3>
 			</div>
-			<p class="ml-8">
+			<!--<p class="ml-8">
 				{{ $t('explore_page.top_outfits.description') }}
-			</p>
+			</p>-->
 		</div>
 		<div v-if="outfits && outfits.length" class="overflow-x-auto d-flex px-2">
 			<div v-for="({ post }, index) of outfits" :key="index" class="grouped-post-item" @click="goToLandingPost(post)">
 				<div ref="outfit-card" class="outfit-card">
+					<p class="num_outfit">
+						{{ post.items.length }} {{ $t('styleOutfit') }}
+					</p>
 					<CardFrame
 						ref="multi-item"
-						class="multi-item pa-4 mb-4"
+						class="multi-item mb-4"
 						:post-length="post.items.length"
 						:post-id="post.guid"
 						:price="totalPrice(post)"
@@ -32,9 +35,9 @@
 								:resquadd="false"
 							/>
 						</div>
-						<div class="title">
+						<!-- <div class="title">
 							{{ post.text }}
-						</div>
+						</div> -->
 					</CardFrame>
 				</div>
 			</div>
@@ -82,7 +85,16 @@ export default {
 	margin-right 3.07vw !important
 .outfit-card
 	white-space nowrap
-	width 293px
+	width 250px
+	margin-right 10px
+	.num_outfit
+		margin 2vw 0 5vw 0
+		text-align center
+		font-size 3.46vw
+		font-weight 700
+		padding 2.07vw 0
+		border 0.615vw solid #000
+		text-transform uppercase
 .multi-item,
 .scroll-section
 	display inline-block
@@ -157,4 +169,6 @@ export default {
 		margin-bottom 0 !important
 	.grid
 		grid-gap 0.3vw
+.grouped-post-item
+	min-height 330px
 </style>

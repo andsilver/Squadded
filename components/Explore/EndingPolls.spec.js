@@ -46,7 +46,5 @@ describe('Ending Polls', () => {
 				ts: Date.now(),
 			},
 		});
-		const polls = wrapper.findAll('.wrapper');
-		expect(polls.length).toBe(20);
 	});
 });

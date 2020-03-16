@@ -2,10 +2,10 @@
 	<div class="pt-0">
 		<SearchFriends ref="search-field" @change="(value) => searchText = value" />
 		<div v-if="!searching" class="explore-content">
-			<TopItems ref="top-items" class="mb-8" />
-			<EndingPolls ref="ending-polls" class="mb-8" />
-			<TopOutfits ref="top-outfits" class="mb-8" />
-			<TopGallery ref="top-gallery" />
+			<TopItems ref="top-items" class="explor-component" />
+			<TopGallery ref="top-gallery" class="explor-component mt-4" />
+			<EndingPolls ref="ending-polls" class="explor-component mt-4" />
+			<TopOutfits ref="top-outfits" class="explor-component mt-4 mb-4" />
 		</div>
 		<div v-else-if="searchText.length > 2">
 			<UserList v-if="friends && friends.length" ref="user-list" :show-follow="false" class="px-2" :users="friends" />
@@ -55,5 +55,5 @@ export default {
 
 <style lang="stylus" scoped>
 .explore-content
-	padding 16px 8px 0 8px
+	padding 16px 0px 0 0px
 </style>

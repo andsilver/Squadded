@@ -28,7 +28,8 @@
 				<span>{{ title }}</span>
 			</v-card-title>
 			<div v-if="showRefresh" class="refresh-icon" @click="navigateToPairedItemPage">
-				<img src="~assets/img/refresh.svg" class="refresh-logo">
+				<img v-if="!lightRefresh" src="~assets/img/refresh.svg" class="refresh-logo">
+				<img v-if="lightRefresh" src="~assets/img/light-refresh.svg" class="refresh-logo">
 				<span class="refresh-count">{{ short(item.outfits) }}</span>
 			</div>
 			<button
@@ -86,6 +87,10 @@ export default {
 			default: 0,
 		},
 		showRefresh: {
+			type: Boolean,
+			default: false,
+		},
+		lightRefresh: {
 			type: Boolean,
 			default: false,
 		},
@@ -302,4 +307,21 @@ export default {
 .grouped-post
 	.single-item .refresh-icon
 		top 4%
+.poll-post-explore
+	.card_bottom
+		.post_title
+			span
+				color #000
+.multi-item
+	.card_bottom
+		display none
+.ending-poll-post
+	.card_bottom.card_inline
+		display flex
+		flex-direction column
+		.v-card__text.post_price
+			order 2
+.explore-content
+	.refresh-icon .refresh-logo
+		width 3.4vw
 </style>

@@ -1,23 +1,20 @@
 <template>
-	<div class="px-2">
-		<div ref="ending-polls-title">
-			<div class="d-flex align-center">
-				<v-icon color="black">
-					mdi-timer
-				</v-icon>
-				<h3 class="ml-2">
-					{{ $t('explore_page.ending_polls.title') }}
-				</h3>
-			</div>
-			<p class="ml-8">
-				{{ $t('explore_page.ending_polls.description') }}
-			</p>
+	<div class="px-0">
+		<div ref="top-items-title" class="d-flex align-center ma-3 ml-2 mt-0">
+			<img class="ml-1" :width="22" src="~assets/img/ending-poll-watch.svg" alt="">
+			<h3 ref="ending-polls-title" class="ml-3">
+				{{ $t('explore_page.ending_polls.title') }}
+			</h3>
 		</div>
-		<div v-if="items && items.length" class="overflow-x-auto d-flex">
+		<div v-if="items && items.length" class="overflow-x-auto d-flex poll-explore">
 			<div v-for="(post, index) of items" :key="index" @click="goToLandingPost(post)">
 				<div class="wrapper mb-2" :class="{ my_post_wrapper: isMyPost(post) }">
+					<div class="end_timer d-flex align-center">
+						<img class="ml-1" :width="18" src="~assets/img/end_time.svg" alt="">
+						<Countdown :time-stamp="post.expires" />
+					</div>
 					<VoteSlider :post="post" style="pointer-events: none" />
-					<div class="poll-post grid">
+					<div class="poll-post ending-poll-post poll-post-explore grid">
 						<PollItem
 							ref="poll-item1"
 							:item="post.item1"
@@ -46,6 +43,7 @@
 
 <script>
 import { ExploreStore, ExploreGetters, ExploreActions } from '~/store/explore';
+import Countdown from '~/components/common/Countdown';
 import PollItem from '~/components/Posts/Includes/PollItem';
 import VoteSlider from '~/components/Posts/Includes/VoteSlider';
 import { PostStore, PostActions } from '~/store/post';
@@ -53,12 +51,17 @@ import { SquadAPI } from '~/services/SquadAPI';
 
 export default {
 	components: {
+		Countdown,
 		PollItem,
 		VoteSlider,
 	},
 	computed: {
 		items () {
-			return this.$store.getters[`${ExploreStore}/${ExploreGetters.getItems}`]('endingPolls');
+			if (this.$store.getters[`${ExploreStore}/${ExploreGetters.getItems}`]('endingPolls')) {
+				return this.$store.getters[`${ExploreStore}/${ExploreGetters.getItems}`]('endingPolls').filter(n => n.expires);
+			} else {
+				return this.$store.getters[`${ExploreStore}/${ExploreGetters.getItems}`]('endingPolls');
+			}
 		},
 	},
 	created() {
@@ -90,6 +93,15 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.px-0
+	&:after
+		content ''
+		border-bottom 1px solid #dbdbdb
+		padding-bottom 0
+		position absolute
+		width 90%
+		left 50%
+		transform translateX(-50%)
 .poll-post
 	grid-template-columns 1fr 1fr
 	grid-gap 3px
@@ -113,8 +125,19 @@ export default {
 	width 78vw
 	margin-right 3.07vw !important
 	>>> .is_poll .v-image
-		height 182px
+		height 250px
 .full_post
 	margin-bottom 6.15vw
 	position relative
+.end_timer
+	justify-content center
+	background #000000
+	color #fff
+	font-size 3.46vw
+	font-weight 700
+	padding 3.46vw 0px
+	margin-bottom 0.75vw
+.overflow-x-auto
+	div:first-child
+		margin-left 4px
 </style>

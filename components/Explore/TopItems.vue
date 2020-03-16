@@ -1,14 +1,15 @@
 <template>
-	<div class="px-2">
-		<div ref="top-items-title" class="d-flex align-center mb-3">
+	<div class="px-0">
+		<div ref="top-items-title" class="d-flex align-center ma-3 ml-2 mt-0">
 			<img class="ml-1" :width="16" src="~assets/img/trending-icon.png" alt="">
 			<h3 class="ml-3">
 				{{ $t('explore_page.top_items.title') }}
 			</h3>
 		</div>
 		<div v-if="items && items.length" class="overflow-x-auto d-flex">
-			<div v-for="(post, index) of items" :key="index" @click="openProduct(post)">
+			<div v-for="(post, index) of items" :key="index" class="count_sec top-items" @click="openProduct(post)">
 				<div ref="post-card" class="post-card">
+					<span class="count_item">{{ index + 1 }}</span>
 					<CardFrame
 						ref="card-frame"
 						:price="price(post)"
@@ -16,7 +17,8 @@
 						:title="post.item.title"
 						:item="post.item"
 						show-bag
-						:show-refresh="false"
+						:show-refresh="true"
+						:light-refresh="true"
 						:post-id="post.guid"
 						:post="post"
 					>
@@ -77,32 +79,87 @@ export default {
 .w-78
 	width 62.906vw
 	margin-right 3.07vw !important
+.px-0
+	&:after
+		content ''
+		border-bottom 1px solid #dbdbdb
+		padding-bottom 0
+		position absolute
+		width 90%
+		left 50%
+		transform translateX(-50%)
+	h3
+		font-size 4.7vw
 .post-card
 	white-space nowrap
-	width 250px
-	margin-right 12px
+	width 230px
 	position relative
+	padding 0px 20px
+	margin-right 20px
+	.card_frame
+		box-shadow rgba(0,0,0,0.4) 3.07vw 3.07vw 6.23vw
 	>>> .card_bottom.card_inline
 		padding 16px 12px
 		position: absolute;
 		bottom: 0px;
 		width: 100%;
 		z-index 10
+		display flex
+		flex-direction column
 		*
 			color white !important
 		.buy_button
-			top 25%
+			top 9.38vw
 			right 8px
+			width 8.15vw
+			height 8.15vw
+			border-radius 50%
+			background-color rgba(0,0,0,0.3)
+			&:before
+				font-size 3.2vw
+				left auto
+				top 50%
+				transform translateY(-50%)
+		.refresh-icon
+			top 9.38vw
+			right 50px
+			width 8.15vw
+			height 8.15vw
+			border-radius 50%
+			background-color rgba(0,0,0,0.3)
+			display flex
+			justify-content center
+			.refresh-count
+				display none
 		.post_price
 			font-weight bold
 			font-size 16px
+			order 2
 		.post_title
 			font-size 16px
 	.opacity-overlay
 		background: linear-gradient(rgba(0, 0, 0, 0.025) 50%, rgba(0, 0, 0, 0.5) 100%);
 		position absolute
-		width 100%
+		width 83%
 		height 100%
 		top 0
 		z-index 9
+	.count_item
+		color #ffffff
+		font-size 38.46vw
+		font-weight 700
+		-webkit-text-stroke-width 2px
+		-webkit-text-stroke-color #FD6256
+		position absolute
+		z-index 1
+		line-height 28.46vw
+		top 0
+		left -40px
+.overflow-x-auto
+	overflow hidden
+	padding 10px 0 35px
+	.count_sec:first-child
+		margin-left 10px
+		.count_item
+			left 0
 </style>

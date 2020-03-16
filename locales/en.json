@@ -71,6 +71,7 @@
   "agree_right": "terms and conditions.",
   "resend_code": "Resend code",
   "resendNotify": "New code has been sent",
+  "styleOutfit": "style in this outfit",
   "comment": {
     "pop": {
       "Action": "Action",
@@ -412,14 +413,14 @@
   },
   "explore_page": {
     "top_outfits": {
-      "title": "Top Outfits",
+      "title": "Best Outfits now trending",
       "description": "The trendiest outfits that generated the biggest reactions"
     },
     "top_gallery": {
-      "title": "Hottest Looks"
+      "title": "Most Popular looks"
     },
     "top_items": {
-      "title": "Trending Items"
+      "title": "10 Most wanted items right now"
     },
     "ending_polls": {
       "title": "Ending Polls",

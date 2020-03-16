@@ -107,7 +107,6 @@ export default {
 	}
 	i.v-icon.sqdi-magnifying-glass-finder {
 		font-size: 4.69vw !important;
-		color: black !important;
 	}
 	.v-input__icon.v-input__icon--clear {
 		background: black !important;

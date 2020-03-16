@@ -201,4 +201,7 @@ button.first
 
 button.second
 	left 75%
+.poll-explore
+	.vote_slider_wrapper
+		top 65%
 </style>
