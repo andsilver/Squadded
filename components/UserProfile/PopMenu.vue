@@ -87,8 +87,8 @@
 						{{ $t(`user.action.Block`) }}
 					</v-list-item-title>
 				</v-list-item> -->
-				<v-list-item ref="share" class="post-menu-share comment-menu-share comment-setting-option">
-					<v-list-item-title class="setting-label share" @click="share">
+				<v-list-item ref="share" class="post-menu-share comment-menu-share comment-setting-option" @click="share">
+					<v-list-item-title class="setting-label share">
 						{{ $t(`user.action.Sharelink`) }}
 					</v-list-item-title>
 				</v-list-item>
@@ -133,8 +133,8 @@
 			</v-card>
 		</v-dialog>
 
-		<v-dialog v-model="showShare" content-class="share_box">
-			<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
+		<v-dialog ref="share-dialog" v-model="showShare" content-class="share_box">
+			<ShareProfile ref="share-profile-modal" :user-link="shortURL" @hideShowShare="hideShare" />
 		</v-dialog>
 	</div>
 </template>
@@ -145,6 +145,7 @@ import Button from '~/components/common/Button';
 import Follow from '~/components/common/Follow';
 import RemoveSquad from '~/components/common/RemoveSquad';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
+import { getShortURL } from '~/services/short-url';
 
 const CANCALED_BY_USER = 20;
 
@@ -173,6 +174,7 @@ export default {
 		other: null,
 		showReasonDialog: false,
 		showShare: false,
+		shortURL: '',
 	}),
 	computed: {
 		disabled() {
@@ -238,6 +240,9 @@ export default {
 		},
 		async share () {
 			this.showShare = false;
+			if (!this.shortURL) {
+				this.shortURL = await getShortURL(this.userLink, this.$store);
+			}
 			if (navigator && navigator.share) {
 				const { siteTitle } = this.$store.state.merchant;
 				const title = `${this.user.name || this.user.screenName} @ ${siteTitle}`;
@@ -245,7 +250,7 @@ export default {
 					await navigator.share({
 						title,
 						text: title,
-						url: this.userLink,
+						url: this.shortURL,
 					});
 				} catch (error) {
 					if (error.code !== CANCALED_BY_USER) {

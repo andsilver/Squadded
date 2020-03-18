@@ -223,7 +223,7 @@ export default {
 				window.postMessage(JSON.stringify({
 					type: 'loggedIn',
 					userToken: token,
-				}));
+				}), window.origin);
 			});
 		},
 		hideNotify() {

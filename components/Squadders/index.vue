@@ -11,7 +11,7 @@
 				>
 					<img :src="user.avatar" alt>
 				</div>
-				<div class="count-squadders d-flex align-center" :style="{left: getCountPosition()}" @click="share">
+				<div ref="share" class="count-squadders d-flex align-center" :style="{left: getCountPosition()}" @click="share">
 					<Button ref="plus-btn" class="plus-btn">
 						<v-icon small>
 							mdi-account-plus
@@ -24,7 +24,7 @@
 			</div>
 		</div>
 		<v-dialog v-model="showShare" content-class="share_box">
-			<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
+			<ShareProfile ref="share-profile-modal" :user-link="shortURL" @hideShowShare="hideShare" />
 		</v-dialog>
 	</div>
 </template>
@@ -34,6 +34,8 @@ import { createNamespacedHelpers } from 'vuex';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
 import Button from '~/components/common/Button';
 import { UserStore } from '~/store/user';
+import { getShortURL } from '~/services/short-url';
+
 const { mapState } = createNamespacedHelpers(UserStore);
 
 const CANCALED_BY_USER = 20;
@@ -52,6 +54,7 @@ export default {
 	data: () => ({
 		showShare: false,
 		userLink: '',
+		shortURL: '',
 	}),
 	computed: {
 		...mapState([
@@ -95,14 +98,17 @@ export default {
 			const target = JSON.stringify(this.target);
 			this.userLink = `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
 			this.showShare = false;
+			if (!this.shortURL) {
+				this.shortURL = await getShortURL(this.userLink, this.$store);
+			}
 			if (navigator && navigator.share) {
 				const { siteTitle } = this.$store.state.merchant;
-				const title = `${this.me.name} @ ${siteTitle}`;
+				const title = `${this.me.name || this.me.screenName} @ ${siteTitle}`;
 				try {
 					await navigator.share({
 						title,
 						text: title,
-						url: this.userLink,
+						url: this.shortURL,
 					});
 				} catch (error) {
 					if (error.code !== CANCALED_BY_USER) {

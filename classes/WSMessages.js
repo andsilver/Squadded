@@ -265,4 +265,8 @@ export class WSMessages {
 	moderationFailed() {
 		this.store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, 'violation');
 	}
+
+	shortURL(message) {
+		this.store.commit(`${PostStore}/${PostMutations.shortURL}`, message);
+	}
 };

@@ -87,7 +87,7 @@ describe('Signup', () => {
 		expect(window.postMessage).toHaveBeenCalledWith(JSON.stringify({
 			type: 'loggedIn',
 			userToken: token,
-		}));
+		}), window.origin);
 	});
 
 	it('should show error message if pin is not correct', async () => {

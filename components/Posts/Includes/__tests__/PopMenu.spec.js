@@ -10,10 +10,15 @@ import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { HomeStore, HomeMutations } from '~/store/home';
 import { BANNER_TIMEOUT } from '~/consts';
+import { getShortURL } from '~/services/short-url';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
+
+jest.mock('~/services/short-url', () => ({
+	getShortURL: jest.fn(),
+}));
 
 describe('PopMenu', () => {
 	const CLOSE = 'close';
@@ -93,10 +98,22 @@ describe('PopMenu', () => {
 		expect(wrapper.ref(REMOVE).exists()).toBe(true);
 	});
 
-	it('should render share post dialog on click share', () => {
+	it('should render share post dialog on click share', async () => {
 		initLocalVue();
+		const url = 'url';
+		getShortURL.mockReturnValue(Promise.resolve(url));
 		wrapper.ref(SHARELINK).trigger('click');
+		expect(getShortURL).toHaveBeenCalledWith(wrapper.vm.postLink, store);
 		expect(wrapper.ref(SHARE_POST_MODAL).exists()).toBe(true);
+		global.navigator.share = jest.fn().mockReturnValue(Promise.resolve());
+		wrapper.vm.shortURL = url;
+		wrapper.ref(SHARELINK).trigger('click');
+		await Promise.resolve();
+		expect(navigator.share).toHaveBeenCalledWith({
+			title: store.state.merchant.siteTitle,
+			text: store.state.merchant.siteTitle,
+			url,
+		});
 	});
 
 	it('should render report dialog and perform correct actions', () => {

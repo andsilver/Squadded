@@ -4,19 +4,25 @@ import ProfileToolbar from './ProfileToolbar.vue';
 import Store from '~/store';
 import { userMockBuilder } from '~/test/user.mock';
 import { merchantMockBuilder } from '~/test/merchant.mock';
+import { getShortURL } from '~/services/short-url';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
 
+jest.mock('~/services/short-url', () => ({
+	getShortURL: jest.fn(),
+}));
+
 describe('User Profile Toolbar', () => {
 	let wrapper;
 	let user;
+	let store;
 
 	const GO_BACK_BTN = 'go-back-btn';
 	const SCREEN_NAME = 'screen-name';
 	const MENU = 'menu';
-	const SHARE_BUTTON = 'share-btn';
+	const SHARE_BUTTON = 'share';
 	const ADD_USER_BUTTON = 'add-user-btn';
 	const SHOP_BUTTON = 'shop-btn';
 	const SHARE_PROFILE_MODAL = 'share-profile-modal';
@@ -24,7 +30,7 @@ describe('User Profile Toolbar', () => {
 	function initLocalVue() {
 		const localVue = createLocalVue();
 		localVue.use(Vuex);
-		const store = new Vuex.Store(Store);
+		store = new Vuex.Store(Store);
 		const merchant = merchantMockBuilder().get();
 		store.state.merchant = merchant;
 		store.state.squad = {
@@ -83,5 +89,24 @@ describe('User Profile Toolbar', () => {
 		shareButton.trigger('click');
 		const shareProfileModal = wrapper.ref(SHARE_PROFILE_MODAL);
 		expect(shareProfileModal.exists()).toBe(true);
+	});
+
+	it('should render share link dialog on click share', async () => {
+		const url = 'url';
+		getShortURL.mockReturnValue(Promise.resolve(url));
+		wrapper.ref('share').trigger('click');
+		expect(getShortURL).toHaveBeenCalledWith(wrapper.vm.userLink, store);
+		expect(wrapper.ref('share-profile-modal').exists()).toBe(true);
+		global.navigator.share = jest.fn().mockReturnValue(Promise.resolve());
+		wrapper.vm.shortURL = url;
+		wrapper.ref('share').trigger('click');
+		await Promise.resolve();
+		const { siteTitle } = store.state.merchant;
+		const title = `${user.name || user.screenName} @ ${siteTitle}`;
+		expect(navigator.share).toHaveBeenCalledWith({
+			title,
+			text: title,
+			url,
+		});
 	});
 });

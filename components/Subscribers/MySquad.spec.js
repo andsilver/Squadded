@@ -5,6 +5,7 @@ import { prefetch } from '~/helpers';
 import Store from '~/store';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { userMockBuilder } from '~/test/user.mock';
+import { getShortURL } from '~/services/short-url';
 import UserLink from '~/components/UserLink';
 
 Wrapper.prototype.ref = function (id) {
@@ -13,6 +14,10 @@ Wrapper.prototype.ref = function (id) {
 
 jest.mock('~/helpers', () => ({
 	prefetch: jest.fn(),
+}));
+
+jest.mock('~/services/short-url', () => ({
+	getShortURL: jest.fn(),
 }));
 
 describe('MySquad component', () => {
@@ -71,5 +76,24 @@ describe('MySquad component', () => {
 		initLocalVue();
 		await Promise.resolve();
 		expect(wrapper.vm.filtered[0].screenName).toBe(searchText);
+	});
+
+	it('should render share link dialog on click share', async () => {
+		const url = 'url';
+		getShortURL.mockReturnValue(Promise.resolve(url));
+		wrapper.ref('share').trigger('click');
+		expect(getShortURL).toHaveBeenCalledWith(wrapper.vm.userLink, store);
+		expect(wrapper.ref('share-profile-modal').exists()).toBe(true);
+		global.navigator.share = jest.fn().mockReturnValue(Promise.resolve());
+		wrapper.vm.shortURL = url;
+		wrapper.ref('share').trigger('click');
+		await Promise.resolve();
+		const { siteTitle } = store.state.merchant;
+		const title = `${user.name || user.screenName} @ ${siteTitle}`;
+		expect(navigator.share).toHaveBeenCalledWith({
+			title,
+			text: title,
+			url,
+		});
 	});
 });

@@ -1,10 +1,15 @@
 import { shallowMount, Wrapper } from '@vue/test-utils';
 import PopMenu from './PopMenu.vue';
 import { userMockBuilder } from '~/test/user.mock';
+import { getShortURL } from '~/services/short-url';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
+
+jest.mock('~/services/short-url', () => ({
+	getShortURL: jest.fn(),
+}));
 
 describe('UserProfile - PopMenu', () => {
 	let wrapper;
@@ -87,5 +92,24 @@ describe('UserProfile - PopMenu', () => {
 		});
 		expect(wrapper.ref('watch').exists()).toBe(false);
 		expect(wrapper.ref('unwatch').exists()).toBe(true);
+	});
+
+	it('should render share link dialog on click share', async () => {
+		const url = 'url';
+		getShortURL.mockReturnValue(Promise.resolve(url));
+		wrapper.ref('share').trigger('click');
+		expect(getShortURL).toHaveBeenCalledWith(wrapper.vm.userLink, $store);
+		expect(wrapper.ref('share-dialog').exists()).toBe(true);
+		global.navigator.share = jest.fn().mockReturnValue(Promise.resolve());
+		wrapper.vm.shortURL = url;
+		wrapper.ref('share').trigger('click');
+		await Promise.resolve();
+		const { siteTitle } = $store.state.merchant;
+		const title = `${user.name || user.screenName} @ ${siteTitle}`;
+		expect(navigator.share).toHaveBeenCalledWith({
+			title,
+			text: title,
+			url,
+		});
 	});
 });

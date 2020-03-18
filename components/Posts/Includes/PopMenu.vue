@@ -27,8 +27,8 @@
 						</v-btn>
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item ref="sharelink" class="post-menu-share comment-menu-share comment-setting-option">
-					<v-list-item-title class="setting-label share" @click="share">
+				<v-list-item ref="sharelink" class="post-menu-share comment-menu-share comment-setting-option" @click="share">
+					<v-list-item-title class="setting-label share">
 						{{ $t(`post.pop.sharelink.menu`) }}
 					</v-list-item-title>
 				</v-list-item>
@@ -80,7 +80,7 @@
 			</v-list>
 		</v-menu>
 		<v-dialog v-model="showShare">
-			<SharePost ref="share-post-modal" :post-link="postLink" />
+			<SharePost ref="share-post-modal" :post-link="shortURL" />
 		</v-dialog>
 
 		<v-dialog v-model="showReasonDialog" content-class="report-dialog">
@@ -156,6 +156,7 @@ import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { BANNER_TIMEOUT } from '~/consts';
+import { getShortURL } from '~/services/short-url';
 
 const CANCELED_BY_USER = 20;
 
@@ -190,6 +191,7 @@ export default {
 		privacyTimeout: null,
 		undoDeleteWatch: null,
 		undoPrivacyWatch: null,
+		shortURL: null,
 	}),
 	computed: {
 		currentText () {
@@ -344,13 +346,16 @@ export default {
 		},
 		async share() {
 			this.showShare = false;
+			if (!this.shortURL) {
+				this.shortURL = await getShortURL(this.postLink, this.$store);
+			}
 			if (navigator && navigator.share) {
 				const { siteTitle } = this.$store.state.merchant;
 				try {
 					await navigator.share({
 						title: siteTitle,
 						text: siteTitle,
-						url: this.postLink,
+						url: this.shortURL,
 					});
 				} catch (error) {
 					if (error.code !== CANCELED_BY_USER) {

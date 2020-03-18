@@ -9,7 +9,7 @@
 			{{ user.screenName }}
 		</div>
 		<v-btn
-			ref="share-btn"
+			ref="share"
 			icon
 			:dark="isBgExist"
 			class="hide-sec"
@@ -48,7 +48,7 @@
 		</span>
 
 		<v-dialog v-model="showShare" content-class="share_box">
-			<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
+			<ShareProfile ref="share-profile-modal" :user-link="shortURL" @hideShowShare="hideShare" />
 		</v-dialog>
 	</section>
 </template>
@@ -57,6 +57,7 @@
 import Menu from './Menu';
 import ShareProfile from './ShareProfile';
 import GoBackBtn from '~/components/common/GoBackBtn';
+import { getShortURL } from '~/services/short-url';
 const CANCALED_BY_USER = 20;
 
 export default {
@@ -74,6 +75,7 @@ export default {
 	data: () => ({
 		isBgExist: true,
 		showShare: false,
+		shortURL: '',
 	}),
 	computed: {
 		target () {
@@ -93,6 +95,9 @@ export default {
 	methods: {
 		async share () {
 			this.showShare = false;
+			if (!this.shortURL) {
+				this.shortURL = await getShortURL(this.userLink, this.$store);
+			}
 			if (navigator && navigator.share) {
 				const { siteTitle } = this.$store.state.merchant;
 				const title = `${this.user.name} @ ${siteTitle}`;
@@ -100,7 +105,7 @@ export default {
 					await navigator.share({
 						title,
 						text: title,
-						url: this.userLink,
+						url: this.shortURL,
 					});
 				} catch (error) {
 					if (error.code !== CANCALED_BY_USER) {

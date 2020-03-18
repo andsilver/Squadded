@@ -30,12 +30,12 @@
 			{{ $t('user.empty_squad') }}
 		</div>
 		<div ref="send-invite" class="send-invite">
-			<Button @click.native="share">
+			<Button ref="share" @click.native="share">
 				{{ $t('user.invitation.send_invite_link') }}
 			</Button>
 		</div>
 		<v-dialog v-model="showShare" content-class="share_box">
-			<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
+			<ShareProfile ref="share-profile-modal" :user-link="shortURL" @hideShowShare="hideShare" />
 		</v-dialog>
 	</div>
 </template>
@@ -49,6 +49,7 @@ import { prefetch } from '~/helpers';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
 import RemoveSquad from '~/components/common/RemoveSquad';
 import { UserStore } from '~/store/user';
+import { getShortURL } from '~/services/short-url';
 
 const CANCALED_BY_USER = 20;
 const userState = createNamespacedHelpers(UserStore).mapState;
@@ -64,6 +65,7 @@ export default {
 		squadders: [],
 		searchText: '',
 		showShare: false,
+		shortURL: '',
 	}),
 	computed: {
 		...userState([
@@ -106,14 +108,17 @@ export default {
 		},
 		async share () {
 			this.showShare = false;
+			if (!this.shortURL) {
+				this.shortURL = await getShortURL(this.userLink, this.$store);
+			}
 			if (navigator && navigator.share) {
 				const { siteTitle } = this.$store.state.merchant;
-				const title = `${this.me.name} @ ${siteTitle}`;
+				const title = `${this.me.name || this.me.screenName} @ ${siteTitle}`;
 				try {
 					await navigator.share({
 						title,
 						text: title,
-						url: this.userLink,
+						url: this.shortURL,
 					});
 				} catch (error) {
 					if (error.code !== CANCALED_BY_USER) {

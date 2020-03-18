@@ -43,6 +43,7 @@ export const PostMutations = {
 	deleteComment: 'deleteComment',
 	setCurrentPost: 'setCurrentPost',
 	setUploadingPicture: 'setUploadingPicture',
+	shortURL: 'shortURL',
 };
 
 function suffix () {
@@ -150,6 +151,7 @@ export const mutations = {
 	[PostMutations.setUploadingPicture]: (state, pic) => {
 		state.uploadingPicture = pic;
 	},
+	[PostMutations.shortURL]: () => {},
 };
 
 export const PostActions = {

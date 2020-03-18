@@ -97,7 +97,7 @@
 				/>
 			</div>
 			<v-dialog v-model="showShare" content-class="share_box">
-				<ShareProfile ref="share-profile-modal" :user-link="userLink" @hideShowShare="hideShare" />
+				<ShareProfile ref="share-profile-modal" :user-link="shortURL" @hideShowShare="hideShare" />
 			</v-dialog>
 		</v-layout>
 	</v-container>
@@ -115,6 +115,7 @@ import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed
 import Feed from '~/components/Feed';
 import { prefetch } from '~/helpers';
 import Button from '~/components/common/Button';
+import { getShortURL } from '~/services/short-url';
 
 const CANCALED_BY_USER = 20;
 
@@ -141,6 +142,7 @@ export default {
 	data: () => ({
 		showShare: false,
 		denied: false,
+		shortURL: '',
 	}),
 	computed: {
 		...userState([
@@ -203,6 +205,9 @@ export default {
 		},
 		async share () {
 			this.showShare = false;
+			if (!this.shortURL) {
+				this.shortURL = await getShortURL(this.userLink, this.$store);
+			}
 			if (navigator && navigator.share) {
 				const { siteTitle } = this.$store.state.merchant;
 				const title = `${this.me.name} @ ${siteTitle}`;
@@ -210,7 +215,7 @@ export default {
 					await navigator.share({
 						title,
 						text: title,
-						url: this.userLink,
+						url: this.shortURL,
 					});
 				} catch (error) {
 					if (error.code !== CANCALED_BY_USER) {
