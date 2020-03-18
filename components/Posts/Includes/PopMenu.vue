@@ -9,7 +9,7 @@
 			class="comment-settings"
 		>
 			<template v-slot:activator="{ on }">
-				<v-btn icon class="button_more" v-on="on">
+				<v-btn icon class="button_more" :loading="!!deleteTimeout" v-on="on">
 					<v-icon>
 						sqdi-more
 					</v-icon>
@@ -33,8 +33,8 @@
 					</v-list-item-title>
 				</v-list-item>
 				<template v-if="post.byMe">
-					<v-list-item ref="toggle" class="post-menu-edit comment-menu-privpub comment-setting-option">
-						<v-list-item-title class="setting-label" :class="{ public: post.private, private: !post.private }" @click="togglePrivate">
+					<v-list-item ref="toggle" class="post-menu-edit comment-menu-privpub comment-setting-option" @click="togglePrivate">
+						<v-list-item-title class="setting-label" :class="{ public: post.private, private: !post.private }">
 							{{ $t(`post.pop.${ post.private ? 'setPublic' : 'setPrivate' }.menu`) }}
 						</v-list-item-title>
 					</v-list-item>
@@ -155,6 +155,7 @@ import { HomeStore, HomeMutations } from '~/store/home';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
+import { BANNER_TIMEOUT } from '~/consts';
 
 const CANCELED_BY_USER = 20;
 
@@ -185,6 +186,10 @@ export default {
 		other: null,
 		showReasonDialog: false,
 		showDeleteDialog: false,
+		deleteTimeout: null,
+		privacyTimeout: null,
+		undoDeleteWatch: null,
+		undoPrivacyWatch: null,
 	}),
 	computed: {
 		currentText () {
@@ -228,20 +233,46 @@ export default {
 			this.hide();
 		},
 		deletePost () {
-			const { postId } = this.post;
-			this.$ws.sendObj({
-				type: 'deletePost',
-				postId,
+			const clear = () => {
+				this.deleteTimeout && clearTimeout(this.deleteTimeout);
+				this.deleteTimeout = null;
+				this.undoDeleteWatch && this.undoDeleteWatch();
+				this.undoDeleteWatch = null;
+			};
+
+			clear();
+
+			this.deleteTimeout = setTimeout(() => {
+				const { postId } = this.post;
+				this.$ws.sendObj({
+					type: 'deletePost',
+					postId,
+				});
+				this.$store.commit(`${FeedStore}/${FeedMutations.removePost}`, postId);
+				this.$store.commit(`${HomeStore}/${HomeMutations.removePost}`, postId);
+				this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
+				clear();
+			}, BANNER_TIMEOUT);
+
+			this.undoDeleteWatch = this.$store.subscribe((mutation) => {
+				const { type, payload } = mutation;
+				if (
+					type !== `${NotificationStore}/${NotificationMutations.undo}` ||
+					payload.type !== 'post' ||
+					payload.postId !== this.post.postId
+				) {
+					return;
+				}
+				clear();
 			});
-			this.$store.commit(`${FeedStore}/${FeedMutations.removePost}`, postId);
-			this.$store.commit(`${HomeStore}/${HomeMutations.removePost}`, postId);
-			this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
+
 			const message = {
 				type: 'notifAlert',
 				alertType: 'checkmark',
 				text: 'Your post has been deleted',
-				ts: new Date(),
-				_id: new Date(),
+				post: this.post,
+				ts: Date.now(),
+				_id: Date.now(),
 			};
 			this.$store.commit(
 				`${NotificationStore}/${NotificationMutations.add}`,
@@ -263,57 +294,53 @@ export default {
 			this.hide();
 		},
 		togglePrivate () {
-			this.post.private ? this.setPublic() : this.setPrivate();
-			// this.current = this.post.private ? 'setPublic' : 'setPrivate';
-			// this.prompt();
-		},
-		prompt () {
-			this.$root.$emit('prompt', {
-				text: this.currentText,
-				hide: this.hide,
-				confirm: this.confirm,
+			const clear = () => {
+				this.privacyTimeout && clearTimeout(this.privacyTimeout);
+				this.privacyTimeout = null;
+				this.undoPrivacyWatch && this.undoPrivacyWatch();
+				this.undoPrivacyWatch = null;
+			};
+
+			clear();
+
+			this.privacyTimeout = setTimeout(() => {
+				this.$store.dispatch(`${PostStore}/${PostActions.updatePrivate}`, { post: this.post, private: !this.post.private });
+				clear();
+			}, BANNER_TIMEOUT);
+
+			this.undoPrivacyWatch = this.$store.subscribe((mutation) => {
+				const { type, payload } = mutation;
+				if (
+					type !== `${NotificationStore}/${NotificationMutations.undo}` ||
+					payload.type !== 'privacy' ||
+					payload.postId !== this.post.postId
+				) {
+					return;
+				}
+				clear();
 			});
+
+			const message = {
+				type: 'notifAlert',
+				alertType: this.post.private ? 'setpublic' : 'setprivate',
+				text: this.post.private ? 'Anyone can see your post now' : 'Only your followers can see your post now',
+				post: this.post,
+				ts: Date.now(),
+				_id: Date.now(),
+			};
+
+			this.$store.commit(
+				`${NotificationStore}/${NotificationMutations.add}`,
+				message,
+			);
 		},
 		promptDelete () {
-			// this.current = 'deletePost';
-			// this.prompt();
 			this.showDeleteDialog = true;
-		},
-		setPrivate () {
-			this.menu = false;
-			const message = {
-				type: 'notifAlert',
-				alertType: 'setprivate',
-				text: 'Only your followers can see your post now',
-				ts: new Date(),
-				_id: new Date(),
-			};
-			this.$store.commit(
-				`${NotificationStore}/${NotificationMutations.add}`,
-				message,
-			);
-			this.$store.dispatch(`${PostStore}/${PostActions.updatePrivate}`, { post: this.post, private: true });
-		},
-		setPublic () {
-			this.menu = false;
-			const message = {
-				type: 'notifAlert',
-				alertType: 'setpublic',
-				text: 'Anyone can see your post now',
-				ts: new Date(),
-				_id: new Date(),
-			};
-			this.$store.commit(
-				`${NotificationStore}/${NotificationMutations.add}`,
-				message,
-			);
-			this.$store.dispatch(`${PostStore}/${PostActions.updatePrivate}`, { post: this.post, private: false });
 		},
 		promptReportPost() {
 			this.current = 'reportPost';
 			this.reason = this.reasons[0];
 			this.showReasonDialog = true;
-			// this.prompt();
 		},
 		async share() {
 			this.showShare = false;

@@ -9,12 +9,11 @@ import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { HomeStore, HomeMutations } from '~/store/home';
+import { BANNER_TIMEOUT } from '~/consts';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
-
-class MockDate {}
 
 describe('PopMenu', () => {
 	const CLOSE = 'close';
@@ -66,7 +65,7 @@ describe('PopMenu', () => {
 		store = new Vuex.Store(Store);
 		store.commit = jest.fn();
 		store.dispatch = jest.fn();
-		global.Date = MockDate;
+		global.Date.now = jest.fn().mockReturnValue(123456789);
 	});
 
 	it('should render correct items in case of the post is mine', () => {
@@ -94,29 +93,29 @@ describe('PopMenu', () => {
 		expect(wrapper.ref(REMOVE).exists()).toBe(true);
 	});
 
-	it('should render share post dialog on click share', async () => {
+	it('should render share post dialog on click share', () => {
 		initLocalVue();
-		await wrapper.ref(SHARELINK).trigger('click');
+		wrapper.ref(SHARELINK).trigger('click');
 		expect(wrapper.ref(SHARE_POST_MODAL).exists()).toBe(true);
 	});
 
-	it('should render report dialog and perform correct actions', async () => {
+	it('should render report dialog and perform correct actions', () => {
 		post.byMe = false;
 		post.postId = 'anyId';
 		initLocalVue();
-		await wrapper.ref(REPORT).trigger('click');
+		wrapper.ref(REPORT).trigger('click');
 		expect(wrapper.vm.showReasonDialog).toBe(true);
-		await wrapper.ref(CLOSE_ICON_BTN_REPORT_DIALOG).trigger('click');
+		wrapper.ref(CLOSE_ICON_BTN_REPORT_DIALOG).trigger('click');
 		expect(wrapper.vm.showReasonDialog).toBe(false);
-		await wrapper.ref(REPORT).trigger('click');
+		wrapper.ref(REPORT).trigger('click');
 		expect(wrapper.vm.showReasonDialog).toBe(true);
-		await wrapper.ref(CLOSE_BTN_REPORT_DIALOG).trigger('click');
+		wrapper.ref(CLOSE_BTN_REPORT_DIALOG).trigger('click');
 		expect(wrapper.vm.showReasonDialog).toBe(false);
-		await wrapper.ref(REPORT).trigger('click');
+		wrapper.ref(REPORT).trigger('click');
 		const reason = 'other';
 		const other = 'otherreason';
 		wrapper.setData({ reason, other });
-		await wrapper.ref(REPORT_BTN).trigger('click');
+		wrapper.ref(REPORT_BTN).trigger('click');
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.reportPost}`, {	post, reason, other });
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.removePost}`, post.postId);
 		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.removePost}`, post.postId);
@@ -124,38 +123,41 @@ describe('PopMenu', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.removePost}`, post.postId);
 	});
 
-	it('should toggle private', async () => {
+	it('should toggle private', () => {
 		post.private = false;
 		post.byMe = true;
 		initLocalVue();
-		await wrapper.ref(TOGGLE).trigger('click');
-		setTimeout(() => {
-			expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, {
-				type: 'notifAlert',
-				alertType: 'setpublic',
-				text: 'Anyone can see your post now',
-				ts: new MockDate(),
-				_id: new MockDate(),
-			});
-			expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.updatePrivate}`, { post, private: false });
-		}, 50);
+		jest.useFakeTimers();
+		wrapper.ref(TOGGLE).trigger('click');
+		jest.advanceTimersByTime(BANNER_TIMEOUT);
+		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, {
+			type: 'notifAlert',
+			alertType: 'setprivate',
+			text: 'Only your followers can see your post now',
+			post,
+			ts: 123456789,
+			_id: 123456789,
+		});
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.updatePrivate}`, { post, private: true });
 	});
 
-	it('should edit post', async () => {
+	it('should edit post', () => {
 		post.byMe = true;
 		initLocalVue();
 		wrapper.vm.$emit = jest.fn();
-		await wrapper.ref(EDIT).trigger('click');
+		wrapper.ref(EDIT).trigger('click');
 		expect(wrapper.vm.$emit).toHaveBeenCalledWith('edit');
 	});
 
-	it('should delete post', async () => {
+	it('should delete post', () => {
 		post.byMe = true;
 		post.postId = 'anyId';
 		initLocalVue();
-		await wrapper.ref(DELETE).trigger('click');
+		jest.useFakeTimers();
+		wrapper.ref(DELETE).trigger('click');
 		expect(wrapper.vm.showDeleteDialog).toBe(true);
-		await wrapper.ref('delete-post-btn').trigger('click');
+		wrapper.ref('delete-post-btn').trigger('click');
+		jest.advanceTimersByTime(BANNER_TIMEOUT);
 		expect(wrapper.vm.$ws.sendObj).toHaveBeenCalledWith({
 			type: 'deletePost',
 			postId: post.postId,
@@ -167,17 +169,18 @@ describe('PopMenu', () => {
 			type: 'notifAlert',
 			alertType: 'checkmark',
 			text: 'Your post has been deleted',
-			ts: new MockDate(),
-			_id: new MockDate(),
+			post,
+			ts: 123456789,
+			_id: 123456789,
 		});
 	});
 
-	it('should send invite to the user', async () => {
+	it('should send invite to the user', () => {
 		post.user.mysquad = false;
 		post.byMe = false;
 		initLocalVue();
 		store.state.socket.isAuth = true;
-		await wrapper.ref(ADD).trigger('click');
+		wrapper.ref(ADD).trigger('click');
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'acceptSquad',
 			targetUserId: post.user.guid || post.user.userId,

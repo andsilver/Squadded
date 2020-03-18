@@ -1,13 +1,20 @@
 <template>
 	<section class="d-flex align-center">
-		<div class="notification-icon" :class="{ hasIconImage: notification.alertType}">
+		<div ref="notification-image" class="notification-icon" :class="{ hasIconImage: notification.alertType}">
 			<v-icon v-if="notification.alertType == 'checkmark' || !notification.alertType" size="2.34vw" color="#FFFFFF">
 				sqdi-checkmark
 			</v-icon>
-			<span v-if="notification.alertType" class="notification-image" :class="{ setprivate: notification.alertType == 'setprivate', setpublic: notification.alertType=='setpublic'}" />
+			<span
+				v-if="notification.alertType"
+				class="notification-image"
+				:class="{
+					setprivate: notification.alertType == 'setprivate',
+					setpublic: notification.alertType=='setpublic'
+				}"
+			/>
 		</div>
 		<div class="d-flex flex-column justify-center">
-			<span class="notification-text">{{ notification.text }}</span>
+			<span ref="notification-text" class="notification-text">{{ notification.text }}</span>
 			<span v-if="!banner">
 				<v-avatar color="#000" size="24px">
 					<v-icon dark size="16">sqdi-chat-outlined</v-icon>
@@ -15,13 +22,15 @@
 				{{ timeString }}
 			</span>
 		</div>
-		<v-btn outlined class="undo-btn">
+		<v-btn ref="undo-btn" outlined class="undo-btn" @click="undo">
 			{{ $t('Undo') }}
 		</v-btn>
 	</section>
 </template>
 
 <script>
+import { NotificationStore, NotificationMutations } from '~/store/notification';
+
 export default {
 	name: 'NotifyAlert',
 	props: {
@@ -38,6 +47,35 @@ export default {
 		timeString() {
 			window.moment.locale(this._i18n.locale);
 			return window.moment(this.notification.ts).fromNow();
+		},
+	},
+	methods: {
+		undo () {
+			let msg;
+
+			if (this.notification.alertType === 'setpublic' || this.notification.alertType === 'setprivate') {
+				msg = {
+					type: 'privacy',
+					postId: this.notification.post.postId,
+				};
+			} else if (this.notification.post) {
+				msg = {
+					type: 'post',
+					postId: this.notification.post.postId,
+				};
+			} else if (this.notification.comment) {
+				msg = {
+					type: 'comment',
+					commentId: this.notification.comment._id,
+				};
+			} else {
+				return;
+			}
+
+			this.$store.commit(`${NotificationStore}/${NotificationMutations.undo}`, {
+				_id: this.notification._id,
+				...msg,
+			});
 		},
 	},
 };

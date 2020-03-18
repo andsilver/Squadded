@@ -1,7 +1,6 @@
-import { NOTIFICATIONS_LIMIT, NOTIFICATIONS } from '~/consts/notifications';
+import { NOTIFICATIONS_LIMIT, NOTIFICATIONS, BANNER_TIMEOUT } from '~/consts';
 
 export const NotificationStore = 'notification';
-export const TIMEOUT_SECONDS = 5; // 5 seconds
 export const STORAGE_NOTIFICATIONS_KEY = 'notifications';
 export const CACHE_TIME_MINUTES = 5; // minutes
 
@@ -27,6 +26,7 @@ export const NotificationMutations = {
 	receive: 'receive',
 	view: 'view',
 	setAcceptedSquad: 'setAcceptedSquad',
+	undo: 'undo',
 };
 
 const contain = state => ntf => state.notifications.find(n => ntf._id === n._id);
@@ -54,7 +54,7 @@ export const mutations = {
 		}
 		setTimeout(() => {
 			message.showBanner = false;
-		}, TIMEOUT_SECONDS * 1000);
+		}, BANNER_TIMEOUT);
 		window.parent.postMessage(JSON.stringify({
 			type: 'notification',
 			message,
@@ -96,6 +96,10 @@ export const mutations = {
 			return;
 		}
 		notification.accepted = true;
+	},
+	[NotificationMutations.undo]: (state, { _id }) => {
+		const notification = state.notifications.find(n => n._id === _id);
+		notification && (notification.showBanner = false);
 	},
 };
 

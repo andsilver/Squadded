@@ -180,3 +180,13 @@ export const notifyFollow = {
 		guid: '5d8a090ddc2113a2f6bbabb1',
 	},
 };
+
+export const notifyAlert = {
+	_id: Date.now(),
+	type: 'notifAlert',
+	alertType: 'checkmark',
+	post: {
+		postId: '5e26cf9377d10f42435c9e2c',
+	},
+	text: '',
+};

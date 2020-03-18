@@ -9,7 +9,7 @@ import {
 import store from './index';
 import { Storage } from '~/test/storage.mock';
 import TestAcceptSquad from '~/test/test-accept-squad.json';
-import { NOTIFICATIONS_LIMIT } from '~/consts/notifications';
+import { NOTIFICATIONS_LIMIT } from '~/consts';
 
 describe('Notification store module', () => {
 	describe('mutations', () => {

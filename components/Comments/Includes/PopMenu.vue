@@ -6,7 +6,6 @@
 			absolute
 			origin="right center"
 			transition="scale-transition"
-			:close-on-content-click="false"
 			class="comment-settings"
 		>
 			<template v-slot:activator="{ on }">
@@ -82,6 +81,7 @@
 import Button from '~/components/common/Button';
 import { PostActions, PostStore } from '~/store/post';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
+import { BANNER_TIMEOUT } from '~/consts';
 
 export default {
 	components: {
@@ -109,6 +109,8 @@ export default {
 		],
 		other: null,
 		showReasonDialog: false,
+		deleteTimeout: null,
+		undoWatch: null,
 	}),
 	computed: {
 		currentText() {
@@ -163,16 +165,41 @@ export default {
 			 */
 		},
 		deleteComment() {
-			this.$store.dispatch(`${PostStore}/${PostActions.deleteComment}`, {
-				post: this.post,
-				comment: this.comment,
+			const clear = () => {
+				this.deleteTimeout && clearTimeout(this.deleteTimeout);
+				this.deleteTimeout = null;
+				this.undoWatch && this.undoWatch();
+				this.undoWatch = null;
+			};
+
+			clear();
+
+			this.deleteTimeout = setTimeout(() => {
+				this.$store.dispatch(`${PostStore}/${PostActions.deleteComment}`, {
+					post: this.post,
+					comment: this.comment,
+				});
+				clear();
+			}, BANNER_TIMEOUT);
+
+			this.undoWatch = this.$store.subscribe((mutation) => {
+				const { type, payload } = mutation;
+				if (
+					type !== `${NotificationStore}/${NotificationMutations.undo}` ||
+					payload.type !== 'comment' ||
+					payload.commentId !== this.comment._id
+				) {
+					return;
+				}
+				clear();
 			});
 
 			const message = {
 				type: 'notifAlert',
 				text: 'The comment has been deleted',
-				ts: new Date(),
-				_id: new Date(),
+				comment: this.comment,
+				ts: Date.now(),
+				_id: Date.now(),
 			};
 
 			this.$store.commit(
@@ -265,4 +292,6 @@ export default {
 				justify-content space-between
 				align-items center
 				font-size 3.38vw
+.v-list-item
+	cursor pointer
 </style>

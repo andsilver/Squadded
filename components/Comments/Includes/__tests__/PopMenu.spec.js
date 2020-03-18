@@ -6,6 +6,7 @@ import { userMockBuilder } from '~/test/user.mock';
 import { merchantMockBuilder } from '~/test/merchant.mock';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { PostStore, PostActions } from '~/store/post';
+import { BANNER_TIMEOUT } from '~/consts';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
@@ -87,21 +88,26 @@ describe('PopMenu, author is not Me', () => {
 });
 
 describe('PopMenu, author is Me', () => {
-	let wrapper;
+	let wrapper, store, post, comment;
 
 	beforeEach(() => {
-		({ wrapper } = factory(true));
+		({ wrapper, store, post, comment } = factory(true));
 	});
 
 	it('should not display report link', () => {
 		expect(wrapper.ref('report-comment').exists()).toBe(false);
 	});
 
-	it('delete link is clicked, it dispatches popup method', () => {
+	it('delete link is clicked, it deletes comment after 5 seconds', () => {
+		jest.useFakeTimers();
+		store.dispatch = jest.fn();
 		wrapper.ref('delete-comment').trigger('click');
-
-		// expect(wrapper.vm.prompt).toHaveBeenCalled();
-		// expect(wrapper.vm.current).toBe('deleteComment');
+		jest.advanceTimersByTime(BANNER_TIMEOUT);
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.deleteComment}`, {
+			post,
+			comment,
+		});
+		expect(wrapper.vm.undoWatch).toBe(null);
 	});
 
 	it('should display delete if author is me', () => {
