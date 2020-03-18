@@ -1,11 +1,12 @@
 <template>
-	<v-container>
+	<v-container class="feed-container">
+		<FakeTopBar ref="top-bar" class="topBar" />
 		<v-layout>
 			<Feed
 				ref="street-layout"
 				:items="items"
 				@mousedown.native="signin"
-				@touchstart.native="signin"
+				@click.native="signin"
 			/>
 		</v-layout>
 	</v-container>
@@ -13,6 +14,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import FakeTopBar from '~/components/common/FakeTopBar.vue';
 import Feed from '~/components/Feed';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
@@ -20,6 +22,7 @@ import { DEFAULT_LANDING } from '~/store/squad';
 
 export default {
 	components: {
+		FakeTopBar,
 		Feed,
 	},
 	data: () => ({
@@ -66,3 +69,8 @@ export default {
 	}),
 };
 </script>
+
+<style lang="stylus" scoped>
+.container.feed-container
+	margin-top 40px
+</style>

@@ -59,9 +59,9 @@ describe('Message Input', () => {
 		expect($router.push).toHaveBeenCalledWith('/');
 	});
 
-	it('should go to signin on screen touch', () => {
+	it('should go to signin on screen click', () => {
 		const street = wrapper.ref(STREET);
-		street.trigger('touchstart');
+		street.trigger('click');
 		expect($router.push).toHaveBeenCalledWith('/');
 	});
 });
