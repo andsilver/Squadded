@@ -312,6 +312,7 @@
       "pending": "Pending...",
       "pending_text": "As soon as @{user} confirms,\nyou will appear in each other's squad",
       "accepted": "accepted",
+      "inSquad": "In Squad",
       "send_invite_link": "Send invite link"
     },
     "action": {

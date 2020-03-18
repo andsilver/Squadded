@@ -32,6 +32,10 @@ export default {
 				return [];
 			},
 		},
+		isAccept: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data: () => ({
 		components: {
@@ -47,7 +51,11 @@ export default {
 	}),
 	methods: {
 		getComponent (notification) {
-			return this.components[notification.type];
+			if (!this.isAccept && notification.type !== NOTIFICATIONS.ACCEPT_SQUAD) {
+				return this.components[notification.type];
+			} else if (this.isAccept) {
+				return this.components[notification.type];
+			}
 		},
 	},
 };

@@ -11,7 +11,7 @@
 					{{ $t('notify.requestEmpty') }}
 				</p>
 			</div>
-			<Notifications v-else ref="notification-list" :items="filtered" />
+			<Notifications v-else ref="notification-list" is-accept :items="filtered" />
 		</v-layout>
 	</v-container>
 </template>
@@ -41,7 +41,7 @@ export default {
 			'socket',
 		]),
 		filtered () {
-			return this.notifications.filter(n => n.type === NOTIFICATIONS.ACCEPT_SQUAD);
+			return this.notifications.filter(n => n.type === NOTIFICATIONS.ACCEPT_SQUAD && !n.viewed);
 		},
 	},
 	created () {

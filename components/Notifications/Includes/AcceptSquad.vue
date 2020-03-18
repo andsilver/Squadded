@@ -1,8 +1,8 @@
 <template>
-	<section class="d-flex text-section">
+	<section class="d-flex text-section accept-section">
 		<UserLink
 			ref="user-link"
-			size="40"
+			size="10.76vw"
 			:user="acceptingUser"
 			hide-name
 		/>
@@ -26,11 +26,9 @@
 						{{ $t('user.invitation.deny') }}
 					</v-btn>
 				</div>
-				<v-btn v-else ref="accepted-mark" depressed class="mt-2 accepted-mark">
-					<v-icon x-small>
-						sqdi-checkmark
-					</v-icon>
-					<span class="ml-2">{{ $t('user.invitation.accepted') }}</span>
+				<v-btn v-else ref="accepted-mark" depressed class="my-2 accepted-mark">
+					<img src="~assets/img/in-squad.svg" alt="In Squad" class="in-squad">
+					<span class="ml-2 accepted-btn-text">{{ $t('user.invitation.inSquad') }}</span>
 				</v-btn>
 				<span ref="time-string" class="time-string-section">
 					<span class="time-string">
@@ -99,7 +97,7 @@ i.sqdi-checkmark
 	color #B8B8BA
 	margin-left 0.6VW
 .time-string-section
-	margin-top 0.6VW
+	margin-top 0
 	display block
 .notification-message
 	width 100%
@@ -120,6 +118,20 @@ i.sqdi-checkmark
 	font-weight 700
 	letter-spacing 1px
 	border-radius 10px
-	background-color #fd6256 !important
+	background-color #F5F5F5 !important
 	color white
+.feed
+	section.text-section.accept-section
+		padding 3.07vw 0
+		margin 0 4.61vw
+		border-left 0
+		border-right 0
+		&:first-child
+			border 0
+			padding-top 2vw
+		img.in-squad
+			width 3.07vw
+			height 3.07vw
+		.accepted-btn-text
+			color #000000
 </style>
