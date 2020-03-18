@@ -8,7 +8,7 @@
 				sqdi-checkmark
 			</v-icon>
 		</v-avatar>
-		<div class="notification-message" @click="goToLandingPost">
+		<div class="notification-message" @click="goToPollDetails">
 			<div class="message is_poll">
 				<span>
 					{{ $t('notify.pollend') }}
@@ -53,8 +53,8 @@ export default {
 		},
 	},
 	methods: {
-		goToLandingPost() {
-			this.$router.push(`/post/${this.notification.guid}`);
+		goToPollDetails() {
+			this.$router.push(`/poll/${this.notification.guid}`);
 		},
 	},
 };
