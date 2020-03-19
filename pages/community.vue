@@ -45,6 +45,7 @@ export default {
 		this.$root.$once('widget-open', () => this.updateStreet());
 	},
 	mounted () {
+		this.$root.$emit('guestToolbarShow', {});
 		if (this.socket.isAuth) {
 			this.$router.push(DEFAULT_LANDING);
 		}
@@ -72,5 +73,5 @@ export default {
 
 <style lang="stylus" scoped>
 .container.feed-container
-	margin-top 40px
+	margin-top 55px
 </style>

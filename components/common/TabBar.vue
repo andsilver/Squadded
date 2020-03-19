@@ -4,7 +4,7 @@
 		height="65"
 		@click.native="(e) => onTabClick(e)"
 	>
-		<Tab :tab="tabs[0]" @click.native="closeMenu" />
+		<Tab :tab="tabs[0]" :class="{ 'v-tab--active': fakeActiveTab }" @click.native="closeMenu" />
 		<Tab :tab="tabs[1]" @click.native="closeMenu" />
 		<CreateTab />
 		<Tab :tab="tabs[2]" @click.native="closeMenu">
@@ -31,6 +31,7 @@ export default {
 	},
 	data: () => ({
 		showCreate: false,
+		fakeActiveTab: false,
 		tabs: [{
 			uri: '/all',
 			icon: 'sqdi-blank-house',
@@ -59,6 +60,7 @@ export default {
 	},
 	created () {
 		this.$root.$on('notiPageLoad', data => this.onNoticationPage());
+		this.$root.$on('guestToolbarShow', data => this.guestToolbarShow());
 	},
 	methods: {
 		closeMenu () {
@@ -70,6 +72,9 @@ export default {
 			}
 		},
 		onNoticationPage () {
+		},
+		guestToolbarShow () {
+			this.fakeActiveTab = true;
 		},
 	},
 };

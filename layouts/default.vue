@@ -1,5 +1,5 @@
 <template>
-	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }">
+	<v-app ref="app" :class="{ isTouch, 'show-tabs': (showTabs || guestShow) }">
 		<NotificationsBanner ref="notifications" />
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
 		<v-content id="main" class="d-flex">
@@ -8,7 +8,7 @@
 				<Prompt :text="promptOptions.text" @confirm="confirm" @decline="hide" />
 			</v-dialog>
 		</v-content>
-		<v-bottom-navigation v-if="!isOnboarding" height="65">
+		<v-bottom-navigation v-if="!isOnboarding" class="bottom-tab-section" height="65">
 			<TabBar ref="tab-bar" />
 		</v-bottom-navigation>
 		<div v-if="socket.isPendingAuth" ref="preloader" class="pending d-flex justify-center align-center">
@@ -44,6 +44,7 @@ export default {
 		opacity: 0.46,
 		overlay: false,
 		zIndex: 200,
+		guestShow: false,
 	}),
 	computed: {
 		...mapState([
@@ -66,6 +67,8 @@ export default {
 		this.$root.$on('overlayToggle', data => this.overlayToggle(data));
 		this.$root.$on('overlayOpen', data => this.overlayOpen(data));
 		this.$root.$on('overlayClose', data => this.overlayClose(data));
+		this.$root.$on('guestToolbarShow', data => this.guestToolbarShow());
+		this.$root.$on('guestToolbarHide', data => this.guestToolbarHide());
 		this.unsubscribe = this.$store.subscribe((mutation) => {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
@@ -114,6 +117,12 @@ export default {
 		},
 		overlayClose (options) {
 			this.overlay = false;
+		},
+		guestToolbarShow () {
+			this.guestShow = true;
+		},
+		guestToolbarHide () {
+			this.guestShow = false;
 		},
 	},
 };

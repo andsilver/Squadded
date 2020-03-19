@@ -2,7 +2,7 @@
 	<v-toolbar
 		dense
 		flat
-		height="40"
+		height="55"
 		class="px-3 toolbar"
 	>
 		<v-tabs v-model="tab">
@@ -38,7 +38,7 @@ export default {
 	.toolbar
 		position fixed
 		top 0
-		width 100%
+		width calc(100% - 12px)
 		z-index 10
 
 	.v-tab
@@ -54,19 +54,26 @@ export default {
 
 	.v-tab--active
 		color black !important
-		border-bottom 2px solid #000
-
+		position relative
+	.v-tab--active::after
+		position absolute
+		width 100%
+		content ''
+		border 0.45vw solid #000
+		bottom 10px
 	.buttons
 		display flex
 		margin-left auto
 		margin-right -16px
 	button.sign_btn
-		width 80px
-		margin-right 10px
+		width 28.92vw
+		margin-right 0
 		border 2px solid #000
 		border-radius 10px
-		height 10vw
+		height 12.30vw
 		font-weight 600
-		font-size 0.75em
-		margin-top 4px;
+		font-size 2.76vw
+		margin-top 3.3vw
+		text-transform uppercase
+		letter-spacing 1px
 </style>

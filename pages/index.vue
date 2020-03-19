@@ -155,6 +155,9 @@ export default {
 			'merchant',
 		]),
 	},
+	mounted () {
+		this.$root.$emit('guestToolbarHide', {});
+	},
 	methods: {
 		showStepTwo (email) {
 			this.email = email;
