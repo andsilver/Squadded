@@ -16,13 +16,13 @@
 			ref="email-field"
 			v-model="email"
 			:rules="emailRules"
-			:label="$t('form.email')"
+			:placeholder="$t('form.email')"
 			type="email"
 			required
 			solo
 			flat
 			dense
-			class="email-field"
+			class="email-field placeholder-fix"
 			:class="{ error_email: showErrorMsg}"
 			hide-details
 		/>
@@ -35,7 +35,7 @@
 		<div class="custom-chk">
 			<div class="form-group">
 				<input id="html1" v-model="terms" type="checkbox" @change="changeTerms()">
-				<label class="term-text" :class="{error_terms: terms_error}" for="html1">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span> </label>
+				<label class="term-text" :class="{error_terms: terms_error}" for="html1"><p class="check_lable" /><p class="terms-text">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span></p></label>
 			</div>
 		</div>
 		<v-btn
@@ -156,6 +156,12 @@
 	left 50%
 	transform translateX(-50%)
 	bottom 2.30vw
+.placeholder-fix input:focus::-webkit-input-placeholder
+	color transparent
+.placeholder-fix input:focus::-moz-placeholder
+	color transparent
+.placeholder-fix input:-moz-placeholder
+	color transparent
 </style>
 
 <script>

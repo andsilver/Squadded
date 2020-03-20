@@ -64,7 +64,7 @@
 						<div class="custom-chk">
 							<div class="form-group">
 								<input id="html" v-model="terms" type="checkbox" @change="changeTerms()">
-								<label class="term-text" :class="{error_terms: terms_error}" for="html">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span> </label>
+								<label class="term-text" :class="{error_terms: terms_error}" for="html"><p class="check_lable" /><p class="terms-text">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span></p></label>
 							</div>
 						</div>
 					</div>
@@ -345,35 +345,34 @@ export default {
 		.form-group label
 			position relative
 			cursor pointer
-		.form-group label:before
-			content''
-			-webkit-appearance none
-			border 2px solid #DBDBDB
+		.form-group label .check_lable
+			position relative
+			margin 0
+			border 2px solid #dbdbdb
 			display inline-block
-			position absolute
-			vertical-align middle
+			vertical-align top
 			cursor pointer
-			margin-right 2.36vW
-			left 0
-			width 7.69vw
-			height 7.69vw
-			border-radius 2.69vw
-		.form-group input:checked + label:after
+			width 26px
+			height 26px
+			border-radius 3.076vw
+		.form-group label .terms-text
+			display inline-block
+			width calc(100% - 26px)
+			margin 0
+			text-align left
+			padding-left 2.36vw
+			line-height 1.6
+		.form-group input:checked + label .check_lable:after
 			content ''
 			display block
 			position absolute
-			top -1.4px
-			left 4.2px
-			width 5.38vw
-			height 5.38vw
-			border-radius 2vw
+			top 11px
+			left 11px
+			transform translate(-50%, -50%)
+			width 18px
+			height 18px
+			border-radius 2.076vw
 			background #FD6256
-			@media screen and (min-width 414px)
-				top -0.3px
-				left 4.2px
-			@media screen and (min-width 360px)
-				top -0.3px
-				left 4.5px
 	.term-section p
 		color #000000
 		font-size 3.69vw
@@ -384,7 +383,6 @@ export default {
 		font-size 3.38vw
 		font-weight 500
 		line-height 4.92vw
-		padding-left 9.69vw
 		&.error_terms
 			&:before
 				border 2px solid #ef6256
