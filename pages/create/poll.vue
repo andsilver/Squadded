@@ -11,7 +11,8 @@
 				<p v-if="isWishlistHasItems && showError" class="tip-note error-note">
 					{{ $t('tip.pollError') }}
 				</p>
-				<div v-if="!isWishlistHasItems" :class="{ empty_wishlist_container: !isWishlistHasItems}">
+				<Preloader v-if="!isWishlistHasItems && socket.isAuth" ref="preloader" class="mt-8" />
+				<div v-else-if="!isWishlistHasItems || !isWishlistHasItems.length" :class="{ empty_wishlist_container: !isWishlistHasItems}">
 					<div v-if="!isWishlistHasItems" class="whislist_empty">
 						<div class="whish_img">
 							<p>
@@ -81,6 +82,7 @@
 </template>
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
+import Preloader from '~/components/Preloader.vue';
 import BackBar from '~/components/common/BackBar';
 import Button from '~/components/common/Button';
 import UserInput from '~/components/common/UserInput';
@@ -99,6 +101,7 @@ const { mapGetters } = createNamespacedHelpers(ActivityStore);
 export default {
 	name: 'NewPollPage',
 	components: {
+		Preloader,
 		BackBar,
 		Button,
 		PublicToggle,
