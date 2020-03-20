@@ -35,7 +35,7 @@ export class User {
 		this.isMe = isMe;
 		this.likes = likes;
 		this.mention = mention;
-		this.name = name || screenName;
+		this.name = name;
 		this.screenName = screenName || name;
 		this.userId = userId || guid || _id;
 		this.guid = this.userId;

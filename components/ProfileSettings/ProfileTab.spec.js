@@ -30,6 +30,7 @@ describe('Profile Settings Topbar', () => {
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
 		user = userMockBuilder().get();
+		user.screenName = 'screenName';
 		wrapper = shallowMount(ProfileTab, {
 			store,
 			localVue,
@@ -60,6 +61,7 @@ describe('Profile Settings Topbar', () => {
 		user.bio = 'testbio';
 		user.private = true;
 		user.isMe = true;
+		user.screenName = 'screenName';
 		store.dispatch = jest.fn();
 		await store.commit(`${UserStore}/${UserMutations.setMe}`, user);
 		saveButton.trigger('click');

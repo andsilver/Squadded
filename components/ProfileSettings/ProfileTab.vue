@@ -80,29 +80,27 @@
 					id="instagram_username"
 					ref="instagram-username-field"
 					v-model="user.screenName"
-					hide-details
 					outlined
 					dense
+					:rules="[required]"
 				/>
 			</section>
-			<section class="mt-4">
+			<section>
 				<label class="input-label" for="bio">{{ $t('form.bio') }}</label>
 				<v-text-field
 					id="bio"
 					ref="bio-field"
 					v-model="user.bio"
-					hide-details
 					outlined
 					dense
 				/>
 			</section>
-			<section class="mt-4">
+			<section>
 				<label class="input-label" for="instagram_username">{{ $t('form.name') }}</label>
 				<v-text-field
 					id="name"
 					ref="name-field"
 					v-model="user.name"
-					hide-details
 					outlined
 					dense
 				/>
@@ -186,6 +184,7 @@ export default {
 		avatarFile: null,
 		showCropper: false,
 		compressing: false,
+		required: null,
 	}),
 	computed: {
 		...mapState(['me']),
@@ -203,6 +202,7 @@ export default {
 	},
 	mounted () {
 		this.user = Object.assign({}, this.me);
+		this.required = value => !!value || this.$t('form.rules.name.valid');
 	},
 	methods: {
 		togglePublic() {
@@ -229,6 +229,9 @@ export default {
 			this.compressing = false;
 		},
 		async saveProfile() {
+			if (!this.user.screenName) {
+				return;
+			}
 			this.editing = false;
 			await this.$store.dispatch(
 				`${UserStore}/${UserActions.setProfile}`,
@@ -348,6 +351,9 @@ export default {
 	font-weight: 500;
 	font-size: 14px;
 }
+
+>>> .v-text-field.v-text-field--enclosed .v-text-field__details
+	margin-bottom 0 !important
 
 section .v-btn
 	background-color rgba(218, 217, 221, 0.3)
