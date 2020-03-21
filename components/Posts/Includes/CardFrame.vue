@@ -324,4 +324,7 @@ export default {
 .explore-content
 	.refresh-icon .refresh-logo
 		width 3.4vw
+	.card_frame .post_price span
+		margin-top 1.4vw
+		display block
 </style>

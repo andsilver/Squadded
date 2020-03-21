@@ -1,7 +1,7 @@
 <template>
 	<div class="px-0">
 		<div ref="top-gallery-title" class="d-flex align-center ma-3 ml-2 mt-0">
-			<img class="ml-1" :width="22" src="~assets/img/most-popular-explor.svg" alt="">
+			<img class="ml-1" :width="23.6" src="~assets/img/most-popular-explor.svg" alt="">
 			<h3 class="ml-3">
 				{{ $t('explore_page.top_gallery.title') }}
 			</h3>
@@ -55,6 +55,8 @@ export default {
 		width 90%
 		left 50%
 		transform translateX(-50%)
+	h3
+		font-size 4.92vw
 	.top-gallery-post
 		padding-bottom 20px !important
 .w-78

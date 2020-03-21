@@ -1,13 +1,13 @@
 <template>
 	<div class="px-0">
 		<div ref="top-items-title" class="d-flex align-center ma-3 ml-2 mt-0">
-			<img class="ml-1" :width="16" src="~assets/img/trending-icon.png" alt="">
+			<img class="ml-1" :width="18.5" src="~assets/img/trending-icon.png" alt="">
 			<h3 class="ml-3">
 				{{ $t('explore_page.top_items.title') }}
 			</h3>
 		</div>
 		<div v-if="items && items.length" class="overflow-x-auto d-flex">
-			<div v-for="(post, index) of items" :key="index" class="count_sec top-items" @click="openProduct(post)">
+			<div v-for="(post, index) of items" :key="index" class="count_sec top-items" :style="{ 'z-index': 100 - index }" @click="openProduct(post)">
 				<div ref="post-card" class="post-card">
 					<span class="count_item">{{ index + 1 }}</span>
 					<CardFrame
@@ -89,7 +89,7 @@ export default {
 		left 50%
 		transform translateX(-50%)
 	h3
-		font-size 4.7vw
+		font-size 4.92vw
 .post-card
 	white-space nowrap
 	width 230px
@@ -108,9 +108,11 @@ export default {
 		flex-direction column
 		*
 			color white !important
+			line-height 4.4vw
 		.buy_button
-			top 9.38vw
-			right 8px
+			top auto
+			bottom 2.10vw
+			right 2.35vw
 			width 8.15vw
 			height 8.15vw
 			border-radius 50%
@@ -118,11 +120,13 @@ export default {
 			&:before
 				font-size 3.2vw
 				left auto
+				width 8.15vw
 				top 50%
 				transform translateY(-50%)
 		.refresh-icon
-			top 9.38vw
-			right 50px
+			top auto
+			bottom 2.10vw
+			right 12.58vw
 			width 8.15vw
 			height 8.15vw
 			border-radius 50%
@@ -154,12 +158,12 @@ export default {
 		z-index 1
 		line-height 28.46vw
 		top 0
-		left -40px
+		left -50px
 .overflow-x-auto
 	overflow hidden
 	padding 10px 0 35px
 	.count_sec:first-child
 		margin-left 10px
 		.count_item
-			left 0
+			left -10px
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div class="px-0">
 		<div ref="top-items-title" class="d-flex align-center ma-3 ml-2 mt-0">
-			<img class="ml-1" :width="22" src="~assets/img/ending-poll-watch.svg" alt="">
+			<img class="ml-1" :width="20.5" src="~assets/img/ending-poll-watch.svg" alt="">
 			<h3 ref="ending-polls-title" class="ml-3">
 				{{ $t('explore_page.ending_polls.title') }}
 			</h3>
@@ -13,7 +13,7 @@
 						<img class="ml-1" :width="18" src="~assets/img/end_time.svg" alt="">
 						<Countdown :time-stamp="post.expires" />
 					</div>
-					<VoteSlider :post="post" style="pointer-events: none" />
+					<VoteSlider :post="post" />
 					<div class="poll-post ending-poll-post poll-post-explore grid">
 						<PollItem
 							ref="poll-item1"
@@ -102,6 +102,8 @@ export default {
 		width 90%
 		left 50%
 		transform translateX(-50%)
+	h3
+		font-size 4.92vw
 .poll-post
 	grid-template-columns 1fr 1fr
 	grid-gap 3px

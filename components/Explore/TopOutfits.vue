@@ -80,6 +80,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.px-0
+	h3
+		font-size 4.92vw
 .w-78
 	width 62.906vw
 	margin-right 3.07vw !important
@@ -90,7 +93,8 @@ export default {
 	.num_outfit
 		margin 2vw 0 5vw 0
 		text-align center
-		font-size 3.46vw
+		font-size 2.46vw
+		letter-spacing 0.2px
 		font-weight 700
 		padding 2.07vw 0
 		border 0.615vw solid #000
