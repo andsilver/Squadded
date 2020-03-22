@@ -3,7 +3,7 @@
 		<BackBar ref="goback-button" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">
-			<div v-if="!notifications.length" class="empty_feed">
+			<div v-if="!filtered.length" class="empty_feed">
 				<p class="feed_img">
 					<img src="~assets/img/add-user-black.svg" class="insta-image">
 				</p>

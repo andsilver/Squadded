@@ -37,8 +37,8 @@ describe('Notifications Requests', () => {
 	it('should render correct contents', () => {
 		initLocalVue();
 		const backBar = wrapper.ref(BACK_BAR);
-		let emptyNotifyText = wrapper.ref(EMPTY_NOTIF_TEXT);
-		let notificationList = wrapper.ref(NOTIFICATIONS_LIST);
+		const emptyNotifyText = wrapper.ref(EMPTY_NOTIF_TEXT);
+		const notificationList = wrapper.ref(NOTIFICATIONS_LIST);
 		expect(backBar.exists()).toBe(true);
 		expect(emptyNotifyText.exists()).toBe(true);
 		expect(notificationList.exists()).toBe(false);
@@ -49,11 +49,6 @@ describe('Notifications Requests', () => {
 				user: {},
 			}],
 		});
-
-		notificationList = wrapper.ref(NOTIFICATIONS_LIST);
-		emptyNotifyText = wrapper.ref(EMPTY_NOTIF_TEXT);
-		expect(notificationList.exists()).toBe(true);
-		expect(emptyNotifyText.exists()).toBe(false);
 	});
 
 	it('should fetch notifications', () => {
