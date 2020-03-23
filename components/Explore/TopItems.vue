@@ -163,7 +163,7 @@ export default {
 	overflow hidden
 	padding 10px 0 35px
 	.count_sec:first-child
-		margin-left 10px
+		margin-left 20px
 		.count_item
-			left -10px
+			left -9px
 </style>
