@@ -29,6 +29,13 @@ body
 			cursor pointer
 			@media screen and (max-width: 350px)
 				padding 5px 0
+.placeholder-fix input:focus::-webkit-input-placeholder
+	color transparent
+.placeholder-fix input:focus::-moz-placeholder
+	color transparent
+.placeholder-fix input:-moz-placeholder
+	color transparent
+
 button
 	outline none
 
