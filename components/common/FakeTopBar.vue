@@ -38,15 +38,16 @@ export default {
 	.toolbar
 		position fixed
 		top 0
-		width calc(100% - 12px)
+		width 100%
 		z-index 10
+		margin-left -12px
 
 	.v-tab
 		min-width auto
 		padding 0
 		margin-right 5%
 
-		font-size .75em
+		font-size 3.23vw
 		font-weight 700
 		text-align left !important
 		color #B8B8BA !important
