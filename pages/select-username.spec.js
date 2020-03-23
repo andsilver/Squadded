@@ -3,13 +3,16 @@ import Vuex from 'vuex';
 import SelectUsername from './select-username.vue';
 import { userMockBuilder } from '~/test/user.mock';
 import Store from '~/store';
-import { PostStore, PostMutations } from '~/store/post';
-import { prefetch, onAuth } from '~/helpers';
+import { onAuth } from '~/helpers';
 import { UserStore, UserMutations, UserActions } from '~/store/user';
 
 jest.mock('~/helpers', () => ({
 	prefetch: jest.fn(),
 	onAuth: jest.fn(),
+}));
+
+jest.mock('~/utils/compress-image', () => ({
+	compressImage: jest.fn(),
 }));
 
 Wrapper.prototype.ref = function(id) {
@@ -24,6 +27,7 @@ describe('Select Username', () => {
 		push: jest.fn(),
 	};
 	const me = userMockBuilder().get();
+	me.isMe = true;
 
 	const BRAND_SECTION = 'brand-section';
 	const PICK_USERNAME_SEC = 'pick-username-sec';
@@ -39,7 +43,7 @@ describe('Select Username', () => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
-		store.state.user.me = me;
+		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 		wrapper = shallowMount(SelectUsername, {
 			store,
 			localVue,
@@ -65,45 +69,16 @@ describe('Select Username', () => {
 		expect(wrapper.ref(RESIZER).exists()).toBe(true);
 	});
 
-	it('should save avatar', async () => {
-		const url = 'https://example.com/avatar.png';
-		await store.commit('SET_SOCKET_AUTH', true);
-		prefetch.mockReturnValue(Promise.resolve(url));
-		global.fetch = jest.fn().mockReturnValue(Promise.resolve({ ok: true }));
-		const img = new URL(url);
-		const file = { type: 'image' };
-		wrapper.vm.file = file;
-		wrapper.vm.saveAvatar();
-		await Promise.resolve();
-		expect(prefetch).toHaveBeenCalledWith({
-			contentType: file.type,
-			mutation: `${PostStore}/${PostMutations.uploadURL}`,
-			store,
-			type: 'getUploadUrl',
-		});
-		await Promise.resolve();
-		expect(fetch).toHaveBeenCalledWith(url, {
-			method: 'PUT',
-			body: file,
-		});
-		expect(wrapper.vm.user.avatar).toBe(img.href);
-	});
-
 	it('should save username and avatar', async () => {
-		store.dispatch = jest.fn();
-		me.isMe = true;
-		wrapper = shallowMount(SelectUsername, {
-			store,
-			localVue,
-			mocks: {
-				$router,
-				$t: msg => msg,
-			},
-		});
-		await store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 		await store.commit('SET_SOCKET_AUTH', true);
-		await wrapper.ref(SAVE_BTN).trigger('click');
-		expect(store.dispatch).toHaveBeenCalledWith(`${UserStore}/${UserActions.setProfile}`, { ...me, nameSelected: true });
+		store.dispatch = jest.fn();
+		expect(wrapper.ref(SAVE_BTN).exists()).toBe(true);
+		wrapper.ref(SAVE_BTN).trigger('click');
+		await Promise.resolve();
+		expect(store.dispatch).toHaveBeenCalledWith(`${UserStore}/${UserActions.setProfile}`, {
+			...me,
+			nameSelected: true,
+		});
 		expect($router.push).toHaveBeenCalledWith('/create-your-squad');
 	});
 });

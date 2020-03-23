@@ -99,6 +99,7 @@ describe('User Store module', () => {
 		const _private = chance.bool();
 		const avatar = chance.url();
 		const nameSelected = chance.bool();
+		const miniAvatar = chance.url();
 		user.bio = bio;
 		user.private = _private;
 		user.name = name;
@@ -106,6 +107,7 @@ describe('User Store module', () => {
 		user.avatar = avatar;
 		user.isMe = true;
 		user.nameSelected = nameSelected;
+		user.miniAvatar = miniAvatar;
 
 		await root.dispatch(`${UserStore}/${UserActions.setProfile}`, user);
 
@@ -118,6 +120,7 @@ describe('User Store module', () => {
 				screenName: name,
 				avatar,
 				nameSelected,
+				miniAvatar,
 			},
 		});
 

@@ -88,6 +88,7 @@ export const actions = {
 				avatar: user.avatar,
 				nameSelected: !!user.nameSelected,
 				language: user.language,
+				miniAvatar: user.miniAvatar,
 			},
 		});
 	},

@@ -61,16 +61,6 @@
 					accept="image/jpeg,image/jpg,image/png"
 					@change="() => onPhotoUpload('capture')"
 				>
-				<ImageUploader
-					v-show="false"
-					ref="resizer"
-					:max-width="600"
-					accept="image/jpeg,image/jpg,image/png"
-					output-format="verbose"
-					auto-rotate
-					@input="setImage"
-					@onComplete="completeCompress"
-				/>
 			</section>
 		</div>
 		<div class="form-area px-3">
@@ -153,22 +143,17 @@
 </template>
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import ImageUploader from 'vue-image-upload-resize';
 import ImageCrop from './ImageCrop';
-import { dataURItoBlob } from '~/utils/dataUriToBlob';
-import { PostStore, PostMutations } from '~/store/post';
-import { prefetch } from '~/helpers';
 import Button from '~/components/common/Button';
 import { UserStore, UserActions } from '~/store/user';
 import { toBase64 } from '~/utils/toBase64';
-import { toFile } from '~/utils/toFile';
+import { compressImage } from '~/utils/compress-image';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	components: {
 		Button,
-		ImageUploader,
 		ImageCrop,
 	},
 	data: () => ({
@@ -177,11 +162,9 @@ export default {
 			{ value: false, name: 'Public' },
 			{ value: true, name: 'Private' },
 		],
-		input: null,
 		editing: false,
 		menu: false,
 		avatarImg: null,
-		avatarFile: null,
 		showCropper: false,
 		compressing: false,
 		required: null,
@@ -209,27 +192,8 @@ export default {
 			this.user.private = !this.user.private;
 			this.user = Object.assign({}, this.user);
 		},
-		async saveAvatar() {
-			const uploadUrl = await prefetch({
-				contentType: this.file.type,
-				mutation: `${PostStore}/${PostMutations.uploadURL}`,
-				store: this.$store,
-				type: 'getUploadUrl',
-			});
-			const response = await fetch(uploadUrl, {
-				method: 'PUT',
-				body: this.file,
-			});
-			if (!response.ok) {
-				throw new Error(response.statusText);
-			}
-			const img = new URL(uploadUrl);
-			img.search = '';
-			this.user.avatar = img.href;
-			this.compressing = false;
-		},
 		async saveProfile() {
-			if (!this.user.screenName) {
+			if (!this.user.screenName || !this.user.avatar) {
 				return;
 			}
 			this.editing = false;
@@ -242,14 +206,6 @@ export default {
 				return;
 			}
 			this.$router.push('/me');
-		},
-		setImage (input) {
-			this.input = input;
-		},
-		completeCompress(e) {
-			const { info, dataUrl: image } = this.input;
-			this.file = dataURItoBlob(image, info.type);
-			this.saveAvatar();
 		},
 		upload (type) {
 			this.$refs[`${type}-input`].value = null;
@@ -273,12 +229,11 @@ export default {
 			}
 			const { image } = data;
 			this.compressing = true;
-			const file = await toFile(image, 'file');
-			this.$refs.resizer.uploadFile({
-				target: {
-					files: [file],
-				},
-			});
+			[this.user.avatar, this.user.miniAvatar] = await Promise.all([
+				compressImage({ maxWidth: 400, image, store: this.$store }),
+				compressImage({ maxWidth: 50, image, store: this.$store }),
+			]);
+			this.compressing = false;
 		},
 	},
 };

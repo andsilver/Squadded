@@ -9,7 +9,7 @@
 					class="user-avatar-container"
 					@click="goToMySquad"
 				>
-					<img :src="user.avatar" alt>
+					<img :src="user.miniAvatar || user.avatar" alt>
 				</div>
 				<div ref="share" class="count-squadders d-flex align-center" :style="{left: getCountPosition()}" @click="share">
 					<Button ref="plus-btn" class="plus-btn">

@@ -25,6 +25,7 @@ export class User {
 			origin,
 			originUserId,
 			originPostId,
+			miniAvatar,
 		} = props;
 
 		this.avatar = avatar;
@@ -47,6 +48,7 @@ export class User {
 		this.origin = origin;
 		this.originUserId = originUserId;
 		this.originPostId = originPostId;
+		this.miniAvatar = miniAvatar;
 	}
 
 	short () {
@@ -55,6 +57,7 @@ export class User {
 			guid: this.userId,
 			isMe: this.isMe,
 			screenName: this.name,
+			miniAvatar: this.miniAvatar,
 		};
 	}
 }

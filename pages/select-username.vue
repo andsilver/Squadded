@@ -80,7 +80,7 @@
 				</div>
 			</div>
 			<v-dialog v-model="showCropper" content-class="cropper-dialog">
-				<ImageCrop v-if="avatarImg" :img="avatarImg" @doneCrop="doneCrop" />
+				<ImageCrop v-if="avatarImg" ref="image-crop" :img="avatarImg" @doneCrop="doneCrop" />
 			</v-dialog>
 		</v-layout>
 	</v-container>
@@ -88,32 +88,24 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import ImageUploader from 'vue-image-upload-resize';
 import PopMenu from '../components/UserProfile/EditPopMenu';
 import ImageCrop from '~/components/ProfileSettings/ImageCrop';
-import { dataURItoBlob } from '~/utils/dataUriToBlob';
 import { UserStore, UserActions } from '~/store/user';
-import { PostStore, PostMutations } from '~/store/post';
-import { prefetch } from '~/helpers';
 import { toBase64 } from '~/utils/toBase64';
-import { toFile } from '~/utils/toFile';
+import { compressImage } from '~/utils/compress-image';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	components: {
-		ImageUploader,
 		PopMenu,
 		ImageCrop,
 	},
 	data: () => ({
 		user: null,
-		file: null,
 		submitted: false,
-		input: null,
 		username: null,
 		avatarImg: null,
-		avatarFile: null,
 		showCropper: false,
 		compressing: false,
 	}),
@@ -154,33 +146,6 @@ export default {
 			);
 			this.$router.push('/create-your-squad');
 		},
-		async saveAvatar() {
-			const uploadUrl = await prefetch({
-				contentType: this.file.type,
-				mutation: `${PostStore}/${PostMutations.uploadURL}`,
-				store: this.$store,
-				type: 'getUploadUrl',
-			});
-			const response = await fetch(uploadUrl, {
-				method: 'PUT',
-				body: this.file,
-			});
-			if (!response.ok) {
-				throw new Error(response.statusText);
-			}
-			const img = new URL(uploadUrl);
-			img.search = '';
-			this.user.avatar = img.href;
-			this.compressing = false;
-		},
-		setImage (input) {
-			this.input = input;
-		},
-		completeCompress(e) {
-			const { info, dataUrl: image } = this.input;
-			this.file = dataURItoBlob(image, info.type);
-			this.saveAvatar();
-		},
 		async onPhotoUpload (type) {
 			const file = this.$refs[`${type}-input`].files[0];
 			if (!['image/jpeg', 'image/jpg', 'image/png'].includes(file.type)) {
@@ -193,18 +158,16 @@ export default {
 		async doneCrop (data) {
 			this.showCropper = false;
 			if (!data) {
-				this.file = null;
 				this.avatarImg = null;
 				return;
 			}
 			const { image } = data;
 			this.compressing = true;
-			const file = await toFile(image, 'file');
-			this.$refs.resizer.uploadFile({
-				target: {
-					files: [file],
-				},
-			});
+			[this.user.avatar, this.user.miniAvatar] = await Promise.all([
+				compressImage({ maxWidth: 400, image, store: this.$store }),
+				compressImage({ maxWidth: 50, image, store: this.$store }),
+			]);
+			this.compressing = false;
 		},
 	},
 	head: () => ({

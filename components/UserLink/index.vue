@@ -2,7 +2,7 @@
 	<nuxt-link v-if="user" ref="user-link" :to="getUserLink()">
 		<v-list-item v-if="!hideAvatar" class="pa-0 user_link_header">
 			<v-list-item-avatar class="mr-3" :size="size">
-				<img v-if="user && user.avatar" :src="user && user.avatar" :alt="user && user.screenName">
+				<img v-if="user && (user.miniAvatar || user.avatar)" :src="user.miniAvatar || user.avatar" :alt="user && user.screenName">
 				<v-icon v-else color="#b8b8ba">
 					mdi-account-circle-outline
 				</v-icon>
