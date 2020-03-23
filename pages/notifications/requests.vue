@@ -74,7 +74,7 @@ export default {
 			height 10.769vw
 	.txt
 		font-size 3.69vw
-		font-weight 500
+		font-weight 600
 		color #000
 		margin-top 3.69vw
 </style>
