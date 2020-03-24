@@ -7,10 +7,11 @@ import { createLocalVue } from '@vue/test-utils';
 import { WidgetIPC } from './WidgetIPC';
 import { flushPromises } from '~/helpers';
 import root from '~/store/index';
-import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { ActivityStore, ActivityMutations, ActivityActions } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
-import { PostStore, PostActions } from '~/store/post';
+import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
+import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { INTERACTED_KEY, USER_TOKEN_KEY } from '~/consts/keys';
 
 describe('Dispatcher', () => {
@@ -113,6 +114,19 @@ describe('Dispatcher', () => {
 
 		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.openPost}`, postId);
 		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setWidgetState}`, true);
+	});
+
+	it('should remove and unwish single item post', () => {
+		const itemId = 'itemId';
+		const msg = {
+			type: 'removeItem',
+			itemId,
+		};
+		ipc.dispatch(msg);
+
+		expect(store.dispatch).toHaveBeenCalledWith(`${ActivityStore}/${ActivityActions.unwish}`, { itemId });
+		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.unsquadd}`, itemId);
+		expect(store.commit).toHaveBeenCalledWith(`${PairedItemStore}/${PairedItemMutations.unsquadd}`, itemId);
 	});
 });
 

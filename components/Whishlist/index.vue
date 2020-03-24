@@ -30,8 +30,8 @@
 		</div>
 		<div v-else>
 			<WhishlistItem
-				v-for="post in wishlist"
-				:key="post.item.itemId"
+				v-for="(post, n) in wishlist"
+				:key="n"
 				:post="post"
 			/>
 		</div>

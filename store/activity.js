@@ -48,6 +48,13 @@ export const ActivityMutations = {
 	setLoading: 'setLoading',
 };
 
+const exportWishlistToMerchant = (wishlist) => {
+	window.parent.postMessage(JSON.stringify({
+		type: 'wishlist',
+		wishlist: wishlist.map(w => w.item.itemId),
+	}), '*');
+};
+
 export const mutations = {
 	[ActivityMutations.addPost]: (state, post) => {
 		!state.blog && (state.blog = []);
@@ -57,6 +64,7 @@ export const mutations = {
 		}
 		if (isSameUser(state.wishlist, post.userId)) {
 			state.wishlist.unshift(post);
+			exportWishlistToMerchant(state.wishlist);
 		}
 	},
 	[ActivityMutations.clearWishlist]: (state) => {
@@ -68,6 +76,9 @@ export const mutations = {
 	[ActivityMutations.setListOfType]: (state, payload) => {
 		const { posts, type } = payload;
 		state[type] = posts.filter(p => !postReported(p));
+		if (type === 'wishlist' && !state.guid.wishlist) {
+			exportWishlistToMerchant(posts);
+		}
 	},
 	[ActivityMutations.removePost]: (state, postId) => {
 		if (!postId) {
@@ -81,6 +92,7 @@ export const mutations = {
 			return;
 		}
 		state.wishlist = state.wishlist.filter(w => w !== wish);
+		exportWishlistToMerchant(state.wishlist);
 	},
 	[ActivityMutations.unsquadd]: (state, itemId) => {
 		if (!itemId) {

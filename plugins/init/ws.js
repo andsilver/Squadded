@@ -7,6 +7,7 @@ import { NotificationStore, NotificationActions } from '~/store/notification';
 import { UserStore, UserMutations } from '~/store/user';
 import { DEFAULT_LANDING } from '~/store/squad';
 import { WS_LINK } from '~/config';
+import { ActivityStore, ActivityActions } from '~/store/activity';
 
 export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
@@ -51,6 +52,12 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 		store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	};
 
+	const fetchWishlist = () => {
+		store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
+			type: 'wishlist',
+		});
+	};
+
 	if (mutation.type === 'SOCKET_ONOPEN') {
 		const $ws = new WSToken(state.socket._ws);
 		Vue.prototype.$ws = $ws; // to be used in components
@@ -79,6 +86,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				type: 'fetchUser',
 			});
 			fetchNotifications();
+			fetchWishlist();
 
 			if (window.FS) {
 				window.FS.identify(user.userId, {

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { ActivityStore, ActivityActions } from '~/store/activity';
+import { ActivityStore, ActivityActions, ActivityMutations } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
@@ -32,6 +32,7 @@ export default {
 			this.item.squadded = true;
 			const post = await this.$store.dispatch(`${PostStore}/${PostActions.reSquaddItem}`, { item: this.item });
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
+			this.$store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, post);
 			this.$forceUpdate();
 		},
 		async unwish () {

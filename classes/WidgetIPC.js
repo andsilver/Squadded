@@ -1,9 +1,10 @@
 import { connect } from '~/plugins/init/ws';
-import { ActivityStore, ActivityMutations } from '~/store/activity';
+import { ActivityStore, ActivityMutations, ActivityActions } from '~/store/activity';
 import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
-import { PostStore, PostActions } from '~/store/post';
+import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
 import { UserStore, UserMutations } from '~/store/user';
+import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { INTERACTED_KEY } from '~/consts/keys';
 
 export class WidgetIPC {
@@ -56,6 +57,16 @@ export class WidgetIPC {
 		const post = await this.store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		this.store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 		this.store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, post);
+	}
+
+	removeItem(msg) {
+		if (!this.store.state.socket || !this.store.state.socket.isAuth) {
+			return;
+		}
+		const { itemId } = msg;
+		this.store.dispatch(`${ActivityStore}/${ActivityActions.unwish}`, { itemId });
+		this.store.commit(`${PostStore}/${PostMutations.unsquadd}`, itemId);
+		this.store.commit(`${PairedItemStore}/${PairedItemMutations.unsquadd}`, itemId);
 	}
 
 	widgetState (msg) {
