@@ -195,6 +195,31 @@ input[type=number]
 					background-color transparent
 					font-size 3.23vw
 					color #B8B8BA
+.save-confirmation-dialog.v-dialog
+	margin 1px
+	border-radius: 9.23vw;
+	.v-card, .v-card__text, .v-card__title
+		background rgba(255,255,255,.97)
+		text-align center
+		align-items center
+		display block
+	.v-card__title
+		padding-top 6.676vw !important
+		padding-bottom 7.584vw !important
+	.v-card__text
+		font-size 3.692vw
+		font-weight 500
+		line-height 7vw
+		padding-bottom 7.5vw !important
+	.v-card__actions
+		padding-bottom 6.15vw !important
+		padding-right 4.538vw !important
+		padding-left 4.538vw !important
+	.v-card__actions > .v-btn.v-btn
+		height 12.30vw
+		.v-btn__content
+			font-size 2.61vw !important
+			letter-spacing 1.5px
 .filter-tab .v-slide-group__prev.v-slide-group__prev--disabled
 	display none !important
 .paired-tab .v-tab
@@ -221,3 +246,5 @@ input[type=number]
 		background transparent
 .bottom-tab-section .v-tab.v-tab--disabled
 	opacity 1
+.v-overlay.v-overlay--active.theme--dark
+	z-index 202 !important

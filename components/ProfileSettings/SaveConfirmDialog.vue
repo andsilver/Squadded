@@ -1,5 +1,5 @@
 <template>
-	<v-dialog v-model="show" @input="close">
+	<v-dialog v-model="show" content-class="save-confirmation-dialog" @input="close">
 		<v-card>
 			<v-card-title ref="title">
 				{{ $t('profile_settings.saving_confirm.title') }}
