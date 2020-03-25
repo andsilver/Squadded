@@ -11,6 +11,7 @@ import Social from '~/classes/social';
 const fullname = {
 	fb: 'facebook',
 	inst: 'D.C.M Jennyfer',
+	google: 'google',
 };
 export default {
 	props: {
@@ -60,7 +61,7 @@ export default {
 <style lang="stylus">
 .social-btn
 	width 100%
-	border-radius 3.07vw
+	border-radius 12px
 	border 0.46vw solid #000
 	height 12.30vw
 	&.instagram-btn
@@ -72,7 +73,6 @@ export default {
 		display block
 		background-color #790fff
 		border 3px solid #790fff
-		border-radius 3.07vw
 		color #fff
 		text-align right
 		padding-right 17.2vw
@@ -85,10 +85,16 @@ export default {
 		display block
 		background-color #1877f2
 		border 3px solid #1877f2
-		border-radius 3.07vw
 		color #fff
-		text-align right
-		padding-right 28.98vw
-		margin-bottom 5.38vw
-
+		text-align center
+	&.google-btn
+		background-image url('~assets/img/Google-Button.svg')
+		background-size 44px
+		background-position 56px center
+		width 84.92vw
+		margin 0 auto
+		display block
+		color black
+		border-color white
+		text-align center
 </style>

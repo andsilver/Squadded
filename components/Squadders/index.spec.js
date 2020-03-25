@@ -38,6 +38,9 @@ describe('Squadders', () => {
 				$t: msg => msg,
 			},
 		});
+		wrapper.setProps({
+			users: [],
+		});
 	};
 
 	const mockSquadders = (lessThan5 = false) => {

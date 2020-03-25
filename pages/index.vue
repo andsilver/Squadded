@@ -29,28 +29,16 @@
 				</v-slide-y-transition>
 			</div>
 			<div class="login">
-				<div class="text-center">
-					<div class="brand-section">
-						<!-- <div class="brand-title">
-							{{ $t('ShopWithYourFriendsOn') }}
-						</div> -->
-						<img src="~/assets/img/bglogin.svg" class="b-logo">
-					</div>
-				</div>
-				<div class="signin-main-section">
-					<div class="sign-in">
-						{{ $t('Signin') }}
-					</div>
-					<div class="poweredby">
-						{{ $t('PoweredBy') }}
-						<img src="~/assets/img/squaddedcyrcleB_trim.svg" class="powerdby-image">
-					</div>
-				</div>
+				<Brand />
 				<div ref="socialstep-one" class="social_step-one" :class="{ active: showstepOne, in_active: !showstepOne}">
+					<div class="text-center pt-6 mt-12 mt-md-0 mb-6 font-weight-bold">
+						{{ $t('signin.signin_to_shop_with_your_friends') }}
+					</div>
 					<div class="social-text-section" :class="{ hide_socila: showstepTwo}">
 						<div class="social">
-							<social-btn for="fb" :terms-status="terms" class="facebook-btn social-btn" @termsError="shwoTermsError" />
-							<social-btn for="inst" :terms-status="terms" class="instagram-btn social-btn" @termsError="shwoTermsError" />
+							<social-btn for="fb" :terms-status="terms" class="facebook-btn social-btn mb-3" @termsError="shwoTermsError" />
+							<social-btn for="google" :terms-status="terms" class="google-btn social-btn elevation-1" @termsError="shwoTermsError" />
+							<!-- <social-btn for="inst" :terms-status="terms" class="instagram-btn social-btn" @termsError="shwoTermsError" /> -->
 						</div>
 					</div>
 					<div class="text-center">
@@ -70,8 +58,8 @@
 					</div>
 					<div class="signup-letter">
 						<nuxt-link :to="{ path: '/community' }">
-							<h5 class="text-center">
-								{{ $t('sign_up_later') }}
+							<h5 class="text-center text-capitalize">
+								{{ $t('skip') }}
 							</h5>
 						</nuxt-link>
 					</div>
@@ -126,6 +114,7 @@
 <script>
 import { mapState } from 'vuex';
 import SocialBtn from '~/components/Social-Button.vue';
+import Brand from '~/components/common/Brand';
 import SignForm from '~/components/Sign-Form.vue';
 import { loginWithPIN, requestOtp } from '~/services/otp';
 import Pin from '~/components/Pin';
@@ -135,6 +124,7 @@ export default {
 		'social-btn': SocialBtn,
 		'sign-form': SignForm,
 		Pin,
+		Brand,
 	},
 	data: () => ({
 		showstepTwo: false,
@@ -479,11 +469,8 @@ export default {
 		0% { opacity: 0; }
 		100% { opacity: 1; }
 	.social-text-section
-		overflow hidden;
 		transition max-height 0.2s ease-out
-		max-height 500px
 		height auto
-		padding-top 35.35vw
 		&.hide_socila
 			max-height 0
 	.otp-field .v-input__control

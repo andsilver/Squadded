@@ -42,6 +42,7 @@ export const ExploreMutations = {
 	setItems: 'setItems',
 	setFriends: 'setFriends',
 	setSearching: 'setSearching',
+	setInvited: 'setInvited',
 };
 
 export const mutations = {
@@ -70,6 +71,10 @@ export const mutations = {
 	},
 	[ExploreMutations.setSearching]: (state, searching) => {
 		state.searching = searching;
+	},
+	[ExploreMutations.setInvited]: (state, userId) => {
+		const friend = (state.friends || []).find(f => f.userId === userId);
+		friend && (friend.invited = true);
 	},
 };
 

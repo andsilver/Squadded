@@ -4,7 +4,7 @@
 			<div>
 				<div
 					v-for="(user, index) in first5Users"
-					:key="user._id"
+					:key="index"
 					:style="{left: getPosition(index), 'z-index': 2 + index}"
 					class="user-avatar-container"
 					@click="goToMySquad"
@@ -21,6 +21,17 @@
 						{{ "+" + (countSquadders - 5) }}
 					</h4>
 				</div>
+			</div>
+		</div>
+		<div v-if="first5Users.length < 2 && !loading" class="mt-2">
+			<v-divider />
+			<div class="mt-6 d-flex flex-column align-center">
+				<div class="text-center subtitle-1 font-weight-medium mb-4">
+					{{ $t('feed.how_it_works.text') }}
+				</div>
+				<v-btn class="how-it-works-btn" outlined to="/walkthrough">
+					{{ $t('feed.how_it_works.action') }}
+				</v-btn>
 			</div>
 		</div>
 		<v-dialog v-model="showShare" content-class="share_box">
@@ -49,6 +60,10 @@ export default {
 		users: {
 			type: Array,
 			required: true,
+		},
+		loading: {
+			type: Boolean,
+			default: true,
 		},
 	},
 	data: () => ({
@@ -133,36 +148,41 @@ export default {
 <style lang="stylus" scoped>
 .hide-section
 	display none
+
 .squadders-users
 	position relative
-	height 9.92vw
-	display flex
 	margin-bottom 4vw
 	.left-sec
-		width 65vw
+		height 36px
 		position relative
 		.count-squadders
 			z-index 9
 			position absolute
 
-.user-avatar-container, .expand {
-	position: absolute;
+.user-avatar-container, .expand
+	position absolute
 	top 0
-	img {
-		width: 9.48vw;
-		height: 9.48vw;
-		border-radius: 50%;
-		border: 2px solid #fff;
-	}
-}
+	img
+		width 36px
+		height 36px
+		border-radius 50%
+		border 2px solid #fff
 
 .plus-btn
-	width: 9.48vw !important
-	height: 9.48vw !important
+	width: 36px !important
+	height: 36px !important
 	border-radius: 50%
 	padding: 0 !important
-	min-width: 9.48vw !important
+	min-width: 36px !important
 	border: 2px solid #fff
 	border-color #fff !important
 
+.how-it-works-btn {
+	font-size: 0.62em !important;
+	border-radius: 10px;
+	border-width: 2px;
+	font-weight: bold;
+	height: 40px;
+	padding: 0 24px !important;
+}
 </style>

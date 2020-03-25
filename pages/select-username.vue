@@ -6,53 +6,36 @@
 		>
 			<div class="login">
 				<div class="text-center">
-					<div class="brand-section">
-						<img src="../assets/img/bglogin.svg" class="b-logo">
-						<div class="select-user-icon-sec">
+					<div class="font-weight-bold white--text black py-4">
+						{{ $t('select_username.create_your_profile') }}
+					</div>
+					<div ref="pick-username-sec" class="brand-section d-flex flex-column align-center">
+						<div class="user-avatar">
 							<img v-if="user.avatar" ref="user-avatar" :src="userAvatar" class="select-user-icon">
 							<div v-if="!user.avatar" ref="user-avatar" :class="{ dummy_image: !user.avatar }" class="select-user-icon" />
-							<input
-								v-show="false"
-								ref="browse-input"
-								type="file"
-								accept="image/jpeg,image/jpg,image/png"
-								@change="() => onPhotoUpload('browse')"
-							>
-							<input
-								v-show="false"
-								ref="capture-input"
-								type="file"
-								capture="camera"
-								accept="image/jpeg,image/jpg,image/png"
-								@change="() => onPhotoUpload('capture')"
-							>
-							<ImageUploader
-								v-show="false"
-								ref="resizer"
-								:max-width="600"
-								accept="image/jpeg,image/jpg,image/png"
-								output-format="verbose"
-								auto-rotate
-								@input="setImage"
-								@onComplete="completeCompress"
-							/>
-							<PopMenu ref="avatar-upload-btn" :compressing="compressing" @fileUpload="openFileUpload" />
-							<!-- <v-btn ref="avatar-upload-btn" class="edit-icon-sec" icon @click="openFileUpload">
-								<img src="../assets/img/action-edit.svg" class="edit-icon-image">
-							</v-btn> -->
-							<p class="user_name">
-								@{{ username }}
-							</p>
+							<PopMenu ref="avatar-upload-btn" class="pop-menu" :compressing="compressing" @fileUpload="openFileUpload" />
 						</div>
+						<input
+							v-show="false"
+							ref="browse-input"
+							type="file"
+							accept="image/jpeg,image/jpg,image/png"
+							@change="() => onPhotoUpload('browse')"
+						>
+						<input
+							v-show="false"
+							ref="capture-input"
+							type="file"
+							capture="camera"
+							accept="image/jpeg,image/jpg,image/png"
+							@change="() => onPhotoUpload('capture')"
+						>
+						<p class="user_name font-weight-bold">
+							@{{ username }}
+						</p>
 					</div>
 				</div>
-				<div ref="pick-username-sec" class="pick-username-sec">
-					<h4>
-						{{ $t('PickUsername') }}
-					</h4>
-					<span>{{ $t('StartBuildingYourSquad') }}</span>
-				</div>
-				<div class="username-form-sec">
+				<div class="px-4 mt-4">
 					<v-text-field
 						ref="username-field"
 						v-model="username"
@@ -66,7 +49,9 @@
 						hide-details
 					/>
 					<span v-if="showError" class="error-message">{{ $t('form.rules.name.valid') }}</span>
-					<span class="comment-msg">{{ $t('YouCanAlwaysChange') }}</span>
+					<div class="comment-msg text-center px-6 mt-3 mb-6">
+						{{ $t('YouCanAlwaysChange') }}
+					</div>
 					<v-btn
 						ref="save-btn"
 						class="full-width done-btn"
@@ -144,7 +129,8 @@ export default {
 				`${UserStore}/${UserActions.setProfile}`,
 				this.user,
 			);
-			this.$router.push('/create-your-squad');
+			// this.$router.push('/create-your-squad');
+			this.$router.push('/invite-friends');
 		},
 		async onPhotoUpload (type) {
 			const file = this.$refs[`${type}-input`].files[0];
@@ -178,102 +164,58 @@ export default {
 
 <style lang="stylus">
 .brand-section
-	border-radius 4vw
 	position relative
-	.brand-title
-		font-family: 'Montserrat', sans-serif
-		font-weight: 600
-		font-size: 4.61vw
-		line-height: 3.66vw
-		padding-bottom: 3.27vw
-	img.b-logo
-		width 100%
-		height 45.84vw
+	margin-top 10vh
 	.user_name
 		color #B8B8BA
 		font-size 3.69vw
 		font-weight 400
-.pick-username-sec
-	text-align center
-	margin 25vw auto 0
-	width 90%
-	h4
-		font-size 4.30vw
-		font-weight 700
-	span
-		font-size 3.69vw
-		color #000
-		line-height 4.92vw
-		margin-top 5.38vw
-		display: block
-.select-user-icon-sec
-	width 27.69vw
-	height 27.69vw
-	display block
-	position absolute
-	z-index 10
-	bottom -35px
-	left 50%
-	transform translateX(-50%)
-	.select-user-icon
-		width 100%
-		height 100%
-		border-radius 50%
-		border 0.92vw solid #fff
-		background-color #F5F5F5
-	.edit-icon-sec
+.select-user-icon
+	width 100px
+	height 100px
+	border-radius 50%
+	border 0.92vw solid #fff
+	background-color #F5F5F5
+.user-avatar
+	position relative
+	.pop-menu
 		position absolute
 		bottom 0
-		width 8.15vw
-		height 8.15vw
-		z-index 1
-		background #fff !important
-		display flex
 		right 0
-		align-items center
-		justify-content center
-		border-radius 50%
-		box-shadow 0 0.92vw 6.15vw rgba(0,0,0,0.10)
-		img.edit-icon-image
-			width 4.38vw
-			height 4.38vw
-.username-form-sec
-	padding 0 3.2vw
-	margin-top 7.23vw
-	.username-field
-		border 0.30vw solid #DBDBDB
-		border-radius 3.07vw
-		height 10.76vw
-		input, label
-			font-size 3.69vw
-			color #000000 !important
-			width 100%
-			text-align center
-			margin-top 2px
-		.v-input__control
-			height 10.76vw !important
-			min-height auto !important
-		input
-			font-weight 500
-		&.invalid
-			border 1px solid #FD6256
-	.comment-msg
-		color #B8B8BA
+		.edit-icon-sec
+			background white
+			img
+				width 20px
+
+.username-field
+	border 0.30vw solid #DBDBDB
+	border-radius 3.07vw
+	height 10.76vw
+	input, label
+		font-size 3.69vw
+		color #000000 !important
+		width 100%
 		text-align center
-		display block
-		margin 2.26vw auto 5.89vw
-		font-size 3.38vw
-		width 90%
-	.done-btn
-		width 43.84vw
-		height 12.30vw !important
-		border-radius 3.07vw
-		margin 0 auto
-		display block
-		font-size 2.61vw !important
-		letter-spacing 2px
-		text-transform uppercase !important
-		font-weight 700
+		margin-top 2px
+	.v-input__control
+		height 10.76vw !important
+		min-height auto !important
+	input
+		font-weight 500
+	&.invalid
+		border 1px solid #FD6256
+.comment-msg
+	color #B8B8BA
+	font-size 12px
+	font-weight 600
+.done-btn
+	width 43.84vw
+	border-radius 3.07vw
+	margin 0 auto
+	display block
+	font-size 2.61vw !important
+	letter-spacing 2px
+	font-weight 700
 .error-message
 	background #FD6256
 	border-radius 1.53vw
@@ -290,8 +232,8 @@ export default {
 .container.pd
 	padding 0 !important
 	.v-menu__content
-		top 47vw !important
-		left 5vw !important
+		top: calc(10vh + 115px) !important;
+		left: 21px !important;
 .dummy_image
 	background-image url('../assets/img/dummy_avater.svg')
 	background-position center

@@ -36,7 +36,6 @@ describe('Select Username', () => {
 	const SAVE_BTN = 'save-btn';
 	const BROWSER_INPUT = 'browse-input';
 	const CAPTURE_INPUT = 'capture-input';
-	const RESIZER = 'resizer';
 
 	beforeEach(() => {
 		onAuth.mockClear();
@@ -66,7 +65,6 @@ describe('Select Username', () => {
 		expect(wrapper.ref(SAVE_BTN).exists()).toBe(true);
 		expect(wrapper.ref(BROWSER_INPUT).exists()).toBe(true);
 		expect(wrapper.ref(CAPTURE_INPUT).exists()).toBe(true);
-		expect(wrapper.ref(RESIZER).exists()).toBe(true);
 	});
 
 	it('should save username and avatar', async () => {
@@ -79,6 +77,6 @@ describe('Select Username', () => {
 			...me,
 			nameSelected: true,
 		});
-		expect($router.push).toHaveBeenCalledWith('/create-your-squad');
+		expect($router.push).toHaveBeenCalledWith('/invite-friends');
 	});
 });

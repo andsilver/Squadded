@@ -17,7 +17,6 @@ Wrapper.prototype.ref = function (id) {
 };
 
 describe('Feed Page', () => {
-	const EMPTY_FEED_TEXT = 'empty-feed-text';
 	const MAIN = 'feed-layout';
 	const TOP_BAR = 'top-bar';
 	const PRELOADER = 'preloader';
@@ -74,13 +73,6 @@ describe('Feed Page', () => {
 		expect(wrapper.ref(TOP_BAR).exists()).toBe(true);
 	});
 
-	it('should render the correct message for empty Feed', () => {
-		store.commit('SET_SOCKET_AUTH', true);
-		store.state.feed.items = [];
-		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
-		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('feed.isEmpty');
-	});
-
 	it('should render a preloader if items not exist', () => {
 		store.commit('SET_SOCKET_AUTH', true);
 		store.state.feed.items = null;
@@ -103,13 +95,6 @@ describe('Feed Page', () => {
 		done();
 	});
 
-	it('should go to \'create your squad\' page when squaddersCount is 0 and nameSelected', async () => {
-		await store.commit('SET_SOCKET_AUTH', true);
-		me = { isMe: true, squaddersCount: 0, nameSelected: true };
-		initLocalVue();
-		expect($router.push).toHaveBeenCalledWith('/create-your-squad');
-	});
-
 	it('should fetch squadders and first user in squadder should be me', async () => {
 		prefetch.mockReturnValue(Promise.resolve([{ isMe: false }]));
 		me = { isMe: true, squaddersCount: 2, nameSelected: true };
@@ -130,12 +115,5 @@ describe('Feed Page', () => {
 		});
 		await Promise.resolve();
 		expect(wrapper.vm.squadders[0].isMe).toBe(true);
-	});
-
-	it('should go to \'create your squad\' page when no one in squad', async () => {
-		prefetch.mockReturnValue(Promise.resolve([]));
-		await store.commit('SET_SOCKET_AUTH', true);
-		await Promise.resolve();
-		expect($router.push).toHaveBeenCalledWith('/create-your-squad');
 	});
 });

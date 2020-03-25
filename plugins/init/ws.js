@@ -105,7 +105,8 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				if (!user.nameSelected) {
 					return app.router.push('/select-username', setPendingFalse);
 				} else if (!user.squaddersCount) {
-					return app.router.push('/create-your-squad', setPendingFalse);
+					// return app.router.push('/create-your-squad', setPendingFalse);
+					return app.router.push('/invite-friends', setPendingFalse);
 				}
 			}
 
@@ -114,7 +115,8 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			} else if (!user.nameSelected) {
 				app.router.push('/select-username', setPendingFalse);
 			} else if (!user.squaddersCount) {
-				app.router.push('/create-your-squad', setPendingFalse);
+				// app.router.push('/create-your-squad', setPendingFalse);
+				return app.router.push('/invite-friends', setPendingFalse);
 			} else {
 				const { name } = ctx.route;
 				app.router.push(

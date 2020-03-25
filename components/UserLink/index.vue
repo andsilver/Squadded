@@ -39,6 +39,9 @@
 			<v-list-item-content v-if="!hideName">
 				<v-list-item-title class="user_name">
 					<span>{{ user.name || user.screenName }}</span>
+					<div v-if="showScreenName && user.screenName" style="color: #b8b8ba">
+						{{ user.screenName }}
+					</div>
 					<template v-if="showFollow">
 						<span class="mx-1">-</span>
 						<span v-if="!user.followed" ref="watch-text" style="color: #fd6256">{{ $t('user.Follow') }}</span>
@@ -91,6 +94,10 @@ export default {
 			type: Object,
 			required: true,
 		},
+		showScreenName: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data: () => ({
 		showPopover: false,
@@ -125,7 +132,7 @@ export default {
 			return;
 		}
 		this.showPopover = !!this.user.showPopover;
-		this.isFeedHome = this.$route.name === 'all';
+		this.isFeedHome = false; // this.$route.name === 'all';
 		if (this.showPopover) {
 			document.addEventListener('click', () => {
 				this.showPopover = false;

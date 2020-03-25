@@ -2,12 +2,9 @@
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout column class="px-0">
+			<Squadders :users="squadders" :loading="loadingSquadders" class="px-3" />
 			<Preloader v-if="!items" ref="preloader" class="mt-4 mb-4" />
-			<span v-else-if="!items.length" ref="empty-feed-text" class="pa-4">
-				{{ $t('feed.isEmpty') }}
-			</span>
-			<template v-else>
-				<Squadders :users="squadders" class="px-3" />
+			<template v-else-if="items.length">
 				<Feed ref="feed-layout" :items="items" :load-new="newPostsAvailable" @loadMore="fetchFeed" @loadNew="() => fetchFeed(true)" />
 			</template>
 			<Preloader v-if="items && loading" ref="preloader-more" class="mt-4 mb-4" />
@@ -43,13 +40,12 @@ export default {
 		const { me } = store.state.user;
 		if (!me.nameSelected) {
 			redirect('/select-username');
-		} else if (!me.squaddersCount) {
-			redirect('/create-your-squad');
 		}
 	},
 	data: () => ({
 		loadNew: false,
 		squadders: [],
+		loadingSquadders: false,
 	}),
 	computed: {
 		...feedGetters([
@@ -74,7 +70,6 @@ export default {
 		me (value) {
 			if (!value.squaddersCount) {
 				this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
-				this.$router.push('/create-your-squad');
 			}
 		},
 	},
@@ -84,6 +79,7 @@ export default {
 	},
 	methods: {
 		async onOpen () {
+			this.loadingSquadders = true;
 			await onAuth(this.$store);
 			if (this.squad.widget.open && (!this.items || !this.items.length)) {
 				this.fetchFeed(true);
@@ -104,11 +100,9 @@ export default {
 				store: this.$store,
 				mutation: `${FeedStore}/${FeedMutations.receiveSquadders}`,
 			});
-			if (!this.squadders || !this.squadders.length) {
-				this.$router.push('/create-your-squad');
-				return;
-			}
+			!this.squadders && (this.squadders = []);
 			this.squadders.unshift(this.me);
+			this.loadingSquadders = false;
 		},
 		setHideNewPostsTimeout() {
 			if (this.newPostsAvailable) {

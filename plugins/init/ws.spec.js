@@ -248,7 +248,7 @@ describe('WS Plugin', () => {
 				expect(ctx.app.router.push).toHaveBeenCalledWith('/select-username', expect.anything());
 			});
 
-			it('should redirect to create-your-squad if squadderCount is 0 on auth', async () => {
+			it('should redirect to invite-friends if squadderCount is 0 on auth', async () => {
 				const mutation = {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },
@@ -261,7 +261,7 @@ describe('WS Plugin', () => {
 				await Promise.resolve();
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
-				expect(ctx.app.router.push).toHaveBeenCalledWith('/create-your-squad', expect.anything());
+				expect(ctx.app.router.push).toHaveBeenCalledWith('/invite-friends', expect.anything());
 			});
 
 			it('should redirect to landing if current path is home or onboarding on auth', async () => {

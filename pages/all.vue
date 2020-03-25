@@ -13,7 +13,7 @@
 				@loadNew="() => fetchHome(true)"
 			/>
 			<Preloader v-if="posts && loading" ref="preloader-more" />
-			<StartWatchingDialog v-if="firstVisit" ref="start-watching-dialog" />
+			<!-- <StartWatchingDialog v-if="firstVisit" ref="start-watching-dialog" /> -->
 		</v-layout>
 	</v-container>
 </template>
@@ -23,7 +23,7 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
 import TopBar from '~/components/common/TopBar.vue';
-import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
+// import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
 import { onAuth } from '~/helpers';
 import { HomeStore, HomeActions, HomeMutations } from '~/store/home';
 import {
@@ -40,7 +40,7 @@ export default {
 		Feed,
 		Preloader,
 		TopBar,
-		StartWatchingDialog,
+		// StartWatchingDialog,
 	},
 	data: () => ({
 		loadNew: false,
@@ -65,8 +65,9 @@ export default {
 	},
 	methods: {
 		async init() {
-			if (!localStorage.getItem(STORAGE_VISITED_KEY) && !this.user.me.nameSelected) {
+			if (!localStorage.getItem(STORAGE_VISITED_KEY)) {
 				this.firstVisit = true;
+				return this.$router.push('/walkthrough');
 			}
 			await onAuth(this.$store);
 			if (this.posts && this.posts.length) {

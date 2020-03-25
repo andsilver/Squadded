@@ -6,7 +6,6 @@ import { PostStore, PostActions, PostGetters, PostMutations } from '~/store/post
 import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemActions } from '~/store/paired-item';
 import { ExploreStore, ExploreMutations } from '~/store/explore';
-import { STORAGE_VISITED_KEY } from '~/consts/keys';
 import { HomeStore, HomeMutations } from '~/store/home';
 
 async function acceptPost(message) {
@@ -136,11 +135,6 @@ export class WSMessages {
 
 		const interactionPosts = (interactions || []).map(p => p.post);
 		const newPosts = [...watchers, ...publicPosts, ...interactionPosts].map(p => new FeedPost(p));
-
-		if (!localStorage.getItem(STORAGE_VISITED_KEY) && !this.store.state.user.me.nameSelected) {
-			newPosts.length && (newPosts[0].user.showPopover = true);
-			localStorage.setItem(STORAGE_VISITED_KEY, Date.now().toString());
-		}
 
 		this.store.commit(`${HomeStore}/${HomeMutations.receive}`, {
 			posts: newPosts,

@@ -4,6 +4,7 @@ import All from './all.vue';
 import Store from '~/store';
 import { Storage } from '~/test/storage.mock';
 import {
+	STORAGE_VISITED_KEY,
 	HOME_NEW_POSTS_INTERVAL,
 	NEW_POSTS_DISAPPEAR_TIMEOUT,
 } from '~/consts';
@@ -24,12 +25,16 @@ describe('All', () => {
 	let store;
 	let wrapper;
 
+	const $router = {
+		push: jest.fn(),
+	};
+
 	beforeEach(() => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 
 		global.localStorage = new Storage();
-		localStorage.clear();
+		localStorage.setItem(STORAGE_VISITED_KEY, 'true');
 
 		store = new Vuex.Store(Store);
 
@@ -38,12 +43,23 @@ describe('All', () => {
 			localVue,
 			mocks: {
 				$t: msg => msg,
+				$router,
 			},
 		});
 	});
 
 	it('should display StartWatchingDialog on first visit', () => {
+		localStorage.clear();
+		wrapper = shallowMount(All, {
+			store,
+			localVue,
+			mocks: {
+				$t: msg => msg,
+				$router,
+			},
+		});
 		expect(wrapper.vm.firstVisit).toBe(true);
+		expect($router.push).toHaveBeenCalledWith('/walkthrough');
 	});
 
 	it('should not display content while pending auth', () => {

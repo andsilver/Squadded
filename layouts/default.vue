@@ -1,5 +1,5 @@
 <template>
-	<v-app ref="app" :class="{ isTouch, 'show-tabs': (showTabs || guestShow) }">
+	<v-app ref="app" :class="{ isTouch, 'show-tabs': (showTabs || guestShow) && (!isOnboarding) }">
 		<NotificationsBanner ref="notifications" />
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
 		<v-content id="main" class="d-flex">
@@ -59,7 +59,7 @@ export default {
 		},
 		isTouch,
 		isOnboarding () {
-			return this.$route.name === 'onboarding';
+			return ['signin', 'invite-friends', 'walkthrough'].includes(this.$route.name);
 		},
 	},
 	created () {

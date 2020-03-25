@@ -1,4 +1,6 @@
 {
+  "shopping_party": "Shopping Party",
+  "shop_with_your_friends": "Shop with your friends",
   "All": "All",
   "a poll": "a poll",
   "an outfit": "an outfit",
@@ -72,6 +74,7 @@
   "resend_code": "Resend code",
   "resendNotify": "New code has been sent",
   "styleOutfit": "style in this outfit",
+  "invited": "invited",
   "comment": {
     "pop": {
       "Action": "Action",
@@ -166,7 +169,11 @@
   },
   "feed": {
     "isEmpty": "You have no posts",
-    "create": "Create Something"
+    "create": "Create Something",
+    "how_it_works": {
+      "text": "The shopping activities of your friends will appear here",
+      "action": "how it works"
+    }
   },
   "input": {
     "placeholder": "Write a comment..."
@@ -450,5 +457,35 @@
   "moderation": {
     "violation": "Possible Violation",
     "text": "Seems like your post goes against our guidelines, our moderators will review it. If your post goes against our guidelines, your account maybe suspended."
+  },
+  "signin": {
+    "signin_to_shop_with_your_friends": "Sign in to shop with your friends:"
+  },
+  "select_username": {
+    "create_your_profile": "Create your profile"
+  },
+  "invite_your_friends": {
+    "title": "Invite your friends",
+    "share": "Share this link with your friends:",
+    "or": "or",
+    "add": "Add your friends by name:",
+    "copy_link": "copy link"
+  },
+  "walkthrough": {
+    "next": "next",
+    "step1": {
+      "strong": "Browse",
+      "text": "the activities of the Community to discover new looks"
+    },
+    "step2": {
+      "strong": "Invite",
+      "text": "new friends to join your squad and shop with them"
+    },
+    "step3": {
+      "text1": "When you add an item from the store to your wishlist, ",
+      "strong": "your squad",
+      "text2": " will now be able to interact",
+      "start_shopping": "start shopping"
+    }
   }
 }

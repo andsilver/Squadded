@@ -373,7 +373,6 @@ describe('WSMessages dispatch', () => {
 			interactionPage,
 		});
 		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.markAllLoaded}`, all);
-		expect(all[0].user.showPopover).toBe(true);
 	});
 
 	it(`should commit notifications to ${NotificationStore}/${NotificationMutations.receive}`, () => {
