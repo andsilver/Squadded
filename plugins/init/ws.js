@@ -58,6 +58,13 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 		});
 	};
 
+	const fetchSquadders = () => {
+		prefetch({
+			type: 'fetchSquadders',
+			store,
+		});
+	};
+
 	if (mutation.type === 'SOCKET_ONOPEN') {
 		const $ws = new WSToken(state.socket._ws);
 		Vue.prototype.$ws = $ws; // to be used in components
@@ -87,6 +94,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			});
 			fetchNotifications();
 			fetchWishlist();
+			fetchSquadders();
 
 			if (window.FS) {
 				window.FS.identify(user.userId, {
@@ -105,7 +113,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				if (!user.nameSelected) {
 					return app.router.push('/select-username', setPendingFalse);
 				} else if (!user.squaddersCount) {
-					// return app.router.push('/create-your-squad', setPendingFalse);
 					return app.router.push('/invite-friends', setPendingFalse);
 				}
 			}
@@ -115,7 +122,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			} else if (!user.nameSelected) {
 				app.router.push('/select-username', setPendingFalse);
 			} else if (!user.squaddersCount) {
-				// app.router.push('/create-your-squad', setPendingFalse);
 				return app.router.push('/invite-friends', setPendingFalse);
 			} else {
 				const { name } = ctx.route;

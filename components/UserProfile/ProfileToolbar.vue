@@ -1,10 +1,10 @@
 <template>
 	<section
-		class="buttons"
+		class="buttons d-flex align-center"
 		height="40"
 	>
-		<Menu v-if="user.isMe" ref="menu" :dark="isBgExist" @edit="edit" />
-		<GoBackBtn v-else ref="go-back-btn" :dark="isBgExist" />
+		<Menu v-if="user.isMe" ref="menu" :dark="!isBgExist" small @edit="edit" />
+		<GoBackBtn v-else ref="go-back-btn" :dark="!isBgExist" small />
 		<div ref="screen-name" class="flex-grow-1 user-full-name" :class="{ is_me: user.isMe }">
 			{{ user.screenName }}
 		</div>
@@ -13,32 +13,31 @@
 			icon
 			:dark="isBgExist"
 			class="hide-sec"
+			color="black"
 			@click="share"
 		>
 			<v-icon>
 				sqdi-share
 			</v-icon>
 		</v-btn>
-		<v-btn
+		<AddFriendsButton
 			v-if="user.isMe"
 			ref="add-user-btn"
-			icon
-			:dark="isBgExist"
-		>
-			<v-icon>
-				sqdi-add-user
-			</v-icon>
-		</v-btn>
+			:dark="false"
+		/>
 		<v-btn
+			v-if="user.isMe"
 			ref="shop-btn"
 			icon
 			:dark="isBgExist"
+			color="black"
 		>
-			<v-icon>
+			<v-icon small>
 				sqdi-shopping-bag
 			</v-icon>
 			<span class="shopping_bag_count">4</span>
 		</v-btn>
+		<Actions v-else :user="user" />
 		<span
 			v-if="!isBgExist"
 			ref="profile-title"
@@ -56,8 +55,11 @@
 <script>
 import Menu from './Menu';
 import ShareProfile from './ShareProfile';
+import Actions from './Actions';
 import GoBackBtn from '~/components/common/GoBackBtn';
 import { getShortURL } from '~/services/short-url';
+import AddFriendsButton from '~/components/common/AddFriendsButton';
+
 const CANCALED_BY_USER = 20;
 
 export default {
@@ -65,6 +67,8 @@ export default {
 		Menu,
 		GoBackBtn,
 		ShareProfile,
+		Actions,
+		AddFriendsButton,
 	},
 	props: {
 		user: {
@@ -135,30 +139,23 @@ export default {
 		display none
 	.buttons
 		position relative
-	.v-btn
-		width 40px !important
-		height 40px !important
-		i
-			font-size 1.5em !important
 
 	.shopping_bag_count
 		position absolute
 
 		bottom -6px
-		right 6px
+		right 2px
 
 		width 14px
 		height 14px
 		font-size 9px
 		line-height 14px
 
-		color #fff
 		background-color #FD6256
 		border-radius 50%
 		font-weight 900
 
 	.buttons
-		display flex
 		width 100%
 
 	.profile_title
@@ -174,7 +171,7 @@ export default {
 		display flex
 		justify-content center
 		font-size 4.30vw
-		color #fff
+		color black
 		font-weight 700
 		&.is_me
 			padding-left 40px

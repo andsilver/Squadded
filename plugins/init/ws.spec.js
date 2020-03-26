@@ -152,6 +152,10 @@ describe('WS Plugin', () => {
 				await Promise.resolve();
 
 				expect(ctx.store.commit).toHaveBeenCalledWith('SET_SOCKET_AUTH', true);
+				expect(prefetch).toHaveBeenCalledWith({
+					type: 'fetchSquadders',
+					store: ctx.store,
+				});
 			});
 
 			it('should not dispatch socket messages while not auth', () => {

@@ -1,6 +1,6 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import GoBackBtn from './GoBackBtn.vue';
+import GoBackBtn from '../GoBackBtn.vue';
 import Store from '~/store';
 
 Wrapper.prototype.ref = function(id) {

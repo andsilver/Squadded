@@ -3,14 +3,16 @@ import { API_ENDPOINT } from '~/config';
 function extractNonWorkingDestruct() {
 	const FB_APP_ID = process.env.FB_APP_ID;
 	const IG_CLIENT_ID = process.env.IG_CLIENT_ID;
+	const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
 
 	return {
 		FB_APP_ID,
 		IG_CLIENT_ID,
+		GOOGLE_CLIENT_ID,
 	};
 }
 
-const { FB_APP_ID, IG_CLIENT_ID } = extractNonWorkingDestruct();
+const { FB_APP_ID, IG_CLIENT_ID, GOOGLE_CLIENT_ID } = extractNonWorkingDestruct();
 
 const AUTH_REDIRECT_ROOT = `${API_ENDPOINT}/auth/`;
 
@@ -27,6 +29,11 @@ const OAUTH = {
 		scope: 'user_profile',
 		display: 'popup',
 	},
+	google: {
+		endpoint: 'https://accounts.google.com/o/oauth2/v2/auth?',
+		id: GOOGLE_CLIENT_ID,
+		scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
+	},
 };
 
 export default class Social {
@@ -42,7 +49,7 @@ export default class Social {
 		const state = queryParams ? JSON.stringify(queryParams) : '';
 
 		const uri = OAUTH[providerName].endpoint +
-			`app_id=${OAUTH[providerName].id}` +
+			`${providerName === 'google' ? 'client_id' : 'app_id'}=${OAUTH[providerName].id}` +
 			`&redirect_uri=${Social.redirectUrl(providerName)}` +
 			'&response_type=code' +
 			(OAUTH[providerName].scope ? `&scope=${OAUTH[providerName].scope}` : '') +

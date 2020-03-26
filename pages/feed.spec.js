@@ -2,7 +2,6 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Feed from './feed.vue';
 import Store from '~/store';
-import { FeedMutations, FeedStore } from '~/store/feed';
 import { prefetch, onAuth } from '~/helpers';
 import { userMockBuilder } from '~/test/user.mock';
 import { NEW_POSTS_DISAPPEAR_TIMEOUT } from '~/consts';
@@ -25,7 +24,8 @@ describe('Feed Page', () => {
 	let localVue;
 	let store;
 	let wrapper;
-	let me = userMockBuilder().get();
+	const me = userMockBuilder().get();
+	me.isMe = true;
 	const $router = {
 		push: jest.fn(),
 	};
@@ -36,6 +36,7 @@ describe('Feed Page', () => {
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
 		store.state.user.me = me;
+		prefetch.mockReturnValue(Promise.resolve());
 		wrapper = shallowMount(Feed, {
 			store,
 			localVue,
@@ -96,24 +97,12 @@ describe('Feed Page', () => {
 	});
 
 	it('should fetch squadders and first user in squadder should be me', async () => {
-		prefetch.mockReturnValue(Promise.resolve([{ isMe: false }]));
-		me = { isMe: true, squaddersCount: 2, nameSelected: true };
-		store.state.user.me = me;
-		wrapper = shallowMount(Feed, {
-			store,
-			localVue,
-			mocks: {
-				$t: msg => msg,
-				$router,
-			},
-		});
 		await store.commit('SET_SOCKET_AUTH', true);
 		expect(prefetch).toHaveBeenCalledWith({
 			type: 'fetchSquadders',
 			store,
-			mutation: `${FeedStore}/${FeedMutations.receiveSquadders}`,
 		});
 		await Promise.resolve();
-		expect(wrapper.vm.squadders[0].isMe).toBe(true);
+		expect(wrapper.vm.mysquad[0].isMe).toBe(true);
 	});
 });

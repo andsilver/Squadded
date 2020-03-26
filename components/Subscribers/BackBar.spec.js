@@ -26,6 +26,7 @@ describe('Subscribers BackBar', () => {
 
 	const GOBACKBTN = 'go-back-btn';
 	const USERNAME = 'username';
+	const ADD_FRIENDS_BTN = 'add-friends-btn';
 
 	const initLocalVue = () => {
 		localVue = createLocalVue();
@@ -49,6 +50,8 @@ describe('Subscribers BackBar', () => {
 		initLocalVue();
 		expect(wrapper.ref(GOBACKBTN).exists()).toBe(true);
 		expect(wrapper.ref(USERNAME).exists()).toBe(true);
+		wrapper.setProps({ isMe: true });
+		expect(wrapper.ref(ADD_FRIENDS_BTN).exists()).toBe(true);
 	});
 
 	it('should display my username if path includes /my', () => {

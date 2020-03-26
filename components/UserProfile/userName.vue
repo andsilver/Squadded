@@ -18,7 +18,6 @@ export default {
 <style lang="stylus" scoped>
 .username
 	font-size 3.69vw
-	margin-top 1.79vw
-	font-weight 600
-	color #B8B8BA
+	font-weight 700
+	color black
 </style>

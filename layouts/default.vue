@@ -155,4 +155,7 @@ export default {
 	height 100%
 	background white
 	z-index 999
+
+.bottom-tab-section
+	z-index 200
 </style>

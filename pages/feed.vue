@@ -2,7 +2,7 @@
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout column class="px-0">
-			<Squadders :users="squadders" :loading="loadingSquadders" class="px-3" />
+			<Squadders :users="mysquad" class="px-3" />
 			<Preloader v-if="!items" ref="preloader" class="mt-4 mb-4" />
 			<template v-else-if="items.length">
 				<Feed ref="feed-layout" :items="items" :load-new="newPostsAvailable" @loadMore="fetchFeed" @loadNew="() => fetchFeed(true)" />
@@ -44,8 +44,6 @@ export default {
 	},
 	data: () => ({
 		loadNew: false,
-		squadders: [],
-		loadingSquadders: false,
 	}),
 	computed: {
 		...feedGetters([
@@ -54,6 +52,7 @@ export default {
 		...feedState([
 			'loading',
 			'newPostsAvailable',
+			'squadders',
 		]),
 		...mapState([
 			'socket',
@@ -62,14 +61,19 @@ export default {
 		...userState([
 			'me',
 		]),
+		mysquad() {
+			return [this.me, ...(this.squadders || [])];
+		},
 	},
 	watch: {
 		newPostsAvailable (value) {
 			this.setHideNewPostsTimeout();
 		},
-		me (value) {
-			if (!value.squaddersCount) {
-				this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
+		squadders (newV, oldV) {
+			const newL = newV ? newV.length : 0;
+			const oldL = oldV ? oldV.length : 0;
+			if (newL !== oldL) {
+				this.fetchFeed(true);
 			}
 		},
 	},
@@ -94,15 +98,11 @@ export default {
 		fetchFeed (loadNew = false) {
 			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`, loadNew);
 		},
-		async fetchSquadders () {
-			this.squadders = await prefetch({
+		fetchSquadders () {
+			prefetch({
 				type: 'fetchSquadders',
 				store: this.$store,
-				mutation: `${FeedStore}/${FeedMutations.receiveSquadders}`,
 			});
-			!this.squadders && (this.squadders = []);
-			this.squadders.unshift(this.me);
-			this.loadingSquadders = false;
 		},
 		setHideNewPostsTimeout() {
 			if (this.newPostsAvailable) {

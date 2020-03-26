@@ -70,7 +70,7 @@
 			</nuxt-link>
 		</section>
 	</section>
-	<section v-else class="fixed_statistic">
+	<!-- <section v-else class="fixed_statistic">
 		<nuxt-link :to="{ path: `${userPath}/followers` }" class="fixed_link">
 			<span>{{ short(user.followers.count) }}</span><span class="statistic_title_fixed">{{ $t('user.Followers') }}</span>
 		</nuxt-link>
@@ -78,7 +78,7 @@
 		<nuxt-link :to="{ path: `${userPath}/following` }" class="fixed_link">
 			<span>{{ short(user.following.count) }}</span><span class="statistic_title_fixed">{{ $t('user.Following') }}</span>
 		</nuxt-link>
-	</section>
+	</section> -->
 </template>
 
 <script>

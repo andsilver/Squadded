@@ -9,7 +9,7 @@
 			class="comment-settings"
 		>
 			<template v-slot:activator="{ on }">
-				<v-btn icon height="30px" class="button_more" v-on="on">
+				<v-btn icon class="button_more" v-on="on">
 					<v-icon>
 						sqdi-more
 					</v-icon>
@@ -20,7 +20,7 @@
 				<v-list-item class="comment-menu-action comment-setting-option">
 					<v-list-item-title class="setting-label action">
 						{{ $t(`user.action.Action`) }}
-						<v-btn icon height="30px" class="button_more" @click="menu = false">
+						<v-btn icon class="button_more" @click="menu = false">
 							<v-icon>
 								sqdi-more
 							</v-icon>
@@ -38,7 +38,7 @@
 					</v-list-item-title>
 				</v-list-item>
 				<v-list-item
-					v-if="!isMysquad"
+					v-if="!isMysquad && !isPending"
 					ref="add-to-squad"
 					class="comment-menu-addtomysquad comment-setting-option"
 					@click="addToSquad"
@@ -57,7 +57,7 @@
 						{{ $t(`user.action.Remove`) }}
 					</v-list-item-title>
 				</v-list-item>
-				<v-list-item
+				<!-- <v-list-item
 					v-if="!isMysquad && user.followers.me"
 					ref="unwatch"
 					class="comment-menu-unwatch comment-setting-option"
@@ -81,7 +81,7 @@
 							{{ $t(`user.Follow`) }}
 						</span>
 					</v-list-item-title>
-				</v-list-item>
+				</v-list-item> -->
 				<!-- <v-list-item class="comment-menu-rmtomysquad comment-setting-option">
 					<v-list-item-title class="setting-label rmtomysquad">
 						{{ $t(`user.action.Block`) }}
@@ -182,6 +182,9 @@ export default {
 		},
 		isMysquad () {
 			return this.user.squad && this.user.squad.exists && !this.user.squad.pending;
+		},
+		isPending() {
+			return this.user && this.user.squad && this.user.squad.pending;
 		},
 		target () {
 			const { siteUrl, siteTitle } = this.$store.state.merchant;

@@ -6,7 +6,7 @@ import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
 import { userMockBuilder } from '~/test/user.mock';
 
-Wrapper.prototype.ref = function (id) {
+Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
 
@@ -35,7 +35,7 @@ describe('RemoveSquad component', () => {
 		dispatch: jest.fn(),
 	};
 
-	function initLocalVue () {
+	function initLocalVue() {
 		user = userMockBuilder().get();
 		wrapper = shallowMount(RemoveSquad, {
 			mocks: {
@@ -88,5 +88,6 @@ describe('RemoveSquad component', () => {
 		expect($store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.clear}`);
 		expect($store.dispatch).toHaveBeenCalledWith(`${HomeStore}/${HomeActions.fetch}`);
 		expect($store.dispatch).toHaveBeenCalledWith(`${FeedStore}/${FeedActions.fetch}`);
+		expect(prefetch).toHaveBeenCalledWith({ type: 'fetchSquadders', store: $store });
 	});
 });

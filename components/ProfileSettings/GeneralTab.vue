@@ -287,7 +287,7 @@ export default {
 	},
 	methods: {
 		signout () {
-			localStorage.clear();
+			localStorage.removeItem('userToken');
 			sessionStorage.clear();
 			location.reload();
 		},

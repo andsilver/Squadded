@@ -15,6 +15,7 @@ const {
 	SENTRY_PROJECT_ID,
 	FULLSTORY_ENABLE,
 	NO_MINIFY,
+	GOOGLE_CLIENT_ID,
 } = process.env;
 
 if (!BASE) {
@@ -27,6 +28,10 @@ if (!FB_APP_ID) {
 
 if (!IG_CLIENT_ID) {
 	throw new Error('IG_CLIENT_ID environment variable is required!');
+}
+
+if (!GOOGLE_CLIENT_ID) {
+	throw new Error('GOOGLE_CLIENT_ID environment variable is required!');
 }
 
 const server = USE_SSL === 'true' ? {
@@ -89,6 +94,7 @@ export default {
 		GTAG_ID,
 		SENTRY_KEY,
 		SENTRY_PROJECT_ID,
+		GOOGLE_CLIENT_ID,
 	},
 	/*
 	** Headers of the page

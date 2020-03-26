@@ -1,7 +1,7 @@
 <template>
 	<span>
-		<v-btn ref="remove-trigger" depressed class="px-2" @click="removeSquad">
-			<v-icon>
+		<v-btn ref="remove-trigger" depressed class="px-2 remove-squad-btn" @click="removeSquad">
+			<v-icon small>
 				mdi-account-outline
 			</v-icon>
 			<span class="in-squad-text">{{ $t('user.InSquad') }}</span>
@@ -81,6 +81,7 @@ export default {
 			this.$store.dispatch(`${HomeStore}/${HomeActions.fetch}`);
 			this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
 			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
+			prefetch({ type: 'fetchSquadders', store: this.$store });
 		},
 	},
 };
@@ -91,6 +92,10 @@ export default {
 	font-size: 10px;
 	margin-left: 4px;
 	font-weight: 700;
+}
+
+.remove-squad-btn {
+	border-radius: 10px !important;
 }
 
 .remove-btn, .cancel-btn {

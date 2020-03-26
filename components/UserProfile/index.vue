@@ -1,70 +1,77 @@
 <template>
 	<v-container v-if="user && user.name">
-		<section class="fixed_profile" :class="{ slide: isScrolled }">
-			<v-avatar
-				class="user_avatar"
-				width="40px"
-				height="40px"
-				min-width="none"
-			>
-				<v-img
-					:key="user.avatar"
-					:src="user.avatar"
-				/>
-			</v-avatar>
-			<section class="user_info_fixed">
-				<userName class="user_fixed_name" :name="user.name" />
-				<userStatistics :user="user" :scrolled="true" />
-			</section>
-			<Follow :user="user" />
-		</section>
-		<section class="profile_background_image">
-			<section class="background_shadow" />
-			<v-img height="40.46vw" :src="require('~/assets/img/profile-cover-picture.svg')" />
+		<section class="fixed_profile d-flex justify-space-between align-center pa-2" :class="{ slide: isScrolled }">
+			<Menu v-if="user.isMe" ref="menu" small @edit="edit" />
+			<GoBackBtn v-else ref="go-back-btn" />
+			<div class="d-flex align-center">
+				<v-avatar class="user_avatar" width="30px" height="30px" min-width="none">
+					<v-img :key="user.avatar" :src="user.avatar" />
+				</v-avatar>
+				<section class="user_info_fixed ml-2">
+					<userName class="user_fixed_name" :name="user.name" />
+				</section>
+			</div>
+			<div v-if="user.isMe">
+				<AddFriendsButton ref="add-user-btn" :dark="false" />
+				<v-btn ref="shop-btn" icon small color="black">
+					<v-icon small>
+						sqdi-shopping-bag
+					</v-icon>
+				</v-btn>
+			</div>
+			<Actions v-else :user="user" />
 		</section>
 		<ProfileToolbar :user="user" />
 		<v-layout flex-column>
-			<v-list-item class="px-0 user_info">
-				<v-list-item-content align="center" class="py-1">
-					<userAvatar align="center" class="user_avatar my-0" :avatar="user.avatar" />
+			<div class="d-flex mt-4">
+				<userAvatar align="center" class="user_avatar mr-4" :avatar="user.avatar" />
+				<div>
 					<userName :name="user.name" />
-					<p align="center" class="user-biodata">
+					<p class="mt-2">
 						{{ user.bio }}
 					</p>
-					<userMention class="mt-0 caption mention" :mention="user.mention ? user.mention : ''" />
-				</v-list-item-content>
-			</v-list-item>
-			<div v-if="user.isMe" class="edit-button-sec">
-				<span><img src="~assets/img/profile-Instagram.svg" class="insta-image"></span>
-				<Button class="edit-button" @click.native="edit">
-					{{ $t('user.edit') }}
-				</Button>
-			</div>
-			<userStatistics :user="user" :invited="invite" @invite="sendInvite" />
-			<template v-if="!user.isMe ">
-				<div v-if="isPending" ref="invite-text" class="invite-text text-center mt-4">
-					{{ $t(isInvitee ? 'user.invitation.invited_text' : 'user.invitation.pending_text', { user: user.name }) }}
-				</div>
-				<div v-else-if="!squadPossible && invite" class="invite-text text-center mt-4">
-					{{ $t('user.invitation.invited_text', { user: user.name }) }}
-				</div>
-				<div class="postion-relative my-4 d-flex justify-space-between align-center">
-					<span class="px-3" />
-					<div>
-						<RemoveSquad v-if="isMySquad" ref="my-squad" :user="user" />
-						<Invitation v-else-if="showInvitation" ref="invitation" :user="user" :me="me" @deny="deny" />
-						<Follow v-else ref="follow-btn" :user="user" class="follow" />
+					<div class="d-flex user-actions">
+						<template v-if="user.isMe">
+							<Button class="mr-2 my-squad-btn" @click.native="goToMySquad">
+								<v-icon small>
+									mdi-account-outline
+								</v-icon>
+								<span class="ml-2">{{ $t('My Squad') }}</span>
+							</Button>
+							<OutlineButton @click="edit">
+								{{ $t('user.edit') }}
+							</OutlineButton>
+						</template>
+						<template v-else>
+							<RemoveSquad v-if="isMySquad" ref="my-squad" :user="user" class="remove-squad-btn" />
+							<template v-else-if="!meInvited">
+								<OutlineButton v-if="isPending" disabled>
+									<v-icon small color="#b8b8b0">
+										mdi-account-check-outline
+									</v-icon>
+									<span class="ml-2">{{ $t('invited') }}</span>
+								</OutlineButton>
+								<Button v-else class="ma-0" @click.native="sendInvite">
+									<v-icon small>
+										mdi-account-plus-outline
+									</v-icon>
+									<span class="ml-2">{{ $t('invite') }}</span>
+								</Button>
+							</template>
+						</template>
 					</div>
-					<Actions :user="user" class="popup-menu" />
+					<template v-if="!user.isMe">
+						<div v-if="meInvited" ref="invite-text" class="invite-text text-center">
+							{{ $t('user.invitation.invited_text') }}
+						</div>
+						<div v-if="showInvitation" class="postion-relative my-4 d-flex align-center pl-1">
+							<Invitation ref="invitation" :user="user" :me="me" @deny="deny" />
+						</div>
+					</template>
 				</div>
-			</template>
-			<v-tabs
-				v-model="tabs"
-				class="px-1"
-				fixed-tabs
-				centered
-				@change="keepTab"
-			>
+			</div>
+
+			<v-tabs v-model="tabs" class="px-1 mt-4" fixed-tabs centered @change="keepTab">
 				<v-tab class="tabs pt-3">
 					<span style="text-transform: capitalize;">{{ $t('Posts') }}</span>
 				</v-tab>
@@ -90,41 +97,43 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import ProfileToolbar from './ProfileToolbar';
 import userAvatar from './userAvatar';
 import userName from './userName';
-import userMention from './userMention';
-import userStatistics from './userStatistics';
 import Invitation from './Invitation';
+import Menu from './Menu';
 import Actions from './Actions';
-import Follow from '~/components/common/Follow';
 import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
 import Blog from '~/components/Blog';
 import Whishlist from '~/components/Whishlist';
 import NotSignedInDialog from '~/components/LandingPost/NotSignedInDialog';
 import Button from '~/components/common/Button';
+import OutlineButton from '~/components/common/OutlineButton';
 import RemoveSquad from '~/components/common/RemoveSquad';
 import { fetchUser } from '~/services/user';
 import { tokenExist } from '~/utils/isAuth';
+import GoBackBtn from '~/components/common/GoBackBtn';
+import AddFriendsButton from '~/components/common/AddFriendsButton';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	name: 'User',
 	components: {
-		Follow,
 		userAvatar,
 		userName,
-		userMention,
-		userStatistics,
 		Invitation,
 		ProfileToolbar,
 		Blog,
 		Whishlist,
 		NotSignedInDialog,
 		Button,
+		OutlineButton,
 		Actions,
+		GoBackBtn,
 		RemoveSquad,
+		Menu,
+		AddFriendsButton,
 	},
-	asyncData ({ store, params, redirect, query }) {
+	asyncData({ store, params, redirect, query }) {
 		if (!params.id) {
 			return;
 		}
@@ -153,14 +162,9 @@ export default {
 		wishlist: null,
 	}),
 	computed: {
-		...mapState([
-			'socket',
-		]),
-		...userState([
-			'me',
-			'other',
-		]),
-		user () {
+		...mapState(['socket']),
+		...userState(['me', 'other']),
+		user() {
 			return this.userId ? this.other : this.me;
 		},
 		squadPossible() {
@@ -170,7 +174,7 @@ export default {
 			const squad = this.other.squad;
 			return squad && squad.exists;
 		},
-		isMySquad () {
+		isMySquad() {
 			return this.squadPossible && !this.other.squad.pending;
 		},
 		isPending() {
@@ -191,8 +195,11 @@ export default {
 			}
 			return this.invite;
 		},
+		meInvited() {
+			return (this.isPending && this.isInvitee) || (!this.squadPossible && this.invite);
+		},
 	},
-	created () {
+	created() {
 		if (this.$route.hash === '#wishlist') {
 			this.tabs = 1;
 		}
@@ -200,23 +207,23 @@ export default {
 			this.promptFollow();
 		}
 	},
-	mounted () {
+	mounted() {
 		this.userId = this.$route.params.id;
 		this.invite = !!this.$route.query.invite;
 		this.bindScroll();
 	},
 	methods: {
-		bindScroll () {
+		bindScroll() {
 			window.addEventListener('scroll', this.scrolled.bind(this));
 		},
-		keepTab () {
+		keepTab() {
 			this.$router.push({ hash: this.tabs ? 'wishlist' : '' });
 		},
-		scrolled (e) {
+		scrolled(e) {
 			// TODO calc actual height to tabs instead const
 			this.isScrolled = !!(window.scrollY > 350);
 		},
-		async promptFollow () {
+		async promptFollow() {
 			await this.user;
 			this.$root.$emit('prompt', {
 				text: { question: this.$t('user.promptFollow', [this.user.name]) },
@@ -225,10 +232,10 @@ export default {
 				},
 			});
 		},
-		edit () {
+		edit() {
 			this.$router.push('/profile-settings');
 		},
-		toggleNotification () {
+		toggleNotification() {
 			this.show_notification = !this.show_notification;
 		},
 		deny() {
@@ -243,8 +250,11 @@ export default {
 				targetUserId: this.user.userId,
 			});
 		},
+		goToMySquad() {
+			this.$router.push('/my/mysquad');
+		},
 	},
-	head () {
+	head() {
 		return {
 			title: this.userId ? 'UserProfile-Main' : 'MyProfile-Main',
 		};
@@ -252,143 +262,104 @@ export default {
 };
 </script>
 
-<style scoped>
-	.mention {
-		color: rgba(0,0,0,.54);
-	}
+<style scoped lang="scss">
+.tabs {
+	padding-bottom: 6%;
+	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+	font-size: 4.3vw;
+	font-weight: 500;
+	color: #b8b8ba;
+	font-weight: 600;
+}
 
-	.v-btn.follow {
-		height: 9.23vw;
-		margin: 0;
-	}
+.user_info {
+	background-color: transparent;
+	margin-top: 5.5vh;
+}
 
-	.tabs {
-		padding-bottom: 6%;
-		border-bottom: 2px solid rgba(0,0,0,.1);
-		font-size: 4.30vw;
-		font-weight: 500;
-		color: #B8B8BA;
-		font-weight: 600;
-	}
+.v-tab--active {
+	color: black;
+	background-color: white;
 
-	.user_avatar {
-		left: 0;
-	}
-
-	.user_info {
-		background-color: transparent;
-		margin-top: 5.5vh;
-	}
-
-	.v-tab--active {
-		color: black;
+	&:before {
 		background-color: white;
 	}
+}
 
-	.v-tab--active:before {
-		background-color: white;
-	}
+.profile_background_image {
+	position: absolute;
+	width: 100%;
+	left: 0;
+	top: 0;
+}
+.background_shadow {
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	background: linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0%, rgba(255, 255, 255, 0) 75%);
+}
 
-	.profile_background_image {
-		position: absolute;
-		width: 100%;
-		left: 0;
+.fixed_profile {
+	position: fixed;
+	top: -80px;
+	left: 0;
+	width: 100%;
+	z-index: 10;
+	border-bottom: 1px solid rgba(112, 112, 112, 0.3);
+	background-color: #fff;
+	transition-property: top;
+	transition-duration: 0.1s;
+
+	&.slide {
 		top: 0;
 	}
-	.background_shadow {
-		position: absolute;
-		width: 100%;
-		height: 100%;
-		top: 0;
-		background: linear-gradient(0deg, rgba(0,0,0,0.6) 0%, rgba(255,255,255,0) 75%);
+}
+
+.user_fixed_name {
+	font-size: 0.8em;
+}
+
+.user_info_fixed {
+	flex-grow: 1;
+	padding-top: 1.5%;
+}
+
+.fixed_follow_btn {
+	width: 30%;
+	margin-top: 1.5%;
+	height: 35px;
+	padding: 0;
+	margin-left: auto;
+}
+
+.fixed_follow_btn span {
+	font-size: 0.75em;
+}
+.invite-text {
+	background: #f5f5f5;
+	padding: 10px 12px;
+	color: black;
+	font-size: 12px;
+	font-weight: 600;
+	border-radius: 16px;
+}
+.postion-relative {
+	position: relative;
+}
+
+.user-actions {
+	.v-btn {
+		width: 100px;
 	}
 
-	.fixed_profile {
-		display: flex;
-		flex-direction: row;
-		position: fixed;
-		top: -70px;
-		left: 0;
-		width: 100%;
-		z-index: 10;
-		border-bottom: 1px solid rgba(112, 112, 112, .3);
-		background-color: #fff;
-		padding: 3%;
-		transition-property: top;
-		transition-duration: .1s;
+	.my-squad-btn {
+		background-color: #fd6256 !important;
+		letter-spacing: inherit !important;
 	}
 
-	.fixed_profile.slide {
-		top: 0;
+	.remove-squad-btn >>> .v-btn {
+		border-radius: 10px !important;
 	}
-
-	.fixed_profile .user_avatar {
-		margin-right: 4%;
-	}
-
-	.user_fixed_name {
-		font-size: .8em;
-	}
-
-	.user_info_fixed {
-		flex-grow: 1;
-		padding-top: 1.5%;
-	}
-
-	.fixed_follow_btn {
-		width: 30%;
-		margin-top: 1.5%;
-		height: 35px;
-		padding: 0;
-		margin-left: auto;
-	}
-
-	.fixed_follow_btn span {
-		font-size: .75em;
-	}
-	.user-biodata {
-		margin-top: 4.46vw;
-		font-size: 4.30vw;
-		color: #000000;
-	}
-	.edit-button-sec {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		margin: 6.24vw 0;
-	}
-	.edit-button-sec span{
-		display: flex;
-	}
-	img.insta-image {
-		width: 6.76vw;
-		margin-right: 6.29vw;
-	}
-	img.notification-image {
-		width: 5.53vw;
-		margin-left: 6.29vw;
-	}
-	.insta-image-sec.image-section{
-		grid-column-start: 2;
-	}
-	button.edit-button.v-btn.v-btn--depressed.v-btn--rounded.theme--dark.v-size--default {
-		height: 9.23vw;
-		width: 26.92vw;
-		font-size: 2.15vw;
-		font-weight: 700;
-		line-height: 4.30vw;
-		letter-spacing: 1.5px;
-		margin: 0;
-	}
-	.invite-text {
-		background: #f5f5f5;
-		padding: 10px 12px;
-		color: black;
-		font-size: 12px;
-		font-weight: 600;
-		border-radius: 16px;
-	}
-	.postion-relative {
-		position: relative;
-	}
+}
 </style>

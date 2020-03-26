@@ -313,7 +313,7 @@
     "empty_squad": "You don't have squadders yet",
     "invitation": {
       "invite": "Invite",
-      "invited_text": "You are invited to join @{user}'s squad\nto interact with each other's wishlist",
+      "invited_text": "invited you to join their squad",
       "accept": "accept",
       "deny": "deny",
       "pending": "Pending...",
@@ -469,7 +469,9 @@
     "share": "Share this link with your friends:",
     "or": "or",
     "add": "Add your friends by name:",
-    "copy_link": "copy link"
+    "copy_link": "copy link",
+    "search_users": "Search users...",
+    "copied": "copied!"
   },
   "walkthrough": {
     "next": "next",
@@ -487,5 +489,10 @@
       "text2": " will now be able to interact",
       "start_shopping": "start shopping"
     }
+  },
+  "mysquad": {
+    "search": "Search your squad...",
+    "add_friends": "Add friends",
+    "share_private_link": "or share private link"
   }
 }

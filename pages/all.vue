@@ -13,7 +13,6 @@
 				@loadNew="() => fetchHome(true)"
 			/>
 			<Preloader v-if="posts && loading" ref="preloader-more" />
-			<!-- <StartWatchingDialog v-if="firstVisit" ref="start-watching-dialog" /> -->
 		</v-layout>
 	</v-container>
 </template>
@@ -23,7 +22,6 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
 import TopBar from '~/components/common/TopBar.vue';
-// import StartWatchingDialog from '~/components/Community/StartWatchingDialog';
 import { onAuth } from '~/helpers';
 import { HomeStore, HomeActions, HomeMutations } from '~/store/home';
 import {
@@ -40,7 +38,6 @@ export default {
 		Feed,
 		Preloader,
 		TopBar,
-		// StartWatchingDialog,
 	},
 	data: () => ({
 		loadNew: false,

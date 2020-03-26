@@ -2,7 +2,8 @@
 	<h2 class="d-flex justify-space-between align-center">
 		<GoBackBtn ref="go-back-btn" />
 		<span ref="username">{{ username }}</span>
-		<span class="pa-4" />
+		<AddFriendsButton v-if="isMe" ref="add-friends-btn" />
+		<span v-else class="pa-4" />
 	</h2>
 </template>
 
@@ -11,12 +12,14 @@ import { createNamespacedHelpers } from 'vuex';
 import GoBackBtn from '~/components/common/GoBackBtn';
 import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
+import AddFriendsButton from '~/components/common/AddFriendsButton';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	components: {
 		GoBackBtn,
+		AddFriendsButton,
 	},
 	data: () => ({
 		isMe: false,

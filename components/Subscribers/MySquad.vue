@@ -5,7 +5,7 @@
 			v-model="searchText"
 			class="search-plus"
 			:hide-details="true"
-			:placeholder="$t('Search')"
+			:placeholder="$t('mysquad.search')"
 			clearable
 		>
 			<v-icon slot="prepend" color="#B8B8BA" size="22">
@@ -30,104 +30,60 @@
 			{{ $t('user.empty_squad') }}
 		</div>
 		<div ref="send-invite" class="send-invite">
-			<Button ref="share" @click.native="share">
-				{{ $t('user.invitation.send_invite_link') }}
-			</Button>
+			<v-btn
+				ref="remove-trigger"
+				depressed
+				style="font-size: 12px; font-weight: 600"
+				@click="showAddFriends = true"
+			>
+				{{ $t('mysquad.add_friends') }}
+			</v-btn>
 		</div>
-		<v-dialog v-model="showShare" content-class="share_box">
-			<ShareProfile ref="share-profile-modal" :user-link="shortURL" @hideShowShare="hideShare" />
-		</v-dialog>
+		<AddFriendsDialog ref="add-friends-dialog" :show="showAddFriends" @close="showAddFriends = false" />
 	</div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import UserLink from '~/components/UserLink';
-import Button from '~/components/common/Button';
-import { FeedStore, FeedMutations } from '~/store/feed';
+import { FeedStore } from '~/store/feed';
 import { prefetch } from '~/helpers';
-import ShareProfile from '~/components/UserProfile/ShareProfile';
 import RemoveSquad from '~/components/common/RemoveSquad';
-import { UserStore } from '~/store/user';
-import { getShortURL } from '~/services/short-url';
+import AddFriendsDialog from '~/components/common/AddFriendsDialog';
 
-const CANCALED_BY_USER = 20;
-const userState = createNamespacedHelpers(UserStore).mapState;
+const feedStore = createNamespacedHelpers(FeedStore).mapState;
 
 export default {
 	components: {
 		UserLink,
-		Button,
-		ShareProfile,
 		RemoveSquad,
+		AddFriendsDialog,
 	},
 	data: () => ({
-		squadders: [],
 		searchText: '',
-		showShare: false,
-		shortURL: '',
+		showAddFriends: false,
 	}),
 	computed: {
-		...userState([
-			'me',
-		]),
 		filtered() {
 			if (!this.searchText) {
 				return this.squadders;
 			}
 			return this.squadders && this.squadders.filter(u => u.screenName.toLowerCase().includes(this.searchText.toLowerCase()));
 		},
-		target () {
-			const { siteUrl, siteTitle } = this.$store.state.merchant;
-			return {
-				id: this.me.userId,
-				url: siteUrl,
-				title: siteTitle,
-				invite: true,
-			};
-		},
-		userLink () {
-			const { API_ENDPOINT } = this.$store.state.squad;
-			const target = JSON.stringify(this.target);
-			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
-		},
+		...feedStore(['squadders']),
 	},
 	created () {
 		this.fetchSquadders();
 	},
 	methods: {
-		async fetchSquadders () {
-			this.squadders = await prefetch({
+		fetchSquadders () {
+			prefetch({
 				type: 'fetchSquadders',
 				store: this.$store,
-				mutation: `${FeedStore}/${FeedMutations.receiveSquadders}`,
 			});
 		},
 		removeSquadAction (index) {
 			this.squadders.splice(index, 1);
-		},
-		async share () {
-			this.showShare = false;
-			if (!this.shortURL) {
-				this.shortURL = await getShortURL(this.userLink, this.$store);
-			}
-			if (navigator && navigator.share) {
-				const { siteTitle } = this.$store.state.merchant;
-				const title = `${this.me.name || this.me.screenName} @ ${siteTitle}`;
-				try {
-					await navigator.share({
-						title,
-						text: title,
-						url: this.shortURL,
-					});
-				} catch (error) {
-					if (error.code !== CANCALED_BY_USER) {
-						this.showModal();
-					}
-				}
-			} else {
-				this.showModal();
-			}
 		},
 		showModal () {
 			this.showShare = true;

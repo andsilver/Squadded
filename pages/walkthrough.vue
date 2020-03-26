@@ -127,7 +127,7 @@ export default {
 					return this.$router.push('/feed');
 				}
 				localStorage.setItem(STORAGE_VISITED_KEY, Date.now().toString());
-				this.$router.push('/home');
+				this.$router.push('/all');
 			}
 		},
 	},

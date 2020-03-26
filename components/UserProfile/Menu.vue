@@ -1,8 +1,15 @@
 <template>
 	<v-menu :attach="parentNode" bottom offset-y>
 		<template v-slot:activator="{ on }">
-			<v-btn icon class="button_more" :dark="dark" v-on="on" @click="() => $emit('edit')">
-				<v-icon>
+			<v-btn
+				icon
+				class="button_more"
+				:dark="dark"
+				:small="small"
+				v-on="on"
+				@click="() => $emit('edit')"
+			>
+				<v-icon :small="small">
 					sqdi-more
 				</v-icon>
 			</v-btn>
@@ -17,20 +24,16 @@ export default {
 			type: Boolean,
 			default: false,
 		},
+		small: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data: () => ({
 		parentNode: null,
 	}),
-	mounted () {
+	mounted() {
 		this.parentNode = this.$parent.$el;
 	},
 };
 </script>
-
-<style lang="stylus" scoped>
-.v-btn
-	width 40px !important
-	height 40px !important
-	i
-		font-size 1.5em !important
-</style>

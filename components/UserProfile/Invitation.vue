@@ -1,14 +1,14 @@
 <template>
-	<div ref="invite-actions" class="d-flex justify-center">
-		<Button ref="accept-btn" class="ma-0 mr-4" @click.native="accept">
+	<div ref="invite-actions" class="d-flex">
+		<v-btn ref="deny-btn" outlined depressed class="deny-btn" @click="deny">
+			{{ $t('user.invitation.deny') }}
+		</v-btn>
+		<Button ref="accept-btn" class="ma-0 ml-2 accept-btn" @click.native="accept">
 			<v-icon x-small>
 				sqdi-checkmark
 			</v-icon>
 			<span class="ml-2">{{ $t('user.invitation.accept') }}</span>
 		</Button>
-		<v-btn ref="deny-btn" outlined depressed class="deny-btn" @click="deny">
-			{{ $t('user.invitation.deny') }}
-		</v-btn>
 	</div>
 </template>
 <script>
@@ -69,4 +69,6 @@ export default {
 	font-weight 700
 	letter-spacing 1px
 	border-radius 10px
+.accept-btn
+	background-color #fd6256 !important
 </style>

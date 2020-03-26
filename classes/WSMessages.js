@@ -7,6 +7,7 @@ import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemActions } from '~/store/paired-item';
 import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { HomeStore, HomeMutations } from '~/store/home';
+import { prefetch } from '~/helpers';
 
 async function acceptPost(message) {
 	if (!this.store.state.feed.items || !this.store.state.feed.items.length) {
@@ -199,6 +200,10 @@ export class WSMessages {
 			});
 		}
 		this.store.state.socket._ws.sendObj({ type: 'fetchUser' });
+		prefetch({
+			type: 'fetchSquadders',
+			store: this.store,
+		});
 	}
 
 	squadUpdated () {
@@ -210,6 +215,10 @@ export class WSMessages {
 			});
 		}
 		this.store.state.socket._ws.sendObj({ type: 'fetchUser' });
+		prefetch({
+			type: 'fetchSquadders',
+			store: this.store,
+		});
 	}
 
 	notifications (message) {

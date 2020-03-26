@@ -10,6 +10,7 @@ export const state = () => ({
 	allLoaded: false,
 	loadedNew: false,
 	newPostsAvailable: true,
+	squadders: null,
 });
 
 export const FeedGetters = {
@@ -69,7 +70,9 @@ export const mutations = {
 	[FeedMutations.setLoading]: (state, loading) => {
 		state.loading = loading;
 	},
-	[FeedMutations.receiveSquadders]: () => {},
+	[FeedMutations.receiveSquadders]: (state, squadders) => {
+		state.squadders = squadders;
+	},
 	[FeedMutations.setNewPostsAvailable]: (state, flag) => {
 		state.newPostsAvailable = flag;
 	},

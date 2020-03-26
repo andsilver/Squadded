@@ -58,10 +58,7 @@ describe('UserProfile - PopMenu', () => {
 		expect(wrapper.ref('report').exists()).toBe(true);
 		expect(wrapper.ref('add-to-squad').exists()).toBe(true);
 		expect(wrapper.ref('remove-squad').exists()).toBe(false);
-		expect(wrapper.ref('unwatch').exists()).toBe(false);
-		expect(wrapper.ref('watch').exists()).toBe(true);
 		expect(wrapper.ref('share').exists()).toBe(true);
-		expect(wrapper.ref('follow').exists()).toBe(true);
 		expect(wrapper.ref('remove').exists()).toBe(true);
 	});
 
@@ -77,21 +74,6 @@ describe('UserProfile - PopMenu', () => {
 		});
 		expect(wrapper.ref('add-to-squad').exists()).toBe(false);
 		expect(wrapper.ref('remove-squad').exists()).toBe(true);
-	});
-
-	it('should render unwatch if he is not my squad and i am not following him', () => {
-		user = userMockBuilder().get();
-		user.squad = {
-			exists: false,
-			pending: false,
-			invitee: false,
-		};
-		user.followers.me = true;
-		wrapper.setProps({
-			user,
-		});
-		expect(wrapper.ref('watch').exists()).toBe(false);
-		expect(wrapper.ref('unwatch').exists()).toBe(true);
 	});
 
 	it('should render share link dialog on click share', async () => {

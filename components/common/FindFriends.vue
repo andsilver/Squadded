@@ -17,7 +17,10 @@
 				</v-icon>
 			</v-text-field>
 		</div>
-		<div v-if="friends && friends.length" class="mt-4 px-4 friends-list">
+		<div class="mt-4 px-4 friends-list">
+			<div v-if="!friends || !friends.length">
+				{{ $t('invite_your_friends.search_users') }}
+			</div>
 			<div v-for="(friend, index) in friends" :key="index">
 				<v-divider v-if="index > 0" />
 				<div class="d-flex justify-space-between align-center">
@@ -28,11 +31,21 @@
 						show-screen-name
 						:user="friend"
 					/>
-					<Button v-if="!friend.invited" @click.native="() => invite(friend)">
+					<RemoveSquad v-if="isMySquad(friend)" :user="friend" />
+					<Button v-else-if="!friend.isMySquad" @click.native="() => invite(friend)">
 						<v-icon small color="white">
 							mdi-account-plus-outline
 						</v-icon>
 						<span class="ml-2">{{ $t('invite') }}</span>
+					</Button>
+					<Button
+						v-else-if="friend.isInvitee"
+						@click.native="() => accept(friend)"
+					>
+						<v-icon small color="white">
+							mdi-check
+						</v-icon>
+						<span class="ml-2">{{ $t('accept') }}</span>
 					</Button>
 					<v-btn
 						v-else
@@ -54,15 +67,20 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import UserLink from '~/components/UserLink';
+import RemoveSquad from '~/components/common/RemoveSquad';
 import Button from '~/components/common/Button';
 import { ExploreStore, ExploreActions, ExploreMutations } from '~/store/explore';
+import { UserStore, UserMutations } from '~/store/user';
+import { prefetch } from '~/helpers';
 
 const exploreState = createNamespacedHelpers(ExploreStore).mapState;
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	components: {
 		Button,
 		UserLink,
+		RemoveSquad,
 	},
 	data: () => ({
 		searchText: null,
@@ -70,6 +88,7 @@ export default {
 	}),
 	computed: {
 		...exploreState(['friends']),
+		...userState(['me']),
 	},
 	watch: {
 		searchText() {
@@ -79,8 +98,16 @@ export default {
 			if (value) {
 				return;
 			}
-			this.$store.dispatch(`${ExploreStore}/${ExploreActions.searchFriends}`, this.searchText);
+			this.search();
 		},
+		me(oldV, newV) {
+			if (oldV.squaddersCount !== newV.squaddersCount) {
+				this.search();
+			}
+		},
+	},
+	destroyed() {
+		this.$store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, []);
 	},
 	methods: {
 		debounced(fn, delay) {
@@ -93,18 +120,39 @@ export default {
 				timerId = null;
 			}, delay);
 		},
-		invite(friend) {
-			const { me } = this.$store.state.user;
+		async invite(friend) {
+			const { me } = this;
 			if (!me.nameSelected) {
 				return this.$router.push('/select-username');
 			}
-			this.$ws.sendObj({
-				type: 'acceptSquad',
-				targetUserId: friend.userId || friend.guid,
+			await prefetch({
+				type: 'acceptSquad', // type: 'inviteSquad'
+				targetUserId: friend.userId,
+				mutation: `${UserStore}/${UserMutations.setMe}`,
+				store: this.$store,
 			});
-			this.$store.commit(`${ExploreStore}/${ExploreMutations.setInvited}`, friend.userId);
-			this.$forceUpdate();
+			this.search();
 			this.$emit('invited');
+		},
+		async accept(friend) {
+			const { me } = this;
+			if (!me.nameSelected) {
+				return this.$router.push('/select-username');
+			}
+			await prefetch({
+				type: 'acceptSquad',
+				targetUserId: friend.userId,
+				mutation: `${UserStore}/${UserMutations.setMe}`,
+				store: this.$store,
+			});
+			this.search();
+			this.$emit('invited');
+		},
+		isMySquad(friend) {
+			return friend.isMySquad && !friend.isPending;
+		},
+		search () {
+			this.$store.dispatch(`${ExploreStore}/${ExploreActions.searchFriends}`, this.searchText);
 		},
 	},
 };
@@ -132,7 +180,7 @@ export default {
 
 .friends-list {
 	background: #f9f9f9;
-	max-height: 250px;
+	height: 200px;
 	overflow: auto;
 }
 
