@@ -2,7 +2,7 @@
 	"Activities": "Activités",
 	"All": "Tous",
 	"Cancel": "Annuler",
-	"Choose": "Choisis",
+	"Choose": "Choisir",
 	"Close": "Fermer",
 	"Comment": "Commenter",
 	"Comments": "Commentaire",
@@ -13,14 +13,14 @@
 	"Edit": "Modifier",
 	"EnterUsername": "Ajouter un nom d'utilisateur",
 	"Explore": "Explorer",
-	"Home": "La communauté",
+	"Home": "Accueil",
 	"Just": "juste",
 	"Like": "J'aime",
 	"Likes": "J'aime",
 	"Messageregarding": "",
 	"Messages": "Messages",
 	"My Squad": "Mon Squad",
-	"NewOutfit": "Nouvelle tenue",
+	"NewOutfit": "Nouvelle collection",
 	"NewPoll": "Nouveau sondage",
 	"NewPost": "Nouvelle Publication",
 	"NewPosts": "Nouvelles Publications",
@@ -28,11 +28,11 @@
 	"Notifications": "Notifications",
 	"PairedItem": {
 		"all": "Tous",
-		"outfits": "Tenues",
+		"outfits": "Collections",
 		"photos": "Photos",
 		"polls": "Sondages"
 	},
-	"PickUsername": "Choisis ton nom d'utilisateur",
+	"PickUsername": "Vous avez presque fini!",
 	"Post": "Partager",
 	"Posts": "Publications",
 	"PoweredBy": "POWERED BY",
@@ -44,35 +44,35 @@
 	"Search": "Recherchez dans votre wishlist...",
 	"SelectOutfitName": "Ajouter une légende...",
 	"SelectPollName": "Ajouter une légende...",
-	"ShopWithYourFriendsOn": "Faites du shopping avec vos amis",
+	"ShopWithYourFriendsOn": "Faites du shopping entre amis",
 	"Signin": "Se connecter",
 	"Squadders": "Squadders",
-	"StartBuildingYourSquad": "Tu as presque fini! Après cette étape, tu inviteras tes amis a rejoindre ton squad.",
+	"StartBuildingYourSquad": "Vous avez presque fini! Après cette étape, vous inviterez tvos amis a rejoindre votre squad.",
 	"Undo": "Annuler",
 	"UseOneTimeCode": "Utiliser un code unique",
 	"Wecare": "Nous nous soucions de votre sécurité. Aidez-nous à assurer la sécurité de notre communauté.",
 	"Wishlist": "Wishlist",
-	"YouCanAlwaysChange": "Uniquement lettres et chiffres. Tu pourras toujours le changer plus tard.",
-	"YourItem": "ton article",
-	"YourOutfit": "ta tenue",
-	"YourPicture": "ta photo",
-	"YourPoll": "ton sondage",
+	"YouCanAlwaysChange": "Uniquement lettres et chiffres. Vous pouvez toujours le changer plus tard.",
+	"YourItem": "votre article",
+	"YourOutfit": "votre collection",
+	"YourPicture": "votre photo",
+	"YourPoll": "votre sondage",
 	"a poll": "Sondage",
-	"agree_left": "",
-	"agree_right": "",
+	"agree_left": "Veuillez cocher la case pour confirmer que vous acceptez nos",
+	"agree_right": "termes et conditions.",
 	"an outfit": "Tenue",
 	"comment": {
 		"pop": {
 			"Action": "Action",
 			"deleteComment": {
-				"decline": "Ok, do not delete comment",
-				"description": "Are you sure? This action can not be reverted.",
+				"decline": "Ok, ne supprimez pas le commentaire",
+				"description": "Êtes-vous sûr? Cette action ne peut pas être annulée.",
 				"menu": "Supprimer",
 				"question": "Supprimer ce commentaire?"
 			},
 			"reportComment": {
-				"decline": "Ok, do not report comment",
-				"description": "Are you sure? This action can not be reverted.",
+				"decline": "Ok, ne signalez pas de commentaire",
+				"description": "Êtes-vous sûr? Cette action ne peut pas être annulée.",
 				"inappropriate": "Inapproprié",
 				"menu": "Signaler",
 				"notInteresting": "Non intéressant",
@@ -92,18 +92,20 @@
 		}
 	},
 	"create": {
-		"outfit": "Tenue",
+		"outfit": "Collection",
 		"photo": "Photo",
 		"poll": "Sondage"
 	},
 	"createDesc": {
-		"outfit": "Créer une tenue avec 2-4 articles",
+		"outfit": "Créer une collection avec 2 à 4 articles",
 		"photo": "Poster une photo et identifier les articles",
 		"poll": "Demander l'avis des shoppeurs",
 		"unsupported_file_format": "Ce format d'image n'est pas pris en charge"
 	},
 	"create_your_squad": {
-		"description": "Envoie une invitation privée à tes amis pour rejoindre ton squad. Des qu'ils t'auront rejoint, vous pourrez partager et réagir à vos wishlists.",
+		"description": "Envoyer une invitation privée à vos amis afin qu'ils rejoignent votre squad. Vous pourrez ainsi partager et réagir à vos wishlists.",
+		"invited_text": "Acceptez-vous que {user} intègre votre squad?",
+		"invited_you": "vous a invité",
 		"skip_for_now": "Plus tard",
 		"title": "Créer mon squad"
 	},
@@ -111,7 +113,7 @@
 	"error": {
 		"404": "Oups cette page a disparu",
 		"go_to_feed": "Retourner à la page d'accueil",
-		"oops": "Oups! Pas de shopping par ici. Pour retourner à tes amis, c'est par là",
+		"oops": "Oups! Pas de shopping par ici. Pour retourner à votre squad, c'est par là",
 		"other": "Vous êtes perdus? Retour à l'accueil"
 	},
 	"expiration": {
@@ -135,7 +137,7 @@
 			"title": "Les meilleurs looks"
 		},
 		"top_items": {
-			"title": "Les articles les plus tendances"
+			"title": "Les articles les plus tendances en ce moment"
 		},
 		"top_outfits": {
 			"description": "Les tenues les plus stylés avec le plus de réactions",
@@ -144,12 +146,16 @@
 	},
 	"feed": {
 		"create": "Publier",
+		"how_it_works": {
+			"action": "Comment ça marche?",
+			"text": "Toutes les activités shopping de vos amis apparaîtront ici"
+		},
 		"isEmpty": "Vous n'avez pas encore d'articles dans votre wishlist"
 	},
 	"forAllItems": "Total {0} articles",
 	"form": {
 		"age": {
-			"label": "I certify that I am 16 or older",
+			"label": "Je certifie que j'ai 16 ans ou plus",
 			"messsage": "You must be older than 16 to continue!"
 		},
 		"allowContact": {
@@ -193,8 +199,8 @@
 		"send_me_otp": "Envoyer un code",
 		"signup": "Se connecter",
 		"terms": {
-			"label": "I have read and accept the Terms",
-			"message": "You must accept the Terms to continue!"
+			"label": "J'ai lu et j'accepte les conditions",
+			"message": "Vous devez accepter les conditions pour continuer!"
 		},
 		"validate": "Valider"
 	},
@@ -202,6 +208,16 @@
 	"input": {
 		"placeholder": "Ajouter un commentaire..."
 	},
+	"invite_your_friends": {
+		"add": "Ajoutez vos amis:",
+		"copied": "Copié!",
+		"copy_link": "Copier le lien",
+		"or": "Ou",
+		"search_users": "Rechercher des utilisateurs...",
+		"share": "Partagez ce lien avec vos amis:",
+		"title": "Invite vos amis"
+	},
+	"invited": "Invité",
 	"landing_post": {
 		"interact_with_user": "Faites du shopping avec {user} et partager votre wishlist.",
 		"sign_in": "Se connecter",
@@ -211,9 +227,14 @@
 		"text": "Il semble que votre publication va à l'encontre de notre réglementation, nos modérateurs l'examineront. Si votre message va à l'encontre de nos directives, votre compte peut être suspendu.",
 		"violation": "Possible violation du réglement"
 	},
+	"mysquad": {
+		"add_friends": "Ajouter des amis",
+		"search": "Recherchez dans votre squad ...",
+		"share_private_link": "ou partager un lien privé"
+	},
 	"noPasswordRemember": "Plus de mot de passe à retenir. Nous vous envoyons un code unique pour être bien sur que c'est vous.",
 	"notify": {
-		"accepted_invite": "a accepté ton invitation",
+		"accepted_invite": "veut rejoindre votre squad",
 		"comment": "a commenté",
 		"commented": "a commenté",
 		"commentedq": "a commenté:",
@@ -222,9 +243,9 @@
 		"like": "a aimé",
 		"new": "Nouveau",
 		"old": "Plus tôt",
-		"pollend": "Ton sondage est terminé - découvre le gagnant!",
-		"post": "ta publication",
-		"requestEmpty": "Tu n'as aucune nouvelle demande",
+		"pollend": "Votre sondage est terminé - découvrez le gagnant!",
+		"post": "votre publication",
+		"requestEmpty": "Vous n'avez aucune nouvelle demande",
 		"vote": "a voté"
 	},
 	"ok": "ok",
@@ -233,7 +254,7 @@
 		"textPlaceholder": "Ajouter une légende"
 	},
 	"pairedItem": {
-		"hesitating_users": "ont ajouté à leur wishlist:",
+		"hesitating_users": "l'ont ajouté à leur wishlist:",
 		"title": "Voir l'article "
 	},
 	"photo": {
@@ -242,7 +263,7 @@
 		"textPlaceholder": "Ajouter une légende...",
 		"update": "Mettre à jour la photo",
 		"upload": {
-			"done": "En cours de finalisation",
+			"done": "Presque fini",
 			"error": "Le téléchargement n'a pas marché"
 		}
 	},
@@ -259,7 +280,7 @@
 		"votes": "votes | votes"
 	},
 	"post": {
-		"addToMySquad": "Ajouter a Mon Squad",
+		"addToMySquad": "Ajouter {user} a Mon Squad",
 		"addedGallary": "a publié une photo avec {0} articles",
 		"addedItem": "a ajouté cet article à sa wishlist",
 		"addedOutfit": "a publié une tenue avec {0} articles",
@@ -267,7 +288,7 @@
 		"pop": {
 			"deletePost": {
 				"decline": "Modifier",
-				"description": "Vous pouvez aussi modifier la publication et les paramètres de confidentialité",
+				"description": "Vous pouvez également modifier votre message. Si vous avez sélectionné des paramètres de confidentialité incorrects, vous pouvez toujours les modifier.",
 				"menu": "Supprimer",
 				"question": "Supprimer cette publication?"
 			},
@@ -285,15 +306,15 @@
 			},
 			"setPrivate": {
 				"decline": "Stay public",
-				"description": "Only your followers will be able to see your post",
-				"menu": "Set as private",
-				"question": "Set private?"
+				"description": "Seuls votre squad pourra voir vos publications",
+				"menu": "Rendre privé",
+				"question": "Rendre la publication privée?"
 			},
 			"setPublic": {
-				"decline": "Stay private",
-				"description": "Anyone will be able to see your post",
-				"menu": "Modifier la confidentialité",
-				"question": "Set public?"
+				"decline": "Restez privé",
+				"description": "Tout le monde pourra voir votre publication",
+				"menu": "Rendre public",
+				"question": "Rendre la publication publique?"
 			},
 			"sharelink": {
 				"decline": "",
@@ -303,7 +324,7 @@
 			}
 		},
 		"reactions": "Réactions",
-		"removeRachel": "",
+		"removeRachel": "Supprimer",
 		"removeUser": "Supprimer {user}",
 		"sending": "envoyer…",
 		"share": "Partager la publication",
@@ -311,7 +332,7 @@
 		"title": {
 			"comments": "Commentaires",
 			"galleryPost": "Gallerie",
-			"outfitPost": "Tenues",
+			"outfitPost": "Collections",
 			"pollPost": "Sondage",
 			"singleItemPost": "Publication"
 		},
@@ -326,7 +347,7 @@
 		"delete_confirm": "Voulez-vous vraiment supprimer votre compte? Vous pouvez toujours supprimer vos publications ou vous déconnecter et revenir la prochaine fois.",
 		"deleted_statement": {
 			"first": "Nous sommes désolés d'apprendre que vous souhaitez supprimer votre compte. Veuillez nous écrire à",
-			"second": "et nous donnez la raison. Notre équipe traitera votre demande et supprimera votre compte."
+			"second": "et nous expliquer la raison. Notre équipe traitera votre demande et supprimera votre compte."
 		},
 		"feedback": "Écrivez nous",
 		"feedback_warning": "Veuillez ne laisser des commentaires que sur Squadded et nos fonctionnalités. Tous les commentaires sont soumis à nos conditions d'utilisation.",
@@ -341,13 +362,13 @@
 			"title": "Notifications"
 		},
 		"private_profile": {
-			"description": "Seul ton squad peut voir ta wishlist et tes publications",
+			"description": "Seul votre squad pourra voir votre wishlist et vos publications",
 			"title": "Profil privé"
 		},
 		"profile": "Profil",
 		"profile_privacy": "Confidentialité du profil",
 		"public_profile": {
-			"description": "Tout le monde peut voir ta wishlist et tes publications ",
+			"description": "Tout la communauté pourra voir votre wishlist et vos publications ",
 			"title": "Profil public"
 		},
 		"read": "lus",
@@ -358,10 +379,10 @@
 		"share_your_opinion": "Partager mon avis",
 		"signout": {
 			"button": "Se déconnecter",
-			"confirm": "Es-tu certain de vouloir te déconnecter?"
+			"confirm": "Êtes-vous certain de vouloir vous déconnecter?"
 		},
 		"submit": "Envoyer",
-		"submitted_notification": "Merci. Votre commentaire a été envoyé",
+		"submitted_notification": "Merci. Votre commentaire a été envoyé.",
 		"terms_of_service": {
 			"description": "En utilisant squadded vous les accepter",
 			"title": "Conditions d'utilisations"
@@ -371,26 +392,36 @@
 	},
 	"public": "Public",
 	"publicToggle": {
-		"forEveryone": "Tout le monde pourra voir cette publication",
-		"forPrivate": "Seul ton squad pourra voir cette publication",
+		"forEveryone": "Les publications publiques sont visibles par toute la communauté.",
+		"forPrivate": "Les publications privées ne sont visibles que par votre squad",
 		"toggle": "toggle"
 	},
+	"resendNotify": "Un nouveau code a été envoyé",
 	"resend_code": "Renvoyer le code",
+	"select_username": {
+		"create_your_profile": "Créez votre profile"
+	},
+	"shop_with_your_friends": "Faites du shopping entre amis",
+	"shopping_party": "Shopping party",
 	"sign_up_later": "S'inscrire plus tard",
 	"signemail": "S'inscrire avec un email",
-	"spamNote": "Prévois jusqu'à 1 minute pour le recevoir. N'oublie pas de vérifier votre dossier spam / courrier indésirable.",
+	"signin": {
+		"signin_to_shop_with_your_friends": "Connectez-vous pour faire du shopping entre amis:"
+	},
+	"spamNote": "Prévoyez jusqu'à 1 minute pour le recevoir. N'oubliez pas de vérifier votre dossier spam / courrier indésirable.",
+	"styleOutfit": "styles dans cettre collection",
 	"tip": {
-		"addItems": "Ajoute des articles a ta wishlist pour créer {0}.",
-		"createPhotoTag": "tape sur la photo pour identifier des articles",
-		"crop": "déplace les points pour recadrer",
-		"limitMessage": "La limite est de 4 articles par tenue",
-		"outfitError": "Tu dois sélectionner 2 à 4 articles pour créer une tenue",
-		"outfitSelect": "Sélectionne 2 à 4 articles à assembler",
-		"photoError": "Clique sur les articles que tu souhaites identifier pour publier une photo.",
-		"photoLimitError": "Tu ne peux pas identifier plus de 4 articles",
-		"pollError": "Tu dois sélectionner 2 articles pour créer un sondage",
-		"pollSelect": "Sélectionne 2 articles avec lesquels tu hésites",
-		"tapPhotos": "Tape sur la photo pour plus de détails"
+		"addItems": "Ajoutez des articles a votre wishlist pour créer {0}.",
+		"createPhotoTag": "cliquez sur la photo pour identifier des articles",
+		"crop": "déplacez les points pour recadrer",
+		"limitMessage": "La limite est de 4 articles par collection",
+		"outfitError": "Vous devez sélectionner 2 à 4 articles pour créer une collection",
+		"outfitSelect": "Sélectionnez 2 à 4 articles à assembler",
+		"photoError": "Cliquez sur les articles que vous souhaitez identifier pour publier une photo.",
+		"photoLimitError": "Vous ne pouvez pas identifier plus de 4 articles",
+		"pollError": "Sélectionnez 2 articles pour créer un sondage",
+		"pollSelect": "Sélectionnez 2 articles avec lesquels vous hésitez",
+		"tapPhotos": "Cliquez sur la photo pour plus de détails"
 	},
 	"user": {
 		"Follow": "Suivre",
@@ -419,6 +450,7 @@
 			"accept": "Accepter",
 			"accepted": "accepté",
 			"deny": "Refuser",
+			"inSquad": "dans squad",
 			"invite": "Inviter",
 			"invited_text": "Tu es invité à rejoindre le squad @{user}\npour faire du shopping ensemble.",
 			"pending": "Demande envoyée...",
@@ -438,12 +470,29 @@
 	},
 	"validate": "Valider",
 	"viewAll": "Tout voir",
+	"walkthrough": {
+		"next": "suivant",
+		"step1": {
+			"strong": "Découvrez",
+			"text": "les activités de la communauté pour s'inspirer de nouveaux looks."
+		},
+		"step2": {
+			"strong": "Invitez",
+			"text": "vos amis a rejoindre votre squad pour faire du shopping ensemble"
+		},
+		"step3": {
+			"start_shopping": "Start shopping",
+			"strong": "votre squad",
+			"text1": "Lorsque vous ajoutez un article du site à votre wishlist,",
+			"text2": "pourra interagir avec vous"
+		}
+	},
 	"winner": "Gagnant",
 	"wishlist": {
 		"disabled_before_signin": "Veuillez vous connecter pour voir les articles",
 		"discover": "Découvrir les articles",
-		"empty": "Tu n'as pas encore d'articles dans ta wishlist.",
-		"postempty": "Ta wishlist est vide. Ajoute des produits pour créer une publication",
+		"empty": "Vous n'avez pas encore d'articles dans votre wishlist.",
+		"postempty": "Votre wishlist est vide. Ajoutez des produits pour créer une publication",
 		"private": "Ce compte est privé\nSeul le squad de @{user} \npeut voir ses publications.",
 		"purchase": "ACHETER"
 	}
