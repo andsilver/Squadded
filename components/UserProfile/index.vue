@@ -191,12 +191,12 @@ export default {
 				if (!this.isPending) {
 					return false;
 				}
-				return this.isInvitee;
+				return !this.isInvitee;
 			}
 			return this.invite;
 		},
 		meInvited() {
-			return (this.isPending && this.isInvitee) || (!this.squadPossible && this.invite);
+			return (this.isPending && !this.isInvitee) || (!this.squadPossible && this.invite);
 		},
 	},
 	created() {
@@ -246,7 +246,7 @@ export default {
 				return this.$router.push('/');
 			}
 			this.$ws.sendObj({
-				type: 'acceptSquad',
+				type: 'inviteSquad',
 				targetUserId: this.user.userId,
 			});
 		},

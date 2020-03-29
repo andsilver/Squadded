@@ -42,10 +42,17 @@ export default {
 			if (!this.me.nameSelected) {
 				return this.$router.push('/select-username');
 			}
-			this.$ws.sendObj({
-				type: 'acceptSquad',
-				targetUserId: this.user.userId,
-			});
+			if (this.user.squad && this.user.squad.exists) {
+				this.$ws.sendObj({
+					type: 'acceptSquad',
+					targetUserId: this.user.userId,
+				});
+			} else {
+				this.$ws.sendObj({
+					type: 'inviteSquad',
+					targetUserId: this.user.userId,
+				});
+			}
 		},
 		deny() {
 			if (!this.socket.isAuth) {

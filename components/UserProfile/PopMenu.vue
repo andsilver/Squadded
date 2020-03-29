@@ -234,7 +234,7 @@ export default {
 				return this.$router.push('/');
 			}
 			this.$ws.sendObj({
-				type: 'acceptSquad',
+				type: 'inviteSquad',
 				targetUserId: this.user.userId,
 			});
 		},

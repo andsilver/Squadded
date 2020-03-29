@@ -206,6 +206,21 @@ export class WSMessages {
 		});
 	}
 
+	notifInviteSquad (message) {
+		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+		const { other } = this.store.state.user;
+		if (other && other.guid === message.userId) {
+			this.store.state.socket._ws.sendObj({
+				type: 'fetchUser',
+				guid: other.guid,
+			});
+		}
+		prefetch({
+			type: 'fetchSquadders',
+			store: this.store,
+		});
+	}
+
 	squadUpdated () {
 		const { other } = this.store.state.user;
 		if (other) {

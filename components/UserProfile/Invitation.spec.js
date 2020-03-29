@@ -56,9 +56,23 @@ describe('User Invitation', () => {
 		expect(denyButton.exists()).toBe(true);
 	});
 
-	it('should send acceptSquad message', () => {
+	it('should send inviteSquad or acceptSquad message', () => {
 		store.commit('SET_SOCKET_AUTH', true);
 		const acceptButton = wrapper.ref(ACCEPT_BUTTON);
+		acceptButton.trigger('click');
+		expect($ws.sendObj).toHaveBeenCalledWith({
+			type: 'inviteSquad',
+			targetUserId: user.userId,
+		});
+		wrapper.setProps({
+			user: {
+				...user,
+				squad: {
+					exists: true,
+				},
+			},
+		});
+
 		acceptButton.trigger('click');
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'acceptSquad',

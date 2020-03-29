@@ -234,7 +234,8 @@
   },
   "noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
   "notify": {
-    "accepted_invite": "wants to join your squad",
+    "invited": "wants to join your squad",
+    "accepted": "accepted your invite",
     "comment": "",
     "commented": "commented",
     "commentedq": "commented: ",

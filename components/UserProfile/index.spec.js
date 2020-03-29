@@ -191,7 +191,7 @@ describe('User component', () => {
 		const user = userMockBuilder().get();
 		const params = { id: user.userId };
 		const query = { invite: true };
-		user.squad = { exists: true, pending: true, invitee: true };
+		user.squad = { exists: true, pending: true, invitee: false };
 
 		wrapper = shallowMount(User, {
 			localVue,

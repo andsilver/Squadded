@@ -19,6 +19,7 @@ import PollEnd from './Includes/PollEnd';
 import Vote from './Includes/Vote';
 import Alert from './Includes/Alert';
 import AcceptSquad from './Includes/AcceptSquad';
+import InviteSquad from './Includes/InviteSquad';
 import Follow from './Includes/Follow';
 import FollowRequest from './Includes/FollowRequest';
 import { NOTIFICATIONS } from '~/consts/notifications';
@@ -45,13 +46,18 @@ export default {
 			[NOTIFICATIONS.VOTE]: Vote,
 			[NOTIFICATIONS.ALERT]: Alert,
 			[NOTIFICATIONS.ACCEPT_SQUAD]: AcceptSquad,
+			[NOTIFICATIONS.INVITE_SQUAD]: InviteSquad,
 			[NOTIFICATIONS.FOLLOW]: Follow,
 			[NOTIFICATIONS.FOLLOW_REQUEST]: FollowRequest,
 		},
 	}),
 	methods: {
 		getComponent (notification) {
-			if (!this.isAccept && notification.type !== NOTIFICATIONS.ACCEPT_SQUAD) {
+			if (
+				!this.isAccept &&
+				notification.type !== NOTIFICATIONS.ACCEPT_SQUAD &&
+				notification.type !== NOTIFICATIONS.INVITE_SQUAD
+			) {
 				return this.components[notification.type];
 			} else if (this.isAccept) {
 				return this.components[notification.type];

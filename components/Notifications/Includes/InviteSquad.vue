@@ -3,22 +3,29 @@
 		<UserLink
 			ref="user-link"
 			size="10.76vw"
-			:user="acceptingUser"
+			:user="invitingUser"
 			hide-name
 		/>
 		<div class="notification-message">
 			<div class="message">
 				<span ref="message">
 					<UserLink
-						:user="acceptingUser"
+						:user="invitingUser"
 						hide-avatar
 					/>
-					{{ $t('notify.accepted') }}
+					{{ $t('notify.invited') }}
 				</span>
-				<v-btn ref="accepted-mark" depressed class="my-2 accepted-mark">
-					<img src="~assets/img/in-squad.svg" alt="In Squad" class="in-squad">
-					<span class="ml-2 accepted-btn-text">{{ $t('user.invitation.inSquad') }}</span>
-				</v-btn>
+				<div ref="invite-actions" class="d-flex my-2">
+					<Button ref="accept-btn" class="ma-0 mr-2" @click.native="accept">
+						<v-icon x-small>
+							sqdi-checkmark
+						</v-icon>
+						<span class="ml-2">{{ $t('user.invitation.accept') }}</span>
+					</Button>
+					<v-btn ref="deny-btn" outlined depressed class="deny-btn" @click="deny">
+						{{ $t('user.invitation.deny') }}
+					</v-btn>
+				</div>
 				<span ref="time-string" class="time-string-section">
 					<span class="time-string">
 						{{ timeString }}
@@ -31,11 +38,13 @@
 
 <script>
 import UserLink from '~/components/UserLink';
+import Button from '~/components/common/Button';
 
 export default {
-	name: 'NotifyAcceptSquad',
+	name: 'NotifyInviteSquad',
 	components: {
 		UserLink,
+		Button,
 	},
 	props: {
 		notification: {
@@ -52,8 +61,27 @@ export default {
 			window.moment.locale(this._i18n.locale);
 			return window.moment(this.notification.ts).fromNow();
 		},
-		acceptingUser () {
+		invitingUser () {
 			return this.notification.user;
+		},
+	},
+	methods: {
+		accept() {
+			const { me } = this.$store.state.user;
+			if (!me.nameSelected) {
+				return this.$router.push('/select-username');
+			}
+			this.$ws.sendObj({
+				type: 'acceptSquad',
+				targetUserId: this.notification.userId,
+			});
+			this.$forceUpdate();
+		},
+		deny() {
+			this.$ws.sendObj({
+				type: 'removeSquadder',
+				guid: this.user.userId,
+			});
 		},
 	},
 };

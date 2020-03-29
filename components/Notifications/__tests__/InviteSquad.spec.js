@@ -1,23 +1,26 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import AcceptSquad from '../Includes/AcceptSquad.vue';
-import { notifAcceptSquad } from '~/test/notifications.mock';
+import InviteSquad from '../Includes/InviteSquad.vue';
+import { notifInviteSquad } from '~/test/notifications.mock';
 import Store from '~/store';
+import { userMockBuilder } from '~/test/user.mock';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
 
-describe('Notifications AcceptSquad', () => {
+describe('Notifications InviteSquad', () => {
 	let wrapper;
 	let store;
 	let localVue;
 	let $ws;
+	let user;
 
 	const USER_LINK = 'user-link';
 	const MESSAGE = 'message';
 	const TIME_STRING = 'time-string';
-	const ACCEPTED_MARK = 'accepted-mark';
+	const ACCEPT_BTN = 'accept-btn';
+	const DENY_BTN = 'deny-btn';
 	const $router = {
 		push: jest.fn(),
 	};
@@ -35,12 +38,14 @@ describe('Notifications AcceptSquad', () => {
 			fromNow: jest.fn(),
 		});
 		window.moment.locale = jest.fn();
+		user = userMockBuilder().get();
+		store.state.user.me = user;
 
-		wrapper = shallowMount(AcceptSquad, {
+		wrapper = shallowMount(InviteSquad, {
 			store,
 			localVue,
 			propsData: {
-				notification: notifAcceptSquad,
+				notification: notifInviteSquad,
 			},
 			mocks: {
 				$t: msg => msg,
@@ -57,9 +62,25 @@ describe('Notifications AcceptSquad', () => {
 		const userLink = wrapper.ref(USER_LINK);
 		const message = wrapper.ref(MESSAGE);
 		const timeString = wrapper.ref(TIME_STRING);
+		const acceptButton = wrapper.ref(ACCEPT_BTN);
+		const denyButton = wrapper.ref(DENY_BTN);
 		expect(userLink.exists()).toBe(true);
 		expect(message.exists()).toBe(true);
 		expect(timeString.exists()).toBe(true);
-		expect(wrapper.ref(ACCEPTED_MARK).exists()).toBe(true);
+		expect(acceptButton.exists()).toBe(true);
+		expect(denyButton.exists()).toBe(true);
+	});
+
+	it('should accept squad', () => {
+		const acceptButton = wrapper.ref(ACCEPT_BTN);
+		store.state.user.me.nameSelected = false;
+		acceptButton.trigger('click');
+		expect($router.push).toHaveBeenCalledWith('/select-username');
+		store.state.user.me.nameSelected = true;
+		acceptButton.trigger('click');
+		expect($ws.sendObj).toHaveBeenCalledWith({
+			type: 'acceptSquad',
+			targetUserId: notifInviteSquad.user.guid,
+		});
 	});
 });

@@ -32,20 +32,26 @@
 						:user="friend"
 					/>
 					<RemoveSquad v-if="isMySquad(friend)" :user="friend" />
-					<Button v-else-if="!friend.isMySquad" @click.native="() => invite(friend)">
+					<Button
+						v-else-if="!friend.isMySquad"
+						class="ma-0"
+						@click.native="() => invite(friend)"
+					>
 						<v-icon small color="white">
 							mdi-account-plus-outline
 						</v-icon>
-						<span class="ml-2">{{ $t('invite') }}</span>
+						<span class="ml-1">{{ $t('invite') }}</span>
 					</Button>
 					<Button
-						v-else-if="friend.isInvitee"
+						v-else-if="!friend.isInvitee"
+						class="ma-0"
+						style="background: #fd6256"
 						@click.native="() => accept(friend)"
 					>
 						<v-icon small color="white">
 							mdi-check
 						</v-icon>
-						<span class="ml-2">{{ $t('accept') }}</span>
+						<span class="ml-1">{{ $t('accept') }}</span>
 					</Button>
 					<v-btn
 						v-else
@@ -56,7 +62,7 @@
 						<v-icon small color="#b8b8b0">
 							mdi-account-check-outline
 						</v-icon>
-						<span class="ml-2">{{ $t('invited') }}</span>
+						<span class="ml-1">{{ $t('invited') }}</span>
 					</v-btn>
 				</div>
 			</div>
@@ -126,7 +132,7 @@ export default {
 				return this.$router.push('/select-username');
 			}
 			await prefetch({
-				type: 'acceptSquad', // type: 'inviteSquad'
+				type: 'inviteSquad',
 				targetUserId: friend.userId,
 				mutation: `${UserStore}/${UserMutations.setMe}`,
 				store: this.$store,

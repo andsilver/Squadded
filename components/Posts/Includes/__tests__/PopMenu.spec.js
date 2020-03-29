@@ -199,7 +199,7 @@ describe('PopMenu', () => {
 		store.state.socket.isAuth = true;
 		wrapper.ref(ADD).trigger('click');
 		expect($ws.sendObj).toHaveBeenCalledWith({
-			type: 'acceptSquad',
+			type: 'inviteSquad',
 			targetUserId: post.user.guid || post.user.userId,
 		});
 	});
