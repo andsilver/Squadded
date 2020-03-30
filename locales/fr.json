@@ -1,6 +1,6 @@
 {
 	"Activities": "Activités",
-	"All": "Tous",
+	"All": "Tout",
 	"Cancel": "Annuler",
 	"Choose": "Choisir",
 	"Close": "Fermer",
@@ -27,7 +27,7 @@
 	"Next": "Suivant",
 	"Notifications": "Notifications",
 	"PairedItem": {
-		"all": "Tous",
+		"all": "Populaires",
 		"outfits": "Outfits",
 		"photos": "Photos",
 		"polls": "Sondages"
@@ -234,11 +234,13 @@
 	},
 	"noPasswordRemember": "Plus de mot de passe à retenir. Nous vous envoyons un code unique pour être bien sur que c'est vous.",
 	"notify": {
+		"accepted": "a accepté votre invitation",
 		"accepted_invite": "veut rejoindre votre squad",
 		"comment": "a commenté",
 		"commented": "a commenté",
 		"commentedq": "a commenté:",
 		"follow": "vous a ajouté a ses inspirations",
+		"invited": "veut rejoindre votre squad",
 		"isEmpty": "Vous n'avez pas encore de notifications",
 		"like": "a aimé",
 		"new": "Nouveau",
@@ -493,7 +495,7 @@
 		"discover": "Découvrir les articles",
 		"empty": "Vous n'avez pas encore d'articles dans votre wishlist.",
 		"postempty": "Votre wishlist est vide. Ajoutez des produits pour créer une publication",
-		"private": "Ce compte est privé\nSeul le squad de @{user} \npeut voir ses publications.",
+		"private": "Ce compte est privé\n Seul le squad de @{user}\n peut voir ses publications.",
 		"purchase": "ACHETER"
 	}
 }

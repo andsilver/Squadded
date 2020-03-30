@@ -1,500 +1,501 @@
 {
-  "Activities": "Activities",
-  "All": "All",
-  "Cancel": "Cancel",
-  "Choose": "Choose",
-  "Close": "Close",
-  "Comment": "Comment",
-  "Comments": "Comments",
-  "Community": "The Community",
-  "Create": "Create",
-  "CreateANew": "Create a New",
-  "Delete": "Delete",
-  "Edit": "Edit",
-  "EnterUsername": "Enter your username",
-  "Explore": "Explore",
-  "Home": "Home",
-  "Just": "Just",
-  "Like": "Like",
-  "Likes": "Likes",
-  "Messageregarding": "Message regarding phone charges",
-  "Messages": "Messages",
-  "My Squad": "My Squad",
-  "NewOutfit": "New outfit",
-  "NewPoll": "New poll",
-  "NewPost": "New post",
-  "NewPosts": "New Posts",
-  "Next": "Next",
-  "Notifications": "Notifications",
-  "PairedItem": {
-    "all": "All",
-    "outfits": "Outfits",
-    "photos": "Photos",
-    "polls": "Polls"
-  },
-  "PickUsername": "You're almost done!",
-  "Post": "Post",
-  "Posts": "Posts",
-  "PoweredBy": "POWERED BY",
-  "Profile": "Profile",
-  "Pushed": "Pushed",
-  "Requests": "Requests",
-  "Save": "Save",
-  "Saved": "Saved",
-  "Search": "Search your wishlist...",
-  "SelectOutfitName": "Write a caption for your outfit",
-  "SelectPollName": "Ask a question...",
-  "ShopWithYourFriendsOn": "Shop with your friends on",
-  "Signin": "Sign in",
-  "Squadders": "Squadders",
-  "StartBuildingYourSquad": "You're almost done! After this, you'll start building your squad.",
-  "Undo": "Undo",
-  "UseOneTimeCode": "Use one-time code",
-  "Wecare": "We care about your security. Help us keep our community safe.",
-  "Wishlist": "Wishlist",
-  "YouCanAlwaysChange": "Only letters, digits and underscores. You can always change it later.",
-  "YourItem": "your item",
-  "YourOutfit": "your outfit",
-  "YourPicture": "your picture",
-  "YourPoll": "your poll",
-  "a poll": "a poll",
-  "agree_left": "Please check the box to confirm that you agree to our",
-  "agree_right": "terms and conditions.",
-  "an outfit": "an outfit",
-  "comment": {
-    "pop": {
-      "Action": "Action",
-      "deleteComment": {
-        "decline": "Ok, do not delete comment",
-        "description": "Are you sure? This action can not be reverted.",
-        "menu": "Delete",
-        "question": "Delete this comment?"
-      },
-      "reportComment": {
-        "decline": "Ok, do not report comment",
-        "description": "Are you sure? This action can not be reverted.",
-        "inappropriate": "Inappropriate",
-        "menu": "Report",
-        "notInteresting": "Not interesting",
-        "other": "Other",
-        "question": "Report comment",
-        "spam": "Spam",
-        "whatiswrong": "Tell us what's wrong"
-      }
-    },
-    "view_all_comments": "View all {n} comments"
-  },
-  "community": {
-    "start_watching": {
-      "action": "start watching",
-      "description": "Here you'll see all the activities of the online community",
-      "title": "Check out posts from all users"
-    }
-  },
-  "create": {
-    "outfit": "Outfit",
-    "photo": "Photo",
-    "poll": "Poll"
-  },
-  "createDesc": {
-    "outfit": "Pair 2-4 items in a single post",
-    "photo": "Add a photo and tag items on it",
-    "poll": "Ask your followers to vote between 2 items",
-    "unsupported_file_format": "This image format is not supported"
-  },
-  "create_your_squad": {
-    "description": "Add your friends to join your squad. Once they join, you will be able to see and interact with each other’s wishlist.",
-    "invited_text": "Do you want {user} to join your squad?",
-    "invited_you": "invited you",
-    "skip_for_now": "skip for now",
-    "title": "Create your squad"
-  },
-  "enterCode": "Enter Code",
-  "error": {
-    "404": "Seems you got lost!",
-    "go_to_feed": "go to feed",
-    "oops": "Looks like you got lost during all this fun, let's get back to your friends",
-    "other": "Go back to home screen"
-  },
-  "expiration": {
-    "_15m": "15 min",
-    "_1d": "1 day",
-    "_1h": "1 hour",
-    "_3d": "3 days",
-    "_7d": "1 week"
-  },
-  "expired": "Poll Ended",
-  "explore_page": {
-    "ending_polls": {
-      "description": "Hurry up, help others in their decision before their poll expires",
-      "title": "Ending Polls"
-    },
-    "search": {
-      "find_friends": "Find friends...",
-      "no_results": "No results found for {text}"
-    },
-    "top_gallery": {
-      "title": "Most Popular looks"
-    },
-    "top_items": {
-      "title": "Most wanted items right now"
-    },
-    "top_outfits": {
-      "description": "The trendiest outfits that generated the biggest reactions",
-      "title": "Best Outfits now trending"
-    }
-  },
-  "feed": {
-    "create": "Create Something",
-    "how_it_works": {
-      "action": "how it works",
-      "text": "The shopping activities of your friends will appear here"
-    },
-    "isEmpty": "You have no posts"
-  },
-  "forAllItems": "for all {0} items",
-  "form": {
-    "age": {
-      "label": "I certify that I am 16 or older",
-      "messsage": "You must be older than 16 to continue!"
-    },
-    "allowContact": {
-      "label": "I allow Squadded to contact me",
-      "message": "You must allow us to contact you!"
-    },
-    "bio": "Bio",
-    "done": "Done",
-    "email": "Enter phone number or e-mail",
-    "forgot": "Forgot password?",
-    "instagram_username": "Username",
-    "login": "Login",
-    "name": "Name",
-    "needAnAccount": "Need an account?",
-    "onboard": "Already onboard?",
-    "only_used_for_validation": "Only used for validation",
-    "password": "Password",
-    "phone_number": "Phone number",
-    "pin": "PIN",
-    "rules": {
-      "email": {
-        "required": "E-mail is required",
-        "valid": "Please enter a valid email"
-      },
-      "name": {
-        "required": "Name is required",
-        "valid": "Please enter a username"
-      },
-      "password": {
-        "length": "Name must contain more than {n} characters",
-        "required": "Password is required"
-      },
-      "pin": {
-        "required": "Please enter a valid code",
-        "valid": "Please input correct pin code"
-      },
-      "terms": {
-        "valid": "Please agree to our terms"
-      }
-    },
-    "send_me_otp": "Send code",
-    "signup": "Sign up",
-    "terms": {
-      "label": "I have read and accept the Terms",
-      "message": "You must accept the Terms to continue!"
-    },
-    "validate": "Validate"
-  },
-  "getStarted": "Get started with",
-  "input": {
-    "placeholder": "Write a comment..."
-  },
-  "invite_your_friends": {
-    "add": "Add your friends by name:",
-    "copied": "copied!",
-    "copy_link": "copy link",
-    "or": "or",
-    "search_users": "Search users...",
-    "share": "Share this link with your friends:",
-    "title": "Invite your friends"
-  },
-  "invited": "invited",
-  "landing_post": {
-    "interact_with_user": "Interact with {user}, pair and save items to your wishlist",
-    "sign_in": "sign in",
-    "skip": "skip"
-  },
-  "moderation": {
-    "text": "Seems like your post goes against our guidelines, our moderators will review it. If your post goes against our guidelines, your account maybe suspended.",
-    "violation": "Possible Violation"
-  },
-  "mysquad": {
-    "add_friends": "Add friends",
-    "search": "Search your squad...",
-    "share_private_link": "or share private link"
-  },
-  "noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
-  "notify": {
-	"invited": "wants to join your squad",
-    "accepted": "accepted your invite",
-    "comment": "",
-    "commented": "commented",
-    "commentedq": "commented: ",
-    "follow": "is now watching you",
-    "isEmpty": "There is no notifications yet",
-    "like": "liked",
-    "new": "New",
-    "old": "Earlier",
-    "pollend": "Your poll has expired - see the winner!",
-    "post": "your post",
-    "requestEmpty": "You have no new requests",
-    "vote": "voted on"
-  },
-  "ok": "ok",
-  "or": "or",
-  "outfit": {
-    "textPlaceholder": "Type your description"
-  },
-  "pairedItem": {
-    "hesitating_users": "Saved to Wishlist:",
-    "title": "View Item"
-  },
-  "photo": {
-    "browse": "Browse Gallery",
-    "capture": "Take a Photo",
-    "textPlaceholder": "Today I'm wearing this",
-    "update": "Update Photo",
-    "upload": {
-      "done": "Finishing up",
-      "error": "Failed to upload"
-    }
-  },
-  "poll": {
-    "details": "Poll Details",
-    "expiration": "Expires in",
-    "expired": "Poll Ended",
-    "ongoing": "Ongoing",
-    "resultNote": "The winning article will be announced after this time",
-    "results": "Results",
-    "textPlaceholder": "Ask a question",
-    "vote": "VOTE",
-    "voted": "VOTED",
-    "votes": "votes | votes"
-  },
-  "post": {
-    "addToMySquad": "Add {user} to My Squad",
-    "addedGallary": "posted a picture with {0} tagged items",
-    "addedItem": "saved this item",
-    "addedOutfit": "posted a new outfit with {0} items",
-    "addedPoll": "posted a poll, expiring in {0} days",
-    "pop": {
-      "deletePost": {
-        "decline": "Edit",
-        "description": "You can also edit your post. If you selected wrong privacy settings, you can also edit them.",
-        "menu": "Delete",
-        "question": "Delete post?"
-      },
-      "edit": {
-        "decline": "",
-        "description": "",
-        "menu": "Edit",
-        "question": ""
-      },
-      "reportPost": {
-        "decline": "Ok, do not report post",
-        "description": "Are you sure? This action can not be reverted.",
-        "menu": "Report",
-        "question": "Report post"
-      },
-      "setPrivate": {
-        "decline": "Stay public",
-        "description": "Only your followers will be able to see your post",
-        "menu": "Set as private",
-        "question": "Set private?"
-      },
-      "setPublic": {
-        "decline": "Stay private",
-        "description": "Anyone will be able to see your post",
-        "menu": "Set as public",
-        "question": "Set public?"
-      },
-      "sharelink": {
-        "decline": "",
-        "description": "",
-        "menu": "Share link",
-        "question": ""
-      }
-    },
-    "reactions": "Reactions",
-    "removeRachel": "Remove Rachel",
-    "removeUser": "Remove {user} from My Squad",
-    "sending": "sending…",
-    "share": "Share Post",
-    "textPlaceholder": "Input your message for this post",
-    "title": {
-      "comments": "Comments",
-      "galleryPost": "Gallery",
-      "outfitPost": "Outfit",
-      "pollPost": "Poll",
-      "singleItemPost": "Single"
-    },
-    "unwatchRachel": "Unwatch Rachel",
-    "unwatchUser": "Unwatch {user}",
-    "watchUser": "Watch {user}"
-  },
-  "private": "Private",
-  "profile_settings": {
-    "crop_photo": "Crop photo",
-    "delete_account": "Delete account",
-    "delete_confirm": "Are you sure you want to delete your account? You can always delete a post or signout, and come back next time.",
-    "deleted_statement": {
-      "first": "We're sorry to hear that you'd like to delete your account. Please write us at",
-      "second": "and let us know why. Our team will process your request and delete your account."
-    },
-    "feedback": "Feedback",
-    "feedback_warning": "Please only leave feedback about Squadded and our features. All reports are subject to our terms of use.",
-    "general": "General",
-    "language": {
-      "description": "How often do you want to get notifications?",
-      "title": "Language"
-    },
-    "leave": "leave",
-    "notifications": {
-      "description": "How often do you want to get notifications?",
-      "title": "Notifications"
-    },
-    "private_profile": {
-      "description": "Only your squad can see your activity and wishlist",
-      "title": "Private profile"
-    },
-    "profile": "Profile",
-    "profile_privacy": "Profile privacy",
-    "public_profile": {
-      "description": "All the community will be able to see your activity and wishlist",
-      "title": "Public profile"
-    },
-    "read": "read",
-    "saving_confirm": {
-      "description": "If you leave this page, the changes you made will not be saved.",
-      "title": "Save changes?"
-    },
-    "share_your_opinion": "Share your opinion",
-    "signout": {
-      "button": "Sign out",
-      "confirm": "Are you sure you want to sign out?"
-    },
-    "submit": "submit",
-    "submitted_notification": "Thank you. Your report has been sent.",
-    "terms_of_service": {
-      "description": "By using the widget you agree to them",
-      "title": "Terms of Use"
-    },
-    "title": "Edit Settings",
-    "update_cover": "UPDATE COVER"
-  },
-  "public": "Public",
-  "publicToggle": {
-    "forEveryone": "Public posts are visible to all the community.",
-    "forPrivate": "Private posts are only visible to your squad",
-    "toggle": "toggle"
-  },
-  "resendNotify": "New code has been sent",
-  "resend_code": "Resend code",
-  "select_username": {
-    "create_your_profile": "Create your profile"
-  },
-  "shop_with_your_friends": "Shop with your friends",
-  "shopping_party": "Shopping Party",
-  "sign_up_later": "Sign up later",
-  "signemail": "Sign in with email",
-  "signin": {
-    "signin_to_shop_with_your_friends": "Sign in to shop with your friends:"
-  },
-  "spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
-  "styleOutfit": "style in this outfit",
-  "tip": {
-    "addItems": "Add items to your wishlist to create {0}.",
-    "createPhotoTag": "click photo to tag items",
-    "crop": "move points to crop",
-    "limitMessage": "The limit is 4 items per outfit",
-    "outfitError": "You need to select 2 to 4 items to create an outfit",
-    "outfitSelect": "Select 2 to 4 items to pair together",
-    "photoError": "Click the items you want to tag to post a picture.",
-    "photoLimitError": "You cannot tag more than 4 items",
-    "pollError": "You need to select 2 items to create a poll",
-    "pollSelect": "Select 2 items you hesitate with",
-    "tapPhotos": "click photos for details"
-  },
-  "user": {
-    "Follow": "Watch",
-    "Followers": "Watchers",
-    "Following": "Watching",
-    "InSquad": "In Squad",
-    "Likes": "Likes",
-    "MySquad": "My Squad",
-    "Unfollow": "Unfollow",
-    "action": {
-      "Action": "Action",
-      "AddMySquad": "Add to My Squad",
-      "Block": "Block Sophie",
-      "PushWatchers": "Push to watchers",
-      "Remove": "Remove",
-      "Sharelink": "Share link",
-      "Unwatch": "Unwatch",
-      "report": "Report",
-      "reportUser": "Report User"
-    },
-    "edit": "Edit",
-    "empty_squad": "You don't have squadders yet",
-    "followers": "{n} followers",
-    "following": "{n} following",
-    "invitation": {
-      "accept": "accept",
-      "accepted": "accepted",
-      "deny": "deny",
-      "inSquad": "In Squad",
-      "invite": "Invite",
-      "invited_text": "invited you to join their squad",
-      "pending": "Pending...",
-      "pending_text": "As soon as @{user} confirms,\nyou will appear in each other's squad",
-      "send_invite_link": "Send invite link",
-      "text": ""
-    },
-    "promptFollow": "Do you want to follow {0}?",
-    "remove_squad": {
-      "cancel": "cancel",
-      "description": "Removing {user} from your squad means you will no longer see and interact with each other's posts and wishlists",
-      "remove": "remove",
-      "title": "Remove {user}?"
-    },
-    "share": "Share profile",
-    "watch_users_you_like": "users you like, to make their posts appear first in your feed"
-  },
-  "validate": "validate",
-  "viewAll": "View all",
-  "walkthrough": {
-    "next": "next",
-    "step1": {
-      "strong": "Browse",
-      "text": "the activities of the Community to discover new looks"
-    },
-    "step2": {
-      "strong": "Invite",
-      "text": "new friends to join your squad and shop with them"
-    },
-    "step3": {
-      "start_shopping": "start shopping",
-      "strong": "your squad",
-      "text1": "When you add an item from the store to your wishlist, ",
-      "text2": " will now be able to interact"
-    }
-  },
-  "winner": "Winner",
-  "wishlist": {
-    "disabled_before_signin": "Please sign in to see the items",
-    "discover": "Discover Items",
-    "empty": "Add something to your Wishlist",
-    "postempty": "Your Wishlist is empty. Add items to create a post",
-    "private": "This account is private\n Only @{user}'s squad\n can see their posts.",
-    "purchase": "Move to Bag"
-  }
+	"Activities": "Activities",
+	"All": "All",
+	"Cancel": "Cancel",
+	"Choose": "Choose",
+	"Close": "Close",
+	"Comment": "Comment",
+	"Comments": "Comments",
+	"Community": "The Community",
+	"Create": "Create",
+	"CreateANew": "Create a New",
+	"Delete": "Delete",
+	"Edit": "Edit",
+	"EnterUsername": "Enter your username",
+	"Explore": "Explore",
+	"Home": "Home",
+	"Just": "Just",
+	"Like": "Like",
+	"Likes": "Likes",
+	"Messageregarding": "Message regarding phone charges",
+	"Messages": "Messages",
+	"My Squad": "My Squad",
+	"NewOutfit": "New outfit",
+	"NewPoll": "New poll",
+	"NewPost": "New post",
+	"NewPosts": "New Posts",
+	"Next": "Next",
+	"Notifications": "Notifications",
+	"PairedItem": {
+		"all": "Top",
+		"outfits": "Outfits",
+		"photos": "Photos",
+		"polls": "Polls"
+	},
+	"PickUsername": "You're almost done!",
+	"Post": "Post",
+	"Posts": "Posts",
+	"PoweredBy": "POWERED BY",
+	"Profile": "Profile",
+	"Pushed": "Pushed",
+	"Requests": "Requests",
+	"Save": "Save",
+	"Saved": "Saved",
+	"Search": "Search your wishlist...",
+	"SelectOutfitName": "Write a caption for your outfit",
+	"SelectPollName": "Ask a question...",
+	"ShopWithYourFriendsOn": "Shop with your friends on",
+	"Signin": "Sign in",
+	"Squadders": "Squadders",
+	"StartBuildingYourSquad": "You're almost done! After this, you'll start building your squad.",
+	"Undo": "Undo",
+	"UseOneTimeCode": "Use one-time code",
+	"Wecare": "We care about your security. Help us keep our community safe.",
+	"Wishlist": "Wishlist",
+	"YouCanAlwaysChange": "Only letters, digits and underscores. You can always change it later.",
+	"YourItem": "your item",
+	"YourOutfit": "your outfit",
+	"YourPicture": "your picture",
+	"YourPoll": "your poll",
+	"a poll": "a poll",
+	"agree_left": "Please check the box to confirm that you agree to our",
+	"agree_right": "terms and conditions.",
+	"an outfit": "an outfit",
+	"comment": {
+		"pop": {
+			"Action": "Action",
+			"deleteComment": {
+				"decline": "Ok, do not delete comment",
+				"description": "Are you sure? This action can not be reverted.",
+				"menu": "Delete",
+				"question": "Delete this comment?"
+			},
+			"reportComment": {
+				"decline": "Ok, do not report comment",
+				"description": "Are you sure? This action can not be reverted.",
+				"inappropriate": "Inappropriate",
+				"menu": "Report",
+				"notInteresting": "Not interesting",
+				"other": "Other",
+				"question": "Report comment",
+				"spam": "Spam",
+				"whatiswrong": "Tell us what's wrong"
+			}
+		},
+		"view_all_comments": "View all {n} comments"
+	},
+	"community": {
+		"start_watching": {
+			"action": "start watching",
+			"description": "Here you'll see all the activities of the online community",
+			"title": "Check out posts from all users"
+		}
+	},
+	"create": {
+		"outfit": "Outfit",
+		"photo": "Photo",
+		"poll": "Poll"
+	},
+	"createDesc": {
+		"outfit": "Pair 2-4 items in a single post",
+		"photo": "Add a photo and tag items on it",
+		"poll": "Ask your followers to vote between 2 items",
+		"unsupported_file_format": "This image format is not supported"
+	},
+	"create_your_squad": {
+		"description": "Add your friends to join your squad. Once they join, you will be able to see and interact with each other’s wishlist.",
+		"invited_text": "Do you want {user} to join your squad?",
+		"invited_you": "invited you",
+		"skip_for_now": "skip for now",
+		"title": "Create your squad"
+	},
+	"enterCode": "Enter Code",
+	"error": {
+		"404": "Seems you got lost!",
+		"go_to_feed": "go to feed",
+		"oops": "Looks like you got lost during all this fun, let's get back to your friends",
+		"other": "Go back to home screen"
+	},
+	"expiration": {
+		"_15m": "15 min",
+		"_1d": "1 day",
+		"_1h": "1 hour",
+		"_3d": "3 days",
+		"_7d": "1 week"
+	},
+	"expired": "Poll Ended",
+	"explore_page": {
+		"ending_polls": {
+			"description": "Hurry up, help others in their decision before their poll expires",
+			"title": "Ending Polls"
+		},
+		"search": {
+			"find_friends": "Find friends...",
+			"no_results": "No results found for {text}"
+		},
+		"top_gallery": {
+			"title": "Most Popular looks"
+		},
+		"top_items": {
+			"title": "Most wanted items right now"
+		},
+		"top_outfits": {
+			"description": "The trendiest outfits that generated the biggest reactions",
+			"title": "Best Outfits now trending"
+		}
+	},
+	"feed": {
+		"create": "Create Something",
+		"how_it_works": {
+			"action": "how it works",
+			"text": "The shopping activities of your friends will appear here"
+		},
+		"isEmpty": "You have no posts"
+	},
+	"forAllItems": "for all {0} items",
+	"form": {
+		"age": {
+			"label": "I certify that I am 16 or older",
+			"messsage": "You must be older than 16 to continue!"
+		},
+		"allowContact": {
+			"label": "I allow Squadded to contact me",
+			"message": "You must allow us to contact you!"
+		},
+		"bio": "Bio",
+		"done": "Done",
+		"email": "Enter phone number or e-mail",
+		"forgot": "Forgot password?",
+		"instagram_username": "Username",
+		"login": "Login",
+		"name": "Name",
+		"needAnAccount": "Need an account?",
+		"onboard": "Already onboard?",
+		"only_used_for_validation": "Only used for validation",
+		"password": "Password",
+		"phone_number": "Phone number",
+		"pin": "PIN",
+		"rules": {
+			"email": {
+				"required": "E-mail is required",
+				"valid": "Please enter a valid email"
+			},
+			"name": {
+				"required": "Name is required",
+				"valid": "Please enter a username"
+			},
+			"password": {
+				"length": "Name must contain more than {n} characters",
+				"required": "Password is required"
+			},
+			"pin": {
+				"required": "Please enter a valid code",
+				"valid": "Please input correct pin code"
+			},
+			"terms": {
+				"valid": "Please agree to our terms"
+			}
+		},
+		"send_me_otp": "Send code",
+		"signup": "Sign up",
+		"terms": {
+			"label": "I have read and accept the Terms",
+			"message": "You must accept the Terms to continue!"
+		},
+		"validate": "Validate"
+	},
+	"getStarted": "Get started with",
+	"input": {
+		"placeholder": "Write a comment..."
+	},
+	"invite_your_friends": {
+		"add": "Add your friends by name:",
+		"copied": "copied!",
+		"copy_link": "copy link",
+		"or": "or",
+		"search_users": "Search users...",
+		"share": "Share this link with your friends:",
+		"title": "Invite your friends"
+	},
+	"invited": "invited",
+	"landing_post": {
+		"interact_with_user": "Interact with {user}, pair and save items to your wishlist",
+		"sign_in": "sign in",
+		"skip": "skip"
+	},
+	"moderation": {
+		"text": "Seems like your post goes against our guidelines, our moderators will review it. If your post goes against our guidelines, your account maybe suspended.",
+		"violation": "Possible Violation"
+	},
+	"mysquad": {
+		"add_friends": "Add friends",
+		"search": "Search your squad...",
+		"share_private_link": "or share private link"
+	},
+	"noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
+	"notify": {
+		"accepted": "accepted your invite",
+		"accepted_invite": "",
+		"comment": "",
+		"commented": "commented",
+		"commentedq": "commented: ",
+		"follow": "is now watching you",
+		"invited": "wants to join your squad",
+		"isEmpty": "There is no notifications yet",
+		"like": "liked",
+		"new": "New",
+		"old": "Earlier",
+		"pollend": "Your poll has expired - see the winner!",
+		"post": "your post",
+		"requestEmpty": "You have no new requests",
+		"vote": "voted on"
+	},
+	"ok": "ok",
+	"or": "or",
+	"outfit": {
+		"textPlaceholder": "Type your description"
+	},
+	"pairedItem": {
+		"hesitating_users": "Saved to Wishlist:",
+		"title": "View Item"
+	},
+	"photo": {
+		"browse": "Browse Gallery",
+		"capture": "Take a Photo",
+		"textPlaceholder": "Today I'm wearing this",
+		"update": "Update Photo",
+		"upload": {
+			"done": "Finishing up",
+			"error": "Failed to upload"
+		}
+	},
+	"poll": {
+		"details": "Poll Details",
+		"expiration": "Expires in",
+		"expired": "Poll Ended",
+		"ongoing": "Ongoing",
+		"resultNote": "The winning article will be announced after this time",
+		"results": "Results",
+		"textPlaceholder": "Ask a question",
+		"vote": "VOTE",
+		"voted": "VOTED",
+		"votes": "votes | votes"
+	},
+	"post": {
+		"addToMySquad": "Add {user} to My Squad",
+		"addedGallary": "posted a picture with {0} tagged items",
+		"addedItem": "saved this item",
+		"addedOutfit": "posted a new outfit with {0} items",
+		"addedPoll": "posted a poll, expiring in {0} days",
+		"pop": {
+			"deletePost": {
+				"decline": "Edit",
+				"description": "You can also edit your post. If you selected wrong privacy settings, you can also edit them.",
+				"menu": "Delete",
+				"question": "Delete post?"
+			},
+			"edit": {
+				"decline": "",
+				"description": "",
+				"menu": "Edit",
+				"question": ""
+			},
+			"reportPost": {
+				"decline": "Ok, do not report post",
+				"description": "Are you sure? This action can not be reverted.",
+				"menu": "Report",
+				"question": "Report post"
+			},
+			"setPrivate": {
+				"decline": "Stay public",
+				"description": "Only your followers will be able to see your post",
+				"menu": "Set as private",
+				"question": "Set private?"
+			},
+			"setPublic": {
+				"decline": "Stay private",
+				"description": "Anyone will be able to see your post",
+				"menu": "Set as public",
+				"question": "Set public?"
+			},
+			"sharelink": {
+				"decline": "",
+				"description": "",
+				"menu": "Share link",
+				"question": ""
+			}
+		},
+		"reactions": "Reactions",
+		"removeRachel": "Remove Rachel",
+		"removeUser": "Remove {user} from My Squad",
+		"sending": "sending…",
+		"share": "Share Post",
+		"textPlaceholder": "Input your message for this post",
+		"title": {
+			"comments": "Comments",
+			"galleryPost": "Gallery",
+			"outfitPost": "Outfit",
+			"pollPost": "Poll",
+			"singleItemPost": "Single"
+		},
+		"unwatchRachel": "Unwatch Rachel",
+		"unwatchUser": "Unwatch {user}",
+		"watchUser": "Watch {user}"
+	},
+	"private": "Private",
+	"profile_settings": {
+		"crop_photo": "Crop photo",
+		"delete_account": "Delete account",
+		"delete_confirm": "Are you sure you want to delete your account? You can always delete a post or signout, and come back next time.",
+		"deleted_statement": {
+			"first": "We're sorry to hear that you'd like to delete your account. Please write us at",
+			"second": "and let us know why. Our team will process your request and delete your account."
+		},
+		"feedback": "Feedback",
+		"feedback_warning": "Please only leave feedback about Squadded and our features. All reports are subject to our terms of use.",
+		"general": "General",
+		"language": {
+			"description": "How often do you want to get notifications?",
+			"title": "Language"
+		},
+		"leave": "leave",
+		"notifications": {
+			"description": "How often do you want to get notifications?",
+			"title": "Notifications"
+		},
+		"private_profile": {
+			"description": "Only your squad can see your activity and wishlist",
+			"title": "Private profile"
+		},
+		"profile": "Profile",
+		"profile_privacy": "Profile privacy",
+		"public_profile": {
+			"description": "All the community will be able to see your activity and wishlist",
+			"title": "Public profile"
+		},
+		"read": "read",
+		"saving_confirm": {
+			"description": "If you leave this page, the changes you made will not be saved.",
+			"title": "Save changes?"
+		},
+		"share_your_opinion": "Share your opinion",
+		"signout": {
+			"button": "Sign out",
+			"confirm": "Are you sure you want to sign out?"
+		},
+		"submit": "submit",
+		"submitted_notification": "Thank you. Your report has been sent.",
+		"terms_of_service": {
+			"description": "By using the widget you agree to them",
+			"title": "Terms of Use"
+		},
+		"title": "Edit Settings",
+		"update_cover": "UPDATE COVER"
+	},
+	"public": "Public",
+	"publicToggle": {
+		"forEveryone": "Public posts are visible to all the community.",
+		"forPrivate": "Private posts are only visible to your squad",
+		"toggle": "toggle"
+	},
+	"resendNotify": "New code has been sent",
+	"resend_code": "Resend code",
+	"select_username": {
+		"create_your_profile": "Create your profile"
+	},
+	"shop_with_your_friends": "Shop with your friends",
+	"shopping_party": "Shopping Party",
+	"sign_up_later": "Sign up later",
+	"signemail": "Sign in with email",
+	"signin": {
+		"signin_to_shop_with_your_friends": "Sign in to shop with your friends:"
+	},
+	"spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
+	"styleOutfit": "style in this outfit",
+	"tip": {
+		"addItems": "Add items to your wishlist to create {0}.",
+		"createPhotoTag": "click photo to tag items",
+		"crop": "move points to crop",
+		"limitMessage": "The limit is 4 items per outfit",
+		"outfitError": "You need to select 2 to 4 items to create an outfit",
+		"outfitSelect": "Select 2 to 4 items to pair together",
+		"photoError": "Click the items you want to tag to post a picture.",
+		"photoLimitError": "You cannot tag more than 4 items",
+		"pollError": "You need to select 2 items to create a poll",
+		"pollSelect": "Select 2 items you hesitate with",
+		"tapPhotos": "click photos for details"
+	},
+	"user": {
+		"Follow": "Watch",
+		"Followers": "Watchers",
+		"Following": "Watching",
+		"InSquad": "In Squad",
+		"Likes": "Likes",
+		"MySquad": "My Squad",
+		"Unfollow": "Unfollow",
+		"action": {
+			"Action": "Action",
+			"AddMySquad": "Add to My Squad",
+			"Block": "Block Sophie",
+			"PushWatchers": "Push to watchers",
+			"Remove": "Remove",
+			"Sharelink": "Share link",
+			"Unwatch": "Unwatch",
+			"report": "Report",
+			"reportUser": "Report User"
+		},
+		"edit": "Edit",
+		"empty_squad": "You don't have squadders yet",
+		"followers": "{n} followers",
+		"following": "{n} following",
+		"invitation": {
+			"accept": "accept",
+			"accepted": "accepted",
+			"deny": "deny",
+			"inSquad": "In Squad",
+			"invite": "Invite",
+			"invited_text": "invited you to join their squad",
+			"pending": "Pending...",
+			"pending_text": "As soon as @{user} confirms,\nyou will appear in each other's squad",
+			"send_invite_link": "Send invite link",
+			"text": ""
+		},
+		"promptFollow": "Do you want to follow {0}?",
+		"remove_squad": {
+			"cancel": "cancel",
+			"description": "Removing {user} from your squad means you will no longer see and interact with each other's posts and wishlists",
+			"remove": "remove",
+			"title": "Remove {user}?"
+		},
+		"share": "Share profile",
+		"watch_users_you_like": "users you like, to make their posts appear first in your feed"
+	},
+	"validate": "validate",
+	"viewAll": "View all",
+	"walkthrough": {
+		"next": "next",
+		"step1": {
+			"strong": "Browse",
+			"text": "the activities of the Community to discover new looks"
+		},
+		"step2": {
+			"strong": "Invite",
+			"text": "new friends to join your squad and shop with them"
+		},
+		"step3": {
+			"start_shopping": "start shopping",
+			"strong": "your squad",
+			"text1": "When you add an item from the store to your wishlist, ",
+			"text2": " will now be able to interact"
+		}
+	},
+	"winner": "Winner",
+	"wishlist": {
+		"disabled_before_signin": "Please sign in to see the items",
+		"discover": "Discover Items",
+		"empty": "Add something to your Wishlist",
+		"postempty": "Your Wishlist is empty. Add items to create a post",
+		"private": "This account is private\n Only @{user}'s squad\n can see their posts.",
+		"purchase": "Move to Bag"
+	}
 }
