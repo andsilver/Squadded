@@ -96,6 +96,7 @@ export default {
 	width 100%
 	background #fff
 	padding-top 2vw
+	border-bottom 1px solid rgba(0,0,0,0.3)
 	.left-sec
 		height 36px
 		position relative

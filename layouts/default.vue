@@ -9,7 +9,7 @@
 			</v-dialog>
 		</v-content>
 		<v-bottom-navigation v-if="!isOnboarding" class="bottom-tab-section" height="65">
-			<TabBar ref="tab-bar" />
+			<TabBar ref="tab-bar" class="tab-bar-section" />
 		</v-bottom-navigation>
 		<div v-if="socket.isPendingAuth" ref="preloader" class="pending d-flex justify-center align-center">
 			<img src="~/assets/img/loading.gif">
@@ -158,4 +158,7 @@ export default {
 
 .bottom-tab-section
 	z-index 199
+	background-color rgba(255,255,255,0.96) !important
+.tab-bar-section
+	background-color transparent
 </style>

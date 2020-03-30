@@ -312,9 +312,6 @@ export default {
 		.post_title
 			span
 				color #000
-.multi-item
-	.card_bottom
-		display none
 .ending-poll-post
 	.card_bottom.card_inline
 		display flex

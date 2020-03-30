@@ -202,7 +202,7 @@ export default {
 			margin-bottom 8px
 			padding-left 16px
 	>>> .comment
-			margin-bottom 3.01vw
+			margin-bottom 1vw
 .visibility
 	width 0px
 	height 41.19px

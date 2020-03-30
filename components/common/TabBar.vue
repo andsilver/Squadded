@@ -2,6 +2,7 @@
 	<v-tabs
 		grow
 		height="65"
+		class="tabs-sec"
 		@click.native="(e) => onTabClick(e)"
 	>
 		<Tab :tab="tabs[0]" :class="{ 'v-tab--active': fakeActiveTab }" @click.native="closeMenu" />
@@ -84,7 +85,6 @@ export default {
 .badge
 	top 12px
 	left 39px
-
 @media screen and (max-width 300px)
 	.v-tabs
 		>>> .tab_text

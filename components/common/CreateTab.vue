@@ -84,20 +84,22 @@ export default {
 	min-width: auto;
 	padding :0;
 }
+.create.tab_item.v-tab{
+	margin-top: -5vw;
+}
 .v-tabs-bar__content .create.tab_item .v-btn{
 	content: "";
 	z-index: 5;
-	border: 2px solid black;
-	border-radius: 10px;
-	height: 45px;
-	width: 45px;
+	border: 0px solid black;
+	border-radius: 6.153vw;
+	height: 18.461vw;
+	width: 18.461vw;
 	min-width:auto;
 	background: #000;
 }
 .plus_icon:before{
 	color : #fff;
-	font-size : 0.6em !important;
-	margin-bottom: 4px;
+	font-size : 3.846vw !important;
 }
 .v-menu__content.theme--light.v-menu__content--fixed.menuable__content__active {
     min-width: 100% !important;
@@ -108,10 +110,15 @@ export default {
     border-top-left-radius: 8vw;
     height: auto !important;
 	padding-bottom: 10px;
-    background-color: transparent;
+	background-color: transparent;
+	bottom: 55px;
+	top: auto !important;
+	z-index: 199 !important;
 }
 .v-list.open-add-section.v-sheet.v-sheet--tile.theme--light {
-    padding: 4.893vw 4VW 0;
+	padding: 4.893vw 4VW 0;
+	padding-bottom: 5.6vw;
+    border-radius: 0px !important;
 }
 .v-list.open-add-section.v-sheet.v-sheet--tile.theme--light h5 {
     color: #B8B8BA;
