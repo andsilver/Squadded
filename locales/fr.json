@@ -1,6 +1,6 @@
 {
 	"Activities": "Activités",
-	"All": "Tout",
+	"All": "Notifications",
 	"Cancel": "Annuler",
 	"Choose": "Choisir",
 	"Close": "Fermer",
@@ -25,7 +25,7 @@
 	"NewPost": "Nouvelle Publication",
 	"NewPosts": "Nouvelles Publications",
 	"Next": "Suivant",
-	"Notifications": "Notifications",
+	"Notifications": "Messages",
 	"PairedItem": {
 		"all": "Populaires",
 		"outfits": "Outfits",
@@ -47,7 +47,7 @@
 	"ShopWithYourFriendsOn": "Faites du shopping entre amis",
 	"Signin": "Se connecter",
 	"Squadders": "Squadders",
-	"StartBuildingYourSquad": "Vous avez presque fini! Après cette étape, vous inviterez tvos amis a rejoindre votre squad.",
+	"StartBuildingYourSquad": "Vous avez presque fini! Après cette étape, vous inviterez vos amis a rejoindre votre squad.",
 	"Undo": "Annuler",
 	"UseOneTimeCode": "Utiliser un code unique",
 	"Wecare": "Nous nous soucions de votre sécurité. Aidez-nous à assurer celle de notre communauté.",
@@ -60,7 +60,7 @@
 	"a poll": "Sondage",
 	"agree_left": "Veuillez cocher la case pour confirmer que vous acceptez nos",
 	"agree_right": "termes et conditions.",
-	"an outfit": "Tenue",
+	"an outfit": "un outfit",
 	"comment": {
 		"pop": {
 			"Action": "Options",
@@ -225,7 +225,7 @@
 	},
 	"moderation": {
 		"text": "Il semble que votre publication va à l'encontre de notre réglementation, nos modérateurs l'examineront. Si votre message va à l'encontre de nos directives, votre compte peut être suspendu.",
-		"violation": "Possible violation du réglement"
+		"violation": "Possible violation du règlement"
 	},
 	"mysquad": {
 		"add_friends": "Ajouter des amis",
@@ -265,7 +265,7 @@
 		"textPlaceholder": "Ajouter une légende...",
 		"update": "Mettre à jour la photo",
 		"upload": {
-			"done": "Presque fini",
+			"done": "Finalisation",
 			"error": "Le téléchargement n'a pas marché"
 		}
 	},
@@ -308,13 +308,13 @@
 			},
 			"setPrivate": {
 				"decline": "Stay public",
-				"description": "Seuls votre squad pourra voir vos publications",
+				"description": "Seul votre squad pourra voir vos publications",
 				"menu": "Rendre privé",
 				"question": "Rendre la publication privée?"
 			},
 			"setPublic": {
 				"decline": "Restez privé",
-				"description": "Tout le monde pourra voir votre publication",
+				"description": "Toute la communauté pourra voir votre publication",
 				"menu": "Rendre public",
 				"question": "Rendre la publication publique?"
 			},
@@ -333,7 +333,7 @@
 		"textPlaceholder": "Ajouter une légende...",
 		"title": {
 			"comments": "Commentaires",
-			"galleryPost": "Gallerie",
+			"galleryPost": "Galerie",
 			"outfitPost": "Outfit",
 			"pollPost": "Sondage",
 			"singleItemPost": "Publication"
@@ -364,13 +364,13 @@
 			"title": "Notifications"
 		},
 		"private_profile": {
-			"description": "Seul votre squad pourra voir votre wishlist et vos publications",
+			"description": "Seul votre squad pourra voir votre wishlist.",
 			"title": "Profil privé"
 		},
 		"profile": "Profil",
 		"profile_privacy": "Confidentialité du profil",
 		"public_profile": {
-			"description": "Tout la communauté pourra voir votre wishlist et vos publications ",
+			"description": "Toute la communauté pourra voir votre wishlist.",
 			"title": "Profil public"
 		},
 		"read": "lire",
@@ -463,7 +463,7 @@
 		"promptFollow": "Veux-tu suivre {0}?",
 		"remove_squad": {
 			"cancel": "Annuler",
-			"description": "Supprimer {user} de ton squad signifie que vous tu ne pourras plus voir ni réagir à ses publications et à sa wishlist.",
+			"description": "Supprimer {user} de ton squad signifie que vous tu ne pourras plus voir ni réagir à sa wishlist.",
 			"remove": "Supprimer",
 			"title": "Supprimer {user}?"
 		},
