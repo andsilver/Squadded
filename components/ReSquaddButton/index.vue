@@ -81,4 +81,10 @@ export default {
 .post-card
 	button.resquadd.is-resquadded
 		background-color rgba(0, 0, 0, 30%)
+
+.wishlist-remove.resquadd
+	background-color rgba(0,0,0,0.1)
+	color #000000
+	text-align center
+	opacity 1
 </style>

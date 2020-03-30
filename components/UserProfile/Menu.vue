@@ -37,3 +37,9 @@ export default {
 	},
 };
 </script>
+<style lang="stylus" scoped>
+.button_more
+	.sqdi-more
+		font-size 5.1vw !important
+		color #B8B8BA
+</style>

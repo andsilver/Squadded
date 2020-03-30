@@ -27,4 +27,11 @@ export default {
 	font-weight: 600;
 	border-width: 2px;
 }
+.invited-button.v-btn {
+	height: 9.23vw !important;
+	font-size: 2.15vw !important;
+	letter-spacing: 1.5px;
+	font-weight: 700;
+}
+
 </style>

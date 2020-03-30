@@ -38,7 +38,10 @@
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
 				<v-list-item-title class="user_name">
-					<span>{{ user.name || user.screenName }}</span>
+					<div class="squad-username">
+						{{ user.name || 'Name' }}
+					</div>
+					<span class="user-screenname">{{ user.screenName }}</span>
 					<div v-if="showScreenName && user.screenName" style="color: #b8b8ba">
 						{{ user.screenName }}
 					</div>
@@ -54,7 +57,7 @@
 			</v-list-item-content>
 		</v-list-item>
 		<span v-else class="user_name">
-			{{ user.name || user.screenName }}
+			{{ user.screenName }}
 		</span>
 	</nuxt-link>
 </template>
@@ -188,6 +191,7 @@ export default {
 	font-weight 400
 .user_link_header
 	position relative
+	background transparent
 .user-section
 	.user_link_header
 		background-color transparent
@@ -262,4 +266,20 @@ export default {
 .highlight
 	box-shadow: 0 0 0 6px rgba(255, 255, 255, 0.4), 0 0 0 13px rgba(255, 255, 255, 0.2) !important
 	z-index 300
+.squad-username
+	display none
+.my-squad
+	.v-list-item__avatar
+		margin-top 3VW
+		margin-bottom 3VW
+	.squad-username
+		display block
+		font-weight 600
+		font-size 4VW
+		margin-bottom 0.95vw
+	span.user-screenname
+		color #B8B8BA
+		font-weight 500
+	span.user-screenname:before
+		content '@'
 </style>

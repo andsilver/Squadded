@@ -1,16 +1,21 @@
 <template>
 	<v-dialog v-model="showDialog" content-class="add-friends-dialog">
-		<div ref="title" class="subtitle-1 font-weight-bold text-center mt-4 mb-6">
+		<div ref="title" class="subtitle-1 font-weight-bold text-center mt-4 mb-5">
 			{{ $t('mysquad.add_friends') }}
+			<v-btn icon class="close-dialog" @click.native="hide">
+				<v-icon size="3.69vw">
+					sqdi-close-cross
+				</v-icon>
+			</v-btn>
 		</div>
-		<div class="mb-4">
+		<div class="mb-0">
 			<FindFriends v-if="showDialog" ref="find-friends" />
 		</div>
 		<div class="d-flex black justify-center align-center pa-2 pl-4">
 			<strong class="white--text subtitle-2 font-weight-bold">
 				{{ $t('mysquad.share_private_link') }}
 			</strong>
-			<Button ref="copy-btn" class="ma-0 ml-4" style="background: #fd6256" @click.native="copy">
+			<Button ref="copy-btn" class="ma-0 ml-4" style="background: #fd6256; height: 9.23vw;" @click.native="copy">
 				{{ copied ? $t('invite_your_friends.copied') : $t('invite_your_friends.copy_link') }}
 			</Button>
 		</div>
@@ -86,6 +91,9 @@ export default {
 			this.copied = true;
 			setTimeout(() => (this.copied = false), 1000);
 		},
+		hide() {
+			this.$emit('close', false);
+		},
 	},
 };
 </script>
@@ -100,6 +108,10 @@ export default {
 .add-friends-dialog {
 	background: white;
 	margin: 2px;
-	border-radius: 16px;
+	border-radius: 9.230vw;
+}
+.close-dialog {
+	position: absolute;
+	right: 15px;
 }
 </style>

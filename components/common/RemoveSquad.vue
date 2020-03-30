@@ -1,12 +1,9 @@
 <template>
 	<span>
-		<v-btn ref="remove-trigger" depressed class="px-2 remove-squad-btn" @click="removeSquad">
-			<v-icon small>
-				mdi-account-outline
-			</v-icon>
+		<v-btn ref="remove-trigger" depressed class="px-0 remove-squad-btn" @click="removeSquad">
 			<span class="in-squad-text">{{ $t('user.InSquad') }}</span>
 		</v-btn>
-		<v-dialog v-model="showSquadderRemoveDialog">
+		<v-dialog v-model="showSquadderRemoveDialog" content-class="remove-confirmation-dialog">
 			<v-card v-if="user" ref="removing-squadder">
 				<v-card-title>
 					<v-row align="center" justify="space-between">
@@ -23,20 +20,20 @@
 						</v-btn>
 					</v-row>
 				</v-card-title>
-				<v-card-text class="px-4 mt-3 text-center">
+				<v-card-text class="px-4 mt-0 text-center">
 					<h4 ref="description" style="color: black">
 						{{ $t('user.remove_squad.description', { user: user.screenName }) }}
 					</h4>
 				</v-card-text>
 				<v-card-actions class="px-4">
+					<v-btn ref="cancel-btn" outlined depressed class="cancel-btn flex-grow-1" @click="showSquadderRemoveDialog = false">
+						{{ $t('user.remove_squad.cancel') }}
+					</v-btn>
 					<v-btn ref="remove-btn" outlined depressed class="remove-btn flex-grow-1" @click="removeSquadAction">
 						<v-icon x-small color="white">
 							sqdi-close-cross
 						</v-icon>
 						<span class="ml-2">{{ $t('user.remove_squad.remove') }}</span>
-					</v-btn>
-					<v-btn ref="cancel-btn" outlined depressed class="cancel-btn flex-grow-1" @click="showSquadderRemoveDialog = false">
-						{{ $t('user.remove_squad.cancel') }}
 					</v-btn>
 				</v-card-actions>
 			</v-card>
@@ -95,7 +92,9 @@ export default {
 }
 
 .remove-squad-btn {
-	border-radius: 10px !important;
+	border-radius: 2.307vw !important;
+	height: 9.23vw !important;
+    width: 25.384vw;
 }
 
 .remove-btn, .cancel-btn {
@@ -108,5 +107,14 @@ export default {
 .remove-btn {
 	background-color: #fd6256 !important;
 	color: white;
+}
+.my-squad .in-squad-text, .remove-squad-btn .in-squad-text {
+	font-size: 2.15vw;
+	padding-left: 6vw;
+	font-weight: 700;
+	background-image: url('~assets/img/in-squad.svg');
+	background-repeat: no-repeat;
+	background-size: 2.77vw;
+	background-position-x: 0.5vw;
 }
 </style>

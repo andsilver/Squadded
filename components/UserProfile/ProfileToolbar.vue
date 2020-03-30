@@ -6,7 +6,7 @@
 		<Menu v-if="user.isMe" ref="menu" :dark="!isBgExist" small @edit="edit" />
 		<GoBackBtn v-else ref="go-back-btn" :dark="!isBgExist" small />
 		<div ref="screen-name" class="flex-grow-1 user-full-name" :class="{ is_me: user.isMe }">
-			{{ user.screenName }}
+			{{ user.name }}
 		</div>
 		<v-btn
 			ref="share"
@@ -23,11 +23,13 @@
 		<AddFriendsButton
 			v-if="user.isMe"
 			ref="add-user-btn"
+			class="profile-add-user"
 			:dark="false"
 		/>
 		<v-btn
 			v-if="user.isMe"
 			ref="shop-btn"
+			class="profile-shopping-bag"
 			icon
 			:dark="isBgExist"
 			color="black"
@@ -35,7 +37,7 @@
 			<v-icon small>
 				sqdi-shopping-bag
 			</v-icon>
-			<span class="shopping_bag_count">4</span>
+			<!-- <span class="shopping_bag_count">4</span> -->
 		</v-btn>
 		<Actions v-else :user="user" />
 		<span
@@ -175,4 +177,7 @@ export default {
 		font-weight 700
 		&.is_me
 			padding-left 40px
+.profile-shopping-bag
+	.sqdi-shopping-bag
+		font-size 6.46vw !important
 </style>

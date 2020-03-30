@@ -4,7 +4,7 @@
 			<v-text-field
 				ref="search-text"
 				v-model.lazy="searchText"
-				class="search-field mt-2"
+				class="search-field for-add-friends mt-2"
 				solo
 				flat
 				dense
@@ -23,7 +23,7 @@
 			</div>
 			<div v-for="(friend, index) in friends" :key="index">
 				<v-divider v-if="index > 0" />
-				<div class="d-flex justify-space-between align-center">
+				<div class="d-flex justify-space-between align-center friend-feeds">
 					<UserLink
 						ref="user-link"
 						class="user-link"
@@ -34,13 +34,11 @@
 					<RemoveSquad v-if="isMySquad(friend)" :user="friend" />
 					<Button
 						v-else-if="!friend.isMySquad"
-						class="ma-0"
+						class="ma-0 add-user-invite"
 						@click.native="() => invite(friend)"
 					>
-						<v-icon small color="white">
-							mdi-account-plus-outline
-						</v-icon>
-						<span class="ml-1">{{ $t('invite') }}</span>
+						<img src="~assets/img/add-user-invite.svg" class="my-squad">
+						<span class="ml-2">{{ $t('invite') }}</span>
 					</Button>
 					<Button
 						v-else-if="!friend.isInvitee"
@@ -167,7 +165,7 @@ export default {
 <style lang="scss" scoped>
 .search-field {
 	padding: 0 10px;
-	border: 1px solid #dbdbdb;
+	border: 0px solid #dbdbdb;
 	border-radius: 10px;
 
 	>>> .v-input__slot {
@@ -194,9 +192,13 @@ export default {
 	font-size: 0.62em !important;
 	border-radius: 10px;
 }
-</style>
-<style lang="scss">
-.user-link .v-list-item {
-	background-color: #f9f9f9 !important;
+img.my-squad {
+    width: 2.77vw;
+}
+.add-user-invite {
+	width: 20.76vw;
+}
+.add-user-invite span {
+	font-size: 2.15vw;
 }
 </style>

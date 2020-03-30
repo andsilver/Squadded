@@ -90,8 +90,12 @@ export default {
 	display none
 
 .squadders-users
-	position relative
-	margin-bottom 4vw
+	z-index: 1
+	position fixed
+	padding-bottom 2vw
+	width 100%
+	background #fff
+	padding-top 2vw
 	.left-sec
 		height 36px
 		position relative

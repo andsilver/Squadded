@@ -1,7 +1,7 @@
 <template>
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
-		<v-layout column class="px-0">
+		<v-layout column class="px-0 squadder-feed">
 			<Squadders :users="mysquad" class="px-3" />
 			<Preloader v-if="!items" ref="preloader" class="mt-4 mb-4" />
 			<template v-else-if="items.length">
@@ -123,4 +123,6 @@ export default {
 	padding 40px 0 0 0
 	.layout
 		padding 12px
+		&.squadder-feed
+			padding-top 0px !important
 </style>

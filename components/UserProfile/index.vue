@@ -8,12 +8,12 @@
 					<v-img :key="user.avatar" :src="user.avatar" />
 				</v-avatar>
 				<section class="user_info_fixed ml-2">
-					<userName class="user_fixed_name" :name="user.name" />
+					<userName class="user_fixed_name" :name="user.screenName" />
 				</section>
 			</div>
 			<div v-if="user.isMe">
-				<AddFriendsButton ref="add-user-btn" :dark="false" />
-				<v-btn ref="shop-btn" icon small color="black">
+				<AddFriendsButton ref="add-user-btn" class="profile-add-user" :dark="false" />
+				<v-btn ref="shop-btn" class="profile-shopping-bag" icon small color="black">
 					<v-icon small>
 						sqdi-shopping-bag
 					</v-icon>
@@ -25,36 +25,30 @@
 		<v-layout flex-column>
 			<div class="d-flex mt-4">
 				<userAvatar align="center" class="user_avatar mr-4" :avatar="user.avatar" />
-				<div>
-					<userName :name="user.name" />
-					<p class="mt-2">
+				<div class="user-info-section">
+					<userName :name="user.screenName" />
+					<p class="mt-2 user-bio">
 						{{ user.bio }}
 					</p>
 					<div class="d-flex user-actions">
 						<template v-if="user.isMe">
-							<Button class="mr-2 my-squad-btn" @click.native="goToMySquad">
-								<v-icon small>
-									mdi-account-outline
-								</v-icon>
-								<span class="ml-2">{{ $t('My Squad') }}</span>
+							<Button class="my-squad-btn ml-0 mr-3" @click.native="goToMySquad">
+								<img src="~assets/img/my-squad-profile.svg" class="my-squad">
+								<span class="ml-1">{{ $t('My Squad') }}</span>
 							</Button>
-							<OutlineButton @click="edit">
+							<OutlineButton class="profile-edit" @click="edit">
 								{{ $t('user.edit') }}
 							</OutlineButton>
 						</template>
 						<template v-else>
 							<RemoveSquad v-if="isMySquad" ref="my-squad" :user="user" class="remove-squad-btn" />
 							<template v-else-if="!meInvited">
-								<OutlineButton v-if="isPending" disabled>
-									<v-icon small color="#b8b8b0">
-										mdi-account-check-outline
-									</v-icon>
+								<OutlineButton v-if="isPending" disabled class="invited-button">
+									<img src="~assets/img/invited-icon.svg" class="my-squad">
 									<span class="ml-2">{{ $t('invited') }}</span>
 								</OutlineButton>
-								<Button v-else class="ma-0" @click.native="sendInvite">
-									<v-icon small>
-										mdi-account-plus-outline
-									</v-icon>
+								<Button v-else class="ma-0 invite-btn" style="background: #ffffff; height: 9.23vw; color: #000000;border: 0.46vw solid #000000;font-size: 2.15vw; letter-spacing: 1.5px;" @click.native="sendInvite">
+									<img src="~assets/img/invite-user.svg" class="my-squad">
 									<span class="ml-2">{{ $t('invite') }}</span>
 								</Button>
 							</template>
@@ -317,7 +311,7 @@ export default {
 }
 
 .user_fixed_name {
-	font-size: 0.8em;
+	font-size: 4.30vw;
 }
 
 .user_info_fixed {
@@ -350,16 +344,31 @@ export default {
 
 .user-actions {
 	.v-btn {
-		width: 100px;
+		width: 25.38vw;
 	}
 
 	.my-squad-btn {
 		background-color: #fd6256 !important;
-		letter-spacing: inherit !important;
+		letter-spacing: 1.2px !important;
+		padding: 0px !important;
+		font-size: 2.15vw;
 	}
 
 	.remove-squad-btn >>> .v-btn {
 		border-radius: 10px !important;
 	}
+}
+.user-info-section {
+	margin-top: 2.33vw;
+}
+p.mt-2.user-bio {
+    font-size: 3.84vw;
+    line-height: 4.92vw;
+}
+.profile-shopping-bag .sqdi-shopping-bag {
+	font-size: 6.46vw !important;
+}
+img.my-squad {
+    width: 2.76vw;
 }
 </style>

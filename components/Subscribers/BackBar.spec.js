@@ -56,7 +56,7 @@ describe('Subscribers BackBar', () => {
 
 	it('should display my username if path includes /my', () => {
 		initLocalVue();
-		expect(wrapper.ref(USERNAME).text()).toBe(me.name);
+		expect(wrapper.ref(USERNAME).text()).toBe('My Squad');
 	});
 
 	it('should display my username if path not includes /my', () => {
@@ -72,6 +72,6 @@ describe('Subscribers BackBar', () => {
 			store,
 			type: 'fetchUser',
 		});
-		expect(wrapper.ref(USERNAME).text()).toBe(other.name);
+		expect(wrapper.ref(USERNAME).text()).toBe('My Squad');
 	});
 });

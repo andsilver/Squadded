@@ -13,17 +13,22 @@
 			</v-icon>
 		</v-text-field>
 		<template v-if="squadders && squadders.length">
-			<div v-for="(squadder, index) in filtered" :key="index">
-				<div class="d-flex justify-space-between align-center">
-					<UserLink
-						ref="user-link"
-						class="user-link"
-						size="35"
-						:user="squadder"
-					/>
-					<RemoveSquad ref="remove-squad" :user="squadder" @remove="() => removeSquadAction(index)" />
+			<div class="my-squade-container">
+				<div class="my-squade-scroll">
+					<div v-for="(squadder, index) in filtered" :key="index">
+						<div class="d-flex justify-space-between align-center">
+							<UserLink
+								ref="user-link"
+								class="user-link my-squad"
+								size="10.76vw"
+								is-squadlist
+								:user="squadder"
+							/>
+							<RemoveSquad ref="remove-squad" class="my-squad" :user="squadder" @remove="() => removeSquadAction(index)" />
+						</div>
+						<v-divider />
+					</div>
 				</div>
-				<v-divider />
 			</div>
 		</template>
 		<div v-else>
@@ -33,7 +38,7 @@
 			<v-btn
 				ref="remove-trigger"
 				depressed
-				style="font-size: 12px; font-weight: 600"
+				style="font-size: 2.615vw;font-weight: 700;height: 12.307vw;width: 36.92vw;border-radius: 2.30vw;background: #000;color: #fff;letter-spacing: 2px;"
 				@click="showAddFriends = true"
 			>
 				{{ $t('mysquad.add_friends') }}
@@ -139,13 +144,50 @@ export default {
 
 .send-invite {
 	position: fixed;
-	bottom: 67px;
-	width: 100%;
-	display: flex;
-	justify-content: center;
-	padding: 16px 0;
-	background: white;
-	padding-right: 24px;
-	border-top: 1px solid #ececec;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    background: white;
+    z-index: 200;
+    left: 0;
+    height: 23.07vw;
+    align-items: center;
+}
+.my-squade-scroll {
+	height: calc(100vh - 197px);
+	overflow-y: auto;
+}
+.my-squade-container{
+	position: relative;
+	padding: 0px 14px 0px;
+	margin-left: -12px;
+	margin-right: -12px;
+	margin-top: 0px !important;
+}
+.my-squade-container::before{
+	background: -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%);
+	background: -webkit-linear-gradient(top,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%);
+	background: linear-gradient(to bottom,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dad9dd', endColorstr='#00ffffff',GradientType=0 );
+	height:4.615vw;
+	width:100%;
+	content: '';
+	left: 0;
+	position: absolute;
+	top: 0px;
+}
+.my-squade-container::after{
+	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%);
+	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%);
+	background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#dad9dd',GradientType=0 );
+	height:4.615vw;
+	width:100%;
+	content: '';
+	left: 0;
+	position: absolute;
+	bottom: 0px;
 }
 </style>

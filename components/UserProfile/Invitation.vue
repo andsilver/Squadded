@@ -72,10 +72,11 @@ export default {
 </script>
 <style lang="stylus" scoped>
 .deny-btn
-	font-size 0.6em
+	font-size 2.15vw
 	font-weight 700
 	letter-spacing 1px
 	border-radius 10px
 .accept-btn
+	font-size 2.15vw
 	background-color #fd6256 !important
 </style>

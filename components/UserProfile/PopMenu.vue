@@ -32,9 +32,9 @@
 						{{ $t(`user.action.PushWatchers`) }}
 					</v-list-item-title>
 				</v-list-item> -->
-				<v-list-item class="comment-menu-report comment-setting-option">
-					<v-list-item-title ref="report" class="setting-label report" @click="promptReportUser">
-						{{ $t(`user.action.report`) }}
+				<v-list-item ref="share" class="post-menu-share comment-menu-share comment-setting-option" @click="share">
+					<v-list-item-title class="setting-label share">
+						{{ $t(`user.action.Sharelink`) }}
 					</v-list-item-title>
 				</v-list-item>
 				<v-list-item
@@ -55,6 +55,11 @@
 				>
 					<v-list-item-title class="setting-label rmtomysquad">
 						{{ $t(`user.action.Remove`) }}
+					</v-list-item-title>
+				</v-list-item>
+				<v-list-item class="comment-menu-report comment-setting-option">
+					<v-list-item-title ref="report" class="setting-label report" @click="promptReportUser">
+						{{ $t(`user.action.report`) }}
 					</v-list-item-title>
 				</v-list-item>
 				<!-- <v-list-item
@@ -87,11 +92,6 @@
 						{{ $t(`user.action.Block`) }}
 					</v-list-item-title>
 				</v-list-item> -->
-				<v-list-item ref="share" class="post-menu-share comment-menu-share comment-setting-option" @click="share">
-					<v-list-item-title class="setting-label share">
-						{{ $t(`user.action.Sharelink`) }}
-					</v-list-item-title>
-				</v-list-item>
 			</v-list>
 		</v-menu>
 
@@ -364,8 +364,8 @@ export default {
 				padding-left 6.73vw
 				background-position-y center
 			&.rmtomysquad
-				background-size 3.84vw
-				background-image url('~assets/img/block-shophie.svg')
+				background-size 3.9vw
+				background-image url('~assets/img/remove-squad-iocn.svg')
 				padding-left 6.73vw
 				background-position-y center
 			&.pushwatchers

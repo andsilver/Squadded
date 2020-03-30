@@ -55,4 +55,8 @@ export default {
 .dark {
 	background-color: black !important;
 }
+
+.profile-add-user .sqdi-add-user  {
+	font-size: 6.46vw !important;
+}
 </style>

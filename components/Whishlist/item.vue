@@ -15,7 +15,7 @@
 				/>
 			</v-avatar>
 			<div class="flex-grow-1">
-				<ReSquaddButton :item="post.item" class="remove-button" />
+				<ReSquaddButton :item="post.item" class="remove-button wishlist-remove" />
 				<v-card-title
 					ref="item-title"
 					class=" item_title"

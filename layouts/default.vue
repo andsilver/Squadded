@@ -43,7 +43,7 @@ export default {
 		absolute: false,
 		opacity: 0.46,
 		overlay: false,
-		zIndex: 200,
+		zIndex: 198,
 		guestShow: false,
 	}),
 	computed: {
@@ -157,5 +157,5 @@ export default {
 	z-index 999
 
 .bottom-tab-section
-	z-index 200
+	z-index 199
 </style>

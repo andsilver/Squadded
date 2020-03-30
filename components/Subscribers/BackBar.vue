@@ -1,8 +1,8 @@
 <template>
 	<h2 class="d-flex justify-space-between align-center">
 		<GoBackBtn ref="go-back-btn" />
-		<span ref="username">{{ username }}</span>
-		<AddFriendsButton v-if="isMe" ref="add-friends-btn" />
+		<span ref="username">{{ $t('My Squad') }}</span>
+		<AddFriendsButton v-if="isMe" ref="add-friends-btn" class="profile-add-user" />
 		<span v-else class="pa-4" />
 	</h2>
 </template>
