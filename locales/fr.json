@@ -20,7 +20,7 @@
 	"Messageregarding": "",
 	"Messages": "Messages",
 	"My Squad": "Mon Squad",
-	"NewOutfit": "Nouvelle collection",
+	"NewOutfit": "Nouvel outfit",
 	"NewPoll": "Nouveau sondage",
 	"NewPost": "Nouvelle Publication",
 	"NewPosts": "Nouvelles Publications",
@@ -28,7 +28,7 @@
 	"Notifications": "Notifications",
 	"PairedItem": {
 		"all": "Tous",
-		"outfits": "Collections",
+		"outfits": "Outfits",
 		"photos": "Photos",
 		"polls": "Sondages"
 	},
@@ -50,11 +50,11 @@
 	"StartBuildingYourSquad": "Vous avez presque fini! Après cette étape, vous inviterez tvos amis a rejoindre votre squad.",
 	"Undo": "Annuler",
 	"UseOneTimeCode": "Utiliser un code unique",
-	"Wecare": "Nous nous soucions de votre sécurité. Aidez-nous à assurer la sécurité de notre communauté.",
+	"Wecare": "Nous nous soucions de votre sécurité. Aidez-nous à assurer celle de notre communauté.",
 	"Wishlist": "Wishlist",
-	"YouCanAlwaysChange": "Uniquement lettres et chiffres. Vous pouvez toujours le changer plus tard.",
+	"YouCanAlwaysChange": "Uniquement lettres et chiffres. Vous pourrez toujours le changer plus tard.",
 	"YourItem": "votre article",
-	"YourOutfit": "votre collection",
+	"YourOutfit": "votre outfit",
 	"YourPicture": "votre photo",
 	"YourPoll": "votre sondage",
 	"a poll": "Sondage",
@@ -63,7 +63,7 @@
 	"an outfit": "Tenue",
 	"comment": {
 		"pop": {
-			"Action": "Action",
+			"Action": "Options",
 			"deleteComment": {
 				"decline": "Ok, ne supprimez pas le commentaire",
 				"description": "Êtes-vous sûr? Cette action ne peut pas être annulée.",
@@ -92,12 +92,12 @@
 		}
 	},
 	"create": {
-		"outfit": "Collection",
+		"outfit": "Outfit",
 		"photo": "Photo",
 		"poll": "Sondage"
 	},
 	"createDesc": {
-		"outfit": "Créer une collection avec 2 à 4 articles",
+		"outfit": "Créer une tenue avec 2 à 4 articles",
 		"photo": "Poster une photo et identifier les articles",
 		"poll": "Demander l'avis des shoppeurs",
 		"unsupported_file_format": "Ce format d'image n'est pas pris en charge"
@@ -214,14 +214,14 @@
 		"copy_link": "Copier le lien",
 		"or": "Ou",
 		"search_users": "Rechercher des utilisateurs...",
-		"share": "Partagez ce lien avec vos amis:",
+		"share": "Partagez ce lien d'invitation avec vos amis:",
 		"title": "Invite vos amis"
 	},
 	"invited": "Invité",
 	"landing_post": {
 		"interact_with_user": "Faites du shopping avec {user} et partager votre wishlist.",
 		"sign_in": "Se connecter",
-		"skip": "Passer"
+		"skip": "Plus tard"
 	},
 	"moderation": {
 		"text": "Il semble que votre publication va à l'encontre de notre réglementation, nos modérateurs l'examineront. Si votre message va à l'encontre de nos directives, votre compte peut être suspendu.",
@@ -230,7 +230,7 @@
 	"mysquad": {
 		"add_friends": "Ajouter des amis",
 		"search": "Recherchez dans votre squad ...",
-		"share_private_link": "ou partager un lien privé"
+		"share_private_link": "ou partager un lien d'invitation privé"
 	},
 	"noPasswordRemember": "Plus de mot de passe à retenir. Nous vous envoyons un code unique pour être bien sur que c'est vous.",
 	"notify": {
@@ -288,7 +288,7 @@
 		"pop": {
 			"deletePost": {
 				"decline": "Modifier",
-				"description": "Vous pouvez également modifier votre message. Si vous avez sélectionné des paramètres de confidentialité incorrects, vous pouvez toujours les modifier.",
+				"description": "Vous pouvez également modifier votre message. Si vous avez sélectionné des paramètres de confidentialité incorrects, vous pourrez toujours les modifier.",
 				"menu": "Supprimer",
 				"question": "Supprimer cette publication?"
 			},
@@ -332,7 +332,7 @@
 		"title": {
 			"comments": "Commentaires",
 			"galleryPost": "Gallerie",
-			"outfitPost": "Collections",
+			"outfitPost": "Outfit",
 			"pollPost": "Sondage",
 			"singleItemPost": "Publication"
 		},
@@ -371,7 +371,7 @@
 			"description": "Tout la communauté pourra voir votre wishlist et vos publications ",
 			"title": "Profil public"
 		},
-		"read": "lus",
+		"read": "lire",
 		"saving_confirm": {
 			"description": "Si vous quittez cette page, les modifications que vous avez apportées ne seront pas enregistrées.",
 			"title": "Sauvegarder les modifications?"
@@ -399,7 +399,7 @@
 	"resendNotify": "Un nouveau code a été envoyé",
 	"resend_code": "Renvoyer le code",
 	"select_username": {
-		"create_your_profile": "Créez votre profile"
+		"create_your_profile": "Créez votre profil"
 	},
 	"shop_with_your_friends": "Faites du shopping entre amis",
 	"shopping_party": "Shopping party",
@@ -409,13 +409,13 @@
 		"signin_to_shop_with_your_friends": "Connectez-vous pour faire du shopping entre amis:"
 	},
 	"spamNote": "Prévoyez jusqu'à 1 minute pour le recevoir. N'oubliez pas de vérifier votre dossier spam / courrier indésirable.",
-	"styleOutfit": "styles dans cettre collection",
+	"styleOutfit": "styles dans cet outfit",
 	"tip": {
 		"addItems": "Ajoutez des articles a votre wishlist pour créer {0}.",
 		"createPhotoTag": "cliquez sur la photo pour identifier des articles",
 		"crop": "déplacez les points pour recadrer",
-		"limitMessage": "La limite est de 4 articles par collection",
-		"outfitError": "Vous devez sélectionner 2 à 4 articles pour créer une collection",
+		"limitMessage": "La limite est de 4 articles par outfit",
+		"outfitError": "Vous devez sélectionner 2 à 4 articles pour créer un outfit",
 		"outfitSelect": "Sélectionnez 2 à 4 articles à assembler",
 		"photoError": "Cliquez sur les articles que vous souhaitez identifier pour publier une photo.",
 		"photoLimitError": "Vous ne pouvez pas identifier plus de 4 articles",
