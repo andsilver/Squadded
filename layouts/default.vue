@@ -1,5 +1,5 @@
 <template>
-	<v-app ref="app" :class="{ isTouch, 'show-tabs': (showTabs || guestShow) && (!isOnboarding) }">
+	<v-app ref="app" :class="{ isTouch, 'show-tabs': (showTabs || guestShow) && (!showBottom) }">
 		<NotificationsBanner ref="notifications" />
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
 		<v-content id="main" class="d-flex">
@@ -8,7 +8,7 @@
 				<Prompt :text="promptOptions.text" @confirm="confirm" @decline="hide" />
 			</v-dialog>
 		</v-content>
-		<v-bottom-navigation v-if="!isOnboarding" class="bottom-tab-section" height="65">
+		<v-bottom-navigation v-if="!showBottom" class="bottom-tab-section" height="65">
 			<TabBar ref="tab-bar" class="tab-bar-section" />
 		</v-bottom-navigation>
 		<div v-if="socket.isPendingAuth" ref="preloader" class="pending d-flex justify-center align-center">
@@ -58,8 +58,8 @@ export default {
 			return this.socket.isAuth && (!this.isTouch || !this.squad.virtualKeyboard);
 		},
 		isTouch,
-		isOnboarding () {
-			return ['signin', 'invite-friends', 'walkthrough'].includes(this.$route.name);
+		showBottom () {
+			return ['signin', 'invite-friends', 'walkthrough', 'profile-settings'].includes(this.$route.name);
 		},
 	},
 	created () {

@@ -80,7 +80,7 @@
 				</span>
 			</div>
 		</section>
-		<section class="my-4 d-flex align-center">
+		<section class="mt-4 mb-8 d-flex align-center">
 			<div class="mr-3">
 				<v-btn ref="delete-account-button" icon @click="showDeleteAccountDialog = true">
 					<v-icon color="black">
@@ -94,11 +94,11 @@
 				</span>
 			</div>
 		</section>
-		<div class="mt-4 py-4 d-flex justify-center">
+		<!-- <div class="mt-4 py-4 d-flex justify-center">
 			<Button ref="save-button" style="width: 100px;" @click.native="save">
 				{{ $t('Save') }}
 			</Button>
-		</div>
+		</div> -->
 
 		<v-dialog v-model="showTerms" content-class="report-dialog">
 			<v-card>
@@ -224,7 +224,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import Button from '~/components/common/Button';
-import { UserStore, UserActions } from '~/store/user';
+import { UserStore } from '~/store/user';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { NOTIFICATIONS } from '~/consts/notifications';
 
@@ -298,19 +298,6 @@ export default {
 		closeDeletedDialog () {
 			this.showDeletedDialog = false;
 			this.signout();
-		},
-		async save() {
-			this.editing = false;
-			await this.$store.dispatch(
-				`${UserStore}/${UserActions.setProfile}`,
-				this.user,
-			);
-			this.$root.$i18n.fallbackLocale = this.user.language;
-			if (history.length) {
-				history.back();
-				return;
-			}
-			this.$router.push('/me');
 		},
 		submit () {
 			this.submitted = true;

@@ -131,11 +131,6 @@
 				</div>
 			</section>
 		</div>
-		<div class="mt-4 py-4 d-flex justify-center">
-			<Button ref="save-button" style="width: 100px;" @click.native="saveProfile">
-				{{ $t('Save') }}
-			</Button>
-		</div>
 		<v-dialog v-model="showCropper" content-class="cropper-dialog">
 			<ImageCrop v-if="avatarImg" :img="avatarImg" @doneCrop="doneCrop" />
 		</v-dialog>
@@ -144,8 +139,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import ImageCrop from './ImageCrop';
-import Button from '~/components/common/Button';
-import { UserStore, UserActions } from '~/store/user';
+import { UserStore } from '~/store/user';
 import { toBase64 } from '~/utils/toBase64';
 import { compressImage } from '~/utils/compress-image';
 
@@ -153,7 +147,6 @@ const { mapState } = createNamespacedHelpers(UserStore);
 
 export default {
 	components: {
-		Button,
 		ImageCrop,
 	},
 	data: () => ({
@@ -191,21 +184,6 @@ export default {
 		togglePublic() {
 			this.user.private = !this.user.private;
 			this.user = Object.assign({}, this.user);
-		},
-		async saveProfile() {
-			if (!this.user.screenName || !this.user.avatar) {
-				return;
-			}
-			this.editing = false;
-			await this.$store.dispatch(
-				`${UserStore}/${UserActions.setProfile}`,
-				this.user,
-			);
-			if (history.length) {
-				history.back();
-				return;
-			}
-			this.$router.push('/me');
 		},
 		upload (type) {
 			this.$refs[`${type}-input`].value = null;
