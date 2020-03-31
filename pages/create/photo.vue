@@ -1,25 +1,12 @@
 <template>
 	<v-container v-if="socket.isAuth" grow>
 		<div :class="{ hide_section : !showPhoto }" class="photo-main-sec">
-			<BackBar ref="goback-bar" :title="$t('Create')" />
-			<Tabs :active="1" />
+			<BackBar ref="goback-bar" :title="$t( cropped ? 'New photo' : 'Create')" />
+			<Tabs v-if="!cropped" :active="1" />
 			<v-layout column grow class="mt-3">
 				<CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" @error="fileTypeError = true" />
 				<Browse v-show="!dataImg" ref="browse" @open="preview" @error="fileTypeError = true" />
-				<Tags v-if="dataImg" ref="tagsComponent" :post="post" :crop-active="cropActive" @doneCrop="doneCrop">
-					<div class="photo-menu-panel">
-						<v-btn icon width="40" height="40" @click="() => preview({})">
-							<v-icon color="#000">
-								sqdi-refresh
-							</v-icon>
-						</v-btn>
-						<v-btn :disabled="!!getSelected.length" icon width="40" height="40" @click="() => cropActive = !cropActive">
-							<v-icon :color="cropActive? '#fd756a' : '#000'">
-								mdi-crop
-							</v-icon>
-						</v-btn>
-					</div>
-				</Tags>
+				<Tags v-if="dataImg" ref="tagsComponent" :post="post" :crop-active="cropActive" @doneCrop="doneCrop" />
 				<div v-if="!isWishlistHasItems" :class="{ empty_wishlist_container: !isWishlistHasItems}">
 					<div v-if="!isWishlistHasItems" class="whislist_empty">
 						<div class="whish_img">
@@ -205,6 +192,7 @@ export default {
 		text: '',
 		input: null,
 		compressing: false,
+		cropped: false,
 	}),
 	computed: {
 		...mapGetters([
@@ -244,10 +232,16 @@ export default {
 			this.post.img = data.image;
 			this.file = data.file;
 			data.type && (this.type = data.type);
+			this.cropActive = true;
 		},
 		doneCrop(data) {
-			this.cropActive = false;
 			this.preview(data);
+			this.cropActive = false;
+			if (data) {
+				this.cropped = true;
+			} else {
+				this.dataImg = null;
+			}
 		},
 		next () {
 			if (this.dataImg && this.getSelected.length === 0) {

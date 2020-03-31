@@ -6,6 +6,9 @@
 			class="multi-item pa-4 mb-4"
 			:class="{ shifted }"
 			:show-bag="false"
+			:style="{
+				width: cropActive ? '100%' : 'unset'
+			}"
 		>
 			<ItemImage
 				v-if="!cropActive"
@@ -143,7 +146,7 @@ export default {
 	transition-property margin-left
 	transition-delay .2s
 	&.shifted
-		margin-left -60%
+		margin-left -40%
 .scroll-items
 	width 65%
 	margin-left -4px
@@ -187,8 +190,6 @@ export default {
 	left 0
 	position absolute
 	bottom 0px
-.multi-item
-	max-width calc(100% - 80px)
 .post-main-image
 	position relative
 .tag-button

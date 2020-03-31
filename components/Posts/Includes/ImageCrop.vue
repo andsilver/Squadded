@@ -4,7 +4,7 @@
 			classname="cropper"
 			:src="item.img"
 			:stencil-props="{
-				aspectRatio: 10/12
+				aspectRatio
 			}"
 			@change="change"
 		/>
@@ -42,6 +42,10 @@ export default {
 		isPaired: {
 			type: Boolean,
 			default: false,
+		},
+		aspectRatio: {
+			type: Number,
+			default: 10 / 12,
 		},
 	},
 	data: () => ({
