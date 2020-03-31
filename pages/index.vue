@@ -197,6 +197,7 @@ export default {
 			const params = {
 				merchantId: this.merchant.id,
 				origin: 'normal',
+				language: this.$root.$i18n.fallbackLocale,
 			};
 			if (userId) {
 				params.originUserId = userId;
