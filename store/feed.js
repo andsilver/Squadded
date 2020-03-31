@@ -95,7 +95,7 @@ export const actions = {
 			return;
 		}
 		rootState.feed.loading = true;
-		const msg = { type: 'fetchPosts' };
+		const msg = { type: 'fetchPosts', allMerchants: '*' };
 		const items = getters[FeedGetters.items];
 		if (loadNew || !items || !items.length) {
 			rootState.feed.loadedNew = true;

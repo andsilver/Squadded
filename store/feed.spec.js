@@ -98,6 +98,7 @@ describe('Feed store module', () => {
 
 			expect($ws.sendObj).toHaveBeenCalledWith({
 				type: 'fetchPosts',
+				allMerchants: '*',
 				from: latestItem.ts,
 			});
 			expect(root.state.feed.loading).toBe(true);
