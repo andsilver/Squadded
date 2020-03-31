@@ -161,6 +161,10 @@ export default {
 		},
 		loadNewItems() {
 			this.$emit('loadNew');
+			document.documentElement.scrollTo({
+				top: 0,
+				behavior: 'smooth',
+			});
 		},
 		showComments(post) {
 			return post.type && post.type !== 'groupedPosts' && !!this.getComponent(post);
@@ -250,8 +254,8 @@ export default {
 .load-new-button
 	padding 0 6.5vw !important
 	height 8.92vw !important
-	position absolute
-	top 20px
+	position fixed
+	top 72px
 	left 50%
 	z-index 9
 	text-transform none
