@@ -274,5 +274,5 @@ export default {
 	display block
 .squadder-feed
 	.feed
-		margin-top 51px
+		margin-top 60px
 </style>

@@ -1,5 +1,5 @@
 <template>
-	<v-app ref="app" :class="{ isTouch, 'show-tabs': (showTabs || guestShow) && (!showBottom) }">
+	<v-app ref="app" :class="{ isTouch, 'show-tabs': (showTabs || guestShow) && (!showBottom) && (!hideMenu) }">
 		<NotificationsBanner ref="notifications" />
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
 		<v-content id="main" class="d-flex">
@@ -45,6 +45,7 @@ export default {
 		overlay: false,
 		zIndex: 198,
 		guestShow: false,
+		hideMenu: false,
 	}),
 	computed: {
 		...mapState([
@@ -69,6 +70,8 @@ export default {
 		this.$root.$on('overlayClose', data => this.overlayClose(data));
 		this.$root.$on('guestToolbarShow', data => this.guestToolbarShow());
 		this.$root.$on('guestToolbarHide', data => this.guestToolbarHide());
+		this.$root.$on('hideToolbarHide', data => this.hideToolbarHide());
+		this.$root.$on('showToolbarHide', data => this.showToolbarHide());
 		this.unsubscribe = this.$store.subscribe((mutation) => {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
@@ -123,6 +126,12 @@ export default {
 		},
 		guestToolbarHide () {
 			this.guestShow = false;
+		},
+		hideToolbarHide () {
+			this.hideMenu = true;
+		},
+		showToolbarHide () {
+			this.hideMenu = false;
 		},
 	},
 };

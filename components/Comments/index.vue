@@ -162,7 +162,7 @@ export default {
 .comment_input
 	transition all linear .2s
 	opacity 1
-	height 42px
+	height 57px
 
 .v-application.isTouch:not(.show-tabs) .post_comment_input
 	bottom 0
@@ -180,11 +180,14 @@ export default {
 	height calc(100vh - 305px)
 
 .for-feed
+	.comment_input
+		height 42px
 	.allcomment.v-btn
+		color #B8B8BA
 		font-size 2.92vw
 		text-transform inherit
 		letter-spacing 0
-		font-weight 600
+		font-weight 600 !important
 		line-height 3.66vw
 		margin-bottom 3.83vw !important
 		height auto !important

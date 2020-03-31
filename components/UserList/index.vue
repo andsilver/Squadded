@@ -7,18 +7,19 @@
 				size="35"
 				:user="user"
 			/>
-			<Follow v-if="notMe(user) && showFollow" ref="follow-btn" :user="user" class="follow" />
+			<!-- Remove watch and watching button @Yash will manage-->
+			<!-- <Follow v-if="notMe(user) && showFollow" ref="follow-btn" :user="user" class="follow" /> -->
 		</v-list-item>
 	</v-list>
 </template>
 
 <script>
-import Follow from '~/components/common/Follow';
+// import Follow from '~/components/common/Follow';
 import UserLink from '~/components/UserLink';
 
 export default {
 	components: {
-		Follow,
+		// Follow,
 		UserLink,
 	},
 	props: {

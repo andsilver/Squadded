@@ -101,7 +101,7 @@ export default {
 		align-self center
 
 	.comment_text
-		color #B8B8BA
+		color #000000
 		font-weight 400
 		font-size 3.23vw
 		line-height 3.69vw

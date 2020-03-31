@@ -50,7 +50,7 @@ describe('Squadders', () => {
 		const squadders = mockSquadders();
 		wrapper.setProps({ users: squadders });
 		const count = wrapper.ref(COUNT_SQUADDERS);
-		expect(count.text()).toBe(`+${squadders.length - 5}`);
+		expect(count.text()).toBe(`+${squadders.length - 7}`);
 		expect(wrapper.ref('plus-btn').exists()).toBe(true);
 	});
 
@@ -58,7 +58,7 @@ describe('Squadders', () => {
 		const squadders = mockSquadders();
 		wrapper.setProps({ users: squadders });
 		const users = wrapper.findAll('.user-avatar-container');
-		expect(users.length).toBe(5);
+		expect(users.length).toBe(7);
 	});
 
 	it('should display correct people when number of users is less than 5', () => {

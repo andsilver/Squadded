@@ -79,6 +79,12 @@ export default {
 		const { id } = this.$route.params;
 		this.setPost(id);
 	},
+	mounted () {
+		this.$root.$emit('hideToolbarHide', {});
+	},
+	beforeDestroy() {
+		this.$root.$emit('showToolbarHide', {});
+	},
 	methods: {
 		keepTab () {
 			// Keep commented in future we need to add #path in URL

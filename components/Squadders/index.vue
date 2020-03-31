@@ -7,9 +7,10 @@
 					:key="index"
 					:style="{left: getPosition(index), 'z-index': 2 + index}"
 					class="user-avatar-container"
-					@click="goToMySquad"
+					@click="getUserLink(user)"
 				>
 					<img :src="user.miniAvatar || user.avatar" alt>
+					<span class="user-name-hover">{{ user.screenName }}</span>
 				</div>
 				<div ref="share" class="count-squadders d-flex align-center" :style="{left: getCountPosition()}">
 					<AddFriendsButton
@@ -17,8 +18,8 @@
 						color="white"
 						:dark="true"
 					/>
-					<h4 v-if="isMoreThan5" ref="count-squadders" class="ml-2">
-						{{ "+" + (countSquadders - 5) }}
+					<h4 v-if="isMoreThan5" ref="count-squadders" class="ml-1" @click="goToMySquad">
+						{{ "+" + (countSquadders - 7) }}
 					</h4>
 				</div>
 			</div>
@@ -37,8 +38,11 @@
 	</div>
 </template>
 <script>
+import { createNamespacedHelpers } from 'vuex';
+import { UserStore } from '~/store/user';
 import AddFriendsButton from '~/components/common/AddFriendsButton';
 
+const { mapState } = createNamespacedHelpers(UserStore);
 export default {
 	components: {
 		AddFriendsButton,
@@ -57,13 +61,16 @@ export default {
 		userLink: '',
 	}),
 	computed: {
+		...mapState([
+			'me',
+		]),
 		first5Users() {
 			return this.users && this.users.length
-				? this.users.slice(0, 5)
+				? this.users.slice(0, 7)
 				: [];
 		},
 		isMoreThan5() {
-			return this.users && this.users.length > 5;
+			return this.users && this.users.length > 7;
 		},
 		countSquadders() {
 			return this.users && this.users.length
@@ -76,7 +83,14 @@ export default {
 			return `${(9.48 - 1.69) * (index)}vw`;
 		},
 		getCountPosition() {
-			return `${(9.48 - 1.69) * (this.isMoreThan5 ? 5 : this.countSquadders)}vw`;
+			return `${(9.48 - 1.69) * (this.isMoreThan5 ? 7 : this.countSquadders)}vw`;
+		},
+		getUserLink(user) {
+			const userId = user.userId;
+			const userLink = (userId === this.me.userId ? { name: 'me' }
+				: { name: 'user-id', params: { id: userId } }
+			);
+			this.$router.push(userLink);
 		},
 		goToMySquad() {
 			this.$router.push('/my/mysquad');
@@ -103,7 +117,8 @@ export default {
 		.count-squadders
 			z-index 9
 			position absolute
-
+.user-avatar-container
+	cursor pointer
 .user-avatar-container, .expand
 	position absolute
 	top 0
@@ -112,6 +127,8 @@ export default {
 		height 36px
 		border-radius 50%
 		border 2px solid #fff
+	.user-name-hover
+		display none
 
 .plus-btn
 	width: 36px !important
@@ -130,4 +147,20 @@ export default {
 	height: 40px;
 	padding: 0 24px !important;
 }
+.user-avatar-container:hover
+	img
+		width 43px
+		height 43px
+		transition all ease-in-out 0.5s;
+		-webkit-transition all ease-in-out 0.5s;
+		-ms-transition all ease-in-out 0.5s;
+		transition all ease-in-out 0.5s;
+		-webkit-transition all ease-in-out 0.5s;
+		-ms-transition all ease-in-out 0.5s
+	.user-name-hover
+		display block
+		text-align center
+		font-size 10px
+		margin-left -5px
+		margin-top -5px
 </style>
