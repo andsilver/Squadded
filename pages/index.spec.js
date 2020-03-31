@@ -45,6 +45,11 @@ describe('Signup', () => {
 				$route,
 			},
 		});
+		wrapper.vm.$root = {
+			$i18n: {
+				fallbackLocale: 'fr',
+			},
+		};
 	});
 
 	it('should render correct contents', () => {
@@ -83,7 +88,7 @@ describe('Signup', () => {
 		signForm.vm.$emit('sendOtp', email);
 		window.postMessage = jest.fn();
 		await validateBtn.trigger('click');
-		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, { merchantId, origin: 'normal' });
+		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, { merchantId, origin: 'normal', language: 'fr' });
 		expect(window.postMessage).toHaveBeenCalledWith(JSON.stringify({
 			type: 'loggedIn',
 			userToken: token,
@@ -113,6 +118,11 @@ describe('Signup', () => {
 				$route,
 			},
 		});
+		wrapper.vm.$root = {
+			$i18n: {
+				fallbackLocale: 'fr',
+			},
+		};
 		store.commit('SET_SOCKET_AUTH', false);
 		store.commit('SET_PENDING', false);
 		wrapper.setData({ pin });
@@ -126,6 +136,7 @@ describe('Signup', () => {
 		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, {
 			merchantId,
 			origin: 'invitation',
+			language: 'fr',
 			originUserId: userId,
 		});
 	});
@@ -141,6 +152,11 @@ describe('Signup', () => {
 				$route,
 			},
 		});
+		wrapper.vm.$root = {
+			$i18n: {
+				fallbackLocale: 'fr',
+			},
+		};
 		store.commit('SET_SOCKET_AUTH', false);
 		store.commit('SET_PENDING', false);
 		wrapper.setData({ pin });
@@ -154,6 +170,7 @@ describe('Signup', () => {
 		expect(loginWithPIN).toHaveBeenCalledWith(pin, email, {
 			merchantId,
 			origin: 'share',
+			language: 'fr',
 			originPostId: postId,
 		});
 	});
