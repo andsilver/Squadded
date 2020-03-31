@@ -84,7 +84,7 @@ export const actions = {
 		rootState.socket.$ws.sendObj({
 			type: 'fetchItem',
 			varId,
-			itemId,
+			itemId: `${itemId}`,
 			postId,
 		});
 	},
