@@ -50,4 +50,10 @@ describe('Explore page', () => {
 		expect(wrapper.ref(NO_RESULT).exists()).toBe(false);
 		expect(wrapper.ref(USER_LIST).exists()).toBe(true);
 	});
+
+	it('should set searching false on destroy', () => {
+		store.commit = jest.fn();
+		wrapper.destroy();
+		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setSearching}`, false);
+	});
 });

@@ -24,7 +24,7 @@ import EndingPolls from '~/components/Explore/EndingPolls';
 import TopGallery from '~/components/Explore/TopGallery';
 import TopOutfits from '~/components/Explore/TopOutfits';
 import UserList from '~/components/UserList';
-import { ExploreStore } from '~/store/explore';
+import { ExploreStore, ExploreMutations } from '~/store/explore';
 
 const { mapState } = createNamespacedHelpers(ExploreStore);
 
@@ -46,6 +46,9 @@ export default {
 			'friends',
 			'searching',
 		]),
+	},
+	destroyed() {
+		this.$store.commit(`${ExploreStore}/${ExploreMutations.setSearching}`, false);
 	},
 	head: () => ({
 		title: 'Main-Explore',
