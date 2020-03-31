@@ -161,7 +161,7 @@
 					<Button class="skip-button flex-grow-1" :active="false" @click.native="showSignoutDialog = false">
 						{{ $t('Cancel') }}
 					</Button>
-					<Button class="flex-grow-1" @click.native="signout">
+					<Button ref="confirm-signout" class="flex-grow-1" @click.native="signout">
 						{{ $t('profile_settings.signout.button') }}
 					</Button>
 				</v-card-actions>
@@ -227,6 +227,7 @@ import Button from '~/components/common/Button';
 import { UserStore } from '~/store/user';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { NOTIFICATIONS } from '~/consts/notifications';
+import { signOut } from '~/plugins/init/ws';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
@@ -287,9 +288,8 @@ export default {
 	},
 	methods: {
 		signout () {
-			localStorage.removeItem('userToken');
 			sessionStorage.clear();
-			location.reload();
+			signOut(this.$store, this.$router);
 		},
 		deleteAccount () {
 			this.showDeletedDialog = true;

@@ -4,10 +4,15 @@ import GeneralTab from './GeneralTab.vue';
 import Store from '~/store';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { NOTIFICATIONS } from '~/consts/notifications';
+import { signOut } from '~/plugins/init/ws';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
+
+jest.mock('~/plugins/init/ws', () => ({
+	signOut: jest.fn(),
+}));
 
 describe('Profile Settings Topbar', () => {
 	let wrapper;
@@ -21,6 +26,7 @@ describe('Profile Settings Topbar', () => {
 	};
 
 	const SIGN_OUT_BUTTON = 'sign-out-button';
+	const CONFIRM_SIGNOUT_BTN = 'confirm-signout';
 
 	beforeEach(() => {
 		localVue = createLocalVue();
@@ -37,11 +43,10 @@ describe('Profile Settings Topbar', () => {
 		});
 	});
 
-	it('should have cleared the sessionStorage and localStorage', () => {
-		const signOutButton = wrapper.ref(SIGN_OUT_BUTTON);
-		signOutButton.trigger('click');
-		expect(sessionStorage.length).toBe(0);
-		expect(localStorage.length).toBe(0);
+	it('should call signOut', () => {
+		wrapper.ref(SIGN_OUT_BUTTON).trigger('click');
+		wrapper.ref(CONFIRM_SIGNOUT_BTN).trigger('click');
+		expect(signOut).toHaveBeenCalledWith(store, $router);
 	});
 
 	it('should submit feedback', () => {

@@ -35,7 +35,7 @@ export const initSocket = (link, store) => {
 	});
 };
 
-const signOut = (store, router) => {
+export const signOut = (store, router) => {
 	store.commit('SET_SOCKET_AUTH', false);
 	store.commit('SET_PENDING', false);
 	Vue.prototype.$disconnect();
@@ -141,6 +141,9 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 	}
 
 	if (mutation.type === 'SOCKET_ONCLOSE') {
+		if (!state.socket.$ws) {
+			return;
+		}
 		state.socket.$ws.stop();
 		if (mutation.payload.reason) {
 			signOut(store, app.router);
