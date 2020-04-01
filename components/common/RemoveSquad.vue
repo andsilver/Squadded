@@ -94,7 +94,6 @@ export default {
 .remove-squad-btn {
 	border-radius: 2.307vw !important;
 	height: 9.23vw !important;
-    width: 25.384vw;
 }
 
 .remove-btn, .cancel-btn {

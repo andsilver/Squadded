@@ -47,7 +47,7 @@
 									<img src="~assets/img/invited-icon.svg" class="my-squad">
 									<span class="ml-2">{{ $t('invited') }}</span>
 								</OutlineButton>
-								<Button v-else class="ma-0 invite-btn" style="background: #ffffff; height: 9.23vw; color: #000000;border: 0.46vw solid #000000;font-size: 2.15vw; letter-spacing: 1.5px;" @click.native="sendInvite">
+								<Button v-else class="ma-0 invite-btn" style="background: #ffffff; height: 9.23vw; min-height: auto; color: #000000;border: 0.46vw solid #000000;font-size: 2.15vw; letter-spacing: 1.5px;" @click.native="sendInvite">
 									<img src="~assets/img/invite-user.svg" class="my-squad">
 									<span class="ml-2">{{ $t('invite') }}</span>
 								</Button>
