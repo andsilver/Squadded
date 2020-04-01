@@ -364,11 +364,15 @@ export default {
 p.mt-2.user-bio {
     font-size: 3.84vw;
     line-height: 4.92vw;
+	overflow: hidden;
+	display: -webkit-box;
+	-webkit-line-clamp: 3;
+	-webkit-box-orient: vertical;
 }
 .profile-shopping-bag .sqdi-shopping-bag {
 	font-size: 6.46vw !important;
 }
 img.my-squad {
-    width: 2.76vw;
+    width: 2.78vw;
 }
 </style>

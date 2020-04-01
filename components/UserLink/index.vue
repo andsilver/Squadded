@@ -38,10 +38,10 @@
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
 				<v-list-item-title class="user_name">
+					<span class="user-screenname">{{ user.screenName }}</span>
 					<div class="squad-username">
 						{{ user.name || 'Name' }}
 					</div>
-					<span class="user-screenname">{{ user.screenName }}</span>
 					<div v-if="showScreenName && user.screenName" style="color: #b8b8ba">
 						{{ user.screenName }}
 					</div>
@@ -272,14 +272,14 @@ export default {
 	.v-list-item__avatar
 		margin-top 3VW
 		margin-bottom 3VW
-	.squad-username
-		display block
+	.user-screenname
 		font-weight 600
 		font-size 4VW
 		margin-bottom 0.95vw
-	span.user-screenname
+	div.squad-username
+		display block
 		color #B8B8BA
 		font-weight 500
-	span.user-screenname:before
+	div.squad-username:before
 		content '@'
 </style>
