@@ -39,6 +39,7 @@
 <script>
 import UserLink from '~/components/UserLink';
 import Button from '~/components/common/Button';
+import { NotificationStore, NotificationMutations } from '~/store/notification';
 
 export default {
 	name: 'NotifyInviteSquad',
@@ -76,12 +77,15 @@ export default {
 				targetUserId: this.notification.userId,
 			});
 			this.$forceUpdate();
+			this.$store.commit(`${NotificationStore}/${NotificationMutations.setAcceptedSquad}`, this.notification._id);
 		},
 		deny() {
 			this.$ws.sendObj({
-				type: 'removeSquadder',
-				guid: this.user.userId,
+				type: 'inviteSquad',
+				targetUserId: this.notification.userId,
+				denied: true,
 			});
+			this.$store.commit(`${NotificationStore}/${NotificationMutations.setAcceptedSquad}`, this.notification._id);
 		},
 	},
 };

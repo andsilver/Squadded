@@ -5,15 +5,15 @@
 		<v-layout class="nofification-layout">
 			<span v-if="!exists" ref="empty-notif-text">{{ $t('notify.isEmpty') }}</span>
 			<div v-else class="flex-grow-1">
-				<h5 v-if="newNotify.length" class="mt-4 pl-3 d-flex align-center">
+				<h5 v-if="newNotifications.length" class="mt-4 pl-3 d-flex align-center">
 					<span>{{ $t('notify.new') }}</span>
-					<span class="badge">{{ newNotify.length }}</span>
+					<span class="badge">{{ newNotifications.length }}</span>
 				</h5>
-				<Notifications ref="new-notify" :items="newNotify" />
+				<Notifications ref="new-notify" :items="newNotifications" />
 				<h5 class="pt-2 pl-3">
 					{{ $t('notify.old') }}
 				</h5>
-				<Notifications ref="old-notify" :items="oldNotify" />
+				<Notifications ref="old-notify" :items="oldNotifications" />
 			</div>
 		</v-layout>
 	</v-container>
@@ -25,6 +25,7 @@ import BackBar from '~/components/common/BackBar';
 import Notifications from '~/components/Notifications';
 import Tabs from '~/components/Notifications/Tabs';
 import { NotificationStore, NotificationActions, NotificationGetters } from '~/store/notification';
+import { NOTIFICATIONS } from '~/consts/notifications';
 
 const notificationStore = createNamespacedHelpers(NotificationStore);
 const notifMapGetters = notificationStore.mapGetters;
@@ -49,6 +50,12 @@ export default {
 		]),
 		exists() {
 			return this.newNotify.length || this.oldNotify.length;
+		},
+		newNotifications() {
+			return this.newNotify.filter(n => n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD);
+		},
+		oldNotifications() {
+			return this.oldNotify.filter(n => n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD);
 		},
 	},
 	created () {
