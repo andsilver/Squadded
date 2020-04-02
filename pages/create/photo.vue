@@ -1,7 +1,7 @@
 <template>
 	<v-container v-if="socket.isAuth" grow>
 		<div :class="{ hide_section : !showPhoto }" class="photo-main-sec">
-			<BackBar ref="goback-bar" :title="$t( cropped ? 'New photo' : 'Create')" />
+			<BackBar ref="goback-bar" :title="$t( cropped ? 'New photo' : 'Create')" :close="!cropped" />
 			<Tabs v-if="!cropped" :active="1" />
 			<v-layout column grow class="mt-3">
 				<CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" @error="fileTypeError = true" />

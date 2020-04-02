@@ -17,19 +17,19 @@
 					v-for="link in menu"
 					:key="link.uri"
 					:class="$t(link.title)"
-					@click.native="closeMenu"
+					@click.native="() => closeMenu(link.uri)"
 				>
-					<nuxt-link :to="link.uri">
-						<div class="left-content-sec">
-							<img :src="link.images">
-						</div>
-						<div class="right-content-sec">
+					<div class="left-content-sec">
+						<img :src="link.images">
+					</div>
+					<div class="right-content-sec">
+						<span class="link-title">
 							{{ $t(link.title) }}
-							<div class="discription">
-								{{ $t(link.des) }}
-							</div>
+						</span>
+						<div class="discription">
+							{{ $t(link.des) }}
 						</div>
-					</nuxt-link>
+					</div>
 				</v-list-item>
 			</v-list>
 		</v-menu>
@@ -72,8 +72,13 @@ export default {
 		toggleMenu () {
 			this.$root.$emit('overlayToggle', {});
 		},
-		closeMenu () {
+		closeMenu (uri) {
+			const { path } = this.$route;
+			if (!path.includes('/create/')) {
+				sessionStorage.setItem('beforeCreatePath', this.$route.path);
+			}
 			this.$root.$emit('overlayClose', {});
+			this.$router.push(uri);
 		},
 	},
 };
@@ -126,7 +131,7 @@ export default {
     font-weight: 500;
     padding-bottom: 3.826vw;
 }
-.open-add-section .v-list-item.theme--light a {
+.open-add-section .v-list-item.theme--light .link-title {
     color: #000;
     font-size: 3.466vw;
     font-weight: 700;
@@ -141,6 +146,7 @@ export default {
     padding-bottom: 3.280vw;
     border-bottom: 0.4vw solid #DBDBDB;
 	padding-top: 3.28vw;
+	cursor: pointer;
 }
 .open-add-section .v-list-item.theme--light.Outfit {
     padding-top: 0px;

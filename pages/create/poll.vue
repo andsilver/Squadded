@@ -1,7 +1,7 @@
 <template>
 	<v-container v-if="socket.isAuth" class="poll-main-sec">
 		<div :class="{ hide_section : !showOutfit }">
-			<BackBar ref="goback-button" :title="$t('Create')" />
+			<BackBar ref="goback-button" :title="$t('Create')" :close="showOutfit" />
 			<Tabs />
 			<v-layout column justify-center align-center class="tab-content-section">
 				<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="2" />

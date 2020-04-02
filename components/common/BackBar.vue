@@ -1,6 +1,6 @@
 <template>
 	<h2>
-		<GoBackBtn />
+		<GoBackBtn :close="close" />
 		{{ title }}
 		<v-btn
 			v-if="addUser"
@@ -41,6 +41,10 @@ export default {
 			default: false,
 		},
 		showSignIn: {
+			type: Boolean,
+			default: false,
+		},
+		close: {
 			type: Boolean,
 			default: false,
 		},
