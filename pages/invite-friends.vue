@@ -3,15 +3,15 @@
 		<div>
 			<div class="white--text black py-4 d-flex justify-space-between align-center px-4">
 				<span class="pa-3" />
-				<span class="font-weight-bold">{{ $t('invite_your_friends.title') }}</span>
+				<span class="font-weight-bold invite-title">{{ $t('invite_your_friends.title') }}</span>
 				<a class="skip-btn" @click="skip">{{ $t('skip') }}</a>
 			</div>
-			<div class="py-4">
-				<div class="px-4 font-weight-medium d-flex align-center mt-4">
-					<img src="~assets/img/action-share.svg" width="16px">
-					<span class="ml-2">{{ $t('invite_your_friends.share') }}</span>
+			<div class="invite-middle">
+				<div class="invite-share font-weight-medium d-flex align-center">
+					<img src="~assets/img/action-share.svg">
+					<span class="share-text">{{ $t('invite_your_friends.share') }}</span>
 				</div>
-				<div class="px-4 d-flex flex-column align-center mt-4">
+				<div class="invite-share-input d-flex flex-column align-center">
 					<v-text-field
 						ref="link-field"
 						v-model="link"
@@ -22,27 +22,25 @@
 						class="link-field"
 						hide-details
 					/>
-					<Button class="mt-4 copy-btn" @click.native="copy">
+					<Button class="copy-btn pa-0" style="width:46.92vw; height: 12.30vw; font-size: 2.61vw; letter-spacing: 2px; font-weight: 700;" @click.native="copy">
 						{{ $t('invite_your_friends.copy_link') }}
 					</Button>
 				</div>
-				<div class="px-4 or-divider">
+				<div class="or-divider">
 					<v-divider />
 					<span>{{ $t('invite_your_friends.or') }}</span>
 				</div>
 				<div>
-					<div class="px-4 font-weight-medium d-flex align-center">
-						<v-icon color="black">
-							mdi-magnify
-						</v-icon>
-						<span class="ml-2">{{ $t('invite_your_friends.add') }}</span>
+					<div class="friend-title font-weight-medium d-flex align-center">
+						<img src="~assets/img/search-Icon-frined.svg">
+						<span class="title-lbl">{{ $t('invite_your_friends.add') }}</span>
 					</div>
-					<FindFriends @invited="invited = true" />
+					<FindFriends class="signin-process" @invited="invited = true" />
 				</div>
 			</div>
 		</div>
 		<div class="py-6 d-flex justify-center done-section">
-			<Button class="done-btn" :disabled="!invited" @click.native="goToFeed">
+			<Button class="done-btn" style="width:36.92vw;height: 12.30vw;background-color: #000 !important; color: #ffffff !important;font-size: 2.61vw; letter-spacing: 2px;" :disabled="!invited" @click.native="goToFeed">
 				{{ $t('done') }}
 			</Button>
 		</div>
@@ -126,12 +124,48 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.skip-btn {
+.invite-middle {
+    margin-top: 10.52vw;
+}
+.invite-share {
+    margin-left: 6.23vw;
+}
+.invite-share img {
+    width: 4.76vw;
+	margin-right: 2.92vw;
+}
+.copy-btn {
+    margin-top: 4.26vw;
+}
+.invite-share-input {
+    margin-top: 4.30vw;
+	padding: 0 5VW;
+}
+.friend-title {
+	padding: 0 5VW;
+}
+.friend-title img{
+	width: 5.44vw;
+}
+.friend-title .title-lbl{
+	margin-left: 2.15vw;
 	font-weight: 600;
-	font-size: 14px;
+	font-size: 4.30vw;
+}
+.skip-btn {
+	font-weight: 700;
+	font-size: 4.30vw;
 	text-transform: capitalize;
 	color: #b8b8ba !important;
 	cursor: pointer;
+}
+.invite-title {
+	font-weight: 700;
+	font-size: 4.30vw;
+}
+.share-text {
+	font-weight: 600;
+	font-size: 4.30vw;
 }
 .link-field {
 	border: 1px solid #dbdbdb;
@@ -160,18 +194,21 @@ export default {
 }
 .or-divider {
 	position: relative;
-	margin-top: 8vh;
-	margin-bottom: 24px;
+	margin-top: 18vw;
+	margin-bottom: 8vw;
+	padding: 0 5VW;
 
 	span {
 		text-transform: uppercase;
 		font-weight: bold;
 		position: absolute;
-		left: calc(50% - 21px);
+		left: calc(50% - 8.76vw);
 		top: -10px;
 		background: #fff;
-		padding: 0 10px;
+		padding: 0 22px;
 		color: #b8b8ba;
+		font-weight: 600;
+		font-size: 4.30vw;
 	}
 }
 

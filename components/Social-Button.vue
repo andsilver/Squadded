@@ -98,4 +98,5 @@ export default {
 		color black
 		border-color white
 		text-align center
+		box-shadow 0 0.461vw 1.538vw rgba(0,0,0,0.16) !important
 </style>

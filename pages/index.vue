@@ -31,12 +31,12 @@
 			<div class="login">
 				<Brand />
 				<div ref="socialstep-one" class="social_step-one" :class="{ active: showstepOne, in_active: !showstepOne}">
-					<div class="text-center pt-6 mt-12 mt-md-0 mb-6 font-weight-bold">
+					<div class="text-center pt-6 mt-11 mt-md-0 mb-6 font-weight-bold">
 						{{ $t('signin.signin_to_shop_with_your_friends') }}
 					</div>
 					<div class="social-text-section" :class="{ hide_socila: showstepTwo}">
 						<div class="social">
-							<social-btn for="fb" :terms-status="terms" class="facebook-btn social-btn mb-3" @termsError="shwoTermsError" />
+							<social-btn for="fb" :terms-status="terms" class="facebook-btn social-btn mb-4" @termsError="shwoTermsError" />
 							<social-btn for="google" :terms-status="terms" class="google-btn social-btn elevation-1" @termsError="shwoTermsError" />
 							<!-- <social-btn for="inst" :terms-status="terms" class="instagram-btn social-btn" @termsError="shwoTermsError" /> -->
 						</div>
@@ -353,6 +353,8 @@ export default {
 			text-align left
 			padding-left 2.36vw
 			line-height 1.6
+		.form-group label.error_terms .check_lable
+			border-color #FD6256 !important
 		.form-group input:checked + label .check_lable:after
 			content ''
 			display block
@@ -433,7 +435,7 @@ export default {
 	.sign-step-two
 		display none
 		transition all 0.2s ease-in-out
-		margin-top: 25.35vw;
+		margin-top: 22vw
 		padding 0 7.69vw
 	.sign-step-two.active
 		display block

@@ -293,7 +293,4 @@ section .v-btn
 	color black
 	font-weight 600
 </style>
-<style lang="stylus">
-.cropper-dialog
-	border-radius 25px
-</style>
+<style lang="stylus"></style>

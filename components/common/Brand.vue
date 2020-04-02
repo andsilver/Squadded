@@ -12,7 +12,7 @@ export default {};
 <style lang="scss" scoped>
 .brand {
 	background: black;
-	padding: 40px 0;
+	padding: 10vw 0;
 
 	img {
 		width: 250px;
@@ -20,6 +20,7 @@ export default {};
 
 	&-text {
 		font-weight: 600;
+		font-size: 4.615vw;
 	}
 }
 </style>

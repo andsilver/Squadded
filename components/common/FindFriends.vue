@@ -35,9 +35,10 @@
 					<Button
 						v-else-if="!friend.isMySquad"
 						class="ma-0 add-user-invite"
+						style="background: #ffffff; border: 1px solid #000; color: #000;height: 9.23vw; font-size: 2.15vw; letter-spacing: 1.5px;width: 22.30vw;"
 						@click.native="() => invite(friend)"
 					>
-						<img src="~assets/img/add-user-invite.svg" class="my-squad">
+						<img src="~assets/img/action-add-user.svg" class="my-squad">
 						<span class="ml-2">{{ $t('invite') }}</span>
 					</Button>
 					<Button
@@ -200,5 +201,16 @@ img.my-squad {
 }
 .add-user-invite span {
 	font-size: 2.15vw;
+}
+.signin-process {
+	.search-field {
+		padding: 0 10px;
+		border: 1px solid #dbdbdb;
+		margin-top: 2.90vw !important;
+	}
+	.friends-list {
+		background: #fff;
+		height: 37vh;
+	}
 }
 </style>
