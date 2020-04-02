@@ -1,36 +1,61 @@
 <template>
-	<div v-if="isMyPost || !post.closed || post.voted" class="vote_slider_wrapper" :class="{ isMyPostSlider: isMyPost }">
-		<Button v-if="isMyPost || post.closed" @click.native="toDetailsPage">
-			{{ $t('poll.results') }}
-		</Button>
-		<button
-			v-else
-			ref="vote_slider"
-			class="vote_slider"
-			:class="{ first: post.voted === 1, second: post.voted === 2 }"
-			@touchstart="(e) => checkStartSliderTouch(e, 'touch')"
-			@touchmove="(e) => moveSlider(e, 'touch')"
-			@touchend="setSliderPosition('touch')"
-			@mousedown="(e) => checkStartSliderTouch(e, 'mouse')"
-			@mousemove="(e) => moveSlider(e, 'mouse')"
-			@mouseup="setSliderPosition('mouse')"
-		>
-			<span class="sqdi-arrow-point-to-right left" />
-			<span ref="vote_btn" class="vote">{{ post.voted ? $t('poll.voted') : $t('poll.vote') }}</span>
-			<span class="sqdi-arrow-point-to-right right" />
-		</button>
-		<span v-if="post.voted && post.closed && !isMyPost" class="voted-selection" :class="{ left_select: post.voted === 1, right_select: post.voted === 2 }" />
+	<div
+		class="vote-button-container"
+		:style="{
+			transform: translateX
+		}"
+	>
+		<div class="d-flex vote-button">
+			<v-btn
+				class="vote-button-first d-flex align-center"
+				:style="{
+					background: first.background,
+					width: first.width + 'px',
+				}"
+				@click="voteOnFirst"
+			>
+				<div v-if="notVoted" class="d-flex align-center not-voted">
+					<span class="mx-2" style="font-size: 18px">‹</span>
+					<span class="mr-4" style="margin-top: 1px">{{ $t('this') }}</span>
+				</div>
+				<div v-else-if="first.percent > 10">
+					<div style="font-size: 8px">
+						{{ $t('this') }}
+					</div>
+					<div>
+						{{ first.percent }}%
+					</div>
+				</div>
+			</v-btn>
+			<v-btn
+				class="vote-button-second d-flex align-center"
+				:style="{
+					background: second.background,
+					width: second.width + 'px',
+				}"
+				@click="voteOnSecond"
+			>
+				<div v-if="notVoted" class="d-flex align-center not-voted">
+					<span class="ml-4" style="margin-top: 1px">{{ $t('that') }}</span>
+					<span class="mx-2" style="font-size: 18px">›</span>
+				</div>
+				<div v-else-if="second.percent > 10">
+					<div style="font-size: 8px">
+						{{ $t('that') }}
+					</div>
+					<div>
+						{{ second.percent }}%
+					</div>
+				</div>
+			</v-btn>
+		</div>
 	</div>
 </template>
 
 <script>
 import { FeedPost } from '~/classes/FeedPost';
-import Button from '~/components/common/Button';
 
 export default {
-	components: {
-		Button,
-	},
 	props: {
 		post: {
 			type: FeedPost,
@@ -43,65 +68,67 @@ export default {
 		isMouseDown: false,
 	}),
 	computed: {
-		isMyPost () {
-			return (this.post.byMe || this.post.voted === 0);
+		meVoted() {
+			return this.post.byMe || this.post.voted;
+		},
+		notVoted() {
+			return this.post.item1.votes === 0 && this.post.item2.votes === 0;
+		},
+		first() {
+			return {
+				background: this.buttonColor(true),
+				width: this.buttonWidth(true),
+				percent: this.percent(true),
+			};
+		},
+		second() {
+			return {
+				background: this.buttonColor(false),
+				width: this.buttonWidth(false),
+				percent: this.percent(false),
+			};
+		},
+		translateX() {
+			return `translateX(calc(50% + ${21.5 + (this.second.width - this.first.width) / 2}px))`;
 		},
 	},
 	methods: {
-		checkStartSliderTouch(e, movedBy = 'touch') {
-			if (movedBy === 'touch') {
-				this.startX = parseInt(e.targetTouches[0].clientX);
+		buttonColor(first) {
+			if (this.notVoted) {
+				return '#fff';
+			}
+			const diff = this.post.item1.votes - this.post.item2.votes;
+			if (diff === 0) {
+				return first ? '#fff' : '#ddd';
+			} else if (diff > 0) {
+				return first ? '#ddd' : '#fff';
 			} else {
-				this.startX = e.screenX;
-				this.isMouseDown = true;
+				return first ? '#fff' : '#ddd';
 			}
-			this.lastX = movedBy === 'touch' ? e.targetTouches[0].clientX : e.clientX;
 		},
-		moveSlider(e, movedBy = 'touch') {
-			if (this.voted) {
-				return false;
+		buttonWidth(first) {
+			if (this.notVoted) {
+				return 70;
 			}
-			let x;
-			if (movedBy === 'touch') {
-				if (this.isOnSliderBorder(movedBy, e.targetTouches[0].clientX)) {
-					return false;
-				}
-				x = e.targetTouches[0].clientX;
-			} else {
-				if (!this.isMouseDown || this.isOnSliderBorder(movedBy, e.clientX)) {
-					return false;
-				}
-				x = e.clientX;
-			}
-			this.$refs.vote_slider.style.left = `${x}px`;
-			this.lastX = movedBy === 'touch' ? e.targetTouches[0].clientX : e.clientX;
+			const length = 120;
+			const total = this.post.item1.votes + this.post.item2.votes;
+			return 10 + Math.round((length / total) * (first ? this.post.item1.votes : this.post.item2.votes));
 		},
-		setSliderPosition(movedBy = 'touch') {
-			if (movedBy === 'mouse') {
-				this.isMouseDown = false;
-			}
-			const MIN_DIFFERENT = 50;
-			const halfScreenWidth = document.body.clientWidth / 2;
-			const different = this.lastX - halfScreenWidth;
-			if (Math.abs(different) < MIN_DIFFERENT) {
-				this.$refs.vote_slider.style.left = '50%';
-				return false;
-			}
-			const choosedPictureNumber = different < 0 ? 1 : 2;
-			const DELAY_FOR_ANIMATION = 100;
-			setTimeout(() => {
-				this.$refs.vote_slider.style.left = '';
-				this.$emit('vote', choosedPictureNumber);
-			}, DELAY_FOR_ANIMATION);
+		percent(first) {
+			const total = this.post.item1.votes + this.post.item2.votes;
+			return Math.round((100 * (first ? this.post.item1.votes : this.post.item2.votes)) / total);
 		},
-		isOnSliderBorder(movedBy, x) {
-			const screenWidth = window.innerWidth;
-			const BORDER_DISTANCE = (screenWidth / 100) * 20;
-			const leftSlideBorder = BORDER_DISTANCE;
-			const rightSlideBorder = screenWidth - (BORDER_DISTANCE * 1.5);
-			if (x <= leftSlideBorder || x >= rightSlideBorder) {
-				return true;
+		voteOnFirst() {
+			if (this.meVoted) {
+				return this.toDetailsPage();
 			}
+			this.$emit('vote', 1);
+		},
+		voteOnSecond() {
+			if (this.meVoted) {
+				return this.toDetailsPage();
+			}
+			this.$emit('vote', 2);
 		},
 		toDetailsPage() {
 			if (this.post.type !== 'pollPost') {
@@ -112,96 +139,42 @@ export default {
 	},
 };
 </script>
-
-<style lang="stylus" scoped>
-.vote_slider_wrapper
-	display flex
-	position absolute
-	width 98%
-	left 1%
-	height 41px
-	padding 3px 0
-	background-color rgba(0, 0, 0, .12)
-	top 55%
-	border-radius 12px
-	justify-content space-around
-	z-index 5
-	&.isMyPostSlider
-		background-color transparent
-	span.voted-selection
-		width 9.23vw
-		height 9.23vw
-		background-color #fff
-		position absolute
-		border-radius 50%
-		background-size 2.9vw
-		background-position: center;
-		background-image url('~assets/img/checked.svg')
-		&.left_select
-			left 10px
-		&.right_select
-			right 10px
-.poll_expired
-	.vote_slider_wrapper
-		background-color transparent
-.vote_slider
-	width 23.076vw
-	height 9.384vw
+<style lang="scss" scoped>
+.vote-button-container {
 	position: absolute;
-	left 50%
-	color white
-	transform translateX(-50%)
-	background-color black
-	border-radius 10px
-	transition 1s color
-	.vote
-		font-size .6em
-		font-weight 700
-		color inherit
-		display flex
-		justify-content center
-		flex-direction column
-		text-align center
-		width 100%
-		height 100%
-		transition .2s all
-		user-select none
+	top: 55%;
+	z-index: 2;
+	transition: transform linear .25s;
+}
+.vote-button {
+	height: 40px;
+	text-transform: uppercase;
+	color: black;
+	position: relative;
+	font-size: 12px;
+	cursor: pointer;
 
-.sqdi-arrow-point-to-right:before
-	position absolute
-	color white
-	top 25%
-	height 15px
-	width 15px
-	font-weight 700
+	&-first,
+	&-second {
+		border-radius: 4px;
+		height: 100%;
+		padding: 0 !important;
+		min-width: unset !important;
+		transition: width linear 0.25s;
+		font-size: 12px;
+		font-weight: 700;
+	}
 
-.sqdi-arrow-point-to-right.left:before
-	left 10%
-	transform rotateZ(180deg) scale(.4)
+	&-first {
+		border-top-left-radius: 12px;
+		border-bottom-left-radius: 12px;
+		margin-right: 1px;
+	}
 
-.sqdi-arrow-point-to-right.right:before
-	right 10%
-	transform scale(.4)
-
-.first,
-.second
-	background-color white
-	color black
-	border-radius 10px
-	transition all .5s
-	.sqdi-arrow-point-to-right
-		display none
-	.vote
-		padding-left 15px
-		background-size 2.9vw
-		background-position 18% 45%
-		background-image url('~assets/img/checked.svg')
-button.first
-	left 25%
-
-button.second
-	left 75%
-.poll-explore
-	.vote_slider_wrapper
-		top 65%
+	&-second {
+		margin-left: 2px;
+		border-top-right-radius: 12px;
+		border-bottom-right-radius: 12px;
+	}
+}
 </style>
