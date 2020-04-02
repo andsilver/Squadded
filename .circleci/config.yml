@@ -45,6 +45,7 @@ jobs:
           paths:
             - dist
             - .deploy_version
+            - .circleci
 
   deploy:
     docker:
