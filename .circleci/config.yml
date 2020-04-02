@@ -64,7 +64,7 @@ jobs:
           command: aws s3 cp /tmp/index.html s3://${CD_SQUADDED_STATIC_BUCKET}/widget/index.html
       - run:
           name: Prepare Share Redirection
-          command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; echo "<html><head><meta http-equiv=\"refresh\" content=\"0;URL=${DEPLOY_VERSION}/share.html\"/></head></html>" > /tmp/share.html )
+          command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; sed -e s/{{DEPLOY_VERSION}}/${DEPLOY_VERSION}/g ~/repo/.circleci/share.html > /tmp/share.html )
       - run:
           name: Upload share.html
           command: aws s3 cp /tmp/share.html s3://${CD_SQUADDED_STATIC_BUCKET}/widget/share.html

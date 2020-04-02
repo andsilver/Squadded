@@ -1,0 +1,7 @@
+<!DOCTYPE html>
+<html data-destination="{{DEPLOY_VERSION}}/share.html">
+  <body> <script>
+    var destination = document.documentElement.getAttribute('data-destination');
+    window.location.href = destination + (window.location.search || '') + (window.location.hash || '');
+  </script> </body>
+</html>
