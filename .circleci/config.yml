@@ -63,8 +63,14 @@ jobs:
           name: Upload index
           command: aws s3 cp /tmp/index.html s3://${CD_SQUADDED_STATIC_BUCKET}/widget/index.html
       - run:
+          name: Prepare Share Redirection
+          command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; echo "<html><head><meta http-equiv=\"refresh\" content=\"0;URL=${DEPLOY_VERSION}/share.html\"/></head></html>" > /tmp/share.html )
+      - run:
+          name: Upload share.html
+          command: aws s3 cp /tmp/share.html s3://${CD_SQUADDED_STATIC_BUCKET}/widget/share.html
+      - run:
           name: Invalidate CloudFront cache
-          command: aws cloudfront create-invalidation --distribution-id ${CD_CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/index.html"
+          command: aws cloudfront create-invalidation --distribution-id ${CD_CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/index.html" "/widget/share.html"
 
 workflows:
   version: 2
