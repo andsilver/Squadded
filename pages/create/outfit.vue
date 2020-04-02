@@ -5,15 +5,14 @@
 			<Tabs />
 			<v-layout column justify-center align-center class="tab-content-section">
 				<SelectItems v-show="isWishlistHasItems" ref="select-items" :max-count="4" />
-				<Preloader v-if="!isWishlistHasItems && socket.isAuth" ref="preloader" class="mt-8" />
-				<div v-else-if="!isWishlistHasItems || !isWishlistHasItems.length" :class="{ outfit_button_sec: isWishlistHasItems, empty_wishlist_container: !isWishlistHasItems}">
-					<p v-if="isWishlistHasItems && !showError && getSelected.length === 0" class="tip-note">
-						{{ $t('tip.outfitSelect') }}
-					</p>
-					<p v-if="isWishlistHasItems && showError && getSelected.length === 0" class="tip-note error-note">
-						{{ $t('tip.outfitError') }}
-					</p>
-					<div v-if="!isWishlistHasItems" class="whislist_empty">
+				<p v-if="isWishlistHasItems && !showError && getSelected.length === 0" class="tip-note">
+					{{ $t('tip.outfitSelect') }}
+				</p>
+				<p v-if="isWishlistHasItems && showError && getSelected.length === 0" class="tip-note error-note">
+					{{ $t('tip.outfitError') }}
+				</p>
+				<div v-else-if="!isWishlistHasItems" :class="{ outfit_button_sec: isWishlistHasItems, empty_wishlist_container: !isWishlistHasItems}">
+					<div class="whislist_empty">
 						<div class="whish_img">
 							<p>
 								<img src="~assets/img/squad-logo-white.svg" class="insta-image">
@@ -28,14 +27,6 @@
 							</Button>
 						</div>
 					</div>
-					<Button
-						v-if="isWishlistHasItems && getSelected.length === 0"
-						ref="done-button"
-						class="mt-4 next-button disable_btn"
-						@click.native="next"
-					>
-						{{ $t('Next') }}
-					</Button>
 				</div>
 				<div class="merge-selected" :class="{ OutfitSelected: (getSelected.length > 0) }">
 					<p v-if="!showError && getSelected.length > 0" class="tip-note">
@@ -96,7 +87,6 @@
 </template>
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import Preloader from '~/components/Preloader.vue';
 import BackBar from '~/components/common/BackBar';
 import Button from '~/components/common/Button';
 import UserInput from '~/components/common/UserInput';
@@ -113,7 +103,6 @@ const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
 export default {
 	components: {
-		Preloader,
 		BackBar,
 		Button,
 		PublicToggle,
