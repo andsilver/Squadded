@@ -1,0 +1,9 @@
+<!DOCTYPE html>
+<body></body>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const squad = urlParams.get('squad');
+    const siteUrl = urlParams.get('site');
+    localStorage.setItem('squad', squad);
+    window.location.href = siteUrl;
+</script>

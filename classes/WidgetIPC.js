@@ -27,7 +27,10 @@ export class WidgetIPC {
 	}
 
 	injectSquadParams (msg) {
-		const { squad, state, navigate } = msg;
+		const { state, navigate } = msg;
+
+		const squad = msg.squad || localStorage.getItem('squad');
+		localStorage.removeItem('squad');
 
 		this.store.commit(`${SquadStore}/${SquadMutations.setSquadParams}`, { squad, navigate });
 		this.widgetState(state);
