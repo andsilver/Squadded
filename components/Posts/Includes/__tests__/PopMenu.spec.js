@@ -185,7 +185,7 @@ describe('PopMenu', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, {
 			type: 'notifAlert',
 			alertType: 'checkmark',
-			text: 'Your post has been deleted',
+			text: 'postdeleted',
 			post,
 			ts: 123456789,
 			_id: 123456789,
