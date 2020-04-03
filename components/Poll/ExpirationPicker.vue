@@ -96,6 +96,9 @@ label.expire-in {
     color: #000000;
     font-weight: 700;
     font-size: 3.23vw;
+	width: 53vw;
+    display: block;
+    margin-top: 4px;
 }
 .row.expire-section .col.col-4 .v-text-field{
 	margin:0;

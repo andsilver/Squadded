@@ -271,7 +271,7 @@ export default {
 			const message = {
 				type: 'notifAlert',
 				alertType: 'checkmark',
-				text: 'Your post has been deleted',
+				text: this.$t('postdeleted'),
 				post: this.post,
 				ts: Date.now(),
 				_id: Date.now(),

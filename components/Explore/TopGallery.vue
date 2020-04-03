@@ -14,7 +14,7 @@
 					:style="`background-image: url(${post.img})`"
 				>
 					<p class="look_tag">
-						#Trending look
+						{{ $t('explore_page.top_gallery.trending_look') }}
 					</p>
 				</div>
 			</div>

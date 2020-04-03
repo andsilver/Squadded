@@ -15,7 +15,7 @@
 		</v-tabs>
 		<section class="buttons">
 			<Button class="sign_btn" @click="signin">
-				{{ $t('Sign in') }}
+				{{ $t('Signin') }}
 			</Button>
 		</section>
 	</v-toolbar>

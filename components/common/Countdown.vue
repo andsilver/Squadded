@@ -1,6 +1,6 @@
 <template>
 	<div class="ending">
-		Ending in  <span v-if="days"><em>{{ days }}</em>d</span> <span v-if="hours > 0"><em>{{ hours }}</em>h</span> <span><em>{{ minutes }}</em>m</span> <span><em>{{ seconds }}</em>s</span>
+		{{ $t('explore_page.ending_polls.ending_in') }} <span v-if="days"><em>{{ days }}</em>d</span> <span v-if="hours > 0"><em>{{ hours }}</em>h</span> <span><em>{{ minutes }}</em>m</span> <span><em>{{ seconds }}</em>s</span>
 	</div>
 </template>
 

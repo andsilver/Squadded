@@ -3,7 +3,7 @@
 		<v-icon small>
 			sqdi-squadded-icon
 		</v-icon>
-		<span class="ml-2">{{ $t(`${ item.squadded ? 'Saved' : 'Save' }`) }}</span>
+		<span class="ml-2">{{ $t(`${ item.squadded ? 'paired.Saved' : 'paired.Save' }`) }}</span>
 	</Button>
 </template>
 

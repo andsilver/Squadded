@@ -65,6 +65,7 @@
 				/>
 				<Button
 					class="edit-button"
+					style="width:26.46vw;"
 					@click.native="goBack"
 				>
 					{{ $t('Edit') }}

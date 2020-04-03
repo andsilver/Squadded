@@ -14,6 +14,7 @@
 	"EnterUsername": "Enter your username",
 	"Explore": "Explore",
 	"Home": "Home",
+	"topHome": "Home",
 	"Just": "Just",
 	"Like": "Like",
 	"Likes": "Likes",
@@ -26,6 +27,9 @@
 	"NewPosts": "New Posts",
 	"Next": "Next",
 	"Notifications": "Messages",
+	"skip": "skip",
+	"done": "done",
+	"postdeleted": "Your post has been deleted",
 	"PairedItem": {
 		"all": "Top",
 		"outfits": "Outfits",
@@ -61,6 +65,10 @@
 	"agree_left": "Please check the box to confirm that you agree to our",
 	"agree_right": "terms and conditions.",
 	"an outfit": "an outfit",
+	"paired": {
+		"Save": "Save",
+		"Saved": "Saved"
+	},
 	"comment": {
 		"pop": {
 			"Action": "Action",
@@ -127,14 +135,16 @@
 	"explore_page": {
 		"ending_polls": {
 			"description": "Hurry up, help others in their decision before their poll expires",
-			"title": "Ending Polls"
+			"title": "Ending Polls",
+			"ending_in": "Ending in"
 		},
 		"search": {
 			"find_friends": "Find friends...",
 			"no_results": "No results found for {text}"
 		},
 		"top_gallery": {
-			"title": "Most Popular looks"
+			"title": "Most Popular looks",
+			"trending_look": "#Trending look"
 		},
 		"top_items": {
 			"title": "Most wanted items right now"

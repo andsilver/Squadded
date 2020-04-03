@@ -64,6 +64,7 @@
 					<PhotoView v-if="dataImg" ref="photo-view" :post="post" />
 					<Button
 						ref="edit-button"
+						style="width:26.46vw;"
 						class="edit-button"
 						@click.native="goBack"
 					>

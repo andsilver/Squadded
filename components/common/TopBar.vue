@@ -7,7 +7,7 @@
 	>
 		<v-tabs v-model="tab">
 			<v-tab to="/all">
-				{{ $t('Home') }}
+				{{ $t('topHome') }}
 			</v-tab>
 			<v-tab v-if="!mySquad" to="/feed">
 				{{ $t('My Squad') }}
