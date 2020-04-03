@@ -89,6 +89,12 @@ export default {
 			onToggleKeyboard(this.toggleKeyboard.bind(this));
 		}
 	},
+	mounted () {
+		window.addEventListener('beforeunload', () => {
+			sessionStorage.setItem('latestPath', this.$route.path);
+			sessionStorage.setItem('latestHash', this.$route.hash);
+		});
+	},
 	destroyed() {
 		this.unsubscribe && this.unsubscribe();
 	},

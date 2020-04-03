@@ -268,7 +268,31 @@ describe('WS Plugin', () => {
 				expect(ctx.app.router.push).toHaveBeenCalledWith('/invite-friends', expect.anything());
 			});
 
+			it('should redirect to latestPath & latestHash if they were saved in sessionStorage', async () => {
+				const mutation = {
+					type: 'SOCKET_ONMESSAGE',
+					payload: { type: 'authOk' },
+				};
+				const latestPath = '/path';
+				const latestHash = 'hash';
+				state.squad.route.name = '';
+				prefetch.mockReturnValue(Promise.resolve({ nameSelected: true, squaddersCount: 2 }));
+				isOnboarding.mockReturnValue(true);
+				sessionStorage.setItem('latestPath', latestPath);
+				sessionStorage.setItem('latestHash', latestHash);
+
+				mutationDispatcher(mutation, state);
+				await Promise.resolve();
+
+				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
+				expect(ctx.app.router.push).toHaveBeenCalledWith({
+					path: latestPath,
+					hash: latestHash,
+				}, expect.anything());
+			});
+
 			it('should redirect to landing if current path is home or onboarding on auth', async () => {
+				sessionStorage.clear();
 				const mutation = {
 					type: 'SOCKET_ONMESSAGE',
 					payload: { type: 'authOk' },

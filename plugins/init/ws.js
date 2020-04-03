@@ -116,7 +116,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 					return app.router.push('/invite-friends', setPendingFalse);
 				}
 			}
-
 			if (route.name) {
 				app.router.push(route, setPendingFalse);
 			} else if (!user.nameSelected) {
@@ -125,10 +124,17 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				return app.router.push('/invite-friends', setPendingFalse);
 			} else {
 				const { name } = ctx.route;
-				app.router.push(
-					(isHome(name) || isOnboarding(name)) ? DEFAULT_LANDING : ctx.route.path,
-					setPendingFalse,
-				);
+				const latestPath = sessionStorage.getItem('latestPath');
+				const latestHash = sessionStorage.getItem('latestHash');
+				if (latestPath) {
+					return app.router.push({
+						path: latestPath,
+						hash: latestHash,
+					}, setPendingFalse);
+				} else if (isHome(name) || isOnboarding(name)) {
+					return app.router.push(DEFAULT_LANDING, setPendingFalse);
+				}
+				return app.router.push(ctx.route.path, setPendingFalse);
 			}
 		}
 

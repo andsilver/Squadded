@@ -154,7 +154,6 @@ export default {
 		middleware: [
 			'checkAuth',
 			'i18n',
-			'keepRoute',
 		],
 	},
 	server,

@@ -1,7 +1,7 @@
 <template>
 	<v-container v-if="socket.isAuth" ref="main" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
-		<v-layout column>
+		<v-layout column class="px-0">
 			<Preloader v-if="!posts" ref="preloader" class="mt-8" />
 			<span v-else-if="!posts.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 			<Feed
@@ -23,7 +23,7 @@ import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
 import TopBar from '~/components/common/TopBar.vue';
 import { onAuth } from '~/helpers';
-import { HomeStore, HomeActions, HomeMutations } from '~/store/home';
+import { HomeStore, HomeActions } from '~/store/home';
 import {
 	STORAGE_VISITED_KEY,
 	HOME_NEW_POSTS_INTERVAL,
@@ -56,9 +56,6 @@ export default {
 	},
 	created () {
 		this.init();
-	},
-	destroyed () {
-		this.$store.commit(`${HomeStore}/${HomeMutations.clear}`);
 	},
 	methods: {
 		async init() {
