@@ -1,10 +1,10 @@
 <template>
 	<div class="public-toggle">
-		<div class="img" :class="{'is-active': isPublic}" @click="toggle">
+		<div class="img" :class="{'is-active': isPublic}">
 			<img v-if="isPublic" src="~assets/img/public.svg" class="logo">
 			<img v-else src="~assets/img/private.svg" class="logo">
 		</div>
-		<div class="text" :class="{'is-active': isPublic}" @click="toggle">
+		<div class="text" :class="{'is-active': isPublic}">
 			<h4>
 				{{ $t(isPublic ? 'public' : 'private') }}
 			</h4>
@@ -12,7 +12,23 @@
 				{{ $t(isPublic ? 'publicToggle.forEveryone' : 'publicToggle.forPrivate') }}
 			</p>
 			<span class="toggle-lab">
-				{{ $t('publicToggle.toggle') }}
+				<v-select
+					v-model="defaultItem"
+					:items="items"
+					item-text="label"
+					item-value="key"
+					:hide-details="true"
+					:menu-props="{ top: true }"
+					class="expire-custom-select"
+					@change="switchDate(`${defaultItem}`)"
+				>
+					<template slot="selection" slot-scope="data">
+						<span class="expire-option">{{ $t(`${data.item.label}`) }}</span>
+					</template>
+					<template slot="item" slot-scope="data">
+						<span class="expire-option">{{ $t(`${data.item.label}`) }}</span>
+					</template>
+				</v-select>
 			</span>
 		</div>
 	</div>
@@ -28,12 +44,22 @@ export default {
 	},
 	data: () => ({
 		isPublic: true,
+		selected: 0,
+		defaultItem: '',
+		items: [
+			{ label: 'public' },
+			{ label: 'private' },
+		],
 	}),
+	created () {
+		this.defaultItem = this.items[this.selected];
+	},
 	mounted () {
 		this.isPublic = this.public;
 	},
 	methods: {
-		toggle() {
+		switchDate (i) {
+			this.selected = i;
 			this.isPublic = !this.isPublic;
 		},
 	},
@@ -79,10 +105,11 @@ export default {
 			font-size 3.23vw
 		span.toggle-lab
 			position absolute
-			right 0
-			top -3px
-			padding 0.8vw 3.07vw
-			background-color rgba(218,217,221,0.30)
-			border-radius 3.07vw
-
+			right 4px
+			top -5px
+			max-width 23.3vw;
+span.expire-option
+	font-size 3.23vw
+	font-weight 700
+	line-height 6.153vw;
 </style>

@@ -157,7 +157,7 @@ export default {
 
 .post_comment_input_for_feed
 	width 100%
-	margin 0 0 24px
+	margin 0 0 7.50vw
 
 .comment_input
 	transition all linear .2s

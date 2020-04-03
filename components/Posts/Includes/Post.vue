@@ -109,13 +109,13 @@ export default {
 	margin-left 3%
 
 .full_post
-	margin-bottom 6.15vw
+	margin-bottom 2.87vw
 	position relative
 
 .card_title
 	font-size 3.692vw
 	font-weight 500
-	margin-bottom 3%
+	margin-bottom 2.969vw
 	cursor pointer
 
 .placeholder
