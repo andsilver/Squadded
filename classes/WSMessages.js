@@ -207,7 +207,9 @@ export class WSMessages {
 	}
 
 	notifInviteSquad (message) {
-		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+		if (!message.denied) {
+			this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+		}
 		const { other } = this.store.state.user;
 		if (other && other.guid === message.userId) {
 			this.store.state.socket._ws.sendObj({

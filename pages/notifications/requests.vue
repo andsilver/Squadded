@@ -41,7 +41,12 @@ export default {
 			'socket',
 		]),
 		filtered () {
-			return this.notifications.filter(n => (n.type === NOTIFICATIONS.ACCEPT_SQUAD || n.type === NOTIFICATIONS.INVITE_SQUAD) && !n.accepted);
+			return this.notifications.filter(n =>
+				(
+					n.type === NOTIFICATIONS.ACCEPT_SQUAD ||
+					n.type === NOTIFICATIONS.INVITE_SQUAD
+				) && (!n.accepted && !n.denied),
+			);
 		},
 	},
 	created () {
