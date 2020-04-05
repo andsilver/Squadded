@@ -9,13 +9,11 @@
 					class="user-avatar-container"
 					@click="getUserLink(user)"
 				>
-					<img :src="user.miniAvatar || user.avatar" alt>
-					<span class="user-name-hover">{{ user.screenName }}</span>
-					<span
-						v-if="user.online || index === 0"
-						class="online-status"
-						:style="{left: getPosition(index)}"
-					/>
+					<div class="user-avatar-content">
+						<img :src="user.miniAvatar || user.avatar" alt>
+						<span class="user-name-hover">{{ user.screenName }}</span>
+						<span v-if="index === 0 || user.online" class="online-status" />
+					</div>
 				</div>
 				<div ref="share" class="count-squadders d-flex align-center" :style="{left: getCountPosition()}">
 					<AddFriendsButton
@@ -122,8 +120,10 @@ export default {
 		.count-squadders
 			z-index 9
 			position absolute
+
 .user-avatar-container
 	cursor pointer
+
 .user-avatar-container, .expand
 	position absolute
 	top 0
@@ -134,6 +134,9 @@ export default {
 		border 2px solid #fff
 	.user-name-hover
 		display none
+
+.user-avatar-content
+	position relative
 
 .plus-btn
 	width: 36px !important
@@ -175,4 +178,6 @@ export default {
 	border-radius 50%
 	position absolute
 	top 20px
+	left -2px
+	z-index 20
 </style>
