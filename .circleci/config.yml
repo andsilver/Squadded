@@ -71,7 +71,7 @@ jobs:
           command: aws s3 cp /tmp/share.html s3://${CD_SQUADDED_STATIC_BUCKET}/widget/share.html
       - run:
           name: Invalidate CloudFront cache
-          command: aws cloudfront create-invalidation --distribution-id ${CD_CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/squad-shopping.com.html" "/widget/share.html"
+          command: aws cloudfront create-invalidation --distribution-id ${CD_CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/squad-shopping.com.html" "/widget/share-squad-shopping.com.html"
 
 workflows:
   version: 2
