@@ -119,9 +119,9 @@ export default {
 				this.$refs.topbar.tab = 1;
 			} else if (this.step === 3) {
 				this.popoverLeft = 16;
-				this.popoverTop = 270;
+				this.popoverTop = 230;
 				this.highlightLeft = 251;
-				this.highlightTop = 228;
+				this.highlightTop = 178;
 			} else {
 				if (localStorage.getItem(STORAGE_VISITED_KEY)) {
 					return this.$router.push('/feed');

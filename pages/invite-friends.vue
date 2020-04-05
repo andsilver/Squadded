@@ -35,7 +35,7 @@
 						<img src="~assets/img/search-Icon-frined.svg">
 						<span class="title-lbl">{{ $t('invite_your_friends.add') }}</span>
 					</div>
-					<FindFriends class="signin-process" @invited="invited = true" />
+					<FindFriends class="signin-process" show-facebook-friends @invited="invited = true" />
 				</div>
 			</div>
 		</div>

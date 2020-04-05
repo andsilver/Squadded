@@ -95,11 +95,7 @@ export default {
 				let searched = this.facebookFriends;
 
 				if (this.searchText) {
-					searched = this.facebookFriends.filter(
-						f =>
-							f.screenName.toLowerCase().includes(this.searchText) ||
-							f.name.toLowerCase().includes(this.searchText),
-					);
+					searched = this.facebookFriends.filter(f => f.name.toLowerCase().includes(this.searchText));
 				}
 
 				filtered.push(...(searched || []));
@@ -144,7 +140,7 @@ export default {
 			}
 			await prefetch({
 				type: 'inviteSquad',
-				targetUserId: friend.userId,
+				targetUserId: friend.userId || friend.id,
 				mutation: `${UserStore}/${UserMutations.setMe}`,
 				store: this.$store,
 			});
