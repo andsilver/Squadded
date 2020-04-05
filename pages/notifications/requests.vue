@@ -21,7 +21,7 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Notifications from '~/components/Notifications';
 import Tabs from '~/components/Notifications/Tabs';
-import { NotificationStore, NotificationActions } from '~/store/notification';
+import { NotificationStore } from '~/store/notification';
 import { NOTIFICATIONS } from '~/consts/notifications';
 
 const notifMapState = createNamespacedHelpers(NotificationStore).mapState;
@@ -48,9 +48,6 @@ export default {
 				) && (!n.accepted && !n.denied),
 			);
 		},
-	},
-	created () {
-		this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	},
 	head: () => ({
 		title: 'Notifications-Requests',

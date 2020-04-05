@@ -20,7 +20,7 @@ const OAUTH = {
 	facebook: {
 		endpoint: 'https://www.facebook.com/v3.3/dialog/oauth?',
 		id: FB_APP_ID,
-		scope: 'public_profile,email',
+		scope: 'public_profile,email,user_friends',
 		display: 'popup',
 	},
 	instagram: {

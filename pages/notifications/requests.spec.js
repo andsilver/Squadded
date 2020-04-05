@@ -2,7 +2,7 @@ import { Wrapper, createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Requests from './requests.vue';
 import Store from '~/store';
-import { NotificationStore, NotificationActions, NotificationMutations } from '~/store/notification';
+import { NotificationStore, NotificationMutations } from '~/store/notification';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
@@ -49,11 +49,5 @@ describe('Notifications Requests', () => {
 				user: {},
 			}],
 		});
-	});
-
-	it('should fetch notifications', () => {
-		store.dispatch = jest.fn();
-		initLocalVue();
-		expect(store.dispatch).toHaveBeenCalledWith(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	});
 });

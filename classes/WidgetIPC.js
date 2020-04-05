@@ -3,6 +3,7 @@ import { ActivityStore, ActivityMutations, ActivityActions } from '~/store/activ
 import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
+import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { INTERACTED_KEY } from '~/consts/keys';
@@ -38,6 +39,7 @@ export class WidgetIPC {
 
 	loggedIn (msg) {
 		this.store.commit(`${UserStore}/${UserMutations.setToken}`, msg.userToken);
+		this.store.commit(`${ExploreStore}/${ExploreMutations.setFacebookFriends}`, msg.friends);
 		connect(this.store);
 	}
 

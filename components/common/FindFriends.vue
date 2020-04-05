@@ -18,19 +18,13 @@
 			</v-text-field>
 		</div>
 		<div class="mt-4 px-4 friends-list">
-			<div v-if="!friends || !friends.length">
+			<div v-if="!myFriends || !myFriends.length">
 				{{ $t('invite_your_friends.search_users') }}
 			</div>
-			<div v-for="(friend, index) in friends" :key="index">
+			<div v-for="(friend, index) in myFriends" :key="index">
 				<v-divider v-if="index > 0" />
 				<div class="d-flex justify-space-between align-center friend-feeds">
-					<UserLink
-						ref="user-link"
-						class="user-link"
-						size="35"
-						show-screen-name
-						:user="friend"
-					/>
+					<UserLink ref="user-link" class="user-link" size="35" show-screen-name :user="friend" />
 					<RemoveSquad v-if="isMySquad(friend)" :user="friend" />
 					<Button
 						v-else-if="!friend.isMySquad"
@@ -52,12 +46,7 @@
 						</v-icon>
 						<span class="ml-1">{{ $t('accept') }}</span>
 					</Button>
-					<v-btn
-						v-else
-						class="invited-btn"
-						outlined
-						disabled
-					>
+					<v-btn v-else class="invited-btn" outlined disabled>
 						<v-icon small color="#b8b8b0">
 							mdi-account-check-outline
 						</v-icon>
@@ -87,13 +76,36 @@ export default {
 		UserLink,
 		RemoveSquad,
 	},
+	props: {
+		showFacebookFriends: {
+			type: Boolean,
+			default: false,
+		},
+	},
 	data: () => ({
 		searchText: null,
 		isTyping: false,
 	}),
 	computed: {
-		...exploreState(['friends']),
+		...exploreState(['friends', 'facebookFriends']),
 		...userState(['me']),
+		myFriends() {
+			const filtered = [];
+			if (this.showFacebookFriends) {
+				let searched = this.facebookFriends;
+
+				if (this.searchText) {
+					searched = this.facebookFriends.filter(
+						f =>
+							f.screenName.toLowerCase().includes(this.searchText) ||
+							f.name.toLowerCase().includes(this.searchText),
+					);
+				}
+
+				filtered.push(...(searched || []));
+			}
+			return [...filtered, ...(this.friends || [])];
+		},
 	},
 	watch: {
 		searchText() {
@@ -156,7 +168,7 @@ export default {
 		isMySquad(friend) {
 			return friend.isMySquad && !friend.isPending;
 		},
-		search () {
+		search() {
 			this.$store.dispatch(`${ExploreStore}/${ExploreActions.searchFriends}`, this.searchText);
 		},
 	},
@@ -194,7 +206,7 @@ export default {
 	border-radius: 10px;
 }
 img.my-squad {
-    width: 2.77vw;
+	width: 2.77vw;
 }
 .add-user-invite {
 	width: 20.76vw;
@@ -206,7 +218,7 @@ img.my-squad {
 	.search-field {
 		padding: 0 10px;
 		border: 1px solid #dbdbdb;
-		margin-top: 2.90vw !important;
+		margin-top: 2.9vw !important;
 	}
 	.friends-list {
 		background: #fff;

@@ -27,6 +27,7 @@ export const state = () => ({
 		items: null,
 	},
 	friends: null,
+	facebookFriends: [],
 	searching: false,
 });
 
@@ -43,6 +44,7 @@ export const ExploreMutations = {
 	setFriends: 'setFriends',
 	setSearching: 'setSearching',
 	setInvited: 'setInvited',
+	setFacebookFriends: 'setFacebookFriends',
 };
 
 export const mutations = {
@@ -68,6 +70,9 @@ export const mutations = {
 	},
 	[ExploreMutations.setFriends]: (state, friends) => {
 		state.friends = friends;
+	},
+	[ExploreMutations.setFacebookFriends]: (state, friends) => {
+		state.facebookFriends = friends;
 	},
 	[ExploreMutations.setSearching]: (state, searching) => {
 		state.searching = searching;

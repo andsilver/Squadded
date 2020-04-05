@@ -11,6 +11,11 @@
 				>
 					<img :src="user.miniAvatar || user.avatar" alt>
 					<span class="user-name-hover">{{ user.screenName }}</span>
+					<span
+						v-if="user.online || index === 0"
+						class="online-status"
+						:style="{left: getPosition(index)}"
+					/>
 				</div>
 				<div ref="share" class="count-squadders d-flex align-center" :style="{left: getCountPosition()}">
 					<AddFriendsButton
@@ -151,16 +156,23 @@ export default {
 	img
 		width 43px
 		height 43px
-		transition all ease-in-out 0.5s;
-		-webkit-transition all ease-in-out 0.5s;
-		-ms-transition all ease-in-out 0.5s;
-		transition all ease-in-out 0.5s;
-		-webkit-transition all ease-in-out 0.5s;
-		-ms-transition all ease-in-out 0.5s
+		transition all ease-in-out 0.25s;
+		-webkit-transition all ease-in-out 0.25s;
+		-ms-transition all ease-in-out 0.25s;
+		transition all ease-in-out 0.25s;
+		-webkit-transition all ease-in-out 0.25s;
+		-ms-transition all ease-in-out 0.25s
 	.user-name-hover
 		display block
 		text-align center
 		font-size 10px
 		margin-left -5px
 		margin-top -5px
+.online-status
+	padding 5px
+	border 2px solid white
+	background #28f528
+	border-radius 50%
+	position absolute
+	top 20px
 </style>
