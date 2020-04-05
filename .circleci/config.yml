@@ -59,7 +59,7 @@ jobs:
           command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; aws s3 sync ~/repo/dist s3://${CD_SQUADDED_STATIC_BUCKET}/widget/${DEPLOY_VERSION} )
       - run:
           name: Prepare Index Redirection
-          command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; echo "<html><head><meta http-equiv=\"refresh\" content=\"0;URL=${DEPLOY_VERSION}/\"/></head></html>" > /tmp/index.html )
+          command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; echo "<html><head><meta http-equiv=\"refresh\" content=\"0;URL=${DEPLOY_VERSION}/index.html\"/></head></html>" > /tmp/index.html )
       - run:
           name: Upload index
           command: aws s3 cp /tmp/index.html s3://${CD_SQUADDED_STATIC_BUCKET}/widget/squad-shopping.com.html
@@ -68,7 +68,7 @@ jobs:
           command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; sed -e s/{{DEPLOY_VERSION}}/${DEPLOY_VERSION}/g ~/repo/.circleci/share.html > /tmp/share.html )
       - run:
           name: Upload share.html
-          command: aws s3 cp /tmp/share.html s3://${CD_SQUADDED_STATIC_BUCKET}/widget/share.html
+          command: aws s3 cp /tmp/share.html s3://${CD_SQUADDED_STATIC_BUCKET}/widget/share-squad-shopping.com.html
       - run:
           name: Invalidate CloudFront cache
           command: aws cloudfront create-invalidation --distribution-id ${CD_CLOUDFRONT_DISTRIBUTION_ID} --paths "/widget/" "/widget/squad-shopping.com.html" "/widget/share-squad-shopping.com.html"
