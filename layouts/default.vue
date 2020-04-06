@@ -159,7 +159,7 @@ export default {
 	z-index 201
 	transition-property bottom
 	transition-duration 0.1s
-	.v-application.isTouch:not(.show-tabs) &
+	.v-application:not(.show-tabs) &
 		bottom -65px
 
 .pending

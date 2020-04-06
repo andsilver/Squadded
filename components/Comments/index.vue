@@ -164,7 +164,7 @@ export default {
 	opacity 1
 	height 57px
 
-.v-application.isTouch:not(.show-tabs) .post_comment_input
+.v-application:not(.show-tabs) .post_comment_input
 	bottom 0
 
 .comment-listing
