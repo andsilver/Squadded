@@ -55,4 +55,10 @@ export default {
 	width 100%
 .grouped-post .is_selected .v-image:after
 	background-color transparent
+.single-post .v-image:after
+	transition background-color linear .2s
+	background-color rgba(255,255,255,0.0)
+	content ''
+	width 100%
+
 </style>

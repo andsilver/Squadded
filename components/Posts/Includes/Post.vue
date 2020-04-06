@@ -130,7 +130,9 @@ export default {
 	.card_title
 		padding-right 12px !important
 		padding-left 12px !importan
-
+.single-post
+	.post-user-sec
+		padding 0px
 .visibility
 	width 3px
 	height 500px

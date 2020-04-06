@@ -1,5 +1,5 @@
 <template>
-	<Post :post="post" group-post class="grouped-post">
+	<Post :post="post" group-post class="grouped-post single-post">
 		<ProductCard
 			ref="product-card"
 			class="mx-auto pa-4 w-78 mb-4 single-item"
