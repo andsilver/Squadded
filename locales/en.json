@@ -14,7 +14,6 @@
 	"EnterUsername": "Enter your username",
 	"Explore": "Explore",
 	"Home": "Home",
-	"topHome": "Home",
 	"Just": "Just",
 	"Like": "Like",
 	"Likes": "Likes",
@@ -27,9 +26,6 @@
 	"NewPosts": "New Posts",
 	"Next": "Next",
 	"Notifications": "Messages",
-	"skip": "skip",
-	"done": "done",
-	"postdeleted": "Your post has been deleted",
 	"PairedItem": {
 		"all": "Top",
 		"outfits": "Outfits",
@@ -65,10 +61,6 @@
 	"agree_left": "Please check the box to confirm that you agree to our",
 	"agree_right": "terms and conditions.",
 	"an outfit": "an outfit",
-	"paired": {
-		"Save": "Save",
-		"Saved": "Saved"
-	},
 	"comment": {
 		"pop": {
 			"Action": "Action",
@@ -107,7 +99,7 @@
 	"createDesc": {
 		"outfit": "Pair 2-4 items in a single post",
 		"photo": "Add a photo and tag items on it",
-		"poll": "Ask your followers to vote between 2 items",
+		"poll": "Ask your squad to vote between 2 items",
 		"unsupported_file_format": "This image format is not supported"
 	},
 	"create_your_squad": {
@@ -117,6 +109,7 @@
 		"skip_for_now": "skip for now",
 		"title": "Create your squad"
 	},
+	"done": "done",
 	"enterCode": "Enter Code",
 	"error": {
 		"404": "Seems you got lost!",
@@ -135,8 +128,8 @@
 	"explore_page": {
 		"ending_polls": {
 			"description": "Hurry up, help others in their decision before their poll expires",
-			"title": "Ending Polls",
-			"ending_in": "Ending in"
+			"ending_in": "Ending in",
+			"title": "Ending Polls"
 		},
 		"search": {
 			"find_friends": "Find friends...",
@@ -265,6 +258,10 @@
 	"outfit": {
 		"textPlaceholder": "Type your description"
 	},
+	"paired": {
+		"Save": "Save",
+		"Saved": "Saved"
+	},
 	"pairedItem": {
 		"hesitating_users": "Saved to Wishlist:",
 		"title": "View Item"
@@ -287,11 +284,11 @@
 		"resultNote": "The winning article will be announced after this time",
 		"results": "Results",
 		"textPlaceholder": "Ask a question",
+		"that": "that",
+		"this": "this",
 		"vote": "VOTE",
 		"voted": "VOTED",
-		"votes": "votes | votes",
-		"this": "this",
-		"that": "that"
+		"votes": "votes | votes"
 	},
 	"post": {
 		"addToMySquad": "Add {user} to My Squad",
@@ -320,7 +317,7 @@
 			},
 			"setPrivate": {
 				"decline": "Stay public",
-				"description": "Only your followers will be able to see your post",
+				"description": "Only your squad will be able to see your post",
 				"menu": "Set as private",
 				"question": "Set private?"
 			},
@@ -354,6 +351,7 @@
 		"unwatchUser": "Unwatch {user}",
 		"watchUser": "Watch {user}"
 	},
+	"postdeleted": "Your post has been deleted",
 	"private": "Private",
 	"profile_settings": {
 		"crop_photo": "Crop photo",
@@ -422,6 +420,7 @@
 	"signin": {
 		"signin_to_shop_with_your_friends": "Sign in to shop with your friends:"
 	},
+	"skip": "skip",
 	"spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
 	"styleOutfit": "style in this outfit",
 	"tip": {
@@ -437,6 +436,7 @@
 		"pollSelect": "Select 2 items you hesitate with",
 		"tapPhotos": "click photos for details"
 	},
+	"topHome": "The community",
 	"user": {
 		"Follow": "Watch",
 		"Followers": "Watchers",

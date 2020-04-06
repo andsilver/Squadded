@@ -14,7 +14,6 @@
 	"EnterUsername": "Ajouter un nom d'utilisateur",
 	"Explore": "Explorer",
 	"Home": "Accueil",
-	"topHome": "Accueil",
 	"Just": "juste",
 	"Like": "J'aime",
 	"Likes": "J'aime",
@@ -72,7 +71,7 @@
 				"question": "Supprimer ce commentaire?"
 			},
 			"reportComment": {
-				"decline": "Ok, ne signalez pas de commentaire",
+				"decline": "Ok, ne signalez pas ce commentaire",
 				"description": "Êtes-vous sûr? Cette action ne peut pas être annulée.",
 				"inappropriate": "Inapproprié",
 				"menu": "Signaler",
@@ -110,6 +109,7 @@
 		"skip_for_now": "Plus tard",
 		"title": "Créer mon squad"
 	},
+	"done": "Fini",
 	"enterCode": "Taper le code",
 	"error": {
 		"404": "Oups cette page a disparu",
@@ -128,6 +128,7 @@
 	"explore_page": {
 		"ending_polls": {
 			"description": "Vite, aide les shoppeurs a se décider avant l'expiration de leur sondage",
+			"ending_in": "Se termine dans",
 			"title": "Sondages de dernière minute"
 		},
 		"search": {
@@ -135,7 +136,8 @@
 			"no_results": "Aucun résultat pour {text}"
 		},
 		"top_gallery": {
-			"title": "Les meilleurs looks"
+			"title": "Les meilleurs looks",
+			"trending_look": "#Look Tendance"
 		},
 		"top_items": {
 			"title": "Les articles les plus tendances en ce moment"
@@ -191,7 +193,7 @@
 			},
 			"pin": {
 				"required": "Vous devez entrer un code PIN",
-				"valid": "Le code Pin doit comporter 4 chiffres"
+				"valid": "Veuillez saisir le code PIN correct"
 			},
 			"terms": {
 				"valid": "Veuillez accepter nos conditions"
@@ -256,6 +258,10 @@
 	"outfit": {
 		"textPlaceholder": "Ajouter une légende"
 	},
+	"paired": {
+		"Save": "Ajouter",
+		"Saved": "ajouté"
+	},
 	"pairedItem": {
 		"hesitating_users": "l'ont ajouté à leur wishlist:",
 		"title": "Voir l'article "
@@ -278,6 +284,8 @@
 		"resultNote": "Le gagnant sera désigné après ce délai.",
 		"results": "Résultats",
 		"textPlaceholder": "Ajouter une légende...",
+		"that": "Cela",
+		"this": "Ceci",
 		"vote": "VOTEZ",
 		"voted": "VOTÉ",
 		"votes": "votes | votes"
@@ -343,6 +351,7 @@
 		"unwatchUser": "Ne plus m'inspirer de {user}",
 		"watchUser": "M'inspirer de {user}"
 	},
+	"postdeleted": "Votre publication a été supprimée",
 	"private": "Privé",
 	"profile_settings": {
 		"crop_photo": "Recadrer la photo",
@@ -411,6 +420,7 @@
 	"signin": {
 		"signin_to_shop_with_your_friends": "Connectez-vous pour faire du shopping entre amis:"
 	},
+	"skip": "Plus tard",
 	"spamNote": "Prévoyez jusqu'à 1 minute pour le recevoir. N'oubliez pas de vérifier votre dossier spam / courrier indésirable.",
 	"styleOutfit": "styles dans cet outfit",
 	"tip": {
@@ -426,6 +436,7 @@
 		"pollSelect": "Sélectionnez 2 articles avec lesquels vous hésitez",
 		"tapPhotos": "Cliquez sur la photo pour plus de détails"
 	},
+	"topHome": "La communauté",
 	"user": {
 		"Follow": "Suivre",
 		"Followers": "Abonnés",
@@ -455,7 +466,7 @@
 			"deny": "Refuser",
 			"inSquad": "dans squad",
 			"invite": "Inviter",
-			"invited_text": "vous a invité à rejoindre leur équipe.",
+			"invited_text": "Tu es invité à rejoindre le squad @{user}\npour faire du shopping ensemble.",
 			"pending": "Demande envoyée...",
 			"pending_text": "Dès que @{user} confirme,\nvous apparaitrez dans le squad de chacun",
 			"send_invite_link": "Envoyer le lien d'invitation privé",
