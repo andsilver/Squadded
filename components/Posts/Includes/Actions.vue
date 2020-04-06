@@ -73,6 +73,7 @@ export default {
 		},
 		toggleLike () {
 			this.$store.dispatch(`${PostStore}/${PostActions.toggleLike}`, this.post);
+			this.$forceUpdate();
 		},
 		toggleComments () {
 			this.$emit('toggleComments');
@@ -130,7 +131,7 @@ export default {
 	background-color transparent !important
 .hanger_button, .comments-count
 	display none
-.grouped-post
+.grouped-post, .single-post
 	.post_buttons
 		border-top 1px solid #DBDBDB
 		border-bottom 0

@@ -5,7 +5,7 @@ import { toFile } from '~/utils/toFile';
 import { dataURItoBlob } from '~/utils/dataUriToBlob';
 import { PostStore, PostMutations } from '~/store/post';
 
-export const compressImage = ({ maxWidth, image, store, quality }) =>
+export const compressImage = ({ maxWidth, image, store, quality, dontCompress }) =>
 	new Promise((resolve, reject) => {
 		const propsData = {};
 		maxWidth && (propsData.maxWidth = maxWidth);
@@ -19,12 +19,17 @@ export const compressImage = ({ maxWidth, image, store, quality }) =>
 			}),
 			methods: {
 				async init() {
-					const file = await toFile(image, 'file');
-					this.$refs.resizer.uploadFile({
-						target: {
-							files: [file],
-						},
-					});
+					if (dontCompress) {
+						this.file = image;
+						this.saveImage();
+					} else {
+						const file = await toFile(image, 'file');
+						this.$refs.resizer.uploadFile({
+							target: {
+								files: [file],
+							},
+						});
+					}
 				},
 				setImage(input) {
 					this.input = input;

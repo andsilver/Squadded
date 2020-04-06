@@ -83,10 +83,12 @@ export default {
 			ActivityGetters.getSelected,
 		]),
 		available () {
-			let available = this.wishlist && this.wishlist.filter(w => w.item !== this.exclude);
-			if (available && this.searchText) {
+			let available = (this.wishlist || []).filter(w => w.item !== this.exclude);
+			if (this.searchText) {
 				available = available.filter(w => w.item.title.toLowerCase().includes(this.searchText.toLowerCase()));
 			}
+			const ids = new Set(available.map(p => p.item.itemId));
+			available = Array.from(ids).map(id => available.find(p => p.item.itemId === id));
 			return available;
 		},
 	},

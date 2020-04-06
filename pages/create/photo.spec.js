@@ -4,33 +4,16 @@ import Photo from './photo.vue';
 import Store from '~/store';
 import { PostStore, PostMutations, PostActions } from '~/store/post';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
-import { prefetch } from '~/helpers';
-import { toFile } from '~/utils/toFile';
-import { dataURItoBlob } from '~/utils/dataUriToBlob';
 import { userMockBuilder } from '~/test/user.mock';
+import { compressImage } from '~/utils/compress-image';
 
-jest.mock('~/helpers', () => ({
-	prefetch: jest.fn(),
-}));
-
-jest.mock('~/utils/toFile', () => ({
-	toFile: jest.fn(),
-}));
-
-jest.mock('~/utils/dataUriToBlob', () => ({
-	dataURItoBlob: jest.fn(),
+jest.mock('~/utils/compress-image', () => ({
+	compressImage: jest.fn(),
 }));
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
-
-class URLMock {
-	constructor() {
-		this.href = 'href';
-		this.search = null;
-	}
-}
 
 describe('Create Photo', () => {
 	let wrapper;
@@ -117,48 +100,13 @@ describe('Create Photo', () => {
 		expect(photoView.exists()).toBe(true);
 	});
 
-	it('should compress image', async () => {
-		await store.commit('SET_SOCKET_AUTH', true);
-		const post = aDefaultSingleItemMsgBuilder().get();
-		const type = 'image';
-		const file = {
-			type: 'image',
-		};
-		const image = 'imagedata';
-
-		post.selected = true;
-		store.state.activity.wishlist = [post];
-		wrapper.setData({ file });
-		wrapper.vm.preview({
-			image,
-			file,
-			type,
-		});
-
-		const nextButton = wrapper.ref(NEXT_BUTTON);
-		nextButton.trigger('click');
-		const doneButton = wrapper.ref(DONE_BUTTON);
-		const ref = wrapper.ref('resizer');
-		ref.vm.uploadFile = jest.fn();
-		toFile.mockReturnValue(Promise.resolve(file));
-		await doneButton.trigger('click');
-		await Promise.resolve();
-
-		expect(toFile).toHaveBeenCalledWith(image, 'file');
-		expect(ref.vm.uploadFile).toHaveBeenCalledWith({
-			target: {
-				files: [file],
-			},
-		});
-	});
-
 	it('should upload image and save post', async () => {
 		await store.commit('SET_SOCKET_AUTH', true);
-		const uploadUrl = 'uploadurl';
 		const post = aDefaultSingleItemMsgBuilder().get();
 		const type = 'image';
 		const file = {
 			type: 'image',
+			size: 1024 * 1024,
 		};
 		const image = 'imagedata';
 
@@ -167,45 +115,22 @@ describe('Create Photo', () => {
 		store.state.activity.wishlist = [post];
 		store.dispatch = jest.fn();
 		store.commit = jest.fn();
-		prefetch.mockReturnValue(uploadUrl);
-		global.fetch = jest.fn().mockReturnValue({ ok: true });
-		global.URL = URLMock;
-		dataURItoBlob.mockReturnValue(file);
 
 		wrapper.vm.preview({
 			image,
 			file,
 			type,
 		});
+		compressImage.mockReturnValue(Promise.resolve(image));
+		wrapper.vm.create();
 
-		const info = { type };
-		const dataUrl = image;
-		const ref = wrapper.ref('resizer');
-
-		ref.vm.$emit('input', { info, dataUrl });
-		ref.vm.$emit('onComplete');
-
-		expect(dataURItoBlob).toHaveBeenCalledWith(image, type);
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setUploadingPicture}`, image);
 
-		expect(prefetch).toHaveBeenCalledWith({
-			contentType: 'image',
-			mutation: `${PostStore}/${PostMutations.uploadURL}`,
-			store,
-			type: 'getUploadUrl',
-		});
-
 		await Promise.resolve();
 
-		expect(global.fetch).toHaveBeenCalledWith(uploadUrl, {
-			method: 'PUT',
-			body: file,
-		});
-
-		await Promise.resolve();
-
+		expect(compressImage).toHaveBeenCalledWith({ maxWidth: 500, image, store });
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, {
-			img: 'href',
+			img: image,
 			items: [post.item],
 			private: !wrapper.vm.$refs['public-toggle'].isPublic,
 			text: wrapper.vm.text,

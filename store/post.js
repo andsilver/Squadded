@@ -260,7 +260,7 @@ export const actions = {
 		const byMe = !post.likes.byMe;
 		commit(PostMutations.setPostLike, {
 			post,
-			count: post.likes.count + (byMe ? 1 : -1),
+			count: (post.likes.count === undefined ? 0 : post.likes.count) + (byMe ? 1 : -1),
 			byMe,
 		});
 		rootState.socket.$ws.sendObj({

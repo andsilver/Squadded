@@ -85,22 +85,11 @@
 					</div>
 				</div>
 			</v-layout>
-			<ImageUploader
-				v-show="false"
-				ref="resizer"
-				:max-width="1024"
-				auto-rotate
-				accept="image/jpeg,image/jpg,image/png"
-				output-format="verbose"
-				@input="setImage"
-				@onComplete="completeCompress"
-			/>
 		</div>
 	</v-container>
 </template>
 
 <script>
-import ImageUploader from 'vue-image-upload-resize';
 import { createNamespacedHelpers, mapState } from 'vuex';
 import CapturePhoto from '~/components/Create/CapturePhoto';
 import BackBar from '~/components/common/BackBar';
@@ -120,33 +109,16 @@ import {
 	PostActions,
 	PostMutations,
 } from '~/store/post';
-import { prefetch } from '~/helpers';
-import { toFile } from '~/utils/toFile';
-import { dataURItoBlob } from '~/utils/dataUriToBlob';
+import { compressImage } from '~/utils/compress-image';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
-const createPost = async ({ file, store, text, isPublic, selected, image, type, coords }) => {
+const createPost = async ({ store, text, isPublic, selected, image, coords }) => {
 	try {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, image);
-		const url = await prefetch({
-			contentType: type,
-			mutation: `${PostStore}/${PostMutations.uploadURL}`,
-			store: store,
-			type: 'getUploadUrl',
-		});
-		const response = await fetch(url, {
-			method: 'PUT',
-			body: file,
-		});
-		if (!response.ok) {
-			store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
-			return;
-		}
-		const img = new URL(url);
-		img.search = '';
+		const img = await compressImage({ maxWidth: 500, image, store });
 		const msg = {
-			img: img.href,
+			img,
 			items: selected.map(post => post.item),
 			private: !isPublic,
 			text,
@@ -175,13 +147,11 @@ export default {
 		Tags,
 		UserInput,
 		PhotoView,
-		ImageUploader,
 	},
 	data: () => ({
 		dataImg: null,
 		cropActive: false,
 		file: null,
-		type: null,
 		showPhoto: true,
 		showError: false,
 		LimitshowError: false,
@@ -194,6 +164,7 @@ export default {
 		input: null,
 		compressing: false,
 		cropped: false,
+		needCompress: true,
 	}),
 	computed: {
 		...mapGetters([
@@ -215,13 +186,21 @@ export default {
 		this.$root.$on('selectProducts', data => this.selectProducts(data));
 	},
 	methods: {
-		async create () {
-			this.compressing = true;
-			this.file = await toFile(this.dataImg, 'file');
-			this.$refs.resizer.uploadFile({
-				target: {
-					files: [this.file],
-				},
+		create () {
+			let { coords } = this.$refs.tagsComponent;
+			if (coords && coords.length) {
+				coords = coords.filter(c => c.id);
+			}
+			createPost({
+				store: this.$store,
+				text: this.text,
+				isPublic: this.$refs['public-toggle'].isPublic,
+				selected: this.getSelected,
+				image: this.dataImg,
+				coords,
+			});
+			this.$router.push({
+				path: '/feed',
 			});
 		},
 		preview (data) {
@@ -232,8 +211,11 @@ export default {
 			this.dataImg = data.image;
 			this.post.img = data.image;
 			this.file = data.file;
-			data.type && (this.type = data.type);
 			this.cropActive = true;
+
+			if (data.file && data.file.size) {
+				this.needCompress = data.file.size > 1024 * 250;
+			}
 		},
 		doneCrop(data) {
 			this.preview(data);
@@ -262,31 +244,6 @@ export default {
 			} else if (options) {
 				this.LimitshowError = true;
 			}
-		},
-		setImage (input) {
-			this.input = input;
-		},
-		completeCompress (e) {
-			let { coords } = this.$refs.tagsComponent;
-			if (coords && coords.length) {
-				coords = coords.filter(c => c.id);
-			}
-			const { info, dataUrl: image } = this.input;
-			const { type } = info;
-			const file = dataURItoBlob(image, type);
-			createPost({
-				file,
-				store: this.$store,
-				text: this.text,
-				isPublic: this.$refs['public-toggle'].isPublic,
-				selected: this.getSelected,
-				image,
-				type,
-				coords,
-			});
-			this.$router.push({
-				path: '/feed',
-			});
 		},
 		discoverItem() {
 			this.$router.push('/explore');
