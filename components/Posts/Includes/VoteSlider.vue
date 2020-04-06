@@ -11,6 +11,7 @@
 				:style="{
 					background: first.background,
 					width: first.width + 'px',
+					color: first.background === 'black' ? 'white' : 'black'
 				}"
 				@click="voteOnFirst"
 			>
@@ -19,8 +20,11 @@
 					<span class="mr-4" style="margin-top: 1px">{{ $t('this') }}</span>
 				</div>
 				<div v-else-if="first.percent > 10">
-					<div style="font-size: 8px">
-						{{ $t('this') }}
+					<div style="font-size: 8px" class="d-flex align-center">
+						<span>{{ $t('this') }}</span>
+						<v-icon v-if="first.background === 'black'" x-small class="ml-1">
+							mdi-check-circle
+						</v-icon>
 					</div>
 					<div>
 						{{ first.percent }}%
@@ -32,6 +36,7 @@
 				:style="{
 					background: second.background,
 					width: second.width + 'px',
+					color: second.background === 'black' ? 'white' : 'black'
 				}"
 				@click="voteOnSecond"
 			>
@@ -40,8 +45,11 @@
 					<span class="mx-2" style="font-size: 18px">›</span>
 				</div>
 				<div v-else-if="second.percent > 10">
-					<div style="font-size: 8px">
-						{{ $t('that') }}
+					<div style="font-size: 8px" class="d-flex align-center">
+						<span>{{ $t('that') }}</span>
+						<v-icon v-if="second.background === 'black'" x-small class="ml-1">
+							mdi-check-circle
+						</v-icon>
 					</div>
 					<div>
 						{{ second.percent }}%
@@ -98,6 +106,11 @@ export default {
 				return '#fff';
 			}
 			const diff = this.post.item1.votes - this.post.item2.votes;
+			if (this.post.closed) {
+				if ((diff > 0 && first) || (diff < 0 && !first)) {
+					return 'black';
+				}
+			}
 			if (diff === 0) {
 				return first ? '#fff' : '#ddd';
 			} else if (diff > 0) {

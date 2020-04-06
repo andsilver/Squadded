@@ -46,12 +46,16 @@ describe('PollItem', () => {
 	});
 
 	it('should not display votes', () => {
+		wrapper.setProps({
+			details: true,
+		});
 		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).exists()).toBe(false);
 	});
 
 	it('should display votes', () => {
 		wrapper.setProps({
 			voted: true,
+			details: true,
 		});
 
 		expect(wrapper.ref(POLL_ITEM_VOTES_COUNT_ELEMENT).exists()).toBe(true);

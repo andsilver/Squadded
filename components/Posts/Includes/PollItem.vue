@@ -20,7 +20,7 @@
 				:is-paired="isPaired"
 			>
 				<div
-					v-if="voted && !isPaired"
+					v-if="voted && !isPaired && details"
 					class="poll-item__votes"
 					:class=" voted > 0 ? (votes > 50) ? 'choosed' : 'notchoosed' : '' "
 				>
