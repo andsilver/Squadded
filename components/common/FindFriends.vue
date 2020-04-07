@@ -18,7 +18,7 @@
 			</v-text-field>
 		</div>
 		<div class="mt-4 px-4 friends-list">
-			<div v-if="!myFriends || !myFriends.length">
+			<div v-if="!myFriends || !myFriends.length" class="no-friend">
 				{{ $t('invite_your_friends.search_users') }}
 			</div>
 			<div v-for="(friend, index) in myFriends" :key="index">
@@ -46,10 +46,8 @@
 						</v-icon>
 						<span class="ml-1">{{ $t('accept') }}</span>
 					</Button>
-					<v-btn v-else class="invited-btn" outlined disabled>
-						<v-icon small color="#b8b8b0">
-							mdi-account-check-outline
-						</v-icon>
+					<v-btn v-else style="height: 9.23vw; letter-spacing: 1.5px;width: 22.30vw;" class="invited-btn" outlined disabled>
+						<img src="~assets/img/invited-icon.svg" class="my-squad">
 						<span class="ml-1">{{ $t('invited') }}</span>
 					</v-btn>
 				</div>
@@ -174,7 +172,7 @@ export default {
 <style lang="scss" scoped>
 .search-field {
 	padding: 0 10px;
-	border: 0px solid #dbdbdb;
+	border: 1px solid #dbdbdb;
 	border-radius: 10px;
 
 	>>> .v-input__slot {
@@ -207,8 +205,15 @@ img.my-squad {
 .add-user-invite {
 	width: 20.76vw;
 }
-.add-user-invite span {
+.add-user-invite span, .invited-btn span {
 	font-size: 2.15vw;
+}
+.no-friend {
+    font-size: 3.38vw;
+    color: #B8B8BA;
+    font-weight: 500;
+    margin-top: 3.23vw;
+    margin-left: 3.07vw;
 }
 .signin-process {
 	.search-field {
@@ -217,7 +222,7 @@ img.my-squad {
 		margin-top: 2.9vw !important;
 	}
 	.friends-list {
-		background: #fff;
+		/* background: #fff; */
 		height: 37vh;
 	}
 }

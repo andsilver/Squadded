@@ -42,7 +42,7 @@
 					<div class="squad-username">
 						{{ user.name || 'Name' }}
 					</div>
-					<div v-if="showScreenName && user.screenName" style="color: #b8b8ba">
+					<div v-if="showScreenName && user.screenName" class="invite-user-screenname" style="color: #b8b8ba">
 						{{ user.screenName }}
 					</div>
 					<template v-if="showFollow">
@@ -281,5 +281,14 @@ export default {
 		color #B8B8BA
 		font-weight 500
 	div.squad-username:before
+		content '@'
+.add-friends-dialog, .signin-process
+	.user-screenname
+		font-size: 4VW;
+	.invite-user-screenname
+		font-size 3.23vw
+		font-weight 400
+		margin-top 0.60vw
+	div.invite-user-screenname:before
 		content '@'
 </style>

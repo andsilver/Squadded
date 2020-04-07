@@ -11,7 +11,7 @@
 		<div class="mb-0">
 			<FindFriends v-if="showDialog" ref="find-friends" />
 		</div>
-		<div class="d-flex black justify-center align-center pa-2 pl-4">
+		<div class="d-flex black justify-center align-center pa-2 pl-10 copy-link-button">
 			<strong class="white--text subtitle-2 font-weight-bold">
 				{{ $t('mysquad.share_private_link') }}
 			</strong>
@@ -113,5 +113,10 @@ export default {
 .close-dialog {
 	position: absolute;
 	right: 15px;
+}
+.copy-link-button {
+	background-image:url('../../assets/img/popup-share.svg');
+	background-size: 5.8VW;
+	background-position: 7.5vw center;
 }
 </style>

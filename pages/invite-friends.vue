@@ -23,7 +23,7 @@
 						hide-details
 					/>
 					<Button class="copy-btn pa-0" style="width:46.92vw; height: 12.30vw; font-size: 2.61vw; letter-spacing: 2px; font-weight: 700;" @click.native="copy">
-						{{ $t('invite_your_friends.copy_link') }}
+						{{ copied ? $t('invite_your_friends.copied') : $t('invite_your_friends.copy_link') }}
 					</Button>
 				</div>
 				<div class="or-divider">
@@ -75,6 +75,7 @@ export default {
 	data: () => ({
 		link: null,
 		invited: false,
+		copied: false,
 	}),
 	computed: {
 		...mapState(['socket']),
@@ -115,6 +116,8 @@ export default {
 			this.$refs['link-field'].$el.querySelector('input').select();
 			copy();
 			this.invited = true;
+			this.copied = true;
+			setTimeout(() => (this.copied = false), 1000);
 		},
 		goToFeed() {
 			this.$router.push(DEFAULT_LANDING);
