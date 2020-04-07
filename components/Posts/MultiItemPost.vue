@@ -10,7 +10,7 @@
 		>
 			<CardFrame
 				ref="multi-item"
-				class="multi-item pa-4 mb-4"
+				class="multi-item pa-4"
 				:class="{ shifted, moving }"
 				:price="totalPrice"
 				:origin-price="originPrice"
@@ -226,6 +226,7 @@ export default {
 .multi-item
 	width 100%
 	transition margin-left linear .2s
+	margin-bottom 2.969vw
 	&.shifted
 		.is_selected
 			position relative

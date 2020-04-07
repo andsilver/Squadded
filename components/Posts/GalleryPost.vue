@@ -10,7 +10,7 @@
 		>
 			<CardFrame
 				ref="multi-item"
-				class="multi-item pa-4 mb-4"
+				class="multi-item pa-4"
 				:class="{ shifted, moving }"
 				:price="totalPrice"
 				show-tap
@@ -194,6 +194,7 @@ export default {
 .multi-item
 	width 78.46vw
 	transition margin-left linear .2s
+	margin-bottom 2.969vw
 .moving
 	transition margin-left linear !important
 .scroll-section
