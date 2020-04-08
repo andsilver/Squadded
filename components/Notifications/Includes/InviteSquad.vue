@@ -76,6 +76,10 @@ export default {
 				type: 'acceptSquad',
 				targetUserId: this.notification.userId,
 			});
+			this.$ws.sendObj({
+				type: 'deleteNotification',
+				guid: this.notification._id,
+			});
 			this.$forceUpdate();
 			this.$store.commit(`${NotificationStore}/${NotificationMutations.setAcceptedSquad}`, this.notification._id);
 		},
@@ -84,6 +88,10 @@ export default {
 				type: 'inviteSquad',
 				targetUserId: this.notification.userId,
 				denied: true,
+			});
+			this.$ws.sendObj({
+				type: 'deleteNotification',
+				guid: this.notification._id,
 			});
 			this.$store.commit(`${NotificationStore}/${NotificationMutations.setAcceptedSquad}`, this.notification._id);
 		},
