@@ -20,7 +20,7 @@ export const compressImage = ({ maxWidth, image, store, quality, dontCompress })
 			methods: {
 				async init() {
 					if (dontCompress) {
-						this.file = image;
+						this.file = dataURItoBlob(image, 'image/png');
 						this.saveImage();
 					} else {
 						const file = await toFile(image, 'file');

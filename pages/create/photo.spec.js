@@ -128,7 +128,7 @@ describe('Create Photo', () => {
 
 		await Promise.resolve();
 
-		expect(compressImage).toHaveBeenCalledWith({ maxWidth: 500, image, store });
+		expect(compressImage).toHaveBeenCalledWith({ maxWidth: 500, image, store, dontCompress: false });
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, {
 			img: image,
 			items: [post.item],

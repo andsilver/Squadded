@@ -113,10 +113,10 @@ import { compressImage } from '~/utils/compress-image';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
-const createPost = async ({ store, text, isPublic, selected, image, coords }) => {
+const createPost = async ({ store, text, isPublic, selected, image, coords, needCompress }) => {
 	try {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, image);
-		const img = await compressImage({ maxWidth: 500, image, store });
+		const img = await compressImage({ maxWidth: 500, image, store, dontCompress: !needCompress });
 		const msg = {
 			img,
 			items: selected.map(post => post.item),
@@ -198,6 +198,7 @@ export default {
 				selected: this.getSelected,
 				image: this.dataImg,
 				coords,
+				needCompress: this.needCompress,
 			});
 			this.$router.push({
 				path: '/feed',
