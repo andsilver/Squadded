@@ -1,61 +1,62 @@
 <template>
 	<div
 		class="vote-button-container"
-		:style="{
-			transform: translateX
-		}"
 	>
-		<div class="d-flex vote-button">
-			<v-btn
-				class="vote-button-first d-flex align-center"
-				:style="{
-					background: first.background,
-					width: first.width + 'px',
-					color: first.background === 'black' ? 'white' : 'black'
-				}"
-				@click="voteOnFirst"
-			>
-				<div v-if="notVoted" class="d-flex align-center not-voted">
-					<span class="mx-2" style="font-size: 18px">‹</span>
-					<span class="mr-4" style="margin-top: 1px">{{ $t('this') }}</span>
-				</div>
-				<div v-else-if="first.percent > 10">
-					<div style="font-size: 8px" class="d-flex align-center">
-						<span>{{ $t('this') }}</span>
-						<v-icon v-if="first.background === 'black'" x-small class="ml-1">
-							mdi-check-circle
-						</v-icon>
+		<div class="d-flex vote-button justify-center">
+			<div class="d-flex justify-end">
+				<v-btn
+					class="vote-button-first d-flex align-center"
+					:style="{
+						background: first.background,
+						width: first.width + 'vw',
+						color: first.background === 'black' ? 'white' : 'black'
+					}"
+					@click="voteOnFirst"
+				>
+					<div v-if="notVoted" class="d-flex align-center not-voted">
+						<span class="mx-2" style="font-size: 18px">‹</span>
+						<span class="mr-4" style="margin-top: 1px">{{ $t('this') }}</span>
 					</div>
-					<div>
-						{{ first.percent }}%
+					<div v-else-if="first.percent > 10">
+						<div style="font-size: 8px" class="d-flex align-center">
+							<span>{{ $t('this') }}</span>
+							<v-icon v-if="first.background === 'black'" x-small class="ml-1">
+								mdi-check-circle
+							</v-icon>
+						</div>
+						<div>
+							{{ first.percent }}%
+						</div>
 					</div>
-				</div>
-			</v-btn>
-			<v-btn
-				class="vote-button-second d-flex align-center"
-				:style="{
-					background: second.background,
-					width: second.width + 'px',
-					color: second.background === 'black' ? 'white' : 'black'
-				}"
-				@click="voteOnSecond"
-			>
-				<div v-if="notVoted" class="d-flex align-center not-voted">
-					<span class="ml-4" style="margin-top: 1px">{{ $t('that') }}</span>
-					<span class="mx-2" style="font-size: 18px">›</span>
-				</div>
-				<div v-else-if="second.percent > 10">
-					<div style="font-size: 8px" class="d-flex align-center">
-						<span>{{ $t('that') }}</span>
-						<v-icon v-if="second.background === 'black'" x-small class="ml-1">
-							mdi-check-circle
-						</v-icon>
+				</v-btn>
+			</div>
+			<div class="d-flex">
+				<v-btn
+					class="vote-button-second d-flex align-center"
+					:style="{
+						background: second.background,
+						width: second.width + 'vw',
+						color: second.background === 'black' ? 'white' : 'black'
+					}"
+					@click="voteOnSecond"
+				>
+					<div v-if="notVoted" class="d-flex align-center not-voted">
+						<span class="ml-4" style="margin-top: 1px">{{ $t('that') }}</span>
+						<span class="mx-2" style="font-size: 18px">›</span>
 					</div>
-					<div>
-						{{ second.percent }}%
+					<div v-else-if="second.percent > 10">
+						<div style="font-size: 8px" class="d-flex align-center">
+							<span>{{ $t('that') }}</span>
+							<v-icon v-if="second.background === 'black'" x-small class="ml-1">
+								mdi-check-circle
+							</v-icon>
+						</div>
+						<div>
+							{{ second.percent }}%
+						</div>
 					</div>
-				</div>
-			</v-btn>
+				</v-btn>
+			</div>
 		</div>
 	</div>
 </template>
@@ -96,9 +97,6 @@ export default {
 				percent: this.percent(false),
 			};
 		},
-		translateX() {
-			return `translateX(calc(50% + ${21.5 + (this.second.width - this.first.width) / 2}px))`;
-		},
 	},
 	methods: {
 		buttonColor(first) {
@@ -121,11 +119,11 @@ export default {
 		},
 		buttonWidth(first) {
 			if (this.notVoted) {
-				return 70;
+				return 21.8;
 			}
-			const length = 120;
+			const length = 33.6;
 			const total = this.post.item1.votes + this.post.item2.votes;
-			return 10 + Math.round((length / total) * (first ? this.post.item1.votes : this.post.item2.votes));
+			return 5 + Math.round((length / total) * (first ? this.post.item1.votes : this.post.item2.votes));
 		},
 		percent(first) {
 			const total = this.post.item1.votes + this.post.item2.votes;
@@ -156,36 +154,40 @@ export default {
 .vote-button-container {
 	position: absolute;
 	top: 55%;
+	width: 100%;
 	z-index: 2;
 	transition: transform linear .25s;
 }
 .vote-button {
-	height: 40px;
 	text-transform: uppercase;
 	color: black;
 	position: relative;
 	font-size: 12px;
 	cursor: pointer;
 
+	> div {
+		width: 43vw;
+		margin: 0 1px;
+	}
+
 	&-first,
 	&-second {
 		border-radius: 4px;
-		height: 100%;
+		height: 11vw !important;
 		padding: 0 !important;
 		min-width: unset !important;
 		transition: width linear 0.25s;
-		font-size: 12px;
+		font-size: 4vw;
 		font-weight: 700;
 	}
 
 	&-first {
 		border-top-left-radius: 12px;
 		border-bottom-left-radius: 12px;
-		margin-right: 1px;
+		align-self: flex-end;
 	}
 
 	&-second {
-		margin-left: 2px;
 		border-top-right-radius: 12px;
 		border-bottom-right-radius: 12px;
 	}

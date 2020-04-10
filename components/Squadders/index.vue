@@ -107,7 +107,7 @@ export default {
 	display none
 
 .squadders-users
-	z-index: 1
+	z-index: 15
 	position fixed
 	padding-bottom 2vw
 	width 100%
