@@ -15,6 +15,7 @@ export const PostGetters = {
 	getPostByIdList: 'getPostByIdList',
 	getItemsById: 'getItemsById',
 	getPollResult: 'getPollResult',
+	getPostsByIds: 'getPostsByIds',
 };
 
 export const getters = {
@@ -22,6 +23,7 @@ export const getters = {
 	[PostGetters.getPostByIdList]: state => ids => state.all.filter(i => ids.includes(i.postId)),
 	[PostGetters.getItemsById]: state => id => state.all.map(post => post.getItem(id)).filter(post => post),
 	[PostGetters.getPollResult]: state => state.pollResult,
+	[PostGetters.getPostsByIds]: state => ids => (ids || []).map(id => state.all.find(p => p.postId === id)).filter(p => !!p),
 };
 
 export const PostMutations = {

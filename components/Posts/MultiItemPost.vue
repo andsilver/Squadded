@@ -182,7 +182,7 @@ export default {
 		},
 		onEnd (e) {
 			if (this.moved) {
-				this.toggleShifted();
+				this.fetch();
 			}
 			this.moving = false;
 			this.moved = false;

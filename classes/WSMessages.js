@@ -1,4 +1,3 @@
-import { FeedPost } from './FeedPost';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
@@ -127,7 +126,7 @@ export class WSMessages {
 		this.store.commit(`${FeedStore}/${FeedMutations.markAllLoaded}`, message.feed);
 	}
 
-	feedHome (message) {
+	async feedHome (message) {
 		const { home } = this.store.state;
 		let { watchers, public: publicPosts, interactions } = message;
 		watchers = watchers.filter(p => !home.watchers.find(w => w.guid === p.guid));
@@ -135,16 +134,20 @@ export class WSMessages {
 		interactions = interactions.filter(i => !home.interactions.find(ip => ip.post.guid === i.post.guid));
 
 		const interactionPosts = (interactions || []).map(p => p.post);
-		const newPosts = [...watchers, ...publicPosts, ...interactionPosts].map(p => new FeedPost(p));
+		const newPosts = [...watchers, ...publicPosts, ...interactionPosts];
+
+		await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, newPosts);
+		const postsGetter = this.store.getters[`${PostStore}/${PostGetters.getPostsByIds}`];
+		const posts = postsGetter(newPosts.map(p => p.guid));
 
 		this.store.commit(`${HomeStore}/${HomeMutations.receive}`, {
-			posts: newPosts,
+			posts,
 			watchers,
 			publicPosts,
 			interactions,
 			interactionPage: message.interactionPage,
 		});
-		this.store.commit(`${HomeStore}/${HomeMutations.markAllLoaded}`, newPosts);
+		this.store.commit(`${HomeStore}/${HomeMutations.markAllLoaded}`, posts);
 		this.store.commit(`${HomeStore}/${HomeMutations.setLoading}`, false);
 	}
 

@@ -114,7 +114,7 @@ export default {
 			this.$refs.card.$el.addEventListener('touchstart', e => this.onStart(e));
 			this.$refs.card.$el.addEventListener('touchmove', e => this.onMove(e));
 		},
-		fetch () {
+		fetch (tagClicked) {
 			if (this.isPaired) {
 				this.$root.$emit('postTaped', this.post.postId);
 				return;
@@ -127,11 +127,11 @@ export default {
 				mutation: `${PostStore}/${PostMutations.resquaddHasUpdated}`,
 				store: this.$store,
 				type: 'fetchReSquadded',
-			}).then(this.toggleShifted.bind(this));
+			}).then(() => this.toggleShifted(tagClicked));
 		},
-		toggleShifted () {
+		toggleShifted (tagClicked) {
 			this.fetched = true;
-			this.shifted = !this.shifted;
+			this.shifted = tagClicked ? true : !this.shifted;
 			this.marginLeft = this.shifted ? -148 : 0;
 			this.moving = false;
 		},
@@ -145,9 +145,7 @@ export default {
 				top: item.$el.offsetTop - 80,
 				behavior: 'smooth',
 			});
-			this.shifted = true;
-			this.moving = false;
-			this.marginLeft = this.shifted ? -148 : 0;
+			this.fetch();
 		},
 		onStart (e) {
 			this.prev = e.touches[0].clientX;
@@ -174,7 +172,7 @@ export default {
 		},
 		onEnd (e) {
 			if (this.moved) {
-				this.toggleShifted();
+				this.fetch();
 			}
 			this.moving = false;
 			this.moved = false;

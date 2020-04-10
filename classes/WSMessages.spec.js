@@ -1,5 +1,4 @@
 import { Chance } from 'chance';
-import { FeedPost } from './FeedPost';
 import { flushPromises } from '~/helpers';
 import { WSMessages } from '~/classes/WSMessages';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
@@ -349,11 +348,11 @@ describe('WSMessages dispatch', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: blog, type });
 	});
 
-	it(`should commit feedHome to ${HomeStore}/${HomeMutations.receive}`, () => {
+	it(`should commit feedHome to ${HomeStore}/${HomeMutations.receive}`, async () => {
 		const watchers = [{ user: {} }];
 		const publicPosts = [{}];
 		const interactions = [{ post: {}, score: 3 }];
-		const all = [...watchers, ...publicPosts, ...interactions.map(p => p.post)].map(p => new FeedPost(p));
+		const all = [...watchers, ...publicPosts, ...interactions.map(p => p.post)];
 		const type = 'feedHome';
 		const interactionPage = 1;
 		const msg = {
@@ -363,8 +362,11 @@ describe('WSMessages dispatch', () => {
 			interactions,
 			interactionPage,
 		};
+		store.getters[`${PostStore}/${PostGetters.getPostsByIds}`] = jest.fn().mockReturnValue(all);
 
 		wsMessages.dispatch(msg);
+		await flushPromises();
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, all);
 		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.receive}`, {
 			posts: all,
 			watchers,

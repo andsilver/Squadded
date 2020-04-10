@@ -17,6 +17,7 @@
 			>
 				<span v-if="discount" class="original-price">{{ originPrice }}</span>
 				<span :class="{ discount }">{{ price }}</span>
+				<span v-if="item && item.merchantId" class="ml-1 font-weight-medium">| {{ item.merchantId }}</span>
 				<span v-if="showTap" class="for-all">{{ $t('forAllItems', {'0': postLength}) }}</span>
 			</v-card-text>
 			<v-card-title
