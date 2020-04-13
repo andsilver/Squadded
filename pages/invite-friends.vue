@@ -6,37 +6,15 @@
 				<span class="font-weight-bold invite-title">{{ $t('invite_your_friends.title') }}</span>
 				<a class="skip-btn" @click="skip">{{ $t('skip') }}</a>
 			</div>
-			<div class="invite-middle">
-				<div class="invite-share font-weight-medium d-flex align-center">
-					<img src="~assets/img/action-share.svg">
-					<span class="share-text">{{ $t('invite_your_friends.share') }}</span>
+			<div class="text-center font-weight-bold mt-6">
+				<span>{{ $t('invite_your_friends.best_experience') }}</span> <span style="color: #fd6256; text-decoration: underline">{{ $t('invite_your_friends.your_friends') }}</span>
+			</div>
+			<ShareInviteLink class="py-8 px-2" />
+			<div>
+				<div class="friend-title font-weight-medium text-center">
+					<span class="title-lbl">{{ $t('invite_your_friends.add') }}</span>
 				</div>
-				<div class="invite-share-input d-flex flex-column align-center">
-					<v-text-field
-						ref="link-field"
-						v-model="link"
-						readonly
-						solo
-						flat
-						dense
-						class="link-field"
-						hide-details
-					/>
-					<Button class="copy-btn pa-0" style="width:46.92vw; height: 12.30vw; font-size: 2.61vw; letter-spacing: 2px; font-weight: 700;" @click.native="copy">
-						{{ copied ? $t('invite_your_friends.copied') : $t('invite_your_friends.copy_link') }}
-					</Button>
-				</div>
-				<div class="or-divider">
-					<v-divider />
-					<span>{{ $t('invite_your_friends.or') }}</span>
-				</div>
-				<div>
-					<div class="friend-title font-weight-medium d-flex align-center">
-						<img src="~assets/img/search-Icon-frined.svg">
-						<span class="title-lbl">{{ $t('invite_your_friends.add') }}</span>
-					</div>
-					<FindFriends class="signin-process" show-facebook-friends @invited="invited = true" />
-				</div>
+				<FindFriends class="signin-process" show-facebook-friends @invited="invited = true" />
 			</div>
 		</div>
 		<div class="py-4 d-flex justify-center done-section">
@@ -55,7 +33,9 @@ import { DEFAULT_LANDING } from '~/store/squad';
 import { getShortURL } from '~/services/short-url';
 import Button from '~/components/common/Button';
 import FindFriends from '~/components/common/FindFriends';
+import ShareInviteLink from '~/components/common/ShareInviteLink';
 import { copy } from '~/utils/copy';
+import { VISITED_INVITE_FRIENDS_KEY } from '~/consts/keys';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -63,12 +43,13 @@ export default {
 	components: {
 		Button,
 		FindFriends,
+		ShareInviteLink,
 	},
 	asyncData({ store, redirect }) {
 		const { me } = store.state.user;
 		if (!me.nameSelected) {
 			redirect('/select-username');
-		} else if (me.squaddersCount) {
+		} else if (me.squaddersCount || localStorage.getItem(VISITED_INVITE_FRIENDS_KEY)) {
 			redirect(DEFAULT_LANDING);
 		}
 	},
@@ -103,6 +84,7 @@ export default {
 		},
 	},
 	mounted() {
+		localStorage.setItem(VISITED_INVITE_FRIENDS_KEY, Date.now().toString());
 		this.setLink();
 	},
 	methods: {
@@ -127,23 +109,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.invite-middle {
-    margin-top: 10.52vw;
-}
-.invite-share {
-    margin-left: 6.23vw;
-}
-.invite-share img {
-    width: 4.76vw;
-	margin-right: 2.92vw;
-}
-.copy-btn {
-    margin-top: 4.26vw;
-}
-.invite-share-input {
-    margin-top: 4.30vw;
-	padding: 0 5VW;
-}
 .friend-title {
 	padding: 0 5VW;
 }
@@ -170,56 +135,6 @@ export default {
 	font-weight: 600;
 	font-size: 4.30vw;
 }
-.link-field {
-	border: 1px solid #dbdbdb;
-	border-radius: 10px;
-	width: 100%;
-	input,
-	label {
-		font-size: 3.69vw;
-		color: #000000 !important;
-		text-align: center;
-		margin-top: 2px;
-	}
-	.v-input__control {
-		height: 10.76vw !important;
-		min-height: auto !important;
-	}
-	input {
-		font-weight: 500;
-	}
-}
-
-.copy-btn {
-	background-color: #fd6256 !important;
-	color: white;
-	width: 160px;
-}
-.or-divider {
-	position: relative;
-	margin-top: 18vw;
-	margin-bottom: 8vw;
-	padding: 0 5VW;
-	@media screen and (max-width: 360px) {
-		margin-top: 12vw;
-	}
-	@media screen and (max-width: 320px) {
-		margin-top: 10vw;
-	}
-	span {
-		text-transform: uppercase;
-		font-weight: bold;
-		position: absolute;
-		left: calc(50% - 8.76vw);
-		top: -10px;
-		background: #fff;
-		padding: 0 22px;
-		color: #b8b8ba;
-		font-weight: 600;
-		font-size: 4.30vw;
-	}
-}
-
 .done-section {
 	border-top: 1px solid rgba(0, 0, 0, 0.12);
 
