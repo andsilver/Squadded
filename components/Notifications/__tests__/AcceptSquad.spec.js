@@ -17,7 +17,6 @@ describe('Notifications AcceptSquad', () => {
 	const USER_LINK = 'user-link';
 	const MESSAGE = 'message';
 	const TIME_STRING = 'time-string';
-	const ACCEPTED_MARK = 'accepted-mark';
 	const $router = {
 		push: jest.fn(),
 	};
@@ -60,6 +59,5 @@ describe('Notifications AcceptSquad', () => {
 		expect(userLink.exists()).toBe(true);
 		expect(message.exists()).toBe(true);
 		expect(timeString.exists()).toBe(true);
-		expect(wrapper.ref(ACCEPTED_MARK).exists()).toBe(true);
 	});
 });

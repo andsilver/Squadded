@@ -12,12 +12,16 @@ export const NotificationGetters = {
 	notify: 'notify',
 	newNotify: 'newNotify',
 	oldNotify: 'oldNotify',
+	newRequests: 'newRequests',
 };
 
 export const getters = {
 	[NotificationGetters.notify]: state => state.notifications.filter(n => !n.viewed),
 	[NotificationGetters.newNotify]: state => state.notifications.filter(n => !n.viewed),
 	[NotificationGetters.oldNotify]: state => state.notifications.filter(n => n.viewed),
+	[NotificationGetters.newRequests]: state => state.notifications.filter(
+		n => !n.viewed && (n.type === NOTIFICATIONS.ACCEPT_SQUAD || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted))),
+	),
 };
 
 export const NotificationMutations = {
@@ -64,6 +68,7 @@ export const mutations = {
 		const unique = notifications.filter(n => !contain(state)(n));
 		unique.forEach(ntf => (ntf.viewed = ntf.viewed || false));
 		state.notifications = [...unique, ...state.notifications]
+			.sort((a, b) => b.ts - a.ts)
 			.filter(checkUser)
 			.slice(0, NOTIFICATIONS_LIMIT);
 		sessionStorage.setItem(STORAGE_NOTIFICATIONS_KEY, JSON.stringify({

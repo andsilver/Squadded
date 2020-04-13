@@ -34,18 +34,11 @@ export default {
 		Tabs,
 	},
 	computed: {
-		...notifMapState([
-			'notifications',
-		]),
-		...mapState([
-			'socket',
-		]),
-		filtered () {
-			return this.notifications.filter(n =>
-				(
-					n.type === NOTIFICATIONS.ACCEPT_SQUAD ||
-					n.type === NOTIFICATIONS.INVITE_SQUAD
-				) && (!n.accepted && !n.denied),
+		...notifMapState(['notifications']),
+		...mapState(['socket']),
+		filtered() {
+			return this.notifications.filter(
+				n => n.type === NOTIFICATIONS.ACCEPT_SQUAD || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
 			);
 		},
 	},

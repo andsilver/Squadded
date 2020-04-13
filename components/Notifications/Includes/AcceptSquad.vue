@@ -15,10 +15,6 @@
 					/>
 					{{ $t('notify.accepted') }}
 				</span>
-				<v-btn ref="accepted-mark" depressed class="my-2 accepted-mark">
-					<img src="~assets/img/in-squad.svg" alt="In Squad" class="in-squad">
-					<span class="ml-2 accepted-btn-text">{{ $t('user.invitation.inSquad') }}</span>
-				</v-btn>
 				<span ref="time-string" class="time-string-section">
 					<span class="time-string">
 						{{ timeString }}
