@@ -212,13 +212,20 @@
 		"placeholder": "Write a comment..."
 	},
 	"invite_your_friends": {
-		"add": "Add your friends:",
-		"copied": "copied!",
-		"copy_link": "copy link",
+		"add": "Add your friends by name:",
+		"copied": "Copied!",
+		"copy_link": "Copy Link",
 		"or": "or",
 		"search_users": "Search users...",
 		"share": "Share this link with your friends:",
-		"title": "Invite your friends"
+		"title": "Invite your friends",
+		"messenger": "Messenger",
+		"whatsapp": "WhatsApp",
+		"email": "Email",
+		"invite_subject": "Join my squad",
+		"invite_body": "Join my squad and shop with me on {merchant}:",
+		"best_experience": "You can have the best shopping experience only with",
+		"your_friends": "your friends"
 	},
 	"invited": "invited",
 	"landing_post": {

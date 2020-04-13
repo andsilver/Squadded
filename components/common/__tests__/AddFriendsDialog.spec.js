@@ -4,7 +4,6 @@ import AddFriendsDialog from '../AddFriendsDialog.vue';
 import Store from '~/store';
 import { userMockBuilder } from '~/test/user.mock';
 import { getShortURL } from '~/services/short-url';
-import { copy } from '~/utils/copy';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
@@ -25,8 +24,6 @@ describe('AddFriendsDialog', () => {
 	const user = userMockBuilder().get();
 	const TITLE = 'title';
 	const FIND_FRIENDS = 'find-friends';
-	const COPY_BTN = 'copy-btn';
-	const SHORT_URL = 'shorturl';
 
 	beforeEach(() => {
 		const localVue = createLocalVue();
@@ -49,16 +46,5 @@ describe('AddFriendsDialog', () => {
 		await Promise.resolve();
 		expect(wrapper.ref(TITLE).exists()).toBe(true);
 		expect(wrapper.ref(FIND_FRIENDS).exists()).toBe(true);
-		expect(wrapper.ref(COPY_BTN).exists()).toBe(true);
-		expect(wrapper.ref(SHORT_URL).exists()).toBe(true);
-		expect(getShortURL).toHaveBeenCalledWith(wrapper.vm.userLink, store);
-	});
-
-	it('should call copy function', async () => {
-		jest.useFakeTimers();
-		await Promise.resolve();
-		const copyBtn = wrapper.ref(COPY_BTN);
-		copyBtn.trigger('click');
-		expect(copy).toHaveBeenCalled();
 	});
 });
