@@ -11,7 +11,7 @@
 	"CreateANew": "Créer",
 	"Delete": "Supprimer",
 	"Edit": "Modifier",
-	"EnterUsername": "Ajouter un nom d'utilisateur",
+	"EnterUsername": "Entrez votre nom d'utilisateur",
 	"Explore": "Explorer",
 	"Home": "Accueil",
 	"Just": "juste",
@@ -27,7 +27,7 @@
 	"Next": "Suivant",
 	"Notifications": "Messages",
 	"PairedItem": {
-		"all": "Populaires",
+		"all": "Top",
 		"outfits": "Outfits",
 		"photos": "Photos",
 		"polls": "Sondages"
@@ -39,8 +39,8 @@
 	"Profile": "Profil",
 	"Pushed": "Pushed",
 	"Requests": "Demandes",
-	"Save": "Ajouter",
-	"Saved": "Ajouté",
+	"Save": "Sauvegarder",
+	"Saved": "Sauvegardé",
 	"Search": "Recherchez dans votre wishlist...",
 	"SelectOutfitName": "Ajouter une légende...",
 	"SelectPollName": "Ajouter une légende...",
@@ -87,8 +87,8 @@
 	"community": {
 		"start_watching": {
 			"action": "M'inspirer de la communauté",
-			"description": "Ici tu verras toutes les activités de la communauté en ligne",
-			"title": "Découvre les publications de tous les shoppeurs"
+			"description": "Ici vous verrez toutes les activités de la communauté en ligne",
+			"title": "Découvrez les publications de tous les shoppeurs"
 		}
 	},
 	"create": {
@@ -103,13 +103,13 @@
 		"unsupported_file_format": "Ce format d'image n'est pas pris en charge"
 	},
 	"create_your_squad": {
-		"description": "Envoyer une invitation privée à vos amis afin qu'ils rejoignent votre squad. Vous pourrez ainsi partager et réagir à vos wishlists.",
-		"invited_text": "Acceptez-vous que {user} intègre votre squad?",
+		"description": "Invitez vos amis à rejoindre votre squad. Vous pourrez ainsi partager et réagir à vos wishlists.",
+		"invited_text": "Acceptez-vous que {user} rejoigne votre squad?",
 		"invited_you": "vous a invité",
 		"skip_for_now": "Plus tard",
 		"title": "Créer mon squad"
 	},
-	"done": "Fini",
+	"done": "Terminé",
 	"enterCode": "Taper le code",
 	"error": {
 		"404": "Oups cette page a disparu",
@@ -127,7 +127,7 @@
 	"expired": "Sondage terminé",
 	"explore_page": {
 		"ending_polls": {
-			"description": "Vite, aide les shoppeurs a se décider avant l'expiration de leur sondage",
+			"description": "Vite, aidez les shoppeurs a se décider avant l'expiration de leur sondage",
 			"ending_in": "Se termine dans",
 			"title": "Sondages de dernière minute"
 		},
@@ -140,7 +140,7 @@
 			"trending_look": "#Look Tendance"
 		},
 		"top_items": {
-			"title": "Les articles les plus tendances en ce moment"
+			"title": "LIVE - Top des articles les plus tendances"
 		},
 		"top_outfits": {
 			"description": "Les tenues les plus stylés avec le plus de réactions",
@@ -151,9 +151,9 @@
 		"create": "Publier",
 		"how_it_works": {
 			"action": "Comment ça marche?",
-			"text": "Toutes les activités shopping de vos amis apparaîtront ici"
+			"text": "Vous n'avez pas encore d'amis. Toutes leurs activités shopping apparaîtront ici."
 		},
-		"isEmpty": "Vous n'avez pas encore d'articles dans votre wishlist"
+		"isEmpty": "Vous n'avez pas de publications"
 	},
 	"forAllItems": "Total {0} articles",
 	"form": {
@@ -166,11 +166,11 @@
 			"message": "You must allow us to contact you!"
 		},
 		"bio": "Bio",
-		"done": "Fini",
+		"done": "Terminé",
 		"email": "Entrez votre adresse email",
-		"forgot": "Forgot password?",
+		"forgot": "Mot de passe oublié?",
 		"instagram_username": "Nom d'utilisateur",
-		"login": "Login",
+		"login": "Se connecter",
 		"name": "Nom",
 		"needAnAccount": "Need an account?",
 		"onboard": "Already onboard?",
@@ -215,7 +215,7 @@
 		"add": "Ajoutez vos amis:",
 		"copied": "Copié!",
 		"copy_link": "Copier le lien",
-		"or": "Ou",
+		"or": "ou",
 		"search_users": "Rechercher des utilisateurs...",
 		"share": "Partagez ce lien d'invitation avec vos amis:",
 		"title": "Inviter vos amis"
@@ -233,7 +233,7 @@
 	"mysquad": {
 		"add_friends": "Ajouter des amis",
 		"search": "Recherchez dans votre squad ...",
-		"share_private_link": "ou partager un lien d'invitation privé"
+		"share_private_link": "ou partager un lien d'invitation"
 	},
 	"noPasswordRemember": "Plus de mot de passe à retenir. Nous vous envoyons un code unique pour être bien sur que c'est vous.",
 	"notify": {
@@ -245,6 +245,7 @@
 		"follow": "vous a ajouté a ses inspirations",
 		"invited": "veut rejoindre votre squad",
 		"isEmpty": "Vous n'avez pas encore de notifications",
+		"justcommented": "a commenté",
 		"like": "a aimé",
 		"new": "Nouveau",
 		"old": "Plus tôt",
@@ -256,7 +257,7 @@
 	"ok": "ok",
 	"or": "ou",
 	"outfit": {
-		"textPlaceholder": "Ajouter une légende"
+		"textPlaceholder": "Ajouter une légende..."
 	},
 	"paired": {
 		"Save": "Ajouter",
@@ -299,7 +300,7 @@
 		"pop": {
 			"deletePost": {
 				"decline": "Modifier",
-				"description": "Vous pouvez également modifier votre message. Si vous avez sélectionné des paramètres de confidentialité incorrects, vous pourrez toujours les modifier.",
+				"description": "Vous pouvez également modifier votre publication. Si vous avez sélectionné des paramètres de confidentialité incorrects, vous pourrez toujours les modifier.",
 				"menu": "Supprimer",
 				"question": "Supprimer cette publication?"
 			},
@@ -414,7 +415,7 @@
 		"create_your_profile": "Créez votre profil"
 	},
 	"shop_with_your_friends": "Faites du shopping entre amis",
-	"shopping_party": "Shopping party",
+	"shopping_party": "Shopping Party",
 	"sign_up_later": "S'inscrire plus tard",
 	"signemail": "S'inscrire avec un email",
 	"signin": {
@@ -466,16 +467,16 @@
 			"deny": "Refuser",
 			"inSquad": "dans squad",
 			"invite": "Inviter",
-			"invited_text": "Tu es invité à rejoindre le squad @{user}\npour faire du shopping ensemble.",
+			"invited_text": "vous a invité à rejoindre son squad",
 			"pending": "Demande envoyée...",
-			"pending_text": "Dès que @{user} confirme,\nvous apparaitrez dans le squad de chacun",
-			"send_invite_link": "Envoyer le lien d'invitation privé",
+			"pending_text": "Dès que @{user} confirme,\nvous apparaîtrez dans son squad.",
+			"send_invite_link": "Envoyer le lien d'invitation ",
 			"text": "@{user} veut faire du shopping avec toi!\nAcceptes-tu que @{user} rejoigne ton squad?"
 		},
 		"promptFollow": "Veux-tu suivre {0}?",
 		"remove_squad": {
 			"cancel": "Annuler",
-			"description": "Supprimer {user} de ton squad signifie que vous tu ne pourras plus voir ni réagir à sa wishlist.",
+			"description": "En supprimant {user} de votre squad vous ne pourrez plus voir ni réagir à sa wishlist.",
 			"remove": "Supprimer",
 			"title": "Supprimer {user}?"
 		},
@@ -506,7 +507,7 @@
 		"disabled_before_signin": "Veuillez vous connecter pour voir les articles",
 		"discover": "Découvrir les articles",
 		"empty": "Vous n'avez pas encore d'articles dans votre wishlist.",
-		"postempty": "Votre wishlist est vide. Ajoutez des produits pour créer une publication",
+		"postempty": "Votre wishlist est vide. Ajoutez des articles pour créer une publication",
 		"private": "Ce compte est privé\n Seul le squad de @{user}\n peut voir ses publications.",
 		"purchase": "ACHETER"
 	}

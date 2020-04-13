@@ -42,8 +42,8 @@
 	"Save": "Save",
 	"Saved": "Saved",
 	"Search": "Search your wishlist...",
-	"SelectOutfitName": "Write a caption for your outfit",
-	"SelectPollName": "Ask a question...",
+	"SelectOutfitName": "Write a caption...",
+	"SelectPollName": "Write a caption...",
 	"ShopWithYourFriendsOn": "Shop with your friends on",
 	"Signin": "Sign in",
 	"Squadders": "Squadders",
@@ -140,7 +140,7 @@
 			"trending_look": "#Trending look"
 		},
 		"top_items": {
-			"title": "Most wanted items right now"
+			"title": "LIVE - Top wanted items right now"
 		},
 		"top_outfits": {
 			"description": "The trendiest outfits that generated the biggest reactions",
@@ -151,7 +151,7 @@
 		"create": "Create Something",
 		"how_it_works": {
 			"action": "how it works",
-			"text": "The shopping activities of your friends will appear here"
+			"text": "You don't have any friends yet. All their shopping activities will appear here."
 		},
 		"isEmpty": "You have no posts"
 	},
@@ -167,7 +167,7 @@
 		},
 		"bio": "Bio",
 		"done": "Done",
-		"email": "Enter phone number or e-mail",
+		"email": "Enter your e-mail",
 		"forgot": "Forgot password?",
 		"instagram_username": "Username",
 		"login": "Login",
@@ -212,7 +212,7 @@
 		"placeholder": "Write a comment..."
 	},
 	"invite_your_friends": {
-		"add": "Add your friends by name:",
+		"add": "Add your friends:",
 		"copied": "copied!",
 		"copy_link": "copy link",
 		"or": "or",
@@ -222,7 +222,7 @@
 	},
 	"invited": "invited",
 	"landing_post": {
-		"interact_with_user": "Interact with {user}, pair and save items to your wishlist",
+		"interact_with_user": "Shop with {user} and share your wishlists.",
 		"sign_in": "sign in",
 		"skip": "skip"
 	},
@@ -241,11 +241,11 @@
 		"accepted_invite": "",
 		"comment": "",
 		"commented": "commented",
-		"justcommented": "jsut commented",
 		"commentedq": "commented: ",
 		"follow": "is now watching you",
 		"invited": "wants to join your squad",
 		"isEmpty": "There is no notifications yet",
+		"justcommented": "commented",
 		"like": "liked",
 		"new": "New",
 		"old": "Earlier",
@@ -257,7 +257,7 @@
 	"ok": "ok",
 	"or": "or",
 	"outfit": {
-		"textPlaceholder": "Type your description"
+		"textPlaceholder": "Write a caption..."
 	},
 	"paired": {
 		"Save": "Save",
@@ -270,7 +270,7 @@
 	"photo": {
 		"browse": "Browse Gallery",
 		"capture": "Take a Photo",
-		"textPlaceholder": "Today I'm wearing this",
+		"textPlaceholder": "Write a caption...",
 		"update": "Update Photo",
 		"upload": {
 			"done": "Finishing up",
@@ -284,7 +284,7 @@
 		"ongoing": "Ongoing",
 		"resultNote": "The winning article will be announced after this time",
 		"results": "Results",
-		"textPlaceholder": "Ask a question",
+		"textPlaceholder": "Write a caption...",
 		"that": "that",
 		"this": "this",
 		"vote": "VOTE",
@@ -296,7 +296,7 @@
 		"addedGallary": "posted a picture with {0} tagged items",
 		"addedItem": "saved this item",
 		"addedOutfit": "posted a new outfit with {0} items",
-		"addedPoll": "posted a poll, expiring in {0} days",
+		"addedPoll": "posted a poll, expiring in {0} ",
 		"pop": {
 			"deletePost": {
 				"decline": "Edit",
@@ -340,7 +340,7 @@
 		"removeUser": "Remove {user} from My Squad",
 		"sending": "sending…",
 		"share": "Share Post",
-		"textPlaceholder": "Input your message for this post",
+		"textPlaceholder": "Write a caption...",
 		"title": {
 			"comments": "Comments",
 			"galleryPost": "Gallery",
@@ -357,7 +357,7 @@
 	"profile_settings": {
 		"crop_photo": "Crop photo",
 		"delete_account": "Delete account",
-		"delete_confirm": "Are you sure you want to delete your account? You can always delete a post or signout, and come back next time.",
+		"delete_confirm": "Are you sure you want to delete your account? You can always delete a post or sign out, and come back next time.",
 		"deleted_statement": {
 			"first": "We're sorry to hear that you'd like to delete your account. Please write us at",
 			"second": "and let us know why. Our team will process your request and delete your account."
@@ -447,7 +447,7 @@
 		"MySquad": "My Squad",
 		"Unfollow": "Unfollow",
 		"action": {
-			"Action": "Action",
+			"Action": "Options",
 			"AddMySquad": "Add to My Squad",
 			"Block": "Block Sophie",
 			"PushWatchers": "Push to watchers",
@@ -476,7 +476,7 @@
 		"promptFollow": "Do you want to follow {0}?",
 		"remove_squad": {
 			"cancel": "cancel",
-			"description": "Removing {user} from your squad means you will no longer see and interact with each other's wishlists",
+			"description": "By removing {user} from your squad, you will no longer see and interact with each other's wishlists",
 			"remove": "remove",
 			"title": "Remove {user}?"
 		},
