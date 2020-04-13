@@ -296,7 +296,7 @@
 		"addedGallary": "posted a picture with {0} tagged items",
 		"addedItem": "saved this item",
 		"addedOutfit": "posted a new outfit with {0} items",
-		"addedPoll": "posted a poll, expiring in {0} ",
+		"addedPoll": "posted a poll",
 		"pop": {
 			"deletePost": {
 				"decline": "Edit",
