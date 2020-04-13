@@ -111,6 +111,7 @@ export default {
 			line-height 4.4vw
 		.buy_button
 			top auto
+			display none
 			bottom 2.10vw
 			right 2.35vw
 			width 8.15vw
@@ -125,8 +126,8 @@ export default {
 				transform translateY(-50%)
 		.refresh-icon
 			top auto
-			bottom 2.10vw
-			right 12.58vw
+			bottom 2.4vw
+			right 2.31vw
 			width 8.15vw
 			height 8.15vw
 			border-radius 50%
@@ -142,11 +143,11 @@ export default {
 		.post_title
 			font-size 16px
 	.opacity-overlay
-		background: linear-gradient(rgba(0, 0, 0, 0.025) 50%, rgba(0, 0, 0, 0.5) 100%);
+		background: linear-gradient(rgba(0, 0, 0, 0.000) 50%, rgba(0, 0, 0, 0.5) 100%);
 		position absolute
 		width 83%
-		height 100%
-		top 0
+		height 83%
+		bottom 0
 		z-index 9
 	.count_item
 		color #ffffff
