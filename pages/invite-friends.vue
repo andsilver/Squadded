@@ -39,7 +39,7 @@
 				</div>
 			</div>
 		</div>
-		<div class="py-6 d-flex justify-center done-section">
+		<div class="py-4 d-flex justify-center done-section">
 			<Button class="done-btn" style="width:36.92vw;height: 12.30vw;background-color: #000 !important; color: #ffffff !important;font-size: 2.61vw; letter-spacing: 2px;" :disabled="!invited" @click.native="goToFeed">
 				{{ $t('done') }}
 			</Button>
@@ -200,7 +200,12 @@ export default {
 	margin-top: 18vw;
 	margin-bottom: 8vw;
 	padding: 0 5VW;
-
+	@media screen and (max-width: 360px) {
+		margin-top: 12vw;
+	}
+	@media screen and (max-width: 320px) {
+		margin-top: 10vw;
+	}
 	span {
 		text-transform: uppercase;
 		font-weight: bold;

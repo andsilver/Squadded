@@ -29,7 +29,7 @@
 					<Button
 						v-else-if="!friend.isMySquad"
 						class="ma-0 add-user-invite"
-						style="background: #ffffff; border: 1px solid #000; color: #000;height: 9.23vw; font-size: 2.15vw; letter-spacing: 1.5px;width: 22.30vw;"
+						style="background: #ffffff; border: 1px solid #000; color: #000;height: 9.23vw; font-size: 2.15vw; letter-spacing: 1.5px;width: 22.30vw; min-height: auto;"
 						@click.native="() => invite(friend)"
 					>
 						<img src="~assets/img/action-add-user.svg" class="my-squad">
@@ -46,7 +46,7 @@
 						</v-icon>
 						<span class="ml-1">{{ $t('accept') }}</span>
 					</Button>
-					<v-btn v-else style="height: 9.23vw; letter-spacing: 1.5px;width: 22.30vw;" class="invited-btn" outlined disabled>
+					<v-btn v-else style="height: 9.23vw; letter-spacing: 1.5px;width: 22.30vw; min-height: auto;" class="invited-btn" outlined disabled>
 						<img src="~assets/img/invited-icon.svg" class="my-squad">
 						<span class="ml-1">{{ $t('invited') }}</span>
 					</v-btn>
@@ -223,7 +223,13 @@ img.my-squad {
 	}
 	.friends-list {
 		/* background: #fff; */
-		height: 37vh;
+		height: 37.6vh;
+		@media screen and (max-width: 360px) {
+			height: 26.2vh;
+		}
+		@media screen and (max-width: 320px) {
+			height: 23.8vh;
+		}
 	}
 }
 </style>
