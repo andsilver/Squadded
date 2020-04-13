@@ -56,6 +56,7 @@ import { getShortURL } from '~/services/short-url';
 import Button from '~/components/common/Button';
 import FindFriends from '~/components/common/FindFriends';
 import { copy } from '~/utils/copy';
+import { VISITED_INVITE_FRIENDS_KEY } from '~/consts/keys';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -68,7 +69,7 @@ export default {
 		const { me } = store.state.user;
 		if (!me.nameSelected) {
 			redirect('/select-username');
-		} else if (me.squaddersCount) {
+		} else if (me.squaddersCount || localStorage.getItem(VISITED_INVITE_FRIENDS_KEY)) {
 			redirect(DEFAULT_LANDING);
 		}
 	},
@@ -103,6 +104,7 @@ export default {
 		},
 	},
 	mounted() {
+		localStorage.setItem(VISITED_INVITE_FRIENDS_KEY, Date.now().toString());
 		this.setLink();
 	},
 	methods: {
