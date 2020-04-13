@@ -8,6 +8,7 @@ import { UserStore, UserMutations } from '~/store/user';
 import { DEFAULT_LANDING } from '~/store/squad';
 import { WS_LINK } from '~/config';
 import { ActivityStore, ActivityActions } from '~/store/activity';
+import { VISITED_INVITE_FRIENDS_KEY } from '~/consts/keys';
 
 export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
@@ -112,11 +113,12 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 
 			const { route } = state.squad;
 			const setPendingFalse = () => store.commit('SET_PENDING', false);
+			const visitedInviteFriends = localStorage.getItem(VISITED_INVITE_FRIENDS_KEY);
 
 			if (user.origin === 'invitation') {
 				if (!user.nameSelected) {
 					return app.router.push('/select-username', setPendingFalse);
-				} else if (!user.squaddersCount) {
+				} else if (!user.squaddersCount && !visitedInviteFriends) {
 					return app.router.push('/invite-friends', setPendingFalse);
 				}
 			}
@@ -124,7 +126,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				app.router.push(route, setPendingFalse);
 			} else if (!user.nameSelected) {
 				app.router.push('/select-username', setPendingFalse);
-			} else if (!user.squaddersCount) {
+			} else if (!user.squaddersCount && !visitedInviteFriends) {
 				return app.router.push('/invite-friends', setPendingFalse);
 			} else {
 				const { name } = ctx.route;
