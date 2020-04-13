@@ -12,7 +12,7 @@
 				</div>
 			</div>
 			<div class="w-100 d-flex">
-				<ResquaddButton ref="save-button" class="flex-grow-1" :item="item" />
+				<ResquaddButton ref="save-button" class="flex-grow-1 save-button" :item="item" />
 				<Button ref="create-button" class="flex-grow-1 ml-2 create-button" @click.native="openCreateDialog">
 					<v-icon class="plus-icon" x-small>
 						sqdi-plus
@@ -106,5 +106,7 @@ export default {
 		color #B8B8BA
 		@media screen and (max-width: 350px)
 			font-size 3.30vw
-
+.create-button
+	padding-left 2.5vw !important
+	padding-right 2.5vw !important
 </style>

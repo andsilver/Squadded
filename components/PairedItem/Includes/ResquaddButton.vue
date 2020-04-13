@@ -1,8 +1,9 @@
 <template>
 	<Button ref="resquadd-button" class="flex-grow-1" :class="{save_inactive: !item.squadded}" :active="item.squadded" @click.native="click">
-		<v-icon small>
+		<v-icon v-if="!item.squadded" small>
 			sqdi-squadded-icon
 		</v-icon>
+		<img v-else src="~assets/img/save-check.svg" class="saved-icon">
 		<span class="ml-2">{{ $t(`${ item.squadded ? 'paired.Saved' : 'paired.Save' }`) }}</span>
 	</Button>
 </template>
@@ -88,10 +89,15 @@ export default {
 		opacity: 1;
 	}
 }
+.save-button
+	padding-left 2.5vw !important
+	padding-right 2.5vw !important
 .save_inactive
 	background-color transparent !important
 	color #000
 	border 1px solid #000
 	&::before
 		background-color #fff !important
+img.saved-icon
+	width 3.4vw
 </style>

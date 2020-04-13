@@ -22,7 +22,7 @@
 				{{ timeString }}
 			</span>
 		</div>
-		<v-btn ref="undo-btn" outlined class="undo-btn" @click="undo">
+		<v-btn ref="undo-btn" outlined class="undo-btn pr-2 pl-2" @click="undo">
 			{{ $t('Undo') }}
 		</v-btn>
 	</section>
@@ -83,19 +83,17 @@ export default {
 
 <style lang="stylus" scoped>
 .undo-btn
-	width 14.15vw
 	height 9.23vw !important
-	margin 0 2.07vw
+	margin 0 2.07vw 0
 	border 1px solid #000
 	border-radius 2.30vw
 	font-size 2.5vw
 	font-weight 700
 	letter-spacing 1.5px
-	min-width 14.15vw !important
 .notification-text
 	font-size 3.230vw
 	color #000
-	width 58vw
+	width 52vw
 .notification-icon
 	padding 0 1.9vw
 	height 6.15vw
