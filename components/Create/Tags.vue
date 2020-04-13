@@ -33,6 +33,7 @@
 		<div ref="scroll" class="scroll-items">
 			<SelectItems
 				ref="select-items"
+				class="photo-selected"
 				:is-photo="true"
 				:max-count="4"
 				narrow
@@ -150,7 +151,7 @@ export default {
 .scroll-items
 	width 65%
 	margin-left -4px
-	overflow auto
+	overflow hidden
 	padding-top 40px
 	position relative
 	.v-card

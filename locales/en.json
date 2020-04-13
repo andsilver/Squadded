@@ -241,6 +241,7 @@
 		"accepted_invite": "",
 		"comment": "",
 		"commented": "commented",
+		"justcommented": "jsut commented",
 		"commentedq": "commented: ",
 		"follow": "is now watching you",
 		"invited": "wants to join your squad",

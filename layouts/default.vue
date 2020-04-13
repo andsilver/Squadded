@@ -12,7 +12,7 @@
 			<TabBar ref="tab-bar" class="tab-bar-section" />
 		</v-bottom-navigation>
 		<div v-if="socket.isPendingAuth" ref="preloader" class="pending d-flex justify-center align-center">
-			<img src="~/assets/img/loading.gif">
+			<img src="~/assets/img/loading.gif" class="main-loader">
 		</div>
 	</v-app>
 </template>
@@ -176,4 +176,6 @@ export default {
 	background-color rgba(255,255,255,0.96) !important
 .tab-bar-section
 	background-color transparent
+.main-loader
+	width 33%;
 </style>

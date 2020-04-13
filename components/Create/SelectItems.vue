@@ -271,4 +271,7 @@ export default {
 	width: 100%;
 	background-color: transparent;
 }
+.photo-selected {
+    overflow-y: auto;
+}
 </style>

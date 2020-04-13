@@ -13,6 +13,11 @@
 				{{ $t('explore_page.search.no_results', { text: searchText }) }}
 			</div>
 		</div>
+		<div v-else>
+			<div class="no-friend">
+				{{ $t('invite_your_friends.search_users') }}
+			</div>
+		</div>
 	</div>
 </template>
 
@@ -59,4 +64,10 @@ export default {
 <style lang="stylus" scoped>
 .explore-content
 	padding 16px 0px 0 0px
+.no-friend
+	font-size 3.38vw
+	color #B8B8BA
+	font-weight 500
+	margin-top 5.75vw
+	margin-left 4.67vw;
 </style>

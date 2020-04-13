@@ -11,8 +11,7 @@
 					<span class="user_name">
 						{{ notification.user.screenName }}
 					</span>
-					{{ banner ? $t('Just') : '' }}
-					{{ banner ? $t('notify.commented') : $t('notify.commentedq') }}
+					{{ banner ? $t('notify.justcommented') : $t('notify.commentedq') }}
 					{{ banner && notification.post.type == 'pollPost' ? $t('YourPoll') : '' }}
 					{{ banner && notification.post.type == 'singleItemPost' ? $t('YourItem') : '' }}
 					{{ banner && notification.post.type == 'galleryPost' ? $t('YourPicture') : '' }}
