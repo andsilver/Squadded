@@ -2,7 +2,7 @@
 	<section class="d-flex text-section accept-section">
 		<UserLink
 			ref="user-link"
-			size="10.76vw"
+			:size="banner ? '6.15vw' : '10.76vw'"
 			:user="invitingUser"
 			hide-name
 		/>
@@ -15,7 +15,7 @@
 					/>
 					{{ $t('notify.invited') }}
 				</span>
-				<div ref="invite-actions" class="d-flex my-2">
+				<div ref="invite-actions" class="d-flex my-2 invite-actions-button">
 					<Button ref="accept-btn" class="ma-0 mr-2" @click.native="accept">
 						<v-icon x-small>
 							sqdi-checkmark
@@ -26,7 +26,7 @@
 						{{ $t('user.invitation.deny') }}
 					</v-btn>
 				</div>
-				<span ref="time-string" class="time-string-section">
+				<span v-show="!banner" ref="time-string" class="time-string-section">
 					<span class="time-string">
 						{{ timeString }}
 					</span>
@@ -145,4 +145,14 @@ i.sqdi-checkmark
 			height 3.07vw
 		.accepted-btn-text
 			color #000000
+.notifications-container
+	.notification-message
+		align-self center
+		.message
+			width 100%
+			span
+				font-size 3.23vw
+				line-height 3.69vw
+	.invite-actions-button
+		display none !important
 </style>

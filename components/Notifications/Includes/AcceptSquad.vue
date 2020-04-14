@@ -1,11 +1,16 @@
 <template>
 	<section class="d-flex text-section accept-section">
-		<UserLink
-			ref="user-link"
-			size="10.76vw"
-			:user="acceptingUser"
-			hide-name
-		/>
+		<div class="banner-notification-section">
+			<UserLink
+				ref="user-link"
+				:size="banner ? '6.15vw' : '10.76vw'"
+				:user="acceptingUser"
+				hide-name
+			/>
+			<span v-if="banner" class="check-icon">
+				<img src="~assets/img/notification-accept.svg">
+			</span>
+		</div>
 		<div class="notification-message">
 			<div class="message">
 				<span ref="message">
@@ -13,10 +18,10 @@
 						:user="acceptingUser"
 						hide-avatar
 					/>
-					{{ $t('notify.accepted') }}
+					{{ banner ? $t('notify.acceptedbanner') : $t('notify.accepted') }}
 				</span>
 				<span ref="time-string" class="time-string-section">
-					<span class="time-string">
+					<span v-show="!banner" class="time-string">
 						{{ timeString }}
 					</span>
 				</span>
@@ -101,4 +106,19 @@ i.sqdi-checkmark
 			height 3.07vw
 		.accepted-btn-text
 			color #000000
+.notifications-container
+	.notification-message
+		align-self center
+		.message
+			width 100%
+			span
+				font-size 3.23vw
+				line-height 3.69vw
+	.banner-notification-section
+		position: relative;
+	.check-icon img
+		width 4vw
+		position absolute
+		bottom 0px
+		left -2px
 </style>

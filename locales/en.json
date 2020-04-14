@@ -245,6 +245,7 @@
 	"noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
 	"notify": {
 		"accepted": "accepted your invite",
+		"acceptedbanner": "is now in your squad",
 		"accepted_invite": "",
 		"comment": "",
 		"commented": "commented",

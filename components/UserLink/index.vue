@@ -291,4 +291,8 @@ export default {
 		margin-top 0.60vw
 	div.invite-user-screenname:before
 		content '@'
+.accept-section
+	.v-list-item__avatar
+		margin-top 1.5vw
+		margin-bottom 1.5vw
 </style>
