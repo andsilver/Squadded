@@ -25,7 +25,6 @@ import BackBar from '~/components/common/BackBar';
 import Notifications from '~/components/Notifications';
 import Tabs from '~/components/Notifications/Tabs';
 import { NotificationStore, NotificationActions, NotificationGetters } from '~/store/notification';
-import { NOTIFICATIONS } from '~/consts/notifications';
 
 const notificationStore = createNamespacedHelpers(NotificationStore);
 const notifMapGetters = notificationStore.mapGetters;
@@ -42,20 +41,14 @@ export default {
 	}),
 	computed: {
 		...notifMapGetters([
-			NotificationGetters.newNotify,
-			NotificationGetters.oldNotify,
+			NotificationGetters.newNotifications,
+			NotificationGetters.oldNotifications,
 		]),
 		...mapState([
 			'socket',
 		]),
 		exists() {
-			return this.newNotify.length || this.oldNotify.length;
-		},
-		newNotifications() {
-			return this.newNotify.filter(n => n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD);
-		},
-		oldNotifications() {
-			return this.oldNotify.filter(n => n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD);
+			return this.newNotifications.length || this.oldNotifications.length;
 		},
 	},
 	created () {
@@ -63,7 +56,7 @@ export default {
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	},
 	destroyed () {
-		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`);
+		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`, this.newNotifications);
 	},
 	head: () => ({
 		title: 'Notifications-All',

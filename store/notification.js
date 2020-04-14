@@ -13,6 +13,8 @@ export const NotificationGetters = {
 	newNotify: 'newNotify',
 	oldNotify: 'oldNotify',
 	newRequests: 'newRequests',
+	newNotifications: 'newNotifications',
+	oldNotifications: 'oldNotifications',
 };
 
 export const getters = {
@@ -21,6 +23,12 @@ export const getters = {
 	[NotificationGetters.oldNotify]: state => state.notifications.filter(n => n.viewed),
 	[NotificationGetters.newRequests]: state => state.notifications.filter(
 		n => !n.viewed && (n.type === NOTIFICATIONS.ACCEPT_SQUAD || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted))),
+	),
+	[NotificationGetters.newNotifications]: state => state.notifications.filter(
+		n => !n.viewed && n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD,
+	),
+	[NotificationGetters.oldNotifications]: state => state.notifications.filter(
+		n => n.viewed && n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD,
 	),
 };
 
@@ -135,9 +143,9 @@ export const actions = {
 			type: 'fetchNotifications',
 		});
 	},
-	[NotificationActions.viewNotifications]: ({ rootState, commit }) => {
-		const notificationIds = getters[NotificationGetters.newNotify](rootState.notification).map(n => n._id);
-		commit(NotificationMutations.viewAll);
+	[NotificationActions.viewNotifications]: ({ rootState, commit }, notifications) => {
+		const notificationIds = (notifications || []).map(n => n._id);
+		(notifications || []).forEach(n => commit(NotificationMutations.view, n));
 		rootState.socket.$ws.sendObj({
 			type: 'viewNotifications',
 			notificationIds,

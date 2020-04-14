@@ -21,10 +21,12 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Notifications from '~/components/Notifications';
 import Tabs from '~/components/Notifications/Tabs';
-import { NotificationStore } from '~/store/notification';
+import { NotificationStore, NotificationActions } from '~/store/notification';
 import { NOTIFICATIONS } from '~/consts/notifications';
 
-const notifMapState = createNamespacedHelpers(NotificationStore).mapState;
+const notifStore = createNamespacedHelpers(NotificationStore);
+const notifState = notifStore.mapState;
+const notifGetters = notifStore.mapGetters;
 
 export default {
 	name: 'NotificationsPage',
@@ -34,13 +36,17 @@ export default {
 		Tabs,
 	},
 	computed: {
-		...notifMapState(['notifications']),
+		...notifState(['notifications']),
+		...notifGetters(['newRequests']),
 		...mapState(['socket']),
 		filtered() {
 			return this.notifications.filter(
 				n => n.type === NOTIFICATIONS.ACCEPT_SQUAD || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
 			);
 		},
+	},
+	destroyed () {
+		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`, this.newRequests);
 	},
 	head: () => ({
 		title: 'Notifications-Requests',

@@ -70,6 +70,6 @@ describe('Notifications', () => {
 		store.dispatch = jest.fn();
 		initLocalVue();
 		wrapper.destroy();
-		expect(store.dispatch).toHaveBeenCalledWith(`${NotificationStore}/${NotificationActions.viewNotifications}`);
+		expect(store.dispatch).toHaveBeenCalledWith(`${NotificationStore}/${NotificationActions.viewNotifications}`, []);
 	});
 });
