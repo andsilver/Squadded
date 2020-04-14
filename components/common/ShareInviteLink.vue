@@ -108,7 +108,7 @@ export default {
 				window.open(`mailTo:?subject=${this.$t('invite_your_friends.invite_subject')}&body=${content}%0A${this.shortURL}`);
 				break;
 			case 'whatsapp':
-				window.open(`whatsapp://send?text=${content}`);
+				window.open(encodeURI(`https://wa.me?text=${content}\n${this.shortURL}`));
 				break;
 			}
 		},
