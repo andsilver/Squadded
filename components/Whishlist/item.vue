@@ -22,7 +22,7 @@
 					@click="openProduct"
 				>
 					<div class="merchant-id" @click="openProduct">
-						{{ post.item.merchantId }}
+						{{ post.item.merchantId || post.merchantId }}
 					</div>
 					<div>{{ post.item.title }}</div>
 				</v-card-title>
