@@ -261,6 +261,7 @@
 		"old": "Earlier",
 		"pollend": "Your poll has expired - see the winner!",
 		"post": "your post",
+		"poll": "your poll",
 		"requestEmpty": "You have no new requests",
 		"vote": "voted on"
 	},

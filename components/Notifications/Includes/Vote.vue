@@ -2,7 +2,7 @@
 	<section class="d-flex text-section align-center">
 		<UserLink
 			ref="user-link-avatar"
-			size="40"
+			:size="banner ? '6.15vw' : '40'"
 			:user="votedUser"
 			hide-name
 		/>
@@ -14,7 +14,7 @@
 					</span>
 					{{ $t('notify.vote') }}
 					<span ref="post-title" class="text-bold cursor-pointer">
-						{{ notification.text || $t('notify.post') }}
+						{{ notification.text || $t('notify.poll') }}
 					</span>
 				</span>
 				<span v-if="!banner" ref="timestring" class="time-string-section">
@@ -29,7 +29,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="imgae-section">
+		<div v-if="!banner" class="imgae-section">
 			<img
 				v-if="notification.type == 'notifVote'"
 				ref="notification-image"
@@ -123,4 +123,14 @@ i.sqdi-checkmark
 	font-size 3.23vw
 	font-weight 600
 	line-height 4vw
+.notifications-container
+	.notification-message
+		align-self center
+		.message
+			width 100%
+			span
+				font-size 3.23vw
+				line-height 3.69vw
+	span.text-bold
+		font-weight 400
 </style>
