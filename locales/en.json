@@ -68,7 +68,8 @@
 				"decline": "Ok, do not delete comment",
 				"description": "Are you sure? This action can not be reverted.",
 				"menu": "Delete",
-				"question": "Delete this comment?"
+				"question": "Delete this comment?",
+				"notification": "The comment has been deleted"
 			},
 			"reportComment": {
 				"decline": "Ok, do not report comment",
@@ -79,7 +80,8 @@
 				"other": "Other",
 				"question": "Report comment",
 				"spam": "Spam",
-				"whatiswrong": "Tell us what's wrong"
+				"whatiswrong": "Tell us what's wrong",
+				"notification": "The comment has been reported"
 			}
 		},
 		"view_all_comments": "View all {n} comments"

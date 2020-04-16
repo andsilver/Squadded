@@ -150,7 +150,7 @@ export default {
 
 			const message = {
 				type: 'notifAlert',
-				text: 'The comment has been reported',
+				text: this.$t('comment.pop.reportComment.notification'),
 				ts: new Date(),
 				_id: new Date(),
 			};
@@ -196,7 +196,7 @@ export default {
 
 			const message = {
 				type: 'notifAlert',
-				text: 'The comment has been deleted',
+				text: this.$t('comment.pop.deleteComment.notification'),
 				comment: this.comment,
 				ts: Date.now(),
 				_id: Date.now(),
