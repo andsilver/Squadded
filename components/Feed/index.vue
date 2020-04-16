@@ -220,9 +220,9 @@ export default {
 			}
 			let comment;
 			if (item.element.id.includes('group')) {
-				comment = this.$refs.component.find(c => c.$el.parentNode === item.element);
+				comment = (this.$refs.component || []).find(c => c.$el.parentNode === item.element);
 			} else {
-				comment = this.$refs.comments.find(c => c.$el.parentNode === item.element);
+				comment = (this.$refs.component || []).find(c => c.$el.parentNode === item.element);
 			}
 			if (!comment) {
 				return;

@@ -13,14 +13,13 @@
 				<span v-if="item && item.merchantId" @click="() => $emit('open')">{{ item.merchantId }}</span>
 				<div v-if="showRefresh" class="refresh-icon" @click="navigateToPairedItemPage">
 					<img src="~assets/img/recycle.svg" class="refresh-logo">
-					<!-- <span class="refresh-count">{{ short(item.outfits) }}</span> -->
 				</div>
 			</div>
 			<div
 				v-if="title"
 				ref="item-title"
 				class="caption font-weight-medium px-1 word-break"
-				:style="{ width: isPollPost ? '45vw' : 'unset' }"
+				:style="{ width: isPollPost ? '40vw' : 'unset' }"
 				@click="() => $emit('open')"
 			>
 				{{ title }}
