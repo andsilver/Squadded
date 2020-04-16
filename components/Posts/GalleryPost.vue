@@ -116,8 +116,7 @@ export default {
 		},
 		fetch (tagClicked) {
 			if (this.isPaired) {
-				this.$root.$emit('postTaped', this.post.postId);
-				return;
+				return this.$root.$emit('postTaped', this.post.postId);
 			}
 			if (this.fetched || this.post.guid.includes('new')) {
 				return this.toggleShifted();

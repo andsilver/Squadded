@@ -20,7 +20,7 @@
 				:post-id="post.guid"
 				:is-paired="isPaired"
 				:style="{
-					'margin-left': `${marginLeft}px`,
+					'margin-left': `${marginLeft}vw`,
 				}"
 				@click.native="fetch"
 			>
@@ -141,7 +141,7 @@ export default {
 			if (!this.shifted) {
 				this.selectedItem = '';
 			}
-			this.marginLeft = this.shifted ? -185 : 0;
+			this.marginLeft = this.shifted ? -55 : 0;
 			this.moving = false;
 		},
 		imageSelected (itemId, index) {

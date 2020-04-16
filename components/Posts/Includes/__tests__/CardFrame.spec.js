@@ -11,7 +11,7 @@ Wrapper.prototype.ref = function (id) {
 describe('CardFrame', () => {
 	const PRICE = 'item-price';
 	const TITLE = 'item-title';
-	const BUY_BUTTON_ELEMENT = 'buy-button';
+	const MERCHANT_ID = 'merchant-id';
 	let wrapper;
 
 	function initLocalVue () {
@@ -35,7 +35,7 @@ describe('CardFrame', () => {
 	});
 
 	it('should render buy button', () => {
-		expect(wrapper.ref(BUY_BUTTON_ELEMENT).exists()).toBe(true);
+		expect(wrapper.ref(MERCHANT_ID).exists()).toBe(true);
 	});
 
 	it('should open product on click', () => {

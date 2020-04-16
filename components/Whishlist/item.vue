@@ -20,8 +20,12 @@
 					ref="item-title"
 					class=" item_title"
 					@click="openProduct"
-					v-text="post.item.title"
-				/>
+				>
+					<div class="merchant-id" @click="openProduct">
+						{{ post.item.merchantId }}
+					</div>
+					<div>{{ post.item.title }}</div>
+				</v-card-title>
 				<div class="reaction-sec">
 					<v-icon
 						ref="likes-icon"
@@ -91,6 +95,13 @@ export default {
 </script>
 
 <style>
+	.merchant-id {
+		font-size: 3.1vw;
+		font-weight: 600;
+		color: #B8B8BA;
+		text-transform: uppercase;
+	}
+
 	.wishlist_item {
 		border-radius: 3.07vw !important;
 		overflow: hidden;
@@ -110,7 +121,7 @@ export default {
 		padding-bottom: 0;
 		padding-right: 4.46vw;
 		margin-top: 3.46vw;
-		max-height: 34px;
+		max-height: 46px;
 		overflow: hidden;
 		font-size: 3.69vw;
 		line-height: 4.30vw;

@@ -277,10 +277,7 @@ export const actions = {
 		rootState.socket.$ws.sendObj(post.toMessage());
 	},
 	[PostActions.updateResquadd]: ({ commit, getters }, rawItems) => {
-		if (!rawItems) {
-			return;
-		}
-		rawItems.forEach((rawItem) => {
+		(rawItems || []).forEach((rawItem) => {
 			const items = getters[PostGetters.getItemsById](rawItem.itemId);
 			items.forEach((item) => {
 				item.squadded = rawItem.squadded;

@@ -9,36 +9,32 @@
 			{{ $t('tip.tapPhotos') }}
 		</div>
 		<section v-if="!isPaired" class="card_bottom" :class="{ card_inline: title }">
+			<div ref="merchant-id" class="post_title d-flex justify-space-between align-center px-1">
+				<span v-if="item && item.merchantId" @click="() => $emit('open')">{{ item.merchantId }}</span>
+				<div v-if="showRefresh" class="refresh-icon" @click="navigateToPairedItemPage">
+					<img src="~assets/img/recycle.svg" class="refresh-logo">
+					<!-- <span class="refresh-count">{{ short(item.outfits) }}</span> -->
+				</div>
+			</div>
+			<div
+				v-if="title"
+				ref="item-title"
+				class="caption font-weight-medium px-1 word-break"
+				:style="{ width: isPollPost ? '45vw' : 'unset' }"
+				@click="() => $emit('open')"
+			>
+				{{ title }}
+			</div>
 			<v-card-text
 				v-if="!details"
 				ref="item-price"
-				class="post_price"
+				class="post_price px-1"
 				@click="() => $emit('open')"
 			>
 				<span v-if="discount" class="original-price">{{ originPrice }}</span>
 				<span :class="{ discount }">{{ price }}</span>
-				<span v-if="item && item.merchantId" class="ml-1 font-weight-medium">| {{ item.merchantId }}</span>
 				<span v-if="showTap" class="for-all">{{ $t('forAllItems', {'0': postLength}) }}</span>
 			</v-card-text>
-			<v-card-title
-				v-if="title"
-				ref="item-title"
-				class="post_title"
-				@click="() => $emit('open')"
-			>
-				<span>{{ title }}</span>
-			</v-card-title>
-			<div v-if="showRefresh" class="refresh-icon" @click="navigateToPairedItemPage">
-				<img v-if="!lightRefresh" src="~assets/img/refresh.svg" class="refresh-logo">
-				<img v-if="lightRefresh" src="~assets/img/light-refresh.svg" class="refresh-logo">
-				<span class="refresh-count">{{ short(item.outfits) }}</span>
-			</div>
-			<button
-				v-if="showBag && !details"
-				ref="buy-button"
-				class="buy_button sqdi-shopping-bag-2"
-				:class="{ bag_inline: title }"
-			/>
 			<Actions v-if="groupPost" :group-post="groupPost" :post="post" />
 		</section>
 	</v-card>
@@ -74,10 +70,6 @@ export default {
 		loading: {
 			type: Boolean,
 			default: false,
-		},
-		showBag: {
-			type: Boolean,
-			default: true,
 		},
 		showTap: {
 			type: Boolean,
@@ -153,7 +145,7 @@ export default {
 	box-shadow rgba(0, 0, 0, 0.1) 0px 0.92vw 6.153vw
 
 	.card_bottom
-		margin-top 2%
+		margin-top 1%
 		&.card_inline
 			position relative
 			padding-left 0
@@ -179,30 +171,20 @@ export default {
 				font-weight 400
 
 	.post_title
-		margin-top 1%
-		padding 0
-		width 100%
 		span
-			min-height 12px
-			max-height 8vw
 			word-break normal
 			overflow hidden
-			font-size 3.076vw
+			font-size 3.1vw
 			line-height 4vw
-			font-weight 500
+			font-weight 600
 			color #B8B8BA
-			letter-spacing 0
+			text-transform uppercase
 
-	.buy_button
-		width 30px
-		height 23px
-		position absolute
-		right 4%
-		bottom 4%
-		&.bag_inline
-			top 8%
-			bottom auto
-			right 0
+	.word-break
+		word-break normal
+		overflow hidden
+		text-overflow ellipsis
+		white-space nowrap
 
 	.sqdi-shopping-bag-2:before
 		width 30px
@@ -229,11 +211,8 @@ export default {
 		font-weight 500
 	.refresh-icon
 		cursor pointer
-		position absolute
-		top 18%
-		right 21%
 		.refresh-logo
-			width: 4.92VW;
+			width: 4.12VW;
 		.refresh-count
 			border-radius 1.846vw
 			font-size 2.461vw
@@ -249,20 +228,10 @@ export default {
 			left 3.307vw
 			line-height: 3.7vw
 &.single-item
-	.buy_button
-		&.bag_inline
-			top 1%
-			bottom auto
-			right 0px
-			text-align right
-			width 25px
 	.sqdi-shopping-bag-2:before
 		top: 0
-	.refresh-icon
-		right 20%
-		top 9%
 	.card_bottom
-		margin-top 5%
+		margin-top 2%
 .gallery-card
 	.multi-item .card_bottom
 		display none
@@ -294,20 +263,11 @@ export default {
 .paired_section
 	.card_frame
 		box-shadow	none
-.poll-item
-	.refresh-icon
-		right 23%
-		top 9%
-	.buy_button.bag_inline
-		top -2%
 
 .single-item.card_frame .post_title span
 	overflow hidden
 	white-space nowrap
 	text-overflow ellipsis
-.grouped-post
-	.single-item .refresh-icon
-		top 4%
 .poll-post-explore
 	.card_bottom
 		.post_title
