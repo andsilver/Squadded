@@ -86,7 +86,7 @@
 					</p>
 					<div>
 						<div class="pin_sec">
-							<Pin ref="pin" :invalid="showDigitError" @enter="validate" @change="pinChange" />
+							<Pin ref="pin" :invalid="showDigitError" @enter="validate" @change="pinChange" @complete="pinChange" />
 						</div>
 						<span v-if="showError" ref="error-message" class="error-message">{{ $t('form.rules.pin.valid') }}</span>
 						<span v-if="showOtpError" ref="error-message" class="error-message">{{ $t('form.rules.pin.required') }}</span>
