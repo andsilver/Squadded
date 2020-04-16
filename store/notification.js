@@ -141,6 +141,7 @@ export const actions = {
 
 		rootState.socket.$ws.sendObj({
 			type: 'fetchNotifications',
+			allMerchants: '*',
 		});
 	},
 	[NotificationActions.viewNotifications]: ({ rootState, commit }, notifications) => {

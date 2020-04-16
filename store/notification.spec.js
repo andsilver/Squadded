@@ -105,6 +105,7 @@ describe('Notification store module', () => {
 			await root.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
 				type: 'fetchNotifications',
+				allMerchants: '*',
 			});
 		});
 
