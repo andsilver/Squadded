@@ -130,13 +130,13 @@ export default {
 			return Math.round((100 * (first ? this.post.item1.votes : this.post.item2.votes)) / total);
 		},
 		voteOnFirst() {
-			if (this.meVoted) {
+			if (this.meVoted || this.post.closed) {
 				return this.toDetailsPage();
 			}
 			this.$emit('vote', 1);
 		},
 		voteOnSecond() {
-			if (this.meVoted) {
+			if (this.meVoted || this.post.closed) {
 				return this.toDetailsPage();
 			}
 			this.$emit('vote', 2);
