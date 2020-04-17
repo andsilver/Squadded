@@ -4,9 +4,10 @@
 		:hide-user="isPaired"
 		:class="post.closed ? 'poll_expired': 'poll_ongoing'"
 	>
-		<div v-if="post.closed && !isPaired" class="is_poll_expired">
+		<!-- <div v-if="post.closed && !isPaired" class="is_poll_expired">
+			For our record keep this comment to add any lable for poll expired
 			{{ $t('expired') }}
-		</div>
+		</div> -->
 		<div class="wrapper mb-2" :class="{ my_post_wrapper: isMyPost }">
 			<VoteSlider v-if="!isPaired" :post="post" @vote="vote" />
 			<div class="poll-post grid">

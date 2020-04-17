@@ -18,13 +18,13 @@
 						<span class="mr-4" style="margin-top: 1px">{{ $t('this') }}</span>
 					</div>
 					<div v-else-if="first.percent > 10">
-						<div style="font-size: 8px" class="d-flex align-center">
+						<div class="d-flex align-center voted-text">
 							<span>{{ $t('this') }}</span>
 							<v-icon v-if="first.background === 'black'" x-small class="ml-1">
 								mdi-check-circle
 							</v-icon>
 						</div>
-						<div>
+						<div class="poll-percent">
 							{{ first.percent }}%
 						</div>
 					</div>
@@ -45,13 +45,13 @@
 						<span class="mx-2" style="font-size: 18px">›</span>
 					</div>
 					<div v-else-if="second.percent > 10">
-						<div style="font-size: 8px" class="d-flex align-center">
+						<div class="d-flex align-center voted-text">
 							<span>{{ $t('that') }}</span>
 							<v-icon v-if="second.background === 'black'" x-small class="ml-1">
 								mdi-check-circle
 							</v-icon>
 						</div>
-						<div>
+						<div class="poll-percent">
 							{{ second.percent }}%
 						</div>
 					</div>
@@ -157,6 +157,19 @@ export default {
 	width: 100%;
 	z-index: 2;
 	transition: transform linear .25s;
+}
+.not-voted {
+    font-size: 3.07vw;
+	font-weight: 700;
+}
+.voted-text {
+	font-size: 2.46vw;
+	font-weight: 600;
+}
+.poll-percent {
+    font-weight: 600;
+    font-size: 3.53vw;
+	text-align: left;
 }
 .vote-button {
 	text-transform: uppercase;
