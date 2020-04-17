@@ -9,7 +9,7 @@
 			{{ $t('tip.tapPhotos') }}
 		</div>
 		<section v-if="!isPaired" class="card_bottom" :class="{ card_inline: title }">
-			<div ref="merchant-id" class="post_title d-flex justify-space-between align-center px-1">
+			<div ref="merchant-id" class="post_title merchant-section d-flex justify-space-between align-center px-1">
 				<span v-if="item && item.merchantId" @click="() => $emit('open')">{{ item.merchantId }}</span>
 				<div v-if="showRefresh" class="refresh-icon" @click="navigateToPairedItemPage">
 					<img src="~assets/img/recycle.svg" class="refresh-logo">
@@ -149,8 +149,14 @@ export default {
 			position relative
 			padding-left 0
 			padding-right 0
+		.merchant-section
+			height 6.15vw
 	.post_price
 		padding 0
+		height 4vw
+		@media screen and (max-width: 280px)
+			height 5vw
+			margin-top -3px
 		span
 			font-size 3.69vw
 			font-weight 700
