@@ -20,7 +20,7 @@
 			</v-tab-item>
 		</v-tabs-items>
 		<div class="mt-4 py-4 d-flex justify-center">
-			<Button ref="save-button" style="width: 100px;" @click.native="saveProfile">
+			<Button ref="save-button" style="width: 36.92vw;height: 12.30vw; letter-spacing: 1px;" @click.native="saveProfile">
 				{{ $t('Save') }}
 			</Button>
 		</div>

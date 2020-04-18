@@ -70,6 +70,7 @@
 					id="instagram_username"
 					ref="instagram-username-field"
 					v-model="user.screenName"
+					class="username-input profile-input"
 					outlined
 					dense
 					:rules="[required]"
@@ -81,6 +82,7 @@
 					id="bio"
 					ref="bio-field"
 					v-model="user.bio"
+					class="profile-input"
 					outlined
 					dense
 				/>
@@ -91,6 +93,7 @@
 					id="name"
 					ref="name-field"
 					v-model="user.name"
+					class="profile-input"
 					outlined
 					dense
 				/>
@@ -282,7 +285,7 @@ export default {
 .input-label {
 	color: #9e9e9e;
 	font-weight: 500;
-	font-size: 14px;
+	font-size: 3.38vw;
 }
 
 >>> .v-text-field.v-text-field--enclosed .v-text-field__details
@@ -292,5 +295,7 @@ section .v-btn
 	background-color rgba(218, 217, 221, 0.3)
 	color black
 	font-weight 600
+
+.profile-input
+	margin-top 1.30vw
 </style>
-<style lang="stylus"></style>

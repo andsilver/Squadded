@@ -154,6 +154,7 @@ export default {
 	.post_price
 		padding 0
 		height 4vw
+		margin-top -1px
 		@media screen and (max-width: 280px)
 			height 5vw
 			margin-top -3px
@@ -190,6 +191,8 @@ export default {
 		overflow hidden
 		text-overflow ellipsis
 		white-space nowrap
+		font-size 3.23vw !important
+		line-height: 3.5vw !important;
 
 	.sqdi-shopping-bag-2:before
 		width 30px
