@@ -4,7 +4,7 @@
 		<div class="flex-grow-1 container">
 			<Feed v-if="step === 1" :items="posts" />
 			<template v-else>
-				<Squadders :users="squadders" />
+				<Squadders class="squadders" :users="squadders" />
 				<SingleItemPost v-for="(post, index) of posts" :key="index" :post="post" />
 			</template>
 		</div>
@@ -113,15 +113,15 @@ export default {
 			} else if (this.step === 2) {
 				this.posts = feed.posts.map(p => new FeedPost(p));
 				this.popoverLeft = 10;
-				this.popoverTop = 110;
+				this.popoverTop = 93;
 				this.highlightLeft = 120;
 				this.highlightTop = 20;
 				this.$refs.topbar.tab = 1;
 			} else if (this.step === 3) {
 				this.popoverLeft = 16;
-				this.popoverTop = 230;
+				this.popoverTop = 266;
 				this.highlightLeft = 251;
-				this.highlightTop = 178;
+				this.highlightTop = 227;
 			} else {
 				if (localStorage.getItem(STORAGE_VISITED_KEY)) {
 					return this.$router.push('/feed');
@@ -133,7 +133,11 @@ export default {
 	},
 };
 </script>
-
+<style lang="scss">
+.squadders .squadders-users {
+	top: 40px;
+}
+</style>
 <style lang="scss" scoped>
 .walkthrough {
 	position: relative;
@@ -174,7 +178,7 @@ export default {
 	z-index 300
 	border-radius: 10px;
 	&-content
-		width 324px
+		width 92vw
 		background #fff
 		border-radius 10px
 		color black
@@ -198,7 +202,7 @@ export default {
 }
 
 .step2:after {
-    left: 61px !important;
+    left: 51px !important;
 }
 
 .step3:after

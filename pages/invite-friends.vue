@@ -6,8 +6,11 @@
 				<span class="font-weight-bold invite-title">{{ $t('invite_your_friends.title') }}</span>
 				<a class="skip-btn" @click="skip">{{ $t('skip') }}</a>
 			</div>
-			<div class="text-center font-weight-bold mt-6">
-				<span>{{ $t('invite_your_friends.best_experience') }}</span> <span style="color: #fd6256; text-decoration: underline">{{ $t('invite_your_friends.your_friends') }}</span>
+			<div class="d-flex justify-center mt-4">
+				<img class="invite-friends-img" src="~assets/img/friends.svg">
+			</div>
+			<div class="text-center mt-3">
+				{{ $t('invite_your_friends.share') }}
 			</div>
 			<ShareInviteLink class="py-8 px-2" />
 			<div>
@@ -141,5 +144,8 @@ export default {
 	.done-btn {
 		width: 120px;
 	}
+}
+.invite-friends-img {
+	width: 70vw;
 }
 </style>

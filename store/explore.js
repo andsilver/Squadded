@@ -72,7 +72,10 @@ export const mutations = {
 		state.friends = friends;
 	},
 	[ExploreMutations.setFacebookFriends]: (state, friends) => {
-		state.facebookFriends = friends;
+		state.facebookFriends = (friends || []).map(f => ({
+			...f,
+			avatar: `https://graph.facebook.com/${f.id}/picture?type=square&width=60`,
+		}));
 	},
 	[ExploreMutations.setSearching]: (state, searching) => {
 		state.searching = searching;

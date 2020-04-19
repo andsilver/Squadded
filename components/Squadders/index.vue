@@ -1,33 +1,35 @@
 <template>
-	<div class="squadders-users">
-		<div class="left-sec">
-			<div>
-				<div
-					v-for="(user, index) in first5Users"
-					:key="index"
-					:style="{left: getPosition(index), 'z-index': 2 + index}"
-					class="user-avatar-container"
-					@click="getUserLink(user)"
-				>
-					<div class="user-avatar-content">
-						<img :src="user.miniAvatar || user.avatar" alt>
-						<span class="user-name-hover">{{ user.screenName }}</span>
-						<span v-if="index === 0 || user.online" class="online-status" />
+	<div>
+		<div class="squadders-users">
+			<div class="left-sec">
+				<div>
+					<div
+						v-for="(user, index) in first5Users"
+						:key="index"
+						:style="{left: getPosition(index), 'z-index': 2 + index}"
+						class="user-avatar-container"
+						@click="getUserLink(user)"
+					>
+						<div class="user-avatar-content">
+							<img :src="user.miniAvatar || user.avatar" alt>
+							<span class="user-name-hover">{{ user.screenName }}</span>
+							<span v-if="index === 0 || user.online" class="online-status" />
+						</div>
 					</div>
-				</div>
-				<div ref="share" class="count-squadders d-flex align-center" :style="{left: getCountPosition()}">
-					<AddFriendsButton
-						ref="plus-btn"
-						color="white"
-						:dark="true"
-					/>
-					<h4 v-if="isMoreThan5" ref="count-squadders" class="ml-1" @click="goToMySquad">
-						{{ "+" + (countSquadders - 7) }}
-					</h4>
+					<div ref="share" class="count-squadders d-flex align-center" :style="{left: getCountPosition()}">
+						<AddFriendsButton
+							ref="plus-btn"
+							color="white"
+							:dark="true"
+						/>
+						<h4 v-if="isMoreThan5" ref="count-squadders" class="ml-1" @click="goToMySquad">
+							{{ "+" + (countSquadders - 7) }}
+						</h4>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div v-if="first5Users.length < 2 && !loading" class="mt-2">
+		<div v-if="first5Users.length < 2 && !loading" class="mt-8 mb-4">
 			<v-divider />
 			<div class="mt-6 d-flex flex-column align-center">
 				<div class="text-center subtitle-1 font-weight-medium mb-4">
@@ -38,6 +40,7 @@
 				</v-btn>
 			</div>
 		</div>
+		<div v-else class="mb-12" />
 	</div>
 </template>
 <script>

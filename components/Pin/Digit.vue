@@ -70,6 +70,7 @@ export default {
 				this.$emit('enter');
 			}
 			if ((charCode >= 48 && charCode <= 57) ||
+				(charCode >= 96 && charCode <= 105) ||
 				charCode === 8 ||
 				charCode === 86 ||
 				charCode === 46 ||
