@@ -13,7 +13,7 @@
 				{{ $t('explore_page.top_outfits.description') }}
 			</p>-->
 		</div>
-		<div v-if="outfits && outfits.length" class="overflow-x-auto d-flex px-2">
+		<div v-if="outfits && outfits.length" class="overflow-x-auto d-flex px-2 explore-outfit fancy_scroll">
 			<div v-for="({ post }, index) of outfits" :key="index" class="grouped-post-item" @click="goToLandingPost(post)">
 				<div ref="outfit-card" class="outfit-card">
 					<p class="num_outfit">
@@ -175,4 +175,11 @@ export default {
 		grid-gap 0.3vw
 .grouped-post-item
 	min-height 330px
+.fancy_scroll
+	-webkit-overflow-scrolling touch
+.fancy_scroll::-webkit-scrollbar-thumb
+	background-color #B8B8BA
+	outline 0
+.fancy_scroll::-webkit-scrollbar
+	height 5px
 </style>

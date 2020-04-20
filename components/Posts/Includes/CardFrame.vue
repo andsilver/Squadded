@@ -295,4 +295,7 @@ export default {
 		display block
 	.card_frame .word-break
 		width 35.5vw !important
+.explore-outfit
+	.card_bottom
+		display none
 </style>

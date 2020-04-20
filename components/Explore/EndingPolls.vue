@@ -6,7 +6,7 @@
 				{{ $t('explore_page.ending_polls.title') }}
 			</h3>
 		</div>
-		<div v-if="items && items.length" class="overflow-x-auto d-flex poll-explore">
+		<div v-if="items && items.length" class="overflow-x-auto d-flex poll-explore fancy_scroll">
 			<div v-for="(post, index) of items" :key="index" @click="goToLandingPost(post)">
 				<div class="wrapper mb-2" :class="{ my_post_wrapper: isMyPost(post) }">
 					<div class="end_timer d-flex align-center">
@@ -146,4 +146,11 @@ export default {
 	.wrapper
 		>>> .is_poll .v-image
 			height 190px
+.fancy_scroll
+	-webkit-overflow-scrolling touch
+.fancy_scroll::-webkit-scrollbar-thumb
+	background-color #B8B8BA
+	outline 0
+.fancy_scroll::-webkit-scrollbar
+	height 5px
 </style>

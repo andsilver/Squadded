@@ -6,7 +6,7 @@
 				{{ $t('explore_page.top_gallery.title') }}
 			</h3>
 		</div>
-		<div v-if="items && items.length" class="overflow-x-auto top-gallery-post d-flex pb-2">
+		<div v-if="items && items.length" class="overflow-x-auto top-gallery-post d-flex pb-2 fancy_scroll">
 			<div v-for="({ post }, index) of items" :key="index" @click="goToLandingPost(post)">
 				<div
 					ref="post-card"
@@ -86,4 +86,11 @@ export default {
 .overflow-x-auto
 	div:first-child
 		margin-left 6px
+.fancy_scroll
+	-webkit-overflow-scrolling touch
+.fancy_scroll::-webkit-scrollbar-thumb
+	background-color #B8B8BA
+	outline 0
+.fancy_scroll::-webkit-scrollbar
+	height 5px
 </style>
