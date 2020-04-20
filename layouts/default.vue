@@ -174,6 +174,8 @@ export default {
 .bottom-tab-section
 	z-index 199
 	background-color rgba(255,255,255,0.96) !important
+	@media screen and (max-width 280px)
+			height 60px !important
 .tab-bar-section
 	background-color transparent
 .main-loader

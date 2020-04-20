@@ -163,7 +163,8 @@ export default {
 	transition all linear .2s
 	opacity 1
 	height 57px
-
+	@media screen and (max-width 280px)
+		height 45px
 .v-application:not(.show-tabs) .post_comment_input
 	bottom 0
 
@@ -182,6 +183,8 @@ export default {
 .for-feed
 	.comment_input
 		height 42px
+		@media screen and (max-width 280px)
+			height 35px
 	.allcomment.v-btn
 		color #B8B8BA
 		font-size 2.92vw

@@ -306,6 +306,8 @@ input[type=number]
 .show-tabs .tabs-sec
 	.v-item-group
 		background-color transparent !important
+		@media screen and (max-width 280px)
+			height 60px !important
 		.v-slide-group__wrapper
 			contain none
 			overflow visible
@@ -321,6 +323,22 @@ input[type=number]
 .remove-squad-btn > span
 	padding-left 2vw
 	padding-right 2.61vw
+.post_comment_input
+	.v-input__control
+		@media screen and (max-width 280px)
+			min-height 32px !important
+.outfit-main-sec, .photo-main-sec, .poll-main-sec
+	.v-tabs
+		.v-tab
+			@media screen and (max-width 280px)
+				min-width 80px
+		.v-slide-group__prev
+			@media screen and (max-width 280px)
+				display none !important
+	.px-3.v-toolbar
+		@media screen and (max-width 280px)
+			padding-right 0px !important
+			padding-left 0px !important
 
 .profile-input
 	.v-input__slot

@@ -29,7 +29,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="first5Users.length < 2 && !loading" class="mt-8 mb-4">
+		<div v-if="first5Users.length < 2 && !loading" class="mt-8">
 			<v-divider />
 			<div class="mt-6 d-flex flex-column align-center">
 				<div class="text-center subtitle-1 font-weight-medium mb-4">
@@ -168,6 +168,9 @@ export default {
 		transition all ease-in-out 0.25s;
 		-webkit-transition all ease-in-out 0.25s;
 		-ms-transition all ease-in-out 0.25s
+		@media screen and (max-width: 280px)
+			width 40px
+			height 40px
 	.user-name-hover
 		display block
 		text-align center

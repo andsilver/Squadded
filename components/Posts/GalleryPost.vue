@@ -38,7 +38,7 @@
 				</ItemImage>
 			</CardFrame>
 			<div v-if="!isPaired" class="scroll-section">
-				<div ref="items" class="scroll-items" :style="{ 'height': maxHeight }">
+				<div ref="items" class="scroll-items fancy_scroll" :style="{ 'height': maxHeight }">
 					<ProductCard
 						v-for="item in post.items"
 						ref="item"
@@ -247,4 +247,14 @@ export default {
 	position relative
 .tag-button
 	position absolute
+.fancy_scroll
+	-webkit-overflow-scrolling touch
+.fancy_scroll::-webkit-scrollbar-thumb
+	background-color #B8B8BA
+	outline 0
+.fancy_scroll::-webkit-scrollbar
+	width 5px
+.shifted
+	@media screen and (max-width 280px)
+		margin-left -120px !important
 </style>

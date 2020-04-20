@@ -127,7 +127,7 @@ export default {
 	width 78vw
 	margin-right 3.07vw !important
 	>>> .is_poll .v-image
-		height 250px
+		height 230px
 .full_post
 	margin-bottom 6.15vw
 	position relative
@@ -142,4 +142,8 @@ export default {
 .overflow-x-auto
 	div:first-child
 		margin-left 4px
+@media screen and (max-width 280px)
+	.wrapper
+		>>> .is_poll .v-image
+			height 190px
 </style>

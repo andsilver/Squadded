@@ -205,4 +205,7 @@ export default {
 		border-bottom-right-radius: 12px;
 	}
 }
+.explore-content .vote-button-container {
+	top: 65%;
+}
 </style>

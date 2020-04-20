@@ -178,7 +178,7 @@ export default {
 	z-index 300
 	border-radius: 10px;
 	&-content
-		width 92vw
+		width 90.846vw
 		background #fff
 		border-radius 10px
 		color black

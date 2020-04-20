@@ -293,4 +293,6 @@ export default {
 	.card_frame .post_price span
 		margin-top 1.4vw
 		display block
+	.card_frame .word-break
+		width 35.5vw !important
 </style>

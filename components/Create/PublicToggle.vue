@@ -107,7 +107,9 @@ export default {
 			position absolute
 			right 4px
 			top -5px
-			max-width 23.3vw;
+			max-width 23.3vw
+			@media screen and (max-width 280px)
+				max-width 24.4vw
 span.expire-option
 	font-size 3.23vw
 	font-weight 700

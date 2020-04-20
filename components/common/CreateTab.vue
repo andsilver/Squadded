@@ -92,6 +92,12 @@ export default {
 .create.tab_item.v-tab{
 	margin-top: -5vw;
 }
+@media screen and (max-width: 280px){
+	.create.tab_item.v-tab{
+		margin-top: -9vw;
+	}
+}
+
 .v-tabs-bar__content .create.tab_item .v-btn{
 	content: "";
 	z-index: 5;
@@ -119,6 +125,11 @@ export default {
 	bottom: 55px;
 	top: auto !important;
 	z-index: 199 !important;
+}
+@media screen and (max-width: 280px){
+	.v-menu__content.theme--light.v-menu__content--fixed.menuable__content__active {
+		bottom: 50px;
+	}
 }
 .v-list.open-add-section.v-sheet.v-sheet--tile.theme--light {
 	padding: 4.893vw 4VW 0;

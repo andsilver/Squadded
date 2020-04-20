@@ -272,4 +272,9 @@ export default {
 	box-shadow 0 0.92vw 4.61vw rgba(0,0,0,.25) !important
 .gallery_layout
 	display block
+.squadder-feed
+	.feed
+		margin-top 60px
+		@media screen and (max-width: 280px)
+			margin-top 52px
 </style>

@@ -51,12 +51,12 @@ export default {
 		min-width auto
 		padding 0
 		margin-right 5%
-
 		font-size .75em
 		font-weight 700
 		text-align left !important
 		color #B8B8BA !important
-
+		@media screen and (max-width: 280px)
+			font-size 4vw
 	.v-tab--active
 		color black !important
 
