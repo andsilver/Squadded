@@ -38,12 +38,12 @@
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
 				<v-list-item-title class="user_name">
-					<span class="user-screenname">{{ user.screenName }}</span>
+					<span class="user-screenname">{{ user.screenName || user.name }}</span>
 					<div class="squad-username">
 						{{ user.name || 'Name' }}
 					</div>
-					<div v-if="showScreenName && user.screenName" class="invite-user-screenname" style="color: #b8b8ba">
-						{{ user.screenName }}
+					<div v-if="showScreenName && (user.screenName || user.name)" class="invite-user-screenname" style="color: #b8b8ba">
+						{{ user.screenName || user.name }}
 					</div>
 					<template v-if="showFollow">
 						<span class="mx-1">-</span>
