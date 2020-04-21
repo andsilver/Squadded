@@ -68,8 +68,8 @@
 				"decline": "Ok, do not delete comment",
 				"description": "Are you sure? This action can not be reverted.",
 				"menu": "Delete",
-				"question": "Delete this comment?",
-				"notification": "The comment has been deleted"
+				"notification": "The comment has been deleted",
+				"question": "Delete this comment?"
 			},
 			"reportComment": {
 				"decline": "Ok, do not report comment",
@@ -77,11 +77,11 @@
 				"inappropriate": "Inappropriate",
 				"menu": "Report",
 				"notInteresting": "Not interesting",
+				"notification": "The comment has been reported",
 				"other": "Other",
 				"question": "Report comment",
 				"spam": "Spam",
-				"whatiswrong": "Tell us what's wrong",
-				"notification": "The comment has been reported"
+				"whatiswrong": "Tell us what's wrong"
 			}
 		},
 		"view_all_comments": "View all {n} comments"
@@ -138,15 +138,15 @@
 			"no_results": "No results found for {text}"
 		},
 		"top_gallery": {
-			"title": "Most Popular looks",
+			"title": "Most Popular looks from the community",
 			"trending_look": "#Trending look"
 		},
 		"top_items": {
-			"title": "LIVE - Top wanted items right now"
+			"title": "Top 10 most wanted items right now"
 		},
 		"top_outfits": {
-			"description": "The trendiest outfits that generated the biggest reactions",
-			"title": "Best Outfits now trending"
+			"description": "The top outfits that generated the biggest reactions",
+			"title": "Now trending outfits"
 		}
 	},
 	"feed": {
@@ -215,18 +215,18 @@
 	},
 	"invite_your_friends": {
 		"add": "Add your friends by name:",
+		"best_experience": "Share your invite link with:",
 		"copied": "Copied!",
 		"copy_link": "Copy Link",
+		"email": "Email",
+		"invite_body": "Join my squad and shop with me on {merchant}:",
+		"invite_subject": "We can shop online together. Shop with me on Squadded - Shopping Party",
+		"messenger": "Messenger",
 		"or": "or",
 		"search_users": "Search users...",
 		"share": "Share your invite link with:",
 		"title": "Invite your friends",
-		"messenger": "Messenger",
 		"whatsapp": "WhatsApp",
-		"email": "Email",
-		"invite_subject": "Join my squad",
-		"invite_body": "Join my squad and shop with me on {merchant}:",
-		"best_experience": "You can have the best shopping experience only with",
 		"your_friends": "your friends"
 	},
 	"invited": "invited",
@@ -247,8 +247,8 @@
 	"noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
 	"notify": {
 		"accepted": "accepted your invite",
-		"acceptedbanner": "is now in your squad",
 		"accepted_invite": "",
+		"acceptedbanner": "is now in your squad",
 		"comment": "",
 		"commented": "commented",
 		"commentedq": "commented: ",
@@ -259,9 +259,9 @@
 		"like": "liked",
 		"new": "New",
 		"old": "Earlier",
+		"poll": "your poll",
 		"pollend": "Your poll has expired - see the winner!",
 		"post": "your post",
-		"poll": "your poll",
 		"requestEmpty": "You have no new requests",
 		"vote": "voted on"
 	},
@@ -348,7 +348,7 @@
 		},
 		"reactions": "Reactions",
 		"removeRachel": "Remove Rachel",
-		"removeUser": "Remove {user} from My Squad",
+		"removeUser": "Remove from My Squad",
 		"sending": "sending…",
 		"share": "Share Post",
 		"textPlaceholder": "Write a caption...",
@@ -489,7 +489,7 @@
 			"cancel": "cancel",
 			"description": "By removing {user} from your squad, you will no longer see and interact with each other's wishlists",
 			"remove": "remove",
-			"title": "Remove {user}?"
+			"title": "Remove from my squad?"
 		},
 		"share": "Share profile",
 		"watch_users_you_like": "users you like, to make their posts appear first in your feed"
