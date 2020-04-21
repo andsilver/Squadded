@@ -46,6 +46,7 @@ export const PostMutations = {
 	setCurrentPost: 'setCurrentPost',
 	setUploadingPicture: 'setUploadingPicture',
 	shortURL: 'shortURL',
+	unsquadd: 'unsquadd',
 };
 
 function suffix () {

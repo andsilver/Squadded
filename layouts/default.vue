@@ -76,7 +76,7 @@ export default {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');
 			} else if (mutation.type === `${SquadStore}/${SquadMutations.interaction}` && !tokenExist()) {
-				this.$router.push('/onboarding');
+				this.$router.push('/signin');
 			} else if (mutation.type === `${SquadStore}/${SquadMutations.setSquadParams}` && mutation.payload) {
 				if (this.socket.isAuth || !tokenExist()) {
 					this.$router.push(this.squad.route);

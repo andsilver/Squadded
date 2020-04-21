@@ -5,6 +5,8 @@ import { flushPromises } from '~/helpers';
 import Store from '~/store';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
+import { FeedStore, FeedMutations } from '~/store/feed';
+import { HomeStore, HomeMutations } from '~/store/home';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 
 const localVue = createLocalVue();
@@ -69,6 +71,8 @@ describe('ReSquadd Button', () => {
 		expect(dispatch).toHaveBeenCalledWith(unwish, post.item);
 		await flushPromises();
 		expect(commit).toHaveBeenCalledWith(unsquad, post.item.itemId);
+		expect(commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.unsquadd}`, post.item.itemId);
+		expect(commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.unsquadd}`, post.item.itemId);
 		expect(post.item.squadded).toBe(false);
 		expect(wrapper.vm.item.squadded).toBe(false);
 		expect(resquadd.classes('is-resquadded')).toBe(false);

@@ -23,6 +23,7 @@ export const HomeMutations = {
 	hidePopover: 'hidePopover',
 	follow: 'follow',
 	setSquad: 'setSquad',
+	unsquadd: 'unsquadd',
 };
 
 export const mutations = {
@@ -74,6 +75,20 @@ export const mutations = {
 	[HomeMutations.setSquad]: (state, user) => {
 		state.posts.forEach(p => (p.user.guid === user.guid && (p.user.mysquad = !p.user.mysquad)));
 		state.posts = Object.assign([], state.posts);
+	},
+	[HomeMutations.unsquadd]: (state, itemId) => {
+		if (!state.posts) {
+			return;
+		}
+		state.posts.forEach((p, index) => {
+			const item = p.getItem(itemId);
+			if (!item) {
+				return;
+			}
+			if (p.type === 'singleItemPost' && p.byMe) {
+				state.posts.splice(index, 1);
+			}
+		});
 	},
 };
 

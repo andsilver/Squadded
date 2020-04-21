@@ -109,7 +109,7 @@ describe('Activity store module', () => {
 			const { item } = post;
 			state.blog = [post];
 			unsquadd(state, item.itemId);
-			expect(item.squadded).toBe(false);
+			expect(state.blog.length).toBe(0);
 		});
 	});
 

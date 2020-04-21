@@ -10,6 +10,7 @@
 <script>
 import { ActivityStore, ActivityActions, ActivityMutations } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
+import { HomeStore, HomeMutations } from '~/store/home';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 
@@ -40,6 +41,8 @@ export default {
 			await this.$store.dispatch(`${ActivityStore}/${ActivityActions.unwish}`, this.item);
 			this.$store.commit(`${PostStore}/${PostMutations.unsquadd}`, this.item.itemId);
 			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.unsquadd}`, this.item.itemId);
+			this.$store.commit(`${FeedStore}/${FeedMutations.unsquadd}`, this.item.itemId);
+			this.$store.commit(`${HomeStore}/${HomeMutations.unsquadd}`, this.item.itemId);
 			this.$forceUpdate();
 		},
 	},

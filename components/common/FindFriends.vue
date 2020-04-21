@@ -25,31 +25,33 @@
 				<v-divider v-if="index > 0" />
 				<div class="d-flex justify-space-between align-center friend-feeds">
 					<UserLink ref="user-link" class="user-link" size="35" show-screen-name :user="friend" />
-					<RemoveSquad v-if="isMySquad(friend)" :user="friend" />
-					<Button
-						v-else-if="!friend.isMySquad"
-						class="ma-0 add-user-invite"
-						style="background: #ffffff; border: 1px solid #000; color: #000;height: 9.23vw; font-size: 2.15vw; letter-spacing: 1.5px;width: 22.30vw; min-height: auto;"
-						@click.native="() => invite(friend)"
-					>
-						<img src="~assets/img/action-add-user.svg" class="my-squad">
-						<span class="ml-2">{{ $t('invite') }}</span>
-					</Button>
-					<Button
-						v-else-if="!friend.isInvitee"
-						class="ma-0"
-						style="background: #fd6256"
-						@click.native="() => accept(friend)"
-					>
-						<v-icon small color="white">
-							mdi-check
-						</v-icon>
-						<span class="ml-1">{{ $t('accept') }}</span>
-					</Button>
-					<v-btn v-else style="height: 9.23vw; letter-spacing: 1.5px;width: 22.30vw; min-height: auto;" class="invited-btn" outlined disabled>
-						<img src="~assets/img/invited-icon.svg" class="my-squad">
-						<span class="ml-1">{{ $t('invited') }}</span>
-					</v-btn>
+					<template v-if="friend.userId !== me.userId">
+						<RemoveSquad v-if="isMySquad(friend)" :user="friend" />
+						<Button
+							v-else-if="!friend.isMySquad"
+							class="ma-0 add-user-invite"
+							style="background: #ffffff; border: 1px solid #000; color: #000;height: 9.23vw; font-size: 2.15vw; letter-spacing: 1.5px;width: 22.30vw; min-height: auto;"
+							@click.native="() => invite(friend)"
+						>
+							<img src="~assets/img/action-add-user.svg" class="my-squad">
+							<span class="ml-2">{{ $t('invite') }}</span>
+						</Button>
+						<Button
+							v-else-if="!friend.isInvitee"
+							class="ma-0"
+							style="background: #fd6256"
+							@click.native="() => accept(friend)"
+						>
+							<v-icon small color="white">
+								mdi-check
+							</v-icon>
+							<span class="ml-1">{{ $t('accept') }}</span>
+						</Button>
+						<v-btn v-else style="height: 9.23vw; letter-spacing: 1.5px;width: 22.30vw; min-height: auto;" class="invited-btn" outlined disabled>
+							<img src="~assets/img/invited-icon.svg" class="my-squad">
+							<span class="ml-1">{{ $t('invited') }}</span>
+						</v-btn>
+					</template>
 				</div>
 			</div>
 		</div>

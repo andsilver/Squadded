@@ -110,7 +110,7 @@ export default {
 	},
 	created () {
 		this.user = Object.assign({}, this.me);
-		const userName = this.user.name.split('@');
+		const userName = this.user.screenName.split('@');
 		this.username = userName[0];
 	},
 	mounted () {
@@ -122,8 +122,8 @@ export default {
 			this.$refs[`${type}-input`].click();
 		},
 		async saveProfile() {
-			this.user.name = this.username;
-			if (!this.user.name || !this.user.avatar) {
+			this.user.screenName = this.username;
+			if (!this.user.screenName) {
 				this.submitted = true;
 				return;
 			}
@@ -132,7 +132,6 @@ export default {
 				`${UserStore}/${UserActions.setProfile}`,
 				this.user,
 			);
-			// this.$router.push('/create-your-squad');
 			this.$router.push('/invite-friends');
 		},
 		async onPhotoUpload (type) {

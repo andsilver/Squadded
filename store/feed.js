@@ -35,6 +35,7 @@ export const FeedMutations = {
 	receiveSquadders: 'receiveSquadders',
 	setNewPostsAvailable: 'setNewPostsAvailable',
 	setSquad: 'setSquad',
+	unsquadd: 'unsquadd',
 };
 
 export const mutations = {
@@ -82,6 +83,21 @@ export const mutations = {
 		}
 		state.items.forEach(p => (p.user.guid === user.guid && (p.user.mysquad = !p.user.mysquad)));
 		state.items = Object.assign([], state.items);
+	},
+	[FeedMutations.unsquadd]: (state, itemId) => {
+		if (!state.items) {
+			return;
+		}
+		state.items = state.items.filter((p) => {
+			const item = p.getItem(itemId);
+			if (!item) {
+				return true;
+			}
+			if (p.type === 'singleItemPost' && p.byMe) {
+				return false;
+			}
+			return true;
+		});
 	},
 };
 

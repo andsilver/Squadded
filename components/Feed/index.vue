@@ -118,6 +118,8 @@ export default {
 					);
 
 					if (diff > MINUTES * 60 * 1000) {
+						items.push(item);
+						index++;
 						continue;
 					}
 					const single = items[groupsByAuthor[item.userId].index];
@@ -130,7 +132,6 @@ export default {
 					items[groupsByAuthor[item.userId].index].items.push(item);
 				}
 			}
-
 			return items;
 		},
 		image () {

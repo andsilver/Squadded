@@ -98,9 +98,15 @@ export const mutations = {
 		if (!itemId) {
 			return;
 		}
-		state.blog && state.blog.forEach((post) => {
+		state.blog && state.blog.forEach((post, index) => {
 			const item = post.getItem(itemId);
-			item && (item.squadded = false);
+			if (item) {
+				if (post.type === 'singleItemPost') {
+					state.blog.splice(index, 1);
+				} else {
+					item.squadded = false;
+				}
+			}
 		});
 	},
 	[ActivityMutations.markAllLoaded]: (state, { loadedPosts, type }) => {
