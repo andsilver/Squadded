@@ -11,7 +11,10 @@
 						@click="getUserLink(user)"
 					>
 						<div class="user-avatar-content">
-							<img :src="user.miniAvatar || user.avatar" alt>
+							<img v-if="user.miniAvatar || user.avatar" :src="user.miniAvatar || user.avatar" alt>
+							<v-icon v-else color="#b8b8ba">
+								mdi-account-circle-outline
+							</v-icon>
 							<span class="user-name-hover">{{ user.screenName }}</span>
 							<span v-if="index === 0 || user.online" class="online-status" />
 						</div>
