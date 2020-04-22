@@ -90,15 +90,15 @@ export default {
 		...userState(['me']),
 		myFriends() {
 			const filtered = [];
-			if (this.showFacebookFriends) {
-				let searched = this.facebookFriends;
+			// if (this.showFacebookFriends) {
+			// 	let searched = this.facebookFriends;
 
-				if (this.searchText) {
-					searched = this.facebookFriends.filter(f => f.name.toLowerCase().includes(this.searchText));
-				}
+			// 	if (this.searchText) {
+			// 		searched = this.facebookFriends.filter(f => f.name.toLowerCase().includes(this.searchText));
+			// 	}
 
-				filtered.push(...(searched || []));
-			}
+			// 	filtered.push(...(searched || []));
+			// }
 			return [...filtered, ...(this.friends || [])];
 		},
 	},
