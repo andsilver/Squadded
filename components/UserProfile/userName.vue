@@ -1,6 +1,6 @@
 <template>
 	<h4 class="username">
-		{{ `@${name}` }}
+		{{ `${name}` }}
 	</h4>
 </template>
 

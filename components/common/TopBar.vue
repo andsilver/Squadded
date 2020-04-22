@@ -86,7 +86,7 @@ export default {
 		font-weight 900
 
 	.buttons
-		display flex
+		display none
 		margin-left auto
 		margin-right -16px
 </style>
