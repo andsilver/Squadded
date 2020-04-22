@@ -171,6 +171,7 @@ export default {
 	}
 	.reaction-sec {
 		margin: 0px 4.46vw 3vw;
+		opacity: 0;
 	}
 	.icon-mr {
 		margin-right: 0.6vw;
@@ -183,5 +184,13 @@ export default {
 	img.refresh-logo {
 		width: 3.38vw;
 		vertical-align: middle;
+	}
+	@media screen and (max-width: 280px) {
+		.reaction-sec {
+			margin: 0px 4.46vw 0vw;
+		}
+		.sqdi-shopping-bag-2:before {
+			left: -13px;
+		}
 	}
 </style>

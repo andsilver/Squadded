@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="squadders-users">
+		<div class="squadders-users px-3">
 			<div class="left-sec">
 				<div>
 					<div

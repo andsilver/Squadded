@@ -109,7 +109,7 @@ export default {
 			top -5px
 			max-width 23.3vw
 			@media screen and (max-width 280px)
-				max-width 24.4vw
+				max-width 26vw
 span.expire-option
 	font-size 3.23vw
 	font-weight 700

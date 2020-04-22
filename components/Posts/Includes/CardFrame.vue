@@ -180,9 +180,9 @@ export default {
 		span
 			word-break normal
 			overflow hidden
-			font-size 3.1vw
+			font-size 3.23vw
 			line-height 4vw
-			font-weight 600
+			font-weight 500
 			color #B8B8BA
 			text-transform uppercase
 
@@ -219,6 +219,8 @@ export default {
 		font-weight 500
 	.refresh-icon
 		cursor pointer
+		width 5.8vw
+		text-align right
 		.refresh-logo
 			width: 4.12VW;
 		.refresh-count
@@ -292,7 +294,7 @@ export default {
 		width 3.4vw
 	.card_frame .post_price span
 		margin-top 1.4vw
-		display block
+		display inline-block
 	.card_frame .word-break
 		width 35.5vw !important
 .explore-outfit

@@ -14,7 +14,7 @@
 			</v-icon>
 		</v-text-field>
 		<div class="choose-items-section" :class="{ is_poll_tab: isPoll }">
-			<div ref="items" class="choose-items mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
+			<div ref="items" class="choose-items fancy_scroll mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
 				<ProductCard
 					v-for="post in available"
 					ref="item"
@@ -149,7 +149,8 @@ export default {
 .choose-items{
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 20px;
-	overflow: auto;
+	overflow-y: auto;
+	overflow-x: hidden;
 	background-color: transparent;
 	margin-top: 0px !important;
 }
@@ -273,5 +274,15 @@ export default {
 }
 .photo-selected {
     overflow-y: auto;
+}
+.fancy_scroll {
+	-webkit-overflow-scrolling: touch;
+}
+.fancy_scroll::-webkit-scrollbar-thumb {
+	background-color: #B8B8BA;
+	outline: 0;
+}
+.fancy_scroll::-webkit-scrollbar {
+	width: 5px;
 }
 </style>

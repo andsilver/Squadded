@@ -275,7 +275,7 @@ export default {
 	display block
 .squadder-feed
 	.feed
-		margin-top 60px
+		margin-top 10px
 		@media screen and (max-width: 280px)
-			margin-top 52px
+			margin-top 5px
 </style>

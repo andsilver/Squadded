@@ -88,7 +88,7 @@ export default {
 @media screen and (max-width 280px)
 	.v-tabs
 		>>> .tab_text
-			bottom 10px
+			bottom 6px
 		>>> .tab_icon:before
 			margin-bottom 0
 </style>
