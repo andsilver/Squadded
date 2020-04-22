@@ -9,7 +9,7 @@ import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { HomeStore, HomeMutations } from '~/store/home';
-import { BANNER_TIMEOUT } from '~/consts';
+import { UNDO_TIMEOUT } from '~/consts';
 import { getShortURL } from '~/services/short-url';
 
 Wrapper.prototype.ref = function (id) {
@@ -146,7 +146,7 @@ describe('PopMenu', () => {
 		initLocalVue();
 		jest.useFakeTimers();
 		wrapper.ref(TOGGLE).trigger('click');
-		jest.advanceTimersByTime(BANNER_TIMEOUT);
+		jest.advanceTimersByTime(UNDO_TIMEOUT);
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, {
 			type: 'notifAlert',
 			alertType: 'setprivate',
@@ -174,7 +174,7 @@ describe('PopMenu', () => {
 		wrapper.ref(DELETE).trigger('click');
 		expect(wrapper.vm.showDeleteDialog).toBe(true);
 		wrapper.ref('delete-post-btn').trigger('click');
-		jest.advanceTimersByTime(BANNER_TIMEOUT);
+		jest.advanceTimersByTime(UNDO_TIMEOUT);
 		expect(wrapper.vm.$ws.sendObj).toHaveBeenCalledWith({
 			type: 'deletePost',
 			postId: post.postId,

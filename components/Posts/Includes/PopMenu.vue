@@ -155,7 +155,7 @@ import { HomeStore, HomeMutations } from '~/store/home';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
-import { BANNER_TIMEOUT } from '~/consts';
+import { UNDO_TIMEOUT } from '~/consts';
 import { getShortURL } from '~/services/short-url';
 
 const CANCELED_BY_USER = 20;
@@ -254,7 +254,7 @@ export default {
 				this.$store.commit(`${HomeStore}/${HomeMutations.removePost}`, postId);
 				this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
 				clear();
-			}, BANNER_TIMEOUT);
+			}, UNDO_TIMEOUT);
 
 			this.undoDeleteWatch = this.$store.subscribe((mutation) => {
 				const { type, payload } = mutation;
@@ -308,7 +308,7 @@ export default {
 			this.privacyTimeout = setTimeout(() => {
 				this.$store.dispatch(`${PostStore}/${PostActions.updatePrivate}`, { post: this.post, private: !this.post.private });
 				clear();
-			}, BANNER_TIMEOUT);
+			}, UNDO_TIMEOUT);
 
 			this.undoPrivacyWatch = this.$store.subscribe((mutation) => {
 				const { type, payload } = mutation;

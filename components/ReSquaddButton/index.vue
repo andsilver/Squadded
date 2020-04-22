@@ -38,11 +38,11 @@ export default {
 		},
 		async unwish () {
 			this.item.squadded = false;
-			await this.$store.dispatch(`${ActivityStore}/${ActivityActions.unwish}`, this.item);
 			this.$store.commit(`${PostStore}/${PostMutations.unsquadd}`, this.item.itemId);
 			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.unsquadd}`, this.item.itemId);
 			this.$store.commit(`${FeedStore}/${FeedMutations.unsquadd}`, this.item.itemId);
 			this.$store.commit(`${HomeStore}/${HomeMutations.unsquadd}`, this.item.itemId);
+			await this.$store.dispatch(`${ActivityStore}/${ActivityActions.unwish}`, this.item);
 			this.$forceUpdate();
 		},
 	},

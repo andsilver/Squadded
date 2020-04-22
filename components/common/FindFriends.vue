@@ -30,7 +30,6 @@
 						<Button
 							v-else-if="!friend.isMySquad"
 							class="ma-0 add-user-invite"
-							style="background: #ffffff; border: 1px solid #000; color: #000;height: 9.23vw; font-size: 2.15vw; letter-spacing: 1.5px;width: 22.30vw; min-height: auto;"
 							@click.native="() => invite(friend)"
 						>
 							<img src="~assets/img/action-add-user.svg" class="my-squad">
@@ -138,6 +137,9 @@ export default {
 			if (!me.nameSelected) {
 				return this.$router.push('/select-username');
 			}
+			friend.isMySquad = true;
+			friend.isInvitee = true;
+			friend.isPending = true;
 			await prefetch({
 				type: 'inviteSquad',
 				targetUserId: friend.userId || friend.id,
@@ -152,6 +154,9 @@ export default {
 			if (!me.nameSelected) {
 				return this.$router.push('/select-username');
 			}
+			friend.isMySquad = true;
+			friend.isInvitee = false;
+			friend.isPending = false;
 			await prefetch({
 				type: 'acceptSquad',
 				targetUserId: friend.userId,
@@ -205,7 +210,14 @@ img.my-squad {
 	width: 2.77vw;
 }
 .add-user-invite {
-	width: 20.76vw;
+	background: #ffffff !important;
+	border: 1px solid #000;
+	color: #000;
+	height: 9.23vw;
+	font-size: 2.15vw;
+	letter-spacing: 1.5px;
+	width: 22.30vw;
+	min-height: auto;
 }
 .add-user-invite span, .invited-btn span {
 	font-size: 2.15vw;

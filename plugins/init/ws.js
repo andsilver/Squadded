@@ -132,7 +132,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				const { name } = ctx.route;
 				const latestPath = sessionStorage.getItem('latestPath');
 				const latestHash = sessionStorage.getItem('latestHash');
-				if (latestPath && latestPath !== '/signin' && latestPath !== '/') {
+				if (latestPath && latestPath !== '/') {
 					return app.router.push({
 						path: latestPath,
 						hash: latestHash,

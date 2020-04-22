@@ -1,6 +1,6 @@
 export const isHome = routeName => (routeName === 'index');
 
-export const isOnboarding = routeName => (routeName === 'signin' || routeName === 'select-username' || routeName === 'invite-friends');
+export const isOnboarding = routeName => (routeName === 'select-username' || routeName === 'invite-friends');
 
 export const isPublic = routeName => isHome(routeName) || ['community', 'onboarding', 'user-id', 'error', 'post-id', 'signin'].includes(routeName);
 

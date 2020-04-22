@@ -12,7 +12,7 @@
 			<div class="text-center mt-3">
 				{{ $t('invite_your_friends.share') }}
 			</div>
-			<ShareInviteLink class="py-8 px-2" />
+			<ShareInviteLink class="py-8 px-2" @shared="invited = true" />
 			<div>
 				<div class="friend-title font-weight-medium text-center">
 					<span class="title-lbl">{{ $t('invite_your_friends.add') }}</span>
@@ -21,7 +21,7 @@
 			</div>
 		</div>
 		<div class="py-4 d-flex justify-center done-section">
-			<Button class="done-btn" style="width:36.92vw;height: 12.30vw;background-color: #000 !important; color: #ffffff !important;font-size: 2.61vw; letter-spacing: 2px;" :disabled="!invited" @click.native="goToFeed">
+			<Button class="done-btn" :disabled="!invited" @click.native="goToFeed">
 				{{ $t('done') }}
 			</Button>
 		</div>
@@ -142,7 +142,11 @@ export default {
 	border-top: 1px solid rgba(0, 0, 0, 0.12);
 
 	.done-btn {
-		width: 120px;
+		width:36.92vw;
+		height: 12.30vw;
+		color: #ffffff !important;
+		font-size: 2.61vw;
+		letter-spacing: 2px;
 	}
 }
 .invite-friends-img {

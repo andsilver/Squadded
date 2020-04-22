@@ -93,6 +93,7 @@ export default {
 			this.shortURL = await getShortURL(this.userLink, this.$store);
 		},
 		action(method) {
+			this.$emit('shared');
 			const content = this.$t('invite_your_friends.invite_body', { merchant: this.$store.state.merchant.id });
 			switch (method.title) {
 			case 'messenger':

@@ -91,7 +91,7 @@ export const mutations = {
 		if (!wish) {
 			return;
 		}
-		state.wishlist = state.wishlist.filter(w => w !== wish);
+		state.wishlist = (state.wishlist || []).filter(w => w !== wish);
 		exportWishlistToMerchant(state.wishlist);
 	},
 	[ActivityMutations.unsquadd]: (state, itemId) => {

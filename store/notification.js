@@ -1,4 +1,4 @@
-import { NOTIFICATIONS_LIMIT, NOTIFICATIONS, BANNER_TIMEOUT } from '~/consts';
+import { NOTIFICATIONS_LIMIT, NOTIFICATIONS, BANNER_TIMEOUT, UNDO_TIMEOUT } from '~/consts';
 
 export const NotificationStore = 'notification';
 export const STORAGE_NOTIFICATIONS_KEY = 'notifications';
@@ -66,7 +66,7 @@ export const mutations = {
 		}
 		setTimeout(() => {
 			message.showBanner = false;
-		}, BANNER_TIMEOUT);
+		}, message.type === 'notifAlert' ? UNDO_TIMEOUT : BANNER_TIMEOUT);
 		window.parent.postMessage(JSON.stringify({
 			type: 'notification',
 			message,
