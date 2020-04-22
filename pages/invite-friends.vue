@@ -7,7 +7,7 @@
 				<a class="skip-btn" @click="skip">{{ $t('skip') }}</a>
 			</div>
 			<div class="d-flex justify-center mt-4">
-				<img class="invite-friends-img" src="~assets/img/friends.svg">
+				<img class="invite-friends-img" src="~assets/img/invite-friends_img.png">
 			</div>
 			<div class="text-center mt-3">
 				{{ $t('invite_your_friends.share') }}
