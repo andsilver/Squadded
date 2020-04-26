@@ -3,14 +3,19 @@
 		<BackBar ref="goback-button" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">
-			<span v-if="!exists" ref="empty-notif-text">{{ $t('notify.isEmpty') }}</span>
+			<div v-if="!exists" ref="empty-notif-text" class="flex-grow-1">
+				<h5 class="mt-4 pl-3 d-flex align-center notification-text">
+					<span>{{ $t('notify.new') }}</span>
+				</h5>
+				<EmptyNotification />
+			</div>
 			<div v-else class="flex-grow-1">
-				<h5 v-if="newNotifications.length" class="mt-4 pl-3 d-flex align-center">
+				<h5 v-if="newNotifications.length" class="mt-4 pl-3 d-flex align-center notification-text">
 					<span>{{ $t('notify.new') }}</span>
 					<span class="badge">{{ newNotifications.length }}</span>
 				</h5>
 				<Notifications ref="new-notify" :items="newNotifications" />
-				<h5 class="pt-2 pl-3">
+				<h5 class="pt-2 pl-3 notification-text">
 					{{ $t('notify.old') }}
 				</h5>
 				<Notifications ref="old-notify" :items="oldNotifications" />
@@ -23,6 +28,7 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Notifications from '~/components/Notifications';
+import EmptyNotification from '~/components/Notifications/Includes/EmptyNotification';
 import Tabs from '~/components/Notifications/Tabs';
 import { NotificationStore, NotificationActions, NotificationGetters } from '~/store/notification';
 
@@ -34,6 +40,7 @@ export default {
 	components: {
 		BackBar,
 		Notifications,
+		EmptyNotification,
 		Tabs,
 	},
 	data: () => ({
@@ -74,4 +81,8 @@ export default {
 	min-width 14px
 	padding 0 4px
 	margin-left 4px
+.notification-text
+	color #b8b8ba
+	font-size 3.38vw
+	font-weight 500
 </style>

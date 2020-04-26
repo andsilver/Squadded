@@ -262,6 +262,9 @@
 		"old": "Earlier",
 		"poll": "your poll",
 		"pollend": "Your poll has ended  - check out which item won!",
+		"emptyWelcomeText": "Welcome to ",
+		"emptySquaddedText": "Squadded! ",
+		"emptySquaddedEndText": "You don't have any notifications yet",
 		"post": "your post",
 		"requestEmpty": "You have no new requests",
 		"vote": "voted on"
