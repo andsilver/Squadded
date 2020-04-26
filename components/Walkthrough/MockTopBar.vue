@@ -7,7 +7,7 @@
 	>
 		<v-tabs v-model="tab">
 			<v-tab>
-				{{ $t('Home') }}
+				{{ $t('topHome') }}
 			</v-tab>
 			<v-tab>
 				{{ $t('My Squad') }}

@@ -32,7 +32,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-if="first5Users.length < 2 && !loading" class="mt-8">
+		<div v-if="first5Users.length < 2 && !loading" class="mt-8 how-it-work-section">
 			<v-divider />
 			<div class="mt-6 d-flex flex-column align-center">
 				<div class="text-center subtitle-1 font-weight-medium mb-4">
@@ -189,4 +189,10 @@ export default {
 	top 20px
 	left -2px
 	z-index 20
+.walkthrough-squadders
+	margin-bottom 12vw
+	.count-squadders
+		left: 7.5vw !important
+	.how-it-work-section
+		display none
 </style>

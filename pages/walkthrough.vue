@@ -4,7 +4,7 @@
 		<div class="flex-grow-1 container">
 			<Feed v-if="step === 1" :items="posts" />
 			<template v-else>
-				<Squadders class="squadders" :users="squadders" />
+				<Squadders class="squadders walkthrough-squadders" :users="squadders" />
 				<SingleItemPost v-for="(post, index) of posts" :key="index" :post="post" />
 			</template>
 		</div>
@@ -13,6 +13,7 @@
 		<div
 			ref="popover"
 			class="pop-over"
+			:class="'pop-overstep-' + step"
 			:style="{
 				left: popoverLeft + 'px',
 				top: popoverTop + 'px',
@@ -21,7 +22,7 @@
 			<div class="pop-over-content" :class="'step' + step">
 				<template v-if="step === 1">
 					<strong>{{ $t('walkthrough.step1.strong') }}</strong> {{ $t('walkthrough.step1.text') }}
-					<div class="d-flex justify-end">
+					<div class="d-flex justify-end next-step-section">
 						<a class="next-step" @click="walk">
 							{{ $t('walkthrough.next') }}
 						</a>
@@ -106,22 +107,22 @@ export default {
 			this.step += 1;
 			if (this.step === 1) {
 				this.posts = home.posts.map(p => new FeedPost(p));
-				this.popoverLeft = 10;
-				this.popoverTop = 60;
-				this.highlightLeft = 50;
+				this.popoverLeft = 27;
+				this.popoverTop = 65;
+				this.highlightLeft = 68;
 				this.highlightTop = 20;
 			} else if (this.step === 2) {
 				this.posts = feed.posts.map(p => new FeedPost(p));
-				this.popoverLeft = 10;
+				this.popoverLeft = 27;
 				this.popoverTop = 93;
-				this.highlightLeft = 120;
+				this.highlightLeft = 172;
 				this.highlightTop = 20;
 				this.$refs.topbar.tab = 1;
 			} else if (this.step === 3) {
 				this.popoverLeft = 16;
 				this.popoverTop = 266;
-				this.highlightLeft = 251;
-				this.highlightTop = 227;
+				this.highlightLeft = 252;
+				this.highlightTop = 223;
 			} else {
 				if (localStorage.getItem(STORAGE_VISITED_KEY)) {
 					return this.$router.push('/feed');
@@ -164,10 +165,11 @@ export default {
 		width: 100%;
 	}
 	.next-step {
-		font-size: 12px;
+		font-size: 2.61vw;
 		font-weight: bold;
 		cursor: pointer;
 		text-transform: uppercase;
+		letter-spacing: 2px;
 	}
 }
 </style>
@@ -178,15 +180,15 @@ export default {
 	z-index 300
 	border-radius: 10px;
 	&-content
-		width 90.846vw
-		background #fff
+		width 85.17vw
+		background rgba(255,255,255,0.97)
 		border-radius 10px
 		color black
 		text-transform none
 		padding 12px 16px
 		text-align left
-		font-size 14px
-		line-height 20px
+		font-size 3.69vw
+		line-height 5vw
 		font-weight 500
 		&:after
 			content ''
@@ -196,13 +198,13 @@ export default {
 .pop-over-content.step1:after, .pop-over-content.step2:after, , .pop-over-content.step3:after {
 	margin-bottom: -5px;
 	border-bottom-color: #fff;
-    left: 23px;
+    left: 25px;
     top: -7px;
     margin-top: -16px;
 }
 
 .step2:after {
-    left: 51px !important;
+    left: 7.4vw !important;
 }
 
 .step3:after
@@ -212,12 +214,15 @@ export default {
 	position fixed
 	padding 1px
 	border-radius 50%
-	box-shadow: 0 0 0 20px rgba(255, 255, 255, 0.7), 0 0 0 30px rgba(255, 255, 255, 0.4) !important
+	box-shadow: 0 0 0 7vw rgba(255, 255, 255, 0.7), 0 0 0 11vw rgba(255, 255, 255, 0.4) !important
 	z-index 300
 	background: rgba(255, 255, 255, 0.7);
+	opacity: 0.8;
 
 .resquadd-btn
 	position fixed
 	z-index 999
 	pointer-events none
+.next-step-section
+	margin-top 3.5vw
 </style>
