@@ -29,15 +29,15 @@
 		<span v-if="showErrorMsg" class="email-velid-message">{{ $t('form.rules.email.valid') }}</span>
 		<span v-if="terms_error && !showErrorMsg" class="email-velid-message">{{ $t('form.rules.terms.valid') }}</span>
 		<span class="comment-msg" />
-		<div class="term-section">
+		<!-- <div class="term-section">
 			<p>{{ $t('Wecare') }}</p>
-		</div>
-		<div class="custom-chk">
+		</div> -->
+		<!-- <div class="custom-chk">
 			<div class="form-group">
 				<input id="html1" v-model="terms" type="checkbox" @change="changeTerms()">
 				<label class="term-text" :class="{error_terms: terms_error}" for="html1"><p class="check_lable" /><p class="terms-text">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span></p></label>
 			</div>
-		</div>
+		</div> -->
 		<v-btn
 			v-if="signup"
 			ref="signup-otp-btn"

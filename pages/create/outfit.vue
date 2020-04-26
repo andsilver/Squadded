@@ -369,4 +369,10 @@ p.tip-note.error-note {
     position: fixed;
     bottom: 0;
 }
+
+@media screen and (max-width: 280px) {
+	.edit-button {
+		width: 29.46vw !important;
+	}
+}
 </style>

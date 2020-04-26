@@ -123,12 +123,13 @@ i.sqdi-checkmark
 			width calc(100% - 19.9vw)
 .v-avatar.squa-avatar
 	margin-right 12px
-	border 0.461vw solid #FD6256
+	border 0.461vw solid #000000
+	background-color #fff
 	position relative
 	overflow visible
 	.check-icon
 		position absolute
-		width 5.53vw
+		width 5.60vw
 		height 5.53vw
 		background-color #FD6256
 		border 0.61vw solid

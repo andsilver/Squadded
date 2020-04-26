@@ -1,13 +1,13 @@
 <template>
 	<div>
 		<Topbar ref="top-bar" />
-		<div class="px-3">
+		<div class="px-4">
 			<v-tabs v-model="tabs" fixed-tabs>
-				<v-tab class="tabs pt-3">
-					<span ref="profile-tab">{{ $t('profile_settings.profile') }}</span>
+				<v-tab class="tabs py-2">
+					<span ref="profile-tab" class="profile-tab-label">{{ $t('profile_settings.profile') }}</span>
 				</v-tab>
-				<v-tab class="tabs pt-3">
-					<span ref="general-tab">{{ $t('profile_settings.general') }}</span>
+				<v-tab class="tabs py-2">
+					<span ref="general-tab" class="profile-tab-label">{{ $t('profile_settings.general') }}</span>
 				</v-tab>
 			</v-tabs>
 		</div>
@@ -89,3 +89,7 @@ export default {
 	},
 };
 </script>
+<style lang="stylus">
+.profile-tab-label
+	font-size 4.30vw
+</style>

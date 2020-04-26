@@ -26,6 +26,7 @@
 	"NewPosts": "New Posts",
 	"Next": "Next",
 	"Notifications": "Messages",
+	"privacy": "Privacy",
 	"PairedItem": {
 		"all": "Top",
 		"outfits": "Outfits",
@@ -260,7 +261,7 @@
 		"new": "New",
 		"old": "Earlier",
 		"poll": "your poll",
-		"pollend": "Your poll has expired - see the winner!",
+		"pollend": "Your poll has ended  - check out which item won!",
 		"post": "your post",
 		"requestEmpty": "You have no new requests",
 		"vote": "voted on"

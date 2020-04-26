@@ -63,7 +63,7 @@
 				>
 			</section>
 		</div>
-		<div class="form-area px-3">
+		<div class="form-area px-4">
 			<section>
 				<label class="input-label" for="name">{{ $t('form.instagram_username') }}</label>
 				<v-text-field
@@ -290,6 +290,9 @@ export default {
 
 >>> .v-text-field.v-text-field--enclosed .v-text-field__details
 	margin-bottom 0 !important
+	min-height auto
+	.v-messages
+		min-height auto
 
 section .v-btn
 	background-color rgba(218, 217, 221, 0.3)
@@ -298,4 +301,5 @@ section .v-btn
 
 .profile-input
 	margin-top 1.30vw
+	margin-bottom 3.3vw
 </style>

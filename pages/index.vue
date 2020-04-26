@@ -34,6 +34,14 @@
 					<div class="text-center pt-6 mt-11 mt-md-0 mb-6 font-weight-bold">
 						{{ $t('signin.signin_to_shop_with_your_friends') }}
 					</div>
+					<div class="text-center">
+						<div class="custom-chk">
+							<div class="form-group">
+								<input id="html" v-model="terms" type="checkbox" @change="changeTerms()">
+								<label class="term-text" :class="{error_terms: terms_error}" for="html"><p class="check_lable" /><p class="terms-text">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span></p></label>
+							</div>
+						</div>
+					</div>
 					<div class="social-text-section" :class="{ hide_socila: showstepTwo}">
 						<div class="social">
 							<social-btn for="fb" :terms-status="terms" class="facebook-btn social-btn mb-4" @termsError="shwoTermsError" />
@@ -45,15 +53,6 @@
 						<div class="signemail" @click="email_link">
 							{{ $t('signemail') }}
 							<span v-if="terms_error" class="terms_error_msg">{{ $t('form.rules.terms.valid') }}</span>
-						</div>
-						<div class="term-section">
-							<p>{{ $t('Wecare') }}</p>
-						</div>
-						<div class="custom-chk">
-							<div class="form-group">
-								<input id="html" v-model="terms" type="checkbox" @change="changeTerms()">
-								<label class="term-text" :class="{error_terms: terms_error}" for="html"><p class="check_lable" /><p class="terms-text">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span></p></label>
-							</div>
 						</div>
 					</div>
 					<div class="signup-letter">
@@ -155,8 +154,12 @@ export default {
 			this.showstepThree = true;
 		},
 		email_link() {
-			this.showstepTwo = true;
-			this.showstepOne = false;
+			if (this.terms) {
+				this.showstepTwo = true;
+				this.showstepOne = false;
+			} else {
+				this.shwoTermsError();
+			}
 		},
 		goBack() {
 			this.showstepTwo = true;
@@ -464,7 +467,7 @@ export default {
 	.social_step-one.active
 		display block
 		transition all 0.2s ease-in-out
-		margin-bottom 64px
+		margin-bottom 0px
 	@-webkit-keyframes slide-down
 		0% { opacity: 0; }
 		100% { opacity: 1; }
@@ -480,7 +483,7 @@ export default {
 		height 10.76vw !important
 		min-height auto !important
 .signup-letter
-	margin-top 8.26vw
+	margin-top 10vw
 	h5
 		font-size 3.69vw
 		line-height 5.84vw

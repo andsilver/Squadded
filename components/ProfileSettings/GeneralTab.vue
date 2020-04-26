@@ -1,6 +1,6 @@
 <template>
-	<div v-if="user" class="pa-3">
-		<section class="my-6 d-flex">
+	<div v-if="user" class="pa-4">
+		<section class="my-4 d-flex">
 			<div class="mr-3">
 				<v-btn icon>
 					<v-icon small color="black">
@@ -10,7 +10,7 @@
 			</div>
 			<div class="mt-1 flex-grow-1">
 				<div class="d-flex justify-space-between align-center">
-					<h5>
+					<h5 class="title-text">
 						{{ $t('profile_settings.language.title') }}
 					</h5>
 					<div class="select-control">
@@ -27,7 +27,7 @@
 			</div>
 		</section>
 		<v-divider />
-		<section class="my-6 d-flex">
+		<section class="my-4 d-flex">
 			<div class="mr-3">
 				<v-btn icon>
 					<v-icon small color="black">
@@ -37,7 +37,9 @@
 			</div>
 			<div class="mt-1 flex-grow-1">
 				<div class="d-flex justify-space-between align-center">
-					<h5>{{ $t('profile_settings.terms_of_service.title') }}</h5>
+					<h5 class="title-text">
+						{{ $t('profile_settings.terms_of_service.title') }}
+					</h5>
 					<v-btn
 						ref="read-terms"
 						rounded
@@ -55,12 +57,26 @@
 		<div class="mt-4">
 			<div class="d-flex align-center justify-space-between">
 				<span ref="feedback-label" class="input-label" :class="{ isError }">{{ $t('profile_settings.feedback') }}</span>
-				<v-btn ref="submit-btn" small text color="#fd6256" @click="submit">
+				<v-btn
+					ref="submit-btn"
+					small
+					text
+					color="#FD6256"
+					style="font-size: 3.07vw; font-weight: 600;"
+					@click="submit"
+				>
 					{{ $t('profile_settings.submit') }}
 				</v-btn>
 			</div>
-			<div class="mt-2">
-				<v-textarea ref="feedback-field" v-model="feedback" outlined :rows="3" hide-details />
+			<div class="mt-1">
+				<v-textarea
+					ref="feedback-field"
+					v-model="feedback"
+					class="feedback-field-textarea"
+					outlined
+					:rows="4"
+					hide-details
+				/>
 			</div>
 			<div class="mt-2 input-label" style="font-size: 12px">
 				{{ $t('profile_settings.feedback_warning') }}
@@ -80,7 +96,7 @@
 				</span>
 			</div>
 		</section>
-		<section class="mt-4 mb-8 d-flex align-center">
+		<section class="mt-6 mb-4 d-flex align-center">
 			<div class="mr-3">
 				<v-btn ref="delete-account-button" icon @click="showDeleteAccountDialog = true">
 					<v-icon color="black">
@@ -677,9 +693,9 @@ section .v-btn
 	font-weight 600
 
 .input-label
-	color #9e9e9e
+	color #B8B8BA
 	font-weight 500
-	font-size 14px
+	font-size 3.38vw
 
 .action-button
 	color black
@@ -731,4 +747,6 @@ section .v-btn
 
 .isError
 	color #fd6256
+.title-text
+	font-size 3.23vw
 </style>

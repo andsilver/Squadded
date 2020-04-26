@@ -6,7 +6,7 @@
 		</div>
 		<div class="text" :class="{'is-active': isPublic}">
 			<h4>
-				{{ $t(isPublic ? 'public' : 'private') }}
+				{{ $t('privacy') }}
 			</h4>
 			<p>
 				{{ $t(isPublic ? 'publicToggle.forEveryone' : 'publicToggle.forPrivate') }}
