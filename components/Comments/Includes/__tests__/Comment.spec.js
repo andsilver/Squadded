@@ -65,11 +65,6 @@ describe('Post comment', () => {
 	it('should have user links', () => {
 		expect(wrapper.ref(COMMENT_AUTHOR_USER_LINK).exists()).toBe(true);
 		expect(wrapper.ref(COMMENT_AUTHOR_NAME_USER_LINK).exists()).toBe(true);
-	});
-
-	it('display comment text', () => {
-		const comment = wrapper.props().comment;
-
-		expect(wrapper.ref(COMMENT_TEXT_ELEMENT).text()).toMatch(comment.text);
+		expect(wrapper.ref(COMMENT_TEXT_ELEMENT).exists()).toBe(true);
 	});
 });

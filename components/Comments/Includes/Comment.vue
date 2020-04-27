@@ -14,10 +14,11 @@
 				:user="comment.author"
 				hide-avatar
 			/>
-			<span
+			<CommentShow
 				ref="comment-text"
 				class="comment_text"
-			>{{ comment.text }}</span>
+				:comment="comment.text"
+			/>
 			<span
 				v-if="!forFeed"
 				class="message-time"
@@ -33,6 +34,7 @@
 <script>
 
 import PopMenu from './PopMenu';
+import CommentShow from './CommentShow';
 import UserLink from '~/components/UserLink';
 
 export default {
@@ -40,6 +42,7 @@ export default {
 	components: {
 		UserLink,
 		PopMenu,
+		CommentShow,
 	},
 	props: {
 		comment: {

@@ -1,10 +1,14 @@
 import { Chance } from 'chance';
-import { shallowMount, createLocalVue } from '@vue/test-utils';
+import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import MessageInput from './index.vue';
 import Post from '~/components/Posts/Includes/Post';
 import Store from '~/store';
 import { PostStore, PostActions } from '~/store/post';
+
+Wrapper.prototype.ref = function (id) {
+	return this.find({ ref: id });
+};
 
 const chance = new Chance();
 
@@ -62,11 +66,9 @@ describe('Message Input', () => {
 
 	it('should dispatch action with text from input', () => {
 		const textValue = chance.sentence();
-		wrapper.setData({
-			textValue,
-		});
-
-		wrapper.vm.send();
+		const ref = wrapper.ref('comment-input-box');
+		expect(ref.exists()).toBe(true);
+		ref.vm.$emit('send', textValue);
 		expect(store.dispatch).toHaveBeenCalledWith(sendComment, { post, text: textValue });
 	});
 });

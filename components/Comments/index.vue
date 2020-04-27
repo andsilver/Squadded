@@ -143,7 +143,6 @@ export default {
 	position fixed
 	width 100%
 	z-index 4
-	height: 15.38vw;
 	&::before
 		background -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%)
 		background -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%)
@@ -162,9 +161,6 @@ export default {
 .comment_input
 	transition all linear .2s
 	opacity 1
-	height 57px
-	@media screen and (max-width 280px)
-		height 45px
 .v-application:not(.show-tabs) .post_comment_input
 	bottom 0
 
@@ -181,10 +177,6 @@ export default {
 	height calc(100vh - 305px)
 
 .for-feed
-	.comment_input
-		height 42px
-		@media screen and (max-width 280px)
-			height 35px
 	.allcomment.v-btn
 		color #B8B8BA
 		font-size 2.92vw

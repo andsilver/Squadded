@@ -16,9 +16,10 @@
 					{{ banner && notification.post.type == 'singleItemPost' ? $t('YourItem') : '' }}
 					{{ banner && notification.post.type == 'galleryPost' ? $t('YourPicture') : '' }}
 					{{ banner && notification.post.type == 'outfitPost' ? $t('YourOutfit') : '' }}
-					<span v-if="!banner">
-						{{ notification.text || $t('notify.post') }}
-					</span>
+					<template v-if="!banner">
+						<CommentShow v-if="notification.text" :comment="notification.text" />
+						<span>{{ $t('notify.post') }}</span>
+					</template>
 				</span>
 				<span v-if="!banner" class="time-string-section">
 					<v-avatar color="#000" size="4.923vw">
@@ -48,11 +49,13 @@
 
 <script>
 import UserLink from '~/components/UserLink';
+import CommentShow from '~/components/Comments/Includes/CommentShow';
 
 export default {
 	name: 'NotifyComment',
 	components: {
 		UserLink,
+		CommentShow,
 	},
 	props: {
 		notification: {
