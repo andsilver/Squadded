@@ -38,7 +38,7 @@
 						<div class="custom-chk">
 							<div class="form-group">
 								<input id="html" v-model="terms" type="checkbox" @change="changeTerms()">
-								<label class="term-text" :class="{error_terms: terms_error}" for="html"><p class="check_lable" /><p class="terms-text">{{ $t('agree_left') }} <span> <a href="javascript:void(0);">  {{ $t('agree_right') }} </a> </span></p></label>
+								<label class="term-text" :class="{error_terms: terms_error}" for="html"><p class="check_lable" /><p class="terms-text">{{ $t('agree_left') }} <span> <a ref="show-terms" @click="showTerms">  {{ $t('agree_right') }} </a> </span></p></label>
 							</div>
 						</div>
 					</div>
@@ -229,6 +229,12 @@ export default {
 		requestOtp() {
 			this.resendNotify = true;
 			requestOtp(this.email);
+		},
+		showTerms() {
+			window.parent.postMessage(JSON.stringify({
+				type: 'open-link',
+				link: 'https://www.squadded.co/privacy-policy',
+			}), '*');
 		},
 	},
 	head: () => ({

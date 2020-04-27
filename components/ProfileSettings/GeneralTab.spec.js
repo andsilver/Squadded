@@ -77,4 +77,15 @@ describe('Profile Settings Topbar', () => {
 			_id: 123456789,
 		});
 	});
+
+	it('should post open-link on clicking show terms', () => {
+		const ref = wrapper.ref('read-terms');
+		expect(ref.exists()).toBe(true);
+		window.parent.postMessage = jest.fn();
+		ref.trigger('click');
+		expect(window.parent.postMessage).toHaveBeenCalledWith(JSON.stringify({
+			type: 'open-link',
+			link: 'https://www.squadded.co/privacy-policy',
+		}), '*');
+	});
 });

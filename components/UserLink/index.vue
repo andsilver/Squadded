@@ -3,9 +3,7 @@
 		<v-list-item v-if="!hideAvatar" class="pa-0 user_link_header">
 			<v-list-item-avatar class="mr-3" :size="size">
 				<img v-if="user && (user.miniAvatar || user.avatar)" :src="user.miniAvatar || user.avatar" :alt="user && user.screenName">
-				<v-icon v-else color="#b8b8ba">
-					mdi-account-circle-outline
-				</v-icon>
+				<img v-else ref="user-avatar" class="dummy_image pa-1" src="~assets/img/dummy_avater.svg" />
 				<v-btn
 					v-if="showFollow"
 					ref="watch-btn"
@@ -295,4 +293,6 @@ export default {
 	.v-list-item__avatar
 		margin-top 1.5vw
 		margin-bottom 1.5vw
+.dummy_image
+	background-color #F5F5F5
 </style>

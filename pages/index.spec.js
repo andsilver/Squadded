@@ -174,4 +174,17 @@ describe('Signup', () => {
 			originPostId: postId,
 		});
 	});
+
+	it('should post open-link on clicking show terms', () => {
+		store.commit('SET_SOCKET_AUTH', false);
+		store.commit('SET_PENDING', false);
+		const ref = wrapper.ref('show-terms');
+		expect(ref.exists()).toBe(true);
+		window.parent.postMessage = jest.fn();
+		ref.trigger('click');
+		expect(window.parent.postMessage).toHaveBeenCalledWith(JSON.stringify({
+			type: 'open-link',
+			link: 'https://www.squadded.co/privacy-policy',
+		}), '*');
+	});
 });

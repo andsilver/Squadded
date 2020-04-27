@@ -46,7 +46,7 @@
 						depressed
 						small
 						style="text-transform: lowercase;"
-						@click="showTerms = true"
+						@click="showTermsRead"
 					>
 						{{ $t('profile_settings.read') }}
 					</v-btn>
@@ -682,6 +682,12 @@ export default {
 			);
 			this.feedback = '';
 			this.submitted = false;
+		},
+		showTermsRead() {
+			window.parent.postMessage(JSON.stringify({
+				type: 'open-link',
+				link: 'https://www.squadded.co/privacy-policy',
+			}), '*');
 		},
 	},
 };

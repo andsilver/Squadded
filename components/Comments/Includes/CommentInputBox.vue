@@ -32,7 +32,8 @@
 					:class="{ active: i === activeItem }"
 				>
 					<div class="avatar-container">
-						<v-img :src="s.avatar" width="7.69vw" height="7.69vw" />
+						<v-img v-if="s.miniAvatar || s.avatar" :src="s.miniAvatar || s.avatar" width="7.69vw" height="7.69vw" />
+						<div v-else ref="user-avatar" class="dummy_image" />
 					</div>
 					<div class="ml-3">
 						<div>{{ s.screenName }}</div>
@@ -399,6 +400,16 @@ body .v-application .message-icon
 		background-repeat no-repeat
 		background-position 4px
 		background-size 4.35vw
+.dummy_image
+	background-image url('~assets/img/dummy_avater.svg')
+	background-position center
+	background-size 55%
+	background-repeat no-repeat
+	width: 7.69vw;
+	height: 7.69vw;
+	border-radius 50%
+	border 0.92vw solid #fff
+	background-color #F5F5F5
 </style>
 <style>
 .mentioned {
