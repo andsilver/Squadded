@@ -17,8 +17,9 @@
 				classname="cropper"
 				:src="img"
 				:stencil-props="{
-					aspectRatio: 10/12
+					aspectRatio: 1/1
 				}"
+				:stencil-component="CircleStencil"
 				@change="change"
 			/>
 		</div>
@@ -47,7 +48,7 @@
 </template>
 
 <script>
-import { Cropper } from 'vue-advanced-cropper';
+import { Cropper, CircleStencil } from 'vue-advanced-cropper';
 import Button from '~/components/common/Button';
 import { dataURItoBlob } from '~/utils/dataUriToBlob';
 
@@ -64,6 +65,7 @@ export default {
 	},
 	data: () => ({
 		canvas: null,
+		CircleStencil,
 	}),
 	methods: {
 		change(value) {

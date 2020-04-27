@@ -26,7 +26,5 @@ describe('CommentShow', () => {
 	it('should render correct contents', () => {
 		const commentRef = wrapper.ref('comment');
 		expect(commentRef.exists()).toBe(true);
-		const { innerHTML } = commentRef;
-		console.log(innerHTML);
 	});
 });

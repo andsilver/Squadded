@@ -13,9 +13,14 @@
 					}"
 					@click="voteOnFirst"
 				>
-					<div v-if="notVoted" class="d-flex align-center not-voted">
-						<span class="mx-2" style="font-size: 18px">‹</span>
-						<span class="mr-4" style="margin-top: 1px">{{ $t('this') }}</span>
+					<div v-if="notVoted || (notVoted && post.closed)">
+						<div class="d-flex align-center not-voted">
+							<span v-if="notVoted && !post.closed" class="mx-2" style="font-size: 18px">‹</span>
+							<span :class="{'mr-4': notVoted && !post.closed}" style="margin-top: 1px">{{ $t('this') }}</span>
+						</div>
+						<div v-if="post.byMe || post.closed" class="poll-percent text-center">
+							0%
+						</div>
 					</div>
 					<div v-else-if="first.percent > 10">
 						<div class="d-flex align-center voted-text">
@@ -40,9 +45,14 @@
 					}"
 					@click="voteOnSecond"
 				>
-					<div v-if="notVoted" class="d-flex align-center not-voted">
-						<span class="ml-4" style="margin-top: 1px">{{ $t('that') }}</span>
-						<span class="mx-2" style="font-size: 18px">›</span>
+					<div v-if="notVoted || (notVoted && post.closed)">
+						<div class="d-flex align-center not-voted">
+							<span :class="{'ml-4': notVoted && !post.closed}" style="margin-top: 1px">{{ $t('that') }}</span>
+							<span v-if="notVoted && !post.closed" class="mx-2" style="font-size: 18px">›</span>
+						</div>
+						<div v-if="post.byMe || post.closed" class="poll-percent text-center">
+							0%
+						</div>
 					</div>
 					<div v-else-if="second.percent > 10">
 						<div class="d-flex align-center voted-text">
@@ -100,14 +110,19 @@ export default {
 	},
 	methods: {
 		buttonColor(first) {
-			if (this.notVoted) {
-				return '#fff';
-			}
 			const diff = this.post.item1.votes - this.post.item2.votes;
 			if (this.post.closed) {
-				if ((diff > 0 && first) || (diff < 0 && !first)) {
+				if (this.notVoted) {
 					return 'black';
 				}
+				if ((diff > 0 && first) || (diff < 0 && !first)) {
+					return 'black';
+				} else {
+					return 'white';
+				}
+			}
+			if (this.notVoted) {
+				return '#fff';
 			}
 			if (diff === 0) {
 				return first ? '#fff' : '#ddd';
@@ -160,7 +175,7 @@ export default {
 }
 .not-voted {
     font-size: 3.07vw;
-	font-weight: 700;
+	font-weight: 600;
 }
 .voted-text {
 	font-size: 2.46vw;

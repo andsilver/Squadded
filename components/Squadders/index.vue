@@ -12,9 +12,7 @@
 					>
 						<div class="user-avatar-content">
 							<img v-if="user.miniAvatar || user.avatar" :src="user.miniAvatar || user.avatar" alt>
-							<v-icon v-else color="#b8b8ba">
-								mdi-account-circle-outline
-							</v-icon>
+							<div v-else ref="user-avatar" class="dummy_image" />
 							<span class="user-name-hover">{{ user.screenName }}</span>
 							<span v-if="index === 0 || user.online" class="online-status" />
 						</div>
@@ -195,4 +193,14 @@ export default {
 		left: 7.5vw !important
 	.how-it-work-section
 		display none
+.dummy_image
+	background-image url('~assets/img/dummy_avater.svg')
+	background-position center
+	background-size 55%
+	background-repeat no-repeat
+	width: 36px;
+	height: 36px;
+	border-radius 50%
+	border 0.92vw solid #fff
+	background-color #F5F5F5
 </style>

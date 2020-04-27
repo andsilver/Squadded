@@ -1,6 +1,7 @@
 <template>
 	<v-img
 		:src="item.img"
+		eager
 		@click="() => $emit('open')"
 	>
 		<slot />
