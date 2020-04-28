@@ -123,7 +123,8 @@ export default {
 		short(number) {
 			return number ? shortNumber(number, this._i18n.locale) : 0;
 		},
-		navigateToPairedItemPage() {
+		navigateToPairedItemPage(e) {
+			e.stopPropagation();
 			if (!this.item.itemId || !this.postId) {
 				return;
 			}
