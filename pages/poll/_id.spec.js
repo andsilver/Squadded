@@ -46,6 +46,7 @@ describe('Poll Details', () => {
 
 		$router = {
 			push: jest.fn(),
+			back: jest.fn(),
 		};
 		store = new Vuex.Store(Store);
 
@@ -73,8 +74,7 @@ describe('Poll Details', () => {
 				id: null,
 			},
 		};
-		global.history.back = jest.fn();
 		initWrapper();
-		expect(history.back).toHaveBeenCalled();
+		expect($router.back).toHaveBeenCalled();
 	});
 });

@@ -44,6 +44,7 @@ describe('Paired Item', () => {
 
 		$router = {
 			push: jest.fn(),
+			back: jest.fn(),
 		};
 		store = new Vuex.Store(Store);
 		store.dispatch = jest.fn();
@@ -91,8 +92,7 @@ describe('Paired Item', () => {
 				postId: null,
 			},
 		};
-		global.history.back = jest.fn();
 		initWrapper();
-		expect(history.back).toHaveBeenCalled();
+		expect($router.back).toHaveBeenCalled();
 	});
 });

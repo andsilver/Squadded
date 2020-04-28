@@ -94,6 +94,7 @@ describe('FeedComponent Empty State', () => {
 		});
 		const loadNewButton = wrapper.ref(LOAD_NEW_BUTTON);
 		wrapper.vm.$emit = jest.fn();
+		global.document.documentElement.scrollTo = jest.fn();
 		loadNewButton.trigger('click');
 		expect(wrapper.vm.$emit).toHaveBeenCalled();
 	});

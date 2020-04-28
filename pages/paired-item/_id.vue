@@ -46,7 +46,7 @@ export default {
 		const { varId, itemId, postId } = this.$route.query;
 
 		if (!itemId || !postId) {
-			history.back();
+			this.$router.back();
 			return;
 		}
 

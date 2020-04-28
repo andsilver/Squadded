@@ -38,7 +38,7 @@ export default {
 				}
 			}
 			if (this.socket.isAuth) {
-				history.back();
+				this.$router.back();
 			} else {
 				this.$router.push('/community');
 			}

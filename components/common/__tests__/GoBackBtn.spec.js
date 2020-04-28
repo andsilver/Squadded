@@ -13,10 +13,10 @@ describe('GoBackBtn', () => {
 	let store;
 	const $router = {
 		push: jest.fn(),
+		back: jest.fn(),
 	};
 
 	beforeEach(() => {
-		history.back = jest.fn();
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
@@ -34,7 +34,7 @@ describe('GoBackBtn', () => {
 		store.commit('SET_SOCKET_AUTH', true);
 		const goBackBtn = wrapper.ref('go-back-btn');
 		goBackBtn.trigger('click');
-		expect(history.back).toHaveBeenCalled();
+		expect($router.back).toHaveBeenCalled();
 	});
 
 	it('should navigate to community if not auth', () => {

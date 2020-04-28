@@ -155,6 +155,7 @@ export default {
 			'checkAuth',
 			'i18n',
 		],
+		mode: 'abstract',
 	},
 	server,
 	/*
