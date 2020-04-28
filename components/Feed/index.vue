@@ -35,6 +35,7 @@
 <script>
 import UploadingDone from './UploadingDone';
 import ViolationDialog from './ViolationDialog';
+import { OPENED_POST } from '~/consts/keys';
 import GalleryPost from '~/components/Posts/GalleryPost';
 import MultiItemPost from '~/components/Posts/MultiItemPost';
 import SingleItemPost from '~/components/Posts/SingleItemPost';
@@ -139,6 +140,7 @@ export default {
 		},
 	},
 	mounted() {
+		this.scrollToPost();
 		this.checkCommentInput();
 		window.addEventListener('scroll', this.onScroll);
 	},
@@ -213,6 +215,12 @@ export default {
 				return self.bottom - view.top;
 			}
 			return 0;
+		},
+		scrollToPost () {
+			const openedPostId = sessionStorage.getItem(OPENED_POST);
+			const postElement = this.$el.querySelector(`#post_id_${openedPostId}`);
+			postElement && postElement.scrollIntoView(true);
+			sessionStorage.removeItem(OPENED_POST);
 		},
 		setShowCommentInput (item) {
 			this.showCommentInputTimeout && clearTimeout(this.showCommentInputTimeout);

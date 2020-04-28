@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { OPENED_POST } from '~/consts/keys';
 import ReSquaddButton from '~/components/ReSquaddButton';
 import { price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
@@ -98,6 +99,7 @@ export default {
 	},
 	methods: {
 		openProduct () {
+			sessionStorage.setItem(OPENED_POST, this.post.postId);
 			SquadAPI.openProduct(this.post.item);
 		},
 	},
