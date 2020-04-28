@@ -5,6 +5,7 @@ import Store from '~/store';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { galleryPostBuilder } from '~/test/gallery.post.mock';
 import { SquadAPI } from '~/services/SquadAPI';
+import { OPENED_POST } from '~/consts/keys';
 
 jest.mock('~/services/SquadAPI', () => ({
 	SquadAPI: {
@@ -24,6 +25,7 @@ describe('ProductCard', () => {
 	const $emit = jest.fn();
 
 	function initLocalVue () {
+		sessionStorage.clear();
 		SquadAPI.openProduct.mockClear();
 		const localVue = createLocalVue();
 		post = aDefaultSingleItemMsgBuilder().withGUID().get();
@@ -34,6 +36,7 @@ describe('ProductCard', () => {
 			localVue,
 			propsData: {
 				item: post.item,
+				postId: post.postId,
 			},
 			mocks: {
 				_i18n: {
@@ -50,13 +53,14 @@ describe('ProductCard', () => {
 
 	it('should open product on open event', () => {
 		const triggerElements = [IMAGE, CARD];
-		expect.assertions(5);
+		expect.assertions(7);
 
 		triggerElements.forEach((el) => {
 			const element = wrapper.ref(el);
 			expect(element.exists()).toBe(true);
 			element.vm.$emit('open');
 			expect(SquadAPI.openProduct).toHaveBeenCalledWith(post.item);
+			expect(sessionStorage.getItem(OPENED_POST)).toBe(post.postId);
 		});
 		expect(SquadAPI.openProduct).toHaveBeenCalledTimes(2);
 	});

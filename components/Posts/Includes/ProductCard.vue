@@ -27,6 +27,7 @@
 import CardFrame from './CardFrame';
 import ItemImage from './ItemImage';
 import { price } from '~/helpers';
+import { OPENED_POST } from '~/consts/keys';
 import { SquadAPI } from '~/services/SquadAPI';
 import { FeedPost } from '~/classes/FeedPost';
 
@@ -103,7 +104,10 @@ export default {
 				this.$emit('shift');
 				return;
 			}
-			this.isClickable && SquadAPI.openProduct(this.item);
+			if (this.isClickable) {
+				sessionStorage.setItem(OPENED_POST, this.postId);
+				SquadAPI.openProduct(this.item);
+			}
 		},
 	},
 };

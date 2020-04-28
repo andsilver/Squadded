@@ -2,6 +2,7 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import FeedComponent from '../index.vue';
 import Comments from '~/components/Comments';
+import { OPENED_POST } from '~/consts/keys';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { PostStore, PostMutations } from '~/store/post';
 import Store from '~/store';
@@ -41,7 +42,7 @@ describe('FeedComponent Empty State', () => {
 	});
 
 	const propsData = {
-		items: [aDefaultSingleItemMsgBuilder().get()],
+		items: [aDefaultSingleItemMsgBuilder().withGUID().get()],
 	};
 
 	it('sets the correct default props', () => {
@@ -105,6 +106,22 @@ describe('FeedComponent Empty State', () => {
 		});
 		const comments = wrapper.find(Comments);
 		expect(comments.exists()).toBe(true);
+	});
+
+	it('should scroll to opened post', () => {
+		const openedPostId = propsData.items[0].postId;
+		sessionStorage.setItem(OPENED_POST, openedPostId);
+		global.HTMLElement.prototype.scrollIntoView = jest.fn();
+		wrapper = shallowMount(FeedComponent, {
+			localVue,
+			store,
+			mocks: {
+				$t: msg => msg,
+			},
+			propsData,
+		});
+		const post = wrapper.find(`#post_id_${openedPostId}`);
+		expect(post.element.scrollIntoView).toHaveBeenCalledWith(true);
 	});
 
 	it('should render UploadDone if image is uploading', () => {

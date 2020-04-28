@@ -43,6 +43,7 @@
 import Post from './Includes/Post';
 import PollItem from './Includes/PollItem';
 import VoteSlider from './Includes/VoteSlider';
+import { OPENED_POST } from '~/consts/keys';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostActions } from '~/store/post';
 import { SquadAPI } from '~/services/SquadAPI';
@@ -87,6 +88,7 @@ export default {
 			} else {
 				const { post } = this;
 				if (post.closed) {
+					sessionStorage.setItem(OPENED_POST, post.postId);
 					if (vote === 1) {
 						SquadAPI.openProduct(post.item1);
 					} else {

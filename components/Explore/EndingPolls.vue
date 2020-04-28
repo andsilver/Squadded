@@ -42,6 +42,7 @@
 </template>
 
 <script>
+import { OPENED_POST } from '~/consts/keys';
 import { ExploreStore, ExploreGetters, ExploreActions } from '~/store/explore';
 import Countdown from '~/components/common/Countdown';
 import PollItem from '~/components/Posts/Includes/PollItem';
@@ -78,6 +79,7 @@ export default {
 			if (!this.isVoted(post)) {
 				this.$store.dispatch(`${PostStore}/${PostActions.vote}`, { post, vote });
 			} else if (post.closed) {
+				sessionStorage.setItem(OPENED_POST, post.postId);
 				if (vote === 1) {
 					SquadAPI.openProduct(post.item1);
 				} else {

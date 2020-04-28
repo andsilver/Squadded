@@ -38,6 +38,7 @@
 </template>
 
 <script>
+import { OPENED_POST } from '~/consts/keys';
 import { ExploreStore, ExploreGetters, ExploreActions } from '~/store/explore';
 import CardFrame from '~/components/Posts/Includes/CardFrame';
 import ItemImage from '~/components/Posts/Includes/ItemImage';
@@ -69,6 +70,7 @@ export default {
 			}
 		},
 		openProduct (post) {
+			sessionStorage.setItem(OPENED_POST, post.postId);
 			SquadAPI.openProduct(post.item);
 		},
 	},
