@@ -70,7 +70,7 @@ describe('Whishlist Component', () => {
 		expect(wrapper.ref(EMPTY_FEED_TEXT).text()).toBe('wishlist.disabled_before_signin');
 	});
 
-	it('should fetch items', () => {
+	it('should fetch items', async () => {
 		store.dispatch = jest.fn();
 		store.commit('SET_SOCKET_AUTH', true);
 
@@ -79,6 +79,7 @@ describe('Whishlist Component', () => {
 			store,
 			mocks,
 		});
+		await Promise.resolve();
 
 		expect(store.dispatch).toHaveBeenCalledWith(`${ActivityStore}/${ActivityActions.fetchItems}`, { type: 'wishlist', guid: params.id });
 	});

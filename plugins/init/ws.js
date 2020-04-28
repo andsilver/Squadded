@@ -86,6 +86,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			}, 8000);
 			return;
 		} else if (message.type === 'authOk') {
+			fetchWishlist();
 			store.commit('SET_SOCKET_AUTH', true);
 			state.socket.$ws.keepAlive();
 			const user = await prefetch({
@@ -94,7 +95,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				type: 'fetchUser',
 			});
 			fetchNotifications();
-			fetchWishlist();
 			fetchSquadders();
 
 			if (window.FS) {

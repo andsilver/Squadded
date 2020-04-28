@@ -22,6 +22,15 @@ describe('Whishlist Item', () => {
 
 	let post;
 	let wrapper;
+	const $store = {
+		state: {
+			activity: {
+				guid: {
+					wishlist: null,
+				},
+			},
+		},
+	};
 
 	function initLocalVue () {
 		SquadAPI.openProduct.mockClear();
@@ -36,6 +45,7 @@ describe('Whishlist Item', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$store,
 			},
 			propsData: {
 				post,

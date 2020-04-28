@@ -330,7 +330,7 @@ describe('WSMessages dispatch', () => {
 		wsMessages.dispatch(msg);
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, posts);
 		await flushPromises();
-		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
+		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type, isMine: true });
 	});
 
 	it(`should commit blog to ${ActivityStore}/${ActivityMutations.setListOfType}`, async () => {
@@ -345,7 +345,7 @@ describe('WSMessages dispatch', () => {
 		wsMessages.dispatch(msg);
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, blog);
 		await flushPromises();
-		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: blog, type });
+		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts: blog, type, isMine: true });
 	});
 
 	it(`should commit feedHome to ${HomeStore}/${HomeMutations.receive}`, async () => {

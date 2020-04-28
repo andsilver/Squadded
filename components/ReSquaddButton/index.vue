@@ -65,6 +65,12 @@ export default {
 	transition background-color .1s ease-in-out 0s,
 		opacity .1s ease-in-out 0s
 
+	&.for-wishlist
+		background-color rgba(0,0,0,0.1)
+		color #000000
+		text-align center
+		opacity 1
+
 	&.sqdi-squadded-icon
 		&:before
 			vertical-align middle
@@ -72,6 +78,7 @@ export default {
 
 	&.is-resquadded
 		background-color black
+		color white
 		opacity 1
 .remove-button.resquadd.is-resquadded
 	background-color transparent

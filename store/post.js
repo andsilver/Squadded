@@ -216,7 +216,11 @@ export const actions = {
 
 		commit(PostMutations.postLoaded, rawPostData);
 	},
-	[PostActions.reSquaddItem]: ({ rootState, dispatch }, payload) => {
+	[PostActions.reSquaddItem]: ({ rootState, dispatch, getters }, payload) => {
+		const items = getters[PostGetters.getItemsById](payload.item.itemId);
+		(items || []).forEach((item) => {
+			item.squadded = true;
+		});
 		return dispatch(PostActions.saveItem, {
 			...payload,
 			type: 'singleItemPost',

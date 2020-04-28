@@ -15,7 +15,14 @@
 				/>
 			</v-avatar>
 			<div class="flex-grow-1">
-				<ReSquaddButton :item="post.item" class="remove-button wishlist-remove" />
+				<ReSquaddButton
+					:item="post.item"
+					:class="{
+						'remove-button': isMine,
+						'wishlist-remove': isMine,
+						'for-wishlist': true,
+					}"
+				/>
 				<v-card-title
 					ref="item-title"
 					class=" item_title"
@@ -84,6 +91,9 @@ export default {
 	computed: {
 		price () {
 			return price(this.post.item.currency, this.post.item.price, this._i18n.locale);
+		},
+		isMine () {
+			return !this.$store.state.activity.guid.wishlist;
 		},
 	},
 	methods: {

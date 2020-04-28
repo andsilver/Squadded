@@ -82,7 +82,6 @@ export const mutations = {
 			return;
 		}
 		state.items.forEach(p => (p.user.guid === user.guid && (p.user.mysquad = !p.user.mysquad)));
-		state.items = Object.assign([], state.items);
 	},
 	[FeedMutations.unsquadd]: (state, itemId) => {
 		if (!state.items) {

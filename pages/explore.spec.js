@@ -29,6 +29,9 @@ describe('Explore page', () => {
 		wrapper = shallowMount(Explore, {
 			localVue,
 			store,
+			mocks: {
+				$t: msg => msg,
+			},
 		});
 	});
 

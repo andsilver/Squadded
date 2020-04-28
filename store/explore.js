@@ -72,10 +72,15 @@ export const mutations = {
 		state.friends = friends;
 	},
 	[ExploreMutations.setFacebookFriends]: (state, friends) => {
-		state.facebookFriends = (friends || []).map(f => ({
-			...f,
-			avatar: `https://graph.facebook.com/${f.id}/picture?type=square&width=60`,
-		}));
+		state.facebookFriends = (friends || []).map((f) => {
+			const { miniAvatar, avatar } = f;
+
+			if (!miniAvatar && avatar && avatar.includes('graph.facebook.com')) {
+				const url = avatar.split('&width')[0];
+				f.miniAvatar = url + '&width=60';
+			}
+			return f;
+		});
 	},
 	[ExploreMutations.setSearching]: (state, searching) => {
 		state.searching = searching;

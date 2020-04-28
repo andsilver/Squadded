@@ -73,10 +73,10 @@ export const mutations = {
 	[ActivityMutations.clearBlog]: (state) => {
 		state.blog = null;
 	},
-	[ActivityMutations.setListOfType]: (state, payload) => {
+	[ActivityMutations.setListOfType]: (state, payload, isMine) => {
 		const { posts, type } = payload;
 		state[type] = posts.filter(p => !postReported(p));
-		if (type === 'wishlist' && !state.guid.wishlist) {
+		if (type === 'wishlist' && isMine) {
 			exportWishlistToMerchant(posts);
 		}
 	},
@@ -133,7 +133,7 @@ export const actions = {
 		});
 
 		const wish = getters[ActivityGetters.getWishByItemId](itemId);
-		if (wish) {
+		if (wish && !rootState.activity.guid.wishlist) {
 			commit(ActivityMutations.removeWish, wish);
 		}
 
@@ -154,6 +154,9 @@ export const actions = {
 		const msg = {
 			type: `fetch${capitalized}`,
 		};
+		if (type === 'wishlist') {
+			msg.allMerchants = '*';
+		}
 		if (!loadNew) {
 			mostRecent && (msg.from = mostRecent.ts);
 			rootState.activity.loadedNew = false;

@@ -3,7 +3,7 @@
 		<v-list-item v-if="!hideAvatar" class="pa-0 user_link_header">
 			<v-list-item-avatar class="mr-3" :size="size">
 				<img v-if="user && (user.miniAvatar || user.avatar)" :src="user.miniAvatar || user.avatar" :alt="user && user.screenName">
-				<img v-else ref="user-avatar" class="dummy_image pa-1" src="~assets/img/dummy_avater.svg" />
+				<img v-else ref="user-avatar" class="dummy_image pa-1" src="~assets/img/dummy_avater.svg">
 				<v-btn
 					v-if="showFollow"
 					ref="watch-btn"

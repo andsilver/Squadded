@@ -26,6 +26,7 @@ describe('FeedComponent Empty State', () => {
 		store.dispatch = jest.fn();
 		global.window.addEventListener = jest.fn();
 		global.window.removeEventListener = jest.fn();
+		document.documentElement.scrollTo = jest.fn();
 		wrapper = shallowMount(FeedComponent, {
 			localVue,
 			store,

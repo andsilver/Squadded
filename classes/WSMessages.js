@@ -21,7 +21,7 @@ async function acceptPost(message) {
 }
 
 async function activity (message) {
-	const { type } = message;
+	const { type, userId } = message;
 	const rawPostsList = message[type];
 	if (type === 'wishlist') {
 		if (rawPostsList.private) {
@@ -39,7 +39,8 @@ async function activity (message) {
 	const getter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
 	const posts = getter(Array.from(uniqueIds)).sort((a, b) => b.ts - a.ts);
 
-	this.store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type });
+	const isMine = this.store.state.user.me.userId === userId;
+	this.store.commit(`${ActivityStore}/${ActivityMutations.setListOfType}`, { posts, type, isMine });
 	this.store.commit(`${ActivityStore}/${ActivityMutations.markAllLoaded}`, { loadedPosts: rawPostsList, type });
 	this.store.commit(`${ActivityStore}/${ActivityMutations.setLoading}`, { type, loading: false });
 }
