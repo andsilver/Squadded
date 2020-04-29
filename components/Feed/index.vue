@@ -44,7 +44,7 @@ import GroupedPosts from '~/components/Posts/GroupedPosts';
 import Comments from '~/components/Comments';
 import { PostStore, PostMutations } from '~/store/post';
 
-const MINUTES = 2; // 2 minutes
+const MINUTES = 480; // 2 minutes
 
 export default {
 	name: 'Feed',
