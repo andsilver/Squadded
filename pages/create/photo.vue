@@ -127,7 +127,6 @@ const createPost = async ({ store, text, isPublic, selected, image, coords, need
 		};
 		const post = await store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		post.ts = Date.now();
-		post.guid = `new-${Date.now()}`;
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
 		store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 	} catch (err) {

@@ -117,6 +117,7 @@ import Brand from '~/components/common/Brand';
 import SignForm from '~/components/Sign-Form.vue';
 import { loginWithPIN, requestOtp } from '~/services/otp';
 import Pin from '~/components/Pin';
+import { DEFAULT_LANDING } from '~/store/squad';
 
 export default {
 	components: {
@@ -124,6 +125,11 @@ export default {
 		'sign-form': SignForm,
 		Pin,
 		Brand,
+	},
+	asyncData({ store, redirect }) {
+		if (store.state.socket.isAuth) {
+			redirect(DEFAULT_LANDING);
+		}
 	},
 	data: () => ({
 		showstepTwo: false,

@@ -43,8 +43,7 @@ import PollPost from '~/components/Posts/PollPost';
 import GroupedPosts from '~/components/Posts/GroupedPosts';
 import Comments from '~/components/Comments';
 import { PostStore, PostMutations } from '~/store/post';
-
-const MINUTES = 480; // 2 minutes
+import { GROUP_ITEMS_TIME_RANGE } from '~/consts/time-values';
 
 export default {
 	name: 'Feed',
@@ -118,7 +117,7 @@ export default {
 						+item.ts - +groupsByAuthor[item.userId].ts,
 					);
 
-					if (diff > MINUTES * 60 * 1000) {
+					if (diff > GROUP_ITEMS_TIME_RANGE) {
 						items.push(item);
 						index++;
 						continue;
