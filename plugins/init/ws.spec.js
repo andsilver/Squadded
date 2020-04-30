@@ -319,13 +319,12 @@ describe('WS Plugin', () => {
 				prefetch.mockReturnValue(Promise.resolve({ nameSelected: true, squaddersCount: 2 }));
 				isOnboarding.mockReturnValue(false);
 				isHome.mockReturnValue(false);
-				ctx.route.path = '/abc';
 
 				mutationDispatcher(mutation, state);
 				await Promise.resolve();
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
-				expect(ctx.app.router.push).toHaveBeenCalledWith(ctx.route.path, expect.anything());
+				expect(ctx.app.router.push).toHaveBeenCalledWith(DEFAULT_LANDING, expect.anything());
 			});
 
 			it('should redirect to home from any on unauth', () => {

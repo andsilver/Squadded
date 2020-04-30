@@ -2,13 +2,13 @@ import Vue from 'vue';
 import VueNativeSock from 'vue-native-websocket';
 import { WSMessages } from '~/classes/WSMessages';
 import { WSToken } from '~/classes/WSToken';
-import { isHome, isOnboarding, prefetch } from '~/helpers';
+import { prefetch } from '~/helpers';
 import { NotificationStore, NotificationActions } from '~/store/notification';
 import { UserStore, UserMutations } from '~/store/user';
-import { DEFAULT_LANDING } from '~/store/squad';
 import { WS_LINK } from '~/config';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 import { VISITED_INVITE_FRIENDS_KEY } from '~/consts/keys';
+import { DEFAULT_LANDING } from '~/store/squad';
 
 export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
@@ -81,9 +81,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				userToken: localStorage.getItem('userToken'),
 				merchantId: state.merchant.id,
 			});
-			setTimeout(() => {
-				store.commit('SET_PENDING', false);
-			}, 8000);
 			return;
 		} else if (message.type === 'authOk') {
 			fetchWishlist();
@@ -129,7 +126,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			} else if (!user.squaddersCount && !visitedInviteFriends) {
 				return app.router.push('/invite-friends', setPendingFalse);
 			} else {
-				const { name } = ctx.route;
 				const latestPath = sessionStorage.getItem('latestPath');
 				const latestHash = sessionStorage.getItem('latestHash');
 				if (latestPath && latestPath !== '/') {
@@ -137,10 +133,8 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 						path: latestPath,
 						hash: latestHash,
 					}, setPendingFalse);
-				} else if (isHome(name) || isOnboarding(name)) {
-					return app.router.push(DEFAULT_LANDING, setPendingFalse);
 				}
-				return app.router.push(ctx.route.path, setPendingFalse);
+				return app.router.push(DEFAULT_LANDING, setPendingFalse);
 			}
 		}
 

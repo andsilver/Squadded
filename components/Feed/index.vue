@@ -118,6 +118,7 @@ export default {
 					);
 
 					if (diff > GROUP_ITEMS_TIME_RANGE) {
+						delete groupsByAuthor[item.userId];
 						items.push(item);
 						index++;
 						continue;

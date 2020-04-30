@@ -15,11 +15,17 @@
 				>
 					<div v-if="notVoted || (notVoted && post.closed)">
 						<div class="d-flex align-center not-voted">
-							<span v-if="notVoted && !post.closed" class="mx-2" style="font-size: 18px">‹</span>
+							<span v-if="notVoted && !post.closed" class="mx-2" style="font-size: 18px; line-height: 1px;">‹</span>
 							<span :class="{'mr-4': notVoted && !post.closed}" style="margin-top: 1px">{{ $t('this') }}</span>
 						</div>
 						<div v-if="post.byMe || post.closed" class="poll-percent text-center">
 							0%
+						</div>
+					</div>
+					<div v-else-if="!meVoted && !post.closed">
+						<div class="d-flex align-center not-voted">
+							<span class="mx-2" style="font-size: 18px; line-height: 1px;">‹</span>
+							<span class="mr-4" style="margin-top: 1px">{{ $t('this') }}</span>
 						</div>
 					</div>
 					<div v-else-if="first.percent > 10">
@@ -48,10 +54,16 @@
 					<div v-if="notVoted || (notVoted && post.closed)">
 						<div class="d-flex align-center not-voted">
 							<span :class="{'ml-4': notVoted && !post.closed}" style="margin-top: 1px">{{ $t('that') }}</span>
-							<span v-if="notVoted && !post.closed" class="mx-2" style="font-size: 18px">›</span>
+							<span v-if="notVoted && !post.closed" class="mx-2" style="font-size: 18px; line-height: 1px;">›</span>
 						</div>
 						<div v-if="post.byMe || post.closed" class="poll-percent text-center">
 							0%
+						</div>
+					</div>
+					<div v-else-if="!meVoted && !post.closed">
+						<div class="d-flex align-center not-voted">
+							<span class="ml-4" style="margin-top: 1px">{{ $t('that') }}</span>
+							<span class="mx-2" style="font-size: 18px; line-height: 1px;">›</span>
 						</div>
 					</div>
 					<div v-else-if="second.percent > 10">
@@ -121,7 +133,7 @@ export default {
 					return 'white';
 				}
 			}
-			if (this.notVoted) {
+			if (this.notVoted || !this.meVoted) {
 				return '#fff';
 			}
 			if (diff === 0) {
@@ -133,7 +145,7 @@ export default {
 			}
 		},
 		buttonWidth(first) {
-			if (this.notVoted) {
+			if (this.notVoted || (!this.meVoted && !this.post.closed)) {
 				return 21.8;
 			}
 			const length = 33.6;
