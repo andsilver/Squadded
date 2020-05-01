@@ -28,6 +28,9 @@ describe('Dispatcher', () => {
 				socket: {
 					isAuth: true,
 				},
+				merchant: {
+					id: 'merchantid',
+				},
 			},
 			commit: jest.fn(),
 			dispatch: jest.fn(),
