@@ -126,10 +126,12 @@ export const ActivityActions = {
 
 export const actions = {
 	[ActivityActions.unwish]: ({ commit, getters, rootState }, item) => {
-		const { itemId } = item;
+		const { itemId, varId, merchantId: itemMerchantId } = item;
 		rootState.socket.$ws.sendObj({
 			type: 'unwish',
 			itemId,
+			itemMerchantId,
+			varId,
 		});
 
 		const wish = getters[ActivityGetters.getWishByItemId](itemId);

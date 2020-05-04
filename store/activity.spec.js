@@ -138,6 +138,8 @@ describe('Activity store module', () => {
 			expect($ws.sendObj).toHaveBeenCalledWith({
 				type: 'unwish',
 				itemId: item.itemId,
+				varId: item.varId,
+				itemMerchantId: item.merchantId,
 			});
 			expect(root.state.activity.wishlist.length).toBe(0);
 		});
