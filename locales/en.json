@@ -20,16 +20,15 @@
 	"Messageregarding": "Message regarding phone charges",
 	"Messages": "Messages",
 	"My Squad": "My Squad",
-	"NewOutfit": "New outfit",
+	"NewOutfit": "New layout",
 	"NewPoll": "New poll",
 	"NewPost": "New post",
 	"NewPosts": "New Posts",
 	"Next": "Next",
 	"Notifications": "Messages",
-	"privacy": "Privacy",
 	"PairedItem": {
 		"all": "Top",
-		"outfits": "Outfits",
+		"outfits": "Layouts",
 		"photos": "Photos",
 		"polls": "Polls"
 	},
@@ -55,13 +54,13 @@
 	"Wishlist": "Wishlist",
 	"YouCanAlwaysChange": "Only letters, digits and underscores. You can always change it later.",
 	"YourItem": "your item",
-	"YourOutfit": "your outfit",
+	"YourOutfit": "your layout",
 	"YourPicture": "your picture",
 	"YourPoll": "your poll",
 	"a poll": "a poll",
 	"agree_left": "Please check the box to confirm that you agree to our",
 	"agree_right": "terms and conditions.",
-	"an outfit": "an outfit",
+	"an outfit": "a layout",
 	"comment": {
 		"pop": {
 			"Action": "Action",
@@ -95,7 +94,7 @@
 		}
 	},
 	"create": {
-		"outfit": "Outfit",
+		"outfit": "Layout",
 		"photo": "Photo",
 		"poll": "Poll"
 	},
@@ -146,8 +145,8 @@
 			"title": "Top 10 most wanted items right now"
 		},
 		"top_outfits": {
-			"description": "The top outfits that generated the biggest reactions",
-			"title": "Now trending outfits"
+			"description": "The top layouts that generated the biggest reactions",
+			"title": "Now trending layouts"
 		}
 	},
 	"feed": {
@@ -253,6 +252,9 @@
 		"comment": "",
 		"commented": "commented",
 		"commentedq": "commented: ",
+		"emptySquaddedEndText": "You don't have any notifications yet",
+		"emptySquaddedText": "Squadded! ",
+		"emptyWelcomeText": "Welcome to ",
 		"follow": "is now watching you",
 		"invited": "wants to join your squad",
 		"isEmpty": "There is no notifications yet",
@@ -262,9 +264,6 @@
 		"old": "Earlier",
 		"poll": "your poll",
 		"pollend": "Your poll has ended  - check out which item won!",
-		"emptyWelcomeText": "Welcome to ",
-		"emptySquaddedText": "Squadded! ",
-		"emptySquaddedEndText": "You don't have any notifications yet",
 		"post": "your post",
 		"requestEmpty": "You have no new requests",
 		"vote": "voted on"
@@ -310,7 +309,7 @@
 		"addToMySquad": "Add {user} to My Squad",
 		"addedGallary": "posted a picture with {0} tagged items",
 		"addedItem": "saved this item",
-		"addedOutfit": "posted a new outfit with {0} items",
+		"addedOutfit": "posted a new layout with {0} items",
 		"addedPoll": "posted a poll",
 		"pop": {
 			"deletePost": {
@@ -359,7 +358,7 @@
 		"title": {
 			"comments": "Comments",
 			"galleryPost": "Gallery",
-			"outfitPost": "Outfit",
+			"outfitPost": "Layout",
 			"pollPost": "Poll",
 			"singleItemPost": "Single"
 		},
@@ -368,6 +367,7 @@
 		"watchUser": "Watch {user}"
 	},
 	"postdeleted": "Your post has been deleted",
+	"privacy": "Privacy",
 	"private": "Private",
 	"profile_settings": {
 		"crop_photo": "Crop photo",
@@ -438,13 +438,13 @@
 	},
 	"skip": "skip",
 	"spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
-	"styleOutfit": "style in this outfit",
+	"styleOutfit": "style in this layout",
 	"tip": {
 		"addItems": "Add items to your wishlist to create {0}.",
 		"createPhotoTag": "click photo to tag items",
 		"crop": "move points to crop",
-		"limitMessage": "The limit is 4 items per outfit",
-		"outfitError": "You need to select 2 to 4 items to create an outfit",
+		"limitMessage": "The limit is 4 items per layout",
+		"outfitError": "You need to select 2 to 4 items to create a layout",
 		"outfitSelect": "Select 2 to 4 items to pair together",
 		"photoError": "Click the items you want to tag to post a picture.",
 		"photoLimitError": "You cannot tag more than 4 items",
@@ -464,7 +464,7 @@
 		"action": {
 			"Action": "Options",
 			"AddMySquad": "Add to My Squad",
-			"Block": "Block Sophie",
+			"Block": "Block ",
 			"PushWatchers": "Push to watchers",
 			"Remove": "Remove",
 			"Sharelink": "Share link",
@@ -473,7 +473,7 @@
 			"reportUser": "Report User"
 		},
 		"edit": "Edit",
-		"empty_squad": "You don't have squadders yet",
+		"empty_squad": "You don't have any members in your squad yet",
 		"followers": "{n} followers",
 		"following": "{n} following",
 		"invitation": {

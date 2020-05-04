@@ -20,7 +20,7 @@
 	"Messageregarding": "",
 	"Messages": "Messages",
 	"My Squad": "Mon Squad",
-	"NewOutfit": "Nouvel outfit",
+	"NewOutfit": "Nouvelle composition",
 	"NewPoll": "Nouveau sondage",
 	"NewPost": "Nouvelle Publication",
 	"NewPosts": "Nouvelles Publications",
@@ -28,7 +28,7 @@
 	"Notifications": "Messages",
 	"PairedItem": {
 		"all": "Top",
-		"outfits": "Outfits",
+		"outfits": "Compo",
 		"photos": "Photos",
 		"polls": "Sondages"
 	},
@@ -54,13 +54,13 @@
 	"Wishlist": "Wishlist",
 	"YouCanAlwaysChange": "Uniquement lettres et chiffres. Vous pourrez toujours le changer plus tard.",
 	"YourItem": "votre article",
-	"YourOutfit": "votre outfit",
+	"YourOutfit": "votre composition",
 	"YourPicture": "votre photo",
 	"YourPoll": "votre sondage",
 	"a poll": "Sondage",
 	"agree_left": "Veuillez cocher la case pour confirmer que vous acceptez nos",
 	"agree_right": "termes et conditions.",
-	"an outfit": "un outfit",
+	"an outfit": "une composition",
 	"comment": {
 		"pop": {
 			"Action": "Options",
@@ -94,7 +94,7 @@
 		}
 	},
 	"create": {
-		"outfit": "Outfit",
+		"outfit": "Composition",
 		"photo": "Photo",
 		"poll": "Sondage"
 	},
@@ -146,7 +146,7 @@
 		},
 		"top_outfits": {
 			"description": "Les tenues les plus stylés avec le plus de réactions",
-			"title": "Outfits tendance en ce moment"
+			"title": "Compositions tendance en ce moment"
 		}
 	},
 	"feed": {
@@ -252,6 +252,9 @@
 		"comment": "a commenté",
 		"commented": "a commenté",
 		"commentedq": "a commenté:",
+		"emptySquaddedEndText": "Vous n'avez pas encore de notifications",
+		"emptySquaddedText": "Squadded!",
+		"emptyWelcomeText": "Bienvenue sur",
 		"follow": "vous a ajouté a ses inspirations",
 		"invited": "veut rejoindre votre squad",
 		"isEmpty": "Vous n'avez pas encore de notifications",
@@ -306,7 +309,7 @@
 		"addToMySquad": "Ajouter {user} à mon Squad",
 		"addedGallary": "a publié une photo avec {0} articles",
 		"addedItem": "a ajouté cet article à sa wishlist",
-		"addedOutfit": "a publié une tenue avec {0} articles",
+		"addedOutfit": "a publié une composition avec {0} articles",
 		"addedPoll": "a publié un sondage",
 		"pop": {
 			"deletePost": {
@@ -355,7 +358,7 @@
 		"title": {
 			"comments": "Commentaires",
 			"galleryPost": "Galerie",
-			"outfitPost": "Outfit",
+			"outfitPost": "Composition",
 			"pollPost": "Sondage",
 			"singleItemPost": "Publication"
 		},
@@ -364,6 +367,7 @@
 		"watchUser": "M'inspirer de {user}"
 	},
 	"postdeleted": "Votre publication a été supprimée",
+	"privacy": "Confidentialité",
 	"private": "Privé",
 	"profile_settings": {
 		"crop_photo": "Recadrer la photo",
@@ -434,13 +438,13 @@
 	},
 	"skip": "Plus tard",
 	"spamNote": "Prévoyez jusqu'à 1 minute pour le recevoir. N'oubliez pas de vérifier votre dossier spam / courrier indésirable.",
-	"styleOutfit": "styles dans cet outfit",
+	"styleOutfit": "styles dans cette compo",
 	"tip": {
 		"addItems": "Ajoutez des articles a votre wishlist pour créer {0}.",
 		"createPhotoTag": "cliquez sur la photo pour identifier des articles",
 		"crop": "déplacez les points pour recadrer",
-		"limitMessage": "La limite est de 4 articles par outfit",
-		"outfitError": "Vous devez sélectionner 2 à 4 articles pour créer un outfit",
+		"limitMessage": "La limite est de 4 articles par composition",
+		"outfitError": "Vous devez sélectionner 2 à 4 articles pour créer une compo",
 		"outfitSelect": "Sélectionnez 2 à 4 articles à assembler",
 		"photoError": "Cliquez sur les articles que vous souhaitez identifier pour publier une photo.",
 		"photoLimitError": "Vous ne pouvez pas identifier plus de 4 articles",
