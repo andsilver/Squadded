@@ -56,6 +56,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 	const fetchWishlist = () => {
 		store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
 			type: 'wishlist',
+			forMerchant: true,
 		});
 	};
 
