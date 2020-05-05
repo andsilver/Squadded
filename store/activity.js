@@ -73,8 +73,8 @@ export const mutations = {
 	[ActivityMutations.clearBlog]: (state) => {
 		state.blog = null;
 	},
-	[ActivityMutations.setListOfType]: (state, payload, isMine) => {
-		const { posts, type } = payload;
+	[ActivityMutations.setListOfType]: (state, payload) => {
+		const { posts, type, isMine } = payload;
 		state[type] = posts.filter(p => !postReported(p));
 		if (type === 'wishlist' && isMine) {
 			exportWishlistToMerchant(posts);
@@ -141,7 +141,7 @@ export const actions = {
 
 		commit(ActivityMutations.unsquadd, itemId);
 	},
-	[ActivityActions.fetchItems]: ({ rootState, commit }, { type, guid, loadNew }) => {
+	[ActivityActions.fetchItems]: ({ rootState, commit }, { type, guid, loadNew, forMerchant }) => {
 		const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
 		if (guid !== rootState.activity.guid[type]) {
 			commit(ActivityMutations[`clear${capitalized}`]);
@@ -156,7 +156,7 @@ export const actions = {
 		const msg = {
 			type: `fetch${capitalized}`,
 		};
-		if (type === 'wishlist') {
+		if (type === 'wishlist' && !forMerchant) {
 			msg.allMerchants = '*';
 		}
 		if (!loadNew) {
