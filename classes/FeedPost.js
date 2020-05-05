@@ -44,6 +44,7 @@ export class FeedPost {
 			creationTs,
 			private: privacy,
 			coords,
+			videoLink,
 		} = props;
 
 		this.type = type;
@@ -83,6 +84,9 @@ export class FeedPost {
 		} else if (type === 'galleryPost') {
 			this.items = items.map(composeItem);
 			this.img = img;
+		} else if (type === 'videoPost') {
+			this.items = items.map(composeItem);
+			this.videoLink = videoLink;
 		} else {
 			this.item = composeItem(item);
 		}

@@ -3739,6 +3739,11 @@ elliptic@^6.0.0:
     minimalistic-assert "^1.0.0"
     minimalistic-crypto-utils "^1.0.0"
 
+embedo@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/embedo/-/embedo-1.13.0.tgz#ff13e9d1f49526c1e78104a88f7174ced98444c4"
+  integrity sha512-kSAskcxrVsSoY48zYpNcfI6UZ93dnsGzh5sQjKnx6udMLMF0bCGI4z0VWo8u0dQJFbuc5IU/PB3dxIAvtDqtjQ==
+
 emoji-regex@^7.0.1:
   version "7.0.3"
   resolved "https://registry.yarnpkg.com/emoji-regex/-/emoji-regex-7.0.3.tgz#933a04052860c85e83c122479c4748a8e4c72156"

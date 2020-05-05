@@ -11,6 +11,7 @@ export class User {
 				count: 0,
 			},
 			guid,
+			influencer = false,
 			isMe = false,
 			likes = 0,
 			mention,
@@ -33,6 +34,7 @@ export class User {
 		this.blog = blog;
 		this.followers = followers;
 		this.following = following;
+		this.influencer = influencer;
 		this.isMe = isMe;
 		this.likes = likes;
 		this.mention = mention;

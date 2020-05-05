@@ -169,11 +169,4 @@ export default {
 		margin-left 20px
 		.count_item
 			left -9px
-.fancy_scroll
-	-webkit-overflow-scrolling touch
-.fancy_scroll::-webkit-scrollbar-thumb
-	background-color #B8B8BA
-	outline 0
-.fancy_scroll::-webkit-scrollbar
-	height 5px
 </style>

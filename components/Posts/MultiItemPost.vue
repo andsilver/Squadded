@@ -300,11 +300,4 @@ export default {
 		grid-gap 0.3vw
 .isTouch .close
 	display none
-.fancy_scroll
-	-webkit-overflow-scrolling touch
-.fancy_scroll::-webkit-scrollbar-thumb
-	background-color #B8B8BA
-	outline 0
-.fancy_scroll::-webkit-scrollbar
-	width 5px
 </style>

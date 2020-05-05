@@ -26,6 +26,8 @@
 	"NewPosts": "New Posts",
 	"Next": "Next",
 	"Notifications": "Messages",
+	"AffiliateLinks": "Affiliate Links",
+	"SocialVideo": "Social Video",
 	"PairedItem": {
 		"all": "Top",
 		"outfits": "Layouts",
@@ -96,13 +98,16 @@
 	"create": {
 		"outfit": "Layout",
 		"photo": "Photo",
-		"poll": "Poll"
+		"poll": "Poll",
+		"upload": "Upload",
+		"video": "Video"
 	},
 	"createDesc": {
 		"outfit": "Pair 2-4 items in a single post",
 		"photo": "Add a photo and tag items on it",
 		"poll": "Ask your squad to vote between 2 items",
-		"unsupported_file_format": "This image format is not supported"
+		"unsupported_file_format": "This image format is not supported",
+		"video": "Add a video link and tag items on it"
 	},
 	"create_your_squad": {
 		"description": "Add your friends to join your squad. Once they join, you will be able to see and interact with each other’s wishlist.",
@@ -305,6 +310,9 @@
 		"voted": "VOTED",
 		"votes": "votes | votes"
 	},
+	"video": {
+		"inputLinkPlaceholder": "Enter your link from Youtobe, IG or Vimeo"
+	},
 	"post": {
 		"addToMySquad": "Add {user} to My Squad",
 		"addedGallary": "posted a picture with {0} tagged items",
@@ -424,6 +432,10 @@
 		"forPrivate": "Private posts are only visible to your squad",
 		"toggle": "toggle"
 	},
+	"influencerMode": {
+		"caption": "Influencer Mode",
+		"description": "Edit affiliate links for each item"
+	},
 	"resendNotify": "New code has been sent",
 	"resend_code": "Resend code",
 	"select_username": {
@@ -450,7 +462,9 @@
 		"photoLimitError": "You cannot tag more than 4 items",
 		"pollError": "You need to select 2 items to create a poll",
 		"pollSelect": "Select 2 items you hesitate with",
-		"tapPhotos": "click photos for details"
+		"selectLimitError": "You need to select {min} to {max} items",
+		"tapPhotos": "click photos for details",
+		"tapHere": "click here for details"
 	},
 	"topHome": "The community",
 	"user": {

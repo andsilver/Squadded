@@ -1,15 +1,21 @@
 <template>
-	<button @click="browse">
+	<LargeButton
+		:img="require('@/assets/img/capture.svg')"
+		:label="$t('photo.capture')"
+		@click.native="browse"
+	>
 		<input ref="input-file" type="file" capture="camera" accept="image/jpeg,image/jpg,image/png" @change="read">
-		<img src="~assets/img/capture.svg">
-		<span>{{ $t('photo.capture') }}</span>
-	</button>
+	</LargeButton>
 </template>
 
 <script>
 import { toBase64 } from '~/utils/toBase64';
+import LargeButton from '~/components/common/LargeButton';
 
 export default {
+	components: {
+		LargeButton,
+	},
 	methods: {
 		browse () {
 			this.$refs['input-file'].value = null;
@@ -30,23 +36,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-button
-	display flex
-	flex-direction column
-	align-items center
-	font-size 0.85em
-	font-weight 600
-	border 1.5px solid #ececec
-	border-radius 10px
-
-	margin 10pt auto 0
-	width 70.76vw
-	padding 6.15vw 65px
-
-	img
-		width 40pt
-		margin-bottom 8pt
-
-	input
-		display none
+input
+	display none
 </style>

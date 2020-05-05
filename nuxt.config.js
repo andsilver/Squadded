@@ -142,7 +142,7 @@ export default {
 					secondary: colors.amber.darken3,
 					info: colors.teal.lighten1,
 					warning: colors.amber.base,
-					error: colors.deepOrange.accent4,
+					error: '#FC6155',
 					success: colors.green.accent3,
 					red: '#D0021B',
 				},

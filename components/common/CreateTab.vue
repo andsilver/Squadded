@@ -47,9 +47,8 @@ export default {
 			des: 'createDesc.outfit',
 			images: require('assets/img/outfit.svg'),
 		}, {
-			uri: '/create/photo',
-			title: 'create.photo',
-			des: 'createDesc.photo',
+			uri: '/create/upload',
+			title: 'create.upload',
 			images: require('assets/img/photo.svg'),
 		}, {
 			uri: '/create/poll',

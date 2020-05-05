@@ -175,11 +175,4 @@ export default {
 		grid-gap 0.3vw
 .grouped-post-item
 	min-height 330px
-.fancy_scroll
-	-webkit-overflow-scrolling touch
-.fancy_scroll::-webkit-scrollbar-thumb
-	background-color #B8B8BA
-	outline 0
-.fancy_scroll::-webkit-scrollbar
-	height 5px
 </style>

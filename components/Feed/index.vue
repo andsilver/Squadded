@@ -80,6 +80,7 @@ export default {
 			pollPost: PollPost,
 			outfitPost: MultiItemPost,
 			galleryPost: GalleryPost,
+			videoPost: GalleryPost,
 		},
 		showCommentInputTimeout: null,
 	}),

@@ -1,5 +1,5 @@
 <template>
-	<div v-if="!isPoll" class="selected-items mt-2">
+	<div v-if="!isPoll" class="selected-items fancy_scroll ma-3">
 		<span
 			v-for="post in getSelected"
 			:key="post.item.itemId"
@@ -74,7 +74,8 @@ export default {
 
 <style lang="stylus" scoped>
 .selected-items
-	padding 0 12px
+	white-space nowrap
+	overflow scroll
 	.v-responsive.v-image
 		height 23.076vw
 		background-color rgba(184,184,186,0.3)

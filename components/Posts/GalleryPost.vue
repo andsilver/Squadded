@@ -21,9 +21,12 @@
 				:style="{
 					'margin-left': `${marginLeft}px`,
 				}"
+				:post="post"
 				@click.native="fetch"
 			>
+				<VideoView v-if="post.type === 'videoPost'" :video-link="post.videoLink" />
 				<ItemImage
+					v-else
 					ref="item-image"
 					:item="post"
 					:resquadd="false"
@@ -64,6 +67,7 @@ import ItemImage from './Includes/ItemImage';
 import TagButton from './Includes/TagButton';
 import ProductCard from './Includes/ProductCard';
 import MountedEmitter from '~/components/common/MountedEmitter';
+import VideoView from '~/components/common/VideoView';
 import { prefetch, price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostMutations } from '~/store/post';
@@ -77,6 +81,7 @@ export default {
 		ProductCard,
 		TagButton,
 		MountedEmitter,
+		VideoView,
 	},
 	props: {
 		post: {
@@ -247,13 +252,6 @@ export default {
 	position relative
 .tag-button
 	position absolute
-.fancy_scroll
-	-webkit-overflow-scrolling touch
-.fancy_scroll::-webkit-scrollbar-thumb
-	background-color #B8B8BA
-	outline 0
-.fancy_scroll::-webkit-scrollbar
-	width 5px
 .shifted
 	@media screen and (max-width 280px)
 		margin-left -120px !important

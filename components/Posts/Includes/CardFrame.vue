@@ -6,7 +6,7 @@
 	>
 		<slot />
 		<div v-if="showTap && !isPaired" class="tap-photo">
-			{{ $t('tip.tapPhotos') }}
+			{{ post && post.type === 'videoPost' ? $t('tip.tapHere') : $t('tip.tapPhotos') }}
 		</div>
 		<section v-if="!isPaired" class="card_bottom" :class="{ card_inline: title }">
 			<div ref="merchant-id" class="post_title merchant-section d-flex justify-space-between align-center px-1">

@@ -145,7 +145,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="stylus" scoped>
 .choose-items{
 	grid-template-columns: 1fr 1fr;
 	grid-gap: 20px;
@@ -153,12 +153,24 @@ export default {
 	overflow-x: hidden;
 	background-color: transparent;
 	margin-top: 0px !important;
-}
-.show-tabs .outfit-main-sec .choose-items,.show-tabs .poll-main-sec .choose-items{
 	max-height: calc(100vh - 355px);
 }
-.show-tabs .outfit-main-sec .choose-items.no_item_selected{
-	max-height: calc(100vh - 260px);
+.show-tabs .outfit-main-sec .choose-items.no_item_selected
+	max-height calc(100vh - 260px)
+.video-main-sec .choose-items
+	max-height calc(100vh - 335px)
+.video-main-sec .choose-items.no_item_selected
+	max-height calc(100vh - 236px)
+
+.selected >>> .v-responsive__content{
+	box-shadow: none;
+	background-image:url('~assets/img/selected.svg');
+	background-size: 21.692vw;
+	height: auto;
+	background-position: center;
+	&:after{
+		opacity: 1;
+	}
 }
 .choose-items-section{
 	position: relative;
@@ -176,7 +188,6 @@ export default {
 	background: -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%);
 	background: -webkit-linear-gradient(top,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%);
 	background: linear-gradient(to bottom,  rgba(218,217,221,0.3) 0%,rgba(255,255,255,0) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dad9dd', endColorstr='#00ffffff',GradientType=0 );
 	height:4.615vw;
 	width:100%;
 	content: '';
@@ -188,7 +199,6 @@ export default {
 	background: -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%);
 	background: -webkit-linear-gradient(top,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%);
 	background: linear-gradient(to bottom,  rgba(255,255,255,0) 0%,rgba(218,217,221,0.3) 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#dad9dd',GradientType=0 );
 	height:4.615vw;
 	width:100%;
 	content: '';
@@ -274,15 +284,5 @@ export default {
 }
 .photo-selected {
     overflow-y: auto;
-}
-.fancy_scroll {
-	-webkit-overflow-scrolling: touch;
-}
-.fancy_scroll::-webkit-scrollbar-thumb {
-	background-color: #B8B8BA;
-	outline: 0;
-}
-.fancy_scroll::-webkit-scrollbar {
-	width: 5px;
 }
 </style>

@@ -148,11 +148,4 @@ export default {
 	.wrapper
 		>>> .is_poll .v-image
 			height 190px
-.fancy_scroll
-	-webkit-overflow-scrolling touch
-.fancy_scroll::-webkit-scrollbar-thumb
-	background-color #B8B8BA
-	outline 0
-.fancy_scroll::-webkit-scrollbar
-	height 5px
 </style>

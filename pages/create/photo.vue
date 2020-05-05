@@ -6,24 +6,8 @@
 			<v-layout column grow class="mt-3">
 				<CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" @error="fileTypeError = true" />
 				<Browse v-show="!dataImg" ref="browse" @open="preview" @error="fileTypeError = true" />
+				<EmptyWishlist />
 				<Tags v-if="dataImg" ref="tagsComponent" :post="post" :crop-active="cropActive" @doneCrop="doneCrop" />
-				<div v-if="!isWishlistHasItems" :class="{ empty_wishlist_container: !isWishlistHasItems}">
-					<div v-if="!isWishlistHasItems" class="whislist_empty">
-						<div class="whish_img">
-							<p>
-								<img src="~assets/img/squad-logo-white.svg" class="insta-image">
-							</p>
-						</div>
-						<div class="txt">
-							<p ref="empty-whishlist-text" align="center">
-								{{ $t('wishlist.postempty') }}
-							</p>
-							<Button class="flex-grow-1 wish_btn" @click.native="discoverItem">
-								{{ $t('wishlist.discover') }}
-							</Button>
-						</div>
-					</div>
-				</div>
 				<p v-if="showError && getSelected.length === 0" class="tip-note error-note">
 					{{ $t('tip.photoError') }}
 				</p>
@@ -37,10 +21,9 @@
 					<SelectedItems ref="selected-items" />
 					<div class="button-section">
 						<Button
-							v-show="isWishlistHasItems"
 							ref="next-button"
 							class="next-button"
-							:class="{ disable_btn :!complete}"
+							:disabled="!complete"
 							@click.native="next"
 						>
 							{{ $t('Next') }}
@@ -95,6 +78,7 @@ import CapturePhoto from '~/components/Create/CapturePhoto';
 import BackBar from '~/components/common/BackBar';
 import Browse from '~/components/Create/Browse';
 import Button from '~/components/common/Button';
+import EmptyWishlist from '~/components/Create/EmptyWishlist';
 import PublicToggle from '~/components/Create/PublicToggle';
 import SelectedItems from '~/components/Create/SelectedItems';
 import Tabs from '~/components/Create/Tabs';
@@ -140,6 +124,7 @@ export default {
 		BackBar,
 		Browse,
 		Button,
+		EmptyWishlist,
 		PublicToggle,
 		SelectedItems,
 		Tabs,
@@ -175,10 +160,6 @@ export default {
 		]),
 		complete () {
 			return !!(this.getSelected.length);
-		},
-		isWishlistHasItems () {
-			const { wishlist } = this.$store.state.activity;
-			return wishlist && wishlist.length;
 		},
 	},
 	created () {
@@ -245,9 +226,6 @@ export default {
 				this.LimitshowError = true;
 			}
 		},
-		discoverItem() {
-			this.$router.push('/explore');
-		},
 	},
 	head: () => ({
 		title: 'Create-Photo',
@@ -268,7 +246,7 @@ export default {
 		position fixed
 .bottom
 	width 100%
-	z-index 999
+	z-index 200
 	padding 0
 	bottom 0
 	left 0
@@ -348,94 +326,6 @@ export default {
 
 .photo-menu-panel button
 	display block
-
-.whislist_empty{
-    width: 82.15vw;
-    margin: 0 auto 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.whislist_empty .whish_img{
-	width: 53.53vw;
-	height: 24.61vw;
-	background: #F5F5F5;
-	margin: 0 auto;
-	position: relative;
-}
-.whislist_empty .whish_img p{
-	position: absolute;
-	right: 1.8vw;
-	top: 1.8vw;
-	background: #000000;
-	border-radius: 50%;
-	width: 10.76vw;
-	height: 10.76vw;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin: 0;
-	z-index: 1;
-}
-.whislist_empty .whish_img:after{
-	content: '';
-	width: 15.38vw;
-	height: 15.38vw;
-	position: absolute;
-	background: #B8B8BA;
-	border-radius: 50%;
-	z-index: 0;
-	right: -0.5vw;
-	top: -0.5vw;
-}
-.whislist_empty .whish_img:before{
-	content: '';
-	width: 23.07vw;
-	height: 23.07vw;
-	position: absolute;
-	background: #DBDBDB;
-	border-radius: 50%;
-	z-index: 0;
-	right: -4.3vw;
-	top: -4.3vw;
-}
-.whislist_empty .whish_img p img{
-	width: 6.15vw;
-    height: 4.66vw;
-}
-.whislist_empty .txt p{
-    font-size: 3.69vw;
-    font-weight: 500;
-    color: #000;
-    width: 90%;
-    margin: 6.87vw auto;
-}
-.whislist_empty .txt .wish_btn{
-	margin: 0 auto;
-	border: 0.461vw solid #000;
-	height: 12.30vw;
-	width: 46.92vw;
-	font-size: 2.61vw;
-	padding: 0 8px;
-	display: block;
-	font-weight: bold;
-	border-radius: 3.07vw;
-	text-transform: uppercase;
-	margin-bottom: 3.07vw;
-	letter-spacing: 2px;
-	background-color: #fff !important;
-	color: #000;
-}
-.empty_wishlist_container {
-    width: 100%;
-    height: calc(100vh - 90px);
-    background-color: white;
-    z-index: 202;
-    position: fixed;
-    bottom: 0;
-	left: 0;
-}
 
 @media screen and (max-width: 280px) {
 	.edit-button {
