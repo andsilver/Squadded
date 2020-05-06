@@ -2,6 +2,7 @@ import { connect } from '~/plugins/init/ws';
 import { ActivityStore, ActivityMutations, ActivityActions } from '~/store/activity';
 import { FeedStore, FeedActions, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
+import { HomeStore, HomeMutations } from '~/store/home';
 import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
 import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { UserStore, UserMutations } from '~/store/user';
@@ -72,6 +73,8 @@ export class WidgetIPC {
 		const { itemId } = msg;
 		this.store.dispatch(`${ActivityStore}/${ActivityActions.unwish}`, { itemId });
 		this.store.commit(`${PostStore}/${PostMutations.unsquadd}`, itemId);
+		this.store.commit(`${FeedStore}/${FeedMutations.unsquadd}`, itemId);
+		this.store.commit(`${HomeStore}/${HomeMutations.unsquadd}`, itemId);
 		this.store.commit(`${PairedItemStore}/${PairedItemMutations.unsquadd}`, itemId);
 	}
 

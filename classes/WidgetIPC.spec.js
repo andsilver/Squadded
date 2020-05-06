@@ -9,6 +9,7 @@ import { flushPromises } from '~/helpers';
 import root from '~/store/index';
 import { ActivityStore, ActivityMutations, ActivityActions } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
+import { HomeStore, HomeMutations } from '~/store/home';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
@@ -130,6 +131,9 @@ describe('Dispatcher', () => {
 		expect(store.dispatch).toHaveBeenCalledWith(`${ActivityStore}/${ActivityActions.unwish}`, { itemId });
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.unsquadd}`, itemId);
 		expect(store.commit).toHaveBeenCalledWith(`${PairedItemStore}/${PairedItemMutations.unsquadd}`, itemId);
+		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.unsquadd}`, itemId);
+		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.unsquadd}`, itemId);
+		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.unsquadd}`, itemId);
 	});
 });
 
