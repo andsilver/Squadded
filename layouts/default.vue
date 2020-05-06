@@ -83,6 +83,8 @@ export default {
 				}
 			} else if (mutation.type === `${SquadStore}/${SquadMutations.openPost}` && mutation.payload) {
 				this.$router.push(`post/${mutation.payload}#comments`);
+			} else if (mutation.type === 'SET_PENDING' && !mutation.payload) {
+				this.rendered();
 			}
 		});
 		if (this.isTouch) {
@@ -138,6 +140,11 @@ export default {
 		},
 		showToolbarHide () {
 			this.hideMenu = false;
+		},
+		rendered () {
+			window.parent.postMessage(JSON.stringify({
+				type: 'rendered',
+			}), '*');
 		},
 	},
 };
