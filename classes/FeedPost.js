@@ -45,6 +45,7 @@ export class FeedPost {
 			private: privacy,
 			coords,
 			videoLink,
+			merchantId,
 		} = props;
 
 		this.type = type;
@@ -78,17 +79,23 @@ export class FeedPost {
 			this.voted = voted;
 			this.expires = expires;
 			this.closed = closed;
+			!this.item1.merchantId && (this.item1.merchantId = merchantId);
+			!this.item2.merchantId && (this.item2.merchantId = merchantId);
 		} else if (type === 'outfitPost') {
 			this.items = items.map(composeItem);
+			this.items.forEach(item => !item.merchantId && (item.merchantId = merchantId));
 			this.totalPrice = totalPrice;
 		} else if (type === 'galleryPost') {
 			this.items = items.map(composeItem);
+			this.items.forEach(item => !item.merchantId && (item.merchantId = merchantId));
 			this.img = img;
 		} else if (type === 'videoPost') {
 			this.items = items.map(composeItem);
+			this.items.forEach(item => !item.merchantId && (item.merchantId = merchantId));
 			this.videoLink = videoLink;
 		} else {
 			this.item = composeItem(item);
+			!this.item.merchantId && (this.item.merchantId = merchantId);
 		}
 	}
 
