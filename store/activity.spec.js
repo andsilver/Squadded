@@ -48,6 +48,7 @@ describe('Activity store module', () => {
 					blog: false,
 					wishlist: false,
 				},
+				myWishlist: [],
 			};
 		});
 

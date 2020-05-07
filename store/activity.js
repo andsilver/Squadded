@@ -1,5 +1,6 @@
 import { postReported } from '~/utils/reportSession';
 import { LOADING_TIMEOUT } from '~/consts/time-values';
+import { WISHLIST_LOADED } from '~/consts/keys';
 
 export const ActivityStore = 'activity';
 
@@ -20,6 +21,7 @@ export const state = () => ({
 		wishlist: false,
 	},
 	isPrivate: false,
+	myWishlist: [],
 });
 
 export const ActivityGetters = {
@@ -64,7 +66,8 @@ export const mutations = {
 		}
 		if (isSameUser(state.wishlist, post.userId)) {
 			state.wishlist.unshift(post);
-			exportWishlistToMerchant(state.wishlist);
+			state.myWishlist.unshift(post);
+			exportWishlistToMerchant(state.myWishlist);
 		}
 	},
 	[ActivityMutations.clearWishlist]: (state) => {
@@ -75,9 +78,13 @@ export const mutations = {
 	},
 	[ActivityMutations.setListOfType]: (state, payload) => {
 		const { posts, type, isMine } = payload;
-		state[type] = posts.filter(p => !postReported(p));
-		if (type === 'wishlist' && isMine) {
+
+		if (type === 'wishlist' && isMine && sessionStorage.getItem(WISHLIST_LOADED)) {
+			state.myWishlist = posts;
 			exportWishlistToMerchant(posts);
+			sessionStorage.removeItem(WISHLIST_LOADED);
+		} else {
+			state[type] = posts.filter(p => !postReported(p));
 		}
 	},
 	[ActivityMutations.removePost]: (state, postId) => {
@@ -86,13 +93,15 @@ export const mutations = {
 		}
 		state.blog = state.blog && state.blog.filter(p => p.postId !== postId);
 		state.wishlist = state.wishlist && state.wishlist.filter(p => p.postId !== postId);
+		state.myWishlist = state.myWishlist && state.myWishlist.filter(p => p.postId !== postId);
 	},
 	[ActivityMutations.removeWish]: (state, wish) => {
 		if (!wish) {
 			return;
 		}
 		state.wishlist = (state.wishlist || []).filter(w => w !== wish);
-		exportWishlistToMerchant(state.wishlist);
+		state.myWishlist = state.myWishlist.filter(w => w.postId !== wish.postId);
+		exportWishlistToMerchant(state.myWishlist);
 	},
 	[ActivityMutations.unsquadd]: (state, itemId) => {
 		if (!itemId) {
@@ -156,10 +165,17 @@ export const actions = {
 		const msg = {
 			type: `fetch${capitalized}`,
 		};
-		if (type === 'wishlist' && !forMerchant) {
-			msg.allMerchants = '*';
+
+		if (type === 'wishlist') {
+			if (forMerchant) {
+				msg.from = '*';
+				sessionStorage.setItem(WISHLIST_LOADED, Date.now().toString());
+			} else {
+				msg.allMerchants = '*';
+			}
 		}
-		if (!loadNew) {
+
+		if (!loadNew && !forMerchant) {
 			mostRecent && (msg.from = mostRecent.ts);
 			rootState.activity.loadedNew = false;
 		} else {
