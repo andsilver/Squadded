@@ -45,7 +45,6 @@ export default {
 		},
 		fail() {
 			this.linkIsValid = false;
-			console.log('Loading faild');
 		},
 		next() {
 			this.$emit('next', this.inputLink);

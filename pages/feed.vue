@@ -85,7 +85,7 @@ export default {
 		async onOpen () {
 			this.loadingSquadders = true;
 			await onAuth(this.$store);
-			if (this.squad.widget.open && (!this.items || !this.items.length)) {
+			if (!this.items || !this.items.length) {
 				this.fetchFeed(true);
 			} else {
 				this.$root.$once('widget-open', () => this.fetchFeed(true));

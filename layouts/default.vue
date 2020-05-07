@@ -142,9 +142,17 @@ export default {
 			this.hideMenu = false;
 		},
 		rendered () {
-			window.parent.postMessage(JSON.stringify({
-				type: 'rendered',
-			}), '*');
+			if (this.socket.isAuth) {
+				setTimeout(() => {
+					window.parent.postMessage(JSON.stringify({
+						type: 'rendered',
+					}), '*');
+				}, 5000);
+			} else {
+				window.parent.postMessage(JSON.stringify({
+					type: 'rendered',
+				}), '*');
+			}
 		},
 	},
 };
