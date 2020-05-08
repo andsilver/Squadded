@@ -49,6 +49,7 @@ export default {
 		}, {
 			uri: '/create/upload',
 			title: 'create.upload',
+			des: 'createDesc.upload',
 			images: require('assets/img/photo.svg'),
 		}, {
 			uri: '/create/poll',

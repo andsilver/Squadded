@@ -2,9 +2,12 @@
 	<v-container v-if="socket.isAuth" class="video-main-sec">
 		<BackBar v-if="step === 0" ref="goback-bar" :title="$t('SocialVideo')" :close="true" />
 		<StepBack v-else :title="$t('SocialVideo')" @back="goBack" />
-		<v-layout column class="mt-3">
+		<v-layout column class="mt-3 video-item">
 			<EmptyWishlist />
 			<InputVideo v-show="step === 0" @next="getLink" />
+			<div v-show="step === 1" class="video-item-subtitle">
+				To tag items that appear in your video, select them from your wishlist
+			</div>
 			<Items v-show="step === 1" ref="select-items" :max="20" @next="next" />
 			<PostSettings
 				v-show="step === 2"
@@ -130,4 +133,10 @@ export default {
 	button
 		position absolute
 		left 0
+.video-item-subtitle
+	font-size 3.23vw
+	text-align center
+	width 74.30vw
+	margin 0 auto 0.46vw
+	line-height 4.30vw
 </style>

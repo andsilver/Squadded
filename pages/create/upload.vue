@@ -6,12 +6,14 @@
 			<v-layout column grow class="mt-3">
 				<LargeButton
 					:img="require('@/assets/img/gallery.svg')"
-					:label="$t('create.photo')"
+					:label="$t('create.gallery')"
+					class="post-upload"
 					@click.native="$router.push('/create/photo')"
 				/>
 				<LargeButton
-					:img="require('@/assets/img/gallery.svg')"
-					:label="$t('SocialVideo')"
+					:img="require('@/assets/img/video-upload.svg')"
+					:label="$t('create.socialVideo')"
+					class="post-upload video"
 					@click.native="$router.push('/create/video')"
 				/>
 			</v-layout>

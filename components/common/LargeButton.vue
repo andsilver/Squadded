@@ -36,9 +36,17 @@ button
 	height 46.53vw
 
 	img
-		width 40pt
-		margin auto 0 8pt
+		width auto
+		margin auto 0 3.10vw
+		height 18.15vw
 	span
 		margin-bottom auto
-
+button.post-upload
+	margin 7.23vw auto 0
+	width 70.76vw
+	height 41.53vw
+	font-size 4VW
+	&.video
+		img
+			height 20vw
 </style>

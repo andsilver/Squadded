@@ -100,11 +100,14 @@
 		"photo": "Photo",
 		"poll": "Poll",
 		"upload": "Upload",
-		"video": "Video"
+		"video": "Video",
+		"gallery": "Gallery Picture",
+		"socialVideo": "Social Video"
 	},
 	"createDesc": {
 		"outfit": "Pair 2-4 items in a single post",
 		"photo": "Add a photo and tag items on it",
+		"upload": "Add here a photo or a IG youtube video",
 		"poll": "Ask your squad to vote between 2 items",
 		"unsupported_file_format": "This image format is not supported",
 		"video": "Add a video link and tag items on it"
@@ -311,7 +314,7 @@
 		"votes": "votes | votes"
 	},
 	"video": {
-		"inputLinkPlaceholder": "Enter your link from Youtobe, IG or Vimeo"
+		"inputLinkPlaceholder": "Enter your embed link from Youtube or IG"
 	},
 	"post": {
 		"addToMySquad": "Add {user} to My Squad",
