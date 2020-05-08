@@ -64,10 +64,12 @@ export const mutations = {
 		if (isSameUser(state.blog, post.userId)) {
 			state.blog.unshift(post);
 		}
-		if (isSameUser(state.wishlist, post.userId)) {
-			state.wishlist.unshift(post);
+		if (isSameUser(state.myWishlist, post.userId)) {
 			state.myWishlist.unshift(post);
 			exportWishlistToMerchant(state.myWishlist);
+		}
+		if (isSameUser(state.wishlist, post.userId)) {
+			state.wishlist.unshift(post);
 		}
 	},
 	[ActivityMutations.clearWishlist]: (state) => {
