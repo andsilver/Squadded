@@ -6,6 +6,7 @@
 			no-resize
 			:rows="5"
 			:rules="[rules.required, rules.url]"
+			class="affliate-link"
 			@update:error="onError"
 		/>
 	</div>
