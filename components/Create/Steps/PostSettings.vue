@@ -1,10 +1,10 @@
 
 <template>
 	<section>
-		<UserInput ref="user-input" v-model="text" :placeholder="$t('photo.textPlaceholder')" class="input-section" />
+		<UserInput ref="user-input" v-model="text" :placeholder="$t('photo.textPlaceholder')" class="input-section video-input" />
 		<VideoView
 			ref="video-preview"
-			class="video-preview"
+			class="video-preview last-screen"
 			:video-link="post.videoLink"
 		/>
 		<Button

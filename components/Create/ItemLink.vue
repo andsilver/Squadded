@@ -1,10 +1,11 @@
 <template>
 	<div class="item-link" :class="{ isError }">
-		<v-img :src="item.img" alt="" />
+		<v-img :src="item.img" class="affliate-iamge" alt="" />
 		<v-textarea
 			v-model="url"
 			no-resize
-			:rows="5"
+			:rows="6"
+			hide-details
 			:rules="[rules.required, rules.url]"
 			class="affliate-link"
 			@update:error="onError"
@@ -51,6 +52,7 @@ export default {
 	.v-image
 		border-radius 4vw
 		margin-right 4vw
+		flex 0.67 0 auto
 
 	.v-text-field
 		padding-top 0

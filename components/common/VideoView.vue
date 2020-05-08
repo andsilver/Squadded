@@ -113,16 +113,26 @@ export default {
 
 <style lang="stylus" scoped>
 .video-view
+	margin 0 auto
+	min-width 100%
+	text-align center
+.video-preview.video-view
 	margin 10.46vw auto 0vw
 	width calc(100% - 4.61vw)
 	box-shadow rgba(0,0,0,0.1) 0px 0.92vw 6.153vw
 	padding 4.61vw
 	min-height 50vh
 	text-align center
-	&.video-preview
+	background-image url('~assets/img/video-empty.svg')
+	background-size 60%
+	background-position center
+	&.last-screen
 		width 70%
 		padding 0
+		min-width auto
 		min-height auto
 		box-shadow none
+		margin-top 6.5vw
 		margin-bottom 4vw
+
 </style>
