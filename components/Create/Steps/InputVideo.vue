@@ -3,9 +3,13 @@
 		<v-text-field
 			ref="video-link"
 			v-model.lazy="inputLink"
+			solo
+			falt
+			dense
+			class="video-link"
 			:placeholder="$t('video.inputLinkPlaceholder')"
 		>
-			<v-icon ref="link-icon" slot="append">
+			<v-icon ref="link-icon" slot="append" class="link-icon">
 				mdi-link
 			</v-icon>
 		</v-text-field>
@@ -52,3 +56,7 @@ export default {
 	},
 };
 </script>
+<style lang="stylus" scoped>
+.link-icon
+	display none !important
+</style>
