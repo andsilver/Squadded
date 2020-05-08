@@ -54,4 +54,10 @@ export default {
 	&.input-section
 		margin-top 6.92vw
 		width 100%
+.video-input
+	.v-input
+	&.input-section
+		margin-top 0
+		width 100%
+		margin-left 0
 </style>

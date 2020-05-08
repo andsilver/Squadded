@@ -63,6 +63,6 @@
 				max-width 26vw
 
 .arrow-icon
-	font-size 4.5vw
-	color #B8B8BA
+	font-size 4.5vw !important
+	color #b8b8ba !important
 </style>
