@@ -28,12 +28,14 @@ export const ActivityGetters = {
 	getPostById: 'getPostById',
 	getWishByItemId: 'getWishByItemId',
 	getSelected: 'getSelected',
+	getMyWishByItemId: 'getMyWishByItemId',
 };
 
 export const getters = {
 	[ActivityGetters.getSelected]: state => (state.wishlist || []).filter(post => post.selected),
 	[ActivityGetters.getPostById]: state => id => state.blog && state.blog.find(i => i.guid === id),
 	[ActivityGetters.getWishByItemId]: state => id => state.wishlist && state.wishlist.find(post => post.getItem(id)),
+	[ActivityGetters.getMyWishByItemId]: state => id => state.myWishlist.find(post => post.getItem(id)),
 };
 
 const isSameUser = (feed, userId) => (feed && feed.length && feed[0].userId === userId);
@@ -48,6 +50,7 @@ export const ActivityMutations = {
 	unsquadd: 'unsquadd',
 	markAllLoaded: 'markAllLoaded',
 	setLoading: 'setLoading',
+	removeMyWish: 'removeMyWish',
 };
 
 const exportWishlistToMerchant = (wishlist) => {
@@ -102,7 +105,12 @@ export const mutations = {
 			return;
 		}
 		state.wishlist = (state.wishlist || []).filter(w => w !== wish);
-		state.myWishlist = state.myWishlist.filter(w => w.postId !== wish.postId);
+	},
+	[ActivityMutations.removeMyWish]: (state, wish) => {
+		if (!wish) {
+			return;
+		}
+		state.myWishlist = state.myWishlist.filter(w => w !== wish);
 		exportWishlistToMerchant(state.myWishlist);
 	},
 	[ActivityMutations.unsquadd]: (state, itemId) => {
@@ -149,7 +157,11 @@ export const actions = {
 		if (wish && !rootState.activity.guid.wishlist) {
 			commit(ActivityMutations.removeWish, wish);
 		}
+		const myWish = getters[ActivityGetters.getMyWishByItemId](itemId);
 
+		if (myWish) {
+			commit(ActivityMutations.removeMyWish, myWish);
+		}
 		commit(ActivityMutations.unsquadd, itemId);
 	},
 	[ActivityActions.fetchItems]: ({ rootState, commit }, { type, guid, loadNew, forMerchant }) => {
