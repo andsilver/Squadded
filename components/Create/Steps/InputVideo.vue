@@ -6,6 +6,7 @@
 			solo
 			falt
 			dense
+			hide-details
 			class="video-link"
 			:placeholder="$t('video.inputLinkPlaceholder')"
 		>

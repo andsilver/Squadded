@@ -12,7 +12,7 @@
 			</p>
 			<span class="right">
 				<v-btn icon>
-					<v-icon>
+					<v-icon class="arrow-icon">
 						sqdi-arrow-point-to-right
 					</v-icon>
 				</v-btn>
@@ -61,4 +61,8 @@
 			max-width 23.3vw
 			@media screen and (max-width 280px)
 				max-width 26vw
+
+.arrow-icon
+	font-size 4.5vw
+	color #B8B8BA
 </style>

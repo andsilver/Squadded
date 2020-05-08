@@ -80,7 +80,7 @@ export default {
 				this.fail();
 				return;
 			}
-			const width = this.$el.clientWidth;
+			const width = this.$el.clientWidth - 35;
 			const height = width * matched.aspect;
 			if (!width) {
 				return;
@@ -113,6 +113,16 @@ export default {
 
 <style lang="stylus" scoped>
 .video-view
-	margin 0 auto 5vw
-	min-width 100%
+	margin 10.46vw auto 0vw
+	width calc(100% - 4.61vw)
+	box-shadow rgba(0,0,0,0.1) 0px 0.92vw 6.153vw
+	padding 4.61vw
+	min-height 50vh
+	text-align center
+	&.video-preview
+		width 70%
+		padding 0
+		min-height auto
+		box-shadow none
+		margin-bottom 4vw
 </style>
