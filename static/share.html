@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <body></body>
 <script>
+    if (typeof(chrome) !== 'undefined') {
+        EXTENSION_ID='nkgjblonklmhncmdijkecjoniegjhifd'
+        chrome.runtime.sendMessage(EXTENSION_ID, 'ping', (response) => {
+           if (response !== 'pong') {
+                 window.location.href='https://www.squadded.co/login'
+           }
+         });
+    }
     const urlParams = new URLSearchParams(window.location.search);
     const squad = urlParams.get('squad');
     const siteUrl = urlParams.get('site');
