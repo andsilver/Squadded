@@ -1,17 +1,31 @@
 <!DOCTYPE html>
+
 <body></body>
 <script>
-    if (typeof(chrome) == 'undefined') {
-             siteUrl='https://www.squadded.co/login'
-        }
-    else {  EXTENSION_ID='nkgjblonklmhncmdijkecjoniegjhifd'
-            chrome.runtime.sendMessage(EXTENSION_ID, 'ping', (response) => {
-               if (response !== 'pong') {siteUrl='https://www.squadded.co/login' }
-             });
-    }
     const urlParams = new URLSearchParams(window.location.search);
-    const squad = urlParams.get('squad');
-    const siteUrl = urlParams.get('site');
-    localStorage.setItem('squad', squad);
-    window.location.href = siteUrl;
+    if (typeof (chrome) == 'undefined') {
+        const siteUrl = 'https://www.squadded.co/login'
+        const squad = urlParams.get('squad');
+        localStorage.setItem('squad', squad);
+        console.log(siteUrl)
+        window.location.href = siteUrl;
+    } else {
+        EXTENSION_ID = 'nkgjblonklmhncmdijkecjoniegjhifd'
+        chrome.runtime.sendMessage(EXTENSION_ID, 'ping', (response) => {
+            console.log(response)
+            if (response !== 'pong') {
+                const siteUrl = 'https://www.squadded.co/login'
+                const squad = urlParams.get('squad');
+                localStorage.setItem('squad', squad);
+                console.log(siteUrl)
+                window.location.href = siteUrl;
+            } else {
+                const siteUrl = urlParams.get('site');
+                const squad = urlParams.get('squad');
+                localStorage.setItem('squad', squad);
+                console.log(siteUrl)
+                window.location.href = siteUrl;
+            }
+        });
+    }
 </script>
