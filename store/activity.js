@@ -38,8 +38,6 @@ export const getters = {
 	[ActivityGetters.getMyWishByItemId]: state => id => state.myWishlist.find(post => post.getItem(id)),
 };
 
-const isSameUser = (feed, userId) => (feed && feed.length && feed[0].userId === userId);
-
 export const ActivityMutations = {
 	addPost: 'addPost',
 	removePost: 'removePost',
@@ -61,18 +59,18 @@ const exportWishlistToMerchant = (wishlist) => {
 };
 
 export const mutations = {
-	[ActivityMutations.addPost]: (state, post) => {
+	[ActivityMutations.addPost]: (state, { post, merchantId, userId }) => {
 		!state.blog && (state.blog = []);
 		!state.wishlist && (state.wishlist = []);
-		if (isSameUser(state.blog, post.userId)) {
-			state.blog.unshift(post);
-		}
-		if (isSameUser(state.myWishlist, post.userId)) {
-			state.myWishlist.unshift(post);
-			exportWishlistToMerchant(state.myWishlist);
-		}
-		if (isSameUser(state.wishlist, post.userId)) {
+
+		if (post.userId === userId) {
 			state.wishlist.unshift(post);
+			state.blog.unshift(post);
+
+			if (post.item.merchantId === merchantId) {
+				state.myWishlist.unshift(post);
+				exportWishlistToMerchant(state.myWishlist);
+			}
 		}
 	},
 	[ActivityMutations.clearWishlist]: (state) => {

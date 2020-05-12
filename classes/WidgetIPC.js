@@ -63,7 +63,11 @@ export class WidgetIPC {
 		msg.item.merchantId = this.store.state.merchant.id;
 		const post = await this.store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		this.store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
-		this.store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, post);
+		this.store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, {
+			post,
+			merchantId: this.store.state.merchant.id,
+			userId: this.store.state.user.me.userId,
+		});
 	}
 
 	removeItem(msg) {

@@ -58,7 +58,7 @@ describe('Activity store module', () => {
 				.get();
 			state.blog = [post];
 			state.wishlist = [post];
-			addPost(state, post);
+			addPost(state, { post });
 			expect(state.blog[0]).toStrictEqual(post);
 			expect(state.wishlist[0]).toStrictEqual(post);
 		});

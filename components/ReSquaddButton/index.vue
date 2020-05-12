@@ -33,7 +33,11 @@ export default {
 			this.item.squadded = true;
 			const post = await this.$store.dispatch(`${PostStore}/${PostActions.reSquaddItem}`, { item: this.item });
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
-			this.$store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, post);
+			this.$store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, {
+				post,
+				merchantId: this.$store.state.merchant.id,
+				userId: this.$store.state.user.me.userId,
+			});
 			this.$forceUpdate();
 		},
 		async unwish () {

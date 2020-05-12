@@ -32,6 +32,11 @@ describe('Dispatcher', () => {
 				merchant: {
 					id: 'merchantid',
 				},
+				user: {
+					me: {
+						userId: 'userId',
+					},
+				},
 			},
 			commit: jest.fn(),
 			dispatch: jest.fn(),
@@ -63,7 +68,11 @@ describe('Dispatcher', () => {
 
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.saveItem}`, msg);
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.addItem}`, post);
-		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.addPost}`, post);
+		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.addPost}`, {
+			post,
+			userId: store.state.user.me.userId,
+			merchantId: store.state.merchant.id,
+		});
 		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.interaction}`);
 		expect(localStorage.getItem(INTERACTED_KEY)).toBeTruthy();
 	});
