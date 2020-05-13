@@ -11,8 +11,7 @@
 		<div class="mb-0">
 			<FindFriends v-if="showDialog" ref="find-friends" />
 		</div>
-		<v-divider />
-		<ShareInviteLink class="pt-3 pb-8 px-3" show-title />
+		<ShareInviteLink class="pt-3 pb-8 px-3" />
 	</v-dialog>
 </template>
 

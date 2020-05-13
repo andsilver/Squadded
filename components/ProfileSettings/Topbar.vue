@@ -5,7 +5,7 @@
 				sqdi-arrow-pointing-to-left
 			</v-icon>
 		</v-btn>
-		<h3 ref="profile-settings-title">
+		<h3 ref="profile-settings-title" class="profile-settings-title">
 			{{ $t('profile_settings.title') }}
 		</h3>
 		<v-btn icon class="hide-button" />
@@ -25,4 +25,6 @@ export default {
 <style lang="stylus" scoped>
 .hide-button
 	pointer-events none
+.profile-settings-title
+	font-size 4.30vw
 </style>

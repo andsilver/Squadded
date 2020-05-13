@@ -705,7 +705,7 @@ section .v-btn
 
 .action-button
 	color black
-	font-size 14px
+	font-size 3.23vw
 	font-weight 600
 
 .select-control >>> .v-input

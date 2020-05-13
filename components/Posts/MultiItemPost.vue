@@ -246,7 +246,7 @@ export default {
 	margin-left -4px
 	vertical-align top
 	padding 4px
-	width 70%
+	width 63%
 	&.shifted
 		&::before
 			background -moz-linear-gradient(top,  rgba(218,217,221,0.3) 0%, rgba(255,255,255,0) 100%)

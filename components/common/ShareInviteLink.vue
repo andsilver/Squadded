@@ -12,15 +12,15 @@
 				@click="() => action(method)"
 			>
 				<div class="method-icon d-flex align-center justify-center">
-					<img v-if="method.title === 'messenger'" :width="30" :height="30" src="~assets/img/messenger.svg">
+					<img v-if="method.title === 'messenger'" :width="35" :height="35" src="~assets/img/messenger.svg">
 					<img
 						v-else-if="method.title === 'whatsapp'"
-						:width="40"
-						:height="40"
+						:width="45"
+						:height="45"
 						src="~assets/img/whatsapp.svg"
 					>
-					<img v-else-if="method.title === 'email'" :width="40" :height="40" src="~assets/img/envelope.svg">
-					<img v-else src="~assets/img/copy-link.png" :width="25" :height="25">
+					<img v-else-if="method.title === 'email'" :width="45" :height="45" src="~assets/img/envelope.svg">
+					<img v-else src="~assets/img/copy-link.png" :width="30" :height="30">
 				</div>
 				<div class="mt-2 caption">
 					{{ $t('invite_your_friends.' + method.title) }}
@@ -119,9 +119,9 @@ export default {
 
 <style lang="scss" scoped>
 .method-icon {
-	width: 13vw;
-	height: 13vw;
-	border-radius: 10px;
+	width: 17.84vw;
+	height: 17.84vw;
+	border-radius: 4.92vw;
 	line-height: 0;
 	box-shadow: -1px 2px 19px 1px rgba(0, 0, 0, 0.07843);
 	cursor: pointer;

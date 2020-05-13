@@ -2,7 +2,7 @@
 	<div v-if="user" class="py-4 profile-content">
 		<div class="pa-3">
 			<section ref="uploader" class="fixed_profile d-flex justify-center">
-				<v-avatar ref="user-avatar" class="user_avatar" width="100px" height="100px" min-width="none">
+				<v-avatar ref="user-avatar" class="user_avatar" min-width="none">
 					<v-img :key="user.avatar" :src="user.avatar" />
 				</v-avatar>
 				<v-menu
@@ -100,18 +100,18 @@
 			</section>
 			<section class="mt-4 d-flex">
 				<div class="mr-2">
-					<v-btn icon>
+					<v-btn icon class="privacy_icon">
 						<v-icon small color="black">
 							{{ user.private ? 'mdi-lock-outline': 'mdi-web' }}
 						</v-icon>
 					</v-btn>
 				</div>
-				<div class="mt-1 flex-grow-1">
+				<div class="flex-grow-1">
 					<div class="d-flex justify-space-between align-center">
-						<h5>
+						<h5 class="privacy_profile">
 							{{ $t('profile_settings.profile_privacy') }}
 						</h5>
-						<div class="select-control">
+						<div class="select-control profile-select">
 							<v-select
 								ref="toggle-private"
 								v-model="user.private"
@@ -302,4 +302,14 @@ section .v-btn
 .profile-input
 	margin-top 1.30vw
 	margin-bottom 3.3vw
+.v-avatar.user_avatar
+	width 27.69vw !important
+	height 27.69vw !important
+.privacy_profile
+	font-size 3.23vw
+.privacy_icon
+	width 8.30vw !important
+	height 8.30vw !important
+.privacy_icon i
+	font-size 4.6vw !important
 </style>

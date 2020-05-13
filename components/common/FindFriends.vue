@@ -201,7 +201,7 @@ export default {
 
 .friends-list {
 	background: #f9f9f9;
-	height: 200px;
+	height: 42vw;
 	overflow: auto;
 }
 
