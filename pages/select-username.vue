@@ -113,9 +113,6 @@ export default {
 		const userName = this.user.screenName.split('@');
 		this.username = userName[0];
 	},
-	mounted () {
-		this.$root.$emit('hideToolbarHide', {});
-	},
 	methods: {
 		openFileUpload(type) {
 			this.$refs[`${type}-input`].value = null;

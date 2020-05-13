@@ -60,6 +60,7 @@ describe('Default layout', () => {
 	});
 
 	it('should contain required components', () => {
+		store.state.socket.isAuth = true;
 		expect(wrapper.ref(APP).exists()).toBe(true);
 		expect(wrapper.ref(MAIN).exists()).toBe(true);
 		expect(wrapper.ref(PRELOADER).exists()).toBe(true);
