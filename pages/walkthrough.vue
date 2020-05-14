@@ -49,20 +49,21 @@
 			</div>
 		</div>
 		<div
+			v-if="step !== 3"
 			class="highlight"
 			:style="{
 				left: highlightLeft + 'px',
 				top: highlightTop + 'px',
 			}"
 		/>
+		<div
+			v-if="step === 3"
+			class="highlight walkthrogh"
+		/>
 		<ReSquaddButton
 			v-if="step === 3"
-			class="resquadd-btn"
+			class="resquadd-btn walkthrogh"
 			:item="posts[0].item"
-			:style="{
-				left: highlightLeft - 14 + 'px',
-				top: highlightTop - 14 + 'px',
-			}"
 		/>
 	</div>
 </template>
@@ -202,14 +203,14 @@ export default {
     top: -7px;
     margin-top: -16px;
 }
-
 .step2:after {
     left: 7.4vw !important;
 }
 
 .step3:after
 	left 221px !important
-
+	@media screen and (max-width 280px)
+		left 159px !important
 .highlight
 	position fixed
 	padding 1px
@@ -225,4 +226,21 @@ export default {
 	pointer-events none
 .next-step-section
 	margin-top 3.5vw
+.highlight.walkthrogh
+	top 62vw
+	left 70vw
+	@media screen and (max-width 280px)
+		top 71.25vw
+		left 67.5vw
+.resquadd-btn.walkthrogh
+	top 58vw
+	left 66.33vw
+	@media screen and (max-width 280px)
+		top 66.5vw
+		left 62.6vw
+@media screen and (max-width: 280px) {
+	.pop-overstep-3 {
+		top: 235px !important;
+	}
+}
 </style>

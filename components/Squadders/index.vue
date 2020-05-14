@@ -39,7 +39,7 @@
 				<span class="new-requests-dot">{{ newRequests.length }}</span>
 			</nuxt-link>
 		</div>
-		<div v-if="first5Users.length < 2 && !loading" class="mt-8 how-it-work-section">
+		<div v-if="first5Users.length < 4 && !loading" class="mt-8 how-it-work-section">
 			<v-divider />
 			<div class="mt-6 d-flex flex-column align-center">
 				<div class="text-center subtitle-1 font-weight-medium mb-4">
