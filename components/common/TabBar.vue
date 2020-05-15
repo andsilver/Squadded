@@ -9,7 +9,7 @@
 		<Tab :tab="tabs[1]" @click.native="closeMenu" />
 		<CreateTab />
 		<Tab :tab="tabs[2]" @click.native="closeMenu">
-			<Badge class="badge" :value="newNotify.length" />
+			<Badge class="badge" :value="newRequests.length || newNotifications.length" />
 		</Tab>
 		<Tab :tab="tabs[3]" />
 	</v-tabs>
@@ -53,7 +53,8 @@ export default {
 	}),
 	computed: {
 		...mapGetters([
-			NotificationGetters.newNotify,
+			NotificationGetters.newRequests,
+			NotificationGetters.newNotifications,
 		]),
 		...mapState([
 			'socket',

@@ -3,13 +3,13 @@
 		<BackBar ref="goback-button" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">
-			<div v-if="!filtered.length" class="flex-grow-1">
+			<div v-if="!newRequests.length" class="flex-grow-1">
 				<h5 ref="empty-notif-text" class="mt-4 pl-3 d-flex align-center notification-text">
 					<span>{{ $t('notify.new') }}</span>
 				</h5>
 				<EmptyNotification />
 			</div>
-			<Notifications v-else ref="notification-list" is-accept :items="filtered" />
+			<Notifications v-else ref="notification-list" is-accept :items="newRequests" />
 		</v-layout>
 	</v-container>
 </template>
@@ -21,10 +21,8 @@ import Notifications from '~/components/Notifications';
 import Tabs from '~/components/Notifications/Tabs';
 import EmptyNotification from '~/components/Notifications/Includes/EmptyNotification';
 import { NotificationStore, NotificationActions } from '~/store/notification';
-import { NOTIFICATIONS } from '~/consts/notifications';
 
 const notifStore = createNamespacedHelpers(NotificationStore);
-const notifState = notifStore.mapState;
 const notifGetters = notifStore.mapGetters;
 
 export default {
@@ -36,14 +34,8 @@ export default {
 		Tabs,
 	},
 	computed: {
-		...notifState(['notifications']),
 		...notifGetters(['newRequests']),
 		...mapState(['socket']),
-		filtered() {
-			return this.notifications.filter(
-				n => n.type === NOTIFICATIONS.ACCEPT_SQUAD || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
-			);
-		},
 	},
 	mounted () {
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`, this.newRequests);

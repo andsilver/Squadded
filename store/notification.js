@@ -22,7 +22,7 @@ export const getters = {
 	[NotificationGetters.newNotify]: state => state.notifications.filter(n => !n.viewed),
 	[NotificationGetters.oldNotify]: state => state.notifications.filter(n => n.viewed),
 	[NotificationGetters.newRequests]: state => state.notifications.filter(
-		n => !n.viewed && (n.type === NOTIFICATIONS.ACCEPT_SQUAD || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted))),
+		n => (n.type === NOTIFICATIONS.ACCEPT_SQUAD && !n.viewed) || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
 	),
 	[NotificationGetters.newNotifications]: state => state.notifications.filter(
 		n => !n.viewed && n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD,
@@ -161,7 +161,13 @@ export const actions = {
 		});
 	},
 	[NotificationActions.viewNotifications]: ({ rootState, commit }, notifications) => {
-		const notificationIds = (notifications || []).map(n => n._id);
+		const notificationIds = (notifications || [])
+			.filter(n => n.type !== NOTIFICATIONS.INVITE_SQUAD)
+			.map(n => n._id);
+
+		if (!notificationIds.length) {
+			return;
+		}
 		(notifications || []).forEach(n => commit(NotificationMutations.view, n));
 		updateCache(rootState.notification);
 		rootState.socket.$ws.sendObj({
