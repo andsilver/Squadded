@@ -29,6 +29,15 @@
 					</div>
 				</div>
 			</div>
+			<nuxt-link
+				v-if="newRequests && newRequests.length"
+				ref="new-requests"
+				class="new-requests d-flex align-center text-center"
+				to="/notifications/requests"
+			>
+				<span class="subtitle-2" style="color: #b8b8ba">New</span>
+				<span class="new-requests-dot">{{ newRequests.length }}</span>
+			</nuxt-link>
 		</div>
 		<div v-if="first5Users.length < 2 && !loading" class="mt-8 how-it-work-section">
 			<v-divider />
@@ -47,9 +56,12 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import { UserStore } from '~/store/user';
+import { NotificationStore } from '~/store/notification';
 import AddFriendsButton from '~/components/common/AddFriendsButton';
 
+const notifGetters = createNamespacedHelpers(NotificationStore).mapGetters;
 const { mapState } = createNamespacedHelpers(UserStore);
+
 export default {
 	components: {
 		AddFriendsButton,
@@ -71,6 +83,7 @@ export default {
 		...mapState([
 			'me',
 		]),
+		...notifGetters(['newRequests']),
 		first5Users() {
 			return this.users && this.users.length
 				? this.users.slice(0, 7)
@@ -203,4 +216,19 @@ export default {
 	border-radius 50%
 	border 0.92vw solid #fff
 	background-color #F5F5F5
+.new-requests
+	position absolute
+	right 10px
+	top 14px
+	margin-right 3px
+	cursor pointer
+
+	&-dot
+		color white
+		background #ee5f53
+		font-size 10px
+		width 15px
+		height 15px
+		border-radius 50%
+		margin-left 4px
 </style>

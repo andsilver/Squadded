@@ -1,7 +1,7 @@
 <template>
 	<section class="d-flex">
 		<UserLink v-if="userLink" size="7.69vw" :user="me" hide-name class="message-user-image" />
-		<CommentInputBox ref="comment-input-box" class="comment-input-box" :class="{'for-feed': forFeed}" @send="send" />
+		<CommentInputBox ref="comment-input-box" class="comment-input-box" :class="{'for-feed': forFeed}" :value="text" @send="send" />
 	</section>
 </template>
 

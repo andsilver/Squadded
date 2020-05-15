@@ -60,9 +60,9 @@ describe('Post', () => {
 
 			wrapper.setProps({ post });
 
-			const postText = wrapper.ref(POST_TEXT);
+			const postText = wrapper.ref('comment-show');
 			expect(postText.exists()).toBe(true);
-			expect(postText.text()).toBe(post.text);
+			expect(postText.vm.$props.comment).toBe(post.text);
 		});
 
 		it('should not display empty text', () => {
@@ -84,7 +84,7 @@ describe('Post', () => {
 
 			wrapper.setProps({ post });
 
-			expect(wrapper.ref(POST_TEXT).text()).toBe('post.textPlaceholder');
+			expect(wrapper.ref('comment-show').vm.comment).toBe('post.textPlaceholder');
 		});
 
 		it('should toggle text input for author', () => {

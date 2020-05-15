@@ -18,12 +18,12 @@
 				:class="{card_title: true, placeholder: isPlaceHolder, 'px-2': groupPost}"
 				@click="toggleTextEditor"
 			>
-				{{ post.text || (isPlaceHolder && $t('post.textPlaceholder')) }}
+				<CommentShow ref="comment-show" :comment="post.text || (isPlaceHolder && $t('post.textPlaceholder'))" />
 			</h3>
 			<MessageInput
 				v-if="showTextEditor"
 				ref="post-text-input"
-				class="mb-3"
+				class="mb-3 post-title-input"
 				:action="editPostText"
 				:placeholder="$t('post.textPlaceholder')"
 				:post="post"
@@ -43,6 +43,7 @@ import PopMenu from './PopMenu';
 import MessageInput from '~/components/MessageInput';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostActions } from '~/store/post';
+import CommentShow from '~/components/Comments/Includes/CommentShow';
 
 export default {
 	name: 'Post',
@@ -51,6 +52,7 @@ export default {
 		MessageInput,
 		PopMenu,
 		UserLink,
+		CommentShow,
 	},
 	props: {
 		post: {
@@ -138,4 +140,15 @@ export default {
 	height 500px
 	display block
 	background transparent
+</style>
+<style lang="stylus">
+.post-title-input
+	margin-left 12px
+
+	.comment-input
+		border-top-left-radius 3.07vw
+		border-bottom-left-radius 3.07vw
+
+		.squadders
+			left -4.61vw
 </style>

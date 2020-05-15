@@ -73,6 +73,12 @@ const KEY = {
 };
 
 export default {
+	props: {
+		value: {
+			type: String,
+			default: '',
+		},
+	},
 	data: () => ({
 		mentions: [],
 		showSquadders: false,
@@ -96,11 +102,11 @@ export default {
 	},
 	mounted () {
 		this.initTextarea();
+		this.resetInput(this.value);
 	},
 	methods: {
 		initTextarea() {
 			autosize(this.elmInputBox);
-			this.elmInputBox.style.height = '32px';
 		},
 		onInput() {
 			this.updateValues();
@@ -280,16 +286,15 @@ export default {
 		},
 		resetInput(currentVal) {
 			this.mentions = [];
-			// const mentionText = utils.htmlEncode(currentVal);
-			// const regex = new RegExp('(' + MENTION + ')\\[(.*?)\\]\\((.*?):(.*?)\\)', 'gi');
-			// let match;
-			// let newMentionText = mentionText;
-			// while ((match = regex.exec(mentionText)) != null) {
-			// 	newMentionText = newMentionText.replace(match[0], match[1] + match[2]);
-			// 	this.mentions.push({ id: match[4], type: match[3], value: match[2], trigger: match[1] });
-			// }
-			// this.elmInputBox.value = newMentionText;
-			this.inputValue = '';
+			const mentionText = utils.htmlEncode(currentVal);
+			const regex = new RegExp('(' + MENTION + ')\\[(.*?)\\]\\((.*?):(.*?)\\)', 'gi');
+			let match;
+			let newMentionText = mentionText;
+			while ((match = regex.exec(mentionText)) != null) {
+				newMentionText = newMentionText.replace(match[0], match[2]);
+				this.mentions.push({ userId: match[4], id: match[3], screenName: match[2], trigger: match[1] });
+			}
+			this.inputValue = newMentionText;
 			this.updateValues();
 		},
 		isOverflow() {
@@ -298,7 +303,7 @@ export default {
 		},
 		send() {
 			this.$emit('send', this.messageText);
-			this.resetInput();
+			this.resetInput('');
 		},
 		showSquaddersList() {
 			const rect = this.$refs['comment-input'].getBoundingClientRect();

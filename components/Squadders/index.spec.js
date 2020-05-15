@@ -3,6 +3,8 @@ import Vuex from 'vuex';
 import Squadders from './index.vue';
 import Store from '~/store';
 import { userMockBuilder } from '~/test/user.mock';
+import { NotificationStore, NotificationMutations } from '~/store/notification';
+import { notifInviteSquad } from '~/test/notifications.mock';
 
 Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
@@ -11,6 +13,7 @@ Wrapper.prototype.ref = function(id) {
 describe('Squadders', () => {
 	const COUNT_SQUADDERS = 'count-squadders';
 	const PLUS_BTN = 'plus-btn';
+	const NEW_REQUESTS = 'new-requests';
 
 	let wrapper;
 	let store;
@@ -52,6 +55,12 @@ describe('Squadders', () => {
 		const count = wrapper.ref(COUNT_SQUADDERS);
 		expect(count.text()).toBe(`+${squadders.length - 7}`);
 		expect(wrapper.ref('plus-btn').exists()).toBe(true);
+		expect(wrapper.ref(NEW_REQUESTS).exists()).toBe(false);
+	});
+
+	it('should render new requests', () => {
+		store.commit(`${NotificationStore}/${NotificationMutations.add}`, notifInviteSquad);
+		expect(wrapper.ref(NEW_REQUESTS).exists()).toBe(true);
 	});
 
 	it('should display only 5 people when over 5', () => {
