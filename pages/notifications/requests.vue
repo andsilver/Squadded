@@ -45,7 +45,7 @@ export default {
 			);
 		},
 	},
-	destroyed () {
+	mounted () {
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`, this.newRequests);
 	},
 	head: () => ({

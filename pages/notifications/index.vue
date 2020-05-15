@@ -62,7 +62,7 @@ export default {
 		this.$root.$emit('notiPageLoad', {});
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	},
-	destroyed () {
+	mounted () {
 		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`, this.newNotifications);
 	},
 	head: () => ({
