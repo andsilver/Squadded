@@ -52,6 +52,20 @@ const checkUser = (notification) => {
 	}
 	return !!notification.user;
 };
+const updateCache = (state) => {
+	let notifications = sessionStorage.getItem(STORAGE_NOTIFICATIONS_KEY);
+
+	try {
+		notifications = JSON.parse(notifications);
+	} catch (_) {
+		notifications = null;
+	}
+
+	sessionStorage.setItem(STORAGE_NOTIFICATIONS_KEY, JSON.stringify({
+		items: state.notifications,
+		ts: notifications && notifications.ts ? notifications.ts : Date.now(),
+	}));
+};
 
 export const mutations = {
 	[NotificationMutations.add]: (state, message) => {
@@ -66,11 +80,13 @@ export const mutations = {
 		}
 		setTimeout(() => {
 			message.showBanner = false;
+			updateCache(state);
 		}, message.type === 'notifAlert' ? UNDO_TIMEOUT : BANNER_TIMEOUT);
 		window.parent.postMessage(JSON.stringify({
 			type: 'notification',
 			message,
 		}), '*');
+		updateCache(state);
 	},
 	[NotificationMutations.receive]: (state, { notifications, ts }) => {
 		const unique = notifications.filter(n => !contain(state)(n));
@@ -79,15 +95,12 @@ export const mutations = {
 			.sort((a, b) => b.ts - a.ts)
 			.filter(checkUser)
 			.slice(0, NOTIFICATIONS_LIMIT);
-		sessionStorage.setItem(STORAGE_NOTIFICATIONS_KEY, JSON.stringify({
-			items: state.notifications,
-			ts: ts || Date.now(),
-		}));
 		if (unreadExist(state)) {
 			window.parent.postMessage(JSON.stringify({
 				type: 'notification',
 			}), '*');
 		}
+		updateCache(state);
 	},
 	[NotificationMutations.viewAll]: (state, list) => {
 		state.notifications.forEach((ntf) => {
@@ -102,6 +115,7 @@ export const mutations = {
 		}
 		notification.viewed = true;
 		notification.showBanner = false;
+		updateCache(state);
 	},
 	[NotificationMutations.setAcceptedSquad]: (state, id) => {
 		const notification = state.notifications.find(n => n._id === id);
@@ -109,10 +123,12 @@ export const mutations = {
 			return;
 		}
 		notification.accepted = true;
+		updateCache(state);
 	},
 	[NotificationMutations.undo]: (state, { _id }) => {
 		const notification = state.notifications.find(n => n._id === _id);
 		notification && (notification.showBanner = false);
+		updateCache(state);
 	},
 };
 
@@ -147,7 +163,7 @@ export const actions = {
 	[NotificationActions.viewNotifications]: ({ rootState, commit }, notifications) => {
 		const notificationIds = (notifications || []).map(n => n._id);
 		(notifications || []).forEach(n => commit(NotificationMutations.view, n));
-		sessionStorage.removeItem(STORAGE_NOTIFICATIONS_KEY);
+		updateCache(rootState.notification);
 		rootState.socket.$ws.sendObj({
 			type: 'viewNotifications',
 			notificationIds,
