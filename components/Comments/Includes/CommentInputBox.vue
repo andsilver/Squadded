@@ -387,6 +387,9 @@ export default {
 .active {
 	background: #ececec;
 }
+@media only screen and (max-width: 280px){
+	.editor{height: 27px !important;}
+}
 </style>
 <style lang="stylus" scoped>
 body .v-application .message-icon

@@ -424,10 +424,11 @@ export default {
 		color #FD6256
 		font-weight 600
 		font-size 3.69vw
-		padding-top 8.26vw
-		padding-bottom 12.76vw
+		margin-top 8.26vw
+		margin-bottom 12.76vw
 		line-height 5.84vw
 		position relative
+		cursor pointer
 		.terms_error_msg
 			background #fd6256
 			border-radius 1.53vw
@@ -519,8 +520,6 @@ export default {
 	z-index 99
 	width 100%
 	.notification-message
-		margin 0 3.07vw
-		padding 3.30vw 3.07vw
 		border-radius 0 0 15px 15px !important
 		border-bottom-left-radius 20px
 		border-bottom-right-radius 20px
@@ -529,7 +528,6 @@ export default {
 			position absolute
 			width calc(100% - 6vw)
 			height 0.76vw
-			background-color #ee5f53
 			bottom -0.32vw
 			border-radius 0 0 3.07vw 3.07vw
 .notification-icon

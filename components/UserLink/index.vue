@@ -295,4 +295,8 @@ export default {
 		margin-bottom 1.5vw
 .dummy_image
 	background-color #F5F5F5
+.notifications-container
+	.v-list-item__avatar
+		margin-top 0
+		margin-bottom 0
 </style>
