@@ -147,6 +147,7 @@ export const actions = {
 	[NotificationActions.viewNotifications]: ({ rootState, commit }, notifications) => {
 		const notificationIds = (notifications || []).map(n => n._id);
 		(notifications || []).forEach(n => commit(NotificationMutations.view, n));
+		sessionStorage.removeItem(STORAGE_NOTIFICATIONS_KEY);
 		rootState.socket.$ws.sendObj({
 			type: 'viewNotifications',
 			notificationIds,
