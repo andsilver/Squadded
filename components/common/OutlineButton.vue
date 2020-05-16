@@ -23,7 +23,7 @@ export default {
 <style lang="scss" scoped>
 .v-btn {
 	font-size: 0.62em !important;
-	border-radius: 10px;
+	border-radius: 2.5vw;
 	font-weight: 600;
 	border-width: 0.46vw;
 }

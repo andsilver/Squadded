@@ -207,7 +207,7 @@ export default {
 
 .invited-btn {
 	font-size: 0.62em !important;
-	border-radius: 10px;
+	border-radius: 2.5vw;
 }
 img.my-squad {
 	width: 2.77vw;
@@ -221,6 +221,7 @@ img.my-squad {
 	letter-spacing: 1.5px;
 	width: 22.30vw;
 	min-height: auto;
+	border-radius: 2.5vw;
 }
 .add-user-invite span, .invited-btn span {
 	font-size: 2.15vw;

@@ -10,7 +10,6 @@ describe('Share Post', () => {
 	let postLink;
 
 	const POST_LINK = 'post-link';
-	const COPY_ICON = 'copy-icon';
 
 	beforeEach(() => {
 		postLink = 'somelink';
@@ -26,8 +25,6 @@ describe('Share Post', () => {
 
 	it('should display post link text box with copy icon', () => {
 		const postLink = wrapper.ref(POST_LINK);
-		const copyIcon = wrapper.ref(COPY_ICON);
 		expect(postLink.exists()).toBe(true);
-		expect(copyIcon.exists()).toBe(true);
 	});
 });

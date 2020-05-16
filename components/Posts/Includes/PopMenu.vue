@@ -79,8 +79,8 @@
 				</template>
 			</v-list>
 		</v-menu>
-		<v-dialog v-model="showShare">
-			<SharePost ref="share-post-modal" :post-link="shortURL" />
+		<v-dialog v-model="showShare" content-class="share_box">
+			<SharePost ref="share-post-modal" :post-link="shortURL" @hideShowShare="hideShare" />
 		</v-dialog>
 
 		<v-dialog v-model="showReasonDialog" content-class="report-dialog">
@@ -368,6 +368,9 @@ export default {
 		},
 		showModal () {
 			this.showShare = true;
+		},
+		hideShare () {
+			this.showShare = false;
 		},
 		editPost () {
 			this.current = null;

@@ -348,6 +348,9 @@ export default {
 		outline: none;
 	}
 }
+.editor {
+	height: 30px;
+}
 .editor, .overlay {
 	font-size: 3.23vw;
     font-weight: 500;
