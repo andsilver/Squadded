@@ -64,6 +64,7 @@ export default {
 				'create-video',
 				'create-upload',
 				'create-poll',
+				'my-mysquad',
 			].includes(this.$route.name);
 		},
 		isTouch,

@@ -95,6 +95,12 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			fetchNotifications();
 			fetchSquadders();
 
+			window.parent.postMessage(JSON.stringify({
+				type: 'full-story-identity',
+				userId: user.userId,
+				displayName: user.screenName || user.name,
+			}), '*');
+
 			if (window.FS) {
 				window.FS.identify(user.userId, {
 					displayName: user.screenName || user.name,

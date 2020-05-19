@@ -42,7 +42,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="social-text-section" :class="{ hide_socila: showstepTwo}">
+					<div v-if="merchant.squadSLogin" ref="social-login" class="social-text-section" :class="{ hide_socila: showstepTwo}">
 						<div class="social">
 							<social-btn for="fb" :terms-status="terms" class="facebook-btn social-btn mb-4" @termsError="shwoTermsError" />
 							<social-btn for="google" :terms-status="terms" class="google-btn social-btn elevation-1" @termsError="shwoTermsError" />
