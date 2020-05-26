@@ -1,5 +1,6 @@
 {
 	"Activities": "Activités",
+	"AffiliateLinks": "Liens affiliés",
 	"All": "Notifications",
 	"Cancel": "Annuler",
 	"Choose": "Choisir",
@@ -46,6 +47,7 @@
 	"SelectPollName": "Ajouter une légende...",
 	"ShopWithYourFriendsOn": "Faites du shopping entre amis",
 	"Signin": "Se connecter",
+	"SocialVideo": "Vidéo Sociale",
 	"Squadders": "Squadders",
 	"StartBuildingYourSquad": "Vous avez presque fini! Après cette étape, vous inviterez vos amis a rejoindre votre squad.",
 	"Undo": "Annuler",
@@ -94,15 +96,21 @@
 		}
 	},
 	"create": {
+		"gallery": "Galerie photo",
 		"outfit": "Composition",
 		"photo": "Photo",
-		"poll": "Sondage"
+		"poll": "Sondage",
+		"socialVideo": "Vidéo sociale",
+		"upload": "Publier",
+		"video": "Vidéo"
 	},
 	"createDesc": {
 		"outfit": "Créer une tenue avec 2 à 4 articles",
 		"photo": "Poster une photo et identifier les articles",
 		"poll": "Demander l'avis des shoppeurs",
-		"unsupported_file_format": "Ce format d'image n'est pas pris en charge"
+		"unsupported_file_format": "Ce format d'image n'est pas pris en charge",
+		"upload": "Publier une photo/vidéo et identifier vos articles",
+		"video": "Ajouter une vidéo et y identifier les articles"
 	},
 	"create_your_squad": {
 		"description": "Invitez vos amis à rejoindre votre squad. Vous pourrez ainsi partager et réagir à vos wishlists.",
@@ -210,6 +218,10 @@
 		"validate": "Valider"
 	},
 	"getStarted": "Commencez avec",
+	"influencerMode": {
+		"caption": "Mode influenceur",
+		"description": "Modifier les liens d'affiliation pour chaque article"
+	},
 	"input": {
 		"placeholder": "Ajouter un commentaire..."
 	},
@@ -450,6 +462,8 @@
 		"photoLimitError": "Vous ne pouvez pas identifier plus de 4 articles",
 		"pollError": "Sélectionnez 2 articles pour créer un sondage",
 		"pollSelect": "Sélectionnez 2 articles avec lesquels vous hésitez",
+		"selectLimitError": "Vous devez sélectionner {min} à {max} articles",
+		"tapHere": "Cliquez ici pour plus de détails",
 		"tapPhotos": "Cliquez sur la photo pour plus de détails"
 	},
 	"topHome": "La communauté",
@@ -499,6 +513,9 @@
 		"watch_users_you_like": "aux shoppeurs que tu aimes, pour que leurs publications apparaissent en premier."
 	},
 	"validate": "Valider",
+	"video": {
+		"inputLinkPlaceholder": "Entrez le lien de votre vidéo Youtube ou IG"
+	},
 	"viewAll": "Tout voir",
 	"walkthrough": {
 		"next": "suivant",

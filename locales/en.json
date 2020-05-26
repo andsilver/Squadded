@@ -1,5 +1,6 @@
 {
 	"Activities": "Activities",
+	"AffiliateLinks": "Affiliate Links",
 	"All": "Notifications",
 	"Cancel": "Cancel",
 	"Choose": "Choose",
@@ -20,14 +21,12 @@
 	"Messageregarding": "Message regarding phone charges",
 	"Messages": "Messages",
 	"My Squad": "My Squad",
-	"NewOutfit": "New layout",
+	"NewOutfit": "New outfit ",
 	"NewPoll": "New poll",
 	"NewPost": "New post",
 	"NewPosts": "New Posts",
 	"Next": "Next",
 	"Notifications": "Messages",
-	"AffiliateLinks": "Affiliate Links",
-	"SocialVideo": "Social Video",
 	"PairedItem": {
 		"all": "Top",
 		"outfits": "Layouts",
@@ -48,6 +47,7 @@
 	"SelectPollName": "Write a caption...",
 	"ShopWithYourFriendsOn": "Shop with your friends on",
 	"Signin": "Sign in",
+	"SocialVideo": "Social Video",
 	"Squadders": "Squadders",
 	"StartBuildingYourSquad": "You're almost done! After this, you'll start building your squad.",
 	"Undo": "Undo",
@@ -56,13 +56,13 @@
 	"Wishlist": "Wishlist",
 	"YouCanAlwaysChange": "Only letters, digits and underscores. You can always change it later.",
 	"YourItem": "your item",
-	"YourOutfit": "your layout",
+	"YourOutfit": "your outfit",
 	"YourPicture": "your picture",
 	"YourPoll": "your poll",
 	"a poll": "a poll",
 	"agree_left": "Please check the box to confirm that you agree to our",
 	"agree_right": "terms and conditions.",
-	"an outfit": "a layout",
+	"an outfit": "an outfit",
 	"comment": {
 		"pop": {
 			"Action": "Action",
@@ -96,20 +96,20 @@
 		}
 	},
 	"create": {
-		"outfit": "Layout",
+		"gallery": "Gallery Picture",
+		"outfit": "Outfit ",
 		"photo": "Photo",
 		"poll": "Poll",
+		"socialVideo": "Social Video",
 		"upload": "Upload",
-		"video": "Video",
-		"gallery": "Gallery Picture",
-		"socialVideo": "Social Video"
+		"video": "Video"
 	},
 	"createDesc": {
 		"outfit": "Pair 2-4 items in a single post",
 		"photo": "Add a photo and tag items on it",
-		"upload": "Add here a photo or a IG youtube video",
 		"poll": "Ask your squad to vote between 2 items",
 		"unsupported_file_format": "This image format is not supported",
+		"upload": "Upload a photo/video and tag your items",
 		"video": "Add a video link and tag items on it"
 	},
 	"create_your_squad": {
@@ -153,8 +153,8 @@
 			"title": "Top 10 most wanted items right now"
 		},
 		"top_outfits": {
-			"description": "The top layouts that generated the biggest reactions",
-			"title": "Now trending layouts"
+			"description": "The top outfits  that generated the biggest reactions",
+			"title": "Now trending outfits"
 		}
 	},
 	"feed": {
@@ -218,6 +218,10 @@
 		"validate": "Validate"
 	},
 	"getStarted": "Get started with",
+	"influencerMode": {
+		"caption": "Influencer Mode",
+		"description": "Edit affiliate links for each item"
+	},
 	"input": {
 		"placeholder": "Write a comment..."
 	},
@@ -313,14 +317,11 @@
 		"voted": "VOTED",
 		"votes": "votes | votes"
 	},
-	"video": {
-		"inputLinkPlaceholder": "Enter your embed link from Youtube or IG"
-	},
 	"post": {
 		"addToMySquad": "Add {user} to My Squad",
 		"addedGallary": "posted a picture with {0} tagged items",
 		"addedItem": "saved this item",
-		"addedOutfit": "posted a new layout with {0} items",
+		"addedOutfit": "posted a new outfit with {0} items",
 		"addedPoll": "posted a poll",
 		"pop": {
 			"deletePost": {
@@ -369,7 +370,7 @@
 		"title": {
 			"comments": "Comments",
 			"galleryPost": "Gallery",
-			"outfitPost": "Layout",
+			"outfitPost": "Outfit",
 			"pollPost": "Poll",
 			"singleItemPost": "Single"
 		},
@@ -435,10 +436,6 @@
 		"forPrivate": "Private posts are only visible to your squad",
 		"toggle": "toggle"
 	},
-	"influencerMode": {
-		"caption": "Influencer Mode",
-		"description": "Edit affiliate links for each item"
-	},
 	"resendNotify": "New code has been sent",
 	"resend_code": "Resend code",
 	"select_username": {
@@ -458,7 +455,7 @@
 		"addItems": "Add items to your wishlist to create {0}.",
 		"createPhotoTag": "click photo to tag items",
 		"crop": "move points to crop",
-		"limitMessage": "The limit is 4 items per layout",
+		"limitMessage": "The limit is 4 items per outfit",
 		"outfitError": "You need to select 2 to 4 items to create a layout",
 		"outfitSelect": "Select 2 to 4 items to pair together",
 		"photoError": "Click the items you want to tag to post a picture.",
@@ -466,8 +463,8 @@
 		"pollError": "You need to select 2 items to create a poll",
 		"pollSelect": "Select 2 items you hesitate with",
 		"selectLimitError": "You need to select {min} to {max} items",
-		"tapPhotos": "click photos for details",
-		"tapHere": "click here for details"
+		"tapHere": "click here for details",
+		"tapPhotos": "click photos for details"
 	},
 	"topHome": "The community",
 	"user": {
@@ -516,6 +513,9 @@
 		"watch_users_you_like": "users you like, to make their posts appear first in your feed"
 	},
 	"validate": "validate",
+	"video": {
+		"inputLinkPlaceholder": "Insert link from your Youtube or IG video"
+	},
 	"viewAll": "View all",
 	"walkthrough": {
 		"next": "next",
