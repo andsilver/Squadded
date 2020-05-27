@@ -62,11 +62,14 @@ export default {
 			this.prevX = e.touches[0].clientX;
 		},
 		onMove (e) {
+			e.preventDefault();
+
 			if (this.replacing) {
 				this.prevX = e.touches[0].clientX;
 				return;
 			}
 			const { left, right } = this.$refs.group.getBoundingClientRect();
+
 			if (left > 100) {
 				this.setReplacing();
 				this.transformX = 0;
@@ -83,6 +86,7 @@ export default {
 			const element = this.$refs.item[0];
 			const { width } = element.getBoundingClientRect();
 			let n = Math.abs(Math.round(this.transformX / width));
+
 			if (n >= this.$refs.item.length) {
 				n = this.$refs.item.length - 1;
 			}

@@ -138,6 +138,7 @@ export default {
 			this.fetched = true;
 			this.maxHeight = `${(this.$refs['multi-item'].$el.offsetHeight - 7)}px`;
 			this.shifted = !this.shifted;
+
 			if (!this.shifted) {
 				this.selectedItem = '';
 			}
@@ -169,6 +170,7 @@ export default {
 			const trans = current - this.prev;
 			const margin = this.marginLeft + trans;
 			this.prev = current;
+
 			if (Math.abs(trans) < 6 ||
 				(trans > 0 && !this.shifted) ||
 				(trans < 0 && this.shifted)

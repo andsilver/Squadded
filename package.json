@@ -33,7 +33,8 @@
     ],
     "transform": {
       "^.+\\.js$": "babel-jest",
-      ".*\\.(vue)$": "vue-jest"
+      ".*\\.(vue)$": "vue-jest",
+      ".+\\.(css|styl|less|sass|scss|png|jpg|ttf|woff|woff2|svg)$": "jest-transform-stub"
     }
   },
   "dependencies": {
@@ -89,6 +90,7 @@
     "jest": "^24.9.0",
     "jest-skipped-reporter": "^0.0.5",
     "jest-tap-reporter": "^1.9.0",
+    "jest-transform-stub": "^2.0.0",
     "jsonwebtoken": "^8.5.1",
     "material-design-icons": "^3.0.1",
     "nodemon": "^2.0.2",

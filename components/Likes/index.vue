@@ -1,5 +1,5 @@
 <template>
-	<UserList ref="likes-list" :users="users" />
+	<UserList ref="likes-list" :users="likes" />
 </template>
 
 <script>
@@ -18,6 +18,7 @@ export default {
 		},
 	},
 	data: () => ({
+		likes: [],
 	}),
 	computed: {
 		users () {
@@ -33,7 +34,12 @@ export default {
 		}).then((likes) => {
 			const { post } = this;
 			const myUserId = this.$store.state.user.me.userId;
-			this.$store.commit(`${PostStore}/${PostMutations.resetLikes}`, { likes, myUserId, post });
+			likes.forEach((l) => {
+				l.isMe = l.guid === myUserId;
+			});
+			this.likes = likes;
+			post.likes.users = likes;
+			post.likes.count = likes.length;
 		});
 	},
 	methods: {

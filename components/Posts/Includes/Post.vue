@@ -87,6 +87,9 @@ export default {
 				return;
 			}
 			this.showTextEditor = !this.showTextEditor;
+			setTimeout(() => {
+				this.$refs['post-text-input'].$refs['comment-input-box'].elmInputBox.focus();
+			});
 		},
 		visibilityChanged(isVisible) {
 			this.visible = this.visible || isVisible;

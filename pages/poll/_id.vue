@@ -32,8 +32,7 @@ export default {
 	},
 	created() {
 		if (!this.$route.params.id) {
-			this.$router.back();
-			return;
+			return this.$router.back();
 		}
 		this.$store.commit(`${PostStore}/${PostMutations.setPollResult}`, null);
 		prefetch({
