@@ -69,11 +69,12 @@ export const SquadActions = {
 };
 
 export const actions = {
-	[SquadActions.postCheckout]: ({ rootState }, { items, totalPrice }) => {
+	[SquadActions.postCheckout]: ({ rootState }, { items, currency, totalPrice }) => {
 		rootState.socket.$ws.sendObj({
 			type: 'checkout',
 			items,
 			totalPrice,
+			currency,
 		});
 	},
 };

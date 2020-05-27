@@ -9,6 +9,7 @@
 				:is-closed="post.closed"
 				:voted="true"
 				:details="true"
+				@click.native="() => open(1)"
 			/>
 			<PollItem
 				ref="poll-item2"
@@ -17,6 +18,7 @@
 				:is-closed="post.closed"
 				:voted="true"
 				:details="true"
+				@click.native="() => open(2)"
 			/>
 		</div>
 		<div class="poll-post grid votes-wrapper">
@@ -49,6 +51,8 @@ import PollItem from '../Posts/Includes/PollItem';
 import Votes from './Includes/Votes';
 import Voter from './Includes/Voter';
 import { FeedPost } from '~/classes/FeedPost';
+import { SquadAPI } from '~/services/SquadAPI';
+import { OPENED_POST } from '~/consts/keys';
 
 export default {
 	name: 'PollDetails',
@@ -72,6 +76,12 @@ export default {
 		},
 		total() {
 			return this.post.item1.votes + this.post.item2.votes;
+		},
+	},
+	methods: {
+		open(itemIndex) {
+			sessionStorage.setItem(OPENED_POST, this.post.postId);
+			SquadAPI.openProduct(itemIndex === 1 ? this.post.item1 : this.post.item2);
 		},
 	},
 };

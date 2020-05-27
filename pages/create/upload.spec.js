@@ -1,6 +1,6 @@
 import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import Photo from './photo.vue';
+import Upload from './upload.vue';
 import Store from '~/store';
 import { PostStore, PostMutations, PostActions } from '~/store/post';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
@@ -15,13 +15,13 @@ Wrapper.prototype.ref = function(id) {
 	return this.find({ ref: id });
 };
 
-describe('Create Photo', () => {
+describe('Create Upload', () => {
 	let wrapper;
 	let store;
 	let localVue;
 	const user = userMockBuilder().get();
 	const GOBACK_BAR = 'goback-bar';
-	const CAPTURE_PHOTO = 'capture-photo';
+	// const CAPTURE_PHOTO = 'capture-photo';
 	const BROWSE = 'browse';
 	const SELECTED_ITEMS = 'selected-items';
 	const DONE_BUTTON = 'done-button';
@@ -47,7 +47,8 @@ describe('Create Photo', () => {
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
 		store.state.user.me = user;
-		wrapper = shallowMount(Photo, {
+		global.require = jest.fn();
+		wrapper = shallowMount(Upload, {
 			store,
 			localVue,
 			mocks: {
@@ -61,7 +62,7 @@ describe('Create Photo', () => {
 	it('should display correct contents', async () => {
 		await store.commit('SET_SOCKET_AUTH', true);
 		const gobackBar = wrapper.ref(GOBACK_BAR);
-		const capturePhoto = wrapper.ref(CAPTURE_PHOTO);
+		// const capturePhoto = wrapper.ref(CAPTURE_PHOTO);
 		const browse = wrapper.ref(BROWSE);
 		const selectedItems = wrapper.ref(SELECTED_ITEMS);
 		const doneButton = wrapper.ref(DONE_BUTTON);
@@ -73,7 +74,7 @@ describe('Create Photo', () => {
 		const nextButton = wrapper.ref(NEXT_BUTTON);
 
 		expect(gobackBar.exists()).toBe(true);
-		expect(capturePhoto.exists()).toBe(true);
+		// expect(capturePhoto.exists()).toBe(true);
 		expect(browse.exists()).toBe(true);
 		expect(selectedItems.exists()).toBe(true);
 		expect(nextButton.exists()).toBe(true);

@@ -80,11 +80,9 @@ export default {
 		},
 	},
 	mounted () {
-		if (this.post.items.length === 2) {
-			this.model = 0;
-			this.selectedIndex = 0;
-			this.firstSelcted = true;
-		}
+		this.model = 0;
+		this.selectedIndex = 0;
+		this.firstSelcted = true;
 	},
 	methods: {
 		itemSelected(toggle, item, index) {

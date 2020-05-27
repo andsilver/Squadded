@@ -120,6 +120,7 @@ export default {
 		},
 		async saveProfile() {
 			this.user.screenName = this.username;
+
 			if (!this.user.screenName) {
 				this.submitted = true;
 				return;
@@ -142,6 +143,7 @@ export default {
 		},
 		async doneCrop (data) {
 			this.showCropper = false;
+
 			if (!data) {
 				this.avatarImg = null;
 				return;

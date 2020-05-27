@@ -92,6 +92,7 @@ export default {
 		},
 		setPost(id) {
 			this.post = this.$store.getters[`${PostStore}/${PostGetters.getPostById}`](id);
+
 			if (this.post) {
 				return;
 			}
