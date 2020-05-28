@@ -161,9 +161,9 @@
 		"create": "Publier",
 		"how_it_works": {
 			"action": "Comment ça marche?",
-			"text": "Vous n'avez pas encore d'amis. Toutes leurs activités shopping apparaîtront ici."
+			"text": "Vous n'avez pas encore d'amis ici. Toutes leurs activités shopping apparaîtront ici."
 		},
-		"isEmpty": "Vous n'avez pas de publications"
+		"isEmpty": "Pas de publications"
 	},
 	"forAllItems": "Total {0} articles",
 	"form": {
@@ -538,7 +538,7 @@
 	"wishlist": {
 		"disabled_before_signin": "Veuillez vous connecter pour voir les articles",
 		"discover": "Découvrir les articles",
-		"empty": "Vous n'avez pas encore d'articles dans votre wishlist.",
+		"empty": "Pas d'articles dans la wishlist",
 		"postempty": "Votre wishlist est vide. Ajoutez des articles pour créer une publication",
 		"private": "Ce compte est privé\n Seul le squad de @{user}\n peut voir ses publications.",
 		"purchase": "ACHETER"
