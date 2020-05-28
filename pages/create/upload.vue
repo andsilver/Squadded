@@ -7,6 +7,7 @@
 				<!-- <CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" @error="fileTypeError = true" /> -->
 				<Browse v-show="!dataImg" ref="browse" @open="preview" @error="fileTypeError = true" />
 				<LargeButton
+					v-if="!dataImg"
 					:img="require('@/assets/img/video-upload.svg')"
 					:label="$t('create.socialVideo')"
 					class="post-upload video"
@@ -101,6 +102,7 @@ import {
 } from '~/store/post';
 import { compressImage } from '~/utils/compress-image';
 import LargeButton from '~/components/common/LargeButton';
+import { prefetch } from '~/helpers';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
 
@@ -172,6 +174,10 @@ export default {
 	},
 	created () {
 		this.$root.$on('selectProducts', data => this.selectProducts(data));
+		prefetch({
+			store: this.$store,
+			type: 'fetchWishlist',
+		});
 	},
 	methods: {
 		create () {

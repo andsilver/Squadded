@@ -18,7 +18,6 @@
 					{{ banner && notification.post.type == 'outfitPost' ? $t('YourOutfit') : '' }}
 					<template v-if="!banner">
 						<CommentShow v-if="notification.text" :comment="notification.text" />
-						<span>{{ $t('notify.post') }}</span>
 					</template>
 				</span>
 				<span v-if="!banner" class="time-string-section">

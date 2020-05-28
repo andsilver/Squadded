@@ -88,7 +88,9 @@ export default {
 			}
 			this.showTextEditor = !this.showTextEditor;
 			setTimeout(() => {
-				this.$refs['post-text-input'].$refs['comment-input-box'].elmInputBox.focus();
+				if (this.$refs['post-text-input']) {
+					this.$refs['post-text-input'].$el.querySelector('.editor').focus();
+				}
 			});
 		},
 		visibilityChanged(isVisible) {

@@ -9,13 +9,12 @@
 			class="editor"
 			:maxlength="300"
 			@keydown="onKeyDown"
-			@keypress="onKeyPress"
 			@click="onClick"
 			@blur="onBlur"
 			@input="onInput"
 		/>
 		<v-icon
-			v-if="inputValue.length"
+			v-if="showSend"
 			class="message-icon"
 			@click="send"
 		>
@@ -99,6 +98,9 @@ export default {
 		elmMentionsOverlay() {
 			return this.$refs['overlay-content'];
 		},
+		showSend () {
+			return this.inputValue.trim().replace(/\n$/, '').length;
+		},
 	},
 	mounted () {
 		this.initTextarea();
@@ -108,7 +110,10 @@ export default {
 		initTextarea() {
 			autosize(this.elmInputBox);
 		},
-		onInput() {
+		onInput(e) {
+			if (e && e.data) {
+				this.inputBuffer.push(e.data.substr(-1));
+			}
 			this.updateValues();
 			this.updateMentionsCollection();
 
@@ -154,9 +159,12 @@ export default {
 				return;
 			}
 
-			if (e.keyCode === KEY.BACKSPACE) {
+			if (e.keyCode === KEY.BACKSPACE || e.key === 'Backspace') {
 				this.inputBuffer = this.inputBuffer.slice(0, -1 + this.inputBuffer.length);
-				return;
+				this.inputValue = this.inputValue.substring(0, this.inputValue.length - 1);
+				e.preventDefault();
+				this.onInput();
+				return false;
 			}
 
 			if (!this.showSquadders) {
@@ -191,12 +199,6 @@ export default {
 				return false;
 			}
 			return true;
-		},
-		onKeyPress(e) {
-			if (e.keyCode !== KEY.BACKSPACE) {
-				const typedValue = String.fromCharCode(e.which || e.keyCode);
-				this.inputBuffer.push(typedValue);
-			}
 		},
 		onClick() {
 			this.resetBuffer();
@@ -302,7 +304,7 @@ export default {
 			return el.scrollWidth > el.offsetWidth;
 		},
 		send() {
-			this.$emit('send', this.messageText);
+			this.$emit('send', this.messageText.trim());
 			this.resetInput('');
 		},
 		showSquaddersList() {
@@ -391,7 +393,9 @@ export default {
 	background: #ececec;
 }
 @media only screen and (max-width: 280px){
-	.editor{height: 27px !important;}
+	.editor{
+		height: 27px;
+	}
 }
 </style>
 <style lang="stylus" scoped>

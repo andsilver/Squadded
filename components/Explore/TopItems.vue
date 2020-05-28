@@ -31,7 +31,7 @@
 				</div>
 			</div>
 		</div>
-		<div v-else-if="!items || !items.length">
+		<div v-else-if="!items || !items.length" class="pa-2">
 			<span ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 		</div>
 	</div>
