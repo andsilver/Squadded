@@ -227,20 +227,20 @@ export default {
 .next-step-section
 	margin-top 3.5vw
 .highlight.walkthrogh
-	top 62vw
+	top 63.5vw
 	left 70vw
 	@media screen and (max-width 280px)
-		top 71.25vw
+		top 76.25vw
 		left 67.5vw
 .resquadd-btn.walkthrogh
-	top 58vw
+	top 59.5vw
 	left 66.33vw
 	@media screen and (max-width 280px)
-		top 66.5vw
+		top 71.5vw
 		left 62.6vw
 @media screen and (max-width: 280px) {
 	.pop-overstep-3 {
-		top: 235px !important;
+		top: 239px !important;
 	}
 }
 </style>

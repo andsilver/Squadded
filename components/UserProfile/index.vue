@@ -345,6 +345,9 @@ export default {
 .user-actions {
 	.v-btn {
 		width: 25.38vw;
+		height: 9.23vw;
+		min-height: auto;
+		border-radius: 3.07vw;
 	}
 
 	.my-squad-btn {

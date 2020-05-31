@@ -12,15 +12,15 @@
 				@click="() => action(method)"
 			>
 				<div class="method-icon d-flex align-center justify-center">
-					<img v-if="method.title === 'messenger'" :width="35" :height="35" src="~assets/img/messenger.svg">
+					<img v-if="method.title === 'messenger'" :width="32" :height="32" src="~assets/img/messenger.svg">
 					<img
 						v-else-if="method.title === 'whatsapp'"
-						:width="45"
-						:height="45"
+						:width="32"
+						:height="32"
 						src="~assets/img/whatsapp.svg"
 					>
-					<img v-else-if="method.title === 'email'" :width="45" :height="45" src="~assets/img/envelope.svg">
-					<img v-else src="~assets/img/copy-link.png" :width="30" :height="30">
+					<img v-else-if="method.title === 'email'" :width="30" :height="30" src="~assets/img/envelope.svg">
+					<img v-else src="~assets/img/copy-link.svg" :width="25" :height="25">
 				</div>
 				<div class="mt-2 caption">
 					{{ $t('invite_your_friends.' + method.title) }}
@@ -62,7 +62,7 @@ export default {
 			},
 			{
 				title: 'copy_link',
-				icon: 'copy-link.png',
+				icon: 'copy-link.svg',
 			},
 		],
 		shortURL: null,

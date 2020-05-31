@@ -14,11 +14,11 @@ export const home = {
 			},
 			user: {
 				avatar:
-					'https://squadded-staging-media-us-east-1.s3.amazonaws.com/51a66bdc-3c09-40af-a494-d0b9e2c4b4e0.png',
+					'_nuxt/assets/img/home-avatar.svg',
 				guid: '5d8a3851dc2113a2f6c70dd0',
-				screenName: 'Stephanie',
+				screenName: 'Dianna Smiley',
 				miniAvatar:
-					'https://squadded-staging-media-us-east-1.s3.amazonaws.com/02067e66-9e23-42c7-9df9-1e84db01a0dc.png',
+					'_nuxt/assets/img/home-avatar.svg',
 				mysquad: true,
 				followed: true,
 			},
@@ -57,11 +57,11 @@ export const home = {
 			comments: { count: 0 },
 			user: {
 				avatar:
-					'https://squadded-staging-media-us-east-1.s3.amazonaws.com/51a66bdc-3c09-40af-a494-d0b9e2c4b4e0.png',
+					'_nuxt/assets/img/home-avatar.svg',
 				guid: '5d8a3851dc2113a2f6c70dd0',
-				screenName: 'Stephanie',
+				screenName: 'Lara Harrison',
 				miniAvatar:
-					'https://squadded-staging-media-us-east-1.s3.amazonaws.com/02067e66-9e23-42c7-9df9-1e84db01a0dc.png',
+					'_nuxt/assets/img/home-avatar.svg',
 				mysquad: true,
 				followed: true,
 			},
@@ -94,11 +94,11 @@ export const feed = {
 			comments: { count: 0 },
 			user: {
 				avatar:
-					'https://squadded-staging-media-us-east-1.s3.amazonaws.com/userdata/23/5b29d108-3900-489f-9a7c-06260a1f101d.png',
+					'_nuxt/assets/img/home-avatar.svg',
 				guid: '5e43e363170ae8fce3af970f',
-				screenName: 'Yash',
+				screenName: 'Olivia S.',
 				miniAvatar:
-					'https://squadded-staging-media-us-east-1.s3.amazonaws.com/userdata/52/730bfbf6-07a2-49d9-8874-e242016cbf3d.png',
+					'_nuxt/assets/img/home-avatar.svg',
 				mysquad: true,
 				followed: false,
 			},
@@ -127,11 +127,11 @@ export const feed = {
 			comments: { count: 0 },
 			user: {
 				avatar:
-					'https://squadded-staging-media-us-east-1.s3.amazonaws.com/51a66bdc-3c09-40af-a494-d0b9e2c4b4e0.png',
+					'_nuxt/assets/img/home-avatar.svg',
 				guid: '5d8a3851dc2113a2f6c70dd0',
-				screenName: 'Stephanie',
+				screenName: 'Natalia Leonard',
 				miniAvatar:
-					'https://squadded-staging-media-us-east-1.s3.amazonaws.com/02067e66-9e23-42c7-9df9-1e84db01a0dc.png',
+					'_nuxt/assets/img/home-avatar.svg',
 				mysquad: true,
 				followed: true,
 			},
@@ -156,10 +156,10 @@ export const feed = {
 		{
 			userId: '5d8a3851dc2113a2f6c70dd0',
 			avatar:
-				'https://squadded-staging-media-us-east-1.s3.amazonaws.com/51a66bdc-3c09-40af-a494-d0b9e2c4b4e0.png',
+				'_nuxt/assets/img/home-avatar.svg',
 			screenName: 'Stephanie',
 			miniAvatar:
-				'https://squadded-staging-media-us-east-1.s3.amazonaws.com/02067e66-9e23-42c7-9df9-1e84db01a0dc.png',
+				'_nuxt/assets/img/home-avatar.svg',
 		},
 	],
 };

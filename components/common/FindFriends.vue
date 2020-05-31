@@ -201,7 +201,7 @@ export default {
 
 .friends-list {
 	background: #f9f9f9;
-	height: 42vw;
+	height: 40vw;
 	overflow: auto;
 }
 
@@ -216,7 +216,7 @@ img.my-squad {
 	background: #ffffff !important;
 	border: 1px solid #000;
 	color: #000;
-	height: 9.23vw;
+	height: 9.23vw !important;
 	font-size: 2.15vw;
 	letter-spacing: 1.5px;
 	width: 22.30vw;

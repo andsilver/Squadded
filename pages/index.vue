@@ -31,7 +31,7 @@
 			<div class="login">
 				<Brand />
 				<div ref="socialstep-one" class="social_step-one" :class="{ active: showstepOne, in_active: !showstepOne}">
-					<div class="text-center pt-6 mt-11 mt-md-0 mb-6 font-weight-bold">
+					<div class="text-center pt-6 mt-11 mt-md-0 mb-4 font-weight-bold signin-text">
 						{{ $t('signin.signin_to_shop_with_your_friends') }}
 					</div>
 					<div class="text-center">
@@ -541,4 +541,6 @@ export default {
 	font-size 3.230vw
 	color #000
 	width 58vw
+.signin-text
+	font-size 4.30vw
 </style>
