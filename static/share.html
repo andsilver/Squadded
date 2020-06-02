@@ -18,9 +18,11 @@
         navigator.userAgent.match(/iPod/i)
     ) {
         siteUrl = 'https://www.squadded.co/login';
+        window.location.href = siteUrl;
     } else if (!chrome || !chrome.runtime) {
         saveRedirect();
         siteUrl = 'https://www.squadded.co/login';
+        window.location.href = siteUrl;
     } else {
         const EXTENSION_ID = 'nkgjblonklmhncmdijkecjoniegjhifd';
         chrome.runtime.sendMessage(EXTENSION_ID, 'ping', (response) => {
@@ -31,9 +33,7 @@
             } else {
                 siteUrl = urlParams.get('site');
             }
+            window.location.href = siteUrl;
         });
     }
-
-    console.log(siteUrl);
-    window.location.href = siteUrl;
 </script>
