@@ -13,12 +13,10 @@ export const home = {
 				count: 13,
 			},
 			user: {
-				avatar:
-					'_nuxt/assets/img/home-avatar.svg',
+				avatar: require('assets/img/home-avatar.svg'),
 				guid: '5d8a3851dc2113a2f6c70dd0',
 				screenName: 'Dianna Smiley',
-				miniAvatar:
-					'_nuxt/assets/img/home-avatar.svg',
+				miniAvatar: require('assets/img/home-avatar.svg'),
 				mysquad: true,
 				followed: true,
 			},
@@ -56,12 +54,10 @@ export const home = {
 			ts: 1584815137801,
 			comments: { count: 0 },
 			user: {
-				avatar:
-					'_nuxt/assets/img/home-avatar.svg',
+				avatar: require('assets/img/home-avatar.svg'),
 				guid: '5d8a3851dc2113a2f6c70dd0',
 				screenName: 'Lara Harrison',
-				miniAvatar:
-					'_nuxt/assets/img/home-avatar.svg',
+				miniAvatar: require('assets/img/home-avatar.svg'),
 				mysquad: true,
 				followed: true,
 			},
@@ -93,12 +89,10 @@ export const feed = {
 			ts: 1585139368882,
 			comments: { count: 0 },
 			user: {
-				avatar:
-					'_nuxt/assets/img/home-avatar.svg',
+				avatar: require('assets/img/home-avatar.svg'),
 				guid: '5e43e363170ae8fce3af970f',
 				screenName: 'Olivia S.',
-				miniAvatar:
-					'_nuxt/assets/img/home-avatar.svg',
+				miniAvatar: require('assets/img/home-avatar.svg'),
 				mysquad: true,
 				followed: false,
 			},
@@ -126,12 +120,10 @@ export const feed = {
 			ts: 1585139000730,
 			comments: { count: 0 },
 			user: {
-				avatar:
-					'_nuxt/assets/img/home-avatar.svg',
+				avatar: require('assets/img/home-avatar.svg'),
 				guid: '5d8a3851dc2113a2f6c70dd0',
 				screenName: 'Natalia Leonard',
-				miniAvatar:
-					'_nuxt/assets/img/home-avatar.svg',
+				miniAvatar: require('assets/img/home-avatar.svg'),
 				mysquad: true,
 				followed: true,
 			},
@@ -155,11 +147,9 @@ export const feed = {
 	squadders: [
 		{
 			userId: '5d8a3851dc2113a2f6c70dd0',
-			avatar:
-				'_nuxt/assets/img/home-avatar.svg',
+			avatar: require('assets/img/home-avatar.svg'),
 			screenName: 'Stephanie',
-			miniAvatar:
-				'_nuxt/assets/img/home-avatar.svg',
+			miniAvatar: require('assets/img/home-avatar.svg'),
 		},
 	],
 };

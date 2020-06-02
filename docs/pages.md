@@ -1,4 +1,4 @@
-## index.vue
+## index
 
 [source](../pages/index.vue)
 
@@ -14,29 +14,29 @@ Email Signin is consists of two steps:
 
 After signin, the user can goes to:
 
-1. [Select Username](#select-username.vue) page if he didn't select a username.
-2. [Invite Friends](#invite-friends.vue) page if he still doesn't have no friends on this platform.
-3. [Home](#feed.vue) page if he already set username and has some friends.
+1. [Select Username](#select-username) page if he didn't select a username.
+2. [Invite Friends](#invite-friends) page if he still doesn't have no friends on this platform.
+3. [Home](#feed) page if he already set username and has some friends.
 4. Or it lets the user go to the last page before he closed the browser.
 
 ---
 
-## community.vue
+## community
 
 [source](../pages/community.vue)
 
 This page displays some example posts before authentication.
 Using [Feed](./components.md#Feed) component for displaying posts.
 It's not available after the user sign in.
-No elements is clickable and any click will let the user redirect to [index](#index.vue) page.
+No elements is clickable and any click will let the user redirect to [index](#index) page.
 
 ---
 
-## select-username.vue
+## select-username
 
 `Select Username` Page
 
-[source](../pages/select-username.vue)
+[source](../pages/select-username)
 
 You can set your `username` or `avatar` on this page.
 `Avatar` is optional but `username` is required.
@@ -44,13 +44,13 @@ You can set your `username` or `avatar` on this page.
 Each time a user sign in, we check if he set his `username`, if not, we force him to go to this page.
 
 This page is not reachable again after he initially set his `username`.
-To change the `username` again, the user can go to [My ](#me.vue) page.
+To change the `username` again, the user can go to [My ](#me) page.
 
-After he set the `username`, he goes to [invite-friends](#invite-friends.vue) page.
+After he set the `username`, he goes to [invite-friends](#invite-friends) page.
 
 ---
 
-## invite-friends.vue
+## invite-friends
 
 [source](../pages/invite-friends.vue)
 
@@ -59,14 +59,14 @@ There are two sections in this page:
 -   The authenticated user can invite friends via invite link, whatsapp, facebook messenger or email. The receiver will get a link to the inviter's profile.
 
 -   He can search friends already signed up to the app by `name`.
-    Clicking `Invite` on a searched user will send a request notification to the user. This kind of requests notifications will be appeared at [Requests Notifications](#notifications/requests.vue) page.
+    Clicking `Invite` on a searched user will send a request notification to the user. This kind of requests notifications will be appeared at [Requests Notifications](#notificationsrequests) page.
 
 You will see this page everytime you sign in when you don't have a friends.
-If you have at least one in your squadded list, then you goes to [my-squad](#feed.vue) page
+If you have at least one in your squadded list, then you goes to [my-squad](#feed) page
 
 ---
 
-## feed.vue
+## feed
 
 `Home` Page
 
@@ -74,7 +74,7 @@ If you have at least one in your squadded list, then you goes to [my-squad](#fee
 
 There are three sections on this page:
 
-1. TopBar includes two navigation buttons: [The Community](#all.vue) and `Home` page.
+1. TopBar includes two navigation buttons: [The Community](#all) and `Home` page.
 2. A bar contains friends of the user and a plus button to add a friend. Clicking the plus button will open `add-friends` dialog that can search friends, send invite notification or invite a friend via `Messenger`, `Facebook`, `Email` or `Invite Link`.
    This dialog is being used across the platform for adding a friend.
 3. Feed section where we show all posts from you and your friends. Using [Feed](./components.md#Feed) component for displaying posts.
@@ -83,7 +83,7 @@ There are three sections on this page:
 
 ---
 
-## all.vue
+## all
 
 `The Community` Page
 
@@ -92,11 +92,11 @@ There are three sections on this page:
 Showing some posts from all users in the application based on activity.
 Using [Feed](./components.md#Feed) component for displaying posts.
 
-If you visit this page for the first time, it will redirect you to [walkthrough](#walkthrough.vue) page.
+If you visit this page for the first time, it will redirect you to [walkthrough](#walkthrough) page.
 
 ---
 
-## profile-settings.vue
+## profile-settings
 
 `Profile Settings` Page
 
@@ -113,11 +113,11 @@ There are two tabs:
 
 Before leaving this page, we check if there is any unsaved changes. If there are, we show a confirmation dialog.
 
-This page is reachable by clicking `Edit` or **`⋮`** Button at the left top corner of [My Profile](#me.vue) page.
+This page is reachable by clicking `Edit` or **`⋮`** Button at the left top corner of [My Profile](#me) page.
 
 ---
 
-## me.vue
+## me
 
 `My Profile` Page
 
@@ -128,10 +128,10 @@ Showing my `Profile`, `Posts` and `Wishlist`.
 The page has three sections:
 
 1. Top bar has:
-    - **`⋮`** Button to go to [Profile Settings](#profile-settings.vue) page
+    - **`⋮`** Button to go to [Profile Settings](#profile-settings) page
     - Button to show a dialog to add a friend
 2. Displaying my profile picture and username.
-   And contains `My Squad` button to go to [My Squadders](#my/mysquad.vue) page, `Edit` button to go to [Profile Settings](#profile-settings.vue) page.
+   And contains `My Squad` button to go to [My Squadders](#mymysquad) page, `Edit` button to go to [Profile Settings](#profile-settings) page.
 
 3. Tabs container
     - `Posts` tab contains all of my posts. Using [Feed](./components.md#Feed) component for displaying posts.
@@ -139,7 +139,7 @@ The page has three sections:
 
 ---
 
-## my/mysquad.vue
+## my/mysquad
 
 [source](../pages/my/mysquad.vue)
 
@@ -147,24 +147,22 @@ Displaying all of my friends and has a button to show a dialog to add a new frie
 
 ---
 
----
-
 # Notifications
 
-## notifications/index.vue
+## notifications/index
 
 `Notifications` Page
 
 [source](../pages/notifications/index.vue)
 
 Showing last 30 notifications except `Request type notification` that the current user received in the past.
-`Request` notifications are displayed in the next [Requests](#notifications/requests.vue) tab.
+`Request` notifications are displayed in the next [Requests](#notificationsrequests) tab.
 If there is any new unread messages, they are displayed under a section named `New`.
 Check [here](./components.md#Notifications) to check the type of notifications.
 
 ---
 
-## notifications/requests.vue
+## notifications/requests
 
 `Requests` Page
 
@@ -177,11 +175,9 @@ Check [here](./components.md#Notifications) to check the type of notifications.
 
 ---
 
----
-
 # Create
 
-## create/outfit.vue
+## create/outfit
 
 [source](../pages/create/outfit.vue)
 
@@ -193,7 +189,7 @@ In the next page, add caption and select the post's privacy.
 
 ---
 
-## create/poll.vue
+## create/poll
 
 [source](../pages/create/poll.vue)
 
@@ -208,7 +204,7 @@ There are two steps to create a `Poll` post:
 
 ---
 
-## create/upload.vue
+## create/upload
 
 [source](../pages/create/upload.vue)
 
