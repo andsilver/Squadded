@@ -150,6 +150,7 @@ export default {
 	}
 }
 .invite-friends-img {
-	width: 70vw;
+	width: 90vw;
+	object-fit: contain;
 }
 </style>
