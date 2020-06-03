@@ -395,7 +395,7 @@ export default {
 				align-items center
 				padding-top 0
 	.comment-setting-option:last-child .setting-label
-		background-position-y 14px
+		background-position-y 3.9vw
 .grouped-post .v-menu__content
 	right 12px
 span.delete-text

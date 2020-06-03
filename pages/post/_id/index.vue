@@ -111,4 +111,5 @@ export default {
 	>>> .comment-listing
 		height unset !important
 		padding-left 12px
+		padding-bottom 40px
 </style>
