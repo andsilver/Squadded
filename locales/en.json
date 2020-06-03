@@ -376,7 +376,11 @@
 		},
 		"unwatchRachel": "Unwatch Rachel",
 		"unwatchUser": "Unwatch {user}",
-		"watchUser": "Watch {user}"
+		"watchUser": "Watch {user}",
+		"share_link": {
+			"subject": "Check this post on {merchant} with  Shopping Party - shop online with your friends",
+			"content": "Check this post on {merchant}"
+		}
 	},
 	"postdeleted": "Your post has been deleted",
 	"privacy": "Privacy",
