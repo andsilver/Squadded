@@ -74,6 +74,7 @@ export default {
 	margin-right 4.15vw
 	height auto
 	max-height 46.15vw
+	object-fit cover
 	@media screen and (max-width: 350px)
 		width 26.3vw
 		margin-right 3.15vw
