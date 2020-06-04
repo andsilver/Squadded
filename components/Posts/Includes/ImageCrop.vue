@@ -45,7 +45,7 @@ export default {
 		},
 		aspectRatio: {
 			type: Number,
-			default: 10 / 12,
+			default: 4 / 5,
 		},
 	},
 	data: () => ({
