@@ -58,11 +58,8 @@ export default {
 	},
 	computed: {
 		items () {
-			if (this.$store.getters[`${ExploreStore}/${ExploreGetters.getItems}`]('endingPolls')) {
-				return this.$store.getters[`${ExploreStore}/${ExploreGetters.getItems}`]('endingPolls').filter(n => n.expires);
-			} else {
-				return this.$store.getters[`${ExploreStore}/${ExploreGetters.getItems}`]('endingPolls');
-			}
+			const items = this.$store.getters[`${ExploreStore}/${ExploreGetters.getItems}`]('endingPolls');
+			return items ? items.filter(n => n.expires) : items;
 		},
 	},
 	created() {

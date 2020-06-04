@@ -45,14 +45,42 @@ async function activity (message) {
 	this.store.commit(`${ActivityStore}/${ActivityMutations.setLoading}`, { type, loading: false });
 }
 
-function exploreItems (message) {
+async function exploreItems (message) {
 	const { type } = message;
 	const innerType = type.replace('top', '');
 	const lowercased = innerType.charAt(0).toLowerCase() + innerType.slice(1);
+	const rawPosts = message[lowercased].map((p) => {
+		if (p.post) {
+			return {
+				...p.post,
+				guid: p.post._id,
+				postId: p.post._id,
+			};
+		}
+		if (!p.item) {
+			return {
+				...p,
+				guid: p._id,
+				postId: p._id,
+			};
+		}
+		const { _id, ...item } = p.item;
+		return {
+			_id,
+			postId: _id,
+			guid: _id,
+			item,
+			type: 'singleItemPost',
+		};
+	});
+	const uniqueIds = rawPosts.map(r => r._id);
+	await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, rawPosts);
+	const getter = this.store.getters[`${PostStore}/${PostGetters.getPostsByIds}`];
+	const items = getter(Array.from(uniqueIds));
 	this.store.commit(`${ExploreStore}/${ExploreMutations.setItems}`, {
 		type,
 		content: {
-			items: message[lowercased],
+			items,
 			ts: Date.now(),
 		},
 	});

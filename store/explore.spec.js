@@ -1,8 +1,7 @@
 import { createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
-import { ExploreStore, ExploreActions, mutations, STORAGE_KEYS } from './explore';
+import { ExploreStore, ExploreActions, mutations } from './explore';
 import store from './index';
-import { Storage } from '~/test/storage.mock';
 import { userMockBuilder } from '~/test/user.mock';
 
 describe('Explore store module', () => {
@@ -27,7 +26,6 @@ describe('Explore store module', () => {
 		});
 
 		it(`should set ${type}`, () => {
-			global.sessionStorage = new Storage();
 			const items = new Array(20).fill({
 				post: {
 					type: 'outfitPost',
@@ -38,9 +36,7 @@ describe('Explore store module', () => {
 				content: { items, ts },
 				type,
 			});
-			const length = JSON.parse(sessionStorage.getItem(STORAGE_KEYS[type])).items.length;
 			expect(state[type]).toStrictEqual({ items, ts });
-			expect(length).toBe(20);
 		});
 
 		it('should set friends', () => {
@@ -65,11 +61,9 @@ describe('Explore store module', () => {
 			root.state.merchant.id = aDummyMerchantId;
 			root.state.socket.$ws = $ws;
 			root.state.commit = jest.fn();
-			global.sessionStorage = new Storage();
 		});
 
 		it(`should send msg to fetch ${type}`, async () => {
-			sessionStorage.clear();
 			await root.dispatch(`${ExploreStore}/${ExploreActions.fetchItems}`, type);
 			const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
 			expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
@@ -78,13 +72,9 @@ describe('Explore store module', () => {
 		});
 
 		it('should not fetch from backend if items were saved in session within 5 minute', async () => {
-			const items = new Array(20).fill({
-				post: {
-					type,
-				},
-			});
+			const items = new Array(20).fill({ type });
 			const ts = Date.now();
-			sessionStorage.setItem(STORAGE_KEYS[type], JSON.stringify({ items, ts }));
+			root.state.explore[type] = { items, ts };
 			await root.dispatch(`${ExploreStore}/${ExploreActions.fetchItems}`, type);
 			expect(root.state.socket.$ws.sendObj).not.toHaveBeenCalled();
 		});

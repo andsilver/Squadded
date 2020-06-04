@@ -14,6 +14,12 @@ describe('GoBackBtn', () => {
 	const $router = {
 		push: jest.fn(),
 		back: jest.fn(),
+		history: {
+			stack: [],
+			current: {
+				name: 'index',
+			},
+		},
 	};
 
 	beforeEach(() => {

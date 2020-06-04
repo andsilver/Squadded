@@ -41,7 +41,7 @@ describe('Top Outfits', () => {
 		expect(outfitsTitle.exists()).toBe(true);
 		expect(emptyFeedText.exists()).toBe(true);
 
-		const items = new Array(20).fill({ post: outfitPostBuilder().get() });
+		const items = new Array(20).fill(outfitPostBuilder().get());
 		store.commit(`${ExploreStore}/${ExploreMutations.setItems}`, {
 			type: 'topOutfits',
 			content: {

@@ -91,7 +91,7 @@ describe('WSMessages dispatch', () => {
 		});
 	});
 
-	it('should accept top outfits', () => {
+	it('should accept top outfits', async () => {
 		const outfits = [{ post: {}, score: 10 }];
 		const msg = {
 			type: 'topOutfits',
@@ -99,14 +99,17 @@ describe('WSMessages dispatch', () => {
 		};
 		const ts = 123456789;
 		global.Date.now = jest.fn().mockReturnValue(ts);
+		store.getters[`${PostStore}/${PostGetters.getPostsByIds}`] = jest.fn().mockReturnValue([]);
 		wsMessages.dispatch(msg);
+		expect(store.dispatch).toHaveBeenCalled();
+		await flushPromises();
 		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setItems}`, {
-			content: { items: outfits, ts },
+			content: { items: [], ts },
 			type: 'topOutfits',
 		});
 	});
 
-	it('should accept top gallery', () => {
+	it('should accept top gallery', async () => {
 		const galleryPosts = [{ post: {}, score: 10 }];
 		const msg = {
 			type: 'topGallery',
@@ -114,14 +117,17 @@ describe('WSMessages dispatch', () => {
 		};
 		const ts = 123456789;
 		global.Date.now = jest.fn().mockReturnValue(ts);
+		store.getters[`${PostStore}/${PostGetters.getPostsByIds}`] = jest.fn().mockReturnValue([]);
 		wsMessages.dispatch(msg);
+		expect(store.dispatch).toHaveBeenCalled();
+		await flushPromises();
 		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setItems}`, {
-			content: { items: galleryPosts, ts },
+			content: { items: [], ts },
 			type: 'topGallery',
 		});
 	});
 
-	it('should accept ending polls', () => {
+	it('should accept ending polls', async () => {
 		const endingPolls = [{ post: {}, score: 10 }];
 		const msg = {
 			type: 'endingPolls',
@@ -129,14 +135,17 @@ describe('WSMessages dispatch', () => {
 		};
 		const ts = 123456789;
 		global.Date.now = jest.fn().mockReturnValue(ts);
+		store.getters[`${PostStore}/${PostGetters.getPostsByIds}`] = jest.fn().mockReturnValue([]);
 		wsMessages.dispatch(msg);
+		expect(store.dispatch).toHaveBeenCalled();
+		await flushPromises();
 		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setItems}`, {
-			content: { items: endingPolls, ts },
+			content: { items: [], ts },
 			type: 'endingPolls',
 		});
 	});
 
-	it('should accept top items', () => {
+	it('should accept top items', async () => {
 		const topItems = [{}];
 		const msg = {
 			type: 'topItems',
@@ -144,9 +153,12 @@ describe('WSMessages dispatch', () => {
 		};
 		const ts = 123456789;
 		global.Date.now = jest.fn().mockReturnValue(ts);
+		store.getters[`${PostStore}/${PostGetters.getPostsByIds}`] = jest.fn().mockReturnValue([]);
 		wsMessages.dispatch(msg);
+		expect(store.dispatch).toHaveBeenCalled();
+		await flushPromises();
 		expect(store.commit).toHaveBeenCalledWith(`${ExploreStore}/${ExploreMutations.setItems}`, {
-			content: { items: topItems, ts },
+			content: { items: [], ts },
 			type: 'topItems',
 		});
 	});

@@ -8,7 +8,7 @@
 		</div>
 		<div v-if="items && items.length" class="overflow-x-auto d-flex fancy_scroll">
 			<div v-for="(post, index) of items" :key="index" class="count_sec top-items" :style="{ 'z-index': 100 - index }" @click="openProduct(post)">
-				<div ref="post-card" class="post-card">
+				<div ref="post-card" class="top-item-post">
 					<span class="count_item">{{ index + 1 }}</span>
 					<CardFrame
 						ref="card-frame"
@@ -17,8 +17,8 @@
 						:title="post.item.title"
 						:item="post.item"
 						show-bag
-						:show-refresh="true"
-						:light-refresh="true"
+						show-refresh
+						light-refresh
 						:post-id="post.guid"
 						:post="post"
 					>
@@ -92,7 +92,7 @@ export default {
 		transform translateX(-50%)
 	h3
 		font-size 4.92vw
-.post-card
+.top-item-post
 	white-space nowrap
 	width 230px
 	position relative
