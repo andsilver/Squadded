@@ -28,7 +28,7 @@
 	"Next": "Suivant",
 	"Notifications": "Messages",
 	"PairedItem": {
-		"all": "Top",
+		"all": "Populaire",
 		"outfits": "Compo",
 		"photos": "Photos",
 		"polls": "Sondages"
@@ -101,15 +101,15 @@
 		"photo": "Photo",
 		"poll": "Sondage",
 		"socialVideo": "Vidéo sociale",
-		"upload": "Publier",
+		"upload": "Photo ou Vidéo",
 		"video": "Vidéo"
 	},
 	"createDesc": {
-		"outfit": "Créer une tenue avec 2 à 4 articles",
+		"outfit": "Associer 2 à 4 articles pour créer une tenue",
 		"photo": "Poster une photo et identifier les articles",
-		"poll": "Demander l'avis des shoppeurs",
+		"poll": "Demander aux shoppeurs de voter entre 2 articles",
 		"unsupported_file_format": "Ce format d'image n'est pas pris en charge",
-		"upload": "Publier une photo/vidéo et identifier vos articles",
+		"upload": "Identifier des articles dans votre photo ou vidéo",
 		"video": "Ajouter une vidéo et y identifier les articles"
 	},
 	"create_your_squad": {
@@ -172,7 +172,7 @@
 			"messsage": "You must be older than 16 to continue!"
 		},
 		"allowContact": {
-			"label": "I allow Squad to contact me",
+			"label": "J'autorise Squadded à me contacter",
 			"message": "You must allow us to contact you!"
 		},
 		"bio": "Bio",
@@ -226,24 +226,24 @@
 		"placeholder": "Ajouter un commentaire..."
 	},
 	"invite_your_friends": {
-		"add": "Ajoutez vos amis:",
-		"best_experience": "Partager votre lien d'invitation avec:",
+		"add": "ou trouvez vos amis:",
+		"best_experience": "Partager votre lien d'invitation:",
 		"copied": "Copié!",
 		"copy_link": "Copier le lien",
 		"email": "Email",
 		"invite_body": "Rejoins mon squad et fais du shopping avec moi sur {merchant}:",
-		"invite_subject": "On peut faire du shopping en ligne ensemble. Rejoins moi sur Squadded - Shopping Party",
+		"invite_subject": "On peut faire du shopping en ligne ensemble. Rejoins moi sur Squadded!",
 		"messenger": "Messenger",
 		"or": "ou",
 		"search_users": "Rechercher des utilisateurs...",
-		"share": "Partagez ce lien d'invitation avec vos amis:",
+		"share": "Partager votre lien d'invitation:",
 		"title": "Inviter vos amis",
 		"whatsapp": "WhatsApp",
 		"your_friends": "vos amis"
 	},
 	"invited": "Invité",
 	"landing_post": {
-		"interact_with_user": "Faites du shopping avec {user} et partager votre wishlist.",
+		"interact_with_user": "Faites du shopping avec {user} et partagez votre wishlist.",
 		"sign_in": "Se connecter",
 		"skip": "Plus tard"
 	},
@@ -253,8 +253,8 @@
 	},
 	"mysquad": {
 		"add_friends": "Ajouter des amis",
-		"search": "Recherchez dans votre squad ...",
-		"share_private_link": "ou partager un lien d'invitation"
+		"search": "Rechercher dans votre squad ...",
+		"share_private_link": "ou partager votre lien d'invitation"
 	},
 	"noPasswordRemember": "Plus de mot de passe à retenir. Nous vous envoyons un code unique pour être bien sur que c'est vous.",
 	"notify": {
@@ -319,14 +319,14 @@
 	},
 	"post": {
 		"addToMySquad": "Ajouter {user} à mon Squad",
-		"addedGallary": "a publié une photo avec {0} articles",
+		"addedGallary": "a publié une photo avec {0} articles identifiés",
 		"addedItem": "a ajouté cet article à sa wishlist",
 		"addedOutfit": "a publié une composition avec {0} articles",
 		"addedPoll": "a publié un sondage",
 		"pop": {
 			"deletePost": {
 				"decline": "Modifier",
-				"description": "Vous pouvez également modifier votre publication. Si vous avez sélectionné des paramètres de confidentialité incorrects, vous pourrez toujours les modifier.",
+				"description": "Vous pouvez également modifier votre publication dans les paramètres.",
 				"menu": "Supprimer",
 				"question": "Supprimer cette publication?"
 			},
@@ -343,13 +343,13 @@
 				"question": "Signaler la publication"
 			},
 			"setPrivate": {
-				"decline": "Stay public",
+				"decline": "Restez public",
 				"description": "Seul votre squad pourra voir vos publications",
 				"menu": "Rendre privé",
 				"question": "Rendre la publication privée?"
 			},
 			"setPublic": {
-				"decline": "Restez privé",
+				"decline": "Rester privé",
 				"description": "Toute la communauté pourra voir votre publication",
 				"menu": "Rendre public",
 				"question": "Rendre la publication publique?"
@@ -357,7 +357,7 @@
 			"sharelink": {
 				"decline": "",
 				"description": "",
-				"menu": "Partager le lien",
+				"menu": "Partager sur...",
 				"question": ""
 			}
 		},
@@ -366,6 +366,10 @@
 		"removeUser": "Supprimer de mon squad",
 		"sending": "envoyer…",
 		"share": "Partager la publication",
+		"share_link": {
+			"content": "Regarde ça sur {merchant}",
+			"subject": "Regarde ça sur {merchant} avec Squadded pour faire du shopping avec moi"
+		},
 		"textPlaceholder": "Ajouter une légende...",
 		"title": {
 			"comments": "Commentaires",
@@ -390,7 +394,7 @@
 			"second": "et nous expliquer la raison. Notre équipe traitera votre demande et supprimera votre compte."
 		},
 		"feedback": "Écrivez nous",
-		"feedback_warning": "Veuillez ne laisser des commentaires que sur Squadded et nos fonctionnalités. Tous les commentaires sont soumis à nos conditions d'utilisation.",
+		"feedback_warning": "Veuillez ne laisser des commentaires que sur Squadded et ses fonctionnalités. Tous les commentaires sont soumis à nos conditions d'utilisation.",
 		"general": "Général",
 		"language": {
 			"description": "How often do you want to get notifications?",
@@ -402,13 +406,13 @@
 			"title": "Notifications"
 		},
 		"private_profile": {
-			"description": "Seul votre squad pourra voir votre wishlist.",
+			"description": "Seul votre squad pourra voir votre wishlist",
 			"title": "Profil privé"
 		},
 		"profile": "Profil",
 		"profile_privacy": "Confidentialité du profil",
 		"public_profile": {
-			"description": "Toute la communauté pourra voir votre wishlist.",
+			"description": "Toute la communauté pourra voir votre wishlist",
 			"title": "Profil public"
 		},
 		"read": "lire",
@@ -418,13 +422,13 @@
 		},
 		"share_your_opinion": "Partager mon avis",
 		"signout": {
-			"button": "Se déconnecter",
-			"confirm": "Êtes-vous certain de vouloir vous déconnecter?"
+			"button": "Déconnexion",
+			"confirm": "Êtes-vous sur de vouloir vous déconnecter?"
 		},
 		"submit": "Envoyer",
 		"submitted_notification": "Merci. Votre commentaire a été envoyé.",
 		"terms_of_service": {
-			"description": "En utilisant squadded vous les accepter",
+			"description": "En utilisant Squadded vous les accepter",
 			"title": "Conditions d'utilisations"
 		},
 		"title": "Paramètres",
@@ -449,16 +453,16 @@
 		"signin_to_shop_with_your_friends": "Connectez-vous pour faire du shopping entre amis:"
 	},
 	"skip": "Plus tard",
-	"spamNote": "Prévoyez jusqu'à 1 minute pour le recevoir. N'oubliez pas de vérifier votre dossier spam / courrier indésirable.",
+	"spamNote": "Prévoyez jusqu'à 1 minute pour le recevoir. N'oubliez pas de vérifier votre dossier spam/courrier indésirable.",
 	"styleOutfit": "styles dans cette compo",
 	"tip": {
 		"addItems": "Ajoutez des articles a votre wishlist pour créer {0}.",
-		"createPhotoTag": "cliquez sur la photo pour identifier des articles",
+		"createPhotoTag": "Appuyez sur les produits de la photo que vous souhaitez identifier",
 		"crop": "déplacez les points pour recadrer",
 		"limitMessage": "La limite est de 4 articles par composition",
 		"outfitError": "Vous devez sélectionner 2 à 4 articles pour créer une compo",
-		"outfitSelect": "Sélectionnez 2 à 4 articles à assembler",
-		"photoError": "Cliquez sur les articles que vous souhaitez identifier pour publier une photo.",
+		"outfitSelect": "Sélectionnez 2 à 4 articles à associer",
+		"photoError": "Vous devez appuyer sur les produits de la photo que vous souhaitez identifier",
 		"photoLimitError": "Vous ne pouvez pas identifier plus de 4 articles",
 		"pollError": "Sélectionnez 2 articles pour créer un sondage",
 		"pollSelect": "Sélectionnez 2 articles avec lesquels vous hésitez",
@@ -481,7 +485,7 @@
 			"Block": "Bloquer",
 			"PushWatchers": "",
 			"Remove": "Supprimer",
-			"Sharelink": "Partager le lien",
+			"Sharelink": "Partager sur...",
 			"Unwatch": "Ne plus suivre",
 			"report": "Signaler",
 			"reportUser": "signaler l'utilisateur"
@@ -499,7 +503,7 @@
 			"invited_text": "vous a invité à rejoindre son squad",
 			"pending": "Demande envoyée...",
 			"pending_text": "Dès que @{user} confirmera,\nvous apparaîtrez dans son squad.",
-			"send_invite_link": "Envoyer le lien d'invitation ",
+			"send_invite_link": "Partager votre lien d'invitation:",
 			"text": "@{user} veut faire du shopping avec toi!\nAcceptes-tu que @{user} rejoigne ton squad?"
 		},
 		"promptFollow": "Veux-tu suivre {0}?",
@@ -541,6 +545,6 @@
 		"empty": "Pas d'articles dans la wishlist",
 		"postempty": "Votre wishlist est vide. Ajoutez des articles pour créer une publication",
 		"private": "Ce compte est privé\n Seul le squad de @{user}\n peut voir ses publications.",
-		"purchase": "ACHETER"
+		"purchase": "Ajouter au panier"
 	}
 }
