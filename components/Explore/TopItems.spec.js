@@ -46,7 +46,7 @@ describe('Top Items', () => {
 				ts: Date.now(),
 			},
 		});
-		const singlePosts = wrapper.findAll('.post-card');
+		const singlePosts = wrapper.findAll('.top-item-post');
 		expect(singlePosts.length).toBe(20);
 	});
 });

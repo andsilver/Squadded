@@ -63,7 +63,7 @@ export const mutations = {
 		!state.blog && (state.blog = []);
 		!state.wishlist && (state.wishlist = []);
 
-		if (post.userId === userId) {
+		if (!state.guid.wishlist || state.guid.wishlist === userId) {
 			state.wishlist.unshift(post);
 			state.blog.unshift(post);
 

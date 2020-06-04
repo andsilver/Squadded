@@ -13,6 +13,7 @@ export const NotificationGetters = {
 	newNotify: 'newNotify',
 	oldNotify: 'oldNotify',
 	newRequests: 'newRequests',
+	allRequests: 'allRequests',
 	newNotifications: 'newNotifications',
 	oldNotifications: 'oldNotifications',
 };
@@ -23,6 +24,9 @@ export const getters = {
 	[NotificationGetters.oldNotify]: state => state.notifications.filter(n => n.viewed),
 	[NotificationGetters.newRequests]: state => state.notifications.filter(
 		n => (n.type === NOTIFICATIONS.ACCEPT_SQUAD && !n.viewed) || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
+	),
+	[NotificationGetters.allRequests]: state => state.notifications.filter(
+		n => (n.type === NOTIFICATIONS.ACCEPT_SQUAD) || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
 	),
 	[NotificationGetters.newNotifications]: state => state.notifications.filter(
 		n => !n.viewed && n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD,

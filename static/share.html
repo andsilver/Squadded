@@ -6,10 +6,15 @@
 
     const saveRedirect = (params) => {
         const squad = urlParams.get('squad');
-        localStorage.setItem('squad', squad);
+        localStorage.setItem('squad', squad || '');
     };
 
     let siteUrl;
+    if (window.location.host === 'development.store.jennyfer.demandware.net') {
+        saveRedirect();
+        window.location.href = 'https://development.store.jennyfer.demandware.net/';
+        return;
+    }
     if (navigator.userAgent.match(/Android/i)) {
         siteUrl = 'https://play.google.com/store/apps/details?id=com.squadded.squaddedapp&ah=3xTyfeuluPsvpRL00pqPY8__EfI';
     } else if (

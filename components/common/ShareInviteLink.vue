@@ -92,7 +92,19 @@ export default {
 		async setLink() {
 			this.shortURL = await getShortURL(this.userLink, this.$store);
 		},
-		action(method) {
+		async action(method) {
+			if (navigator && navigator.share) {
+				const { siteTitle } = this.$store.state.merchant;
+				const title = `${this.me.name} @ ${siteTitle}`;
+				try {
+					await navigator.share({
+						title,
+						text: title,
+						url: this.shortURL,
+					});
+					return;
+				} catch (error) {}
+			}
 			this.$emit('shared');
 			const content = this.$t('invite_your_friends.invite_body', { merchant: this.$store.state.merchant.id });
 			switch (method.title) {

@@ -3,20 +3,20 @@
 		<BackBar ref="goback-button" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">
-			<div v-if="!newRequests.length" class="flex-grow-1">
+			<div v-if="!allRequests.length" class="flex-grow-1">
 				<h5 ref="empty-notif-text" class="mt-4 pl-3 d-flex align-center notification-text">
 					<span>{{ $t('notify.new') }}</span>
 				</h5>
 				<EmptyNotification />
 			</div>
-			<Notifications v-else ref="notification-list" is-accept :items="newRequests" />
+			<Notifications v-else ref="notification-list" is-accept :items="allRequests" />
 		</v-layout>
 	</v-container>
 </template>
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import BackBar from '~/components/common/BackBar';
+import BackBar from '~/components/Notifications/BackBar';
 import Notifications from '~/components/Notifications';
 import Tabs from '~/components/Notifications/Tabs';
 import EmptyNotification from '~/components/Notifications/Includes/EmptyNotification';
@@ -34,7 +34,7 @@ export default {
 		Tabs,
 	},
 	computed: {
-		...notifGetters(['newRequests']),
+		...notifGetters(['allRequests']),
 		...mapState(['socket']),
 	},
 	mounted () {

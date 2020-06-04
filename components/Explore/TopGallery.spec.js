@@ -38,7 +38,7 @@ describe('Top Gallery', () => {
 		expect(wrapper.ref(TOP_GALLERY_TITLE).exists()).toBe(true);
 		expect(wrapper.ref(EMPTY_FEED_TEXT).exists()).toBe(true);
 
-		const items = new Array(20).fill({ post: galleryPostBuilder().get() });
+		const items = new Array(20).fill(galleryPostBuilder().get());
 		store.commit(`${ExploreStore}/${ExploreMutations.setItems}`, {
 			type: 'topGallery',
 			content: {
