@@ -9,7 +9,7 @@
 					:style="{
 						background: first.background,
 						width: first.width + 'vw',
-						color: first.background === 'black' ? 'white' : 'black'
+						color: first.background.includes('var') ? 'white' : 'black'
 					}"
 					@click="voteOnFirst"
 				>
@@ -47,7 +47,7 @@
 					:style="{
 						background: second.background,
 						width: second.width + 'vw',
-						color: second.background === 'black' ? 'white' : 'black'
+						color: second.background.includes('var') ? 'white' : 'black'
 					}"
 					@click="voteOnSecond"
 				>
@@ -125,10 +125,10 @@ export default {
 			const diff = this.post.item1.votes - this.post.item2.votes;
 			if (this.post.closed) {
 				if (this.notVoted) {
-					return 'black';
+					return 'var(--brand-color)';
 				}
 				if ((diff > 0 && first) || (diff < 0 && !first)) {
-					return 'black';
+					return 'var(--brand-color)';
 				} else {
 					return 'white';
 				}

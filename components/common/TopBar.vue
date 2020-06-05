@@ -57,8 +57,9 @@ export default {
 		color #B8B8BA !important
 		@media screen and (max-width: 280px)
 			font-size 4vw
-	.v-tab--active
-		color black !important
+	.v-tab--active,
+	>>> .v-tabs-slider
+		color var(--brand-color) !important
 
 	.v-btn
 		color black !important

@@ -125,6 +125,9 @@ export default {
 	.tabs
 		&.bottom-line
 			border-bottom 2px solid rgba(184,184,186,0.30)
+	.v-tab--active,
+	>>> .v-tabs-slider
+		color var(--brand-color)
 	span.user-name-type
 		width 100%
 		padding-right 2vw

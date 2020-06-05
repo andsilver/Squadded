@@ -1,5 +1,5 @@
 <template>
-	<Button ref="resquadd-button" class="flex-grow-1" :class="{save_inactive: !item.squadded}" :active="item.squadded" @click.native="click">
+	<Button ref="resquadd-button" class="flex-grow-1 resquadd" :class="{save_inactive: !item.squadded}" :active="item.squadded" @click.native="click">
 		<v-icon v-if="!item.squadded" small>
 			sqdi-squadded-icon
 		</v-icon>
@@ -59,35 +59,9 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.resquadd {
-	position: absolute;
-	right: 2.5vw;
-	top: 3.07vw;
-	width: 30px;
-	height: 30px;
-	border-radius: 50%;
-	background-color: #707070;
-	color: white;
-	text-align: center;
-	opacity: 0.5;
-	outline: none;
-	transition: background-color 0.1s ease-in-out 0s, opacity 0.1s ease-in-out 0s;
+.resquadd
+	background-color var(--brand-color) !important
 
-	&.sqdi-squadded-icon {
-		&:before {
-			vertical-align: middle;
-			line-height: 30px;
-		}
-	}
-
-	&.is-resquadded {
-		background-color: black;
-		opacity: 1;
-	}
-}
-.save-button
-	padding-left 2.5vw !important
-	padding-right 2.5vw !important
 .save_inactive
 	background-color transparent !important
 	color #000

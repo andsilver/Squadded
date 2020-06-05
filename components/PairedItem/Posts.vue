@@ -140,7 +140,8 @@ export default {
 	&.bottom-line
 		border-bottom 0.46vw solid rgba(184,184,186,0.30)
 	&.v-tab--active
-		border-color #000
+		color var(--brand-color)
+		border-color var(--brand-color)
 .fixed_tabs
 	position fixed
 	top -115px

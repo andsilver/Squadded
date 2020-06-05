@@ -108,6 +108,7 @@ export default {
 		@media screen and (max-width: 350px)
 			font-size 3.30vw
 .create-button
+	background-color var(--brand-color) !important
 	padding-left 2.5vw !important
 	padding-right 2.5vw !important
 </style>

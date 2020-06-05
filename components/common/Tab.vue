@@ -46,7 +46,7 @@ export default {
 
 .v-tab--active .tab_icon:before,
 .v-tab--active .tab_text
-	color black
+	color var(--brand-color)
 
 .v-tab
 	min-width auto

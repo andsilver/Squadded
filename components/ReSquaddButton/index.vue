@@ -81,7 +81,7 @@ export default {
 			line-height 30px
 
 	&.is-resquadded
-		background-color black
+		background-color var(--brand-color)
 		color white
 		opacity 1
 .remove-button.resquadd.is-resquadded

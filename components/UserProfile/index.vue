@@ -256,7 +256,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="stylus">
 .tabs {
 	padding-bottom: 6%;
 	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
@@ -271,8 +271,11 @@ export default {
 	margin-top: 5.5vh;
 }
 
+.v-tabs >>> .v-tabs-slider
+	color var(--brand-color)
+
 .v-tab--active {
-	color: black;
+	color: var(--brand-color);
 	background-color: white;
 
 	&:before {
