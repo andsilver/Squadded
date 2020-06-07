@@ -101,6 +101,9 @@ export default {
 	mounted () {
 		this.bindScroll();
 	},
+	destroyed () {
+		window.removeEventListener('scroll', this.scrolled.bind(this));
+	},
 	methods: {
 		bindScroll () {
 			window.addEventListener('scroll', this.scrolled.bind(this));

@@ -1,5 +1,5 @@
 <template>
-	<section class="feed" :class="{ grid_gallery: paired}" @scroll="onScroll">
+	<section class="feed" :class="{ grid_gallery: paired }">
 		<v-btn
 			v-if="loadNew"
 			ref="load-new-button"
@@ -83,6 +83,8 @@ export default {
 			videoPost: GalleryPost,
 		},
 		showCommentInputTimeout: null,
+		scrollTimeout: null,
+		scrolled: null,
 	}),
 	computed: {
 		aggregatedItems() {
@@ -153,15 +155,12 @@ export default {
 			return this.components[post.type];
 		},
 		onScroll () {
-			this.checkCommentInput();
-			const bottomOfWindow = Math.max(
-				window.pageYOffset,
-				document.documentElement.scrollTop,
-				document.body.scrollTop,
-			) + window.innerHeight === document.documentElement.offsetHeight;
-			if (bottomOfWindow) {
-				this.$emit('loadMore');
-			}
+			this.showCommentInputTimeout && clearTimeout(this.showCommentInputTimeout);
+			this.scrollTimeout && clearTimeout(this.scrollTimeout);
+
+			this.scrollTimeout = setTimeout(() => {
+				this.checkCommentInput();
+			}, 800);
 		},
 		loadNewItems() {
 			this.$emit('loadNew');
@@ -180,7 +179,8 @@ export default {
 			if (!this.$refs.post) {
 				return;
 			}
-			const elements = this.$refs.post
+			const posts = this.$refs.post;
+			const elements = posts
 				.map((element, index) => ({
 					index,
 					element,
@@ -188,8 +188,16 @@ export default {
 				}))
 				.filter(e => e.overlap)
 				.sort((a, b) => b.overlap - a.overlap);
-			const element = elements[0];
-			this.setShowCommentInput(element);
+
+			for (const el of elements) {
+				if (this.setShowCommentInput(el)) {
+					break;
+				}
+			}
+
+			if (elements.find(el => el.index === posts.length - 1)) {
+				this.$emit('loadMore');
+			}
 		},
 		overlap (element) {
 			const view = {
@@ -224,26 +232,30 @@ export default {
 			sessionStorage.removeItem(OPENED_POST);
 		},
 		setShowCommentInput (item) {
-			this.showCommentInputTimeout && clearTimeout(this.showCommentInputTimeout);
 			if (!item) {
-				return;
+				return false;
 			}
 			let comment;
+
 			if (item.element.id.includes('group')) {
 				comment = (this.$refs.component || []).find(c => c.$el.parentNode === item.element);
 			} else {
 				comment = (this.$refs.comments || []).find(c => c.$el.parentNode === item.element);
 			}
+
 			if (!comment) {
-				return;
+				return false;
+			}
+
+			const elHasInput = comment.$refs['post-comments'] || comment;
+
+			if (elHasInput.showInput) {
+				return false;
 			}
 			this.showCommentInputTimeout = setTimeout(() => {
-				if (comment.$refs['post-comments']) {
-					comment.$refs['post-comments'].showInput = true;
-				} else {
-					comment.showInput = true;
-				}
+				elHasInput.showInput = true;
 			}, 4000);
+			return true;
 		},
 	},
 };

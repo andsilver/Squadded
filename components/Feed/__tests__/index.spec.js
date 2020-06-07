@@ -67,15 +67,11 @@ describe('FeedComponent Empty State', () => {
 	});
 
 	it('should emit loadMore event on scroll bottom', () => {
-		Math.max = jest.fn();
-		Math.max.mockReturnValue(0);
-		global.window.innerHeight = 100;
-		Object.defineProperty(global.document.documentElement, 'offsetHeight', {
-			get: jest.fn(() => 100),
-			set: jest.fn(),
-		});
+		wrapper.setProps(propsData);
+		jest.useFakeTimers();
 		wrapper.vm.$emit = jest.fn();
 		wrapper.vm.onScroll();
+		jest.advanceTimersByTime(1000);
 		expect(wrapper.vm.$emit).toHaveBeenCalledWith('loadMore');
 	});
 

@@ -12,6 +12,10 @@ const DEFAULT_COLOR = '#000';
 const widgetLocation = location.search || !document.referrer ? new URL(location.href)
 	: new URL(document.referrer);
 
+if (!Object.fromEntries) {
+	Object.fromEntries = arr => Object.assign({}, ...Array.from(arr, ([k, v]) => ({ [k]: v })));
+}
+
 const {
 	merchantId: id,
 	siteUrl,

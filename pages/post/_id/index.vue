@@ -6,6 +6,7 @@
 			<Comments v-if="isAuth" ref="post-comments" :post="post" :show-all="showAllComments" />
 			<NotSignedInDialog v-if="!isAuth && showNotSignedInDialog" ref="dialog" :post-id="postId" :user="post.user" />
 		</div>
+		<Preloader v-else class="my-8" />
 	</v-container>
 </template>
 
@@ -13,6 +14,7 @@
 import { mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Comments from '~/components/Comments';
+import Preloader from '~/components/Preloader';
 import { PostStore, PostMutations } from '~/store/post';
 import { prefetch, onAuth } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
@@ -28,6 +30,7 @@ export default {
 	components: {
 		BackBar,
 		Comments,
+		Preloader,
 		SingleItemPost,
 		PollPost,
 		MultiItemPost,
@@ -87,6 +90,11 @@ export default {
 					}
 					this.post = new FeedPost(post);
 				});
+				setTimeout(() => {
+					if (!this.post) {
+						this.$router.push('/error');
+					}
+				}, 3000);
 			} else {
 				fetchPost(id).then((post) => {
 					if (post && post.private) {
