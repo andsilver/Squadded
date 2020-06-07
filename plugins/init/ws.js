@@ -43,6 +43,7 @@ export const signOut = (store, router) => {
 	delete Vue.prototype.$ws;
 	store.commit('jSocket', null);
 	localStorage.removeItem('userToken');
+	sessionStorage.clear();
 	window.parent.postMessage(JSON.stringify({
 		type: 'signout',
 	}), '*');

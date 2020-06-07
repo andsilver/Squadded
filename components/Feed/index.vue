@@ -24,7 +24,7 @@
 					ref="comments"
 					:post="post"
 					:show-all="false"
-					:for-feed="true"
+					for-feed
 				/>
 			</div>
 		</v-layout>

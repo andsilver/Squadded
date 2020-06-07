@@ -1,6 +1,7 @@
 import { postReported } from '~/utils/reportSession';
 import { LOADING_TIMEOUT } from '~/consts/time-values';
 import { WISHLIST_LOADED } from '~/consts/keys';
+import { isMonoMerchant } from '~/utils/is-mono-merchant';
 
 export const ActivityStore = 'activity';
 
@@ -182,7 +183,7 @@ export const actions = {
 			if (forMerchant) {
 				msg.from = '*';
 				sessionStorage.setItem(WISHLIST_LOADED, Date.now().toString());
-			} else {
+			} else if (!isMonoMerchant(rootState)) {
 				msg.allMerchants = '*';
 			}
 		}

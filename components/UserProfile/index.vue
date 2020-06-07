@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="user && user.name">
+	<v-container v-if="user && (user.name || user.screenName)">
 		<section class="fixed_profile d-flex justify-space-between align-center pa-2" :class="{ slide: isScrolled }">
 			<Menu v-if="user.isMe" ref="menu" small @edit="edit" />
 			<GoBackBtn v-else ref="go-back-btn" />

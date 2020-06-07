@@ -16,6 +16,7 @@ const {
 	FULLSTORY_ENABLE,
 	NO_MINIFY,
 	GOOGLE_CLIENT_ID,
+	MERCHANTS_LIST,
 } = process.env;
 
 if (!BASE) {
@@ -65,6 +66,7 @@ const plugins = [
 	'@plugins/touch-events',
 	'@plugins/image-uploader',
 	'@plugins/anime',
+	'@plugins/set-merchants-list',
 ];
 
 if (SENTRY_KEY && SENTRY_PROJECT_ID) {
@@ -95,6 +97,7 @@ export default {
 		SENTRY_KEY,
 		SENTRY_PROJECT_ID,
 		GOOGLE_CLIENT_ID,
+		MERCHANTS_LIST,
 	},
 	/*
 	** Headers of the page

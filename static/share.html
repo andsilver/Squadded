@@ -2,6 +2,7 @@
 
 <body></body>
 <script>
+    const monoMerchants = ['https://development.store.jennyfer.demandware.net'];
     const urlParams = new URLSearchParams(window.location.search);
 
     const saveRedirect = (params) => {
@@ -10,12 +11,10 @@
     };
 
     let siteUrl;
-    if (window.location.host === 'development.store.jennyfer.demandware.net') {
+    if (monoMerchants.includes(urlParams.get('site'))) {
         saveRedirect();
-        window.location.href = 'https://development.store.jennyfer.demandware.net/';
-        return;
-    }
-    if (navigator.userAgent.match(/Android/i)) {
+        window.location.href = urlParams.get('site');
+    } else if (navigator.userAgent.match(/Android/i)) {
         siteUrl = 'https://play.google.com/store/apps/details?id=com.squadded.squaddedapp&ah=3xTyfeuluPsvpRL00pqPY8__EfI';
     } else if (
         navigator.userAgent.match(/iPhone/i) ||

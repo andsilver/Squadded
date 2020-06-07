@@ -18,6 +18,7 @@ const {
 	siteTitle,
 	squadSLogin = true,
 	brandColor = DEFAULT_COLOR,
+	isMono = false,
 } = Object.fromEntries(widgetLocation.searchParams.entries());
 
 if (brandColor !== DEFAULT_COLOR) {
@@ -43,7 +44,9 @@ export const state = () => ({
 		siteTitle,
 		squadSLogin,
 		brandColor,
+		isMono,
 	},
+	monoMerchants: [],
 });
 
 export const mutations = {

@@ -90,8 +90,8 @@ describe('Comments', () => {
 	});
 
 	it('should display comments list', () => {
-		postBld.withComment();
-		wrapper.vm.$forceUpdate();
+		post.comments.messages = [{}];
+		mount();
 
 		const comments = wrapper.ref(COMMENTS_LIST);
 		expect(comments.exists()).toBe(true);

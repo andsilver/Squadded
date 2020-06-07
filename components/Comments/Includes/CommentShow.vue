@@ -15,6 +15,11 @@ export default {
 	data: () => ({
 		mentions: [],
 	}),
+	watch: {
+		comment () {
+			this.format();
+		},
+	},
 	mounted() {
 		this.format();
 	},

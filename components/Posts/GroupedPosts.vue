@@ -66,9 +66,7 @@ export default {
 		},
 	},
 	data: () => ({
-		selectedItem: null,
 		selectedIndex: 1,
-		self: this,
 		model: 1,
 		firstSelcted: false,
 		lastSelcted: false,
@@ -76,7 +74,7 @@ export default {
 	}),
 	computed: {
 		selected() {
-			return this.selectedItem || this.post.items[0];
+			return this.post.items[this.selectedIndex];
 		},
 	},
 	mounted () {
@@ -87,7 +85,6 @@ export default {
 	methods: {
 		itemSelected(toggle, item, index) {
 			toggle();
-			this.selectedItem = item;
 			this.selectedIndex = index;
 		},
 		next() {
@@ -116,7 +113,6 @@ export default {
 		},
 		selectItem(index) {
 			this.selectedIndex = index;
-			this.selectedItem = this.post.items[index];
 		},
 	},
 };

@@ -55,7 +55,7 @@ export default {
 			'me',
 		]),
 		showTabs () {
-			return this.socket.isAuth && (!this.isTouch || !this.squad.virtualKeyboard) && ![
+			return this.socket.isAuth && !this.squad.virtualKeyboard && ![
 				'select-username',
 				'invite-friends',
 				'walkthrough',

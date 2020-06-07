@@ -1,4 +1,5 @@
 import { NOTIFICATIONS_LIMIT, NOTIFICATIONS, BANNER_TIMEOUT, UNDO_TIMEOUT } from '~/consts';
+import { isMonoMerchant } from '~/utils/is-mono-merchant';
 
 export const NotificationStore = 'notification';
 export const STORAGE_NOTIFICATIONS_KEY = 'notifications';
@@ -159,10 +160,9 @@ export const actions = {
 			}
 		}
 
-		rootState.socket.$ws.sendObj({
-			type: 'fetchNotifications',
-			allMerchants: '*',
-		});
+		const msg = { type: 'fetchNotifications' };
+		!isMonoMerchant(rootState) && (msg.allMerchants = '*');
+		rootState.socket.$ws.sendObj(msg);
 	},
 	[NotificationActions.viewNotifications]: ({ rootState, commit }, notifications) => {
 		const notificationIds = (notifications || [])
