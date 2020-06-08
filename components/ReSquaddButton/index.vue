@@ -78,7 +78,7 @@ export default {
 	&.sqdi-squadded-icon
 		&:before
 			vertical-align middle
-			line-height 30px
+			line-height 24px
 
 	&.is-resquadded
 		background-color var(--brand-color)
