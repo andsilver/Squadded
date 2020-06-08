@@ -16,7 +16,6 @@ const {
 	FULLSTORY_ENABLE,
 	NO_MINIFY,
 	GOOGLE_CLIENT_ID,
-	MERCHANTS_LIST,
 } = process.env;
 
 if (!BASE) {
@@ -66,7 +65,6 @@ const plugins = [
 	'@plugins/touch-events',
 	'@plugins/image-uploader',
 	'@plugins/anime',
-	'@plugins/set-merchants-list',
 ];
 
 if (SENTRY_KEY && SENTRY_PROJECT_ID) {
@@ -76,6 +74,8 @@ if (SENTRY_KEY && SENTRY_PROJECT_ID) {
 const script = [{
 	type: 'text/javascript',
 	src: `${BASE}vendor/moment.fr.min.js`,
+}, {
+	src: 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver',
 }];
 
 if (FULLSTORY_ENABLE) {
@@ -97,7 +97,6 @@ export default {
 		SENTRY_KEY,
 		SENTRY_PROJECT_ID,
 		GOOGLE_CLIENT_ID,
-		MERCHANTS_LIST,
 	},
 	/*
 	** Headers of the page

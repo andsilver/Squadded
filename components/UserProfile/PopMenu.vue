@@ -141,6 +141,7 @@
 
 <script>
 import { mapState } from 'vuex';
+import { Base64 } from 'js-base64';
 import Button from '~/components/common/Button';
 import Follow from '~/components/common/Follow';
 import RemoveSquad from '~/components/common/RemoveSquad';
@@ -197,7 +198,7 @@ export default {
 		userLink () {
 			const { API_ENDPOINT } = this.$store.state.squad;
 			const target = JSON.stringify(this.target);
-			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
+			return `${API_ENDPOINT}/community/profile?t=${Base64.encode(target)}`;
 		},
 		...mapState([
 			'socket',

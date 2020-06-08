@@ -55,6 +55,7 @@
 </template>
 
 <script>
+import { Base64 } from 'js-base64';
 import Menu from './Menu';
 import ShareProfile from './ShareProfile';
 import Actions from './Actions';
@@ -95,7 +96,7 @@ export default {
 		userLink () {
 			const { API_ENDPOINT } = this.$store.state.squad;
 			const target = JSON.stringify(this.target);
-			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
+			return `${API_ENDPOINT}/community/profile?t=${Base64.encode(target)}`;
 		},
 	},
 	methods: {

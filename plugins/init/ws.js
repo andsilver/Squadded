@@ -193,6 +193,4 @@ export default (ctx) => {
 
 	ctx.wsMessages = new WSMessages(store);
 	store.subscribe(mutationListenerShadow(ctx));
-
-	connect(store);
 };

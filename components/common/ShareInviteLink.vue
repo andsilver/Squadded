@@ -33,6 +33,7 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
+import { Base64 } from 'js-base64';
 import { getShortURL } from '~/services/short-url';
 import { copy } from '~/utils/copy';
 import { UserStore } from '~/store/user';
@@ -82,7 +83,7 @@ export default {
 		userLink() {
 			const { API_ENDPOINT } = this.$store.state.squad;
 			const target = JSON.stringify(this.target);
-			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
+			return `${API_ENDPOINT}/community/profile?t=${Base64.encode(target)}`;
 		},
 	},
 	mounted() {

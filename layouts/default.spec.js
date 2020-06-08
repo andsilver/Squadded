@@ -101,15 +101,6 @@ describe('Default layout', () => {
 		expect(main.exists()).toBe(true);
 	});
 
-	it('should listen on toggle mobile virtual keyboard', () => {
-		const proto = Default.methods.toggleKeyboard.prototype;
-		const cbArg = Device.onToggleKeyboard.mock.calls[0][0];
-		expect(Object.create(proto) instanceof cbArg).toBe(true);
-
-		cbArg(true);
-		expect(wrapper.vm.squad.virtualKeyboard).toBe(true);
-	});
-
 	it('should go to post landing with comments hash', async () => {
 		const postId = 'postid';
 		await store.commit(`${SquadStore}/${SquadMutations.openPost}`, postId);
