@@ -107,6 +107,7 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
+import { Base64 } from 'js-base64';
 import { UserStore, UserMutations } from '~/store/user';
 import TopBar from '~/components/common/TopBar.vue';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
@@ -170,7 +171,7 @@ export default {
 		userLink () {
 			const { API_ENDPOINT } = this.$store.state.squad;
 			const target = JSON.stringify(this.target);
-			return `${API_ENDPOINT}/community/profile?t=${btoa(target)}`;
+			return `${API_ENDPOINT}/community/profile?t=${Base64.encode(target)}`;
 		},
 		isPending() {
 			return this.other && this.other.squad && this.other.squad.pending;

@@ -1,15 +1,11 @@
 <template>
-	<section v-if="post.comments && post.comments.messages" :class="{'for-feed': forFeed}">
+	<section v-if="post.comments && post.comments.messages" :class="{ 'for-feed': forFeed }">
 		<span v-observe-visibility="visibilityChanged" :class="{ hide_visibility: visible }" class="visibility" />
 		<template v-if="visible">
-			<template v-if="showAllComments || post.comments.messages.length === 1">
-				<v-list
-					v-if="post.comments.messages.length"
-					ref="comments-list"
-					class="comment-listing"
-				>
+			<template v-if="showAllComments || comments.length === 1">
+				<v-list v-if="comments.length" ref="comments-list" class="comment-listing">
 					<Comment
-						v-for="(comment, n) in post.comments.messages"
+						v-for="(comment, n) in comments"
 						:key="n"
 						:comment="comment"
 						:post="post"
@@ -17,18 +13,22 @@
 					/>
 				</v-list>
 			</template>
-			<template v-else-if="post.comments.messages.length">
-				<Comment :comment="post.comments.messages[post.comments.messages.length - 1]" :post="post" :for-feed="forFeed" />
+			<template v-else-if="comments.length">
+				<Comment
+					:comment="comments[0]"
+					:post="post"
+					:for-feed="forFeed"
+				/>
 				<v-btn
 					v-if="!showAllComments"
 					ref="show-all-btn"
 					class="ml-7 font-weight-bold mb-2 allcomment"
-					:class="{'mb-10': !forFeed}"
+					:class="{ 'mb-10': !forFeed }"
 					small
 					text
 					@click="goToReactions"
 				>
-					{{ $t('comment.view_all_comments', { n: post.comments.messages.length }) }}
+					{{ $t('comment.view_all_comments', { n: comments.length }) }}
 				</v-btn>
 			</template>
 			<MessageInput
@@ -87,7 +87,13 @@ export default {
 		visible: false,
 		showInput: false,
 	}),
-	created () {
+	computed: {
+		comments() {
+			const messages = Object.assign([], this.post.comments ? this.post.comments.messages : []);
+			return messages && messages.length ? messages.reverse() : [];
+		},
+	},
+	created() {
 		if (!this.forFeed) {
 			this.showInput = true;
 		}
@@ -108,11 +114,14 @@ export default {
 			}
 		});
 	},
-	mounted () {
+	mounted() {
 		this.showAllComments = this.showAll;
 	},
 	methods: {
-		scroll () {
+		scroll() {
+			if (this.forFeed) {
+				return;
+			}
 			setTimeout(() => {
 				const { $el } = this;
 				if (!$el) {
@@ -122,6 +131,13 @@ export default {
 					top: getScroll($el.getBoundingClientRect(), window.scrollY),
 					behavior: 'smooth',
 				});
+
+				if (this.$refs['comments-list']) {
+					this.$refs['comments-list'].$el.scroll({
+						top: 0,
+						behavior: 'smooth',
+					});
+				}
 			}, 10);
 		},
 		goToReactions() {

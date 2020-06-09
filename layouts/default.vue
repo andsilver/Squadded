@@ -24,8 +24,9 @@ import TabBar from '~/components/common/TabBar.vue';
 import NotificationsBanner from '~/components/Notifications/Banner.vue';
 import { SquadStore, SquadMutations } from '~/store/squad';
 import { UserStore } from '~/store/user';
-import { isTouch, onToggleKeyboard } from '~/utils/device-input';
+import { isTouch } from '~/utils/device-input';
 import { tokenExist } from '~/utils/isAuth';
+import { VirtualKeyboardDetector } from '~/utils/virtual-keyboard-detector';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -55,7 +56,8 @@ export default {
 			'me',
 		]),
 		showTabs () {
-			return this.socket.isAuth && (!this.isTouch || !this.squad.virtualKeyboard) && ![
+			console.log(this.socket.isAuth, this.squad.virtualKeyboard, this.$route.name);
+			return this.socket.isAuth && ![
 				'select-username',
 				'invite-friends',
 				'walkthrough',
@@ -91,7 +93,13 @@ export default {
 			}
 		});
 		if (this.isTouch) {
-			onToggleKeyboard(this.toggleKeyboard.bind(this));
+			const vkdetector = new VirtualKeyboardDetector();
+			vkdetector.on('virtualKeyboardVisible', () => {
+				this.toggleKeyboard(true);
+			});
+			vkdetector.on('virtualKeyboardHidden', () => {
+				this.toggleKeyboard(false);
+			});
 		}
 	},
 	mounted () {

@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="user && user.name">
+	<v-container v-if="user && (user.name || user.screenName)">
 		<section class="fixed_profile d-flex justify-space-between align-center pa-2" :class="{ slide: isScrolled }">
 			<Menu v-if="user.isMe" ref="menu" small @edit="edit" />
 			<GoBackBtn v-else ref="go-back-btn" />
@@ -256,7 +256,7 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
+<style scoped lang="stylus">
 .tabs {
 	padding-bottom: 6%;
 	border-bottom: 2px solid rgba(0, 0, 0, 0.1);
@@ -271,8 +271,11 @@ export default {
 	margin-top: 5.5vh;
 }
 
+.v-tabs >>> .v-tabs-slider
+	color var(--brand-color)
+
 .v-tab--active {
-	color: black;
+	color: var(--brand-color);
 	background-color: white;
 
 	&:before {

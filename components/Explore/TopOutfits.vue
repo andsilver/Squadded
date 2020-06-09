@@ -14,7 +14,7 @@
 			</p>-->
 		</div>
 		<div v-if="outfits && outfits.length" class="overflow-x-auto d-flex px-2 explore-outfit fancy_scroll">
-			<div v-for="({ post }, index) of outfits" :key="index" class="grouped-post-item" @click="goToLandingPost(post)">
+			<div v-for="(post, index) of outfits" :key="index" class="grouped-post-item" @click="goToLandingPost(post)">
 				<div ref="outfit-card" class="outfit-card">
 					<p class="num_outfit">
 						{{ post.items.length }} {{ $t('styleOutfit') }}

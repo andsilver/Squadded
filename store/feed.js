@@ -1,6 +1,7 @@
 import { storeInSession } from '~/utils/feedSession';
 import { postReported } from '~/utils/reportSession';
 import { LOADING_TIMEOUT } from '~/consts';
+import { isMonoMerchant } from '~/utils/is-mono-merchant';
 
 const { FEED_STORE_LIMIT } = process.env;
 
@@ -110,7 +111,11 @@ export const actions = {
 			return;
 		}
 		rootState.feed.loading = true;
-		const msg = { type: 'fetchPosts', allMerchants: '*' };
+		const msg = { type: 'fetchPosts' };
+
+		if (!isMonoMerchant(rootState)) {
+			msg.allMerchants = '*';
+		}
 		const items = getters[FeedGetters.items];
 		if (loadNew || !items || !items.length) {
 			rootState.feed.loadedNew = true;

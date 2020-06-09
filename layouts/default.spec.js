@@ -79,12 +79,15 @@ describe('Default layout', () => {
 		expect(app.classes('show-tabs')).toBe(true);
 	});
 
-	it('should not display tabs if onscreen keyboard is open', () => {
-		store.state.socket.isAuth = true;
-		store.state.squad.virtualKeyboard = true;
-		const app = wrapper.ref(APP);
-		expect(app.classes('show-tabs')).toBe(false);
-	});
+	/*
+	 * Commenting before getting solution on checking keyboard open on IOS
+	 */
+	// it('should not display tabs if onscreen keyboard is open', () => {
+	// 	store.state.socket.isAuth = true;
+	// 	store.state.squad.virtualKeyboard = true;
+	// 	const app = wrapper.ref(APP);
+	// 	expect(app.classes('show-tabs')).toBe(false);
+	// });
 
 	it('should display preloader spinner while pending auth', () => {
 		const preloader = wrapper.ref(PRELOADER);
@@ -101,15 +104,6 @@ describe('Default layout', () => {
 		expect(main.exists()).toBe(true);
 	});
 
-	it('should listen on toggle mobile virtual keyboard', () => {
-		const proto = Default.methods.toggleKeyboard.prototype;
-		const cbArg = Device.onToggleKeyboard.mock.calls[0][0];
-		expect(Object.create(proto) instanceof cbArg).toBe(true);
-
-		cbArg(true);
-		expect(wrapper.vm.squad.virtualKeyboard).toBe(true);
-	});
-
 	it('should go to post landing with comments hash', async () => {
 		const postId = 'postid';
 		await store.commit(`${SquadStore}/${SquadMutations.openPost}`, postId);
@@ -122,15 +116,15 @@ describe('Default layout', () => {
 			initVue();
 		});
 
-		it('should always display tabs for desktop', () => {
-			store.state.socket.isAuth = true;
-			store.state.squad.virtualKeyboard = true;
-			const app = wrapper.ref(APP);
-			expect(app.classes('show-tabs')).toBe(true);
-		});
+		// it('should always display tabs for desktop', () => {
+		// 	store.state.socket.isAuth = true;
+		// 	store.state.squad.virtualKeyboard = false;
+		// 	const app = wrapper.ref(APP);
+		// 	expect(app.classes('show-tabs')).toBe(true);
+		// });
 
-		it('should not listen on toggle virtual keyboard', () => {
-			expect(Device.onToggleKeyboard).not.toHaveBeenCalled();
-		});
+		// it('should not listen on toggle virtual keyboard', () => {
+		// 	expect(Device.onToggleKeyboard).not.toHaveBeenCalled();
+		// });
 	});
 });

@@ -78,10 +78,10 @@ export default {
 	&.sqdi-squadded-icon
 		&:before
 			vertical-align middle
-			line-height 30px
+			line-height 24px
 
 	&.is-resquadded
-		background-color black
+		background-color var(--brand-color)
 		color white
 		opacity 1
 .remove-button.resquadd.is-resquadded

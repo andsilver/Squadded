@@ -8,6 +8,27 @@ import pairedItem from './paired-item';
 import explore from './explore';
 import home from './home';
 
+const DEFAULT_COLOR = '#000';
+const widgetLocation = location.search || !document.referrer ? new URL(location.href)
+	: new URL(document.referrer);
+
+if (!Object.fromEntries) {
+	Object.fromEntries = arr => Object.assign({}, ...Array.from(arr, ([k, v]) => ({ [k]: v })));
+}
+
+const {
+	merchantId: id,
+	siteUrl,
+	siteTitle,
+	squadSLogin = true,
+	brandColor = DEFAULT_COLOR,
+	isMono = false,
+} = Object.fromEntries(widgetLocation.searchParams.entries());
+
+if (brandColor !== DEFAULT_COLOR) {
+	document.documentElement.style.setProperty('--brand-color', brandColor);
+}
+
 export const state = () => ({
 	locales: ['en', 'fr'],
 	locale: 'en',
@@ -22,11 +43,14 @@ export const state = () => ({
 		_ws: null,
 	},
 	merchant: {
-		id: null,
-		siteUrl: null,
-		siteTitle: null,
-		squadSLogin: true,
+		id,
+		siteUrl,
+		siteTitle,
+		squadSLogin,
+		brandColor,
+		isMono,
 	},
+	monoMerchants: [],
 });
 
 export const mutations = {
@@ -54,11 +78,15 @@ export const mutations = {
 	SOCKET_RECONNECT_ERROR (state, event) {
 	},
 	SET_MERCHANT_PARAMS (state, msg) {
-		const { merchantId, siteUrl, siteTitle, squadSLogin } = msg;
+		const { merchantId, brandColor = state.merchant.brandColor, siteUrl, siteTitle, squadSLogin } = msg;
 		state.merchant.id = merchantId;
 		state.merchant.siteUrl = siteUrl;
 		state.merchant.siteTitle = siteTitle;
 		state.merchant.squadSLogin = squadSLogin;
+		state.merchant.brandColor = brandColor;
+		if (brandColor !== DEFAULT_COLOR) {
+			document.documentElement.style.setProperty('--brand-color', brandColor);
+		}
 	},
 	SET_SOCKET_AUTH (state, flag) {
 		state.socket.isAuth = flag;

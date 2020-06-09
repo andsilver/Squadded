@@ -180,10 +180,14 @@ export default {
 		align-items: center;
 		padding: 0 4.46vw;
 		margin-bottom: 3.46vw;
+		position: absolute;
+		width: calc(100vw - 31.93vw);
+		bottom: 0;
 	}
 	.reaction-sec {
 		margin: 0px 4.46vw 3vw;
 		opacity: 0;
+		display: none;
 	}
 	.icon-mr {
 		margin-right: 0.6vw;

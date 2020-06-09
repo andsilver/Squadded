@@ -2,15 +2,19 @@
 
 <body></body>
 <script>
+    const monoMerchants = ['https://development.store.jennyfer.demandware.net'];
     const urlParams = new URLSearchParams(window.location.search);
 
     const saveRedirect = (params) => {
         const squad = urlParams.get('squad');
-        localStorage.setItem('squad', squad);
+        localStorage.setItem('squad', squad || '');
     };
 
     let siteUrl;
-    if (navigator.userAgent.match(/Android/i)) {
+    if (monoMerchants.includes(urlParams.get('site'))) {
+        saveRedirect();
+        window.location.href = urlParams.get('site');
+    } else if (navigator.userAgent.match(/Android/i)) {
         siteUrl = 'https://play.google.com/store/apps/details?id=com.squadded.squaddedapp&ah=3xTyfeuluPsvpRL00pqPY8__EfI';
     } else if (
         navigator.userAgent.match(/iPhone/i) ||
@@ -18,9 +22,11 @@
         navigator.userAgent.match(/iPod/i)
     ) {
         siteUrl = 'https://www.squadded.co/login';
+        window.location.href = siteUrl;
     } else if (!chrome || !chrome.runtime) {
         saveRedirect();
         siteUrl = 'https://www.squadded.co/login';
+        window.location.href = siteUrl;
     } else {
         const EXTENSION_ID = 'nkgjblonklmhncmdijkecjoniegjhifd';
         chrome.runtime.sendMessage(EXTENSION_ID, 'ping', (response) => {
@@ -31,9 +37,7 @@
             } else {
                 siteUrl = urlParams.get('site');
             }
+            window.location.href = siteUrl;
         });
     }
-
-    console.log(siteUrl);
-    window.location.href = siteUrl;
 </script>

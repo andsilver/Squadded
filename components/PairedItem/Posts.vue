@@ -4,13 +4,7 @@
 			<h3 class="d-flex justify-space-between align-center pa-2">
 				<GoBackBtn ref="go-back-btn" />
 				<span class="viewall-title">{{ $t('viewAll') }}</span>
-				<v-btn icon>
-					<v-icon
-						size="6VW"
-					>
-						sqdi-share
-					</v-icon>
-				</v-btn>
+				<span class="blank-span" />
 			</h3>
 			<div class="pa-3 pt-1 paired-tab">
 				<v-tabs
@@ -107,6 +101,9 @@ export default {
 	mounted () {
 		this.bindScroll();
 	},
+	destroyed () {
+		window.removeEventListener('scroll', this.scrolled.bind(this));
+	},
 	methods: {
 		bindScroll () {
 			window.addEventListener('scroll', this.scrolled.bind(this));
@@ -146,7 +143,8 @@ export default {
 	&.bottom-line
 		border-bottom 0.46vw solid rgba(184,184,186,0.30)
 	&.v-tab--active
-		border-color #000
+		color var(--brand-color)
+		border-color var(--brand-color)
 .fixed_tabs
 	position fixed
 	top -115px
@@ -174,4 +172,7 @@ export default {
 	padding-right 12px
 	padding-left 12px
 	overflow-x hidden
+.blank-span
+	width 36px
+	height 36px
 </style>

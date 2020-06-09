@@ -38,6 +38,12 @@ export default {
 				}
 			}
 			if (this.socket.isAuth) {
+				const { stack } = this.$router.history;
+				const route = stack.reverse().find(s => s.name !== this.$router.history.current.name);
+
+				if (route) {
+					return this.$router.push({ name: route.name });
+				}
 				this.$router.back();
 			} else {
 				this.$router.push('/community');

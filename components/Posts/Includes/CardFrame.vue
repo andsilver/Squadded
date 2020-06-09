@@ -301,4 +301,10 @@ export default {
 .explore-outfit
 	.card_bottom
 		display none
+.outfit-card
+	.merchant-section
+		height 0 !important
+	.scroll-section
+		.merchant-section
+			height 6.15vw !important
 </style>

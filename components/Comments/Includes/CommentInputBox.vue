@@ -167,6 +167,12 @@ export default {
 				return false;
 			}
 
+			if (e.keyCode === KEY.RETURN && !this.showSquadders) {
+				this.send();
+				e.preventDefault();
+				return false;
+			}
+
 			if (!this.showSquadders) {
 				return true;
 			}
@@ -304,7 +310,12 @@ export default {
 			return el.scrollWidth > el.offsetWidth;
 		},
 		send() {
-			this.$emit('send', this.messageText.trim());
+			const text = this.messageText.trim();
+
+			if (!text) {
+				return;
+			}
+			this.$emit('send', text);
 			this.resetInput('');
 		},
 		showSquaddersList() {

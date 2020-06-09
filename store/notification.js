@@ -1,4 +1,5 @@
 import { NOTIFICATIONS_LIMIT, NOTIFICATIONS, BANNER_TIMEOUT, UNDO_TIMEOUT } from '~/consts';
+import { isMonoMerchant } from '~/utils/is-mono-merchant';
 
 export const NotificationStore = 'notification';
 export const STORAGE_NOTIFICATIONS_KEY = 'notifications';
@@ -13,6 +14,7 @@ export const NotificationGetters = {
 	newNotify: 'newNotify',
 	oldNotify: 'oldNotify',
 	newRequests: 'newRequests',
+	allRequests: 'allRequests',
 	newNotifications: 'newNotifications',
 	oldNotifications: 'oldNotifications',
 };
@@ -23,6 +25,9 @@ export const getters = {
 	[NotificationGetters.oldNotify]: state => state.notifications.filter(n => n.viewed),
 	[NotificationGetters.newRequests]: state => state.notifications.filter(
 		n => (n.type === NOTIFICATIONS.ACCEPT_SQUAD && !n.viewed) || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
+	),
+	[NotificationGetters.allRequests]: state => state.notifications.filter(
+		n => (n.type === NOTIFICATIONS.ACCEPT_SQUAD) || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
 	),
 	[NotificationGetters.newNotifications]: state => state.notifications.filter(
 		n => !n.viewed && n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD,
@@ -155,10 +160,9 @@ export const actions = {
 			}
 		}
 
-		rootState.socket.$ws.sendObj({
-			type: 'fetchNotifications',
-			allMerchants: '*',
-		});
+		const msg = { type: 'fetchNotifications' };
+		!isMonoMerchant(rootState) && (msg.allMerchants = '*');
+		rootState.socket.$ws.sendObj(msg);
 	},
 	[NotificationActions.viewNotifications]: ({ rootState, commit }, notifications) => {
 		const notificationIds = (notifications || [])

@@ -29,7 +29,7 @@
 	"Notifications": "Messages",
 	"PairedItem": {
 		"all": "Top",
-		"outfits": "Layouts",
+		"outfits": "Outfits",
 		"photos": "Photos",
 		"polls": "Polls"
 	},
@@ -101,15 +101,15 @@
 		"photo": "Photo",
 		"poll": "Poll",
 		"socialVideo": "Social Video",
-		"upload": "Upload",
+		"upload": "Photo or Video",
 		"video": "Video"
 	},
 	"createDesc": {
-		"outfit": "Pair 2-4 items in a single post",
+		"outfit": "Pair 2-4 items to create an outfit",
 		"photo": "Add a photo and tag items on it",
-		"poll": "Ask your squad to vote between 2 items",
+		"poll": "Ask shoppers to vote between 2 items",
 		"unsupported_file_format": "This image format is not supported",
-		"upload": "Upload a photo/video and tag your items",
+		"upload": "Tag items in your photo or video",
 		"video": "Add a video link and tag items on it"
 	},
 	"create_your_squad": {
@@ -226,17 +226,17 @@
 		"placeholder": "Write a comment..."
 	},
 	"invite_your_friends": {
-		"add": "Add your friends by name:",
-		"best_experience": "Share your invite link with:",
+		"add": "or find your friends:",
+		"best_experience": "Share your invitation link:",
 		"copied": "Copied!",
 		"copy_link": "Copy Link",
 		"email": "Email",
 		"invite_body": "Join my squad and shop with me on {merchant}:",
-		"invite_subject": "We can shop online together. Shop with me on Squadded - Shopping Party",
+		"invite_subject": "We can shop online together. Shop with me on Squadded!",
 		"messenger": "Messenger",
 		"or": "or",
 		"search_users": "Search users...",
-		"share": "Share your invite link with:",
+		"share": "Share your invitation link:",
 		"title": "Invite your friends",
 		"whatsapp": "WhatsApp",
 		"your_friends": "your friends"
@@ -254,7 +254,7 @@
 	"mysquad": {
 		"add_friends": "Add friends",
 		"search": "Search your squad...",
-		"share_private_link": "or share private link"
+		"share_private_link": "or share your invitation link"
 	},
 	"noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
 	"notify": {
@@ -277,7 +277,7 @@
 		"poll": "your poll",
 		"pollend": "Your poll has ended  - check out which item won!",
 		"post": "your post",
-		"requestEmpty": "You have no new requests",
+		"requestEmpty": "You have no new request",
 		"vote": "voted on"
 	},
 	"ok": "ok",
@@ -326,9 +326,9 @@
 		"pop": {
 			"deletePost": {
 				"decline": "Edit",
-				"description": "You can also edit your post. If you selected wrong privacy settings, you can also edit them.",
+				"description": "You can also edit your post in the post settings.",
 				"menu": "Delete",
-				"question": "Delete post?"
+				"question": "Delete this post?"
 			},
 			"edit": {
 				"decline": "",
@@ -357,7 +357,7 @@
 			"sharelink": {
 				"decline": "",
 				"description": "",
-				"menu": "Share link",
+				"menu": "Share to...",
 				"question": ""
 			}
 		},
@@ -366,6 +366,10 @@
 		"removeUser": "Remove from My Squad",
 		"sending": "sending…",
 		"share": "Share this link with your friends",
+		"share_link": {
+			"content": "Check this post on {merchant}",
+			"subject": "Check this post on {merchant} with Squadded to shop online with me"
+		},
 		"textPlaceholder": "Write a caption...",
 		"title": {
 			"comments": "Comments",
@@ -390,7 +394,7 @@
 			"second": "and let us know why. Our team will process your request and delete your account."
 		},
 		"feedback": "Feedback",
-		"feedback_warning": "Please only leave feedback about Squadded and our features. All reports are subject to our terms of use.",
+		"feedback_warning": "Please only leave feedback about Squadded and its features. All reports are subject to our terms of use.",
 		"general": "General",
 		"language": {
 			"description": "How often do you want to get notifications?",
@@ -408,7 +412,7 @@
 		"profile": "Profile",
 		"profile_privacy": "Profile privacy",
 		"public_profile": {
-			"description": "All the community will be able to see your wishlist.",
+			"description": "All the community will be able to see your wishlist",
 			"title": "Public profile"
 		},
 		"read": "read",
@@ -424,7 +428,7 @@
 		"submit": "submit",
 		"submitted_notification": "Thank you. Your report has been sent.",
 		"terms_of_service": {
-			"description": "By using the widget you agree to them",
+			"description": "By using Squadded you agree to them",
 			"title": "Terms of Use"
 		},
 		"title": "Edit Settings",
@@ -450,15 +454,15 @@
 	},
 	"skip": "skip",
 	"spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
-	"styleOutfit": "style in this layout",
+	"styleOutfit": "style in this outfit",
 	"tip": {
 		"addItems": "Add items to your wishlist to create {0}.",
-		"createPhotoTag": "click photo to tag items",
+		"createPhotoTag": "Tap the products in the photo that you want to tag",
 		"crop": "move points to crop",
 		"limitMessage": "The limit is 4 items per outfit",
-		"outfitError": "You need to select 2 to 4 items to create a layout",
+		"outfitError": "You need to select 2 to 4 items to create an outfit",
 		"outfitSelect": "Select 2 to 4 items to pair together",
-		"photoError": "Click the items you want to tag to post a picture.",
+		"photoError": "You must tap the products in the photo that you want to tag",
 		"photoLimitError": "You cannot tag more than 4 items",
 		"pollError": "You need to select 2 items to create a poll",
 		"pollSelect": "Select 2 items you hesitate with",
@@ -481,7 +485,7 @@
 			"Block": "Block ",
 			"PushWatchers": "Push to watchers",
 			"Remove": "Remove",
-			"Sharelink": "Share link",
+			"Sharelink": "Share to...",
 			"Unwatch": "Unwatch",
 			"report": "Report",
 			"reportUser": "Report User"
@@ -499,7 +503,7 @@
 			"invited_text": "invited you to join their squad",
 			"pending": "Pending...",
 			"pending_text": "As soon as @{user} confirms,\nyou will appear in each other's squad",
-			"send_invite_link": "Send invite link",
+			"send_invite_link": "Share your invitation link:",
 			"text": ""
 		},
 		"promptFollow": "Do you want to follow {0}?",
@@ -525,7 +529,7 @@
 		},
 		"step2": {
 			"strong": "Invite",
-			"text": "new friends to join your squad and shop with them"
+			"text": "your friends to join your squad and shop together"
 		},
 		"step3": {
 			"start_shopping": "start shopping",

@@ -74,7 +74,8 @@ export default {
 .photo-create .photo-view .v-image
 	height 60.95vw
 .paired_section .poll-item .v-image, .paired_section .outfit-card .v-image
-	min-height 101px
+	min-height 101px,
+	overflow auto
 .paired_section .gallery-card .multi-item .v-image
 	height 65.76vw
 .grouped-post .v-image:after

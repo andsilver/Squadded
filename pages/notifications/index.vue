@@ -26,7 +26,7 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import BackBar from '~/components/common/BackBar';
+import BackBar from '~/components/Notifications/BackBar';
 import Notifications from '~/components/Notifications';
 import EmptyNotification from '~/components/Notifications/Includes/EmptyNotification';
 import Tabs from '~/components/Notifications/Tabs';

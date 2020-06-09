@@ -43,6 +43,10 @@ export const signOut = (store, router) => {
 	delete Vue.prototype.$ws;
 	store.commit('jSocket', null);
 	localStorage.removeItem('userToken');
+	sessionStorage.clear();
+	window.parent.postMessage(JSON.stringify({
+		type: 'signout',
+	}), '*');
 	router.push('/');
 };
 
@@ -95,6 +99,9 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			fetchNotifications();
 			fetchSquadders();
 
+			window.parent.postMessage(JSON.stringify({
+				type: 'signin',
+			}), '*');
 			window.parent.postMessage(JSON.stringify({
 				type: 'full-story-identity',
 				userId: user.userId,
@@ -186,6 +193,4 @@ export default (ctx) => {
 
 	ctx.wsMessages = new WSMessages(store);
 	store.subscribe(mutationListenerShadow(ctx));
-
-	connect(store);
 };

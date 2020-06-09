@@ -106,20 +106,20 @@ export default {
 	height: 18.461vw;
 	width: 18.461vw;
 	min-width:auto;
-	background: #000;
+	background: var(--brand-color);
 }
 .plus_icon:before{
 	color : #fff;
 	font-size : 3.846vw !important;
 }
 .v-menu__content.theme--light.v-menu__content--fixed.menuable__content__active {
-    min-width: 100% !important;
-    width: 100% !important;
-    left: 0 !important;
-    box-shadow:0 -17px 37px -17px rgba(0, 0, 0, 0.3);
-    border-top-right-radius: 8vw;
-    border-top-left-radius: 8vw;
-    height: auto !important;
+	min-width: 100% !important;
+	width: 100% !important;
+	left: 0 !important;
+	box-shadow:0 -17px 37px -17px rgba(0, 0, 0, 0.3);
+	border-top-right-radius: 8vw;
+	border-top-left-radius: 8vw;
+	height: auto !important;
 	padding-bottom: 10px;
 	background-color: transparent;
 	bottom: 55px;

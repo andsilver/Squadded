@@ -144,6 +144,9 @@ export default {
 			if (index === -1) {
 				index = 0;
 			}
+			if (!this.$refs.item) {
+				return;
+			}
 			const item = this.$refs.item[index];
 			this.$refs.items.scrollTo({
 				top: item.$el.offsetTop - 80,

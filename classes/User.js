@@ -58,7 +58,7 @@ export class User {
 			avatar: this.avatar,
 			guid: this.userId,
 			isMe: this.isMe,
-			screenName: this.name,
+			screenName: this.screenName || this.name,
 			miniAvatar: this.miniAvatar,
 		};
 	}

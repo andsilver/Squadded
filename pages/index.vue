@@ -447,7 +447,7 @@ export default {
 			width 90%
 			left 50%
 			transform translateX(-50%)
-			bottom 2.30vw
+			bottom 6.2vw
 	.sign-step-two
 		display none
 		transition all 0.2s ease-in-out

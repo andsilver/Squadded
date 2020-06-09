@@ -89,7 +89,7 @@ export default {
 	data: () => ({
 		fetched: false,
 		shifted: false,
-		maxHeight: '250px',
+		maxHeight: '100px',
 		selectedItem: '',
 		moving: false,
 		marginLeft: 0,

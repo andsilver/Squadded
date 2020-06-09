@@ -16,12 +16,18 @@ export const isTouch = () => {
 };
 
 const OUTER_HEIGHT = window.screen.height - window.innerHeight;
+let resizeTimeout = null;
 
 export const onToggleKeyboard = (trigger) => {
 	window.addEventListener('resize', () => {
-		setTimeout(() => {
-			trigger(window.innerHeight < window.screen.height - OUTER_HEIGHT);
-		}, 10);
+		if (resizeTimeout) {
+			clearTimeout(resizeTimeout);
+			resizeTimeout = null;
+		}
+		resizeTimeout = setTimeout(() => {
+			const currentOuterHeight = window.screen.height - window.innerHeight;
+			trigger(Math.abs(OUTER_HEIGHT - currentOuterHeight) > 160);
+		}, 100);
 	});
 };
 

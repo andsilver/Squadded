@@ -132,4 +132,7 @@ export default {
 			margin-left 0.1vw
 .wrapper
 	position relative
+.grid_gallery .wrapper
+	display inline-block
+	width 100%
 </style>
