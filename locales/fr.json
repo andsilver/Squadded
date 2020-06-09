@@ -101,12 +101,12 @@
 		"photo": "Photo",
 		"poll": "Sondage",
 		"socialVideo": "Vidéo sociale",
-		"upload": "Photo ou Vidéo",
+		"upload": "galerie",
 		"video": "Vidéo"
 	},
 	"createDesc": {
 		"outfit": "Associer 2 à 4 articles pour créer une tenue",
-		"photo": "Poster une photo et identifier les articles",
+		"photo": "Publier une photo et identifier les articles",
 		"poll": "Demander aux shoppeurs de voter entre 2 articles",
 		"unsupported_file_format": "Ce format d'image n'est pas pris en charge",
 		"upload": "Identifier des articles dans votre photo ou vidéo",
@@ -545,6 +545,6 @@
 		"empty": "Pas d'articles dans la wishlist",
 		"postempty": "Votre wishlist est vide. Ajoutez des articles pour créer une publication",
 		"private": "Ce compte est privé\n Seul le squad de @{user}\n peut voir ses publications.",
-		"purchase": "Ajouter au panier"
+		"purchase": "Ajouter"
 	}
 }
