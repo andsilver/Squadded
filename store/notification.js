@@ -11,8 +11,6 @@ export const state = () => ({
 
 export const NotificationGetters = {
 	notify: 'notify',
-	newNotify: 'newNotify',
-	oldNotify: 'oldNotify',
 	newRequests: 'newRequests',
 	allRequests: 'allRequests',
 	newNotifications: 'newNotifications',
@@ -21,19 +19,17 @@ export const NotificationGetters = {
 
 export const getters = {
 	[NotificationGetters.notify]: state => state.notifications.filter(n => !n.viewed),
-	[NotificationGetters.newNotify]: state => state.notifications.filter(n => !n.viewed),
-	[NotificationGetters.oldNotify]: state => state.notifications.filter(n => n.viewed),
 	[NotificationGetters.newRequests]: state => state.notifications.filter(
-		n => (n.type === NOTIFICATIONS.ACCEPT_SQUAD && !n.viewed) || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
+		n => (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
 	),
 	[NotificationGetters.allRequests]: state => state.notifications.filter(
-		n => (n.type === NOTIFICATIONS.ACCEPT_SQUAD) || (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
+		n => (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
 	),
 	[NotificationGetters.newNotifications]: state => state.notifications.filter(
-		n => !n.viewed && n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD,
+		n => !n.viewed && n.type !== NOTIFICATIONS.ALERT && n.type !== NOTIFICATIONS.INVITE_SQUAD,
 	),
 	[NotificationGetters.oldNotifications]: state => state.notifications.filter(
-		n => n.viewed && n.type !== NOTIFICATIONS.ACCEPT_SQUAD && n.type !== NOTIFICATIONS.INVITE_SQUAD,
+		n => n.viewed && n.type !== NOTIFICATIONS.ALERT && n.type !== NOTIFICATIONS.INVITE_SQUAD,
 	),
 };
 
@@ -86,7 +82,7 @@ export const mutations = {
 		setTimeout(() => {
 			message.showBanner = false;
 			updateCache(state);
-		}, message.type === 'notifAlert' ? UNDO_TIMEOUT : BANNER_TIMEOUT);
+		}, message.type === NOTIFICATIONS.ALERT ? UNDO_TIMEOUT : BANNER_TIMEOUT);
 		window.parent.postMessage(JSON.stringify({
 			type: 'notification',
 			message,

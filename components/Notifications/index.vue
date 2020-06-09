@@ -33,7 +33,7 @@ export default {
 				return [];
 			},
 		},
-		isAccept: {
+		requests: {
 			type: Boolean,
 			default: false,
 		},
@@ -54,12 +54,11 @@ export default {
 	methods: {
 		getComponent (notification) {
 			if (
-				!this.isAccept &&
-				notification.type !== NOTIFICATIONS.ACCEPT_SQUAD &&
+				!this.requests &&
 				notification.type !== NOTIFICATIONS.INVITE_SQUAD
 			) {
 				return this.components[notification.type];
-			} else if (this.isAccept) {
+			} else if (this.requests) {
 				return this.components[notification.type];
 			}
 		},
