@@ -48,6 +48,7 @@ export const signOut = (store, router) => {
 		type: 'signout',
 	}), '*');
 	router.push('/');
+	location.reload();
 };
 
 export const mutationListener = ctx => async function mutationDispatcher (mutation, state) {

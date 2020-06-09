@@ -34,7 +34,7 @@ export default {
 		Tabs,
 	},
 	computed: {
-		...notifGetters(['allRequests']),
+		...notifGetters(['allRequests', 'newRequests']),
 		...mapState(['socket']),
 	},
 	mounted () {
