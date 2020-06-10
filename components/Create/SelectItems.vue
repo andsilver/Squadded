@@ -153,7 +153,7 @@ export default {
 	overflow-x: hidden;
 	background-color: transparent;
 	margin-top: 0px !important;
-	max-height: calc(100vh - 355px);
+	max-height: 100%;
 }
 .show-tabs .outfit-main-sec .choose-items.no_item_selected
 	max-height calc(100vh - 260px)
