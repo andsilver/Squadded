@@ -42,12 +42,13 @@ export const signOut = (store, router) => {
 	Vue.prototype.$disconnect();
 	delete Vue.prototype.$ws;
 	store.commit('jSocket', null);
-	localStorage.removeItem('userToken');
+	localStorage.clear();
 	sessionStorage.clear();
 	window.parent.postMessage(JSON.stringify({
 		type: 'signout',
 	}), '*');
 	router.push('/');
+	location.reload();
 };
 
 export const mutationListener = ctx => async function mutationDispatcher (mutation, state) {

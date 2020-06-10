@@ -94,7 +94,7 @@ export default {
 					if (!this.post) {
 						this.$router.push('/error');
 					}
-				}, 3000);
+				}, 6000);
 			} else {
 				fetchPost(id).then((post) => {
 					if (post && post.private) {

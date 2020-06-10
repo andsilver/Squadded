@@ -9,7 +9,7 @@
 				</h5>
 				<EmptyNotification />
 			</div>
-			<Notifications v-else ref="notification-list" is-accept :items="allRequests" />
+			<Notifications v-else ref="notification-list" requests :items="allRequests" />
 		</v-layout>
 	</v-container>
 </template>
@@ -34,7 +34,7 @@ export default {
 		Tabs,
 	},
 	computed: {
-		...notifGetters(['allRequests']),
+		...notifGetters(['allRequests', 'newRequests']),
 		...mapState(['socket']),
 	},
 	mounted () {
