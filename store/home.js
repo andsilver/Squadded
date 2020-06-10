@@ -1,5 +1,6 @@
 import { postReported } from '~/utils/reportSession';
 import { LOADING_TIMEOUT } from '~/consts/time-values';
+import { SquadAPI } from '~/services/SquadAPI';
 
 export const HomeStore = 'home';
 
@@ -67,6 +68,9 @@ export const mutations = {
 	},
 	[HomeMutations.setLoading]: (state, loading) => {
 		state.loading = loading;
+		if (!loading) {
+			SquadAPI.rendered();
+		}
 	},
 	[HomeMutations.follow]: (state, user) => {
 		state.posts.forEach(p => (p.user.guid === user.guid && (p.user.followed = !p.user.followed)));

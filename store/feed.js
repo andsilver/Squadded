@@ -2,6 +2,7 @@ import { storeInSession } from '~/utils/feedSession';
 import { postReported } from '~/utils/reportSession';
 import { LOADING_TIMEOUT } from '~/consts';
 import { isMonoMerchant } from '~/utils/is-mono-merchant';
+import { SquadAPI } from '~/services/SquadAPI';
 
 const { FEED_STORE_LIMIT } = process.env;
 
@@ -71,6 +72,9 @@ export const mutations = {
 	},
 	[FeedMutations.setLoading]: (state, loading) => {
 		state.loading = loading;
+		if (!loading) {
+			SquadAPI.rendered();
+		}
 	},
 	[FeedMutations.receiveSquadders]: (state, squadders) => {
 		state.squadders = squadders;

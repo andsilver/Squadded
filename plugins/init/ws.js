@@ -128,29 +128,31 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			const visitedInviteFriends = localStorage.getItem(VISITED_INVITE_FRIENDS_KEY);
 
 			if (user.origin === 'invitation') {
+				// TODO What is it for? It is same as two below.
 				if (!user.nameSelected) {
-					return app.router.push('/select-username', setPendingFalse);
+					app.router.push('/select-username', setPendingFalse);
 				} else if (!user.squaddersCount && !visitedInviteFriends) {
-					return app.router.push('/invite-friends', setPendingFalse);
+					app.router.push('/invite-friends', setPendingFalse);
 				}
-			}
-			if (route.name) {
+			} else if (route.name) {
 				app.router.push(route, setPendingFalse);
 			} else if (!user.nameSelected) {
 				app.router.push('/select-username', setPendingFalse);
 			} else if (!user.squaddersCount && !visitedInviteFriends) {
-				return app.router.push('/invite-friends', setPendingFalse);
+				app.router.push('/invite-friends', setPendingFalse);
 			} else {
 				const latestPath = sessionStorage.getItem('latestPath');
 				const latestHash = sessionStorage.getItem('latestHash');
 				if (latestPath && latestPath !== '/') {
-					return app.router.push({
+					app.router.push({
 						path: latestPath,
 						hash: latestHash,
 					}, setPendingFalse);
+				} else {
+					app.router.push(DEFAULT_LANDING, setPendingFalse);
 				}
-				return app.router.push(DEFAULT_LANDING, setPendingFalse);
 			}
+			return;
 		}
 
 		if (!state.socket.isAuth) {

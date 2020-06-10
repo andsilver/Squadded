@@ -27,6 +27,8 @@ import { UserStore } from '~/store/user';
 import { isTouch } from '~/utils/device-input';
 import { tokenExist } from '~/utils/isAuth';
 import { VirtualKeyboardDetector } from '~/utils/virtual-keyboard-detector';
+import { SquadAPI } from '~/services/SquadAPI';
+import { LOADING_TIMEOUT } from '~/consts';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -141,16 +143,11 @@ export default {
 			this.overlay = false;
 		},
 		rendered () {
-			if (this.socket.isAuth) {
-				setTimeout(() => {
-					window.parent.postMessage(JSON.stringify({
-						type: 'rendered',
-					}), '*');
-				}, 5000);
+			const { name } = this.$route;
+			if (name === 'feed' || name === 'all') {
+				setTimeout(SquadAPI.rendered, LOADING_TIMEOUT);
 			} else {
-				window.parent.postMessage(JSON.stringify({
-					type: 'rendered',
-				}), '*');
+				SquadAPI.rendered();
 			}
 		},
 	},

@@ -20,4 +20,9 @@ export const SquadAPI = {
 			return false;
 		}
 	},
+	rendered() {
+		window.parent.postMessage(JSON.stringify({
+			type: 'rendered',
+		}), '*');
+	},
 };
