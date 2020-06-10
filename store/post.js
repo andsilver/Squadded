@@ -245,10 +245,21 @@ export const actions = {
 		return post;
 	},
 	[PostActions.sendComment]: ({ rootState, commit }, { text, post }) => {
+		function getUsersFromComment(comment) {
+			const users = [];
+			const regex = new RegExp('(@)\\[(.*?)\\]\\((.*?):(.*?)\\)', 'gi');
+			let match;
+			while ((match = regex.exec(comment)) != null) {
+				users.push(match[4]);
+			}
+			return users;
+		};
+
 		rootState.socket.$ws.sendObj({
 			guid: post.guid,
 			text,
 			type: 'addComment',
+			notifusers: getUsersFromComment(text),
 		});
 
 		const comment = {

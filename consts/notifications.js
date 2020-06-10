@@ -8,6 +8,7 @@ export const NOTIFICATIONS = {
 	INVITE_SQUAD: 'notifInviteSquad',
 	FOLLOW: 'notifFollow',
 	FOLLOW_REQUEST: 'notifFollowRequest',
+	TAGGED: 'notifTagged',
 };
 
 export const NOTIFICATIONS_LIMIT = 30;

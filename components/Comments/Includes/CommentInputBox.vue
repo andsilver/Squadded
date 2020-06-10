@@ -197,11 +197,10 @@ export default {
 				break;
 			case KEY.RETURN:
 			case KEY.TAB:
-				if (this.activeItem === -1) {
-					return true;
+				if (this.activeItem !== -1) {
+					this.selectItem(this.searched[this.activeItem], this.activeItem);
 				}
 				e.preventDefault();
-				this.selectItem(this.searched[this.activeItem], this.activeItem);
 				return false;
 			}
 			return true;

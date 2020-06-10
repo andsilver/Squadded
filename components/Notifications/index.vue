@@ -22,6 +22,7 @@ import AcceptSquad from './Includes/AcceptSquad';
 import InviteSquad from './Includes/InviteSquad';
 import Follow from './Includes/Follow';
 import FollowRequest from './Includes/FollowRequest';
+import Tagged from './Includes/Tagged';
 import { NOTIFICATIONS } from '~/consts/notifications';
 
 export default {
@@ -49,6 +50,7 @@ export default {
 			[NOTIFICATIONS.INVITE_SQUAD]: InviteSquad,
 			[NOTIFICATIONS.FOLLOW]: Follow,
 			[NOTIFICATIONS.FOLLOW_REQUEST]: FollowRequest,
+			[NOTIFICATIONS.TAGGED]: Tagged,
 		},
 	}),
 	methods: {

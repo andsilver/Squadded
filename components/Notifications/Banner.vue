@@ -28,6 +28,7 @@ import AcceptSquad from './Includes/AcceptSquad';
 import InviteSquad from './Includes/InviteSquad';
 import Follow from './Includes/Follow';
 import FollowRequest from './Includes/FollowRequest';
+import Tagged from './Includes/Tagged';
 import {
 	NotificationStore,
 	NotificationGetters,
@@ -49,6 +50,7 @@ export default {
 			[NOTIFICATIONS.INVITE_SQUAD]: InviteSquad,
 			[NOTIFICATIONS.FOLLOW]: Follow,
 			[NOTIFICATIONS.FOLLOW_REQUEST]: FollowRequest,
+			[NOTIFICATIONS.TAGGED]: Tagged,
 		},
 	}),
 	computed: {

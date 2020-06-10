@@ -183,6 +183,7 @@ describe('WS Plugin', () => {
 			});
 
 			it('should disconnect when socket close', () => {
+				location.reload = jest.fn();
 				const mutation = {
 					type: 'SOCKET_ONCLOSE',
 					payload: { reason: 'non empty' },

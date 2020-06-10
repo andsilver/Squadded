@@ -278,7 +278,9 @@
 		"pollend": "Your poll has ended  - check out which item won!",
 		"post": "your post",
 		"requestEmpty": "You have no new request",
-		"vote": "voted on"
+		"vote": "voted on",
+		"mentioned": "mentioned you in a comment:",
+		"justmentioned": "just mentioned you in a comment"
 	},
 	"ok": "ok",
 	"or": "or",

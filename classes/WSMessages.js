@@ -199,6 +199,10 @@ export class WSMessages {
 		this.store.commit(`${PostStore}/${PostMutations.addComment}`, { comment, post });
 	}
 
+	notifTagged (message) {
+		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+	}
+
 	notifLike (message) {
 		const { iLike, postId, user } = message;
 		const mod = (iLike ? 1 : -1);
