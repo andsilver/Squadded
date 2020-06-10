@@ -4,7 +4,6 @@
 			<BackBar ref="goback-bar" :title="$t( cropped ? 'New photo' : 'Create')" :close="!cropped" />
 			<Tabs v-if="!cropped" :active="1" />
 			<v-layout column grow class="mt-3">
-				<!-- <CapturePhoto v-show="!dataImg" ref="capture-photo" @open="preview" @error="fileTypeError = true" /> -->
 				<Browse v-show="!dataImg" ref="browse" @open="preview" @error="fileTypeError = true" />
 				<LargeButton
 					v-if="!dataImg"
@@ -81,7 +80,6 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-// import CapturePhoto from '~/components/Create/CapturePhoto';
 import BackBar from '~/components/common/BackBar';
 import Browse from '~/components/Create/Browse';
 import Button from '~/components/common/Button';
@@ -129,7 +127,6 @@ const createPost = async ({ store, text, isPublic, selected, image, coords, need
 
 export default {
 	components: {
-		// CapturePhoto,
 		BackBar,
 		Browse,
 		Button,

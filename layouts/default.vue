@@ -58,7 +58,7 @@ export default {
 			'me',
 		]),
 		showTabs () {
-			console.log(this.socket.isAuth, this.squad.virtualKeyboard, this.$route.name);
+			console.log(this.squad.virtualKeyboard);
 			return this.socket.isAuth && ![
 				'select-username',
 				'invite-friends',

@@ -76,6 +76,7 @@ export const mutations = {
 		message.viewed = message.viewed || false;
 		message.showBanner = true;
 		state.notifications.unshift(message);
+
 		if (state.notifications.length > NOTIFICATIONS_LIMIT) {
 			state.notifications.pop();
 		}

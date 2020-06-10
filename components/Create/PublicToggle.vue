@@ -51,11 +51,9 @@ export default {
 			{ label: 'private' },
 		],
 	}),
-	created () {
-		this.defaultItem = this.items[this.selected];
-	},
 	mounted () {
 		this.isPublic = this.public;
+		this.defaultItem = this.items[this.isPublic ? 0 : 1];
 	},
 	methods: {
 		switchDate (i) {
