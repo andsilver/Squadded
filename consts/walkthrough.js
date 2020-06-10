@@ -20,7 +20,7 @@ export const home = {
 				mysquad: true,
 				followed: true,
 			},
-			guid: '5e6e46175ea0c8f8722295bc',
+			guid: '1234556633',
 			item1: {
 				varId: '',
 				itemId: '12430240',
@@ -61,7 +61,7 @@ export const home = {
 				mysquad: true,
 				followed: true,
 			},
-			guid: '5e765c21646bc6899ca19d12',
+			guid: '123344556',
 			item: {
 				varId: '',
 				itemId: '11754653',

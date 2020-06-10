@@ -212,7 +212,7 @@ export default {
 
 	&-first,
 	&-second {
-		border-radius: 4px;
+		border-radius: 0px;
 		height: 11vw !important;
 		padding: 0 !important;
 		min-width: unset !important;
@@ -222,14 +222,14 @@ export default {
 	}
 
 	&-first {
-		border-top-left-radius: 12px;
-		border-bottom-left-radius: 12px;
+		border-top-left-radius: 3.07vw;
+		border-bottom-left-radius: 3.07vw;
 		align-self: flex-end;
 	}
 
 	&-second {
-		border-top-right-radius: 12px;
-		border-bottom-right-radius: 12px;
+		border-top-right-radius: 3.07vw;
+		border-bottom-right-radius: 3.07vw;
 	}
 }
 .explore-content .vote-button-container {
