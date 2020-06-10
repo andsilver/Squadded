@@ -45,7 +45,7 @@ export default {
 		},
 		aspectRatio: {
 			type: Number,
-			default: 4 / 5,
+			default: 3 / 4,
 		},
 	},
 	data: () => ({
@@ -70,7 +70,7 @@ export default {
 	height 100.384vw
 
 .photo-create .multi-item .v-image
-	height 42vh
+	height 30vh
 .photo-create .photo-view .v-image
 	height 60.95vw
 .paired_section .poll-item .v-image, .paired_section .outfit-card .v-image

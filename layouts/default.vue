@@ -186,7 +186,7 @@ export default {
 	z-index 999
 
 .bottom-tab-section
-	z-index 199
+	z-index 210
 	background-color rgba(255,255,255,0.96) !important
 	@media screen and (max-width 280px)
 			height 60px !important
