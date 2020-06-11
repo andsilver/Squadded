@@ -135,7 +135,6 @@ export default {
 			}
 		},
 		search() {
-			console.log('search');
 			if (this.currentDataQuery && this.currentDataQuery.length) {
 				this.showSquaddersList();
 				const results = this.squadders.filter(s =>
