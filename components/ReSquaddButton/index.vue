@@ -2,7 +2,10 @@
 	<button
 		ref="resquadd-button"
 		class="resquadd sqdi-squadded-icon"
-		:class="{ 'is-resquadded': item.squadded }"
+		:class="{
+			'is-resquadded': item.squadded,
+			invert,
+		}"
 		@click="click"
 	/>
 </template>
@@ -21,6 +24,15 @@ export default {
 			type: Object,
 			required: true,
 		},
+	},
+	data: () => ({
+		invert: false,
+	}),
+	mounted () {
+		const { backgroundColor } = this.$store.state.merchant;
+		if (backgroundColor) {
+			this.invert = true;
+		}
 	},
 	methods: {
 		click (e) {
@@ -80,10 +92,18 @@ export default {
 			vertical-align middle
 			line-height 24px
 
-	&.is-resquadded
+	&.is-resquadded:not(.invert)
 		background-color var(--brand-color)
 		color white
 		opacity 1
+
+	&.invert
+		background-color var(--bg-color) !important
+		color black
+		&.is-resquadded
+			color var(--brand-color) !important
+			opacity 1
+
 .remove-button.resquadd.is-resquadded
 	background-color transparent
 	&.sqdi-squadded-icon:before

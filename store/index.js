@@ -22,11 +22,16 @@ const {
 	siteTitle,
 	squadSLogin = true,
 	brandColor = DEFAULT_COLOR,
+	backgroundColor,
 	isMono = false,
 } = Object.fromEntries(widgetLocation.searchParams.entries());
 
 if (brandColor !== DEFAULT_COLOR) {
 	document.documentElement.style.setProperty('--brand-color', brandColor);
+}
+
+if (backgroundColor) {
+	document.documentElement.style.setProperty('--bg-color', backgroundColor);
 }
 
 export const state = () => ({
@@ -48,6 +53,7 @@ export const state = () => ({
 		siteTitle,
 		squadSLogin,
 		brandColor,
+		backgroundColor,
 		isMono,
 	},
 	monoMerchants: [],
