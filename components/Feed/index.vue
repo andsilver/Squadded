@@ -35,7 +35,6 @@
 <script>
 import UploadingDone from './UploadingDone';
 import ViolationDialog from './ViolationDialog';
-import { OPENED_POST } from '~/consts/keys';
 import GalleryPost from '~/components/Posts/GalleryPost';
 import MultiItemPost from '~/components/Posts/MultiItemPost';
 import SingleItemPost from '~/components/Posts/SingleItemPost';
@@ -191,6 +190,7 @@ export default {
 
 			for (const el of elements) {
 				if (this.setShowCommentInput(el)) {
+					sessionStorage.setItem(`saved_post_${this.$route.path}`, el.element.id);
 					break;
 				}
 			}
@@ -226,10 +226,14 @@ export default {
 			return 0;
 		},
 		scrollToPost () {
-			const openedPostId = sessionStorage.getItem(OPENED_POST);
-			const postElement = this.$el.querySelector(`#post_id_${openedPostId}`);
-			postElement && postElement.scrollIntoView(true);
-			sessionStorage.removeItem(OPENED_POST);
+			const key = `saved_post_${this.$route.path}`;
+			const openedPostId = sessionStorage.getItem(key);
+
+			try {
+				const postElement = this.$el.querySelector(`#${openedPostId}`);
+				postElement && postElement.scrollIntoView(true);
+			} catch (err) {}
+			sessionStorage.removeItem(key);
 		},
 		setShowCommentInput (item) {
 			if (!item) {

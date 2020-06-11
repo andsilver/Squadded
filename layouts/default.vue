@@ -58,7 +58,6 @@ export default {
 			'me',
 		]),
 		showTabs () {
-			console.log(this.squad.virtualKeyboard);
 			return this.socket.isAuth && ![
 				'select-username',
 				'invite-friends',

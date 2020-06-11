@@ -2,7 +2,6 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import FeedComponent from '../index.vue';
 import Comments from '~/components/Comments';
-import { OPENED_POST } from '~/consts/keys';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
 import { PostStore, PostMutations } from '~/store/post';
 import Store from '~/store';
@@ -19,6 +18,10 @@ describe('FeedComponent Empty State', () => {
 	let store;
 	let wrapper;
 
+	const $route = {
+		path: 'feed',
+	};
+
 	function initLocalVue () {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
@@ -33,6 +36,7 @@ describe('FeedComponent Empty State', () => {
 			store,
 			mocks: {
 				$t: msg => msg,
+				$route,
 			},
 		});
 	}
@@ -105,14 +109,16 @@ describe('FeedComponent Empty State', () => {
 	});
 
 	it('should scroll to opened post', () => {
+		const key = `saved_post_${$route.path}`;
 		const openedPostId = propsData.items[0].postId;
-		sessionStorage.setItem(OPENED_POST, openedPostId);
+		sessionStorage.setItem(key, `post_id_${openedPostId}`);
 		global.HTMLElement.prototype.scrollIntoView = jest.fn();
 		wrapper = shallowMount(FeedComponent, {
 			localVue,
 			store,
 			mocks: {
 				$t: msg => msg,
+				$route,
 			},
 			propsData,
 		});
