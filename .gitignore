@@ -96,3 +96,8 @@ dev
 *.key
 
 package-lock.json
+
+
+squad-widget-loader.*
+server.bat
+index.html

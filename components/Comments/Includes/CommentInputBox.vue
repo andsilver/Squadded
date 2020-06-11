@@ -135,6 +135,7 @@ export default {
 			}
 		},
 		search() {
+			console.log('search');
 			if (this.currentDataQuery && this.currentDataQuery.length) {
 				this.showSquaddersList();
 				const results = this.squadders.filter(s =>
@@ -364,28 +365,29 @@ export default {
 	height: 30px;
 }
 .editor, .overlay {
-	font-size: 3.23vw;
-    font-weight: 500;
-	line-height: 20px;
     padding: 7px 12px 0;
 	padding-right: 42px;
+	font-size: 3.23vw;
+	line-height: 20px;
+    font-weight: 500;
 }
 .squadders {
-	position: absolute;
+	box-shadow: -1px -7px 20px 0px rgba(0, 0, 0, 0.22);
 	left: calc(-4.61vw - 1.53vw - 7.69vw);
-	bottom: calc(100% + 4px);
-	width: 100vw;
 	border-top: 1px solid #ddd;
+	bottom: calc(100% + 4px);
+	position: absolute;
 	background: white;
-	z-index: 9;
 	max-height: 50vh;
-	box-shadow: -1px -7px 20px 0px rgba(0, 0, 0, 0.22)
+	overflow: scroll;
+	width: 100vw;
+	z-index: 9;
 }
 .avatar-container {
 	border-radius: 50%;
-	width: 7.69vw;
-	height: 7.69vw;
 	overflow: hidden;
+	height: 7.69vw;
+	width: 7.69vw;
 }
 .squadder-item {
 	cursor: pointer;
