@@ -5,7 +5,7 @@
 		</div>
 		<textarea
 			ref="input"
-			v-model="inputValue"
+			:value="inputValue"
 			class="editor"
 			:maxlength="300"
 			@keydown="onKeyDown"
@@ -111,6 +111,9 @@ export default {
 			autosize(this.elmInputBox);
 		},
 		onInput(e) {
+			if (e) {
+				this.inputValue = e.target.value;
+			}
 			if (e && e.data) {
 				this.inputBuffer.push(e.data.substr(-1));
 			}
@@ -242,7 +245,6 @@ export default {
 
 			this.messageText = syntaxMessage;
 			this.elmMentionsOverlay.innerHTML = mentionText;
-			this.overflowed = this.isOverflow();
 		},
 		updateMentionsCollection() {
 			const inputText = this.getInputBoxValue();
@@ -304,10 +306,6 @@ export default {
 			this.inputValue = newMentionText;
 			this.updateValues();
 		},
-		isOverflow() {
-			const el = this.elmMentionsOverlay;
-			return el.scrollWidth > el.offsetWidth;
-		},
 		send() {
 			const text = this.messageText.trim();
 
@@ -319,7 +317,6 @@ export default {
 		},
 		showSquaddersList() {
 			const rect = this.$refs['comment-input'].getBoundingClientRect();
-			// const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
 			this.bottom = document.documentElement.clientHeight - rect.y + 8;
 			this.showSquadders = true;
 		},
@@ -377,10 +374,11 @@ export default {
 	bottom: calc(100% + 4px);
 	position: absolute;
 	background: white;
-	max-height: 50vh;
-	overflow: scroll;
+	max-height: calc((7.69vw + 18px) * 4);
 	width: 100vw;
 	z-index: 9;
+	box-shadow: -1px -7px 20px 0px rgba(0, 0, 0, 0.22);
+	overflow-y: auto;
 }
 .avatar-container {
 	border-radius: 50%;
