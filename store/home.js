@@ -38,7 +38,8 @@ export const mutations = {
 	},
 	[HomeMutations.receive]: (state, { posts, watchers, publicPosts, interactions, interactionPage }) => {
 		const oldposts = state.posts || [];
-		const newPosts = posts.filter(p => !postReported(p));
+		const newPosts = posts.filter(p => !postReported(p)).sort((a, b) => b.ts - a.ts);
+
 		if (state.loadedNew) {
 			state.posts = newPosts.concat(oldposts);
 		} else {

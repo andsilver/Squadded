@@ -44,6 +44,7 @@ export default {
 		selectedItem: null,
 		selectedIndex: 0,
 		prevX: null,
+		prevY: null,
 		transformX: 0,
 		replacing: false,
 		started: false,
@@ -62,16 +63,18 @@ export default {
 	methods: {
 		onStart (e) {
 			this.prevX = e.touches[0].clientX;
+			this.prevY = e.touches[0].clientY;
 			this.started = true;
 			this.horizontalMoving = false;
 		},
 		onMove (e) {
-			const current = e.touches[0].clientX;
+			const currentX = e.touches[0].clientX;
+			const currentY = e.touches[0].clientY;
 
 			if (this.started) {
 				this.started = false;
 
-				if (Math.abs(current - this.prevX) < 5) {
+				if (Math.abs(currentX - this.prevX) < Math.abs(currentY - this.prevY)) {
 					this.horizontalMoving = true;
 				}
 			}
@@ -82,7 +85,7 @@ export default {
 			e.preventDefault();
 
 			if (this.replacing) {
-				this.prevX = current;
+				this.prevX = currentX;
 				return;
 			}
 			const { left, right } = this.$refs.group.getBoundingClientRect();
@@ -96,8 +99,8 @@ export default {
 				this.transformX += (280 - right);
 				return;
 			}
-			this.transformX += (current - this.prevX);
-			this.prevX = current;
+			this.transformX += (currentX - this.prevX);
+			this.prevX = currentX;
 		},
 		onEnd (e) {
 			this.started = false;
