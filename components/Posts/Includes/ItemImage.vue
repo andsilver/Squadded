@@ -3,6 +3,7 @@
 		:src="item.img"
 		eager
 		@click="() => $emit('open')"
+		contain="true"
 	>
 		<slot />
 		<ReSquaddButton
@@ -42,7 +43,8 @@ export default {
 	height 100.384vw
 
 .photo-create .multi-item .v-image
-	height 30vh
+	height 260px
+
 .photo-create .photo-view .v-image
 	height 60.95vw
 .paired_section .poll-item .v-image, .paired_section .outfit-card .v-image
