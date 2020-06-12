@@ -25,7 +25,6 @@ import TopBar from '~/components/common/TopBar.vue';
 import { onAuth } from '~/helpers';
 import { HomeStore, HomeActions } from '~/store/home';
 import {
-	STORAGE_VISITED_KEY,
 	HOME_NEW_POSTS_INTERVAL,
 	NEW_POSTS_DISAPPEAR_TIMEOUT,
 } from '~/consts';
@@ -59,7 +58,7 @@ export default {
 	},
 	methods: {
 		async init() {
-			if (!localStorage.getItem(STORAGE_VISITED_KEY)) {
+			if (!this.$store.state.user.me.nameSelected) {
 				this.firstVisit = true;
 				return this.$router.push('/walkthrough');
 			}
