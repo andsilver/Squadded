@@ -6,17 +6,11 @@
 			<v-layout column justify-center align-center class="tab-content-section">
 				<EmptyWishlist />
 				<SelectItems ref="select-items" :max-count="4" />
-				<p v-if="!showError && getSelected.length === 0" class="tip-note">
-					{{ $t('tip.outfitSelect') }}
-				</p>
-				<p v-if="showError && getSelected.length === 0" class="tip-note error-note">
-					{{ $t('tip.outfitError') }}
-				</p>
 				<div class="merge-selected" :class="{ OutfitSelected: (getSelected.length > 0) }">
-					<p v-if="!showError && getSelected.length > 0" class="tip-note">
+					<p v-if="!showError" class="tip-note">
 						{{ $t('tip.outfitSelect') }}
 					</p>
-					<p v-if="showError && getSelected.length > 0" class="tip-note error-note">
+					<p v-if="showError" class="tip-note error-note">
 						{{ $t('tip.outfitError') }}
 					</p>
 					<SelectedItems ref="selected-items" />
@@ -175,6 +169,7 @@ export default {
 	bottom: 0;
 	left: 0;
 	right: 0;
+	position: fixed;
 }
 .show-tabs .merge-selected, .show-tabs .outfit_button_sec {
 	position: fixed;

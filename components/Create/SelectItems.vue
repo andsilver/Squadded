@@ -13,7 +13,13 @@
 				sqdi-magnifying-glass-finder
 			</v-icon>
 		</v-text-field>
-		<div class="choose-items-section" :class="{ is_poll_tab: isPoll }">
+		<div
+			class="choose-items-section"
+			:class="{ is_poll_tab: isPoll }"
+			:style="{
+				'margin-bottom': (selected && selected.length) || maxCount === 2 ? '200px' : '90px'
+			}"
+		>
 			<div ref="items" class="choose-items fancy_scroll mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
 				<ProductCard
 					v-for="post in available"

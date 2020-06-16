@@ -6,13 +6,13 @@
 			<v-layout column justify-center align-center class="tab-content-section">
 				<EmptyWishlist />
 				<SelectItems ref="select-items" :max-count="2" />
-				<p v-if="!showError" class="tip-note">
-					{{ $t('tip.pollSelect') }}
-				</p>
-				<p v-if="showError" class="tip-note error-note">
-					{{ $t('tip.pollError') }}
-				</p>
-				<div class="merge-selected OutfitSelected">
+				<div class="merge-selected OutfitSelected px-3">
+					<p v-if="!showError" class="tip-note">
+						{{ $t('tip.pollSelect') }}
+					</p>
+					<p v-if="showError" class="tip-note error-note">
+						{{ $t('tip.pollError') }}
+					</p>
 					<SelectedItems ref="selected-items" is-poll />
 					<Button
 						class="mt-2 next-button"
@@ -206,6 +206,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	bottom: 0;
 	left: 0;
 	right: 0;
+	position: fixed;
 }
 .merge-selected.OutfitSelected .next-button{
 	margin-bottom: 6.15vw;

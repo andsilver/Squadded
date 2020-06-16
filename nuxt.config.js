@@ -75,7 +75,7 @@ const script = [{
 	type: 'text/javascript',
 	src: `${BASE}vendor/moment.fr.min.js`,
 }, {
-	src: 'https://polyfill.io/v3/polyfill.min.js?features=IntersectionObserver',
+	src: 'https://polyfill.io/v3/polyfill.min.js',
 }];
 
 if (FULLSTORY_ENABLE) {

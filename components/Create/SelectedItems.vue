@@ -75,7 +75,7 @@ export default {
 <style lang="stylus" scoped>
 .selected-items
 	white-space nowrap
-	overflow scroll
+	overflow auto
 	.v-responsive.v-image
 		height 23.076vw
 		background-color rgba(184,184,186,0.3)

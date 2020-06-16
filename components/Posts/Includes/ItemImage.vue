@@ -2,8 +2,8 @@
 	<v-img
 		:src="item.img"
 		eager
+		:contain="true"
 		@click="() => $emit('open')"
-		contain="true"
 	>
 		<slot />
 		<ReSquaddButton
