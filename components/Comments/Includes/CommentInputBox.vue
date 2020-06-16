@@ -378,7 +378,7 @@ export default {
 	width: 100vw;
 	z-index: 9;
 	box-shadow: -1px -7px 20px 0px rgba(0, 0, 0, 0.22);
-	overflow-y: auto;
+	overflow: scroll;
 }
 .avatar-container {
 	border-radius: 50%;
