@@ -197,7 +197,7 @@ export default {
 	display inline-block
 	vertical-align top
 .multi-item
-	width 78.46vw
+	width 100%
 	transition margin-left linear .2s
 	margin-bottom 2.969vw
 .moving
@@ -257,5 +257,5 @@ export default {
 	position absolute
 .shifted
 	@media screen and (max-width 280px)
-		margin-left -120px !important
+		margin-left -60% !important
 </style>

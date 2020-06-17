@@ -147,7 +147,7 @@ export default {
 	transition-property margin-left
 	transition-delay .2s
 	&.shifted
-		margin-left -40%
+		margin-left -60%
 .scroll-items
 	width 65%
 	margin-left -4px
