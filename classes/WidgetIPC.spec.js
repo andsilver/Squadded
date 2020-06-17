@@ -105,13 +105,15 @@ describe('Dispatcher', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.setWidgetState}`, msg.state.open);
 	});
 
-	it('should dispatch postCheckout action', () => {
+	it('should dispatch postCheckout action', async () => {
 		const msg = {
 			type: 'checkout',
 			items: [],
 			totalPrice: 0,
 		};
+		store.state.socket.isAuth = true;
 		ipc.dispatch(msg);
+		await flushPromises();
 
 		expect(store.dispatch).toHaveBeenCalledWith(`${SquadStore}/${SquadActions.postCheckout}`, msg);
 	});

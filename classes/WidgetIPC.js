@@ -8,6 +8,7 @@ import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { INTERACTED_KEY } from '~/consts/keys';
+import { onAuth } from '~/helpers';
 
 export class WidgetIPC {
 	constructor(store) {
@@ -88,10 +89,8 @@ export class WidgetIPC {
 		this.store.commit(`${SquadStore}/${SquadMutations.setWidgetState}`, open);
 	}
 
-	checkout (msg) {
-		if (!this.store.state.socket || !this.store.state.socket.isAuth) {
-			return;
-		}
+	async checkout (msg) {
+		await onAuth(this.store);
 		this.store.dispatch(`${SquadStore}/${SquadActions.postCheckout}`, msg);
 	}
 
