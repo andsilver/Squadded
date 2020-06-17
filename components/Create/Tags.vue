@@ -102,6 +102,7 @@ export default {
 			this.maxHeight = `${(this.$refs['tag-card'].$el.offsetHeight - 40)}px`;
 			if (this.shifted) {
 				this.coords = this.coords.filter(c => c.id);
+				this.$store.state.post.coords_set = this.coords;
 			} else if (this.getSelected.length < 4 && e) {
 				const rect = e.target.getBoundingClientRect();
 				const { left, top } = rect;
@@ -109,6 +110,7 @@ export default {
 					x: (e.pageX - window.scrollX - left - 12) / e.target.clientWidth * 100,
 					y: (e.pageY - window.scrollY - top - 12) / e.target.clientHeight * 100,
 				});
+				this.$store.state.post.coords_set = this.coords;
 			}
 			this.shifted = !this.shifted;
 		},

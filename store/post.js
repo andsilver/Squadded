@@ -8,6 +8,7 @@ export const state = () => ({
 	all: [],
 	pollResult: null,
 	uploadingPicture: null,
+	coords_set: null,
 });
 
 export const PostGetters = {
@@ -54,6 +55,9 @@ function suffix () {
 }
 
 export const mutations = {
+	coords_set(state, data) {
+		state.coords_set = data;
+	},
 	[PostMutations.addComment]: (state, { comment, post }) => {
 		if (!post) {
 			return;
@@ -178,6 +182,9 @@ export const PostActions = {
 };
 
 export const actions = {
+	coords_set({ commit }, data) {
+		commit('çoords_set', data);
+	},
 	[PostActions.editText]: ({ rootState, commit }, { text, post }) => {
 		commit(PostMutations.setText, { text, post });
 		rootState.socket.$ws.sendObj(post.toMessage());

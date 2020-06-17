@@ -50,7 +50,7 @@
 				</h2>
 				<div v-if="dataImg" class="photo-create">
 					<UserInput ref="user-input" v-model="text" :placeholder="$t('photo.textPlaceholder')" class="input-section" />
-					<PhotoView v-if="dataImg" ref="photo-view" :post="post" />
+					<PhotoView v-if="dataImg" ref="photo-view" :post="post" :coords="coords"/>
 					<Button
 						ref="edit-button"
 						style="width:26.46vw;"
@@ -156,6 +156,7 @@ export default {
 		compressing: false,
 		cropped: false,
 		needCompress: true,
+		coords: [],
 	}),
 	computed: {
 		...mapGetters([
@@ -219,6 +220,7 @@ export default {
 			}
 		},
 		next () {
+			this.coords = this.$store.state.post.coords_set;
 			if (this.dataImg && this.getSelected.length === 0) {
 				this.showError = true;
 				this.$refs.tagsComponent.toggleShifted();
