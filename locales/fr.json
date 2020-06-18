@@ -47,7 +47,7 @@
 	"SelectPollName": "Ajouter une légende...",
 	"ShopWithYourFriendsOn": "Faites du shopping entre amis",
 	"Signin": "Se connecter",
-	"SocialVideo": "Vidéo Sociale",
+	"SocialVideo": "Vidéo",
 	"Squadders": "Squadders",
 	"StartBuildingYourSquad": "Vous avez presque fini! Après cette étape, vous inviterez vos amis a rejoindre votre squad.",
 	"Undo": "Annuler",
@@ -100,8 +100,8 @@
 		"outfit": "Composition",
 		"photo": "Photo",
 		"poll": "Sondage",
-		"socialVideo": "Vidéo sociale",
-		"upload": "galerie",
+		"socialVideo": "Vidéo",
+		"upload": "Galerie",
 		"video": "Vidéo"
 	},
 	"createDesc": {
@@ -271,7 +271,9 @@
 		"invited": "veut rejoindre votre squad",
 		"isEmpty": "Vous n'avez pas encore de notifications",
 		"justcommented": "a commenté",
+		"justmentioned": "a mentionné votre nom dans un commentaire",
 		"like": "a aimé",
+		"mentioned": "vous a cité dans un commentaire",
 		"new": "Nouveau",
 		"old": "Plus tôt",
 		"poll": "votre sondage",
@@ -481,7 +483,7 @@
 		"Unfollow": "Se désabonner",
 		"action": {
 			"Action": "Options",
-			"AddMySquad": "Ajouter a Mon Squad",
+			"AddMySquad": "Ajouter à Mon Squad",
 			"Block": "Bloquer",
 			"PushWatchers": "",
 			"Remove": "Supprimer",
