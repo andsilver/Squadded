@@ -18,8 +18,8 @@ const youtube = {
 	},
 };
 const instagram = {
-	REGEX: /(http|https)?:\/\/(www\.)?instagram.com\/[p|tv]\/[a-zA-Z0-9_/?\-=]+/gi,
-	aspect: 1.410179640718563,
+	REGEX: /(http|https)?:\/\/(www\.)?instagram.com\/(p|tv)\/[a-zA-Z0-9_/?\-=]+/gi,
+	aspect: 1.356334448160535,
 	options: {
 		hidecaption: true,
 	},
@@ -28,7 +28,8 @@ const instagram = {
 		toFix.search = '';
 		const isEmbed = (/\/embed/).test(toFix.pathname);
 		const isTrailingSlash = (/\/$/).test(toFix.pathname);
-		return isEmbed ? toFix.href : `${toFix.href}${!isTrailingSlash ? '/' : ''}embed`;
+		const isRegularPost = (/\/p\//).test(toFix.pathname);
+		return isEmbed || isRegularPost ? toFix.href : `${toFix.href}${!isTrailingSlash ? '/' : ''}embed`;
 	},
 };
 const vimeo = {
@@ -119,8 +120,10 @@ export default {
 	>>>
 		div
 			overflow hidden
-		embed
-			margin-top -54px
+			transform none !important
+			align-items unset !important
+		embed, iframe
+			margin-top -54px !important
 .video-preview.video-view
 	margin 10.46vw auto 0vw
 	width calc(100% - 4.61vw)
