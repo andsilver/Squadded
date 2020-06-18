@@ -382,7 +382,8 @@
 		},
 		"unwatchRachel": "Unwatch Rachel",
 		"unwatchUser": "Unwatch {user}",
-		"watchUser": "Watch {user}"
+		"watchUser": "Watch {user}",
+		"invited": "Invite sent"
 	},
 	"postdeleted": "Your post has been deleted",
 	"privacy": "Privacy",

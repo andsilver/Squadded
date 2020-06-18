@@ -10,7 +10,7 @@
 		</div>
 		<section v-if="!isPaired" class="card_bottom" :class="{ card_inline: title }">
 			<div ref="merchant-id" class="post_title merchant-section d-flex justify-space-between align-center px-1">
-				<span v-if="item && item.merchantId" @click="() => $emit('open')">{{ item.merchantId }}</span>
+				<span v-if="item && item.merchantId" @click="() => $emit('open')">{{ item.merchantSiteTitle || item.merchantId }}</span>
 				<div v-if="showRefresh" class="refresh-icon" @click="navigateToPairedItemPage">
 					<img src="~assets/img/recycle.svg" class="refresh-logo">
 				</div>

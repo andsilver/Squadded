@@ -202,5 +202,12 @@ describe('PopMenu', () => {
 			type: 'inviteSquad',
 			targetUserId: post.user.guid || post.user.userId,
 		});
+		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, {
+			type: 'notifAlert',
+			alertType: 'invite_sent',
+			text: 'post.invited',
+			ts: 123456789,
+			_id: 123456789,
+		});
 	});
 });

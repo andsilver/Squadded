@@ -351,15 +351,9 @@ export default {
 			if (!this.shortURL) {
 				this.shortURL = await getShortURL(this.postLink, this.$store);
 			}
-			console.log(navigator.share);
 			if (navigator && navigator.share) {
 				const { siteTitle } = this.$store.state.merchant;
 				try {
-					console.log({
-						title: siteTitle,
-						text: siteTitle,
-						url: this.shortURL,
-					});
 					await navigator.share({
 						title: siteTitle,
 						text: siteTitle,
@@ -399,6 +393,17 @@ export default {
 				type: 'inviteSquad',
 				targetUserId: this.post.user.guid || this.post.user.userId,
 			});
+			const message = {
+				type: 'notifAlert',
+				alertType: 'invite_sent',
+				text: this.$t('post.invited'),
+				ts: Date.now(),
+				_id: Date.now(),
+			};
+			this.$store.commit(
+				`${NotificationStore}/${NotificationMutations.add}`,
+				message,
+			);
 		},
 	},
 };

@@ -62,6 +62,7 @@ export class WidgetIPC {
 		}
 		msg.item.squadded = true;
 		msg.item.merchantId = this.store.state.merchant.id;
+		msg.item.merchantSiteTitle = this.store.state.merchant.siteTitle;
 		const post = await this.store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 		this.store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 		this.store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, {

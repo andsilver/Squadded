@@ -1,7 +1,7 @@
 <template>
 	<section class="d-flex align-center">
 		<div ref="notification-image" class="notification-icon" :class="{ hasIconImage: notification.alertType}">
-			<v-icon v-if="notification.alertType == 'checkmark' || !notification.alertType" size="2.34vw" color="#FFFFFF">
+			<v-icon v-if="notification.alertType === 'invite_sent' || notification.alertType === 'checkmark' || !notification.alertType" size="2.34vw" color="#FFFFFF">
 				sqdi-checkmark
 			</v-icon>
 			<span
@@ -22,7 +22,7 @@
 				{{ timeString }}
 			</span>
 		</div>
-		<v-btn ref="undo-btn" outlined class="undo-btn pr-2 pl-2" @click="undo">
+		<v-btn v-if="notification.alertType !== 'invite_sent'" ref="undo-btn" outlined class="undo-btn pr-2 pl-2" @click="undo">
 			{{ $t('Undo') }}
 		</v-btn>
 	</section>
