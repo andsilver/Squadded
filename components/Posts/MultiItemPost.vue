@@ -195,6 +195,7 @@ export default {
 
 <style lang="stylus" scoped>
 .outfit-card
+	position relative
 	white-space nowrap
 	width 100%
 .multi-item,
@@ -244,7 +245,8 @@ export default {
 .moving
 	transition margin-left linear !important
 .scroll-section
-	position relative
+	position absolute
+	height 100%
 	margin-left -4px
 	vertical-align top
 	padding 4px
@@ -271,7 +273,7 @@ export default {
 			position absolute
 			bottom 0px
 	.scroll-items
-		max-height 250px
+		height 100%
 		overflow auto
 		.v-card
 			width 85%

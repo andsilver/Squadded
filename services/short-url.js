@@ -1,5 +1,6 @@
 import { prefetch } from '~/helpers';
 import { PostStore, PostMutations } from '~/store/post';
+import { API_ENDPOINT } from '~/config';
 
 export const getShortURL = (url, store) =>
 	new Promise((resolve) => {
@@ -12,10 +13,8 @@ export const getShortURL = (url, store) =>
 			mutation: `${PostStore}/${PostMutations.shortURL}`,
 		}).then(
 			({ shortURL: id }) => {
-				const { host } = window.location;
-				const segs = host.split('.');
-				segs[0] = 'go';
-				const shortURL = `${window.location.protocol}//${segs.join('.')}/to/${id}`;
+				const go = API_ENDPOINT.replace('api', 'go');
+				const shortURL = `${go}/to/${id}`;
 				resolve(shortURL);
 			},
 			() => resolve(url),

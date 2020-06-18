@@ -25,4 +25,10 @@ export const SquadAPI = {
 			type: 'rendered',
 		}), '*');
 	},
+	toggleOverlay(state) {
+		window.parent.postMessage(JSON.stringify({
+			type: 'toggleOverlay',
+			state,
+		}), '*');
+	},
 };

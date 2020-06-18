@@ -41,7 +41,7 @@
 				</ItemImage>
 			</CardFrame>
 			<div v-if="!isPaired" class="scroll-section">
-				<div ref="items" class="scroll-items fancy_scroll" :style="{ 'height': maxHeight }">
+				<div ref="items" class="scroll-items fancy_scroll">
 					<ProductCard
 						v-for="item in post.items"
 						ref="item"
@@ -96,7 +96,6 @@ export default {
 	data: () => ({
 		fetched: false,
 		shifted: false,
-		maxHeight: '115.69vw',
 		moving: false,
 		marginLeft: 0,
 		prev: 999,
@@ -136,7 +135,7 @@ export default {
 		toggleShifted (tagClicked) {
 			this.fetched = true;
 			this.shifted = tagClicked ? true : !this.shifted;
-			this.marginLeft = this.shifted ? -148 : 0;
+			this.marginLeft = this.shifted ? -this.$refs.items.offsetWidth : 0;
 			this.moving = false;
 		},
 		tagClick (coord) {
@@ -190,6 +189,7 @@ export default {
 
 <style lang="stylus" scoped>
 .outfit-card
+	position relative
 	white-space nowrap
 	width 100%
 .multi-item,
@@ -203,7 +203,8 @@ export default {
 .moving
 	transition margin-left linear !important
 .scroll-section
-	position relative
+	position absolute
+	height 100%
 	margin-left -4px
 	vertical-align top
 	padding 4px
@@ -230,6 +231,7 @@ export default {
 		bottom 0px
 	.scroll-items
 		overflow auto
+		height 100%
 		.v-card
 			width 85%
 			box-shadow none

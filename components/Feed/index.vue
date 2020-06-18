@@ -35,23 +35,14 @@
 <script>
 import UploadingDone from './UploadingDone';
 import ViolationDialog from './ViolationDialog';
-import GalleryPost from '~/components/Posts/GalleryPost';
-import MultiItemPost from '~/components/Posts/MultiItemPost';
-import SingleItemPost from '~/components/Posts/SingleItemPost';
-import PollPost from '~/components/Posts/PollPost';
-import GroupedPosts from '~/components/Posts/GroupedPosts';
 import Comments from '~/components/Comments';
 import { PostStore, PostMutations } from '~/store/post';
 import { GROUP_ITEMS_TIME_RANGE } from '~/consts/time-values';
+import { getComponent } from '~/services/post';
 
 export default {
 	name: 'Feed',
 	components: {
-		SingleItemPost,
-		GroupedPosts,
-		PollPost,
-		MultiItemPost,
-		GalleryPost,
 		Comments,
 		UploadingDone,
 		ViolationDialog,
@@ -73,14 +64,6 @@ export default {
 		},
 	},
 	data: () => ({
-		components: {
-			singleItemPost: SingleItemPost,
-			groupedPosts: GroupedPosts,
-			pollPost: PollPost,
-			outfitPost: MultiItemPost,
-			galleryPost: GalleryPost,
-			videoPost: GalleryPost,
-		},
 		showCommentInputTimeout: null,
 		scrollTimeout: null,
 		scrolled: null,
@@ -150,9 +133,7 @@ export default {
 		window.removeEventListener('scroll', this.onScroll);
 	},
 	methods: {
-		getComponent(post) {
-			return this.components[post.type];
-		},
+		getComponent,
 		onScroll () {
 			this.showCommentInputTimeout && clearTimeout(this.showCommentInputTimeout);
 			this.scrollTimeout && clearTimeout(this.scrollTimeout);

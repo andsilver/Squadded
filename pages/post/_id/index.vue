@@ -18,12 +18,8 @@ import Preloader from '~/components/Preloader';
 import { PostStore, PostMutations } from '~/store/post';
 import { prefetch, onAuth } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
-import GalleryPost from '~/components/Posts/GalleryPost';
-import MultiItemPost from '~/components/Posts/MultiItemPost';
-import SingleItemPost from '~/components/Posts/SingleItemPost';
-import PollPost from '~/components/Posts/PollPost';
 import NotSignedInDialog from '~/components/LandingPost/NotSignedInDialog';
-import { fetchPost } from '~/services/post';
+import { fetchPost, getComponent } from '~/services/post';
 
 export default {
 	name: 'PostReactions',
@@ -31,22 +27,12 @@ export default {
 		BackBar,
 		Comments,
 		Preloader,
-		SingleItemPost,
-		PollPost,
-		MultiItemPost,
-		GalleryPost,
 		NotSignedInDialog,
 	},
 	data: () => ({
 		post: null,
 		showAllComments: false,
 		showNotSignedInDialog: false,
-		components: {
-			singleItemPost: SingleItemPost,
-			pollPost: PollPost,
-			outfitPost: MultiItemPost,
-			galleryPost: GalleryPost,
-		},
 		postId: null,
 	}),
 	computed: {
@@ -104,9 +90,7 @@ export default {
 				});
 			}
 		},
-		getComponent(post) {
-			return this.components[post.type];
-		},
+		getComponent,
 	},
 	head: () => ({
 		title: 'Post-Landing',

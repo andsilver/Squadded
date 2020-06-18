@@ -128,18 +128,17 @@ export default {
 		toggleKeyboard (state) {
 			this.squad.virtualKeyboard = state;
 		},
-		overlayToggle  (options) {
-			if (this.overlay) {
-				this.overlay = false;
-			} else {
-				this.overlay = true;
-			}
+		overlayToggle (options) {
+			this.overlay = !this.overlay;
+			SquadAPI.toggleOverlay(this.overlay);
 		},
 		overlayOpen (options) {
 			this.overlay = true;
+			SquadAPI.toggleOverlay(this.overlay);
 		},
 		overlayClose (options) {
 			this.overlay = false;
+			SquadAPI.toggleOverlay(this.overlay);
 		},
 		rendered () {
 			const { name } = this.$route;

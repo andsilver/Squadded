@@ -76,7 +76,6 @@ export default {
 	background-color #707070
 	color white
 	text-align center
-	opacity .5
 	outline none
 	transition background-color .1s ease-in-out 0s,
 		opacity .1s ease-in-out 0s

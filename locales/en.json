@@ -378,7 +378,8 @@
 			"galleryPost": "Gallery",
 			"outfitPost": "Outfit",
 			"pollPost": "Poll",
-			"singleItemPost": "Single"
+			"singleItemPost": "Single",
+			"videoPost": "Video"
 		},
 		"unwatchRachel": "Unwatch Rachel",
 		"unwatchUser": "Unwatch {user}",

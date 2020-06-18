@@ -100,7 +100,7 @@ export default {
 			return SOURCES[matched];
 		},
 		visibilityChanged(isVisible) {
-			const width = this.$el.clientWidth;
+			const width = this.$el.clientWidth - 35;
 			const request = embedo.requests.filter(req => req.el === this.$el)[0];
 			if (isVisible && (!request || request.attributes.width !== width)) {
 				embedo.destroy(this.$el);
@@ -116,6 +116,11 @@ export default {
 	margin 0 auto
 	min-width 100%
 	text-align center
+	>>>
+		div
+			overflow hidden
+		embed
+			margin-top -54px
 .video-preview.video-view
 	margin 10.46vw auto 0vw
 	width calc(100% - 4.61vw)
