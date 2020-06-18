@@ -18,7 +18,7 @@ const youtube = {
 	},
 };
 const instagram = {
-	REGEX: /(http|https)?:\/\/(www\.)?instagram.com\/tv\/[a-zA-Z0-9_/?\-=]+/gi,
+	REGEX: /(http|https)?:\/\/(www\.)?instagram.com\/[p|tv]\/[a-zA-Z0-9_/?\-=]+/gi,
 	aspect: 1.410179640718563,
 	options: {
 		hidecaption: true,
