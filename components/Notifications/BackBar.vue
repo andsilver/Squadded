@@ -1,10 +1,5 @@
 <template>
 	<h2>
-		<v-btn ref="go-back-btn" icon @click="goBack">
-			<v-icon>
-				sqdi-arrow-pointing-to-left
-			</v-icon>
-		</v-btn>
 		{{ title }}
 	</h2>
 </template>

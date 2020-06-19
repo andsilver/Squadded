@@ -1,6 +1,6 @@
 <template>
 	<v-container v-if="socket.isAuth">
-		<BackBar ref="goback-button" :title="$t('Notifications')" />
+		<BackBar ref="goback-button" class="hide-back" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">
 			<div v-if="!exists" ref="empty-notif-text" class="flex-grow-1">

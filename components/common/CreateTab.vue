@@ -107,6 +107,7 @@ export default {
 	width: 18.461vw;
 	min-width:auto;
 	background: var(--brand-color);
+	margin-top: 2vw;
 }
 .plus_icon:before{
 	color : #fff;

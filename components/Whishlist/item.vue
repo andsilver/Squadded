@@ -112,6 +112,7 @@ export default {
 		font-weight: 600;
 		color: #B8B8BA;
 		text-transform: uppercase;
+		width: 100%;
 	}
 
 	.wishlist_item {

@@ -80,6 +80,7 @@ export default {
 	created () {
 		this.onOpen();
 		this.setHideNewPostsTimeout();
+		this.$root.$emit('guestToolbarShow', {});
 	},
 	methods: {
 		async onOpen () {

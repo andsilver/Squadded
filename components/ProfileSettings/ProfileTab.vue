@@ -118,11 +118,19 @@
 								:items="profileTypes"
 								item-value="value"
 								item-text="name"
+								class="expire-custom-select"
 								solo
 								flat
 								rounded
 								hide-details
-							/>
+							>
+								<template slot="selection" slot-scope="data">
+									<span class="expire-option profile_box">{{ $t(`${data.item.name}`) }}</span>
+								</template>
+								<template slot="item" slot-scope="data">
+									<span class="expire-option profile_box">{{ $t(`${data.item.name}`) }}</span>
+								</template>
+							</v-select>
 						</div>
 					</div>
 					<div
@@ -155,8 +163,8 @@ export default {
 	data: () => ({
 		user: null,
 		profileTypes: [
-			{ value: false, name: 'Public' },
-			{ value: true, name: 'Private' },
+			{ value: false, name: 'public' },
+			{ value: true, name: 'private' },
 		],
 		editing: false,
 		menu: false,
@@ -301,7 +309,6 @@ section .v-btn
 
 .profile-input
 	margin-top 1.30vw
-	margin-bottom 3.3vw
 .v-avatar.user_avatar
 	width 27.69vw !important
 	height 27.69vw !important

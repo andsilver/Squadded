@@ -41,10 +41,10 @@ body
 .signin-process
 	.v-text-field > .v-input__control > .v-input__slot
 		input
-			margin-top 3px
+			margin-top 0px
 			@media screen and (max-width: 350px)
 				padding 3px 0
-				margin-top 6px
+				margin-top 0px
 button
 	outline none
 
@@ -129,7 +129,7 @@ input[type=number]
 	display: none;
 }
 .v-text-field.expire-custom-select .v-select__slot {
-    background: #F4F4F5;
+    /*background: #F4F4F5;*/
     border-radius: 3.076vw;
 	height: 6.4vw;
 }
@@ -379,6 +379,8 @@ input[type=number]
 	.v-input__control
 		min-height auto !important
 		height 10.76vw
+		justify-content center
+		display flex
 		input
 			min-height auto !important
 			max-height none
@@ -387,3 +389,13 @@ input[type=number]
 	.v-input__prepend-outer
 		@media screen and (max-width: 350px)
 			margin-top 7px !important
+.v-application
+	.v-list-item
+		.expire-option.profile_box
+			font-size 4.23vw
+			font-weight 700
+			line-height 6.153vw
+.signin-process
+	.friends-list
+		img.dummy_image
+			background-image none

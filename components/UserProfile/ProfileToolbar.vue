@@ -179,6 +179,7 @@ export default {
 		&.is_me
 			padding-left 40px
 .profile-shopping-bag
+	display none
 	.sqdi-shopping-bag
 		font-size 6.46vw !important
 </style>

@@ -108,7 +108,7 @@ export default {
 			margin 0 auto
 			border 0.461vw solid #000
 			height 12.30vw
-			width 46.92vw
+			min-width 46.92vw
 			font-size 2.61vw
 			padding 0 8px
 			display block

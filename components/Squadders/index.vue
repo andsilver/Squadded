@@ -42,7 +42,7 @@
 		<div v-if="first5Users.length < 2 && !loading" class="mt-8 how-it-work-section">
 			<v-divider />
 			<div class="mt-6 d-flex flex-column align-center">
-				<div class="text-center subtitle-1 font-weight-medium mb-4">
+				<div class="text-center subtitle-1 font-weight-medium mb-4 how_it_work">
 					{{ $t('feed.how_it_works.text') }}
 				</div>
 				<v-btn class="how-it-works-btn" outlined to="/walkthrough">
@@ -231,4 +231,8 @@ export default {
 		height 15px
 		border-radius 50%
 		margin-left 4px
+.how_it_work
+	font-size 4.61vw !important
+	padding 3vw 2.3vw 0
+	line-height 1.5rem
 </style>
