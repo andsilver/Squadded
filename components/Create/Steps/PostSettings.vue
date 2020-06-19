@@ -4,8 +4,8 @@
 		<UserInput ref="user-input" v-model="text" :placeholder="$t('photo.textPlaceholder')" class="input-section video-input" />
 		<VideoView
 			ref="video-preview"
+			:value="post.videoLink"
 			class="video-preview last-screen"
-			:video-link="post.videoLink"
 		/>
 		<Button
 			ref="edit-button"

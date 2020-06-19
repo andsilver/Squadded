@@ -16,8 +16,8 @@
 		</v-text-field>
 		<VideoView
 			ref="video-preview"
+			v-model="inputLink"
 			class="video-preview"
-			:video-link="inputLink"
 			@done="done"
 			@fail="fail"
 		/>

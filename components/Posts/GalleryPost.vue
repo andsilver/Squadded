@@ -24,7 +24,7 @@
 				:post="post"
 				@click.native="fetch"
 			>
-				<VideoView v-if="post.type === 'videoPost'" :video-link="post.videoLink" />
+				<VideoView v-if="post.type === 'videoPost'" :value="post.videoLink" />
 				<ItemImage
 					v-else
 					ref="item-image"
