@@ -72,12 +72,13 @@ export default {
 	computed: {
 		...userState(['me']),
 		target() {
-			const { siteUrl, siteTitle } = this.$store.state.merchant;
+			const { siteUrl, siteTitle, native } = this.$store.state.merchant;
 			return {
 				id: this.me.userId,
 				url: siteUrl,
 				title: siteTitle,
 				invite: true,
+				native,
 			};
 		},
 		userLink() {

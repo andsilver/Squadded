@@ -66,7 +66,8 @@ export default {
 	data: () => ({
 		showCommentInputTimeout: null,
 		scrollTimeout: null,
-		scrolled: null,
+		lastIndex: null,
+		storageKey: null,
 	}),
 	computed: {
 		aggregatedItems() {
@@ -125,12 +126,20 @@ export default {
 		},
 	},
 	mounted() {
+		this.storageKey = `saved_post_${this.$route.path}`;
 		this.scrollToPost();
 		this.checkCommentInput();
 		window.addEventListener('scroll', this.onScroll);
 	},
 	destroyed() {
 		window.removeEventListener('scroll', this.onScroll);
+
+		if (this.lastIndex > 2) {
+			const post = this.aggregatedItems[this.lastIndex];
+			sessionStorage.setItem(this.storageKey, `post_id_${post.postId || 'group'}`);
+		} else {
+			sessionStorage.removeItem(this.storageKey);
+		}
 	},
 	methods: {
 		getComponent,
@@ -171,7 +180,7 @@ export default {
 
 			for (const el of elements) {
 				if (this.setShowCommentInput(el)) {
-					sessionStorage.setItem(`saved_post_${this.$route.path}`, el.element.id);
+					this.lastIndex = el.index;
 					break;
 				}
 			}
@@ -207,14 +216,19 @@ export default {
 			return 0;
 		},
 		scrollToPost () {
-			const key = `saved_post_${this.$route.path}`;
+			const key = this.storageKey;
 			const openedPostId = sessionStorage.getItem(key);
+			sessionStorage.removeItem(key);
+
+			if (!openedPostId) {
+				document.documentElement.scrollTo({ top: 0 });
+				return;
+			}
 
 			try {
 				const postElement = this.$el.querySelector(`#${openedPostId}`);
 				postElement && postElement.scrollIntoView(true);
 			} catch (err) {}
-			sessionStorage.removeItem(key);
 		},
 		setShowCommentInput (item) {
 			if (!item) {

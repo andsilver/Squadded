@@ -136,13 +136,10 @@ export default {
 			if (this.notVoted || !this.meVoted) {
 				return '#fff';
 			}
-			if (diff === 0) {
-				return first ? '#fff' : '#ddd';
-			} else if (diff > 0) {
-				return first ? '#ddd' : '#fff';
-			} else {
-				return first ? '#fff' : '#ddd';
+			if ((this.post.voted === 1 && first) || (this.post.voted === 2 && !first)) {
+				return '#ddd';
 			}
+			return '#fff';
 		},
 		buttonWidth(first) {
 			if (this.notVoted || (!this.meVoted && !this.post.closed)) {

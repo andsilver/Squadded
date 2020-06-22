@@ -130,29 +130,28 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			if (user.origin === 'invitation') {
 				// TODO What is it for? It is same as two below.
 				if (!user.nameSelected) {
-					app.router.push('/select-username', setPendingFalse);
+					return app.router.push('/select-username', setPendingFalse);
 				} else if (!user.squaddersCount && !visitedInviteFriends) {
-					app.router.push('/invite-friends', setPendingFalse);
+					return app.router.push('/invite-friends', setPendingFalse);
 				}
 			} else if (route.name) {
-				app.router.push(route, setPendingFalse);
+				return app.router.push(route, setPendingFalse);
 			} else if (!user.nameSelected) {
-				app.router.push('/select-username', setPendingFalse);
+				return app.router.push('/select-username', setPendingFalse);
 			} else if (!user.squaddersCount && !visitedInviteFriends) {
-				app.router.push('/invite-friends', setPendingFalse);
-			} else {
-				const latestPath = sessionStorage.getItem('latestPath');
-				const latestHash = sessionStorage.getItem('latestHash');
-				if (latestPath && latestPath !== '/') {
-					app.router.push({
-						path: latestPath,
-						hash: latestHash,
-					}, setPendingFalse);
-				} else {
-					app.router.push(DEFAULT_LANDING, setPendingFalse);
-				}
+				return app.router.push('/invite-friends', setPendingFalse);
 			}
-			return;
+			const latestPath = sessionStorage.getItem('latestPath');
+			const latestHash = sessionStorage.getItem('latestHash');
+
+			if (latestPath && latestPath !== '/') {
+				app.router.push({
+					path: latestPath,
+					hash: latestHash,
+				}, setPendingFalse);
+			} else {
+				app.router.push(DEFAULT_LANDING, setPendingFalse);
+			}
 		}
 
 		if (!state.socket.isAuth) {

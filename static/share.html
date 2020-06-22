@@ -2,7 +2,6 @@
 
 <body></body>
 <script>
-    const monoMerchants = ['https://development.store.jennyfer.demandware.net', 'https://sam-advisor.com/myboutique'];
     const urlParams = new URLSearchParams(window.location.search);
 
     const saveRedirect = (params) => {
@@ -11,7 +10,9 @@
     };
 
     let siteUrl;
-    if (monoMerchants.includes(urlParams.get('site'))) {
+    const native = urlParams.get('native');
+
+    if (native === true || native === 'true') {
         saveRedirect();
         window.location.href = urlParams.get('site');
     } else if (navigator.userAgent.match(/Android/i)) {

@@ -24,6 +24,7 @@ const {
 	brandColor = DEFAULT_COLOR,
 	backgroundColor,
 	isMono = false,
+	native = false,
 } = Object.fromEntries(widgetLocation.searchParams.entries());
 
 if (brandColor !== DEFAULT_COLOR) {
@@ -55,6 +56,7 @@ export const state = () => ({
 		brandColor,
 		backgroundColor,
 		isMono,
+		native,
 	},
 	monoMerchants: [],
 });
@@ -84,12 +86,14 @@ export const mutations = {
 	SOCKET_RECONNECT_ERROR (state, event) {
 	},
 	SET_MERCHANT_PARAMS (state, msg) {
-		const { merchantId, brandColor = state.merchant.brandColor, siteUrl, siteTitle, squadSLogin } = msg;
+		const { merchantId, brandColor = state.merchant.brandColor, siteUrl, siteTitle, squadSLogin, native } = msg;
 		state.merchant.id = merchantId;
 		state.merchant.siteUrl = siteUrl;
 		state.merchant.siteTitle = siteTitle;
 		state.merchant.squadSLogin = squadSLogin;
 		state.merchant.brandColor = brandColor;
+		state.merchant.native = native || false;
+
 		if (brandColor !== DEFAULT_COLOR) {
 			document.documentElement.style.setProperty('--brand-color', brandColor);
 		}

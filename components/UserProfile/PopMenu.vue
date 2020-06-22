@@ -188,11 +188,12 @@ export default {
 			return this.user && this.user.squad && this.user.squad.pending;
 		},
 		target () {
-			const { siteUrl, siteTitle } = this.$store.state.merchant;
+			const { siteUrl, siteTitle, native } = this.$store.state.merchant;
 			return {
 				id: this.user.userId,
 				url: siteUrl,
 				title: siteTitle,
+				native,
 			};
 		},
 		userLink () {

@@ -206,11 +206,12 @@ export default {
 			return !this.reason || (this.reason === 'other' && !this.other);
 		},
 		target () {
-			const { siteUrl, siteTitle } = this.$store.state.merchant;
+			const { siteUrl, siteTitle, native } = this.$store.state.merchant;
 			return {
 				id: this.post.guid,
 				url: siteUrl,
 				title: siteTitle,
+				native,
 			};
 		},
 		postLink () {

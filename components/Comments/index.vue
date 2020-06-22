@@ -15,7 +15,7 @@
 			</template>
 			<template v-else-if="comments.length">
 				<Comment
-					:comment="comments[0]"
+					:comment="comments[comments.length - 1]"
 					:post="post"
 					:for-feed="forFeed"
 				/>
@@ -90,7 +90,7 @@ export default {
 	computed: {
 		comments() {
 			const messages = Object.assign([], this.post.comments ? this.post.comments.messages : []);
-			return messages && messages.length ? messages.reverse() : [];
+			return messages && messages.length ? messages : [];
 		},
 	},
 	created() {
@@ -109,9 +109,6 @@ export default {
 			const myUserId = this.$store.state.user.me.userId;
 			comments = comments.filter(c => !commentReported(c));
 			this.$store.commit(`${PostStore}/${PostMutations.resetComments}`, { comments, post, myUserId });
-			if (!this.forFeed) {
-				this.scroll();
-			}
 		});
 	},
 	mounted() {
@@ -134,7 +131,7 @@ export default {
 
 				if (this.$refs['comments-list']) {
 					this.$refs['comments-list'].$el.scroll({
-						top: 0,
+						top: 9999,
 						behavior: 'smooth',
 					});
 				}

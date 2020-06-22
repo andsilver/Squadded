@@ -50,7 +50,7 @@
 				</h2>
 				<div v-if="dataImg" class="photo-create">
 					<UserInput ref="user-input" v-model="text" :placeholder="$t('photo.textPlaceholder')" class="input-section" />
-					<PhotoView v-if="dataImg" ref="photo-view" :post="post" :coords="coords"/>
+					<PhotoView v-if="dataImg" ref="photo-view" :post="post" :coords="coords" />
 					<Button
 						ref="edit-button"
 						style="width:26.46vw;"
