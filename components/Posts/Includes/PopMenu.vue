@@ -345,15 +345,32 @@ export default {
 			this.reason = this.reasons[0];
 			this.showReasonDialog = true;
 		},
-		showShareModal() {
+
+		share () {
+			this.showShare = false;
+			let url = '';
+			if (!this.shortURL) {
+				getShortURL(this.postLink, this.$store)
+					.then((url) => {
+						this.shortURL = url;
+					});
+				url = this.postLink;
+			} else {
+				url = this.shortURL;
+			}
+
+			this.showShareModal(url);
+		},
+
+		showShareModal (url) {
 			if (navigator && navigator.share) {
 				const { siteTitle } = this.$store.state.merchant;
 				navigator.share({
 					title: siteTitle,
 					text: siteTitle,
-					url: this.shortURL,
+					url,
 				}).catch(function(error) {
-					console.log('navite share', error, this.shortURL, siteTitle);
+					console.log('navite share', error);
 					if (error.code !== CANCELED_BY_USER) {
 						this.showModal();
 					}
@@ -363,19 +380,6 @@ export default {
 			}
 		},
 
-		share() {
-			this.showShare = false;
-
-			if (!this.shortURL) {
-				getShortURL(this.postLink, this.$store).then((url) => {
-					this.shortURL = url;
-					this.showShareModal();
-				});
-				return;
-			}
-
-			this.showShareModal();
-		},
 		showModal () {
 			this.showShare = true;
 		},
