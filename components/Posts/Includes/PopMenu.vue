@@ -206,12 +206,11 @@ export default {
 			return !this.reason || (this.reason === 'other' && !this.other);
 		},
 		target () {
-			const { siteUrl, siteTitle, native } = this.$store.state.merchant;
+			const { siteUrl, siteTitle } = this.$store.state.merchant;
 			return {
 				id: this.post.guid,
 				url: siteUrl,
 				title: siteTitle,
-				native,
 			};
 		},
 		postLink () {
@@ -346,29 +345,36 @@ export default {
 			this.reason = this.reasons[0];
 			this.showReasonDialog = true;
 		},
-		async share() {
-			this.showShare = false;
-
-			if (!this.shortURL) {
-				this.shortURL = await getShortURL(this.postLink, this.$store);
-			}
+		showShareModal() {
 			if (navigator && navigator.share) {
 				const { siteTitle } = this.$store.state.merchant;
-				try {
-					await navigator.share({
-						title: siteTitle,
-						text: siteTitle,
-						url: this.shortURL,
-					});
-				} catch (error) {
-					console.log('navite share', error);
+				navigator.share({
+					title: siteTitle,
+					text: siteTitle,
+					url: this.shortURL,
+				}).catch(function(error) {
+					console.log('navite share', error, this.shortURL, siteTitle);
 					if (error.code !== CANCELED_BY_USER) {
 						this.showModal();
 					}
-				}
+				});
 			} else {
 				this.showModal();
 			}
+		},
+
+		share() {
+			this.showShare = false;
+
+			if (!this.shortURL) {
+				getShortURL(this.postLink, this.$store).then((url) => {
+					this.shortURL = url;
+					this.showShareModal();
+				});
+				return;
+			}
+
+			this.showShareModal();
 		},
 		showModal () {
 			this.showShare = true;
