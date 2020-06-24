@@ -126,7 +126,7 @@ export default {
 			}
 			this.sourceName = sourceName;
 			const computed = window.getComputedStyle(this.$el);
-			const width = parseFloat(computed.getPropertyValue('width')) - parseFloat(computed.getPropertyValue('padding')) * 2;
+			const width = parseFloat(computed.getPropertyValue('width') || '0') - parseFloat(computed.getPropertyValue('padding') || '0') * 2;
 			if (!width) {
 				return;
 			}
