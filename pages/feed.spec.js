@@ -17,7 +17,7 @@ Wrapper.prototype.ref = function (id) {
 
 describe('Feed Page', () => {
 	const MAIN = 'feed-layout';
-	const TOP_BAR = 'top-bar';
+	// const TOP_BAR = 'top-bar';
 	const PRELOADER = 'preloader';
 	const PRELOADER_MORE = 'preloader-more';
 
@@ -71,7 +71,7 @@ describe('Feed Page', () => {
 		store.state.feed.items = [{}];
 		feed = wrapper.ref(MAIN);
 		expect(feed.exists()).toBe(true);
-		expect(wrapper.ref(TOP_BAR).exists()).toBe(true);
+		// expect(wrapper.ref(TOP_BAR).exists()).toBe(true);
 	});
 
 	it('should render a preloader if items not exist', () => {

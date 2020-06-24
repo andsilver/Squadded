@@ -14,7 +14,10 @@
 			ref="popover"
 			class="pop-over"
 			:class="'pop-overstep-' + step"
-			:style="popoverStyle"
+			:style="{
+				left: popoverLeft + 'px',
+				top: popoverTop + 'px',
+			}"
 		>
 			<div class="pop-over-content" :class="'step' + step">
 				<template v-if="step === 1">
@@ -48,7 +51,10 @@
 		<div
 			v-if="step !== 3"
 			class="highlight"
-			:style="highlightStyle"
+			:style="{
+				left: highlightLeft + 'px',
+				top: highlightTop + 'px',
+			}"
 		/>
 		<div
 			v-if="step === 3"
@@ -88,8 +94,10 @@ export default {
 		step: 0,
 		posts: [],
 		squadders: [],
-		popoverStyle: {},
-		highlightStyle: {},
+		popoverLeft: 0,
+		popoverTop: 0,
+		highlightLeft: 0,
+		highlightTop: 0,
 	}),
 	mounted() {
 		this.squadders = [this.$store.state.user.me, ...feed.squadders];
@@ -100,34 +108,22 @@ export default {
 			this.step += 1;
 			if (this.step === 1) {
 				this.posts = home.posts.map(p => new FeedPost(p));
-				this.popoverStyle = {
-					left: '4vw',
-					bottom: '28vw',
-				};
-				this.highlightStyle = {
-					left: '11vw',
-					bottom: '11vw',
-				};
+				this.popoverLeft = 27;
+				this.popoverTop = 65;
+				this.highlightLeft = 68;
+				this.highlightTop = 20;
 			} else if (this.step === 2) {
 				this.posts = feed.posts.map(p => new FeedPost(p));
-				this.popoverStyle = {
-					left: '9vw',
-					top: '22vw',
-				};
-				this.highlightStyle = {
-					left: '19vw',
-					top: '8vw',
-				};
-				// this.$refs.topbar.tab = 1; for removing top bar
+				this.popoverLeft = 27;
+				this.popoverTop = 93;
+				this.highlightLeft = 172;
+				this.highlightTop = 20;
+				this.$refs.topbar.tab = 1;
 			} else if (this.step === 3) {
-				this.popoverStyle = {
-					left: '4vw',
-					top: '63vw',
-				};
-				this.highlightStyle = {
-					left: '19vw',
-					top: '8vw',
-				};
+				this.popoverLeft = 16;
+				this.popoverTop = 266;
+				this.highlightLeft = 252;
+				this.highlightTop = 223;
 			} else {
 				if (localStorage.getItem(STORAGE_VISITED_KEY)) {
 					return this.$router.push('/feed');
@@ -141,7 +137,7 @@ export default {
 </script>
 <style lang="scss">
 .squadders .squadders-users {
-	top: 0;
+	top: 40px;
 }
 </style>
 <style lang="scss" scoped>
@@ -160,7 +156,7 @@ export default {
 	}
 
 	.container {
-		padding-top: 12px;
+		padding-top: 60px;
 		overflow: hidden;
 		height: 100vh;
 	}
@@ -203,16 +199,10 @@ export default {
 .pop-over-content.step1:after, .pop-over-content.step2:after, , .pop-over-content.step3:after {
 	margin-bottom: -5px;
 	border-bottom-color: #fff;
-    left: 6vw;
+    left: 25px;
     top: -7px;
-    margin-top: -4vw;
+    margin-top: -16px;
 }
-.step1:after {
-	transform: rotate(180deg);
-	top: unset !important;
-	bottom: -6vw;
-}
-
 .step2:after {
     left: 7.4vw !important;
 }
@@ -237,20 +227,20 @@ export default {
 .next-step-section
 	margin-top 3.5vw
 .highlight.walkthrogh
-	top 50.5vw
+	top 63.5vw
 	left 70vw
 	@media screen and (max-width 280px)
-		top 59.35vw
-		left 67.4vw
+		top 76.25vw
+		left 67.5vw
 .resquadd-btn.walkthrogh
-	top 46.5vw
-	left 66.13vw
+	top 59.5vw
+	left 66.33vw
 	@media screen and (max-width 280px)
-		top 54.5vw
-		left 62.4vw
+		top 71.5vw
+		left 62.6vw
 @media screen and (max-width: 280px) {
 	.pop-overstep-3 {
-		top: 73vw !important;
+		top: 239px !important;
 	}
 }
 </style>

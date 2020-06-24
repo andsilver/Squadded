@@ -1,6 +1,6 @@
 <template>
 	<v-container v-if="socket.isAuth" ref="main" class="layout-padding">
-		<TopBar ref="top-bar" class="topBar" />
+		<!-- <TopBar ref="top-bar" class="topBar" /> -->
 		<v-layout column class="px-0">
 			<Preloader v-if="!posts" ref="preloader" class="mt-8" />
 			<span v-else-if="!posts.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
@@ -21,7 +21,7 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
-import TopBar from '~/components/common/TopBar.vue';
+// import TopBar from '~/components/common/TopBar.vue';
 import { onAuth } from '~/helpers';
 import { HomeStore, HomeActions } from '~/store/home';
 import {
@@ -36,7 +36,7 @@ export default {
 	components: {
 		Feed,
 		Preloader,
-		TopBar,
+		// TopBar,
 	},
 	data: () => ({
 		loadNew: false,
@@ -91,9 +91,12 @@ export default {
 };
 </script>
 
-<style lang="stylus">
-.container.layout-padding
-	padding 40px 0 0 0
-	.layout
-		padding 12px
+<style lang="scss" scoped>
+.container.layout-padding {
+	// padding: 40px 0 0 0; for removing top bar
+	.layout {
+		padding: 12px;
+		padding-top: 6px !important; // for removing top bar
+	}
+}
 </style>

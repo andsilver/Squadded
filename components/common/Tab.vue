@@ -34,7 +34,7 @@ export default {
 <style lang="stylus" scoped>
 .tab_text
 	position absolute
-	font-size 2.76vw
+	font-size 2.36vw
 	font-weight 600
 	bottom 20%
 	color #B8B8BA
