@@ -43,16 +43,15 @@ export default {
 	created() {
 		this.$root.$on('postTaped', data => this.postTaped(data));
 		this.$root.$on('tabChange', data => this.tabChange(data));
-		const { varId, itemId, postId } = this.$route.query;
+		const { varId, itemId } = this.$route.query;
 
-		if (!itemId || !postId) {
+		if (!itemId) {
 			this.$router.back();
 			return;
 		}
-
 		this.$store.dispatch(
 			`${PairedItemStore}/${PairedItemActions.initPairedItem}`,
-			{ varId, itemId, postId },
+			{ varId, itemId },
 		);
 	},
 	methods: {

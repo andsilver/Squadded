@@ -66,7 +66,7 @@
 </template>
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import BackBar from '~/components/common/BackBar';
+import BackBar from '~/components/Create/BackBar';
 import Button from '~/components/common/Button';
 import UserInput from '~/components/common/UserInput';
 import PollView from '~/components/common/PollView';

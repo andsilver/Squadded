@@ -77,7 +77,7 @@ export const PairedItemActions = {
 };
 
 export const actions = {
-	[PairedItemActions.initPairedItem]: ({ rootState, commit }, { varId, itemId, postId }) => {
+	[PairedItemActions.initPairedItem]: ({ rootState, commit }, { varId, itemId }) => {
 		commit(PairedItemMutations.setItem, null);
 		commit(PairedItemMutations.setAllPosts, []);
 		commit(PairedItemMutations.setHesitatingUsers, []);
@@ -85,7 +85,6 @@ export const actions = {
 			type: 'fetchItem',
 			varId,
 			itemId: `${itemId}`,
-			postId,
 		});
 	},
 	[PairedItemActions.setPairedItem]: ({ commit }, { item, allPosts, hesitatingUsers }) => {

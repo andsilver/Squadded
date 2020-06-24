@@ -23,7 +23,6 @@ describe('Paired Item', () => {
 		query: {
 			varId: 'any',
 			itemId: 'any',
-			postId: 'any',
 		},
 	};
 
@@ -52,11 +51,10 @@ describe('Paired Item', () => {
 	});
 
 	it('should dispatch initPairedItem action on init', () => {
-		const { varId, itemId, postId } = $route.query;
+		const { varId, itemId } = $route.query;
 		expect(store.dispatch).toHaveBeenCalledWith(`${PairedItemStore}/${PairedItemActions.initPairedItem}`, {
 			varId,
 			itemId,
-			postId,
 		});
 	});
 
@@ -85,11 +83,10 @@ describe('Paired Item', () => {
 		expect(posts.exists()).toBeFalsy();
 	});
 
-	it('should navigate back if itemId or postId is not passed in url', () => {
+	it('should navigate back if itemId is not passed in the url', () => {
 		$route = {
 			query: {
 				itemId: null,
-				postId: null,
 			},
 		};
 		initWrapper();

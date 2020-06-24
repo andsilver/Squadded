@@ -80,7 +80,7 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import BackBar from '~/components/common/BackBar';
+import BackBar from '~/components/Create/BackBar';
 import Browse from '~/components/Create/Browse';
 import Button from '~/components/common/Button';
 import EmptyWishlist from '~/components/Create/EmptyWishlist';

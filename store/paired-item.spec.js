@@ -89,13 +89,11 @@ describe('Paired Item store', () => {
 	it('initPairedItem action', async () => {
 		const varId = 'any';
 		const itemId = 'any';
-		const postId = 'any';
-		await root.dispatch(`${PairedItemStore}/${PairedItemActions.initPairedItem}`, { varId, itemId, postId });
+		await root.dispatch(`${PairedItemStore}/${PairedItemActions.initPairedItem}`, { varId, itemId });
 		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
 			type: 'fetchItem',
 			varId,
 			itemId,
-			postId,
 		});
 		expect(root.state.pairedItem.item).toBeNull();
 		expect(root.state.pairedItem.hesitatingUsers).toHaveLength(0);

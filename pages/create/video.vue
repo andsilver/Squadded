@@ -21,7 +21,7 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import BackBar from '~/components/common/BackBar';
+import BackBar from '~/components/Create/BackBar';
 import StepBack from '~/components/common/StepBack';
 import InputVideo from '~/components/Create/Steps/InputVideo';
 import Items from '~/components/Create/Steps/Items';
