@@ -30,9 +30,10 @@
 			</div>
 			<div class="login">
 				<Brand />
+				<Inviter v-if="inviter" :user="inviter" />
 				<div ref="socialstep-one" class="social_step-one" :class="{ active: showstepOne, in_active: !showstepOne}">
 					<div class="text-center pt-6 mt-11 mt-md-0 mb-4 font-weight-bold signin-text">
-						{{ $t('signin.signin_to_shop_with_your_friends') }}
+						{{ inviter ? $t('signin.signin_to_shop_with_your_friend', { name: inviter.screenName || inviter.name }) : $t('signin.signin_to_shop_with_your_friends') }}
 					</div>
 					<div class="text-center">
 						<div class="custom-chk">
@@ -112,12 +113,14 @@
 
 <script>
 import { mapState } from 'vuex';
-import SocialBtn from '~/components/Social-Button.vue';
+import SocialBtn from '~/components/Social-Button';
 import Brand from '~/components/common/Brand';
-import SignForm from '~/components/Sign-Form.vue';
+import SignForm from '~/components/Sign-Form';
+import Inviter from '~/components/Inviter';
 import { loginWithPIN, requestOtp } from '~/services/otp';
 import Pin from '~/components/Pin';
 import { DEFAULT_LANDING } from '~/store/squad';
+import { fetchUser } from '~/services/user';
 
 export default {
 	components: {
@@ -125,6 +128,7 @@ export default {
 		'sign-form': SignForm,
 		Pin,
 		Brand,
+		Inviter,
 	},
 	asyncData({ store, redirect }) {
 		if (store.state.socket.isAuth) {
@@ -143,12 +147,21 @@ export default {
 		terms: false,
 		showDigitError: false,
 		resendNotify: false,
+		inviter: null,
 	}),
 	computed: {
 		...mapState([
 			'socket',
 			'merchant',
 		]),
+	},
+	watch: {
+		$route (value) {
+			const { userId } = value.query;
+			if (userId) {
+				this.setUser(userId);
+			}
+		},
 	},
 	mounted () {
 		this.$root.$emit('guestToolbarHide', {});
@@ -241,6 +254,11 @@ export default {
 				type: 'open-link',
 				link: 'https://www.squadded.co/privacy-policy',
 			}), '*');
+		},
+		setUser(userId) {
+			fetchUser(userId).then(({ user }) => {
+				this.inviter = user;
+			});
 		},
 	},
 	head: () => ({

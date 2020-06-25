@@ -454,7 +454,8 @@
 	"sign_up_later": "Sign up later",
 	"signemail": "Sign in with email",
 	"signin": {
-		"signin_to_shop_with_your_friends": "Sign in to shop with your friends:"
+		"signin_to_shop_with_your_friends": "Sign in to shop with your friends:",
+		"signin_to_shop_with_your_friend": "Sign in to shop with {name}:"
 	},
 	"skip": "skip",
 	"spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
