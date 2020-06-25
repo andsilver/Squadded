@@ -79,7 +79,6 @@ export default {
 	},
 	created () {
 		this.$root.$on('notiPageLoad', data => this.onNoticationPage());
-		this.$root.$on('guestToolbarShow', data => this.guestToolbarShow());
 	},
 	methods: {
 		closeMenu () {
@@ -91,9 +90,6 @@ export default {
 			}
 		},
 		onNoticationPage () {
-		},
-		guestToolbarShow () {
-			this.fakeActiveTab = true;
 		},
 	},
 };
