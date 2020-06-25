@@ -153,14 +153,25 @@ export default {
 		...mapState([
 			'socket',
 			'merchant',
+			'squad',
 		]),
 	},
 	watch: {
-		$route (value) {
-			const { userId } = value.query;
-			if (userId) {
-				this.setUser(userId);
-			}
+		$route: {
+			immediate: true,
+			handler() {
+				this.setUser();
+			},
+		},
+		squad: {
+			deep: true,
+			immediate: true,
+			handler(value) {
+				console.log('squad change', value.route, value.route.name);
+				if (value.route.name === 'user-id') {
+					this.$router.push({ path: '/', query: { userId: value.route.params.id } });
+				}
+			},
 		},
 	},
 	mounted () {
@@ -255,7 +266,12 @@ export default {
 				link: 'https://www.squadded.co/privacy-policy',
 			}), '*');
 		},
-		setUser(userId) {
+		setUser() {
+			const { userId } = this.$route.query;
+
+			if (!userId || this.inviter) {
+				return;
+			}
 			fetchUser(userId).then(({ user }) => {
 				this.inviter = user;
 			});

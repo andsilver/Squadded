@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import Signup from './index.vue';
 import Store from '~/store';
 import { loginWithPIN } from '~/services/otp';
+import { fetchUser } from '~/services/user';
 
 const token = 'sometoken';
 const email = 'test@test.com';
@@ -10,6 +11,10 @@ const pin = 1234;
 
 jest.mock('~/services/otp', () => ({
 	loginWithPIN: jest.fn(),
+}));
+
+jest.mock('~/services/user', () => ({
+	fetchUser: jest.fn(),
 }));
 
 Wrapper.prototype.ref = function(id) {
@@ -23,6 +28,7 @@ describe('Signup', () => {
 	const $route = {
 		query: {},
 	};
+	const user = { id: 'id' };
 
 	const STEP_ONE = 'step-one';
 	const STEP_TWO = 'step-two';
@@ -37,6 +43,7 @@ describe('Signup', () => {
 		localVue.use(Vuex);
 
 		store = new Vuex.Store(Store);
+		fetchUser.mockReturnValue(Promise.resolve({ user }));
 
 		wrapper = shallowMount(Signup, {
 			store,
