@@ -33,31 +33,14 @@ export default {
 	data: () => ({
 		showCreate: false,
 		fakeActiveTab: false,
-		// tabs: [{
-		// 	uri: '/all',
-		// 	icon: 'sqdi-blank-house',
-		// 	text: 'Home',
-		// }, {
-		// 	uri: '/explore',
-		// 	icon: 'sqdi-magnifying-glass-finder',
-		// 	text: 'Explore',
-		// }, {
-		// 	uri: '/notifications',
-		// 	icon: 'sqdi-notification',
-		// 	text: 'Messages',
-		// }, {
-		// 	uri: '/me',
-		// 	icon: 'sqdi-squadded-icon',
-		// 	text: 'Profile',
-		// }],
 		tabs: [{
-			uri: '/feed',
-			icon: 'sqdi-blank-house',
-			text: 'My Squad',
-		}, {
 			uri: '/all',
+			icon: 'sqdi-blank-house',
+			text: 'Home',
+		}, {
+			uri: '/explore',
 			icon: 'sqdi-magnifying-glass-finder',
-			text: 'Community',
+			text: 'Explore',
 		}, {
 			uri: '/notifications',
 			icon: 'sqdi-notification',

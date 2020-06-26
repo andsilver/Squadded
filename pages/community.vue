@@ -1,6 +1,6 @@
 <template>
 	<v-container class="feed-container">
-		<!-- <FakeTopBar ref="top-bar" class="topBar" /> -->
+		<FakeTopBar ref="top-bar" class="topBar" />
 		<v-layout>
 			<Feed
 				ref="street-layout"
@@ -14,7 +14,7 @@
 
 <script>
 import { mapState } from 'vuex';
-// import FakeTopBar from '~/components/common/FakeTopBar.vue';
+import FakeTopBar from '~/components/common/FakeTopBar.vue';
 import Feed from '~/components/Feed';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
@@ -22,7 +22,7 @@ import { DEFAULT_LANDING } from '~/store/squad';
 
 export default {
 	components: {
-		// FakeTopBar,
+		FakeTopBar,
 		Feed,
 	},
 	data: () => ({
@@ -70,10 +70,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-/* for removing top bar
-.container.feed-container {
-	margin-top: 55px;
-}
-*/
+<style lang="stylus" scoped>
+.container.feed-container
+	margin-top 55px
 </style>

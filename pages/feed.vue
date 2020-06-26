@@ -1,6 +1,6 @@
 <template>
 	<v-container v-if="socket.isAuth" class="layout-padding">
-		<!-- <TopBar ref="top-bar" class="topBar" /> -->
+		<TopBar ref="top-bar" class="topBar" />
 		<v-layout column class="px-0 squadder-feed">
 			<Squadders :users="mysquad" class="squadder-section" />
 			<Preloader v-if="!items" ref="preloader" class="mt-4 mb-4" />
@@ -16,7 +16,7 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader';
-// import TopBar from '~/components/common/TopBar';
+import TopBar from '~/components/common/TopBar';
 import Squadders from '~/components/Squadders';
 import { onAuth, prefetch } from '~/helpers';
 import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
@@ -33,7 +33,7 @@ export default {
 	components: {
 		Feed,
 		Preloader,
-		// TopBar,
+		TopBar,
 		Squadders,
 	},
 	asyncData({ store, redirect }) {
@@ -118,15 +118,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-.container.layout-padding {
-	// padding: 40px 0 0 0; for removing top bar
-	padding-top: 0 !important;
-	.layout {
-		// padding: 12px; for removing top bar
-		&.squadder-feed {
-			padding-top: 0px !important
-		}
-	}
-}
+<style lang="stylus">
+.container.layout-padding
+	padding 40px 0 0 0
+	.layout
+		padding 12px
+		&.squadder-feed
+			padding-top 0px !important
 </style>

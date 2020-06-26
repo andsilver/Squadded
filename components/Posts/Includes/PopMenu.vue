@@ -371,6 +371,7 @@ export default {
 					text: siteTitle,
 					url,
 				}).catch(function(error) {
+					console.log('navite share', error);
 					if (error.code !== CANCELED_BY_USER) {
 						this.showModal();
 					}

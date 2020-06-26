@@ -1,6 +1,6 @@
 <template>
 	<v-container v-if="socket.isAuth && me.guid" class="layout-padding">
-		<!-- <TopBar ref="top-bar" my-squad class="topBar" /> -->
+		<TopBar ref="top-bar" my-squad class="topBar" />
 		<v-layout column class="create-your-squad">
 			<div ref="create-squad-text" class="create-text-sec">
 				<h2>
@@ -109,7 +109,7 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import { Base64 } from 'js-base64';
 import { UserStore, UserMutations } from '~/store/user';
-// import TopBar from '~/components/common/TopBar.vue';
+import TopBar from '~/components/common/TopBar.vue';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
 import { DEFAULT_LANDING } from '~/store/squad';
 import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';
@@ -127,7 +127,7 @@ const feedState = feed.mapState;
 
 export default {
 	components: {
-		// TopBar,
+		TopBar,
 		ShareProfile,
 		Feed,
 		Button,

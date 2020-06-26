@@ -17,7 +17,7 @@ Wrapper.prototype.ref = function (id) {
 describe('All', () => {
 	const EMPTY_FEED_TEXT = 'empty-feed-text';
 	const MAIN = 'main';
-	// const TOP_BAR = 'top-bar';
+	const TOP_BAR = 'top-bar';
 	const PRELOADER = 'preloader';
 	const PRELOADER_MORE = 'preloader-more';
 
@@ -75,7 +75,7 @@ describe('All', () => {
 		store.commit('SET_SOCKET_AUTH', true);
 		main = wrapper.ref(MAIN);
 		expect(main.exists()).toBe(true);
-		// expect(wrapper.ref(TOP_BAR).exists()).toBe(true);
+		expect(wrapper.ref(TOP_BAR).exists()).toBe(true);
 	});
 
 	it('should render the correct message for empty Community', () => {
