@@ -11,7 +11,7 @@
 		<section v-if="!isPaired" class="card_bottom" :class="{ card_inline: title }">
 			<div ref="merchant-id" class="post_title merchant-section d-flex justify-space-between align-center px-1">
 				<span v-if="item && item.merchantId" @click="() => $emit('open')">{{ item.merchantSiteTitle || item.merchantId }}</span>
-				<div v-if="showRefresh" class="refresh-icon" @click="navigateToPairedItemPage">
+				<div v-if="showPaired" class="refresh-icon" @click="navigateToPairedItemPage">
 					<img src="~assets/img/recycle.svg" class="refresh-logo">
 				</div>
 			</div>
@@ -40,9 +40,14 @@
 </template>
 
 <script>
+import { createNamespacedHelpers, mapState } from 'vuex';
 import Actions from './Actions';
 import { shortNumber } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
+import { UserStore } from '~/store/user';
+import { MERCHAND_ADMIN } from '~/consts';
+
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	name: 'CardFrame',
@@ -115,8 +120,15 @@ export default {
 		},
 	},
 	computed: {
+		...userState(['me']),
+		...mapState([
+			'merchant',
+		]),
 		discount () {
 			return this.originPrice && this.originPrice !== this.price;
+		},
+		showPaired() {
+			return this.me.userRole === MERCHAND_ADMIN || (this.showRefresh && !this.merchant.hideFeatures.includes('paired item'));
 		},
 	},
 	methods: {

@@ -6,10 +6,11 @@
 		@click.native="(e) => onTabClick(e)"
 	>
 		<Tab :tab="tabs[0]" :class="{ 'v-tab--active': fakeActiveTab }" @click.native="closeMenu" />
-		<Tab :tab="tabs[1]" @click.native="closeMenu" />
-		<CreateTab />
+		<Tab v-if="visibleTab('explore')" :tab="tabs[1]" @click.native="closeMenu" />
+		<CreateTab v-if="visiblePosts.length > 1" />
+		<Tab v-else :tab="postTab" @click.native="closeMenu" />
 		<Tab :tab="tabs[2]" @click.native="closeMenu">
-			<Badge class="badge" :value="newRequests.length || newNotifications.length" />
+			<Badge :value="newRequests.length || newNotifications.length" />
 		</Tab>
 		<Tab :tab="tabs[3]" />
 	</v-tabs>
@@ -21,8 +22,14 @@ import CreateTab from './CreateTab';
 import Tab from './Tab';
 import Badge from '~/components/common/Badge';
 import { NotificationStore, NotificationGetters } from '~/store/notification';
+import { UserStore } from '~/store/user';
+import {
+	visiblePosts,
+	MERCHAND_ADMIN,
+} from '~/consts';
 
 const { mapGetters } = createNamespacedHelpers(NotificationStore);
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	components: {
@@ -52,13 +59,23 @@ export default {
 		}],
 	}),
 	computed: {
+		...userState(['me']),
 		...mapGetters([
 			NotificationGetters.newRequests,
 			NotificationGetters.newNotifications,
 		]),
 		...mapState([
 			'socket',
+			'merchant',
 		]),
+		visiblePosts,
+		postTab () {
+			return {
+				uri: this.visiblePosts[0].uri,
+				icon: 'sqdi-add-post',
+				text: this.visiblePosts[0].title,
+			};
+		},
 	},
 	created () {
 		this.$root.$on('notiPageLoad', data => this.onNoticationPage());
@@ -74,14 +91,17 @@ export default {
 		},
 		onNoticationPage () {
 		},
+		visibleTab(tabName) {
+			return this.me.userRole === MERCHAND_ADMIN || !this.merchant.hideFeatures.includes(tabName);
+		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
 .badge
-	top 12px
-	left 39px
+	top -5px
+	right -2px
 @media screen and (max-width 280px)
 	.v-tabs
 		>>> .tab_text

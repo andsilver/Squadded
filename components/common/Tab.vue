@@ -5,11 +5,13 @@
 		:disabled="!socket.isAuth"
 		class="tab_item"
 	>
-		<v-icon class="tab_icon">
-			{{ tab.icon }}
-		</v-icon>
+		<span class="tab_icon">
+			<v-icon>
+				{{ tab.icon }}
+			</v-icon>
+			<slot />
+		</span>
 		<span class="tab_text">{{ $t(tab.text) }}</span>
-		<slot />
 	</v-tab>
 </template>
 
@@ -39,7 +41,10 @@ export default {
 	bottom 20%
 	color #B8B8BA
 
-.tab_icon:before
+.tab_icon
+	position relative
+
+.tab_icon .v-icon:before
 	font-size .9em !important
 	color #B8B8BA
 	margin-bottom 55%

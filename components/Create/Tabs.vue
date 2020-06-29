@@ -1,26 +1,39 @@
 <template>
 	<v-toolbar
+		v-if="visiblePosts.length > 1"
 		dense
 		flat
 		height="40"
 		class="px-3"
 	>
 		<v-tabs fixed-tabs>
-			<v-tab color="#000" to="/create/outfit">
-				{{ $t('create.outfit') }}
-			</v-tab>
-			<v-tab color="#000" to="/create/upload">
-				{{ $t('create.upload') }}
-			</v-tab>
-			<v-tab color="#000" to="/create/poll">
-				{{ $t('create.poll') }}
+			<v-tab
+				v-for="tab in visiblePosts"
+				:key="tab.uri"
+				:to="tab.uri"
+				color="#000"
+			>
+				{{ $t(tab.title) }}
 			</v-tab>
 		</v-tabs>
 	</v-toolbar>
 </template>
 
 <script>
+import { createNamespacedHelpers, mapState } from 'vuex';
+import { visiblePosts } from '~/consts';
+import { UserStore } from '~/store/user';
+
+const userState = createNamespacedHelpers(UserStore).mapState;
+
 export default {
+	computed: {
+		...userState(['me']),
+		...mapState([
+			'merchant',
+		]),
+		visiblePosts,
+	},
 };
 </script>
 

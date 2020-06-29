@@ -14,7 +14,7 @@
 			<v-list class="open-add-section">
 				<h5>{{ $t('CreateANew') }}</h5>
 				<v-list-item
-					v-for="link in menu"
+					v-for="link in visiblePosts"
 					:key="link.uri"
 					:class="$t(link.title)"
 					@click.native="() => closeMenu(link.uri)"
@@ -37,31 +37,20 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
+import { visiblePosts } from '~/consts';
+import { UserStore } from '~/store/user';
+
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
-	data: () => ({
-		menu: [{
-			uri: '/create/outfit',
-			title: 'create.outfit',
-			des: 'createDesc.outfit',
-			images: require('assets/img/outfit.svg'),
-		}, {
-			uri: '/create/upload',
-			title: 'create.upload',
-			des: 'createDesc.upload',
-			images: require('assets/img/photo.svg'),
-		}, {
-			uri: '/create/poll',
-			title: 'create.poll',
-			des: 'createDesc.poll',
-			images: require('assets/img/poll.svg'),
-		}],
-	}),
 	computed: {
+		...userState(['me']),
 		...mapState([
 			'socket',
+			'merchant',
 		]),
+		visiblePosts,
 	},
 	created() {
 		this.$root.$on('openCreateMenu', () => {

@@ -28,6 +28,7 @@ export default {
 	line-height 14px
 	color #fff
 	background-color #FD6256
+	border 2px solid white
 	border-radius 50%
 	padding 4px
 </style>
