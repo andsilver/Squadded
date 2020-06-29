@@ -325,6 +325,7 @@
 		"addedItem": "a ajouté cet article à sa wishlist",
 		"addedOutfit": "a publié une composition avec {0} articles",
 		"addedPoll": "a publié un sondage",
+		"invited": "Invitation envoyée",
 		"pop": {
 			"deletePost": {
 				"decline": "Modifier",
@@ -378,7 +379,8 @@
 			"galleryPost": "Galerie",
 			"outfitPost": "Composition",
 			"pollPost": "Sondage",
-			"singleItemPost": "Publication"
+			"singleItemPost": "Publication",
+			"videoPost": "Vidéo"
 		},
 		"unwatchRachel": "Retirer des mes inspirations",
 		"unwatchUser": "Ne plus m'inspirer de {user}",
@@ -452,6 +454,7 @@
 	"sign_up_later": "S'inscrire plus tard",
 	"signemail": "S'inscrire avec un email",
 	"signin": {
+		"signin_to_shop_with_your_friend": "Connectez-vous pour faire du shopping avec {name}:",
 		"signin_to_shop_with_your_friends": "Connectez-vous pour faire du shopping entre amis:"
 	},
 	"skip": "Plus tard",

@@ -258,7 +258,7 @@
 	},
 	"noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
 	"notify": {
-		"accepted": "accepted your invite",
+		"accepted": "accepted your invitation",
 		"accepted_invite": "",
 		"acceptedbanner": "is now in your squad",
 		"comment": "",
@@ -325,6 +325,7 @@
 		"addedItem": "saved this item",
 		"addedOutfit": "posted a new outfit with {0} items",
 		"addedPoll": "posted a poll",
+		"invited": "Invitation sent",
 		"pop": {
 			"deletePost": {
 				"decline": "Edit",
@@ -383,8 +384,7 @@
 		},
 		"unwatchRachel": "Unwatch Rachel",
 		"unwatchUser": "Unwatch {user}",
-		"watchUser": "Watch {user}",
-		"invited": "Invite sent"
+		"watchUser": "Watch {user}"
 	},
 	"postdeleted": "Your post has been deleted",
 	"privacy": "Privacy",
@@ -454,8 +454,8 @@
 	"sign_up_later": "Sign up later",
 	"signemail": "Sign in with email",
 	"signin": {
-		"signin_to_shop_with_your_friends": "Sign in to shop with your friends:",
-		"signin_to_shop_with_your_friend": "Sign in to shop with {name}:"
+		"signin_to_shop_with_your_friend": "Sign in to shop with {name}:",
+		"signin_to_shop_with_your_friends": "Sign in to shop with your friends:"
 	},
 	"skip": "skip",
 	"spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
