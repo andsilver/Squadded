@@ -1,1 +1,1 @@
-export const isMonoMerchant = rootState => rootState.merchant.isMono;
+export const isMonoMerchant = rootState => rootState.merchant.native;

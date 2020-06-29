@@ -1,8 +1,12 @@
 <template>
 	<h2>
 		<v-btn ref="go-back-btn" icon @click="goBack">
-			<v-icon v-if="close">mdi-close</v-icon>
-			<v-icon v-else>sqdi-arrow-pointing-to-left</v-icon>
+			<v-icon v-if="close">
+				mdi-close
+			</v-icon>
+			<v-icon v-else>
+				sqdi-arrow-pointing-to-left
+			</v-icon>
 		</v-btn>
 		{{ title }}
 	</h2>

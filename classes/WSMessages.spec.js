@@ -447,7 +447,20 @@ describe('WSMessages dispatch', () => {
 
 	it('should commit notification on notifyVote', () => {
 		const msg = notifyVote;
+		const post = {
+			item1: {
+				votes: 0,
+			},
+			item2: {
+				votes: 1,
+			},
+			voter: {
+				guid: null,
+			},
+		};
+		store.getters[`${PostStore}/${PostGetters.getPostById}`] = jest.fn().mockReturnValue(post);
 		wsMessages.dispatch(msg);
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, msg);
+		expect(post.item1.votes).toBe(msg.item1.votes);
 	});
 });

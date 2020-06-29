@@ -92,7 +92,7 @@ export const mutations = {
 		state.merchant.siteTitle = siteTitle;
 		state.merchant.squadSLogin = squadSLogin;
 		state.merchant.brandColor = brandColor;
-		state.merchant.native = native || false;
+		state.merchant.native = native === 'true' || native === true;
 
 		if (brandColor !== DEFAULT_COLOR) {
 			document.documentElement.style.setProperty('--brand-color', brandColor);

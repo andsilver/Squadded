@@ -234,7 +234,7 @@ describe('WS Plugin', () => {
 				await Promise.resolve();
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
-				expect(ctx.app.router.push).toHaveBeenCalledWith(state.squad.route, expect.anything());
+				expect(ctx.app.router.push).toHaveBeenCalledWith(state.squad.route);
 			});
 
 			it('should redirect to select-username if username was not selected on auth', async () => {

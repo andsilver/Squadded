@@ -16,6 +16,7 @@ import { FeedStore, FeedMutations } from '~/store/feed';
 import { HomeStore, HomeMutations } from '~/store/home';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
+import { isMonoMerchant } from '~/utils/is-mono-merchant';
 
 export default {
 	name: 'ReSquaddButton',
@@ -28,6 +29,11 @@ export default {
 	data: () => ({
 		invert: false,
 	}),
+	computed: {
+		checkOtherMerchant() {
+			return isMonoMerchant(this.$store.state) && this.item.merchantId !== this.$store.state.merchant.id;
+		},
+	},
 	mounted () {
 		const { backgroundColor } = this.$store.state.merchant;
 		if (backgroundColor) {
@@ -43,6 +49,10 @@ export default {
 		},
 		async reSquaddPost () {
 			this.item.squadded = true;
+
+			if (this.checkOtherMerchant) {
+				return;
+			}
 			const post = await this.$store.dispatch(`${PostStore}/${PostActions.reSquaddItem}`, { item: this.item });
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 			this.$store.commit(`${ActivityStore}/${ActivityMutations.addPost}`, {
@@ -54,6 +64,10 @@ export default {
 		},
 		async unwish () {
 			this.item.squadded = false;
+
+			if (this.checkOtherMerchant) {
+				return;
+			}
 			this.$store.commit(`${PostStore}/${PostMutations.unsquadd}`, this.item.itemId);
 			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.unsquadd}`, this.item.itemId);
 			this.$store.commit(`${FeedStore}/${FeedMutations.unsquadd}`, this.item.itemId);

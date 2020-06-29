@@ -167,7 +167,6 @@ export default {
 			deep: true,
 			immediate: true,
 			handler(value) {
-				console.log('squad change', value.route, value.route.name);
 				if (value.route.name === 'user-id') {
 					this.$router.push({ path: '/', query: { userId: value.route.params.id } });
 				}

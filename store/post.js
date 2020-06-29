@@ -70,8 +70,10 @@ export const mutations = {
 			return;
 		}
 		!post.likes.users && (post.likes.users = []);
-		post.likes.users.unshift(user);
-		post.likes.count = post.likes.users.length;
+		if (post.likes.users.find(u => u.guid !== user.guid)) {
+			post.likes.users.unshift(user);
+			post.likes.count += 1;
+		}
 	},
 	[PostMutations.addPost]: (state, post) => {
 		state.all.unshift(post);

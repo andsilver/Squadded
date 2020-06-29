@@ -46,10 +46,10 @@ export default {
 					language: this.$root.$i18n.fallbackLocale,
 				};
 				if (userId) {
-					params.userId = userId;
+					params.originUserId = userId;
 					params.origin = 'invitation';
 				} else if (postId) {
-					params.postId = postId;
+					params.originPostId = postId;
 					params.origin = 'share';
 				}
 				Social.oauth(fullname[this.for], params);

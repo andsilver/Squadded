@@ -7,8 +7,15 @@ import { PairedItemStore, PairedItemActions } from '~/store/paired-item';
 import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { HomeStore, HomeMutations } from '~/store/home';
 import { prefetch } from '~/helpers';
+import { isMonoMerchant } from '~/utils/is-mono-merchant';
 
 async function acceptPost(message) {
+	const { id } = this.store.state.merchant;
+	const items = [message.item, message.item1, message.item2, ...(message.items || [])];
+
+	if (isMonoMerchant(this.store.state) && items.some(item => item && item.merchantId !== id)) {
+		return;
+	}
 	if (!this.store.state.feed.items || !this.store.state.feed.items.length) {
 		// tmp patch while infinite scroll not ready
 		this.store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
@@ -167,7 +174,7 @@ export class WSMessages {
 
 		await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, newPosts);
 		const postsGetter = this.store.getters[`${PostStore}/${PostGetters.getPostsByIds}`];
-		const posts = postsGetter(newPosts.map(p => p.guid));
+		const posts = postsGetter(Array.from(new Set(newPosts.map(p => p.guid))));
 
 		this.store.commit(`${HomeStore}/${HomeMutations.receive}`, {
 			posts,
@@ -217,6 +224,10 @@ export class WSMessages {
 	}
 
 	notifVote (message) {
+		const post = this.store.getters[`${PostStore}/${PostGetters.getPostById}`](message.guid);
+		post.item1.votes = message.item1.votes;
+		post.item2.votes = message.item2.votes;
+		post.voted = this.store.state.user.me.userId === message.voter.guid;
 		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
 	}
 
