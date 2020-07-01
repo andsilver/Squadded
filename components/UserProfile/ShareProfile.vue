@@ -8,9 +8,6 @@
 				</v-icon>
 			</v-btn>
 		</v-card-title>
-		<v-card-text class="share_url">
-			<v-text-field ref="user-link" :value="userLink" />
-		</v-card-text>
 		<v-btn
 			class="full-width copy_btn"
 			color="primary"
@@ -20,11 +17,12 @@
 		>
 			Copy Link
 		</v-btn>
+		<input ref="link" type="hidden">
 	</v-card>
 </template>
 
 <script>
-import { copy } from '~/utils/copy';
+import { copyToClipboard } from '~/utils/copyToClipboard';
 
 export default {
 	props: {
@@ -35,8 +33,7 @@ export default {
 	},
 	methods: {
 		copyUserLink () {
-			this.$refs['user-link'].$el.querySelector('input').select();
-			copy();
+			copyToClipboard(this.userLink, this.$refs.link);
 		},
 		hide () {
 			this.$emit('hideShowShare');
@@ -59,10 +56,6 @@ export default {
 		padding 0
 		display flex
 		justify-content space-between
-	.share_url
-		padding 0
-		.v-input
-			background transparent
 	.copy_btn
 		width 46.92vw
 		margin 0 auto

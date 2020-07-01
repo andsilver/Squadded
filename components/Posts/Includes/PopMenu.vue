@@ -192,7 +192,7 @@ export default {
 		privacyTimeout: null,
 		undoDeleteWatch: null,
 		undoPrivacyWatch: null,
-		shortURL: null,
+		shortURL: '',
 	}),
 	computed: {
 		currentText () {
@@ -371,6 +371,7 @@ export default {
 					text: siteTitle,
 					url,
 				}).catch(function(error) {
+					// eslint-disable-next-line
 					console.log('navite share', error);
 					if (error.code !== CANCELED_BY_USER) {
 						this.showModal();

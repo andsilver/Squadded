@@ -34,6 +34,7 @@ export default {
 		coords: {
 			type: Array,
 			required: false,
+			default: () => [],
 		},
 	},
 };
