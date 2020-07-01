@@ -133,7 +133,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 					return app.router.push('/select-username', setPendingFalse);
 				} else if (!user.squaddersCount && !visitedInviteFriends) {
 					return app.router.push('/invite-friends', setPendingFalse);
-				} else if (user.originUserId === route.params.id) {
+				} else if (route.params && user.originUserId === route.params.id) {
 					return app.router.push(DEFAULT_LANDING, setPendingFalse);
 				}
 			} else if (route.name) {
