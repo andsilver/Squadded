@@ -3,11 +3,11 @@
 		<Preloader v-if="!blog && socket.isAuth" ref="preloader" class="mt-8" />
 		<span v-else-if="!blog || !blog.length">
 			<div class="empty_feed">
-				<p class="feed_img"><img src="~assets/img/empty-feed.svg" class="insta-image"></p>
+				<p class="feed_img"><img src="~assets/img/empty-feed.svg"></p>
 				<p ref="empty-blog-text" align="center" class="txt">
 					{{ socket.isAuth ? $t('feed.isEmpty') : $t('wishlist.disabled_before_signin') }}
 				</p>
-				<Button v-if="isMe" class="flex-grow-1 wish_btn" @click="openPopup">
+				<Button v-if="isMe" class="flex-grow-1 wish_btn" @click="createPost">
 					{{ $t('feed.create') }}
 				</Button>
 			</div>
@@ -22,8 +22,14 @@ import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader.vue';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 import { tokenExist } from '~/utils/isAuth';
+import { UserStore } from '~/store/user';
+import {
+	postTab,
+	visiblePosts,
+} from '~/consts';
 
 const activityState = createNamespacedHelpers(ActivityStore).mapState;
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	name: 'Blog',
@@ -38,17 +44,28 @@ export default {
 		},
 	},
 	computed: {
+		...userState(['me']),
 		...activityState([
 			'blog',
 		]),
 		...mapState([
+			'merchant',
 			'socket',
 		]),
+		visiblePosts,
+		postTab,
 	},
 	created () {
 		this.fetchBlog();
 	},
 	methods: {
+		createPost () {
+			if (this.visiblePosts.length === 1) {
+				this.$router.push(this.postTab.uri);
+			} else {
+				this.$root.$emit('openCreateMenu');
+			}
+		},
 		fetchBlog() {
 			if (!tokenExist()) {
 				return;
@@ -57,9 +74,6 @@ export default {
 				type: 'blog',
 				guid: this.$route.params.id,
 			});
-		},
-		openPopup() {
-			this.$root.$emit('openCreateMenu');
 		},
 	},
 };

@@ -24,3 +24,11 @@ export const visiblePosts = function () {
 	return this.me.userRole === MERCHAND_ADMIN ? availablePosts
 		: availablePosts.filter(item => !this.merchant.hideFeatures.includes(item.name));
 };
+
+export const postTab = function () {
+	return {
+		uri: this.visiblePosts[0].uri,
+		icon: 'sqdi-add-post',
+		text: this.visiblePosts[0].title,
+	};
+};

@@ -24,6 +24,7 @@ import Badge from '~/components/common/Badge';
 import { NotificationStore, NotificationGetters } from '~/store/notification';
 import { UserStore } from '~/store/user';
 import {
+	postTab,
 	visiblePosts,
 	MERCHAND_ADMIN,
 } from '~/consts';
@@ -67,14 +68,8 @@ export default {
 			'socket',
 			'merchant',
 		]),
+		postTab,
 		visiblePosts,
-		postTab () {
-			return {
-				uri: this.visiblePosts[0].uri,
-				icon: 'sqdi-add-post',
-				text: this.visiblePosts[0].title,
-			};
-		},
 		fakeActiveTab () {
 			return this.$route.path === '/feed';
 		},
