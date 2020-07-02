@@ -12,11 +12,7 @@
 					</div>
 				</template>
 				<div v-else>
-					<div class="whish_img">
-						<p>
-							<img src="~assets/img/squad-logo-white.svg" class="insta-image">
-						</p>
-					</div>
+					<div class="whish_img" />
 					<div class="txt">
 						<p ref="empty-whishlist-text" align="center">
 							{{ socket.isAuth ? $t('wishlist.empty') : $t('wishlist.disabled_before_signin') }}
@@ -114,42 +110,18 @@ export default {
 		background #F5F5F5
 		margin 0 auto
 		position relative
-		p
-			position absolute
-			right 2.5vw
-			top 2.7vw
-			background #000000
-			border-radius 50%
-			width 8.61vw
-			height 8.61vw
-			display flex
-			justify-content center
-			align-items center
-			margin 0
-			z-index 1
-			img
-				width 4.92vw
-				height 3.69vw
 		&:after
 			content ''
-			width 12.30vw
-			height 12.30vw
+			width 8.61vw
+			height 8.61vw
 			position absolute
-			background #B8B8BA
+			background #000 url('~assets/img/squad-logo-white.svg') no-repeat
+			background-size 4.92vw 3.69vw
+			background-position center center
 			border-radius 50%
-			z-index 0
-			right 0.76vw
-			top 0.76vw
-		&:before
-			content ''
-			width 18.46vw
-			height 18.46vw
-			position absolute
-			background #DBDBDB
-			border-radius 50%
-			z-index 0
-			right -2.30vw
-			top -2.30vw
+			box-shadow 0 0 0 1.94vw #b8b8ba, 0 0 0 5vw #dbdbdb
+			right 2.5vw
+			top 2.7vw
 	.txt
 		p
 			font-size 3.69vw

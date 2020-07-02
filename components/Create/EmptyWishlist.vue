@@ -1,11 +1,7 @@
 <template>
 	<div v-if="!isWishlistHasItems" class="empty_wishlist_container">
 		<div class="whislist_empty">
-			<div class="whish_img">
-				<p>
-					<img src="~assets/img/squad-logo-white.svg" class="insta-image">
-				</p>
-			</div>
+			<div class="whish_img" />
 			<div class="txt">
 				<p ref="empty-whishlist-text" align="center">
 					{{ $t('wishlist.postempty') }}
@@ -63,40 +59,16 @@ export default {
 		position relative
 		&:after
 			content ''
-			width 15.38vw
-			height 15.38vw
-			position absolute
-			background #B8B8BA
-			border-radius 50%
-			right -0.5vw
-			top -0.5vw
-			z-index 0
-		&:before
-			content ''
-			width 23.07vw
-			height 23.07vw
-			position absolute
-			background #DBDBDB
-			border-radius 50%
-			right -4.3vw
-			top -4.3vw
-			z-index 0
-		p
-			position absolute
-			right 1.8vw
-			top 1.8vw
-			background #000000
-			border-radius 50%
 			width 10.76vw
 			height 10.76vw
-			display flex
-			justify-content center
-			align-items center
-			margin 0
-			z-index 1
-		img
-			width 6.15vw
-			height 4.66vw
+			position absolute
+			background #000 url('~assets/img/squad-logo-white.svg') no-repeat
+			background-size 6.15vw 4.66vw
+			background-position center center
+			border-radius 50%
+			box-shadow 0 0 0 2.3vw #b8b8ba, 0 0 0 6.1vw #dbdbdb
+			right 1.8vw
+			top 1.8vw
 	.txt
 		p
 			font-size 3.69vw
