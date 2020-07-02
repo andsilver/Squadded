@@ -15,22 +15,29 @@
 </template>
 
 <script>
+import { createNamespacedHelpers, mapState } from 'vuex';
 import Button from '~/components/common/Button';
+import { discoverItem } from '~/components/Whishlist/discoverItem';
+import { UserStore } from '~/store/user';
+
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	components: {
 		Button,
 	},
 	computed: {
+		...userState(['me']),
+		...mapState([
+			'merchant',
+		]),
 		isWishlistHasItems () {
 			const { wishlist } = this.$store.state.activity;
 			return wishlist && wishlist.length;
 		},
 	},
 	methods: {
-		discoverItem() {
-			this.$router.push('/explore');
-		},
+		discoverItem,
 	},
 };
 </script>

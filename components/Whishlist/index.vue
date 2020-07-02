@@ -37,11 +37,14 @@
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
 import WhishlistItem from './item';
+import { discoverItem } from './discoverItem';
 import Preloader from '~/components/Preloader.vue';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 import { onAuth } from '~/helpers';
+import { UserStore } from '~/store/user';
 
 const activityState = createNamespacedHelpers(ActivityStore).mapState;
+const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
 	name: 'Whishlist',
@@ -56,11 +59,13 @@ export default {
 		},
 	},
 	computed: {
+		...userState(['me']),
 		...activityState([
 			'wishlist',
 			'isPrivate',
 		]),
 		...mapState([
+			'merchant',
 			'socket',
 			'user',
 		]),
@@ -93,9 +98,7 @@ export default {
 				guid: this.$route.params.id,
 			});
 		},
-		discoverItem() {
-			this.$router.push('/explore');
-		},
+		discoverItem,
 	},
 };
 </script>
