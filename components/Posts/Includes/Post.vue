@@ -20,10 +20,10 @@
 			>
 				<CommentShow ref="comment-show" :comment="post.text || (isPlaceHolder && $t('post.textPlaceholder'))" />
 			</h3>
-			<MessageInput
+			<Caption
 				v-if="showTextEditor"
 				ref="post-text-input"
-				class="mb-3 post-title-input"
+				class="mb-3"
 				:action="editPostText"
 				:placeholder="$t('post.textPlaceholder')"
 				:post="post"
@@ -40,7 +40,7 @@
 <script>
 import Actions from './Actions';
 import PopMenu from './PopMenu';
-import MessageInput from '~/components/MessageInput';
+import Caption from './Caption';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostActions } from '~/store/post';
 import CommentShow from '~/components/Comments/Includes/CommentShow';
@@ -49,7 +49,7 @@ export default {
 	name: 'Post',
 	components: {
 		Actions,
-		MessageInput,
+		Caption,
 		PopMenu,
 		UserLink,
 		CommentShow,
@@ -89,7 +89,7 @@ export default {
 			this.showTextEditor = !this.showTextEditor;
 			setTimeout(() => {
 				if (this.$refs['post-text-input']) {
-					this.$refs['post-text-input'].$el.querySelector('.editor').focus();
+					this.$refs['post-text-input'].$el.querySelector('input').focus();
 				}
 			});
 		},
