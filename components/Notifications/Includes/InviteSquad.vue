@@ -13,7 +13,7 @@
 						:user="invitingUser"
 						hide-avatar
 					/>
-					{{ $t('notify.invited') }}
+					<span @click="navigate">{{ $t('notify.invited') }}</span>
 				</span>
 				<div ref="invite-actions" class="d-flex my-2 invite-actions-button">
 					<Button ref="accept-btn" class="ma-0 mr-2" @click.native="accept">
@@ -94,6 +94,11 @@ export default {
 				guid: this.notification._id,
 			});
 			this.$store.commit(`${NotificationStore}/${NotificationMutations.setAcceptedSquad}`, this.notification._id);
+		},
+		navigate() {
+			if (this.banner) {
+				this.$router.push('/notifications/requests');
+			}
 		},
 	},
 };
