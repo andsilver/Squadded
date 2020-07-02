@@ -34,6 +34,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.v-tab
+	min-width auto
+
 .tab_text
 	position absolute
 	font-size 2.76vw
@@ -43,16 +46,14 @@ export default {
 
 .tab_icon
 	position relative
+	.v-icon:before
+		font-size .9em !important
+		color #B8B8BA
+		margin-bottom 55%
 
-.tab_icon .v-icon:before
-	font-size .9em !important
-	color #B8B8BA
-	margin-bottom 55%
+.v-tab--active
+	.tab_icon .v-icon:before,
+	.tab_text
+		color var(--brand-color)
 
-.v-tab--active .tab_icon:before,
-.v-tab--active .tab_text
-	color var(--brand-color)
-
-.v-tab
-	min-width auto
 </style>

@@ -39,7 +39,6 @@ export default {
 	},
 	data: () => ({
 		showCreate: false,
-		fakeActiveTab: false,
 		tabs: [{
 			uri: '/all',
 			icon: 'sqdi-blank-house',
@@ -75,6 +74,9 @@ export default {
 				icon: 'sqdi-add-post',
 				text: this.visiblePosts[0].title,
 			};
+		},
+		fakeActiveTab () {
+			return this.$route.path === '/feed';
 		},
 	},
 	created () {
