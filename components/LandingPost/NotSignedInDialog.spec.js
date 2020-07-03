@@ -42,17 +42,6 @@ describe('Landing Post - NotSigendInDialog', () => {
 		expect(skipBtn.exists()).toBe(true);
 	});
 
-	it('should navigate to signin page with user id', () => {
-		const signInBtn = wrapper.ref(SIGN_IN_BTN);
-		signInBtn.trigger('click');
-		expect($router.push).toHaveBeenCalledWith({
-			path: '/',
-			query: {
-				userId: user.userId || user.guid,
-			},
-		});
-	});
-
 	it('should navigate to signin page with post id', () => {
 		const postId = 'postId';
 		wrapper.setProps({

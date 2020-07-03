@@ -41,8 +41,6 @@ export default {
 			const query = {};
 			if (this.postId) {
 				query.postId = this.postId;
-			} else {
-				query.userId = this.user.userId || this.user.guid;
 			}
 			this.$router.push({
 				path: '/',
