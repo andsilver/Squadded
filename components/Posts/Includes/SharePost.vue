@@ -35,12 +35,12 @@
 				</div>
 			</div>
 		</div>
-		<input ref="shorturl" type="hidden">
+		<input ref="shorturl" v-model="postLink" class="link-box">
 	</v-card>
 </template>
 
 <script>
-import { copyToClipboard } from '~/utils/copyToClipboard';
+import { copy } from '~/utils/copy';
 
 export default {
 	props: {
@@ -82,7 +82,8 @@ export default {
 				window.open(`https://www.facebook.com/dialog/send?app_id=${process.env.FB_APP_ID}&link=${this.postLink}&redirect_uri=${window.location.origin}`);
 				break;
 			case 'copy_link':
-				copyToClipboard(this.postLink, this.$refs.shorturl);
+				this.$refs.shorturl.select();
+				copy();
 				method.title = 'copied';
 				setTimeout(() => (method.title = 'copy_link'), 1000);
 				break;
@@ -136,6 +137,10 @@ export default {
 	line-height: 0;
 	box-shadow: -1px 2px 19px 1px rgba(0, 0, 0, 0.07843);
 	cursor: pointer;
+}
+.link-box {
+	display: block;
+	height: 0;
 }
 .caption {
 	font-size: 0.6rem !important;
