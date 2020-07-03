@@ -15,7 +15,7 @@
 	"EnterUsername": "Entrez votre nom d'utilisateur",
 	"Explore": "Explorer",
 	"Home": "Accueil",
-	"Just": "juste",
+	"Just": "",
 	"Like": "J'aime",
 	"Likes": "J'aime",
 	"Messageregarding": "",
@@ -123,7 +123,7 @@
 	"enterCode": "Taper le code",
 	"error": {
 		"404": "Oups cette page a disparu",
-		"go_to_feed": "Retourner à la page d'accueil",
+		"go_to_feed": "Retour à la page d'accueil",
 		"oops": "Oups! Pas de shopping par ici. Pour retourner à votre squad, c'est par là",
 		"other": "Vous êtes perdus? Retour à l'accueil"
 	},
@@ -161,7 +161,7 @@
 		"create": "Publier",
 		"how_it_works": {
 			"action": "Comment ça marche?",
-			"text": "Vous n'avez pas encore d'amis ici. Toutes leurs activités shopping apparaîtront ici."
+			"text": "Ajoutez des articles à vote wishlist et invitez vos amis pour faire du shopping ensemble!"
 		},
 		"isEmpty": "Pas de publications"
 	},
