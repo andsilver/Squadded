@@ -11,10 +11,9 @@
 
     let siteUrl;
     const native = urlParams.get('native');
-
     if (native === true || native === 'true') {
         saveRedirect();
-        window.location.href = urlParams.get('site');
+        window.location.href = urlParams.get('site') + "?squad=" + urlParams.get('squad');
     } else if (navigator.userAgent.match(/Android/i)) {
         siteUrl = 'https://play.google.com/store/apps/details?id=com.squadded.squaddedapp&ah=3xTyfeuluPsvpRL00pqPY8__EfI';
     } else if (
@@ -23,11 +22,11 @@
         navigator.userAgent.match(/iPod/i)
     ) {
         siteUrl = 'https://www.squadded.co/login';
-        window.location.href = siteUrl;
+        window.location.href = urlParams.get('site') + "?squad=" + urlParams.get('squad');
     } else if (!chrome || !chrome.runtime) {
         saveRedirect();
         siteUrl = 'https://www.squadded.co/login';
-        window.location.href = siteUrl;
+        window.location.href = urlParams.get('site') + "?squad=" + urlParams.get('squad');
     } else {
         const EXTENSION_ID = 'nkgjblonklmhncmdijkecjoniegjhifd';
         chrome.runtime.sendMessage(EXTENSION_ID, 'ping', (response) => {
@@ -38,7 +37,7 @@
             } else {
                 siteUrl = urlParams.get('site');
             }
-            window.location.href = siteUrl;
+            window.location.href = urlParams.get('site') + "?squad=" + urlParams.get('squad');
         });
     }
 </script>
