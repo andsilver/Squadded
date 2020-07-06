@@ -319,8 +319,8 @@ export class WSMessages {
 		this.store.dispatch(`${PairedItemStore}/${PairedItemActions.setPairedItem}`, pairedItems);
 	}
 
-	post(message) {
-		const { post } = message;
+	async post(message) {
+		const post = await this.store.dispatch(`${PostStore}/${PostActions.receiveItem}`, message.post);
 		this.store.commit(`${PostStore}/${PostMutations.setCurrentPost}`, post);
 	}
 

@@ -422,14 +422,17 @@ describe('WSMessages dispatch', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPollResult}`, pollResult);
 	});
 
-	it(`should commit post to ${PostStore}/${PostMutations.setCurrentPost}`, () => {
+	it(`should commit post to ${PostStore}/${PostMutations.setCurrentPost}`, async () => {
 		const post = {};
 		const msg = {
 			type: 'post',
 			post,
 		};
-
+		store.dispatch = jest.fn();
+		store.dispatch.mockReturnValue(Promise.resolve(post));
 		wsMessages.dispatch(msg);
+		await Promise.resolve();
+		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveItem}`, msg.post);
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setCurrentPost}`, post);
 	});
 

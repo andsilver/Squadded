@@ -58,7 +58,6 @@ import Likes from '~/components/Likes';
 import UserLink from '~/components/UserLink';
 import { PostStore, PostGetters, PostMutations } from '~/store/post';
 import { prefetch } from '~/helpers';
-import { FeedPost } from '~/classes/FeedPost';
 
 export default {
 	name: 'PostReactions',
@@ -102,7 +101,7 @@ export default {
 				store: this.$store,
 				type: 'fetchPost',
 			}).then((post) => {
-				this.post = post ? new FeedPost(post) : null;
+				this.post = post;
 			});
 		},
 	},

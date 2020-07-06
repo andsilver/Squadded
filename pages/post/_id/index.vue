@@ -74,7 +74,7 @@ export default {
 					if (post && post.private && (!post.byMe && !post.user.mysquad)) {
 						return this.$router.push(`/user/${post.userId}#wishlist`);
 					}
-					this.post = new FeedPost(post);
+					this.post = post;
 				});
 				setTimeout(() => {
 					if (!this.post) {

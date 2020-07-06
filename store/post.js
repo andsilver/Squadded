@@ -224,6 +224,7 @@ export const actions = {
 		}
 
 		commit(PostMutations.postLoaded, rawPostData);
+		return post;
 	},
 	[PostActions.reSquaddItem]: ({ rootState, dispatch, getters }, payload) => {
 		const items = getters[PostGetters.getItemsById](payload.item.itemId);
