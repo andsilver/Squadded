@@ -10,9 +10,10 @@ export default ({ app, store }) => {
 	// This way we can use it in middleware and pages asyncData/fetch
 	let locale = navigator.language.split('-')[0];
 	['en', 'fr'].includes(locale) || (locale = 'en');
+	store.state.locale = locale;
 
 	app.i18n = new VueI18n({
-		locale: store.state.locale,
+		locale,
 		fallbackLocale: locale,
 		messages: {
 			en,

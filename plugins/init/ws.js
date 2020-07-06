@@ -116,6 +116,8 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			}
 
 			if (user.language) {
+				store.state.locale = user.language;
+				app.i18n.locale = user.language;
 				app.i18n.fallbackLocale = user.language;
 				window.parent.postMessage(JSON.stringify({
 					type: 'language',
