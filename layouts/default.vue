@@ -48,6 +48,7 @@ export default {
 		opacity: 0.46,
 		overlay: false,
 		zIndex: 198,
+		scrollTop: null,
 	}),
 	computed: {
 		...mapState([
@@ -117,6 +118,10 @@ export default {
 			sessionStorage.setItem('latestPath', this.$route.path);
 			sessionStorage.setItem('latestHash', this.$route.hash);
 		});
+		if (this.isTouch) {
+			this.scrollTop = document.body.scrollTop;
+			window.requestAnimationFrame(this.checkIsScroll);
+		}
 	},
 	destroyed() {
 		this.unsubscribe && this.unsubscribe();
@@ -130,13 +135,6 @@ export default {
 			this.showPrompt = false;
 			this.promptOptions.hide && this.promptOptions.hide();
 		},
-		prompt (options) {
-			this.promptOptions = options;
-			this.showPrompt = true;
-		},
-		toggleKeyboard (state) {
-			this.squad.virtualKeyboard = state;
-		},
 		overlayToggle (options) {
 			this.overlay = !this.overlay;
 			SquadAPI.toggleOverlay(this.overlay);
@@ -149,6 +147,10 @@ export default {
 			this.overlay = false;
 			SquadAPI.toggleOverlay(this.overlay);
 		},
+		prompt (options) {
+			this.promptOptions = options;
+			this.showPrompt = true;
+		},
 		rendered () {
 			const { name } = this.$route;
 			if (name === 'feed' || name === 'all') {
@@ -156,6 +158,30 @@ export default {
 			} else {
 				SquadAPI.rendered();
 			}
+		},
+		toggleKeyboard (state) {
+			this.squad.virtualKeyboard = state;
+		},
+		checkIsScroll() {
+			window.removeEventListener('touchstart', this.waitTouch);
+			const diff = document.body.scrollTop - this.scrollTop;
+			if (diff !== 0) {
+				this.scrollTop = document.body.scrollTop;
+				window.addEventListener('touchstart', this.waitTouch, { once: true });
+			}
+			window.requestAnimationFrame(this.checkIsScroll);
+		},
+		touchOnScroll (event) {
+			const feed = event.target.closest('.feed');
+			if (!feed) {
+				event.target.click();
+			}
+		},
+		waitTouch () {
+			window.addEventListener('touchmove', () => {
+				window.removeEventListener('touchstart', this.touchOnScroll);
+			}, { once: true });
+			window.addEventListener('touchend', this.touchOnScroll, { once: true });
 		},
 	},
 };
