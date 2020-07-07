@@ -40,6 +40,7 @@ import FindFriends from '~/components/common/FindFriends';
 import ShareInviteLink from '~/components/common/ShareInviteLink';
 import { copy } from '~/utils/copy';
 import { VISITED_INVITE_FRIENDS_KEY } from '~/consts/keys';
+import { setLocalStorageItem } from '~/utils/local-storage';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -89,7 +90,7 @@ export default {
 		},
 	},
 	mounted() {
-		localStorage.setItem(VISITED_INVITE_FRIENDS_KEY, Date.now().toString());
+		setLocalStorageItem(VISITED_INVITE_FRIENDS_KEY, Date.now().toString());
 		this.setLink();
 	},
 	methods: {

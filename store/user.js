@@ -1,4 +1,5 @@
 import { User } from '~/classes/User';
+import { setLocalStorageItem } from '~/utils/local-storage';
 
 export const UserStore = 'user';
 
@@ -66,7 +67,7 @@ export const mutations = {
 		state.userList = users.map(user => new User(user));
 	},
 	[UserMutations.setToken]: (state, token) => {
-		localStorage.setItem('userToken', token);
+		setLocalStorageItem('userToken', token);
 		state.me.userId = getUserId(token);
 	},
 };

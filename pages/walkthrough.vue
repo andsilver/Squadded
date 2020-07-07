@@ -79,6 +79,7 @@ import Squadders from '~/components/Squadders';
 import Button from '~/components/common/Button';
 import ReSquaddButton from '~/components/ReSquaddButton';
 import { STORAGE_VISITED_KEY } from '~/consts';
+import { setLocalStorageItem } from '~/utils/local-storage';
 
 export default {
 	components: {
@@ -128,7 +129,7 @@ export default {
 				if (localStorage.getItem(STORAGE_VISITED_KEY)) {
 					return this.$router.push('/feed');
 				}
-				localStorage.setItem(STORAGE_VISITED_KEY, Date.now().toString());
+				setLocalStorageItem(STORAGE_VISITED_KEY, Date.now().toString());
 				this.$router.push('/all');
 			}
 		},

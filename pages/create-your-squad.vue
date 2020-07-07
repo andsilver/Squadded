@@ -117,6 +117,7 @@ import Feed from '~/components/Feed';
 import { prefetch } from '~/helpers';
 import Button from '~/components/common/Button';
 import { getShortURL } from '~/services/short-url';
+import { setLocalStorageItem } from '~/utils/local-storage';
 
 const CANCALED_BY_USER = 20;
 
@@ -260,7 +261,7 @@ export default {
 				});
 			} else {
 				this.denied = true;
-				localStorage.setItem('denided_signup_invite', this.other.userId);
+				setLocalStorageItem('denided_signup_invite', this.other.userId);
 			}
 		},
 	},

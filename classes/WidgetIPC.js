@@ -9,6 +9,7 @@ import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { INTERACTED_KEY } from '~/consts/keys';
 import { onAuth } from '~/helpers';
+import { setLocalStorageItem } from '~/utils/local-storage';
 
 export class WidgetIPC {
 	constructor(store) {
@@ -52,7 +53,7 @@ export class WidgetIPC {
 			}), '*');
 			this.store.commit(`${SquadStore}/${SquadMutations.interaction}`);
 		}
-		localStorage.setItem(INTERACTED_KEY, Date.now().toString());
+		setLocalStorageItem(INTERACTED_KEY, Date.now().toString());
 		if (!this.store.state.socket || !this.store.state.socket.isAuth) {
 			return;
 		}
@@ -99,5 +100,17 @@ export class WidgetIPC {
 		const { postId } = msg;
 		this.widgetState({ open: true });
 		this.store.commit(`${SquadStore}/${SquadMutations.openPost}`, postId);
+	}
+
+	injectLocalStorageValues (msg) {
+		const { data } = msg;
+
+		for (const pair of data) {
+			const { key, value } = pair;
+			localStorage.setItem(key, value);
+			if (key === 'userToken') {
+				this.store.commit(`${UserStore}/${UserMutations.setToken}`, value);
+			}
+		}
 	}
 }

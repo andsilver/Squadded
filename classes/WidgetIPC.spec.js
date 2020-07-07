@@ -14,6 +14,7 @@ import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { INTERACTED_KEY, USER_TOKEN_KEY } from '~/consts/keys';
+import { UserStore, UserMutations } from '~/store/user';
 
 describe('Dispatcher', () => {
 	let store;
@@ -145,6 +146,18 @@ describe('Dispatcher', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.unsquadd}`, itemId);
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.unsquadd}`, itemId);
 		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.unsquadd}`, itemId);
+	});
+
+	it('should set local storage', () => {
+		const key = 'userToken';
+		const value = 'token';
+		const msg = {
+			type: 'injectLocalStorageValues',
+			data: [{ key, value }],
+		};
+		ipc.dispatch(msg);
+		expect(localStorage.getItem(key)).toBe(value);
+		expect(store.commit).toHaveBeenCalledWith(`${UserStore}/${UserMutations.setToken}`, value);
 	});
 });
 

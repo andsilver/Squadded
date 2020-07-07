@@ -166,6 +166,7 @@
 
 <script>
 import { requestOtp } from '~/services/otp';
+import { setLocalStorageItem } from '~/utils/local-storage';
 
 export default {
 	props: {
@@ -220,7 +221,7 @@ export default {
 			this.$refs.form.reset();
 		},
 		injectToken() {
-			localStorage.setItem('userToken', this.token);
+			setLocalStorageItem('userToken', this.token);
 		},
 		emailLogin() {
 			if (!this.otpRequested) {

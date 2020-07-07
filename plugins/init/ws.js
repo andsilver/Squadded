@@ -9,6 +9,7 @@ import { WS_LINK } from '~/config';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 import { VISITED_INVITE_FRIENDS_KEY } from '~/consts/keys';
 import { DEFAULT_LANDING } from '~/store/squad';
+import { clearLocalStorage } from '~/utils/local-storage';
 
 export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
@@ -42,7 +43,7 @@ export const signOut = (store, router) => {
 	Vue.prototype.$disconnect();
 	delete Vue.prototype.$ws;
 	store.commit('jSocket', null);
-	localStorage.clear();
+	clearLocalStorage();
 	sessionStorage.clear();
 	window.parent.postMessage(JSON.stringify({
 		type: 'signout',
