@@ -429,7 +429,7 @@ describe('WSMessages dispatch', () => {
 			post,
 		};
 		store.dispatch = jest.fn();
-		store.dispatch.mockReturnValue(Promise.resolve(post));
+		store.getters[`${PostStore}/${PostGetters.getPostById}`] = jest.fn().mockReturnValue(post);
 		wsMessages.dispatch(msg);
 		await Promise.resolve();
 		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveItem}`, msg.post);

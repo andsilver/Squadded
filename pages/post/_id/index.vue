@@ -15,7 +15,7 @@ import { mapState } from 'vuex';
 import BackBar from '~/components/common/BackBar';
 import Comments from '~/components/Comments';
 import Preloader from '~/components/Preloader';
-import { PostStore, PostMutations } from '~/store/post';
+import { PostStore, PostMutations, PostGetters } from '~/store/post';
 import { prefetch, onAuth } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import NotSignedInDialog from '~/components/LandingPost/NotSignedInDialog';
@@ -65,6 +65,11 @@ export default {
 		async setPost(id) {
 			if (this.isAuth || this.socket.isPendingAuth) {
 				await onAuth(this.$store);
+				this.post = this.$store.getters[`${PostStore}/${PostGetters.getPostById}`](id);
+
+				if (this.post) {
+					return;
+				}
 				prefetch({
 					postId: id,
 					mutation: `${PostStore}/${PostMutations.setCurrentPost}`,

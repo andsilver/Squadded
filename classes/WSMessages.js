@@ -320,7 +320,8 @@ export class WSMessages {
 	}
 
 	async post(message) {
-		const post = await this.store.dispatch(`${PostStore}/${PostActions.receiveItem}`, message.post);
+		await this.store.dispatch(`${PostStore}/${PostActions.receiveItem}`, message.post);
+		const post = this.store.getters[`${PostStore}/${PostGetters.getPostById}`](message.post.guid);
 		this.store.commit(`${PostStore}/${PostMutations.setCurrentPost}`, post);
 	}
 
