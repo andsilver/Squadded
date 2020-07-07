@@ -59,7 +59,7 @@ export default {
 		saveProfile() {
 			const { profile, general } = this.$refs;
 
-			if (profile && (!profile.user.screenName || !profile.user.avatar)) {
+			if (profile && !profile.user.screenName) {
 				return;
 			}
 

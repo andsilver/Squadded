@@ -3,7 +3,8 @@
 		<div class="pa-3">
 			<section ref="uploader" class="fixed_profile d-flex justify-center">
 				<v-avatar ref="user-avatar" class="user_avatar" min-width="none">
-					<v-img :key="user.avatar" :src="user.avatar" />
+					<v-img v-if="user.avatar" :key="user.avatar" :src="user.avatar" />
+					<div v-else ref="user-avatar" class="dummy_image" />
 				</v-avatar>
 				<v-menu
 					v-model="menu"
@@ -319,4 +320,14 @@ section .v-btn
 	height 8.30vw !important
 .privacy_icon i
 	font-size 4.6vw !important
+.dummy_image
+	background-image url('~assets/img/dummy_avater.svg')
+	background-position center
+	background-size 55%
+	background-repeat no-repeat
+	width: 23.538vw;
+	height: 23.538vw;
+	border-radius 50%
+	border 0.92vw solid #fff
+	background-color #F5F5F5
 </style>
