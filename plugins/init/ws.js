@@ -132,19 +132,20 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 
 			if (user.origin === 'invitation') {
 				// TODO What is it for? It is same as two below.
-				if (!user.nameSelected) {
-					return app.router.push('/select-username', setPendingFalse);
-				} else if (!user.squaddersCount && !visitedInviteFriends) {
+				if (!user.squaddersCount && !visitedInviteFriends) {
 					return app.router.push('/invite-friends', setPendingFalse);
 				} else if (route.params && user.originUserId === route.params.id) {
 					return app.router.push(DEFAULT_LANDING, setPendingFalse);
 				}
-			} else if (route.name) {
+			}
+			if (route.name) {
 				setTimeout(() => setPendingFalse(), 2000);
 				return app.router.push(route);
-			} else if (!user.nameSelected) {
+			}
+			if (!user.nameSelected) {
 				return app.router.push('/select-username', setPendingFalse);
-			} else if (!user.squaddersCount && !visitedInviteFriends) {
+			}
+			if (!user.squaddersCount && !visitedInviteFriends) {
 				return app.router.push('/invite-friends', setPendingFalse);
 			}
 			const latestPath = sessionStorage.getItem('latestPath');
