@@ -76,10 +76,11 @@ export default {
 					store: this.$store,
 					type: 'fetchPost',
 				}).then((post) => {
+					this.post = post;
+
 					if (post && post.private && (!post.byMe && !post.user.mysquad)) {
 						return this.$router.push(`/user/${post.userId}#wishlist`);
 					}
-					this.post = post;
 				});
 				setTimeout(() => {
 					if (!this.post) {
@@ -92,6 +93,8 @@ export default {
 						return this.$router.push(`/user/${post.userId}`);
 					}
 					this.post = post ? new FeedPost(post) : null;
+				}).catch(() => {
+					this.$router.push('/error');
 				});
 			}
 		},
