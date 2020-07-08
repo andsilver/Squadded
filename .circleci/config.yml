@@ -47,7 +47,7 @@ jobs:
             - .deploy_version
             - .circleci
 
-  deploy:
+  upload:
     docker:
       - image: atlassian/pipelines-awscli:1.16.185
     working_directory: ~/repo
@@ -57,6 +57,14 @@ jobs:
       - run:
           name: Deploy to S3
           command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; aws s3 sync ~/repo/dist s3://${CD_SQUADDED_STATIC_BUCKET}/widget/${DEPLOY_VERSION} )
+
+  deploy:
+    docker:
+      - image: atlassian/pipelines-awscli:1.16.185
+    working_directory: ~/repo
+    steps:
+      - attach_workspace:
+          at: ~/repo
       - run:
           name: Prepare Index Redirection
           command: (DEPLOY_VERSION=$(cat ~/repo/.deploy_version) ; echo "<html><head><meta http-equiv=\"refresh\" content=\"0;URL=${DEPLOY_VERSION}/index.html\"/></head></html>" > /tmp/index.html )
@@ -78,9 +86,12 @@ workflows:
   build-deploy:
     jobs:
       - build
-      - deploy:
+      - upload:
           requires:
             - build
+      - deploy:
+          requires:
+            - upload
           filters:
             branches:
               only: master
