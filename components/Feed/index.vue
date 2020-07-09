@@ -12,7 +12,7 @@
 		</v-btn>
 		<UploadingDone v-if="image && image !== 'violation'" ref="uploading-done" :image="image" />
 		<v-layout column class="gallery_layout">
-			<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + (post.postId || 'group')" ref="post" :key="n">
+			<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + (post.postId || `${post.items[0].guid}_group`)" ref="post" :key="n">
 				<component
 					:is="getComponent(post)"
 					ref="component"
@@ -126,34 +126,41 @@ export default {
 		},
 	},
 	mounted() {
-		this.storageKey = `saved_post_${this.$route.path}`;
+		this.storageKey = `saved_post_${this.$route.name}`;
 		this.scrollToPost();
 		this.checkCommentInput();
-		window.addEventListener('scroll', this.onScroll);
+		document.body.addEventListener('scroll', this.onScroll);
+		window.addEventListener('beforeunload', this.savePosition);
 	},
 	destroyed() {
-		window.removeEventListener('scroll', this.onScroll);
-
-		if (this.lastIndex > 2) {
-			const post = this.aggregatedItems[this.lastIndex];
-			sessionStorage.setItem(this.storageKey, `post_id_${post.postId || 'group'}`);
-		} else {
-			sessionStorage.removeItem(this.storageKey);
-		}
+		document.body.removeEventListener('scroll', this.onScroll);
+		window.removeEventListener('beforeunload', this.savePosition);
+		this.savePosition();
 	},
 	methods: {
 		getComponent,
+		savePosition() {
+			if (!['feed', 'all'].includes(this.$route.name)) {
+				return;
+			}
+			if (this.lastIndex > 2) {
+				const post = this.aggregatedItems[this.lastIndex];
+				sessionStorage.setItem(this.storageKey, `post_id_${post.postId || `${post.items[0]?.guid}_group`}`);
+			} else {
+				sessionStorage.removeItem(this.storageKey);
+			}
+		},
 		onScroll () {
-			this.showCommentInputTimeout && clearTimeout(this.showCommentInputTimeout);
-			this.scrollTimeout && clearTimeout(this.scrollTimeout);
+			clearTimeout(this.showCommentInputTimeout);
+			clearTimeout(this.scrollTimeout);
 
 			this.scrollTimeout = setTimeout(() => {
 				this.checkCommentInput();
-			}, 800);
+			});
 		},
 		loadNewItems() {
 			this.$emit('loadNew');
-			document.documentElement.scrollTo({
+			document.body.scrollTo({
 				top: 0,
 				behavior: 'smooth',
 			});
@@ -191,8 +198,8 @@ export default {
 		},
 		overlap (element) {
 			const view = {
-				top: document.documentElement.scrollTop - 70,
-				bottom: document.documentElement.scrollTop + window.innerHeight - 70 - 65,
+				top: document.body.scrollTop - 70,
+				bottom: document.body.scrollTop + window.innerHeight - 70 - 65,
 			};
 			const self = {
 				top: element.offsetTop + 40,
@@ -221,8 +228,7 @@ export default {
 			sessionStorage.removeItem(key);
 
 			if (!openedPostId) {
-				document.documentElement.scrollTo({ top: 0 });
-				return;
+				return document.body.scrollTo(0, 0);
 			}
 
 			try {

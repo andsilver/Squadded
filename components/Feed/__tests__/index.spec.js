@@ -19,7 +19,7 @@ describe('FeedComponent Empty State', () => {
 	let wrapper;
 
 	const $route = {
-		path: 'feed',
+		name: 'feed',
 	};
 
 	function initLocalVue () {
@@ -30,7 +30,9 @@ describe('FeedComponent Empty State', () => {
 		store.dispatch = jest.fn();
 		global.window.addEventListener = jest.fn();
 		global.window.removeEventListener = jest.fn();
-		document.documentElement.scrollTo = jest.fn();
+		document.body.scrollTo = jest.fn();
+		document.body.addEventListener = jest.fn();
+		document.body.removeEventListener = jest.fn();
 		wrapper = shallowMount(FeedComponent, {
 			localVue,
 			store,
@@ -62,12 +64,14 @@ describe('FeedComponent Empty State', () => {
 	});
 
 	it('should add listener for scroll on mounted', () => {
-		expect(window.addEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+		expect(document.body.addEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+		expect(window.addEventListener).toHaveBeenCalledWith('beforeunload', wrapper.vm.savePosition);
 	});
 
 	it('should remove listener for scroll on destroyed', () => {
 		wrapper.destroy();
-		expect(window.removeEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+		expect(window.removeEventListener).toHaveBeenCalledWith('beforeunload', wrapper.vm.savePosition);
+		expect(document.body.removeEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
 	});
 
 	it('should emit loadMore event on scroll bottom', () => {
@@ -95,7 +99,7 @@ describe('FeedComponent Empty State', () => {
 		});
 		const loadNewButton = wrapper.ref(LOAD_NEW_BUTTON);
 		wrapper.vm.$emit = jest.fn();
-		global.document.documentElement.scrollTo = jest.fn();
+		global.document.body.scrollTo = jest.fn();
 		loadNewButton.trigger('click');
 		expect(wrapper.vm.$emit).toHaveBeenCalled();
 	});
@@ -109,7 +113,7 @@ describe('FeedComponent Empty State', () => {
 	});
 
 	it('should scroll to opened post', () => {
-		const key = `saved_post_${$route.path}`;
+		const key = `saved_post_${$route.name}`;
 		const openedPostId = propsData.items[0].postId;
 		sessionStorage.setItem(key, `post_id_${openedPostId}`);
 		global.HTMLElement.prototype.scrollIntoView = jest.fn();
