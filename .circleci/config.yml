@@ -31,13 +31,11 @@ jobs:
             echo ${DEPLOY_VERSION} >.deploy_version ; \
             echo "export DEPLOY_VERSION=${DEPLOY_VERSION}" >> $BASH_ENV ; \
             echo "DEPLOY_VERSION=${DEPLOY_VERSION}")
-
       - run:
           name: Prepare env
           command: |
             echo "DEPLOY_VERSION is: ${DEPLOY_VERSION}"
             echo "export BASE=/widget/${DEPLOY_VERSION}/" >> $BASH_ENV
-
       - run: yarn generate
 
       - persist_to_workspace:

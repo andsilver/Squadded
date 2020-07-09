@@ -32,12 +32,15 @@
 </template>
 
 <script>
+import MobileDetect from 'mobile-detect';
 import { createNamespacedHelpers } from 'vuex';
 import { Base64 } from 'js-base64';
 import { getShortURL } from '~/services/short-url';
 import { copy } from '~/utils/copy';
+import { copySafari } from '~/utils/copySafari';
 import { UserStore } from '~/store/user';
 
+const mobileDetect = new MobileDetect(window.navigator.userAgent);
 const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
@@ -95,7 +98,7 @@ export default {
 			this.shortURL = await getShortURL(this.userLink, this.$store);
 		},
 		async action(method) {
-			if (navigator && navigator.share) {
+			if (navigator && navigator.share && mobileDetect.mobile()) {
 				const { siteTitle } = this.$store.state.merchant;
 				const title = `${this.me.name} @ ${siteTitle}`;
 				try {
@@ -114,8 +117,12 @@ export default {
 				window.open(`https://www.facebook.com/dialog/send?app_id=${process.env.FB_APP_ID}&link=${this.shortURL}&redirect_uri=${window.location.origin}`);
 				break;
 			case 'copy_link':
-				this.$refs.shorturl.select();
-				copy();
+				if (!navigator.userAgent.match('Chrome') && navigator.userAgent.match('Safari')) {
+					copySafari(this.shortURL);
+				} else {
+					this.$refs.shorturl.select();
+					copy();
+				}
 				method.title = 'copied';
 				setTimeout(() => (method.title = 'copy_link'), 1000);
 				break;

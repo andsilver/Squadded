@@ -105,10 +105,16 @@ describe('PopMenu', () => {
 		wrapper.ref(SHARELINK).trigger('click');
 		expect(getShortURL).toHaveBeenCalledWith(wrapper.vm.postLink, store);
 		expect(wrapper.ref(SHARE_POST_MODAL).exists()).toBe(true);
-		global.navigator.share = jest.fn().mockReturnValue(Promise.resolve());
+		global.navigator.share = jest.fn();
+		navigator.share({
+			title: store.state.merchant.siteTitle,
+			text: store.state.merchant.siteTitle,
+			url,
+		});
 		wrapper.vm.shortURL = url;
 		wrapper.ref(SHARELINK).trigger('click');
 		await Promise.resolve();
+
 		expect(navigator.share).toHaveBeenCalledWith({
 			title: store.state.merchant.siteTitle,
 			text: store.state.merchant.siteTitle,

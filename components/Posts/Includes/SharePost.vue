@@ -41,6 +41,7 @@
 
 <script>
 import { copy } from '~/utils/copy';
+import { copySafari } from '~/utils/copySafari';
 
 export default {
 	props: {
@@ -82,8 +83,12 @@ export default {
 				window.open(`https://www.facebook.com/dialog/send?app_id=${process.env.FB_APP_ID}&link=${this.postLink}&redirect_uri=${window.location.origin}`);
 				break;
 			case 'copy_link':
-				this.$refs.shorturl.select();
-				copy();
+				if (!navigator.userAgent.match('Chrome') && navigator.userAgent.match('Safari')) {
+					copySafari(this.postLink);
+				} else {
+					this.$refs.shorturl.select();
+					copy();
+				}
 				method.title = 'copied';
 				setTimeout(() => (method.title = 'copy_link'), 1000);
 				break;
