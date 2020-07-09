@@ -18,7 +18,7 @@ export default {
 			const route = stack.reverse().find(s => !s.name.includes('notifications'));
 
 			if (route) {
-				return this.$router.push({ name: route.name });
+				return this.$router.push(route);
 			}
 			this.$router.back();
 		},
