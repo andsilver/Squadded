@@ -116,7 +116,6 @@ export default {
 	margin-left 3%
 
 .full_post
-	margin-bottom 2.87vw
 	position relative
 
 .card_title

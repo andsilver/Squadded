@@ -1,6 +1,7 @@
 <template>
 	<section class="comment">
 		<UserLink
+			v-if="!forFeed"
 			ref="comment-author-user-link"
 			size="7.69vw"
 			:user="comment.author"
@@ -88,6 +89,7 @@ export default {
 		display flex
 		margin-bottom 6.153vw
 		position relative
+		padding 0 1.53vw
 
 	.comment_user_name
 		font-weight 500

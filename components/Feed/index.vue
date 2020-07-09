@@ -267,6 +267,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+[id^="post_id_"]:not(:last-child)
+	margin 0 0 7.50vw
+
 .feed
 	position relative
 	width 100%

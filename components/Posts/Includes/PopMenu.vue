@@ -145,10 +145,13 @@
 </template>
 
 <script>
-import MobileDetect from 'mobile-detect';
 import { mapState } from 'vuex';
-import { Base64 } from 'js-base64';
 import SharePost from './SharePost';
+import {
+	postLink,
+	share,
+	showShareModal,
+} from './mixins';
 import Button from '~/components/common/Button';
 import RemoveSquadBtn from '~/components/common/RemoveSquad';
 import { PostStore, PostActions } from '~/store/post';
@@ -158,11 +161,6 @@ import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
 import { UNDO_TIMEOUT } from '~/consts';
-import { getShortURL } from '~/services/short-url';
-
-const mobileDetect = new MobileDetect(window.navigator.userAgent);
-
-const CANCELED_BY_USER = 20;
 
 export default {
 	components: {
@@ -217,11 +215,7 @@ export default {
 				native,
 			};
 		},
-		postLink () {
-			const { API_ENDPOINT } = this.$store.state.squad;
-			const target = JSON.stringify(this.target);
-			return `${API_ENDPOINT}/community/post?t=${Base64.encode(target)}`;
-		},
+		postLink,
 		...mapState([
 			'socket',
 		]),
@@ -349,40 +343,9 @@ export default {
 			this.reason = this.reasons[0];
 			this.showReasonDialog = true;
 		},
-		share () {
-			this.showShare = false;
-			let url = '';
-			if (!this.shortURL) {
-				getShortURL(this.postLink, this.$store)
-					.then((url) => {
-						this.shortURL = url;
-					});
-				url = this.postLink;
-			} else {
-				url = this.shortURL;
-			}
-			this.showShareModal(url);
-		},
-		async showShareModal (url) {
-			// navigator.share working only in the https
-			// mobileDetect.mobile => get me the name of smatphone or tablet => true if have name
-			if (navigator && navigator.share && mobileDetect.mobile()) {
-				const { siteTitle } = this.$store.state.merchant;
-				const toShare = {
-					title: siteTitle,
-					text: siteTitle,
-					url,
-				};
-				await navigator.share(toShare).catch(function(error) {
-					console.log('navite share', error);
-					if (error.code !== CANCELED_BY_USER) {
-						this.showModal();
-					}
-				});
-			} else {
-				this.showModal();
-			}
-		},
+
+		share,
+		showShareModal,
 		showModal () {
 			this.showShare = true;
 		},

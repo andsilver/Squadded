@@ -1,5 +1,5 @@
 <template>
-	<section v-if="post.comments && post.comments.messages" :class="{ 'for-feed': forFeed }">
+	<section v-if="post.comments && post.comments.messages" :class="{ 'for-feed': forFeed, margin: showInput || comments.length }">
 		<span v-observe-visibility="visibilityChanged" :class="{ hide_visibility: visible }" class="visibility" />
 		<template v-if="visible">
 			<template v-if="showAllComments || comments.length === 1">
@@ -22,7 +22,7 @@
 				<v-btn
 					v-if="!showAllComments"
 					ref="show-all-btn"
-					class="ml-7 font-weight-bold mb-2 allcomment"
+					class="font-weight-bold mb-2 allcomment"
 					:class="{ 'mb-10': !forFeed }"
 					small
 					text
@@ -154,7 +154,6 @@ export default {
 	left 0
 	padding 2.30vw 4.61vw
 	position fixed
-	width 100%
 	z-index 4
 	&::before
 		background -moz-linear-gradient(top,  rgba(255,255,255,0) 0%, rgba(218,217,221,0.3) 100%)
@@ -167,11 +166,8 @@ export default {
 		position absolute
 		top -18px
 
-.post_comment_input_for_feed
-	width 100%
-	margin 0 0 7.50vw
-
 .comment_input
+	width 100%
 	transition all linear .2s
 	opacity 1
 .v-application:not(.show-tabs) .post_comment_input
@@ -190,6 +186,8 @@ export default {
 	height calc(100vh - 305px)
 
 .for-feed
+	&.margin
+		margin-top 2.87vw
 	.allcomment.v-btn
 		color #B8B8BA
 		font-size 2.92vw
@@ -199,6 +197,7 @@ export default {
 		line-height 3.66vw
 		margin-bottom 3.83vw !important
 		height auto !important
+		padding 0 1.53vw
 	.post_comment_input_for_feed
 		.v-text-field input
 			font-size 3.23vw

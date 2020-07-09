@@ -73,7 +73,7 @@ describe('Post Actions', () => {
 			post = aDefaultSingleItemMsgBuilder().withGUID().withLikes(0).get();
 			wrapper.setProps({ post });
 
-			expect(wrapper.ref(COUNTER_ID).exists()).toBe(true);
+			expect(wrapper.ref(COUNTER_ID).exists()).toBe(false);
 
 			const icon = wrapper.ref(ICON_ID);
 			expect(icon.text()).toBe('sqdi-favorite-heart-button-outline');

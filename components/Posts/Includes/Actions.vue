@@ -4,47 +4,54 @@
 			<v-icon
 				ref="likes-icon"
 				class="buttons_icon"
-				:color="post.likes.byMe ? '#FD6256' : '#B8B8BA'"
+				:color="post.likes.byMe ? '#FD6256' : ''"
 				size="5.23vw"
 			>
 				sqdi-favorite-heart-button{{ post.likes.byMe ? '' : '-outline' }}
 			</v-icon>
-			<span class="action-label" :class="{liked : post.likes.byMe }">{{ $t('Like') }}</span>
+			<span v-if="post.likes.count" ref="likes-count" class="action-label" :class="{liked : post.likes.byMe }">{{ short(post.likes.count) }}</span>
 		</v-btn>
 		<v-btn ref="comments-link" nuxt :to="`/post/${post.postId}/reactions`" class="counter-icon comments_button">
-			<v-icon ref="comments-icon" style="color: #B8B8BA;" class="buttons_icon" size="5.23vw">
+			<v-icon ref="comments-icon" class="buttons_icon" size="5.23vw">
 				sqdi-chat-outlined
 			</v-icon>
 			<span v-if="commentsCount" ref="comments-count" class="count comments-count">{{ short(commentsCount) }}</span>
-			<span class="action-label">{{ $t('Comment') }}</span>
 		</v-btn>
-		<v-btn nuxt :to="`/post/${post.postId}/reactions#likes`" class="counter-icon like_count">
+		<v-btn class="counter-icon share_button" @click="share">
 			<v-icon
-				class="buttons_icon like_icon"
-				size="3.38vw"
+				size="5.23vw"
 			>
-				sqdi-favorite-heart-button
+				sqdi-share-arrow
 			</v-icon>
-			<nuxt-link :to="`/post/${post.postId}/reactions#likes`" @click="cancelBubble">
-				<span v-if="post.likes.count" ref="likes-count" class="count">{{ short(post.likes.count) }}</span>
-				<span v-else ref="likes-count" class="count">0</span>
-			</nuxt-link>
 		</v-btn>
 		<v-btn v-if="post.item" class="counter-icon hanger_button">
-			<v-icon ref="hanger-icon" style="color: #B8B8BA;" class="buttons_icon" size="22">
+			<v-icon ref="hanger-icon" class="buttons_icon" size="22">
 				sqdi-hanger
 			</v-icon>
 			<span v-if="post.item && post.item.outfits" ref="outfits-count" class="count">{{ short(post.item.outfits) }}</span>
 		</v-btn>
+
+		<v-dialog v-model="showShare" content-class="share_box">
+			<SharePost ref="share-post-modal" :post-link="shortURL" @hideShowShare="hideShare" />
+		</v-dialog>
 	</section>
 </template>
 
 <script>
+import SharePost from './SharePost';
+import {
+	postLink,
+	share,
+	showShareModal,
+} from './mixins';
 import { shortNumber } from '~/helpers';
 import { PostStore, PostActions } from '~/store/post';
 
 export default {
 	name: 'PostActions',
+	components: {
+		SharePost,
+	},
 	props: {
 		post: {
 			type: Object,
@@ -55,21 +62,19 @@ export default {
 			default: false,
 		},
 	},
+	data: () => ({
+		showShare: false,
+		shortURL: null,
+	}),
 	computed: {
 		commentsCount () {
 			return this.post.comments.messages.length || this.post.comments.count;
 		},
+		postLink,
 	},
 	methods: {
 		short(number) {
 			return shortNumber(number, this._i18n.locale);
-		},
-		cancelBubble (e) {
-			if (e.stopPropagation) {
-				e.stopPropagation();
-			}
-			e.cancelBubble = true;
-			return false;
 		},
 		toggleLike () {
 			this.$store.dispatch(`${PostStore}/${PostActions.toggleLike}`, this.post);
@@ -78,58 +83,50 @@ export default {
 		toggleComments () {
 			this.$emit('toggleComments');
 		},
+		share,
+		showShareModal,
+		showModal () {
+			this.showShare = true;
+		},
+		hideShare () {
+			this.showShare = false;
+		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
 .post_buttons
-	display block
+	display flex
 	position relative
+	padding-top 2.46vw
 	margin-top 2.46vw
-	border-bottom 1px solid #DBDBDB
+	border-top 1px solid #DBDBDB
 	overflow hidden
 	.counter-icon
-		.buttons_icon
-			margin-right 2.57vw
-			&.like_icon
-				margin-right 1.53vw
+		.buttons_icon + span
+			margin-left 2.57vw
 		.action-label
-			color #B8B8BA
 			text-transform capitalize
 			font-size 3.23vw
 			font-weight 600
 			letter-spacing 0
 			&.liked
 				color #FD6256
-	.like_button
-		margin-left 5.15vw
-		width 15.38vw
-		margin-right 6.69vw
-		min-width auto
-		&:focus:before
-			opacity 0
-		&:hover:before
-			opacity 0
-	.like_count
-		width 10.46vw
-		min-width auto
-		position absolute
-		right 5.15vw
-		color #B8B8BA
-		.count
-			color #B8B8BA
 .like_button,
 .comments_button,
-.like_count,
-.hanger_button
-	flex-grow 2
-	padding 2.61vw 0 !important
+.hanger_button,
+.share_button
+	flex-grow 0
+	padding 2.61vw !important
 	height 100% !important
 	box-shadow none !important
 	border-radius 0 !important
 	background-color transparent !important
-.hanger_button, .comments-count
+	min-width auto !important
+.share_button
+	margin-left auto
+.hanger_button
 	display none
 .grouped-post, .single-post
 	.post_buttons
@@ -139,22 +136,12 @@ export default {
 		.counter-icon
 			.buttons_icon
 				margin-right 0
-				&.like_icon
-					margin-right 1.53vw
 			.action-label
 				display none
-		.like_button,
 		.comments_button,
-		.like_count,
 		.hanger_button
 			padding 3.07vw 0 2% !important
-		.like_button
-			margin-left 5.15vw
-			width 5.23vw
-			margin-right 4.61vw
 		.comments_button
 			width 5.53vw
 			min-width auto
-		.like_count
-			right 3.92vw
 </style>
