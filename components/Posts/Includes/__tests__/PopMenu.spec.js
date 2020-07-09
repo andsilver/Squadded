@@ -156,7 +156,7 @@ describe('PopMenu', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, {
 			type: 'notifAlert',
 			alertType: 'setprivate',
-			text: 'Only your followers can see your post now',
+			text: 'notify.private_post_on',
 			post,
 			ts: 123456789,
 			_id: 123456789,

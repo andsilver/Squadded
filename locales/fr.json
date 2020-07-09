@@ -258,6 +258,8 @@
 	},
 	"noPasswordRemember": "Plus de mot de passe à retenir. Nous vous envoyons un code unique pour être bien sur que c'est vous.",
 	"notify": {
+		"private_post_on": "",
+		"private_post_off": "",
 		"accepted": "a accepté votre invitation",
 		"accepted_invite": "veut rejoindre votre squad",
 		"acceptedbanner": "est maintenant dans votre squad",

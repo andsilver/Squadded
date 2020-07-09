@@ -330,7 +330,7 @@ export default {
 			const message = {
 				type: 'notifAlert',
 				alertType: this.post.private ? 'setpublic' : 'setprivate',
-				text: this.post.private ? 'Anyone can see your post now' : 'Only your followers can see your post now',
+				text: this.post.private ? this.$t('notify.private_post_off') : this.$t('notify.private_post_on'),
 				post: this.post,
 				ts: Date.now(),
 				_id: Date.now(),

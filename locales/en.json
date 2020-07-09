@@ -258,6 +258,8 @@
 	},
 	"noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
 	"notify": {
+		"private_post_on": "",
+		"private_post_off": "",
 		"accepted": "accepted your invitation",
 		"accepted_invite": "",
 		"acceptedbanner": "is now in your squad",
