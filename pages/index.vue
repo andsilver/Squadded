@@ -102,7 +102,7 @@
 						</v-btn>
 					</div>
 					<div class="resend-code">
-						Still not receiving it?
+						{{ $t('can_not_received') }}
 						<span @click="requestOtp"> {{ $t('resend_code') }}</span>
 					</div>
 				</div>

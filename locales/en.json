@@ -315,8 +315,8 @@
 		"resultNote": "The winning article will be announced after this time",
 		"results": "Results",
 		"textPlaceholder": "Write a caption...",
-		"that": "that",
 		"this": "this",
+		"that": "that",
 		"vote": "VOTE",
 		"voted": "VOTED",
 		"votes": "votes | votes"
@@ -447,6 +447,7 @@
 		"toggle": "toggle"
 	},
 	"resendNotify": "New code has been sent",
+	"can_not_received": "Still not receiving it?",
 	"resend_code": "Resend code",
 	"select_username": {
 		"create_your_profile": "Create your profile"

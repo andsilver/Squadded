@@ -16,7 +16,7 @@
 					<div v-if="notVoted || (notVoted && post.closed)">
 						<div class="d-flex align-center not-voted">
 							<span v-if="notVoted && !post.closed" class="mx-2" style="font-size: 18px; line-height: 1px;">‹</span>
-							<span :class="{'mr-4': notVoted && !post.closed}" style="margin-top: 1px">{{ $t('this') }}</span>
+							<span :class="{'mr-4': notVoted && !post.closed}" style="margin-top: 1px">{{ $t('poll.this') }}</span>
 						</div>
 						<div v-if="post.byMe || post.closed" class="poll-percent text-center">
 							0%
@@ -25,12 +25,12 @@
 					<div v-else-if="!meVoted && !post.closed">
 						<div class="d-flex align-center not-voted">
 							<span class="mx-2" style="font-size: 18px; line-height: 1px;">‹</span>
-							<span class="mr-4" style="margin-top: 1px">{{ $t('this') }}</span>
+							<span class="mr-4" style="margin-top: 1px">{{ $t('poll.this') }}</span>
 						</div>
 					</div>
 					<div v-else-if="first.percent > 10">
 						<div class="d-flex align-center voted-text">
-							<span>{{ $t('this') }}</span>
+							<span>{{ $t('poll.this') }}</span>
 							<v-icon v-if="first.background === 'black'" x-small class="ml-1">
 								mdi-check-circle
 							</v-icon>
@@ -53,7 +53,7 @@
 				>
 					<div v-if="notVoted || (notVoted && post.closed)">
 						<div class="d-flex align-center not-voted">
-							<span :class="{'ml-4': notVoted && !post.closed}" style="margin-top: 1px">{{ $t('that') }}</span>
+							<span :class="{'ml-4': notVoted && !post.closed}" style="margin-top: 1px">{{ $t('poll.that') }}</span>
 							<span v-if="notVoted && !post.closed" class="mx-2" style="font-size: 18px; line-height: 1px;">›</span>
 						</div>
 						<div v-if="post.byMe || post.closed" class="poll-percent text-center">
@@ -62,13 +62,13 @@
 					</div>
 					<div v-else-if="!meVoted && !post.closed">
 						<div class="d-flex align-center not-voted">
-							<span class="ml-4" style="margin-top: 1px">{{ $t('that') }}</span>
+							<span class="ml-4" style="margin-top: 1px">{{ $t('poll.that') }}</span>
 							<span class="mx-2" style="font-size: 18px; line-height: 1px;">›</span>
 						</div>
 					</div>
 					<div v-else-if="second.percent > 10">
 						<div class="d-flex align-center voted-text">
-							<span>{{ $t('that') }}</span>
+							<span>{{ $t('poll.that') }}</span>
 							<v-icon v-if="second.background === 'black'" x-small class="ml-1">
 								mdi-check-circle
 							</v-icon>
