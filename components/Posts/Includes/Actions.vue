@@ -46,6 +46,8 @@ import {
 } from './mixins';
 import { shortNumber } from '~/helpers';
 import { PostStore, PostActions } from '~/store/post';
+import { sendGAction } from '~/utils/ga-action';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	name: 'PostActions',
@@ -79,6 +81,7 @@ export default {
 		toggleLike () {
 			this.$store.dispatch(`${PostStore}/${PostActions.toggleLike}`, this.post);
 			this.$forceUpdate();
+			sendGAction(GA_ACTIONS.LIKE);
 		},
 		toggleComments () {
 			this.$emit('toggleComments');

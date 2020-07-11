@@ -30,6 +30,8 @@ import { price } from '~/helpers';
 import { OPENED_POST } from '~/consts/keys';
 import { SquadAPI } from '~/services/SquadAPI';
 import { FeedPost } from '~/classes/FeedPost';
+import { sendGAction } from '~/utils/ga-action';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	name: 'ProductCard',
@@ -107,6 +109,7 @@ export default {
 			if (this.isClickable) {
 				sessionStorage.setItem(OPENED_POST, this.postId);
 				SquadAPI.openProduct(this.item);
+				sendGAction(GA_ACTIONS.CLICK_ITEM);
 			}
 		},
 	},

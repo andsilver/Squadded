@@ -47,6 +47,8 @@ import { OPENED_POST } from '~/consts/keys';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostActions } from '~/store/post';
 import { SquadAPI } from '~/services/SquadAPI';
+import { sendGAction } from '~/utils/ga-action';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	name: 'PollPost',
@@ -87,14 +89,9 @@ export default {
 				this.$store.dispatch(`${PostStore}/${PostActions.vote}`, { post, vote });
 			} else {
 				const { post } = this;
-				if (post.closed) {
-					sessionStorage.setItem(OPENED_POST, post.postId);
-					if (vote === 1) {
-						SquadAPI.openProduct(post.item1);
-					} else {
-						SquadAPI.openProduct(post.item2);
-					}
-				}
+				sessionStorage.setItem(OPENED_POST, post.postId);
+				SquadAPI.openProduct(vote === 1 ? post.item1 : post.item2);
+				sendGAction(GA_ACTIONS.CLICK_ITEM);
 			}
 		},
 	},

@@ -6,10 +6,10 @@
 		class="px-3 toolbar"
 	>
 		<v-tabs v-model="tab">
-			<v-tab to="/all">
+			<v-tab to="/all" @click.native="onTabClick(0)">
 				{{ $t('topHome') }}
 			</v-tab>
-			<v-tab v-if="!mySquad" to="/feed">
+			<v-tab v-if="!mySquad" to="/feed" @click.native="onTabClick(1)">
 				{{ $t('My Squad') }}
 			</v-tab>
 			<v-tab v-if="mySquad" to="/create-your-squad">
@@ -27,6 +27,9 @@
 </template>
 
 <script>
+import { sendGAction } from '~/utils/ga-action';
+import { GA_ACTIONS } from '~/consts';
+
 export default {
 	props: {
 		mySquad: {
@@ -37,6 +40,11 @@ export default {
 	data: () => ({
 		tab: 0,
 	}),
+	methods: {
+		onTabClick (tab) {
+			sendGAction(tab === 0 ? GA_ACTIONS.CLICK_COMMUNITY : GA_ACTIONS.CLICK_SQUADDED);
+		},
+	},
 };
 </script>
 

@@ -12,7 +12,7 @@
 		</v-btn>
 		<UploadingDone v-if="image && image !== 'violation'" ref="uploading-done" :image="image" />
 		<v-layout column class="gallery_layout">
-			<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + (post.postId || `${post.items[0].guid}_group`)" ref="post" :key="n">
+			<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + (post.postId || post.correlationId || `${post.items[0].guid}_group`)" ref="post" :key="n">
 				<component
 					:is="getComponent(post)"
 					ref="component"
@@ -145,7 +145,7 @@ export default {
 			}
 			if (this.lastIndex > 2) {
 				const post = this.aggregatedItems[this.lastIndex];
-				sessionStorage.setItem(this.storageKey, `post_id_${post.postId || `${post.items[0]?.guid}_group`}`);
+				sessionStorage.setItem(this.storageKey, `post_id_${post.postId || post.correlationId || `${post.items[0]?.guid}_group`}`);
 			} else {
 				sessionStorage.removeItem(this.storageKey);
 			}

@@ -10,6 +10,8 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import UserLink from '~/components/UserLink';
 import { UserStore } from '~/store/user';
 import CommentInputBox from '~/components/Comments/Includes/CommentInputBox';
+import { sendGAction } from '~/utils/ga-action';
+import { GA_ACTIONS } from '~/consts';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -67,6 +69,7 @@ export default {
 				text: textValue,
 			});
 			this.$emit('send');
+			sendGAction(GA_ACTIONS.COMMENT);
 		},
 		keydown (e) {
 			if (e.keyCode === 13 && this.textValue.length) {
