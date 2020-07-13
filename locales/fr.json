@@ -8,8 +8,8 @@
 	"Comment": "Commenter",
 	"Comments": "Commentaire",
 	"Community": "La Communauté",
-	"Create": "Créer",
-	"CreateANew": "Créer",
+	"Create": "Publier",
+	"CreateANew": "Publier",
 	"Delete": "Supprimer",
 	"Edit": "Modifier",
 	"EnterUsername": "Entrez votre nom d'utilisateur",
@@ -46,12 +46,12 @@
 	"SelectOutfitName": "Ajouter une légende...",
 	"SelectPollName": "Ajouter une légende...",
 	"ShopWithYourFriendsOn": "Faites du shopping entre amis",
-	"Signin": "Se connecter",
+	"Signin": "Connectez-vous",
 	"SocialVideo": "Vidéo",
 	"Squadders": "Squadders",
 	"StartBuildingYourSquad": "Vous avez presque fini! Après cette étape, vous inviterez vos amis a rejoindre votre squad.",
 	"Undo": "Annuler",
-	"UseOneTimeCode": "Utiliser un code unique",
+	"UseOneTimeCode": "Connectez-vous avec un e-mail",
 	"Wecare": "Nous nous soucions de votre sécurité. Aidez-nous à assurer celle de notre communauté.",
 	"Wishlist": "Wishlist",
 	"YouCanAlwaysChange": "Uniquement lettres et chiffres. Vous pourrez toujours le changer plus tard.",
@@ -63,6 +63,7 @@
 	"agree_left": "Veuillez cocher la case pour confirmer que vous acceptez nos",
 	"agree_right": "termes et conditions.",
 	"an outfit": "une composition",
+	"can_not_received": "Vous ne l'avez toujours pas reçu?",
 	"comment": {
 		"pop": {
 			"Action": "Options",
@@ -78,7 +79,7 @@
 				"description": "Êtes-vous sûr? Cette action ne peut pas être annulée.",
 				"inappropriate": "Inapproprié",
 				"menu": "Signaler",
-				"notInteresting": "Non intéressant",
+				"notInteresting": "Pas intéressant",
 				"notification": "Le commentaire a été signalé",
 				"other": "Autre",
 				"question": "Signaler le commentaire",
@@ -161,7 +162,7 @@
 		"create": "Publier",
 		"how_it_works": {
 			"action": "Comment ça marche?",
-			"text": "Ajoutez des articles à vote wishlist et invitez vos amis pour faire du shopping ensemble!"
+			"text": "Ajoutez des articles à votre wishlist et invitez vos amis pour faire du shopping ensemble!"
 		},
 		"isEmpty": "Pas de publications"
 	},
@@ -210,7 +211,7 @@
 			}
 		},
 		"send_me_otp": "Envoyer un code",
-		"signup": "Se connecter",
+		"signup": "Connectez-vous",
 		"terms": {
 			"label": "J'ai lu et j'accepte les conditions",
 			"message": "Vous devez accepter les conditions pour continuer!"
@@ -226,7 +227,7 @@
 		"placeholder": "Ajouter un commentaire..."
 	},
 	"invite_your_friends": {
-		"add": "ou trouvez vos amis:",
+		"add": "ou rechercher vos amis:",
 		"best_experience": "Partager votre lien d'invitation:",
 		"copied": "Copié!",
 		"copy_link": "Copier le lien",
@@ -258,8 +259,6 @@
 	},
 	"noPasswordRemember": "Plus de mot de passe à retenir. Nous vous envoyons un code unique pour être bien sur que c'est vous.",
 	"notify": {
-		"private_post_on": "",
-		"private_post_off": "",
 		"accepted": "a accepté votre invitation",
 		"accepted_invite": "veut rejoindre votre squad",
 		"acceptedbanner": "est maintenant dans votre squad",
@@ -281,8 +280,10 @@
 		"poll": "votre sondage",
 		"pollend": "Votre sondage est terminé - découvrez le gagnant!",
 		"post": "votre publication",
+		"private_post_off": "Toute la communauté peut désormais voir votre publication",
+		"private_post_on": "Seul votre squad peut désormais voir votre publication",
 		"requestEmpty": "Vous n'avez aucune nouvelle demande",
-		"vote": "a voté"
+		"vote": "a répondu"
 	},
 	"ok": "ok",
 	"or": "ou",
@@ -315,8 +316,8 @@
 		"resultNote": "Le gagnant sera désigné après ce délai.",
 		"results": "Résultats",
 		"textPlaceholder": "Ajouter une légende...",
-		"this": "",
-		"that": "",
+		"that": "Cela",
+		"this": "Ceci",
 		"vote": "VOTEZ",
 		"voted": "VOTÉ",
 		"votes": "votes | votes"
@@ -447,7 +448,6 @@
 		"toggle": "toggle"
 	},
 	"resendNotify": "Un nouveau code a été envoyé",
-	"can_not_received": "",
 	"resend_code": "Renvoyer le code",
 	"select_username": {
 		"create_your_profile": "Créez votre profil"
@@ -464,7 +464,7 @@
 	"spamNote": "Prévoyez jusqu'à 1 minute pour le recevoir. N'oubliez pas de vérifier votre dossier spam/courrier indésirable.",
 	"styleOutfit": "styles dans cette compo",
 	"tip": {
-		"addItems": "Ajoutez des articles a votre wishlist pour créer {0}.",
+		"addItems": "Ajoutez des articles à votre wishlist pour créer {0}.",
 		"createPhotoTag": "Appuyez sur les produits de la photo que vous souhaitez identifier",
 		"crop": "déplacez les points pour recadrer",
 		"limitMessage": "La limite est de 4 articles par composition",
@@ -551,7 +551,7 @@
 		"disabled_before_signin": "Veuillez vous connecter pour voir les articles",
 		"discover": "Découvrir les articles",
 		"empty": "Pas d'articles dans la wishlist",
-		"postempty": "Votre wishlist est vide. Ajoutez des articles pour créer une publication",
+		"postempty": "Votre wishlist est vide. Ajoutez des articles pour publier quelque chose.",
 		"private": "Ce compte est privé\n Seul le squad de @{user}\n peut voir ses publications.",
 		"purchase": "Ajouter"
 	}

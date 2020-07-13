@@ -8,8 +8,8 @@
 	"Comment": "Comment",
 	"Comments": "Comments",
 	"Community": "The Community",
-	"Create": "Create",
-	"CreateANew": "Create a New",
+	"Create": "Post",
+	"CreateANew": "Post a new",
 	"Delete": "Delete",
 	"Edit": "Edit",
 	"EnterUsername": "Enter your username",
@@ -51,7 +51,7 @@
 	"Squadders": "Squadders",
 	"StartBuildingYourSquad": "You're almost done! After this, you'll start building your squad.",
 	"Undo": "Undo",
-	"UseOneTimeCode": "Use one-time code",
+	"UseOneTimeCode": "Sign in",
 	"Wecare": "We care about your security. Help us keep our community safe.",
 	"Wishlist": "Wishlist",
 	"YouCanAlwaysChange": "Only letters, digits and underscores. You can always change it later.",
@@ -63,6 +63,7 @@
 	"agree_left": "Please check the box to confirm that you agree to our",
 	"agree_right": "terms and conditions.",
 	"an outfit": "an outfit",
+	"can_not_received": "Still not receiving it?",
 	"comment": {
 		"pop": {
 			"Action": "Action",
@@ -180,7 +181,7 @@
 		"email": "Enter your e-mail",
 		"forgot": "Forgot password?",
 		"instagram_username": "Username",
-		"login": "Login",
+		"login": "Log in",
 		"name": "Name",
 		"needAnAccount": "Need an account?",
 		"onboard": "Already onboard?",
@@ -244,7 +245,7 @@
 	"invited": "invited",
 	"landing_post": {
 		"interact_with_user": "Shop with {user} and share your wishlists.",
-		"sign_in": "sign in",
+		"sign_in": "Sign in",
 		"skip": "skip"
 	},
 	"moderation": {
@@ -258,8 +259,6 @@
 	},
 	"noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
 	"notify": {
-		"private_post_on": "",
-		"private_post_off": "",
 		"accepted": "accepted your invitation",
 		"accepted_invite": "",
 		"acceptedbanner": "is now in your squad",
@@ -281,6 +280,8 @@
 		"poll": "your poll",
 		"pollend": "Your poll has ended  - check out which item won!",
 		"post": "your post",
+		"private_post_off": "Anyone can now see your post ",
+		"private_post_on": "Only your squad can now see your post",
 		"requestEmpty": "You have no new request",
 		"vote": "voted on"
 	},
@@ -315,8 +316,8 @@
 		"resultNote": "The winning article will be announced after this time",
 		"results": "Results",
 		"textPlaceholder": "Write a caption...",
-		"this": "this",
 		"that": "that",
+		"this": "this",
 		"vote": "VOTE",
 		"voted": "VOTED",
 		"votes": "votes | votes"
@@ -447,7 +448,6 @@
 		"toggle": "toggle"
 	},
 	"resendNotify": "New code has been sent",
-	"can_not_received": "Still not receiving it?",
 	"resend_code": "Resend code",
 	"select_username": {
 		"create_your_profile": "Create your profile"
@@ -551,7 +551,7 @@
 		"disabled_before_signin": "Please sign in to see the items",
 		"discover": "Discover Items",
 		"empty": "No items in the wishlist",
-		"postempty": "Your wishlist is empty. Add items to create a post",
+		"postempty": "Your wishlist is empty. Add items to post something.",
 		"private": "This account is private\n Only @{user}'s squad\n can see their posts.",
 		"purchase": "Move to Bag"
 	}
