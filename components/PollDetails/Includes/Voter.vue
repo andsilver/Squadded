@@ -1,10 +1,13 @@
 <template>
-	<div class="d-flex align-center voter-section">
-		<img :src="voter.avatar" alt="">
-		<h5>
-			{{ voter.screenName }}
-		</h5>
-	</div>
+	<nuxt-link ref="user-link" :to="getUserLink(voter)">
+		<div class="d-flex align-center voter-section">
+			<img v-if="voter && (voter.avatar || voter.miniAvatar)" ref="voter-avatar" :src="voter.avatar || voter.avatar" :alt="voter && voter.screenName">
+			<img v-else ref="voter-avatar" class="dummy_image pa-1" src="~assets/img/dummy_avater.svg" :alt="voter && voter.screenName">
+			<h5>
+				{{ voter.screenName }}
+			</h5>
+		</div>
+	</nuxt-link>
 </template>
 
 <script>
@@ -13,6 +16,13 @@ export default {
 		voter: {
 			type: Object,
 			required: true,
+		},
+	},
+	methods: {
+		getUserLink(voter) {
+			if (voter && voter.userId) {
+				return { name: 'user-id', params: { id: voter.userId } };
+			}
 		},
 	},
 };
