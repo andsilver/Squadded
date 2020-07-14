@@ -5,21 +5,21 @@
 				ref="likes-icon"
 				class="buttons_icon"
 				:color="post.likes.byMe ? '#FD6256' : ''"
-				size="5.23vw"
+				size="6.33vw"
 			>
 				sqdi-favorite-heart-button{{ post.likes.byMe ? '' : '-outline' }}
 			</v-icon>
-			<span v-if="post.likes.count" ref="likes-count" class="action-label" :class="{liked : post.likes.byMe }">{{ short(post.likes.count) }}</span>
+			<span v-if="post.likes.count" ref="likes-count" class="count" :class="{liked : post.likes.byMe }">{{ short(post.likes.count) }}</span>
 		</v-btn>
 		<v-btn ref="comments-link" nuxt :to="`/post/${post.postId}/reactions`" class="counter-icon comments_button">
-			<v-icon ref="comments-icon" class="buttons_icon" size="5.23vw">
+			<v-icon ref="comments-icon" class="buttons_icon" size="6.33vw">
 				sqdi-chat-outlined
 			</v-icon>
-			<span v-if="commentsCount" ref="comments-count" class="count comments-count">{{ short(commentsCount) }}</span>
+			<span v-if="commentsCount" ref="comments-count" class="count">{{ short(commentsCount) }}</span>
 		</v-btn>
 		<v-btn class="counter-icon share_button" @click="share">
 			<v-icon
-				size="5.23vw"
+				size="6.33vw"
 			>
 				sqdi-share-arrow
 			</v-icon>
@@ -43,7 +43,8 @@ import {
 	postLink,
 	share,
 	showShareModal,
-} from './mixins';
+	target,
+} from './shareMixins';
 import { shortNumber } from '~/helpers';
 import { PostStore, PostActions } from '~/store/post';
 import { sendGAction } from '~/utils/ga-action';
@@ -73,6 +74,7 @@ export default {
 			return this.post.comments.messages.length || this.post.comments.count;
 		},
 		postLink,
+		target,
 	},
 	methods: {
 		short(number) {
@@ -104,16 +106,14 @@ export default {
 	position relative
 	padding-top 2.46vw
 	margin-top 2.46vw
-	border-top 1px solid #DBDBDB
 	overflow hidden
 	.counter-icon
 		.buttons_icon + span
 			margin-left 2.57vw
-		.action-label
-			text-transform capitalize
-			font-size 3.23vw
+		.count
 			font-weight 600
 			letter-spacing 0
+			height 6.33vw
 			&.liked
 				color #FD6256
 .like_button,
@@ -121,7 +121,7 @@ export default {
 .hanger_button,
 .share_button
 	flex-grow 0
-	padding 2.61vw !important
+	padding 2.46vw !important
 	height 100% !important
 	box-shadow none !important
 	border-radius 0 !important
@@ -135,16 +135,10 @@ export default {
 	.post_buttons
 		border-top 1px solid #DBDBDB
 		border-bottom 0
-		margin-top 3.93vw
+		margin-top 2.46vw
 		.counter-icon
 			.buttons_icon
 				margin-right 0
 			.action-label
 				display none
-		.comments_button,
-		.hanger_button
-			padding 3.07vw 0 2% !important
-		.comments_button
-			width 5.53vw
-			min-width auto
 </style>

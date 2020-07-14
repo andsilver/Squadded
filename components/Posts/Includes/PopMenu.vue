@@ -151,7 +151,8 @@ import {
 	postLink,
 	share,
 	showShareModal,
-} from './mixins';
+	target,
+} from './shareMixins';
 import Button from '~/components/common/Button';
 import RemoveSquadBtn from '~/components/common/RemoveSquad';
 import { PostStore, PostActions } from '~/store/post';
@@ -206,16 +207,8 @@ export default {
 		disabled() {
 			return !this.reason || (this.reason === 'other' && !this.other);
 		},
-		target () {
-			const { siteUrl, siteTitle, native } = this.$store.state.merchant;
-			return {
-				id: this.post.guid,
-				url: siteUrl,
-				title: siteTitle,
-				native,
-			};
-		},
 		postLink,
+		target,
 		...mapState([
 			'socket',
 		]),

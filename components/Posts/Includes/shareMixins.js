@@ -5,26 +5,28 @@ import { getShortURL } from '~/services/short-url';
 const mobileDetect = new MobileDetect(window.navigator.userAgent);
 const CANCELED_BY_USER = 20;
 
+export const target = function () {
+	const { siteUrl, siteTitle, native } = this.$store.state.merchant;
+	return {
+		id: this.post.guid,
+		url: siteUrl,
+		title: siteTitle,
+		native,
+	};
+};
+
 export const postLink = function () {
 	const { API_ENDPOINT } = this.$store.state.squad;
 	const target = JSON.stringify(this.target);
 	return `${API_ENDPOINT}/community/post?t=${Base64.encode(target)}`;
 };
 
-export const share = function () {
+export const share = async function () {
 	this.showShare = false;
-	let url = '';
 	if (!this.shortURL) {
-		getShortURL(this.postLink, this.$store)
-			.then((url) => {
-				this.shortURL = url;
-			});
-		url = this.postLink;
-	} else {
-		url = this.shortURL;
+		this.shortURL = await getShortURL(this.postLink, this.$store);
 	}
-
-	this.showShareModal(url);
+	this.showShareModal(this.shortURL);
 };
 
 export const showShareModal = async function (url) {

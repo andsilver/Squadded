@@ -166,7 +166,6 @@ export default {
 			height 6.15vw
 	.post_price
 		padding 0
-		height 4vw
 		margin-top -1px
 		@media screen and (max-width: 280px)
 			height 5vw

@@ -199,7 +199,6 @@ export default {
 .multi-item
 	width 100%
 	transition margin-left linear .2s
-	margin-bottom 2.969vw
 .moving
 	transition margin-left linear !important
 .scroll-section
