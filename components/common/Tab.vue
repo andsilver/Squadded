@@ -3,6 +3,7 @@
 		:key="tab.uri"
 		:to="tab.uri"
 		:disabled="!socket.isAuth"
+		exact
 		class="tab_item"
 	>
 		<span class="tab_icon">

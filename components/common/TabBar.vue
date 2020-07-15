@@ -12,7 +12,7 @@
 		<Tab :tab="tabs[2]" @click.native="closeMenu">
 			<Badge :value="newRequests.length || newNotifications.length" />
 		</Tab>
-		<Tab :tab="tabs[3]" />
+		<Tab :tab="tabs[3]" @click.native="closeMenu" />
 	</v-tabs>
 </template>
 

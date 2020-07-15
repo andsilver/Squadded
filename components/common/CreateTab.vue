@@ -1,5 +1,11 @@
 <template>
-	<v-tab :disabled="!socket.isAuth" class="tab_item" @click="toggleMenu">
+	<v-tab
+		:disabled="!socket.isAuth"
+		:to="createPath"
+		exact
+		class="tab_item"
+		@click="toggleMenu"
+	>
 		<v-menu top offset-y>
 			<template v-slot:activator="{ on }">
 				<span ref="createTabBtn" class="tab_icon" v-on="on">
@@ -7,6 +13,7 @@
 						sqdi-add-post
 					</v-icon>
 				</span>
+				<span class="tab_text">{{ $t('feed.create') }}</span>
 			</template>
 
 			<v-list class="open-add-section">
@@ -49,6 +56,9 @@ export default {
 			'merchant',
 		]),
 		visiblePosts,
+		createPath () {
+			return { query: { create: true } };
+		},
 	},
 	created() {
 		this.$root.$on('openCreateMenu', () => {
@@ -79,13 +89,20 @@ export default {
 <style lang="stylus" scoped>
 .v-tab
 	min-width auto
-	padding 0
+
+.tab_text
+	position absolute
+	font-size 2.76vw
+	font-weight 600
+	bottom 20%
+	color #B8B8BA
 
 .tab_icon
 	position relative
 	.v-icon:before
-		font-size 1.46em
+		font-size .9em
 		color #B8B8BA
+		margin-bottom 55%
 
 .v-tab--active
 	.tab_icon .v-icon:before,
