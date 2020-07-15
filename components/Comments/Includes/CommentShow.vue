@@ -11,6 +11,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		post: {
+			type: Object,
+			required: true,
+		},
 	},
 	data: () => ({
 		mentions: [],
@@ -41,6 +45,8 @@ export default {
 
 			if (target.className === 'mentioned-link') {
 				this.$router.push('/user/' + target.id);
+			} else if (target.className === 'comment-show comment_text' && this.post) {
+				this.$router.push(`/post/${this.post.postId}/reactions`);
 			}
 		},
 	},

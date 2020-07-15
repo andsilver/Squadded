@@ -19,6 +19,7 @@
 				ref="comment-text"
 				class="comment_text"
 				:comment="comment.text"
+				:post="post"
 			/>
 			<span
 				v-if="!forFeed"
