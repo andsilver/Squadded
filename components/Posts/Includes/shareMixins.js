@@ -21,12 +21,18 @@ export const postLink = function () {
 	return `${API_ENDPOINT}/community/post?t=${Base64.encode(target)}`;
 };
 
-export const share = async function () {
+export const share = function () {
 	this.showShare = false;
+	let url = '';
 	if (!this.shortURL) {
-		this.shortURL = await getShortURL(this.postLink, this.$store);
+		getShortURL(this.postLink, this.$store).then((url) => {
+			this.shortURL = url;
+		});
+		url = this.postLink; // force the long url because the native pop up in iphone does not appear
+	} else {
+		url = this.shortURL;
 	}
-	this.showShareModal(this.shortURL);
+	this.showShareModal(url);
 };
 
 export const showShareModal = async function (url) {
