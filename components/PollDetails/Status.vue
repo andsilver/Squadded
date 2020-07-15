@@ -1,6 +1,6 @@
 <template>
 	<div class="mb-2 poll_status">
-		<span ref="expiration" class="mr-2">{{ post.closed ? $t('poll.expired') : time }}</span>
+		<span ref="expiration" class="mr-2">{{ post.closed ? $t('poll.expired') : $t('poll.left', {time})}}</span>
 		<span>|</span>
 		<span ref="votes" class="ml-2">{{ votes }} {{ $tc('poll.votes', votes) }}</span>
 	</div>
@@ -22,7 +22,7 @@ export default {
 		},
 		time() {
 			const timestring = {
-				future: '%s left',
+				future: '%s',
 			};
 			window.moment.locale(this._i18n.locale, { relativeTime: timestring });
 			return this.post.expires && window.moment(this.post.expires).fromNow();

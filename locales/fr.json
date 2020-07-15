@@ -312,6 +312,7 @@
 		"details": "Détails du sondage",
 		"expiration": "Le sondage se terminera dans",
 		"expired": "Terminé",
+		"left": "{time} restant",
 		"ongoing": "En cours",
 		"resultNote": "Le gagnant sera désigné après ce délai.",
 		"results": "Résultats",

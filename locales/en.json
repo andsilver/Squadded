@@ -312,6 +312,7 @@
 		"details": "Poll Details",
 		"expiration": "Expires in",
 		"expired": "Poll Ended",
+		"left": "{time} left",
 		"ongoing": "Ongoing",
 		"resultNote": "The winning article will be announced after this time",
 		"results": "Results",
