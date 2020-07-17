@@ -131,14 +131,18 @@ export default {
 	margin-left auto
 .hanger_button
 	display none
-.grouped-post, .single-post
+
+.poll_ongoing,
+.poll_expired,
+.grouped-post,
+.single-post
 	.post_buttons
 		border-top 1px solid #DBDBDB
-		border-bottom 0
-		margin-top 2.46vw
-		.counter-icon
-			.buttons_icon
-				margin-right 0
-			.action-label
-				display none
+.grouped-post,
+.single-post
+	.counter-icon
+		.buttons_icon
+			margin-right 0
+		.action-label
+			display none
 </style>
