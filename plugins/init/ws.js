@@ -111,6 +111,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			}), '*');
 
 			if (window.FS) {
+				window.FS.restart();
 				window.FS.identify(user.userId, {
 					displayName: user.screenName || user.name,
 				});
