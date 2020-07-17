@@ -1,6 +1,6 @@
 <template>
 	<div class="mb-2 poll_status">
-		<span ref="expiration" class="mr-2">{{ post.closed ? $t('poll.expired') : $t('poll.left', {time})}}</span>
+		<span ref="expiration" class="mr-2">{{ post.closed ? $t('poll.expired') : $t('poll.left', {time}) }}</span>
 		<span>|</span>
 		<span ref="votes" class="ml-2">{{ votes }} {{ $tc('poll.votes', votes) }}</span>
 	</div>
