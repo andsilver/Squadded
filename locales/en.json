@@ -369,8 +369,8 @@
 			}
 		},
 		"reactions": "Reactions",
-		"removeRachel": "Remove Rachel",
-		"removeUser": "Remove from My Squad",
+		"removeRachel": "Remove",
+		"removeUser": "Remove {user} from my Squad",
 		"sending": "sending…",
 		"share": "Share this link with your friends",
 		"share_link": {
