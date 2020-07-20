@@ -123,15 +123,15 @@ export default {
 	methods: {
 		buttonColor(first) {
 			const diff = this.post.item1.votes - this.post.item2.votes;
+
 			if (this.post.closed) {
-				if (this.notVoted) {
+				if (diff === 0) {
 					return 'var(--brand-color)';
 				}
 				if ((diff > 0 && first) || (diff < 0 && !first)) {
 					return 'var(--brand-color)';
-				} else {
-					return 'white';
 				}
+				return 'white';
 			}
 			if (this.notVoted || !this.meVoted) {
 				return '#fff';
