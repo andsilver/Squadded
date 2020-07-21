@@ -66,12 +66,14 @@ export const mutations = {
 
 		if (!state.guid.wishlist || state.guid.wishlist === userId) {
 			state.wishlist.unshift(post);
-			state.blog.unshift(post);
 
 			if (post.item.merchantId === merchantId) {
 				state.myWishlist.unshift(post);
 				exportWishlistToMerchant(state.myWishlist);
 			}
+		}
+		if (!state.guid.blog || state.guid.blog === userId) {
+			state.blog.unshift(post);
 		}
 	},
 	[ActivityMutations.clearWishlist]: (state) => {
