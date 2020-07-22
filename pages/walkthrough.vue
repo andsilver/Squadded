@@ -2,10 +2,9 @@
 	<div class="flex-grow-1 d-flex flex-column walkthrough">
 		<MockTopBar ref="topbar" />
 		<div class="flex-grow-1 container">
-			<Feed v-if="step === 1" :items="posts" />
-			<template v-else>
-				<Squadders class="squadders walkthrough-squadders" :users="squadders" />
-				<SingleItemPost v-for="(post, index) of posts" :key="index" :post="post" />
+			<template v-if="step !== 1">
+				<Squadders class="squadders walkthrough-squadders" :users="squadders" :has-post="true" />
+				<SingleItemPost :post="post" />
 			</template>
 		</div>
 		<MockTabBar class="tab-bar" />
@@ -63,14 +62,13 @@
 		<ReSquaddButton
 			v-if="step === 3"
 			class="resquadd-btn walkthrogh"
-			:item="posts[0].item"
+			:item="post.item"
 		/>
 	</div>
 </template>
 
 <script>
-import { home, feed } from '~/consts/walkthrough';
-import Feed from '~/components/Feed';
+import { feed } from '~/consts/walkthrough';
 import MockTabBar from '~/components/Walkthrough/MockTabBar';
 import MockTopBar from '~/components/Walkthrough/MockTopBar';
 import { FeedPost } from '~/classes/FeedPost';
@@ -86,20 +84,22 @@ export default {
 		MockTabBar,
 		MockTopBar,
 		Squadders,
-		Feed,
 		SingleItemPost,
 		Button,
 		ReSquaddButton,
 	},
 	data: () => ({
 		step: 0,
-		posts: [],
+		post: null,
 		squadders: [],
 		popoverLeft: 0,
 		popoverTop: 0,
 		highlightLeft: 0,
 		highlightTop: 0,
 	}),
+	created () {
+		this.post = new FeedPost(feed.posts[0]);
+	},
 	mounted() {
 		this.squadders = [this.$store.state.user.me, ...feed.squadders];
 		this.walk();
@@ -108,13 +108,11 @@ export default {
 		walk() {
 			this.step += 1;
 			if (this.step === 1) {
-				this.posts = home.posts.map(p => new FeedPost(p));
 				this.popoverLeft = 27;
 				this.popoverTop = 65;
 				this.highlightLeft = 68;
 				this.highlightTop = 20;
 			} else if (this.step === 2) {
-				this.posts = feed.posts.map(p => new FeedPost(p));
 				this.popoverLeft = 27;
 				this.popoverTop = 93;
 				this.highlightLeft = 172;

@@ -161,8 +161,9 @@
 	"feed": {
 		"create": "Create",
 		"how_it_works": {
+			"welcome": "Welcome",
 			"action": "how it works",
-			"text": "Save items to your wishlist and invite your friends to shop together!"
+			"activities": "The activities will appear here"
 		},
 		"isEmpty": "No posts"
 	},

@@ -41,9 +41,16 @@
 		</div>
 		<div v-if="(first5Users.length < 2 || !hasPost) && !loading" class="mt-8 how-it-work-section">
 			<v-divider />
-			<div class="mt-6 d-flex flex-column align-center">
+			<div class="mt-10 d-flex flex-column align-center mb-4">
+				<div class="text-center" style="font-weight: 600">
+					{{ $t('feed.how_it_works.welcome') }}
+				</div>
 				<div class="text-center subtitle-1 font-weight-medium mb-4 how_it_work">
-					{{ $t('feed.how_it_works.text') }}
+					{{ $t('feed.how_it_works.activities') }}
+				</div>
+				<div class="d-flex justify-center mb-6" style="position: relative">
+					<img src="~assets/img/PhoneImage.png" width="45%" />
+					<img src="~assets/img/redo.svg" class="redo-icon" />
 				</div>
 				<v-btn class="how-it-works-btn" outlined to="/walkthrough">
 					{{ $t('feed.how_it_works.action') }}
@@ -169,11 +176,11 @@ export default {
 	border-color #fff !important
 
 .how-it-works-btn {
-	font-size: 0.62em !important;
-	border-radius: 10px;
-	border-width: 2px;
+	font-size: 0.52em !important;
+	border-radius: 8px;
+	border-width: 1.5px;
 	font-weight: bold;
-	height: 40px;
+	height 34px
 	padding: 0 24px !important;
 }
 .user-avatar-container:hover
@@ -239,4 +246,10 @@ export default {
 	font-size 4.61vw !important
 	padding 3vw 2.3vw 0
 	line-height 1.5rem
+	color #B8B8BA
+.redo-icon
+	width 40px
+	transform rotate(45deg)
+	position absolute
+	right 10vw
 </style>
