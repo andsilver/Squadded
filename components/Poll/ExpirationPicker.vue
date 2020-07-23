@@ -19,7 +19,7 @@
 					@change="switchDate(`${defaultItem}`)"
 				>
 					<template slot="selection" slot-scope="data">
-						<span class="expire-option">{{ $t(`expiration._${data.item.label}`) }}</span>
+						<span class="expire-option selection">{{ $t(`expiration._${data.item.label}`) }}</span>
 					</template>
 					<template slot="item" slot-scope="data">
 						<span class="expire-option">{{ $t(`expiration._${data.item.label}`) }}</span>
@@ -127,5 +127,8 @@ span.expire-option {
 .poll-expiration {
 	padding-bottom: 3.93vw;
 	border-bottom: 0.46vw solid #DBDBDB;
+}
+.selection {
+	position: absolute;
 }
 </style>
