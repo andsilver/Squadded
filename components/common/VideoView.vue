@@ -1,5 +1,5 @@
 <template>
-	<div v-observe-visibility="visibilityChanged" class="video-view" :class="[ sourceName ]" />
+	<div v-observe-visibility="visibilityChanged" class="video-view" :class="[ sourceName ]" :style="{ height }" />
 </template>
 
 <script>
@@ -84,6 +84,7 @@ export default {
 	data: () => ({
 		sourceName: '',
 		videoLink: '',
+		height: '0px',
 	}),
 	watch: {
 		value (current, prev) {
@@ -103,7 +104,7 @@ export default {
 			}
 			const req = embedo.requests.filter(r => r.el === this.$el)[0];
 			if (req.url.match(instagram.REGEX) && !req.el.firstElementChild.style.height) {
-				req.el.firstElementChild.style.height = `${req.attributes.height - 54}px`;
+				this.height = req.el.firstElementChild.style.height = `${req.attributes.height - 54}px`;
 			}
 			this.$emit('done');
 		},
@@ -132,6 +133,7 @@ export default {
 			}
 			this.videoLink = source.fixToSave(this.value);
 			const height = await source.getHeight(width, this.videoLink);
+			this.height = `${height}px`;
 			embedo
 				.load(this.$el, source.fixToEmbed(this.videoLink), {
 					width,
@@ -162,6 +164,7 @@ export default {
 	margin 0 auto
 	min-width 100%
 	text-align center
+	background-color #f1f1f1
 	>>>
 		div
 			overflow hidden
@@ -174,6 +177,9 @@ export default {
 			margin-top -54px !important
 			min-width unset !important
 			width 100% !important
+	&:empty
+		padding-bottom 75%
+
 .video-preview.video-view
 	margin 10.46vw auto 0vw
 	width calc(100% - 4.61vw)

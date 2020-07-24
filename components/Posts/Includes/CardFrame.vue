@@ -249,6 +249,11 @@ export default {
 			bottom 4.307vw
 			left 3.307vw
 			line-height: 3.7vw
+	>>> .v-image__image--preload
+		padding-bottom 125%
+		position relative
+		background #f1f1f1
+
 &.single-item
 	.sqdi-shopping-bag-2:before
 		top: 0

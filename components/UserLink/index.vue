@@ -2,7 +2,12 @@
 	<nuxt-link v-if="user" ref="user-link" :to="getUserLink()">
 		<v-list-item v-if="!hideAvatar" class="pa-0 user_link_header">
 			<v-list-item-avatar class="mr-3" :size="size">
-				<img v-if="user && (user.miniAvatar || user.avatar)" :src="user.miniAvatar || user.avatar" :alt="user && user.screenName">
+				<img
+					v-if="!isError && user && (user.miniAvatar || user.avatar)"
+					:src="user.miniAvatar || user.avatar"
+					:alt="user.screenName"
+					@error="isError = true"
+				>
 				<img v-else ref="user-avatar" class="dummy_image pa-1" src="~assets/img/dummy_avater.svg">
 				<v-btn
 					v-if="showFollow"
@@ -101,6 +106,7 @@ export default {
 		},
 	},
 	data: () => ({
+		isError: false,
 		showPopover: false,
 		isFeedHome: false,
 	}),
@@ -299,4 +305,6 @@ export default {
 	.v-list-item__avatar
 		margin-top 0
 		margin-bottom 0
+.v-avatar img
+	background-color #f1f1f1
 </style>
