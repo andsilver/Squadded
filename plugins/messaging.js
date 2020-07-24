@@ -1,8 +1,8 @@
 import { WidgetIPC } from '~/classes/WidgetIPC';
 
 export default function (ctx) {
-	const { store } = ctx;
-	const ipc = new WidgetIPC(store);
+	const { store, app: { router } } = ctx;
+	const ipc = new WidgetIPC(store, router);
 
 	function parseMessage (event) {
 		let msg;

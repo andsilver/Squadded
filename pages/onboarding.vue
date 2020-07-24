@@ -33,9 +33,13 @@
 </template>
 
 <script>
+import { createNamespacedHelpers } from 'vuex';
 import Hammer from 'hammerjs';
 import VideoBackground from 'vue-responsive-video-background-player';
+import { OnboardingStore } from '~/store/onboarding';
 import Button from '~/components/common/Button';
+
+const { mapState } = createNamespacedHelpers(OnboardingStore);
 
 export default {
 	components: {
@@ -44,25 +48,10 @@ export default {
 	},
 	data: () => ({
 		current: 0,
-		videos: [
-			{
-				url: '/Videos/step1.mp4',
-				duration: 3,
-			},
-			{
-				url: '/Videos/step2.mp4',
-				duration: 3,
-			},
-			{
-				url: '/Videos/step3.mp4',
-				duration: 3,
-			},
-			{
-				url: '/Videos/step4.mp4',
-				duration: 3,
-			},
-		],
 	}),
+	computed: {
+		...mapState(['videos']),
+	},
 	mounted () {
 		const timeline = this.$anime.timeline({
 			autoplay: true,

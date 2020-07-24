@@ -15,10 +15,14 @@ import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { INTERACTED_KEY, USER_TOKEN_KEY } from '~/consts/keys';
 import { UserStore, UserMutations } from '~/store/user';
+import { OnboardingStore, OnboardingMutations } from '~/store/onboarding';
 
 describe('Dispatcher', () => {
 	let store;
 	let ipc;
+	const router = {
+		push: jest.fn(),
+	};
 
 	beforeEach(() => {
 		localStorage.clear();
@@ -38,11 +42,14 @@ describe('Dispatcher', () => {
 						userId: 'userId',
 					},
 				},
+				onboarding: {
+					videos: [],
+				},
 			},
 			commit: jest.fn(),
 			dispatch: jest.fn(),
 		};
-		ipc = new WidgetIPC(store);
+		ipc = new WidgetIPC(store, router);
 	});
 
 	afterEach(fetchMock.reset);
@@ -76,18 +83,27 @@ describe('Dispatcher', () => {
 		});
 		expect(store.commit).toHaveBeenCalledWith(`${SquadStore}/${SquadMutations.interaction}`);
 		expect(localStorage.getItem(INTERACTED_KEY)).toBeTruthy();
+
+		store.state.socket.isAuth = false;
+		store.state.onboarding.videos = ['someurl'];
+		ipc.dispatch(msg);
+		await flushPromises();
+
+		expect(router.push).toHaveBeenCalledWith('/onboarding');
 	});
 
-	it('should commit merchant id', () => {
+	it('should commit merchant params', () => {
 		const msg = {
 			type: 'injectMerchantParams',
 			id: 'aMerchantId',
 		};
+		const story = 'https://example-video.com';
 
-		ipc.dispatch(msg);
+		ipc.dispatch({ ...msg, story });
 
-		expect(store.commit).toHaveBeenCalledTimes(1);
+		expect(store.commit).toHaveBeenCalledTimes(2);
 		expect(store.commit).toHaveBeenCalledWith('SET_MERCHANT_PARAMS', msg);
+		expect(store.commit).toHaveBeenCalledWith(`${OnboardingStore}/${OnboardingMutations.setVideos}`, story);
 	});
 
 	it('should commit squad params', () => {

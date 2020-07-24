@@ -7,13 +7,15 @@ import { SquadStore, SquadMutations, SquadActions } from '~/store/squad';
 import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
+import { OnboardingStore, OnboardingMutations } from '~/store/onboarding';
 import { INTERACTED_KEY } from '~/consts/keys';
 import { onAuth } from '~/helpers';
 import { setLocalStorageItem } from '~/utils/local-storage';
 
 export class WidgetIPC {
-	constructor(store) {
+	constructor(store, router) {
 		this.store = store;
+		this.router = router;
 	}
 
 	dispatch (msg) {
@@ -27,7 +29,9 @@ export class WidgetIPC {
 	}
 
 	injectMerchantParams (msg) {
-		this.store.commit('SET_MERCHANT_PARAMS', msg);
+		const { story, ...params } = msg;
+		this.store.commit('SET_MERCHANT_PARAMS', params);
+		this.store.commit(`${OnboardingStore}/${OnboardingMutations.setVideos}`, story);
 	}
 
 	injectSquadParams (msg) {
@@ -55,6 +59,9 @@ export class WidgetIPC {
 		}
 		setLocalStorageItem(INTERACTED_KEY, Date.now().toString());
 		if (!this.store.state.socket || !this.store.state.socket.isAuth) {
+			if (this.store.state.onboarding.videos.length) {
+				return this.router.push('/onboarding');
+			}
 			return;
 		}
 		if (!this.store.state.feed.items || !this.store.state.feed.items.length) {
@@ -86,9 +93,14 @@ export class WidgetIPC {
 	}
 
 	widgetState (msg) {
-		const { open } = msg;
-
+		const { open, params } = msg;
+		const { socket: { isAuth }, onboarding: { videos } } = this.store.state;
 		this.store.commit(`${SquadStore}/${SquadMutations.setWidgetState}`, open);
+
+		// Checking onboarding video, not navigate if widget is opened by invite link
+		if (open && !isAuth && videos.length && (!params || !params.invite)) {
+			return this.router.push('/onboarding');
+		}
 	}
 
 	async checkout (msg) {

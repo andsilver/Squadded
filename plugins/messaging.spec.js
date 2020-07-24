@@ -8,7 +8,7 @@ describe('Message listener', () => {
 	it('should add event listener', () => {
 		spyOn(window, 'addEventListener');
 
-		messaging({ store: {} });
+		messaging({ store: {}, app: { router: {} } });
 
 		const func = window.addEventListener.calls.argsFor(0)[1];
 		expect(window.addEventListener).toHaveBeenCalledTimes(1);

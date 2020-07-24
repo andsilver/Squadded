@@ -7,6 +7,7 @@ import user from './user';
 import pairedItem from './paired-item';
 import explore from './explore';
 import home from './home';
+import onboarding from './onboarding';
 
 const DEFAULT_COLOR = '#000';
 const widgetLocation = location.search || !document.referrer ? new URL(location.href)
@@ -130,6 +131,7 @@ export const modules = {
 	pairedItem,
 	explore,
 	home,
+	onboarding,
 };
 
 export default {
