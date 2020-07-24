@@ -107,12 +107,12 @@
 						:label="$t('comment.pop.reportComment.whatiswrong')"
 					/>
 				</v-card-text>
-				<v-card-actions class="d-flex justify-center card-action">
-					<Button ref="report-btn" class="flex-grow-1" :disabled="disabled" @click.native="reportPost">
-						{{ $t('comment.pop.reportComment.menu') }}
-					</Button>
+				<v-card-actions class="d-flex justify-center card-action-reason">
 					<Button ref="close-btn-report-dialog" class="flex-grow-1" :active="false" @click.native="hide">
 						{{ $t('Cancel') }}
+					</Button>
+					<Button ref="report-btn" class="flex-grow-1 black" :disabled="disabled" @click.native="reportPost">
+						{{ $t('comment.pop.reportComment.menu') }}
 					</Button>
 				</v-card-actions>
 			</v-card>
@@ -403,6 +403,14 @@ export default {
 		+.v-btn
 			margin-left 3.07vw !important
 			background-color #fff !important
+			border 0.461vw solid #000
+.card-action-reason
+	padding 6.15vw 4.53vw
+	.v-btn
+		height 12.30vw
+		font-size 2.61vw
+		+.v-btn
+			margin-left 3.07vw !important
 			border 0.461vw solid #000
 .v-menu__content
 	width 55.38vw
