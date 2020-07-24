@@ -164,10 +164,7 @@ export default {
 
 			if (e.keyCode === KEY.BACKSPACE || e.key === 'Backspace') {
 				this.inputBuffer = this.inputBuffer.slice(0, -1 + this.inputBuffer.length);
-				this.inputValue = this.inputValue.substring(0, this.inputValue.length - 1);
-				e.preventDefault();
-				this.onInput();
-				return false;
+				return true;
 			}
 
 			if (e.keyCode === KEY.RETURN && !this.showSquadders) {
@@ -286,7 +283,6 @@ export default {
 			this.inputValue = updatedMessageText; // Set the value to the txt area
 			this.updateValues();
 
-			this.elmInputBox.focus();
 			utils.setCaratPosition(this.elmInputBox, startEndIndex);
 		},
 		selectItem(user, index, e) {
