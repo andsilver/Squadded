@@ -466,4 +466,12 @@ describe('WSMessages dispatch', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, msg);
 		expect(post.item1.votes).toBe(msg.item1.votes);
 	});
+
+	it('should commit notification add', () => {
+		const msg = {
+			type: 'notifSquadConnect',
+		};
+		wsMessages.dispatch(msg);
+		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, msg);
+	});
 });

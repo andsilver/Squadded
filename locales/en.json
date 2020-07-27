@@ -284,7 +284,8 @@
 		"private_post_off": "Anyone can now see your post ",
 		"private_post_on": "Only your squad can now see your post",
 		"requestEmpty": "You have no new request",
-		"vote": "voted on"
+		"vote": "voted on",
+		"squad_connected": "just connected to {merchant}"
 	},
 	"ok": "ok",
 	"or": "or",

@@ -213,13 +213,12 @@ export class WSMessages {
 	notifLike (message) {
 		const { iLike, postId, user } = message;
 		const mod = (iLike ? 1 : -1);
-
 		const post = this.store.getters[`${PostStore}/${PostGetters.getPostById}`](postId);
+
 		if (iLike) {
 			this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
 			this.store.commit(`${PostStore}/${PostMutations.addLike}`, { post, user });
 		}
-
 		this.store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post });
 	}
 
@@ -268,6 +267,10 @@ export class WSMessages {
 			type: 'fetchSquadders',
 			store: this.store,
 		});
+	}
+
+	notifSquadConnect (message) {
+		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
 	}
 
 	squadUpdated () {

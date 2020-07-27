@@ -26,10 +26,10 @@ export const getters = {
 		n => (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
 	),
 	[NotificationGetters.newNotifications]: state => state.notifications.filter(
-		n => !n.viewed && n.type !== NOTIFICATIONS.ALERT && n.type !== NOTIFICATIONS.INVITE_SQUAD,
+		n => !n.viewed && ![NOTIFICATIONS.ALERT, NOTIFICATIONS.SQUAD_CONNECTED, NOTIFICATIONS.INVITE_SQUAD].includes(n.type),
 	),
 	[NotificationGetters.oldNotifications]: state => state.notifications.filter(
-		n => n.viewed && n.type !== NOTIFICATIONS.ALERT && n.type !== NOTIFICATIONS.INVITE_SQUAD,
+		n => n.viewed && ![NOTIFICATIONS.ALERT, NOTIFICATIONS.SQUAD_CONNECTED, NOTIFICATIONS.INVITE_SQUAD].includes(n.type),
 	),
 };
 
@@ -77,18 +77,21 @@ export const mutations = {
 		message.showBanner = true;
 		state.notifications.unshift(message);
 
-		if (state.notifications.length > NOTIFICATIONS_LIMIT) {
-			state.notifications.pop();
-		}
 		setTimeout(() => {
 			message.showBanner = false;
 			updateCache(state);
 		}, message.type === NOTIFICATIONS.ALERT ? UNDO_TIMEOUT : BANNER_TIMEOUT);
-		window.parent.postMessage(JSON.stringify({
-			type: 'notification',
-			message,
-		}), '*');
-		updateCache(state);
+
+		if (message.type !== 'notifSquadConnect') {
+			if (state.notifications.length > NOTIFICATIONS_LIMIT) {
+				state.notifications.pop();
+			}
+			window.parent.postMessage(JSON.stringify({
+				type: 'notification',
+				message,
+			}), '*');
+			updateCache(state);
+		}
 	},
 	[NotificationMutations.receive]: (state, { notifications, ts }) => {
 		const unique = notifications.filter(n => !contain(state)(n));
