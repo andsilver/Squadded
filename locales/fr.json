@@ -162,7 +162,8 @@
 		"create": "Publier",
 		"how_it_works": {
 			"action": "Comment ça marche?",
-			"text": "Ajoutez des articles à votre wishlist et invitez vos amis pour faire du shopping ensemble!"
+			"activities": "Les activités de vos amis apparaîtront ici",
+			"welcome": "Bienvenue"
 		},
 		"isEmpty": "Pas de publications"
 	},

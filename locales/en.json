@@ -161,9 +161,9 @@
 	"feed": {
 		"create": "Create",
 		"how_it_works": {
-			"welcome": "Welcome",
 			"action": "how it works",
-			"activities": "The activities will appear here"
+			"activities": "The activities of your friends will appear here",
+			"welcome": "Welcome"
 		},
 		"isEmpty": "No posts"
 	},
