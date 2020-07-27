@@ -1,7 +1,6 @@
 <template>
 	<v-tab
 		:disabled="!socket.isAuth"
-		:to="createPath"
 		exact
 		class="tab_item"
 		@click="toggleMenu"
@@ -56,9 +55,6 @@ export default {
 			'merchant',
 		]),
 		visiblePosts,
-		createPath () {
-			return { query: { create: true } };
-		},
 	},
 	created() {
 		this.$root.$on('openCreateMenu', () => {
@@ -67,6 +63,7 @@ export default {
 	},
 	methods: {
 		toggleMenu (event) {
+			this.$router.push({ query: { create: true } });
 			const icon = event.target.closest('.tab_icon');
 			if (!icon) {
 				this.$refs.createTabBtn.click();
