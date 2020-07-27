@@ -1,26 +1,28 @@
 <template>
-	<div>
-		<Topbar ref="top-bar" />
-		<div class="px-4">
-			<v-tabs v-model="tabs" fixed-tabs>
-				<v-tab class="tabs py-2">
-					<span ref="profile-tab" class="profile-tab-label">{{ $t('profile_settings.profile') }}</span>
-				</v-tab>
-				<v-tab class="tabs py-2">
-					<span ref="general-tab" class="profile-tab-label">{{ $t('profile_settings.general') }}</span>
-				</v-tab>
-			</v-tabs>
+	<div class="profile-settings-box">
+		<div class="profile-settings-subbox">
+			<Topbar ref="top-bar" />
+			<div class="px-4">
+				<v-tabs v-model="tabs" fixed-tabs :height='$vuetify.breakpoint.xs ? 30 : 48'>
+					<v-tab class="tabs py-2">
+						<span ref="profile-tab" class="profile-tab-label">{{ $t('profile_settings.profile') }}</span>
+					</v-tab>
+					<v-tab class="tabs py-2">
+						<span ref="general-tab" class="profile-tab-label">{{ $t('profile_settings.general') }}</span>
+					</v-tab>
+				</v-tabs>
+			</div>
+			<v-tabs-items v-model="tabs">
+				<v-tab-item>
+					<ProfileTab ref="profile" />
+				</v-tab-item>
+				<v-tab-item>
+					<GeneralTab ref="general" />
+				</v-tab-item>
+			</v-tabs-items>
 		</div>
-		<v-tabs-items v-model="tabs">
-			<v-tab-item>
-				<ProfileTab ref="profile" />
-			</v-tab-item>
-			<v-tab-item>
-				<GeneralTab ref="general" />
-			</v-tab-item>
-		</v-tabs-items>
-		<div class="mt-4 py-4 d-flex justify-center">
-			<Button ref="save-button" style="width: 36.92vw;height: 12.30vw; letter-spacing: 1px;" @click.native="saveProfile">
+		<div class="py-1 d-flex justify-center">
+			<Button ref="save-button" class="save-button" @click.native="saveProfile">
 				{{ $t('Save') }}
 			</Button>
 		</div>
@@ -89,7 +91,21 @@ export default {
 	},
 };
 </script>
-<style lang="stylus">
-.profile-tab-label
-	font-size 4.30vw
+<style lang="scss">
+.profile-settings-box {
+	height: 100vh;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: column;
+}
+
+.save-button {
+	width: 36.92vw;
+	height: 12.30vw;
+	letter-spacing: 1px;
+}
+
+.profile-tab-label {
+	font-size: 4.30vw;
+}
 </style>

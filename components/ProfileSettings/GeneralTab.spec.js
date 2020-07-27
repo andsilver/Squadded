@@ -39,6 +39,7 @@ describe('Profile Settings Topbar', () => {
 				$t: msg => msg,
 				$router,
 				$ws,
+				$vuetify: { breakpoint: {} },
 			},
 		});
 	});

@@ -66,7 +66,7 @@ export default {
 
 <style lang="stylus" scoped>
 .poll-main-sec .public-toggle
-	padding: 4VW 0;
+	padding: 4vh 0;
 .public-toggle
 	display flex
 	width:100%;

@@ -1,6 +1,6 @@
 <template>
 	<div v-if="user" class="pa-4">
-		<section class="my-4 d-flex">
+		<section class="d-flex option-section">
 			<div class="mr-3">
 				<v-btn icon>
 					<v-icon small color="black">
@@ -27,7 +27,7 @@
 			</div>
 		</section>
 		<v-divider />
-		<section class="my-4 d-flex">
+		<section class="d-flex option-section">
 			<div class="mr-3">
 				<v-btn icon>
 					<v-icon small color="black">
@@ -74,7 +74,7 @@
 					v-model="feedback"
 					class="feedback-field-textarea"
 					outlined
-					:rows="4"
+					:rows="$vuetify.breakpoint.xs ? 2 : 4"
 					hide-details
 				/>
 			</div>
@@ -82,7 +82,7 @@
 				{{ $t('profile_settings.feedback_warning') }}
 			</div>
 		</div>
-		<section class="my-4 d-flex align-center">
+		<section class="d-flex align-center option-section">
 			<div class="mr-3">
 				<v-btn ref="sign-out-button" icon @click="showSignoutDialog = true">
 					<v-icon color="#fd6256">
@@ -96,7 +96,7 @@
 				</span>
 			</div>
 		</section>
-		<section class="mt-6 mb-4 d-flex align-center">
+		<section class="d-flex align-center option-section">
 			<div class="mr-3">
 				<v-btn ref="delete-account-button" icon @click="showDeleteAccountDialog = true">
 					<v-icon color="black">
@@ -755,4 +755,6 @@ section .v-btn
 	color #fd6256
 .title-text
 	font-size 3.23vw
+.option-section
+	margin 2vh 0
 </style>

@@ -241,12 +241,12 @@ img.my-squad {
 	}
 	.friends-list {
 		/* background: #fff; */
-		height: 37.6vh;
-		@media screen and (max-width: 360px) {
-			height: 26.2vh;
-		}
+		height: 20vh;
+		// @media screen and (max-width: 360px) {
+		// 	height: 26.2vh;
+		// }
 		@media screen and (max-width: 320px) {
-			height: 23.8vh;
+			height: 16.8vh;
 		}
 	}
 }

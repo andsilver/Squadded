@@ -125,7 +125,7 @@ span.expire-option {
     line-height: 6.153vw;
 }
 .poll-expiration {
-	padding-bottom: 3.93vw;
+	padding: 2vh 0;
 	border-bottom: 0.46vw solid #DBDBDB;
 }
 .selection {

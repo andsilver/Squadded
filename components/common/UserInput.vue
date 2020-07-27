@@ -52,7 +52,7 @@ export default {
 	>>> .v-input__prepend-outer
 		margin 0 1.538vw 0 0
 	&.input-section
-		margin-top 6.92vw
+		margin-top 1vw
 		width 100%
 .video-input
 	.v-input

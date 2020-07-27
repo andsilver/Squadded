@@ -30,6 +30,7 @@ describe('Profile Settings', () => {
 			mocks: {
 				$t: msg => msg,
 				$router,
+				$vuetify: { breakpoint: {} },
 			},
 			localVue,
 			store,

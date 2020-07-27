@@ -25,35 +25,44 @@
 			</v-layout>
 		</div>
 		<div :class="{ hide_section : showOutfit }" class="poll-main-sec">
-			<v-layout column justify-center align-center class="tab-content-section">
-				<h2>
-					<v-btn ref="go-back-btn" icon @click="goBack">
-						<v-icon>
-							sqdi-arrow-pointing-to-left
-						</v-icon>
-					</v-btn>
-					{{ $t('NewPoll') }}
-				</h2>
-				<UserInput v-show="getSelected.length > 0" ref="text-field" v-model="text" :placeholder="$t('SelectPollName')" class="input-section" />
-				<PollView
-					v-if="selectOFItems.length > 0"
-					:post="selectOFItems"
-				/>
-				<Button
-					class="edit-button"
-					style="width:26.46vw;"
-					@click.native="goBack"
-				>
-					{{ $t('Edit') }}
-				</Button>
-				<div class="bottom-post-sec hide_section">
-					<ExpirationPicker v-show="getSelected.length > 0" ref="expiration" class="poll-expiration" />
-					<PublicToggle ref="public-toggle" :public="!user.me.private" />
-				</div>
+			<v-layout
+				column
+				justify-center
+				align-center
+				class="tab-content-section"
+				justify-space-between
+				fill-height
+			>
+				<v-layout column justify-center align-center style="flex: 0">
+					<h2>
+						<v-btn ref="go-back-btn" icon @click="goBack">
+							<v-icon>
+								sqdi-arrow-pointing-to-left
+							</v-icon>
+						</v-btn>
+						{{ $t('NewPoll') }}
+					</h2>
+					<UserInput v-show="getSelected.length > 0" ref="text-field" v-model="text" :placeholder="$t('SelectPollName')" class="input-section" />
+					<PollView
+						v-if="selectOFItems.length > 0"
+						:post="selectOFItems"
+					/>
+					<Button
+						class="edit-button"
+						style="width:26.46vw;"
+						@click.native="goBack"
+					>
+						{{ $t('Edit') }}
+					</Button>
+					<div class="bottom-post-sec hide_section">
+						<ExpirationPicker v-show="getSelected.length > 0" ref="expiration" class="poll-expiration" />
+						<PublicToggle ref="public-toggle" :public="!user.me.private" />
+					</div>
+				</v-layout>
 				<div class="public-right-section">
 					<Button
 						ref="done-button"
-						class="mt-2 post-button"
+						class="post-button"
 						:disabled="!complete"
 						@click.native="create"
 					>
@@ -212,7 +221,7 @@ i.v-icon.sqdi-magnifying-glass-finder {
 	position: fixed;
 }
 .merge-selected.OutfitSelected .next-button{
-	margin-bottom: 6.15vw;
+	margin-bottom: 4.15vw;
 	display: block;
 	height: 12.30vw;
 }
@@ -230,7 +239,6 @@ p.tip-note.error-note {
 	align-items: center;
 	width: 100%;
 	bottom: 0;
-	padding: 4VW 0;
 	margin-top: 4VW;
 	border-top: 0.46vw solid #DBDBDB;
 }
@@ -240,7 +248,6 @@ p.tip-note.error-note {
     bottom: 0px;
     background: #fff;
     z-index: 202;
-    height: 25vw;
 }
 .show-tabs .public-right-section{
 	position: fixed;
@@ -269,6 +276,10 @@ p.tip-note.error-note {
     padding-left: 10vw !important;
 	background-size: 3.69vw;
 }
+.poll-main-sec {
+	height: 100%;
+}
+
 .poll-main-sec h2{
 	color: #000;
 	font-size: 4.307vw;

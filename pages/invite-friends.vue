@@ -1,5 +1,5 @@
 <template>
-	<div class="d-flex flex-column justify-space-between flex-grow-1">
+	<div class="invite-friends-box">
 		<div>
 			<div class="white--text black py-4 d-flex justify-space-between align-center px-4">
 				<span class="pa-3" />
@@ -12,7 +12,7 @@
 			<div class="text-center mt-3">
 				{{ $t('invite_your_friends.share') }}
 			</div>
-			<ShareInviteLink class="py-8 px-2" @shared="invited = true" />
+			<ShareInviteLink class="share-invite-box" @shared="invited = true" />
 			<div>
 				<div class="friend-title font-weight-medium text-center">
 					<span class="title-lbl">{{ $t('invite_your_friends.add') }}</span>
@@ -115,6 +115,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.invite-friends-box {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	justify-content: space-between;
+}
 .friend-title {
 	padding: 0 5VW;
 }
@@ -154,6 +160,11 @@ export default {
 }
 .invite-friends-img {
 	width: 90vw;
+	height: 15vh;
 	object-fit: contain;
+}
+
+.share-invite-box {
+	padding: 3vh 1vh;
 }
 </style>
