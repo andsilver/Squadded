@@ -172,8 +172,8 @@ export default {
 			window.requestAnimationFrame(this.checkIsScroll);
 		},
 		touchOnScroll (event) {
-			const feed = event.target.closest('.feed');
-			if (!feed) {
+			const prevent = event.target.closest('.feed, .choose-items-section');
+			if (!prevent) {
 				event.target.click();
 			}
 		},
