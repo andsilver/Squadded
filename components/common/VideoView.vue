@@ -38,7 +38,7 @@ const instagram = {
 		const toFix = new URL(url);
 		toFix.search = '';
 		const isEmbed = (/\/embed/).test(toFix.pathname);
-		return isEmbed ? toFix.href.replaceAll('/embed', '') : toFix.href;
+		return isEmbed ? toFix.href.replace('/embed', '') : toFix.href;
 	},
 	fixToEmbed (url) {
 		const isRegularPost = (/\/p\//).test(url);
