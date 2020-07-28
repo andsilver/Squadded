@@ -16,29 +16,23 @@
 			</template>
 
 			<v-list class="open-add-section">
-				<div class="create-new-title">{{ $t('CreateANew') }}</div>
+				<h5>{{ $t('CreateANew') }}</h5>
 				<v-list-item
 					v-for="link in visiblePosts"
 					:key="link.uri"
 					:class="$t(link.title)"
 					@click.native="() => closeMenu(link.uri)"
-					class="list-item-box"
 				>
-					<div class="option-box">
-						<div class="left-content-sec">
-							<img :src="link.images">
-						</div>
-						<div class="right-content-sec">
-							<span class="link-title">
-								{{ $t(link.title) }}
-							</span>
-							<div class="discription">
-								{{ $t(link.des) }}
-							</div>
-						</div>
+					<div class="left-content-sec">
+						<img :src="link.images">
 					</div>
-					<div class="divider-box">
-						<v-divider></v-divider>
+					<div class="right-content-sec">
+						<span class="link-title">
+							{{ $t(link.title) }}
+						</span>
+						<div class="discription">
+							{{ $t(link.des) }}
+						</div>
 					</div>
 				</v-list-item>
 			</v-list>
@@ -90,11 +84,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.create-new-title
-	padding 10px 16px
-	color: #B8B8BA
-	font-size: 2.80vw
-	font-weight: 600
 .v-tab
 	min-width auto
 
@@ -155,19 +144,17 @@ export default {
 	display: flex;
 	align-items: center;
 }
-.open-add-section >>> .list-item-box {
+.open-add-section .v-list-item.theme--light {
+	padding: 0;
 	display: flex;
-	flex-direction: column;
 	align-items :center;
+	padding-bottom: 3.280vw;
+	border-bottom: 0.4vw solid #DBDBDB;
+	padding-top: 3.28vw;
 	cursor: pointer;
-	min-height 20px
 }
-.open-add-section >>> .option-box {
-	display: flex;
-	width: 100%;
-}
-.open-add-section >>> .divider-box {
-	width: 100%;
+.open-add-section .v-list-item.theme--light.Outfit {
+	padding-top: 0px;
 }
 .discription {
 	color: #B8B8BA;
