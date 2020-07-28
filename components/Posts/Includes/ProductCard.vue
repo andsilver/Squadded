@@ -108,6 +108,10 @@ export default {
 			}
 			if (this.isClickable) {
 				sessionStorage.setItem(OPENED_POST, this.postId);
+				// add source on click
+				this.item = Object.assign(this.item, {
+					url: `${this.item.url}&utm_source=squadded&utm_medium=feed&utm_campaign=squadded`,
+				});
 				SquadAPI.openProduct(this.item);
 				sendGAction(GA_ACTIONS.CLICK_ITEM);
 			}

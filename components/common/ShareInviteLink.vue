@@ -87,7 +87,7 @@ export default {
 		userLink() {
 			const { API_ENDPOINT } = this.$store.state.squad;
 			const target = JSON.stringify(this.target);
-			return `${API_ENDPOINT}/community/profile?t=${Base64.encode(target)}`;
+			return `${API_ENDPOINT}/community/profile?t=${Base64.encode(target)}&utm_source=squadded&utm_medium=invite&utm_campaign=squadded`;
 		},
 	},
 	mounted() {

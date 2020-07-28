@@ -18,7 +18,7 @@ export const target = function () {
 export const postLink = function () {
 	const { API_ENDPOINT } = this.$store.state.squad;
 	const target = JSON.stringify(this.target);
-	return `${API_ENDPOINT}/community/post?t=${Base64.encode(target)}`;
+	return `${API_ENDPOINT}/community/post?t=${Base64.encode(target)}&utm_source=squadded&utm_medium=share&utm_campaign=squadded`;
 };
 
 export const share = function () {
