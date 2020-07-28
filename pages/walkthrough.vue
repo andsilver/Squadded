@@ -1,10 +1,33 @@
 <template>
-	<div class="flex-grow-1 d-flex flex-column walkthrough">
+	<div v-if="step < 4" class="flex-grow-1 d-flex flex-column walkthrough">
 		<MockTopBar ref="topbar" />
+		<div  v-if="step < 3" class="mock-overlay-topbar">
+			<span :style="{ color: step === 1 ? 'black' : 'transparent' }">{{ $t('topHome') }}</span>
+			<span :style="{ color: step === 2 ? 'black' : 'transparent' }">{{ $t('My Squad') }}</span>
+		</div>
+		<div v-if="step === 2" class="squadders-overlay">
+			<div>
+				<span class="user-avatar-container">
+					<div class="user-avatar-content">
+						<img v-if="me.miniAvatar || me.avatar" :src="me.miniAvatar || me.avatar" alt>
+						<div v-else ref="user-avatar" class="dummy_image" />
+						<span class="user-name-hover">{{ me.screenName }}</span>
+						<span class="online-status" />
+					</div>
+				</span>
+				<AddFriendsButton
+					v-if="step === 2"
+					ref="plus-btn"
+					class="add-friends-btn"
+					color="white"
+					:dark="true"
+				/>
+			</div>
+		</div>
 		<div class="flex-grow-1 container">
 			<template v-if="step !== 1">
 				<Squadders class="squadders walkthrough-squadders" :users="squadders" :has-post="true" />
-				<SingleItemPost :post="post" />
+				<SingleItemPost v-if="step > 2" :post="post" style="margin-top: 54px;" />
 			</template>
 		</div>
 		<MockTabBar class="tab-bar" />
@@ -76,6 +99,7 @@ import SingleItemPost from '~/components/Posts/SingleItemPost';
 import Squadders from '~/components/Squadders';
 import Button from '~/components/common/Button';
 import ReSquaddButton from '~/components/ReSquaddButton';
+import AddFriendsButton from '~/components/common/AddFriendsButton';
 import { STORAGE_VISITED_KEY } from '~/consts';
 import { setLocalStorageItem } from '~/utils/local-storage';
 
@@ -87,6 +111,7 @@ export default {
 		SingleItemPost,
 		Button,
 		ReSquaddButton,
+		AddFriendsButton,
 	},
 	data: () => ({
 		step: 0,
@@ -97,6 +122,11 @@ export default {
 		highlightLeft: 0,
 		highlightTop: 0,
 	}),
+	computed: {
+		me() {
+			return this.$store.state.user.me;
+		},
+	},
 	created () {
 		this.post = new FeedPost(feed.posts[0]);
 	},
@@ -114,7 +144,7 @@ export default {
 				this.highlightTop = 20;
 			} else if (this.step === 2) {
 				this.popoverLeft = 27;
-				this.popoverTop = 93;
+				this.popoverTop = 99;
 				this.highlightLeft = 172;
 				this.highlightTop = 20;
 				this.$refs.topbar.tab = 1;
@@ -155,7 +185,7 @@ export default {
 	}
 
 	.container {
-		padding-top: 60px;
+		padding-top: 40px !important;
 		overflow: hidden;
 		height: 100vh;
 	}
@@ -171,9 +201,75 @@ export default {
 		text-transform: uppercase;
 		letter-spacing: 2px;
 	}
+	.mock-overlay-topbar {
+		height: 40px;
+		position: fixed;
+		top: 0;
+		width: 100%;
+		z-index: 999;
+		padding-right: 12px !important;
+		padding-left: 12px !important;
+		display: flex;
+		align-items: center;
+		white-space: normal;
+		font-size: 0.75em;
+		font-weight: 700;
+		letter-spacing: 0.0892857143em;
+		line-height: normal;
+		text-transform: capitalize;
+
+		:first-child {
+			margin-right: 4%;
+		}
+	}
+	.add-friends-btn {
+		top: 40px;
+		position: fixed;
+		z-index: 999;
+	}
+	.squadders-overlay {
+		position: fixed;
+		z-index: 100;
+		top: 47px;
+
+		> div {
+			position: relative;
+
+			> span {
+				position: absolute;
+				top: 0;
+				left: 24px;
+				z-index: 1;
+			}
+
+			.add-friends-btn {
+				pointer-events: none;
+				left: calc(24px + 7.79vw);
+				z-index: 2;
+			}
+		}
+	}
 }
 </style>
 <style lang="stylus" scoped>
+.user-avatar-container
+	img
+		width 36px
+		height 36px
+		border-radius 50%
+		border 2px solid #fff
+	.user-name-hover
+		display none
+
+	.online-status
+		padding 5px
+		border 2px solid white
+		background #28f528
+		border-radius 50%
+		position absolute
+		top 20px
+		left -2px
+		z-index 20
 .pop-over
 	position fixed
 	box-shadow 0px 3px 16px 0px #00000036
@@ -229,13 +325,13 @@ export default {
 	top 63.5vw
 	left 70vw
 	@media screen and (max-width 280px)
-		top 76.25vw
+		top 71.25vw
 		left 67.5vw
 .resquadd-btn.walkthrogh
 	top 59.5vw
 	left 66.33vw
 	@media screen and (max-width 280px)
-		top 71.5vw
+		top 66.5vw
 		left 62.6vw
 @media screen and (max-width: 280px) {
 	.pop-overstep-3 {

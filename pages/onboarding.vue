@@ -18,16 +18,12 @@
 				ref="video"
 				:src="video.url"
 				class="video-background"
-				overlay="linear-gradient(45deg, #00000099, #ffffff33)"
 			/>
 		</section>
-		<div class="d-flex align-center justify-center onging-actions">
-			<Button ref="signin-btn" class="flex-grow-1 mr-4" @click.native="signin">
-				{{ $t('Signin') }}
+		<div class="d-flex justify-center onging-actions">
+			<Button ref="signin-btn" class="signin-btn" @click.native="signin">
+				{{ $t('Signin') }} >
 			</Button>
-			<v-btn ref="skip-btn" outlined depressed class="skip-btn flex-grow-1" @click="skip">
-				{{ $t('landing_post.skip') }}
-			</v-btn>
 		</div>
 	</div>
 </template>
@@ -132,13 +128,14 @@ export default {
 	flex-direction: column;
 }
 
-.skip-btn {
-	font-size: 0.6em;
-	font-weight: 700;
-	letter-spacing: 1px;
+.signin-btn {
+	font-size: 8px;
+	width: 120px;
+	height: 34px;
+	min-height: 34px;
 	border-radius: 10px;
-	border-color: black;
 }
+
 .onging-actions {
 	padding: 16px;
 	position: fixed;

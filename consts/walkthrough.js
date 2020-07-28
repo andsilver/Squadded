@@ -13,10 +13,10 @@ export const home = {
 				count: 13,
 			},
 			user: {
-				avatar: require('assets/img/home-avatar.svg'),
+				avatar: require('assets/img/walkthrough-avatar.png'),
 				guid: '5d8a3851dc2113a2f6c70dd0',
 				screenName: 'Dianna Smiley',
-				miniAvatar: require('assets/img/home-avatar.svg'),
+				miniAvatar: require('assets/img/walkthrough-avatar.png'),
 				mysquad: true,
 				followed: true,
 			},
@@ -27,7 +27,7 @@ export const home = {
 				title: 'Rose Balloon Sleeve  Knitted Sweater',
 				price: 4995,
 				currency: '€',
-				img: 'https://i.imgur.com/jedgk7p.jpg',
+				img: require('assets/img/walkthrough-post.png'),
 				url:
 					'https://sam-advisor.com/myboutique/index.php?id_product=12430240&id_product_attribute=0&rewrite=rose-balloon-sleeve-knitted-sweater&controller=product',
 				squadded: true,
@@ -85,14 +85,14 @@ export const feed = {
 		{
 			type: 'singleItemPost',
 			userId: '5e43e363170ae8fce3af970f',
-			text: 'Nice',
+			text: 'Love this',
 			ts: 1585139368882,
 			comments: { count: 0 },
 			user: {
-				avatar: require('assets/img/home-avatar.svg'),
+				avatar: require('assets/img/walkthrough-avatar.png'),
 				guid: '5e43e363170ae8fce3af970f',
 				screenName: 'Olivia S.',
-				miniAvatar: require('assets/img/home-avatar.svg'),
+				miniAvatar: require('assets/img/walkthrough-avatar.png'),
 				mysquad: true,
 				followed: false,
 			},
@@ -100,10 +100,10 @@ export const feed = {
 			item: {
 				varId: '',
 				itemId: '12430241',
-				title: 'Wide Cuff Balloon  Sleeve Knitted Sweater',
+				title: 'Printed dress',
 				price: 5995,
 				currency: '€',
-				img: 'https://i.imgur.com/9oPWGim.jpg',
+				img: require('assets/img/walkthrough-post.png'),
 				url:
 					'https://sam-advisor.com/myboutique/index.php?id_product=12430241&id_product_attribute=0&rewrite=wide-cuff-balloon-sleeve-knitted-sweater&controller=product',
 				squadded: true,

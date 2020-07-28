@@ -12,7 +12,6 @@ describe('Onboarding', () => {
 	const ONBOARDING = 'onboarding';
 	const ONBOARDING_NAV = 'onboarding-nav';
 	const SIGNIN_BTN = 'signin-btn';
-	const SKIP_BTN = 'skip-btn';
 
 	let wrapper;
 	let store;
@@ -41,6 +40,5 @@ describe('Onboarding', () => {
 		expect(wrapper.ref(ONBOARDING).exists()).toBe(true);
 		expect(wrapper.ref(ONBOARDING_NAV).exists()).toBe(true);
 		expect(wrapper.ref(SIGNIN_BTN).exists()).toBe(true);
-		expect(wrapper.ref(SKIP_BTN).exists()).toBe(true);
 	});
 });

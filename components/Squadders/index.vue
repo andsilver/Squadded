@@ -49,7 +49,7 @@
 					{{ $t('feed.how_it_works.activities') }}
 				</div>
 				<div class="d-flex justify-center mb-6" style="position: relative">
-					<img src="~assets/img/PhoneImage.png" width="45%">
+					<img src="~assets/img/PhoneImage.png" width="45%" height="45%">
 					<img src="~assets/img/redo.svg" class="redo-icon">
 				</div>
 				<v-btn class="how-it-works-btn" outlined to="/walkthrough">
@@ -180,7 +180,7 @@ export default {
 	border-radius: 8px;
 	border-width: 1.5px;
 	font-weight: bold;
-	height 34px
+	height 34px !important
 	padding: 0 24px !important;
 }
 .user-avatar-container:hover
