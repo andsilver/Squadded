@@ -98,6 +98,10 @@ export default {
 		this.embed();
 	},
 	methods: {
+		getWidth () {
+			const computed = window.getComputedStyle(this.$el);
+			return parseFloat(computed.getPropertyValue('width') || '0') - parseFloat(computed.getPropertyValue('padding') || '0') * 2;
+		},
 		done () {
 			if (this.videoLink !== this.value) {
 				this.$emit('input', this.videoLink);
@@ -112,9 +116,6 @@ export default {
 			this.$emit('fail');
 		},
 		async embed () {
-			if (this.videoLink === this.value) {
-				return;
-			}
 			if (!this.value) {
 				this.fail();
 				return true;
@@ -126,8 +127,7 @@ export default {
 				return;
 			}
 			this.sourceName = sourceName;
-			const computed = window.getComputedStyle(this.$el);
-			const width = parseFloat(computed.getPropertyValue('width') || '0') - parseFloat(computed.getPropertyValue('padding') || '0') * 2;
+			const width = this.getWidth();
 			if (!width) {
 				return;
 			}
@@ -148,7 +148,7 @@ export default {
 				.find(service => (SOURCES[service] && url.match(SOURCES[service].REGEX)));
 		},
 		visibilityChanged(isVisible) {
-			const width = this.$el.clientWidth;
+			const width = this.getWidth();
 			const request = embedo.requests.filter(req => req.el === this.$el)[0];
 			if (isVisible && (!request || request.attributes.width !== width)) {
 				embedo.destroy(this.$el);

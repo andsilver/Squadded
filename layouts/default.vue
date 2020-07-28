@@ -2,12 +2,12 @@
 	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }">
 		<NotificationsBanner ref="notifications" />
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
-		<v-content id="main" class="d-flex">
+		<v-main id="main" class="d-flex">
 			<nuxt ref="main-content" />
 			<v-dialog v-if="promptOptions" v-model="showPrompt">
 				<Prompt :text="promptOptions.text" @confirm="confirm" @decline="hide" />
 			</v-dialog>
-		</v-content>
+		</v-main>
 		<v-bottom-navigation v-if="showTabs" class="bottom-tab-section" height="65">
 			<TabBar ref="tab-bar" class="tab-bar-section" />
 		</v-bottom-navigation>
@@ -188,11 +188,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.v-content
-	overflow hidden auto
-	.show-tabs &
-		padding-bottom 65px !important
-.v-content >>> .v-content__wrap,
 .container
 	display flex
 	flex-direction column
