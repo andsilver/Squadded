@@ -33,7 +33,7 @@
 				justify-space-between
 				fill-height
 			>
-				<v-layout column justify-center align-center style="flex: 0">
+				<v-layout column justify-center align-center>
 					<h2>
 						<v-btn ref="go-back-btn" icon @click="goBack">
 							<v-icon>
