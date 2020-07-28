@@ -1,13 +1,16 @@
 <template>
 	<div>
-		<cropper
-			classname="cropper"
-			:src="item.img"
-			:stencil-props="{
-				aspectRatio
-			}"
-			@change="change"
-		/>
+		<div class="cropper-box">
+			<cropper
+				classname="cropper"
+				:src="item.img"
+				:stencil-props="{
+					aspectRatio
+				}"
+				image-height="10"
+				@change="change"
+			/>
+		</div>
 		<p class="tip">
 			{{ $t('tip.crop') }}
 		</p>
@@ -91,4 +94,7 @@ export default {
 	font-weight 500
 	text-align center
 	margin 16px 0 16px 0
+
+.cropper-box
+	height 40vh
 </style>
