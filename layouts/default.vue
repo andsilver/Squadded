@@ -188,6 +188,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.v-main
+	overflow hidden auto
+.v-main >>> .v-main__wrap,
 .container
 	display flex
 	flex-direction column
