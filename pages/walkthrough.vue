@@ -1,7 +1,7 @@
 <template>
 	<div v-if="step < 4" class="flex-grow-1 d-flex flex-column walkthrough">
 		<MockTopBar ref="topbar" />
-		<div  v-if="step < 3" class="mock-overlay-topbar">
+		<div v-if="step < 3" class="mock-overlay-topbar">
 			<span :style="{ color: step === 1 ? 'black' : 'transparent' }">{{ $t('topHome') }}</span>
 			<span :style="{ color: step === 2 ? 'black' : 'transparent' }">{{ $t('My Squad') }}</span>
 		</div>

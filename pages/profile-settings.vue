@@ -3,7 +3,7 @@
 		<div class="profile-settings-subbox">
 			<Topbar ref="top-bar" />
 			<div class="px-4">
-				<v-tabs v-model="tabs" fixed-tabs :height='$vuetify.breakpoint.xs ? 30 : 48'>
+				<v-tabs v-model="tabs" fixed-tabs :height="$vuetify.breakpoint.xs ? 30 : 48">
 					<v-tab class="tabs py-2">
 						<span ref="profile-tab" class="profile-tab-label">{{ $t('profile_settings.profile') }}</span>
 					</v-tab>

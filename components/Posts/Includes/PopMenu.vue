@@ -108,7 +108,7 @@
 					/>
 				</v-card-text>
 				<v-card-actions class="d-flex justify-center card-action-reason">
-					<Button ref="close-btn-report-dialog" class="flex-grow-1" :active="false" @click.native="hide">
+					<Button ref="close-btn-report-dialog" class="flex-grow-1 cancel-button" :active="false" @click.native="hide">
 						{{ $t('Cancel') }}
 					</Button>
 					<Button ref="report-btn" class="flex-grow-1 black" :disabled="disabled" @click.native="reportPost">
@@ -132,11 +132,11 @@
 					<span class="delete-text">{{ $t('post.pop.deletePost.description') }}</span>
 				</v-card-text>
 				<v-card-actions class="d-flex justify-center card-action">
+					<Button class="flex-grow-1 edit-button" :active="false" @click.native="editPost">
+						{{ $t('post.pop.deletePost.decline') }}
+					</Button>
 					<Button ref="delete-post-btn" class="flex-grow-1 delete-button" @click.native="deletePost">
 						{{ $t('post.pop.deletePost.menu') }}
-					</Button>
-					<Button class="flex-grow-1" :active="false" @click.native="editPost">
-						{{ $t('post.pop.deletePost.decline') }}
 					</Button>
 				</v-card-actions>
 			</v-card>
@@ -402,8 +402,9 @@ export default {
 		font-size 2.61vw
 		+.v-btn
 			margin-left 3.07vw !important
-			background-color #fff !important
-			border 0.461vw solid #000
+.card-action
+	.edit-button
+		border 0.461vw solid #000
 .card-action-reason
 	padding 6.15vw 4.53vw
 	.v-btn
@@ -411,7 +412,9 @@ export default {
 		font-size 2.61vw
 		+.v-btn
 			margin-left 3.07vw !important
-			border 0.461vw solid #000
+.card-action-reason
+	.cancel-button
+		border 0.461vw solid #000
 .v-menu__content
 	width 55.38vw
 	top 0px !important

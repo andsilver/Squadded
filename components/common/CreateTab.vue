@@ -16,13 +16,15 @@
 			</template>
 
 			<v-list class="open-add-section">
-				<div class="create-new-title">{{ $t('CreateANew') }}</div>
+				<div class="create-new-title">
+					{{ $t('CreateANew') }}
+				</div>
 				<v-list-item
 					v-for="link in visiblePosts"
 					:key="link.uri"
 					:class="$t(link.title)"
-					@click.native="() => closeMenu(link.uri)"
 					class="list-item-box"
+					@click.native="() => closeMenu(link.uri)"
 				>
 					<div class="option-box">
 						<div class="left-content-sec">
@@ -38,7 +40,7 @@
 						</div>
 					</div>
 					<div class="divider-box">
-						<v-divider></v-divider>
+						<v-divider />
 					</div>
 				</v-list-item>
 			</v-list>
