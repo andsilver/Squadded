@@ -15,7 +15,7 @@
 	"EnterUsername": "Enter your username",
 	"Explore": "Explore",
 	"Home": "Home",
-	"Just": "Just",
+	"Just": "",
 	"Like": "Like",
 	"Likes": "Likes",
 	"Messageregarding": "Message regarding phone charges",
@@ -261,9 +261,9 @@
 	"noPasswordRemember": "No passwords to remember. We'll send you a unique code to make sure it's you.",
 	"notify": {
 		"accepted": "accepted your invitation",
-		"accepted_invite": "",
+		"accepted_invite": "wants to join your squad",
 		"acceptedbanner": "is now in your squad",
-		"comment": "",
+		"comment": "commented",
 		"commented": "commented",
 		"commentedq": "commented: ",
 		"emptySquaddedEndText": "You don't have any notifications yet",
@@ -284,8 +284,8 @@
 		"private_post_off": "Anyone can now see your post ",
 		"private_post_on": "Only your squad can now see your post",
 		"requestEmpty": "You have no new request",
-		"vote": "voted on",
-		"squad_connected": "just connected to {merchant}"
+		"squad_connected": "just connected to {merchant}",
+		"vote": "voted on"
 	},
 	"ok": "ok",
 	"or": "or",
@@ -403,7 +403,7 @@
 			"first": "We're sorry to hear that you'd like to delete your account. Please write us at",
 			"second": "and let us know why. Our team will process your request and delete your account."
 		},
-		"feedback": "Feedback",
+		"feedback": "Report a Problem",
 		"feedback_warning": "Please only leave feedback about Squadded and its features. All reports are subject to our terms of use.",
 		"general": "General",
 		"language": {

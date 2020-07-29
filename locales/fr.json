@@ -46,12 +46,12 @@
 	"SelectOutfitName": "Ajouter une légende...",
 	"SelectPollName": "Ajouter une légende...",
 	"ShopWithYourFriendsOn": "Faites du shopping entre amis",
-	"Signin": "Connectez-vous",
+	"Signin": "Se connecter",
 	"SocialVideo": "Vidéo",
 	"Squadders": "Squadders",
 	"StartBuildingYourSquad": "Vous avez presque fini! Après cette étape, vous inviterez vos amis a rejoindre votre squad.",
 	"Undo": "Annuler",
-	"UseOneTimeCode": "Connectez-vous avec un e-mail",
+	"UseOneTimeCode": "Se connecter avec un email",
 	"Wecare": "Nous nous soucions de votre sécurité. Aidez-nous à assurer celle de notre communauté.",
 	"Wishlist": "Wishlist",
 	"YouCanAlwaysChange": "Uniquement lettres et chiffres. Vous pourrez toujours le changer plus tard.",
@@ -212,7 +212,7 @@
 			}
 		},
 		"send_me_otp": "Envoyer un code",
-		"signup": "Connectez-vous",
+		"signup": "Se connecter",
 		"terms": {
 			"label": "J'ai lu et j'accepte les conditions",
 			"message": "Vous devez accepter les conditions pour continuer!"
@@ -284,6 +284,7 @@
 		"private_post_off": "Toute la communauté peut désormais voir votre publication",
 		"private_post_on": "Seul votre squad peut désormais voir votre publication",
 		"requestEmpty": "Vous n'avez aucune nouvelle demande",
+		"squad_connected": "vient de se connecter à {merchant}",
 		"vote": "a répondu"
 	},
 	"ok": "ok",
@@ -402,8 +403,8 @@
 			"first": "Nous sommes désolés d'apprendre que vous souhaitez supprimer votre compte. Veuillez nous écrire à",
 			"second": "et nous expliquer la raison. Notre équipe traitera votre demande et supprimera votre compte."
 		},
-		"feedback": "Écrivez nous",
-		"feedback_warning": "Veuillez ne laisser des commentaires que sur Squadded et ses fonctionnalités. Tous les commentaires sont soumis à nos conditions d'utilisation.",
+		"feedback": "Signaler un problème",
+		"feedback_warning": "Veuillez ne donner votre avis que sur Squadded et ses fonctionnalités. Tous les signalements sont soumis à nos conditions d'utilisation.",
 		"general": "Général",
 		"language": {
 			"description": "How often do you want to get notifications?",
