@@ -145,7 +145,7 @@ export default {
 		},
 		getComponent,
 		savePosition() {
-			if (!['feed', 'all'].includes(this.$route.name)) {
+			if (!['feed', 'all'].some(item => this.storageKey.includes(item))) {
 				return;
 			}
 			if (this.lastIndex > 2) {
