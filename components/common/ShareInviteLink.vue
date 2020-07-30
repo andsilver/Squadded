@@ -113,9 +113,11 @@ export default {
 			this.$emit('shared');
 			const content = this.$t('invite_your_friends.invite_body', { merchant: this.$store.state.merchant.id });
 			switch (method.title) {
-			case 'messenger':
-				window.open(`https://www.facebook.com/dialog/send?app_id=${process.env.FB_APP_ID}&link=${this.shortURL}&redirect_uri=${window.location.origin}`);
+			case 'messenger': {
+				const { siteUrl } = this.$store.state.merchant;
+				window.open(`https://www.facebook.com/dialog/send?app_id=${process.env.FB_APP_ID}&link=${this.shortURL}&redirect_uri=${siteUrl}`);
 				break;
+			}
 			case 'copy_link':
 				if (!navigator.userAgent.match('Chrome') && navigator.userAgent.match('Safari')) {
 					copySafari(this.shortURL);
