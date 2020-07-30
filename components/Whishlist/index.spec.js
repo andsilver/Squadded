@@ -45,8 +45,8 @@ describe('Whishlist Component', () => {
 				params,
 			},
 		};
-		global.window.addEventListener = jest.fn();
-		global.window.removeEventListener = jest.fn();
+		global.document.body.addEventListener = jest.fn();
+		global.document.body.removeEventListener = jest.fn();
 		localStorage.setItem(USER_TOKEN_KEY, 'token');
 		wrapper = shallowMount(Whishlist, {
 			localVue,
@@ -85,18 +85,18 @@ describe('Whishlist Component', () => {
 	});
 
 	it('should add listener for scroll on mounted', () => {
-		expect(window.addEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+		expect(document.body.addEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
 	});
 
 	it('should remove listener for scroll on destroyed', () => {
 		wrapper.destroy();
-		expect(window.removeEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+		expect(document.body.removeEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
 	});
 
 	it('should emit loadMore event on scroll bottom', () => {
 		Math.max = jest.fn();
 		Math.max.mockReturnValue(0);
-		global.window.innerHeight = 100;
+		global.document.body.innerHeight = 100;
 		Object.defineProperty(global.document.documentElement, 'offsetHeight', {
 			get: jest.fn(() => 100),
 			set: jest.fn(),

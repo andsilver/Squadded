@@ -31,6 +31,7 @@
 				:post="post"
 			/>
 		</div>
+		<Preloader v-if="wishlist && loading.wishlist" ref="preloader-more" class="mt-4 mb-4" />
 	</section>
 </template>
 
@@ -63,6 +64,7 @@ export default {
 		...activityState([
 			'wishlist',
 			'isPrivate',
+			'loading',
 		]),
 		...mapState([
 			'merchant',
@@ -74,20 +76,14 @@ export default {
 		this.fetchWishlist();
 	},
 	mounted() {
-		window.addEventListener('scroll', this.onScroll);
+		document.body.addEventListener('scroll', this.onScroll);
 	},
 	destroyed() {
-		window.removeEventListener('scroll', this.onScroll);
+		document.body.removeEventListener('scroll', this.onScroll);
 	},
 	methods: {
 		onScroll (e) {
-			const bottomOfWindow = Math.max(
-				window.pageYOffset,
-				document.documentElement.scrollTop,
-				document.body.scrollTop,
-			) + window.innerHeight === document.documentElement.offsetHeight;
-
-			if (bottomOfWindow) {
+			if (document.body.scrollTop > (document.body.scrollHeight - document.body.offsetHeight - 30)) {
 				this.fetchWishlist();
 			}
 		},
