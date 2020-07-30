@@ -38,11 +38,11 @@ export default {
 				}
 			}
 			if (this.socket.isAuth) {
-				const { stack } = this.$router.history;
-				const route = stack.reverse().find(s => s.name !== this.$router.history.current.name);
+				const stack = [...this.$router.history.stack];
+				const routeIndex = stack.reverse().findIndex(s => s.path !== this.$router.history.current.path);
 
-				if (route) {
-					return this.$router.push(route);
+				if (routeIndex > 0) {
+					return this.$router.go(-routeIndex);
 				}
 				this.$router.back();
 			} else {
