@@ -284,8 +284,8 @@
 		"private_post_off": "Toute la communauté peut désormais voir votre publication",
 		"private_post_on": "Seul votre squad peut désormais voir votre publication",
 		"requestEmpty": "Vous n'avez aucune nouvelle demande",
-		"squad_connected": "vient de se connecter à {merchant}",
-		"vote": "a répondu"
+		"vote": "a répondu",
+		"squad_connected": "vient de se connecter à {merchant}"
 	},
 	"ok": "ok",
 	"or": "ou",

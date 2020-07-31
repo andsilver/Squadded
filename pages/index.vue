@@ -8,7 +8,7 @@
 			<div class="notifications-container">
 				<v-slide-y-transition v-if="resendNotify">
 					<v-card
-						class="d-flex w-100 justify-space-between align-center notification-message"
+						class="d-flex w-100 justify-space-between align-center notification-message-resend"
 						:elevation="5"
 						transition="scroll-y-transition"
 					>
@@ -65,12 +65,7 @@
 					</div>
 				</div>
 				<div ref="step-one" class="sign-step-one" :class="{ active: showstepTwo, in_active: !showstepTwo}">
-					<v-btn ref="go-back-btn" icon @click="emailback">
-						<v-icon>
-							sqdi-arrow-pointing-to-left
-						</v-icon>
-					</v-btn>
-					<sign-form ref="signForm" :terms-status="terms" @sendOtp="showStepTwo" />
+					<sign-form ref="signForm" :terms-status="terms" @sendOtp="showStepTwo" @emailback="emailback" />
 				</div>
 				<div ref="step-two" class="sign-step-two" :class="{ active: showstepThree, in_active: !showstepThree}">
 					<h2>
@@ -548,6 +543,10 @@ export default {
 	font-weight 500
 	line-height 4.61vw
 	margin-top 3.07vw
+.notification-message-resend
+	height: 40px;
+	padding: 0 25px;
+	border-bottom: 4px red solid;
 .notifications-container
 	position fixed
 	z-index 99

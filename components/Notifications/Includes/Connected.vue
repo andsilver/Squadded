@@ -5,12 +5,14 @@
 			:user="notification.user"
 			hide-name
 		/>
-		<div class="notification-message d-flex align-center">
-			<span class="user_name">
-				{{ notification.user.screenName }}
-			</span>
-			<div class="notification-text">
-				{{ $t('notify.squad_connected', { merchant: notification.merchantId }) }}
+		<div class="notification-message">
+			<div class="message">
+				<span class="user_name">
+					{{ notification.user.screenName }}
+				</span>
+				<span class="notification-text">
+					{{ $t('notify.squad_connected', { merchant: notification.merchantId }) }}
+				</span>
 			</div>
 		</div>
 	</section>

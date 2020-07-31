@@ -11,14 +11,18 @@
 					{{ item.title }}
 				</div>
 			</div>
-			<div class="w-100 d-flex">
-				<ResquaddButton ref="save-button" class="flex-grow-1 save-button" :item="item" />
-				<Button ref="create-button" class="flex-grow-1 ml-2 create-button" @click.native="openCreateDialog">
-					<v-icon class="plus-icon" x-small>
-						sqdi-plus
-					</v-icon>
-					<span class="ml-2">{{ $t("Create") }}</span>
-				</Button>
+			<div class="w-100 button-box">
+				<div class="pa-1">
+					<ResquaddButton ref="save-button" class="flex-grow-1 save-button" :item="item" />
+				</div>
+				<div class="pa-1">
+					<Button ref="create-button" class="flex-grow-1 ml-2 create-button" @click.native="openCreateDialog">
+						<v-icon class="plus-icon" x-small>
+							sqdi-plus
+						</v-icon>
+						<span class="ml-2">{{ $t("Create") }}</span>
+					</Button>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -111,4 +115,9 @@ export default {
 	background-color var(--brand-color) !important
 	padding-left 2.5vw !important
 	padding-right 2.5vw !important
+
+.button-box {
+	display flex
+	flex-wrap wrap
+}
 </style>

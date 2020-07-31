@@ -7,6 +7,11 @@
 		@submit="emailLogin"
 	>
 		<div class="text-sec">
+			<v-btn ref="go-back-btn" icon @click="$emit('emailback')">
+				<v-icon>
+					sqdi-arrow-pointing-to-left
+				</v-icon>
+			</v-btn>
 			<h3>
 				{{ $t('UseOneTimeCode') }}
 			</h3>
