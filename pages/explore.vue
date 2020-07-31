@@ -17,7 +17,7 @@
 				</div>
 			</template>
 			<div v-else-if="searchText.length > 2" class="no-friend d-flex align-center">
-				<v-progress-circular size="14" width="2" indeterminate color="blue-grey"></v-progress-circular>
+				<v-progress-circular size="14" width="2" indeterminate color="blue-grey" />
 				<div class="ml-3">
 					{{ $t('invite_your_friends.searching', { key: searchText }) }}
 				</div>
@@ -63,14 +63,14 @@ export default {
 			'loading',
 		]),
 	},
+	destroyed() {
+		this.$store.commit(`${ExploreStore}/${ExploreMutations.setSearching}`, false);
+		this.$store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, null);
+	},
 	methods: {
 		onChange (text) {
 			this.searchText = text;
 		},
-	},
-	destroyed() {
-		this.$store.commit(`${ExploreStore}/${ExploreMutations.setSearching}`, false);
-		this.$store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, null);
 	},
 	head: () => ({
 		title: 'Main-Explore',
