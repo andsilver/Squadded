@@ -33,7 +33,7 @@
 				justify-space-between
 				fill-height
 			>
-				<v-layout column justify-center align-center>
+				<v-layout column align-center>
 					<h2>
 						<v-btn ref="go-back-btn" icon @click="goBack">
 							<v-icon>
@@ -303,5 +303,8 @@ p.tip-note.error-note {
 	.edit-button {
 		width: 29.46vw !important;
 	}
+}
+.input-section {
+	flex: 0;
 }
 </style>
