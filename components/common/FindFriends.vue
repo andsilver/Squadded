@@ -18,7 +18,21 @@
 			</v-text-field>
 		</div>
 		<div class="mt-4 px-4 friends-list">
-			<div v-if="!myFriends || !myFriends.length" class="no-friend">
+			<template v-if="!loading && !isTyping">
+				<div v-if="!myFriends.length && !friends" class="no-friend">
+					{{ $t('invite_your_friends.search_users') }}
+				</div>
+				<div v-if="!myFriends.length && friends" class="no-friend">
+					{{ $t('explore_page.search.no_results', { text: searchText }) }}
+				</div>
+			</template>
+			<div v-else-if="searchText.length > 2" class="no-friend d-flex align-center">
+				<v-progress-circular size="14" width="2" indeterminate color="blue-grey"></v-progress-circular>
+				<div class="ml-3">
+					{{ $t('invite_your_friends.searching', { key: searchText }) }}
+				</div>
+			</div>
+			<div v-else-if="searchText.length < 3" class="no-friend">
 				{{ $t('invite_your_friends.search_users') }}
 			</div>
 			<div v-for="(friend, index) in myFriends" :key="index">
@@ -86,7 +100,7 @@ export default {
 		isTyping: false,
 	}),
 	computed: {
-		...exploreState(['friends', 'facebookFriends']),
+		...exploreState(['friends', 'facebookFriends', 'loading']),
 		...userState(['me']),
 		myFriends() {
 			const filtered = [];
@@ -122,7 +136,7 @@ export default {
 		},
 	},
 	destroyed() {
-		this.$store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, []);
+		this.$store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, null);
 	},
 	methods: {
 		debounced(fn, delay) {

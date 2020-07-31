@@ -144,7 +144,7 @@
 		},
 		"search": {
 			"find_friends": "Find friends...",
-			"no_results": "No results found for {text}"
+			"no_results": "No results found for \"{text}\""
 		},
 		"top_gallery": {
 			"title": "Most Popular looks from the community",
@@ -241,7 +241,9 @@
 		"share": "Share your invitation link:",
 		"title": "Invite your friends",
 		"whatsapp": "WhatsApp",
-		"your_friends": "your friends"
+		"your_friends": "your friends",
+		"searching": "Searching for \"{key}\"...",
+		"no_results": "No results found for {text}"
 	},
 	"invited": "invited",
 	"landing_post": {

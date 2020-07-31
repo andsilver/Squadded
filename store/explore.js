@@ -28,6 +28,7 @@ export const state = () => ({
 	friends: null,
 	facebookFriends: [],
 	searching: false,
+	loading: false,
 });
 
 export const ExploreGetters = {
@@ -44,6 +45,7 @@ export const ExploreMutations = {
 	setSearching: 'setSearching',
 	setInvited: 'setInvited',
 	setFacebookFriends: 'setFacebookFriends',
+	setLoading: 'setLoading',
 };
 
 export const mutations = {
@@ -73,6 +75,9 @@ export const mutations = {
 	[ExploreMutations.setSearching]: (state, searching) => {
 		state.searching = searching;
 	},
+	[ExploreMutations.setLoading]: (state, loading) => {
+		state.loading = loading;
+	},
 	[ExploreMutations.setInvited]: (state, userId) => {
 		const friend = (state.friends || []).find(f => f.userId === userId);
 		friend && (friend.invited = true);
@@ -98,13 +103,10 @@ export const actions = {
 		});
 	},
 	[ExploreActions.searchFriends]: ({ rootState, commit }, text) => {
-		if (!text) {
-			commit(ExploreMutations.setFriends, null);
-			return;
+		if (!text || text.length < 3) {
+			return commit(ExploreMutations.setFriends, null);
 		}
-		if (text.length < 3) {
-			return;
-		}
+		commit(ExploreMutations.setLoading, true);
 		rootState.socket.$ws.sendObj({ type: 'searchUsers', text });
 	},
 };

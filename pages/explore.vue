@@ -1,23 +1,32 @@
 <template>
-	<div class="pt-0">
-		<SearchFriends ref="search-field" @change="(value) => searchText = value" />
+	<div class="pt-0 flex-grow-1">
+		<SearchFriends ref="search-field" @change="(value) => searchText = value" @typing="(v) => typing = v" />
 		<div v-if="!searching" class="explore-content">
 			<TopItems ref="top-items" class="explor-component" />
 			<TopGallery ref="top-gallery" class="explor-component mt-4" />
 			<EndingPolls ref="ending-polls" class="explor-component mt-4" />
 			<TopOutfits ref="top-outfits" class="explor-component mt-4 mb-4" />
 		</div>
-		<div v-else-if="searchText.length > 2">
-			<UserList v-if="friends && friends.length" ref="user-list" :show-follow="false" class="px-2" :users="friends" />
-			<div v-else ref="no-result" class="pa-4">
-				{{ $t('explore_page.search.no_results', { text: searchText }) }}
+		<template v-else>
+			<template v-if="!loading && !typing">
+				<div v-if="!friends" class="no-friend">
+					{{ $t('invite_your_friends.search_users') }}
+				</div>
+				<div v-if="friends && !friends.length" ref="no-result" class="no-friend">
+					{{ $t('explore_page.search.no_results', { text: searchText }) }}
+				</div>
+			</template>
+			<div v-else-if="searchText.length > 2" class="no-friend d-flex align-center">
+				<v-progress-circular size="14" width="2" indeterminate color="blue-grey"></v-progress-circular>
+				<div class="ml-3">
+					{{ $t('invite_your_friends.searching', { key: searchText }) }}
+				</div>
 			</div>
-		</div>
-		<div v-else>
-			<div class="no-friend">
+			<div v-else-if="searchText.length < 3" class="no-friend">
 				{{ $t('invite_your_friends.search_users') }}
 			</div>
-		</div>
+			<UserList v-if="friends" ref="user-list" :show-follow="false" class="px-2" :users="friends" />
+		</template>
 	</div>
 </template>
 
@@ -45,15 +54,23 @@ export default {
 	},
 	data: () => ({
 		searchText: '',
+		typing: false,
 	}),
 	computed: {
 		...mapState([
 			'friends',
 			'searching',
+			'loading',
 		]),
+	},
+	methods: {
+		onChange (text) {
+			this.searchText = text;
+		},
 	},
 	destroyed() {
 		this.$store.commit(`${ExploreStore}/${ExploreMutations.setSearching}`, false);
+		this.$store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, null);
 	},
 	head: () => ({
 		title: 'Main-Explore',

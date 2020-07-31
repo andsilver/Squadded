@@ -7,7 +7,7 @@
 			:hide-details="true"
 			:placeholder="$t('explore_page.search.find_friends')"
 			@focus="() => setSearch(true)"
-			@input="isTyping = true"
+			@input="() => onInput()"
 		>
 			<v-icon slot="prepend" color="#B8B8BA" size="22">
 				sqdi-magnifying-glass-finder
@@ -40,7 +40,10 @@ export default {
 	watch: {
 		searchText() {
 			this.$emit('change', this.searchText);
-			this.debounced(() => (this.isTyping = false), 1000);
+			this.debounced(() => {
+				this.isTyping = false;
+				this.$emit('typing', false);
+			}, 1000);
 		},
 		isTyping(value) {
 			if (value) {
@@ -66,6 +69,10 @@ export default {
 				this.searchText = '';
 				this.$store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, null);
 			}
+		},
+		onInput() {
+			this.isTyping = true;
+			this.$emit('typing', true);
 		},
 	},
 };

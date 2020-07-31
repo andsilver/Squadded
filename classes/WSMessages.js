@@ -331,6 +331,7 @@ export class WSMessages {
 	friends(message) {
 		const { users } = message;
 		this.store.commit(`${ExploreStore}/${ExploreMutations.setFriends}`, users);
+		this.store.commit(`${ExploreStore}/${ExploreMutations.setLoading}`, false);
 	}
 
 	moderationFailed() {
