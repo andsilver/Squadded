@@ -39,6 +39,9 @@ describe('Message Input', () => {
 				$t: msg => msg,
 				$router,
 			},
+			data: () => ({
+				showDialog: false,
+			}),
 		});
 	});
 
@@ -56,12 +59,12 @@ describe('Message Input', () => {
 	it('should go to signin on mouse down', () => {
 		const street = wrapper.ref(STREET);
 		street.trigger('mousedown');
-		expect($router.push).toHaveBeenCalledWith('/');
+		expect(wrapper.vm.showDialog).toBe(true);
 	});
 
 	it('should go to signin on screen click', () => {
 		const street = wrapper.ref(STREET);
 		street.trigger('click');
-		expect($router.push).toHaveBeenCalledWith('/');
+		expect(wrapper.vm.showDialog).toBe(true);
 	});
 });

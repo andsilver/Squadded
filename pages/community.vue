@@ -1,14 +1,15 @@
 <template>
 	<v-container class="feed-container">
-		<FakeTopBar ref="top-bar" class="topBar" />
+		<FakeTopBar ref="top-bar" class="topBar" @openSigninDialog="openDialog" />
 		<v-layout>
 			<Feed
 				ref="street-layout"
 				:items="items"
-				@mousedown.native="signin"
-				@click.native="signin"
+				@mousedown.native="openDialog"
+				@click.native="openDialog"
 			/>
 		</v-layout>
+		<SignInDialog :show-dialog.sync="showDialog" />
 	</v-container>
 </template>
 
@@ -19,16 +20,19 @@ import Feed from '~/components/Feed';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
 import { DEFAULT_LANDING } from '~/store/squad';
+import SignInDialog from '~/components/SignIn/SignInDialog';
 
 export default {
 	components: {
 		FakeTopBar,
 		Feed,
+		SignInDialog,
 	},
 	data: () => ({
 		items: null,
 		unsubscribe: null,
 		showStartWatchingDialog: false,
+		showDialog: false,
 	}),
 	computed: {
 		...mapState([
@@ -50,6 +54,11 @@ export default {
 		}
 	},
 	methods: {
+		openDialog() {
+			if (!this.socket.isAuth) {
+				this.showDialog = true;
+			}
+		},
 		async updateStreet () {
 			const publicFeed = await SquadAPI.fetchStreet(this.merchant.id);
 			if (!publicFeed) {
@@ -57,11 +66,6 @@ export default {
 				return;
 			}
 			this.items = publicFeed.map(post => new FeedPost(post));
-		},
-		signin () {
-			if (!this.socket.isAuth) {
-				this.$router.push('/');
-			}
 		},
 	},
 	head: () => ({

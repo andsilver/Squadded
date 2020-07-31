@@ -559,5 +559,8 @@
 		"postempty": "Your wishlist is empty. Add items to post something.",
 		"private": "This account is private\n Only @{user}'s squad\n can see their posts.",
 		"purchase": "Move to Bag"
+	},
+	"signin_dialog": {
+		"text": "Sign in to interact with the community and to shop with your friends"
 	}
 }

@@ -6,10 +6,10 @@
 		class="px-3 toolbar"
 	>
 		<v-tabs v-model="tab">
-			<v-tab class="v-tab--active" to="/">
+			<v-tab class="v-tab--active" @click="$emit('openSigninDialog')">
 				{{ $t('Home') }}
 			</v-tab>
-			<v-tab to="/">
+			<v-tab @click="$emit('openSigninDialog')">
 				{{ $t('My Squad') }}
 			</v-tab>
 		</v-tabs>

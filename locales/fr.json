@@ -557,5 +557,8 @@
 		"postempty": "Votre wishlist est vide. Ajoutez des articles pour publier quelque chose.",
 		"private": "Ce compte est privé\n Seul le squad de @{user}\n peut voir ses publications.",
 		"purchase": "Ajouter"
+	},
+	"signin_dialog": {
+		"text": "Connecte toi pour intéragir avec la communauté et faire du shopping avec tes amis"
 	}
 }
