@@ -89,13 +89,9 @@ export default {
 	watch: {
 		value (current, prev) {
 			if (current !== this.videoLink) {
-				embedo.destroy(this.$el);
 				this.embed();
 			}
 		},
-	},
-	mounted () {
-		this.embed();
 	},
 	methods: {
 		getWidth () {
@@ -134,6 +130,7 @@ export default {
 			this.videoLink = source.fixToSave(this.value);
 			const height = await source.getHeight(width, this.videoLink);
 			this.height = `${height}px`;
+			embedo.destroy(this.$el);
 			embedo
 				.load(this.$el, source.fixToEmbed(this.videoLink), {
 					width,
@@ -151,7 +148,6 @@ export default {
 			const width = this.getWidth();
 			const request = embedo.requests.filter(req => req.el === this.$el)[0];
 			if (isVisible && (!request || request.attributes.width !== width)) {
-				embedo.destroy(this.$el);
 				this.embed();
 			}
 		},
