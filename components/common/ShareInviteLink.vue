@@ -7,6 +7,7 @@
 			<div
 				v-for="(method, index) of methods"
 				:key="index"
+				:ref="`${method.title}-share-invite`"
 				class="d-flex flex-column justify-center align-center"
 				style="width: 23vw"
 				@click="() => action(method)"
