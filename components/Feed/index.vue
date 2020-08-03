@@ -12,21 +12,28 @@
 		</v-btn>
 		<UploadingDone v-if="image && image !== 'violation'" ref="uploading-done" :image="image" />
 		<v-layout column class="gallery_layout">
-			<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + getId(post)" ref="post" :key="n">
-				<component
-					:is="getComponent(post)"
-					ref="component"
-					:is-paired="paired"
-					:post="post"
-				/>
-				<Comments
-					v-if="showComments(post) && !paired"
-					ref="comments"
-					:post="post"
-					:show-all="false"
-					for-feed
-				/>
-			</div>
+			<LoadMore
+				ref="vueLoad"
+				:disable-bottom="true"
+				:top-change-text="topChangeText"
+				@top-method="handleTopRefresh"
+			>
+				<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + getId(post)" ref="post" :key="n">
+					<component
+						:is="getComponent(post)"
+						ref="component"
+						:is-paired="paired"
+						:post="post"
+					/>
+					<Comments
+						v-if="showComments(post) && !paired"
+						ref="comments"
+						:post="post"
+						:show-all="false"
+						for-feed
+					/>
+				</div>
+			</LoadMore>
 		</v-layout>
 		<ViolationDialog v-if="image === 'violation'" ref="violation" @close="closeViolationDialog" />
 	</section>
@@ -35,10 +42,12 @@
 <script>
 import UploadingDone from './UploadingDone';
 import ViolationDialog from './ViolationDialog';
+import { LOADING_TIMEOUT, GROUP_ITEMS_TIME_RANGE } from '~/consts/time-values';
 import Comments from '~/components/Comments';
 import { PostStore, PostMutations } from '~/store/post';
-import { GROUP_ITEMS_TIME_RANGE } from '~/consts/time-values';
+
 import { getComponent } from '~/services/post';
+import LoadMore from '~/components/LoadMore';
 
 export default {
 	name: 'Feed',
@@ -46,6 +55,7 @@ export default {
 		Comments,
 		UploadingDone,
 		ViolationDialog,
+		LoadMore,
 	},
 	props: {
 		items: {
@@ -124,6 +134,14 @@ export default {
 		image () {
 			return this.$store.state.post.uploadingPicture;
 		},
+		topChangeText() {
+			return {
+				pulling: 'mdi-arrow-down',
+				limit: 'mdi-arrow-collapse-down',
+				loading: 'mdi-timer-sand',
+				complete: '',
+			};
+		},
 	},
 	mounted() {
 		this.storageKey = `saved_post_${this.$route.name}`;
@@ -138,6 +156,14 @@ export default {
 		this.savePosition();
 	},
 	methods: {
+		handleTopRefresh() {
+			this.$emit('loadNew');
+			setTimeout(() => this.$refs.vueLoad.onTopLoaded(0), LOADING_TIMEOUT);
+			document.body.scrollTo({
+				top: 0,
+				behavior: 'smooth',
+			});
+		},
 		getId(post) {
 			return post.postId ? post.postId
 				: post.items ? `${post.items[0].guid}_group`
