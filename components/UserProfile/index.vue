@@ -43,7 +43,7 @@
 						<template v-else>
 							<RemoveSquad v-if="isMySquad" ref="my-squad" :user="user" class="remove-squad-btn" />
 							<template v-else-if="!meInvited">
-								<OutlineButton v-if="isPending" disabled class="invited-button">
+								<OutlineButton v-if="isPending || temporaryPending" disabled class="invited-button">
 									<img src="~assets/img/invited-icon.svg" class="my-squad">
 									<span class="ml-2">{{ $t('invited') }}</span>
 								</OutlineButton>
@@ -154,6 +154,7 @@ export default {
 		show_notification: false,
 		blog: null,
 		wishlist: null,
+		temporaryPending: false,
 	}),
 	computed: {
 		...mapState(['socket']),
@@ -239,6 +240,7 @@ export default {
 			if (!this.socket.isAuth) {
 				return this.$router.push('/');
 			}
+			this.temporaryPending = true;
 			this.$ws.sendObj({
 				type: 'inviteSquad',
 				targetUserId: this.user.userId,
