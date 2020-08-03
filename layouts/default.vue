@@ -190,6 +190,7 @@ export default {
 <style lang="stylus" scoped>
 .v-main
 	overflow hidden auto
+	max-height calc(100vh - 65px)
 .v-main >>> .v-main__wrap,
 .container
 	display flex
