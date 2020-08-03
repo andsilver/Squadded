@@ -7,7 +7,7 @@
 					:elevation="5"
 					transition="scroll-y-transition"
 				>
-					<component :is="getComponent(item)" class="mr-0" :notification="item" :banner="true" />
+					<component :is="getComponent(item)" class="mr-0" :notification="item" :banner="true" @closeNotif="() => viewItem(item)" />
 					<v-icon color="#B8B8BA" x-small @click="viewItem(item)">
 						sqdi-close-cross
 					</v-icon>

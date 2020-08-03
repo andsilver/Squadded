@@ -77,12 +77,15 @@ export default {
 	methods: {
 		goToLandingPost() {
 			this.$router.push(`/post/${this.notification.postId}`);
+			this.$emit('closeNotif');
 		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
+.text-section
+	width 100%
 i.sqdi-favorite-heart-button
 	margin-top 1px
 .time-string

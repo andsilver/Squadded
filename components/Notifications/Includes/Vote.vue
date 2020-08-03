@@ -73,12 +73,15 @@ export default {
 	methods: {
 		goToLandingPost() {
 			this.$router.push(`/post/${this.notification.guid}`);
+			this.$emit('closeNotif');
 		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
+.text-section
+	width 100%
 i.sqdi-checkmark
 	margin-top 2px
 .time-string

@@ -75,12 +75,15 @@ export default {
 	methods: {
 		goToLandingPost() {
 			this.$router.push(`/post/${this.notification.post.guid}#comments`);
+			this.$emit('closeNotif');
 		},
 	},
 };
 </script>
 
 <style lang="stylus" scoped>
+.text-section
+	width 100%
 .time-string
 	font-size 2.92vw
 	vertical-align middle

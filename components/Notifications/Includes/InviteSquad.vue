@@ -98,6 +98,7 @@ export default {
 		navigate() {
 			if (this.banner) {
 				this.$router.push('/notifications/requests');
+				this.$emit('closeNotif');
 			}
 		},
 	},
@@ -138,6 +139,7 @@ i.sqdi-checkmark
 	color white
 .feed
 	section.text-section.accept-section
+		width 100%
 		padding 3.07vw 0
 		margin 0 4.61vw
 		border-left 0
