@@ -11,18 +11,14 @@
 					{{ item.title }}
 				</div>
 			</div>
-			<div class="w-100 button-box">
-				<div class="pa-1">
-					<ResquaddButton ref="save-button" class="flex-grow-1 save-button" :item="item" />
-				</div>
-				<div class="pa-1">
-					<Button ref="create-button" class="flex-grow-1 ml-2 create-button" @click.native="openCreateDialog">
-						<v-icon class="plus-icon" x-small>
-							sqdi-plus
-						</v-icon>
-						<span class="ml-2">{{ $t("Create") }}</span>
-					</Button>
-				</div>
+			<div class="button-box">
+				<ResquaddButton ref="save-button" class="flex-grow-1 save-button" :item="item" />
+				<Button ref="create-button" class="flex-grow-1 ml-2 create-button" @click.native="openCreateDialog">
+					<v-icon class="plus-icon" x-small>
+						sqdi-plus
+					</v-icon>
+					<span class="ml-2">{{ $t("Create") }}</span>
+				</Button>
 			</div>
 		</div>
 	</div>
@@ -119,5 +115,19 @@ export default {
 .button-box {
 	display flex
 	flex-wrap wrap
+	.save-button {
+		font-size: 2.15vw
+		width: 25.38vw;
+		height: 9.23vw;
+		min-height auto
+	}
+	.create-button {
+		min-height auto
+		height: 9.23vw;
+		width: 25.38vw;
+		span {
+			font-size: 2.15vw
+		}
+	}
 }
 </style>
