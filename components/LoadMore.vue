@@ -1,6 +1,6 @@
 <!-- In order to have the ability to use icon, this component has been extracted from: https://github.com/duyanpeng/vue-quick-loadmore -->
 <template>
-	<div class="garen-loadmore" :style="{overflow:bottomOverflow}" @scroll.passive="handleScroll">
+	<div class="garen-loadmore" @scroll.passive="handleScroll">
 		<div ref="content" class="garen-loadmore-content">
 			<slot name="top">
 				<div class="garen-loadmore-header">
@@ -8,11 +8,6 @@
 				</div>
 			</slot>
 			<slot />
-			<slot name="bottom">
-				<div v-if="!disableBottom" class="garen-loadmore-footer" @click="onBottomErrorClick">
-					<div>{{ bottomText }}</div>
-				</div>
-			</slot>
 		</div>
 	</div>
 </template>
@@ -24,12 +19,6 @@ const TOPSTATUS = {
 	limit: 'limit',
 	loading: 'loading',
 	complete: 'complete',
-};
-const BOTTOMSTATUS = {
-	wait: 'wait',
-	loading: 'loading',
-	nodata: 'nodata',
-	error: 'error',
 };
 export default {
 	name: 'Loadmore',
@@ -57,20 +46,6 @@ export default {
 				return {};
 			},
 		},
-		disableBottom: {
-			type: Boolean,
-			default: false,
-		},
-		bottomDistance: {
-			type: Number,
-			default: 10,
-		},
-		bottomChangeText: {
-			type: Object,
-			default() {
-				return {};
-			},
-		},
 		eventScroll: {
 			type: Function,
 		},
@@ -81,8 +56,6 @@ export default {
 			startScreenY: 0,
 			endScreenY: 0,
 			topStatus: TOPSTATUS.wait,
-			bottomOverflow: 'auto',
-			bottomStatus: BOTTOMSTATUS.wait,
 		};
 	},
 	computed: {
@@ -100,25 +73,10 @@ export default {
 				return '';
 			}
 		},
-		bottomText() {
-			switch (this.bottomStatus) {
-			case BOTTOMSTATUS.loading:
-				return this.bottomChangeText.loading || 'Loading...';
-			case BOTTOMSTATUS.nodata:
-				return this.bottomChangeText.nodata || 'No data';
-			case BOTTOMSTATUS.error:
-				return this.bottomChangeText.error || 'Error';
-			default:
-				return '';
-			}
-		},
 	},
 	watch: {
 		topStatus(next) {
 			this.$emit('top-status-change', next);
-		},
-		bottomStatus(next) {
-			this.$emit('bottom-status-change', next);
 		},
 	},
 	mounted() {
@@ -127,23 +85,6 @@ export default {
 	methods: {
 		handleScroll() {
 			this.eventScroll && this.eventScroll();
-			if (this.disableBottom) {
-				return;
-			}
-			if (this.bottomStatus !== BOTTOMSTATUS.wait) {
-				return;
-			}
-			const bDistance =
-        this.$el.scrollHeight - this.$el.scrollTop - this.$el.clientHeight;
-			if (bDistance <= this.bottomDistance) {
-				this.bottomStatus = BOTTOMSTATUS.loading;
-				this.$nextTick(() => {
-					try {
-						this.$el.scrollTo(0, this.$el.scrollHeight);
-					} catch (e) {}
-				});
-				this.$emit('bottom-method');
-			}
 		},
 		getScrollTop() {
 			return this.$el.scrollTop;
@@ -228,9 +169,6 @@ export default {
 				this.topStatus = TOPSTATUS.loading;
 				// 下拉刷新触发方法
 				this.$emit('top-method');
-				if (!this.disableBottom) {
-					this.bottomStatus = BOTTOMSTATUS.wait;
-				}
 			} else {
 				this.topStatus = TOPSTATUS.wait;
 				this.transformStyle(this.$refs.content, 0);
@@ -243,22 +181,6 @@ export default {
 				this.startScreenY = 0;
 			}, time);
 			this.topStatus = TOPSTATUS.complete;
-		},
-		onBottomLoaded(flag = true) {
-			if (flag) {
-				this.bottomStatus = BOTTOMSTATUS.wait;
-			} else {
-				this.bottomStatus = BOTTOMSTATUS.nodata;
-			}
-		},
-		onBottomError() {
-			this.bottomStatus = BOTTOMSTATUS.error;
-		},
-		onBottomErrorClick() {
-			if (this.bottomStatus === BOTTOMSTATUS.error) {
-				this.bottomStatus = BOTTOMSTATUS.loading;
-				this.$emit('bottom-error-click');
-			}
 		},
 		transformStyle(target, moveDistance, transition, timer = 200) {
 			target.style['-webkit-transform'] =
@@ -275,8 +197,6 @@ export default {
 <style scoped>
 .garen-loadmore {
   height: 100%;
-  overflow: auto;
-  -webkit-overflow-scrolling: touch;
 }
 .garen-loadmore-header {
   margin-top: -50px;
@@ -284,14 +204,6 @@ export default {
   line-height: 50px;
   text-align: center;
   font-size: 14px;
-  color: #666666;
-  letter-spacing: -0.31px;
-}
-.garen-loadmore-footer {
-  height: 50px;
-  line-height: 50px;
-  text-align: center;
-  font-size: 13px;
   color: #666666;
   letter-spacing: -0.31px;
 }

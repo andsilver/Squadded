@@ -14,7 +14,6 @@
 		<v-layout column class="gallery_layout">
 			<LoadMore
 				ref="vueLoad"
-				:disable-bottom="true"
 				:top-change-text="topChangeText"
 				@top-method="handleTopRefresh"
 			>
