@@ -46,6 +46,8 @@ export class FeedPost {
 			coords,
 			videoLink,
 			merchantId,
+			color,
+			background,
 		} = props;
 
 		this.type = type;
@@ -71,6 +73,11 @@ export class FeedPost {
 		this.creationTs = creationTs;
 		this.selected = false;
 		this.private = !!privacy;
+
+		if (this.type === 'questionPost') {
+			this.color = color;
+			this.background = background;
+		}
 		coords && (this.coords = coords);
 
 		if (type === 'pollPost') {
@@ -93,7 +100,7 @@ export class FeedPost {
 			this.items = items.map(composeItem);
 			this.items.forEach(item => !item.merchantId && (item.merchantId = merchantId));
 			this.videoLink = videoLink;
-		} else {
+		} else if (type !== 'questionPost') {
 			this.item = composeItem(item);
 			!this.item.merchantId && (this.item.merchantId = merchantId);
 		}

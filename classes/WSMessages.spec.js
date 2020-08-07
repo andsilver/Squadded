@@ -76,7 +76,7 @@ describe('WSMessages dispatch', () => {
 		expect(_ws.sendObj).toHaveBeenCalledWith({ type: 'pong' });
 	});
 
-	['singleItemPost', 'pollPost', 'outfitPost'].forEach((type) => {
+	['singleItemPost', 'pollPost', 'outfitPost', 'questionPost'].forEach((type) => {
 		it(`should handle ${type}`, async () => {
 			const post = { mock: 'post' };
 			const msg = {

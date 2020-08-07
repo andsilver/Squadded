@@ -4,6 +4,7 @@ import MultiItemPost from '~/components/Posts/MultiItemPost';
 import SingleItemPost from '~/components/Posts/SingleItemPost';
 import PollPost from '~/components/Posts/PollPost';
 import GroupedPosts from '~/components/Posts/GroupedPosts';
+import QuestionPost from '~/components/Posts/QuestionPost';
 
 const COMMUNITY_ENDPOINT = `${API_ENDPOINT}/community`;
 
@@ -25,6 +26,7 @@ const components = {
 	outfitPost: MultiItemPost,
 	galleryPost: GalleryPost,
 	videoPost: GalleryPost,
+	questionPost: QuestionPost,
 };
 
 export const getComponent = post => components[post.type];

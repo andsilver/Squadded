@@ -4,11 +4,11 @@
 		dense
 		flat
 		height="40"
-		class="px-3"
+		class="create-tabs"
 	>
 		<v-tabs fixed-tabs>
 			<v-tab
-				v-for="tab in visiblePosts"
+				v-for="tab of visiblePosts"
 				:key="tab.uri"
 				:to="tab.uri"
 				color="#000"
@@ -38,13 +38,15 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.v-toolbar
+.v-toolbar.create-tabs
 	flex-grow 0
 	.v-tab
 		font-size: 3.733vw !important;
 		font-weight: 600 !important;
 		border-bottom: 1.2px solid #B8B8BA !important;
 		min-width initial
+		padding 0
+
 		&--active
 			border-bottom: 1.5px solid #202020;
 		&:not(.v-tab--active)

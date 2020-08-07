@@ -107,6 +107,7 @@ export class WSMessages {
 	pollPost = acceptPost;
 	outfitPost = acceptPost;
 	galleryPost = acceptPost;
+	questionPost = acceptPost;
 
 	likes = receiveReaction;
 

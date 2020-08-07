@@ -13,7 +13,7 @@
 				<PopMenu :post="post" @edit="toggleTextEditor" />
 			</div>
 			<h3
-				v-if="isTextVisible && !hideUser"
+				v-if="isTextVisible && !hideUser && !hideCaption"
 				ref="post-text"
 				:class="{card_title: true, placeholder: isPlaceHolder, 'px-2': groupPost}"
 				@click="toggleTextEditor"
@@ -60,6 +60,10 @@ export default {
 			required: true,
 		},
 		hideUser: {
+			type: Boolean,
+			default: false,
+		},
+		hideCaption: {
 			type: Boolean,
 			default: false,
 		},

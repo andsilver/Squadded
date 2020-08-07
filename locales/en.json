@@ -103,7 +103,8 @@
 		"poll": "Poll",
 		"socialVideo": "Video",
 		"upload": "Gallery",
-		"video": "Video"
+		"video": "Video",
+		"question": "Question"
 	},
 	"createDesc": {
 		"outfit": "Pair 2-4 items to create an outfit",
@@ -111,7 +112,9 @@
 		"poll": "Ask shoppers to vote between 2 items",
 		"unsupported_file_format": "This image format is not supported",
 		"upload": "Tag items in your photo or video",
-		"video": "Add a video link and tag items on it"
+		"video": "Add a video link and tag items on it",
+		"question": "Ask the community anything",
+		"what_question": "What is your question, {user}?"
 	},
 	"create_your_squad": {
 		"description": "Add your friends to join your squad. Once they join, you will be able to see and interact with each other’s wishlist.",

@@ -2,6 +2,7 @@ export const GA_ACTIONS = {
 	CREATE_POST_POLL: 'create-post-poll',
 	CREATE_POST_GALLERY: 'create-post-gallery',
 	CREATE_POST_OUTFIT: 'create-post-outfit',
+	CREATE_POST_QUESTION: 'create-post-question',
 	LIKE: 'like',
 	VOTE: 'vote',
 	COMMENT: 'comment',

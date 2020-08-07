@@ -27,6 +27,7 @@ const {
 	isMono = false,
 	native = false,
 	hideFct = '',
+	experimental = false,
 } = Object.fromEntries(widgetLocation.searchParams.entries());
 
 if (brandColor !== DEFAULT_COLOR) {
@@ -60,6 +61,7 @@ export const state = () => ({
 		isMono,
 		native,
 		hideFeatures: hideFct.toLowerCase().split(';'),
+		experimental,
 	},
 	monoMerchants: [],
 });
@@ -97,6 +99,7 @@ export const mutations = {
 			squadSLogin,
 			native = false,
 			hideFct,
+			experimental,
 		} = msg;
 		state.merchant.id = merchantId;
 		state.merchant.siteUrl = siteUrl;
@@ -104,6 +107,7 @@ export const mutations = {
 		state.merchant.squadSLogin = squadSLogin;
 		state.merchant.brandColor = brandColor;
 		state.merchant.native = native === 'true' || native === true;
+		state.merchant.experimental = !!experimental;
 
 		if (hideFct && hideFct.length) {
 			state.merchant.hideFeatures = hideFct.toLowerCase().split(';');

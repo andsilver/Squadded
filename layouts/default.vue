@@ -69,6 +69,7 @@ export default {
 				'create-video',
 				'create-upload',
 				'create-poll',
+				'create-question',
 				'my-mysquad',
 			].includes(this.$route.name);
 		},

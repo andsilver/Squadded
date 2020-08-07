@@ -1,6 +1,12 @@
 import { MERCHAND_ADMIN } from '~/consts';
 
 export const availablePosts = [{
+	uri: '/create/question',
+	title: 'create.question',
+	des: 'createDesc.question',
+	images: require('~/assets/img/question.svg'),
+	name: 'question',
+}, {
 	uri: '/create/outfit',
 	title: 'create.outfit',
 	des: 'createDesc.outfit',
@@ -22,7 +28,12 @@ export const availablePosts = [{
 
 export const visiblePosts = function () {
 	return this.me.userRole === MERCHAND_ADMIN ? availablePosts
-		: availablePosts.filter(item => !this.merchant.hideFeatures.includes(item.name));
+		: availablePosts.filter((item) => {
+			if (item.name === 'question' && !this.merchant.experimental) {
+				return false;
+			}
+			return !this.merchant.hideFeatures.includes(item.name);
+		});
 };
 
 export const postTab = function () {
