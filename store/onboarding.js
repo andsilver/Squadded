@@ -1,5 +1,21 @@
+const widgetLocation = location.search || !document.referrer ? new URL(location.href)
+	: new URL(document.referrer);
+
+const urls = widgetLocation.searchParams.get('story');
+
+function splitUrls(videosUrl) {
+	const videos = videosUrl.split(';');
+	if (!videos.length) {
+		return;
+	}
+	return videos.map(url => ({
+		url,
+		duration: 3,
+	}));
+}
+
 export const state = () => ({
-	videos: [],
+	videos: urls ? splitUrls(urls) : [],
 });
 
 export const OnboardingStore = 'onboarding';
@@ -13,15 +29,7 @@ export const mutations = {
 		if (!videosUrl) {
 			return;
 		}
-		const videos = videosUrl.split(';');
-
-		if (!videos.length) {
-			return;
-		}
-		state.videos = videos.map(url => ({
-			url,
-			duration: 3,
-		}));
+		state.videos = splitUrls(videosUrl);
 	},
 };
 

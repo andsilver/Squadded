@@ -19,11 +19,11 @@ export const connect = function (store) {
 
 	const userToken = store.state.user.me.userId;
 	if (!userToken) {
-		store.commit('SET_PENDING', false);
 		return;
 	}
 	store.commit('SET_PENDING', true);
 	Vue.prototype.$connect();
+	return true;
 };
 
 export const initSocket = (link, store) => {
@@ -72,6 +72,9 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			store,
 		});
 	};
+
+	const { route } = state.squad;
+	const setPendingFalse = () => store.commit('SET_PENDING', false);
 
 	if (mutation.type === 'SOCKET_ONOPEN') {
 		const $ws = new WSToken(state.socket._ws);
@@ -127,8 +130,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				}), '*');
 			}
 
-			const { route } = state.squad;
-			const setPendingFalse = () => store.commit('SET_PENDING', false);
 			const visitedInviteFriends = localStorage.getItem(VISITED_INVITE_FRIENDS_KEY);
 
 			if (user.origin === 'invitation') {
@@ -182,7 +183,14 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 	}
 
 	if (mutation.type === 'SET_MERCHANT_PARAMS') {
-		connect(store);
+		const connecting = connect(store);
+		const { params } = route;
+		const { onboarding: { videos } } = state;
+		if (!connecting && videos.length && (!params || !params.invite)) {
+			app.router.push('/onboarding', setPendingFalse);
+		} else {
+			setPendingFalse();
+		}
 	}
 };
 

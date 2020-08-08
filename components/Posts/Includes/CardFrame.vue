@@ -253,6 +253,7 @@ export default {
 		padding-bottom 125%
 		position relative
 		background #f1f1f1
+		flex-shrink 0
 
 &.single-item
 	.sqdi-shopping-bag-2:before

@@ -93,14 +93,8 @@ export class WidgetIPC {
 	}
 
 	widgetState (msg) {
-		const { open, params } = msg;
-		const { socket: { isAuth }, onboarding: { videos } } = this.store.state;
+		const { open } = msg;
 		this.store.commit(`${SquadStore}/${SquadMutations.setWidgetState}`, open);
-
-		// Checking onboarding video, not navigate if widget is opened by invite link
-		if (open && !isAuth && videos.length && (!params || !params.invite)) {
-			return this.router.push('/onboarding');
-		}
 	}
 
 	async checkout (msg) {

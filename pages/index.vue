@@ -279,7 +279,7 @@ export default {
 
 <style lang="stylus">
 .pd
-    padding 0 !important
+	padding 0 !important
 .social
 	display block
 	margin 0 auto
