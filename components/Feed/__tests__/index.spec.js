@@ -17,6 +17,7 @@ describe('FeedComponent Empty State', () => {
 	let localVue;
 	let store;
 	let wrapper;
+	let scrollContainer;
 
 	const $route = {
 		name: 'feed',
@@ -30,9 +31,12 @@ describe('FeedComponent Empty State', () => {
 		store.dispatch = jest.fn();
 		global.window.addEventListener = jest.fn();
 		global.window.removeEventListener = jest.fn();
-		document.body.scrollTo = jest.fn();
-		document.body.addEventListener = jest.fn();
-		document.body.removeEventListener = jest.fn();
+		scrollContainer = {
+			scrollTo: jest.fn(),
+			addEventListener: jest.fn(),
+			removeEventListener: jest.fn(),
+		};
+		document.getElementById = jest.fn().mockReturnValue(scrollContainer);
 		wrapper = shallowMount(FeedComponent, {
 			localVue,
 			store,
@@ -64,23 +68,14 @@ describe('FeedComponent Empty State', () => {
 	});
 
 	it('should add listener for scroll on mounted', () => {
-		expect(document.body.addEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
+		expect(scrollContainer.addEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
 		expect(window.addEventListener).toHaveBeenCalledWith('beforeunload', wrapper.vm.savePosition);
 	});
 
 	it('should remove listener for scroll on destroyed', () => {
 		wrapper.destroy();
 		expect(window.removeEventListener).toHaveBeenCalledWith('beforeunload', wrapper.vm.savePosition);
-		expect(document.body.removeEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
-	});
-
-	it('should emit loadMore event on scroll bottom', () => {
-		wrapper.setProps(propsData);
-		jest.useFakeTimers();
-		wrapper.vm.$emit = jest.fn();
-		wrapper.vm.onScroll();
-		jest.advanceTimersByTime(1000);
-		expect(wrapper.vm.$emit).toHaveBeenCalledWith('loadMore');
+		expect(scrollContainer.removeEventListener).toHaveBeenCalledWith('scroll', wrapper.vm.onScroll);
 	});
 
 	it('should show loadNew button', () => {
@@ -99,7 +94,6 @@ describe('FeedComponent Empty State', () => {
 		});
 		const loadNewButton = wrapper.ref(LOAD_NEW_BUTTON);
 		wrapper.vm.$emit = jest.fn();
-		global.document.body.scrollTo = jest.fn();
 		loadNewButton.trigger('click');
 		expect(wrapper.vm.$emit).toHaveBeenCalled();
 	});

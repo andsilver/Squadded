@@ -77,6 +77,7 @@ export default {
 		scrollTimeout: null,
 		lastIndex: null,
 		storageKey: null,
+		scrollContainer: null,
 	}),
 	computed: {
 		aggregatedItems() {
@@ -143,14 +144,16 @@ export default {
 		},
 	},
 	mounted() {
+		this.scrollContainer = document.getElementById('main');
 		this.storageKey = `saved_post_${this.$route.name}`;
 		this.scrollToPost();
 		this.checkCommentInput();
-		document.body.addEventListener('scroll', this.onScroll);
 		window.addEventListener('beforeunload', this.savePosition);
+
+		this.scrollContainer.addEventListener('scroll', this.onScroll);
 	},
 	destroyed() {
-		document.body.removeEventListener('scroll', this.onScroll);
+		this.scrollContainer.removeEventListener('scroll', this.onScroll);
 		window.removeEventListener('beforeunload', this.savePosition);
 		this.savePosition();
 	},
@@ -158,7 +161,7 @@ export default {
 		handleTopRefresh() {
 			this.$emit('loadNew');
 			setTimeout(() => this.$refs.vueLoad.onTopLoaded(0), LOADING_TIMEOUT);
-			document.body.scrollTo({
+			this.scrollContainer.scrollTo({
 				top: 0,
 				behavior: 'smooth',
 			});
@@ -190,7 +193,7 @@ export default {
 		},
 		loadNewItems() {
 			this.$emit('loadNew');
-			document.body.scrollTo({
+			this.scrollContainer.scrollTo({
 				top: 0,
 				behavior: 'smooth',
 			});
@@ -228,8 +231,8 @@ export default {
 		},
 		overlap (element) {
 			const view = {
-				top: document.body.scrollTop - 70,
-				bottom: document.body.scrollTop + window.innerHeight - 70 - 65,
+				top: this.scrollContainer.scrollTop - 70,
+				bottom: this.scrollContainer.scrollTop + window.innerHeight - 70 - 65,
 			};
 			const self = {
 				top: element.offsetTop + 40,
@@ -258,7 +261,7 @@ export default {
 			sessionStorage.removeItem(key);
 
 			if (!openedPostId) {
-				return document.body.scrollTo(0, 0);
+				return this.scrollContainer.scrollTo(0, 0);
 			}
 
 			try {
