@@ -10,6 +10,7 @@
 					<span v-if="post.type == 'outfitPost'">{{ $t('post.addedOutfit', {'0': post.items.length}) }} </span>
 					<span v-if="post.type == 'pollPost'">{{ $t('post.addedPoll', {'0': 3}) }} </span>
 					<span v-if="post.type == 'galleryPost'">{{ $t('post.addedGallary', {'0': post.items.length}) }} </span>
+					<span v-if="post.type == 'videoPost'">{{ $t('post.addedVideo', {'0': post.items.length}) }} </span>
 				</span>
 				<span ref="product-image" class="product-image">
 					<img v-if="post.type == 'singleItemPost'" :src="post.item.img" class="item-image">
