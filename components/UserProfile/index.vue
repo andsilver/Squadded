@@ -65,7 +65,7 @@
 				</div>
 			</div>
 
-			<v-tabs v-model="tabs" class="px-1 mt-4" fixed-tabs centered @change="keepTab">
+			<v-tabs v-model="tabs" class="px-1 mt-4 user-profile-tabs" fixed-tabs centered @change="keepTab">
 				<v-tab class="tabs pt-3">
 					<span style="text-transform: capitalize;">{{ $t('Posts') }}</span>
 				</v-tab>
@@ -382,5 +382,8 @@ p.mt-2.user-bio {
 }
 img.my-squad {
     width: 2.78vw;
+}
+.user-profile-tabs {
+	z-index 1
 }
 </style>
