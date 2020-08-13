@@ -64,6 +64,7 @@ export const state = () => ({
 		experimental,
 	},
 	monoMerchants: [],
+	reduceLayout: false,
 });
 
 export const mutations = {
@@ -122,6 +123,9 @@ export const mutations = {
 	},
 	SET_PENDING (state, flag) {
 		state.socket.isPendingAuth = flag;
+	},
+	SET_LAYOUT (state, val) {
+		state.reduceLayout = val;
 	},
 };
 

@@ -1,8 +1,8 @@
 <template>
-	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }">
+	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }" id="PUTE">
 		<NotificationsBanner ref="notifications" />
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
-		<v-main id="main" class="d-flex">
+		<v-main id="main" :class="{'reduce-main': reduceLayout}" class="d-flex">
 			<nuxt ref="main-content" />
 			<v-dialog v-if="promptOptions" v-model="showPrompt">
 				<Prompt :text="promptOptions.text" @confirm="confirm" @decline="hide" />
@@ -54,6 +54,7 @@ export default {
 		...mapState([
 			'socket',
 			'squad',
+			'reduceLayout',
 		]),
 		...userState([
 			'me',
@@ -191,6 +192,7 @@ export default {
 <style lang="stylus" scoped>
 .v-main
 	overflow hidden auto
+.reduce-main
 	max-height calc(100vh - 65px)
 .v-main >>> .v-main__wrap,
 .container

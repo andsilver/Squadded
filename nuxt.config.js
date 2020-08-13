@@ -156,6 +156,7 @@ export default {
 		middleware: [
 			'checkAuth',
 			'i18n',
+			'layout',
 		],
 		mode: 'abstract',
 	},
