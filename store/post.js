@@ -253,7 +253,7 @@ export const actions = {
 		}
 		return post;
 	},
-	[PostActions.sendComment]: ({ rootState, commit }, { text, post }) => {
+	[PostActions.sendComment]: ({ rootState, commit }, { text, post, items }) => {
 		function getUsersFromComment(comment) {
 			const users = [];
 			const regex = new RegExp('(@)\\[(.*?)\\]\\((.*?):(.*?)\\)', 'gi');
@@ -269,6 +269,7 @@ export const actions = {
 			text,
 			type: 'addComment',
 			notifusers: getUsersFromComment(text),
+			...((items && items.length) && { items }),
 		});
 
 		const comment = {
@@ -276,6 +277,7 @@ export const actions = {
 			ts: Date.now(),
 			text,
 			byMe: true,
+			...((items && items.length) && { items }),
 		};
 		commit(PostMutations.addComment, { comment, post });
 	},

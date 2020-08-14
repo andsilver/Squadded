@@ -13,6 +13,7 @@ Wrapper.prototype.ref = function (id) {
 const chance = new Chance();
 
 describe('Message Input', () => {
+	const OPEN_PANEL_BUTTON = 'open-panel-button';
 	let localVue;
 	let post;
 	let sendComment;
@@ -70,5 +71,20 @@ describe('Message Input', () => {
 		expect(ref.exists()).toBe(true);
 		ref.vm.$emit('send', textValue);
 		expect(store.dispatch).toHaveBeenCalledWith(sendComment, { post, text: textValue });
+	});
+
+	it('should emit update isPanelOpenProps', () => {
+		wrapper = shallowMount(MessageInput, {
+			mocks,
+			store,
+			localVue,
+			propsData: {
+				isPanelOpenProps: false,
+			},
+		});
+		const openpanel = wrapper.ref(OPEN_PANEL_BUTTON);
+		wrapper.vm.$emit = jest.fn();
+		openpanel.trigger('click');
+		expect(wrapper.vm.$emit).toHaveBeenCalledWith('update:isPanelOpenProps', !wrapper.props().isPanelOpenProps);
 	});
 });

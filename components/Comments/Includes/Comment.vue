@@ -34,11 +34,9 @@
 </template>
 
 <script>
-
 import PopMenu from './PopMenu';
 import CommentShow from './CommentShow';
 import UserLink from '~/components/UserLink';
-
 export default {
 	name: 'PostComment',
 	components: {
@@ -91,13 +89,10 @@ export default {
 		margin-bottom 6.153vw
 		position relative
 		padding 0 1.53vw
-
 	.comment_user_name
 		font-weight 500
-
 	.comment_user_name span
 		color black
-
 	.comment_text_row
 		width calc(100% - 36px)
 		font-size 3.23vw
@@ -105,17 +100,14 @@ export default {
 		margin-bottom 0 !important
 		margin-right -5px
 		align-self center
-
 	.comment_text
 		color #000000
 		font-weight 400
 		font-size 3.23vw
 		line-height 3.69vw
-
 	.comment_like_button
 		width 36px
 		position relative
-
 	.comment_buttons_icon
 		position absolute
 		left 7px

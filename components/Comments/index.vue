@@ -4,7 +4,8 @@
 		<template v-if="visible">
 			<template v-if="showAllComments || comments.length === 1">
 				<v-list v-if="comments.length" ref="comments-list" class="comment-listing">
-					<Comment
+					<component
+						:is="!!comment.items ? 'CommentEmbeddedItem': 'Comment'"
 						v-for="(comment, n) in comments"
 						:key="n"
 						:comment="comment"
@@ -14,7 +15,8 @@
 				</v-list>
 			</template>
 			<template v-else-if="comments.length">
-				<Comment
+				<component
+					:is="!!comments[comments.length - 1].items ? 'CommentEmbeddedItem': 'Comment'"
 					:comment="comments[comments.length - 1]"
 					:post="post"
 					:for-feed="forFeed"
@@ -38,11 +40,14 @@
 					post_comment_input_for_feed: forFeed,
 					post_comment_input: !forFeed,
 					hide_comment_input: !showInput,
+					post_comment_input_unexpanded: !forFeed && !isPanelOpen,
+					post_comment_input_expanded: !forFeed && isPanelOpen
 				}"
 				:action="sendComment"
 				:placeholder="$t('input.placeholder')"
 				:post="post"
 				:for-feed="forFeed"
+				:is-panel-open-props.sync="isPanelOpen"
 				user-link
 				@send="scroll"
 			/>
@@ -52,6 +57,7 @@
 
 <script>
 import Comment from './Includes/Comment';
+import CommentEmbeddedItem from './Includes/CommentEmbeddedItem';
 import MessageInput from '~/components/MessageInput';
 import { PostActions, PostMutations, PostStore } from '~/store/post';
 import { prefetch } from '~/helpers';
@@ -66,6 +72,7 @@ export default {
 	components: {
 		Comment,
 		MessageInput,
+		CommentEmbeddedItem,
 	},
 	props: {
 		post: {
@@ -86,6 +93,7 @@ export default {
 		showAllComments: true,
 		visible: false,
 		showInput: false,
+		isPanelOpen: false,
 	}),
 	computed: {
 		comments() {
@@ -150,7 +158,6 @@ export default {
 <style lang="stylus" scoped>
 .post_comment_input
 	background #fff
-	bottom 65px
 	left 0
 	padding 2.30vw 4.61vw
 	position fixed
@@ -165,6 +172,12 @@ export default {
 		left 0
 		position absolute
 		top -18px
+
+.post_comment_input_unexpanded
+	bottom 65px
+
+.post_comment_input_expanded
+	bottom 37vh
 
 .comment_input
 	width 100%

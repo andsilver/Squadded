@@ -77,6 +77,18 @@ export default {
 			type: String,
 			default: '',
 		},
+		forFeed: {
+			type: Boolean,
+			default: false,
+		},
+		isPanelOpen: {
+			type: Boolean,
+			default: false,
+		},
+		isSelectedPosts: {
+			type: Boolean,
+			default: false,
+		},
 	},
 	data: () => ({
 		mentions: [],
@@ -98,8 +110,12 @@ export default {
 		elmMentionsOverlay() {
 			return this.$refs['overlay-content'];
 		},
-		showSend () {
-			return this.inputValue.trim().replace(/\n$/, '').length;
+		showSend() {
+			const isSend = this.inputValue.trim().replace(/\n$/, '').length;
+			// if (isSend) {
+			// 	this.handlePanel(false);
+			// }
+			return isSend || this.isSelectedPosts;
 		},
 	},
 	mounted () {
@@ -305,7 +321,7 @@ export default {
 		send() {
 			const text = this.messageText.trim();
 
-			if (!text) {
+			if (!text && !this.isSelectedPosts) {
 				return;
 			}
 			this.$emit('send', text);
@@ -401,6 +417,13 @@ export default {
 	.editor{
 		height: 27px;
 	}
+}
+.add-item {
+	width: 7.3vw;
+    height: 7.3vw;
+    position: absolute;
+    top: 6px;
+	right: 10px;
 }
 </style>
 <style lang="stylus" scoped>
