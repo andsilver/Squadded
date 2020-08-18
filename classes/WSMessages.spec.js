@@ -226,6 +226,9 @@ describe('WSMessages dispatch', () => {
 			iLike,
 			postId,
 			type: 'notifLike',
+			user: {
+				guid: 'guid',
+			},
 		};
 		const post = { type: 'sinleItemPost' };
 		store.getters[`${PostStore}/${PostGetters.getPostById}`] = jest.fn().mockReturnValue(post);
@@ -253,6 +256,9 @@ describe('WSMessages dispatch', () => {
 			iLike,
 			postId,
 			type: 'notifLike',
+			user: {
+				guid: 'guid',
+			},
 		};
 		const post = { type: 'sinleItemPost' };
 		store.getters[`${PostStore}/${PostGetters.getPostById}`] = jest.fn().mockReturnValue(post);

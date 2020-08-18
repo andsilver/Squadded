@@ -281,17 +281,12 @@ export const actions = {
 		};
 		commit(PostMutations.addComment, { comment, post });
 	},
-	[PostActions.toggleLike]: ({ commit, rootState }, post) => {
+	[PostActions.toggleLike]: ({ rootState }, post) => {
 		if (!post.guid) {
 			return;
 		}
 
 		const byMe = !post.likes.byMe;
-		commit(PostMutations.setPostLike, {
-			post,
-			count: (post.likes.count === undefined ? 0 : post.likes.count) + (byMe ? 1 : -1),
-			byMe,
-		});
 		rootState.socket.$ws.sendObj({
 			type: 'like',
 			guid: post.guid,

@@ -59,6 +59,9 @@ export default {
 			default: false,
 		},
 	},
+	data: () => ({
+		scrollContainer: null,
+	}),
 	computed: {
 		...userState(['me']),
 		...activityState([
@@ -76,14 +79,15 @@ export default {
 		this.fetchWishlist();
 	},
 	mounted() {
-		document.body.addEventListener('scroll', this.onScroll);
+		this.scrollContainer = document.body;
+		this.scrollContainer.addEventListener('scroll', this.onScroll);
 	},
 	destroyed() {
-		document.body.removeEventListener('scroll', this.onScroll);
+		this.scrollContainer.removeEventListener('scroll', this.onScroll);
 	},
 	methods: {
 		onScroll (e) {
-			if (document.body.scrollTop > (document.body.scrollHeight - document.body.offsetHeight - 30)) {
+			if (this.scrollContainer.scrollTop > (this.scrollContainer.scrollHeight - this.scrollContainer.offsetHeight - 20)) {
 				this.fetchWishlist();
 			}
 		},

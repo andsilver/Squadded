@@ -1,5 +1,5 @@
 <template>
-	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }" id="PUTE">
+	<v-app id="PUTE" ref="app" :class="{ isTouch, 'show-tabs': showTabs }">
 		<NotificationsBanner ref="notifications" />
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
 		<v-main id="main" :class="{'reduce-main': reduceLayout}" class="d-flex">

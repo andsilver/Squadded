@@ -39,8 +39,8 @@
 				<img v-if="notification.post.type == 'outfitPost'" :src="notification.post.items[0].img" class="notification-image">
 				<span v-if="notification.post.type == 'outfitPost'" class="item-mast-count">+{{ (notification.post.items.length - 1) }}</span>
 				<span v-if="notification.post.type == 'pollPost'" class="poll-images">
-					<img v-if="notification.post.type == 'pollPost'" :src="notification.post.item1.img" class="notification-image">
-					<img v-if="notification.post.type == 'pollPost'" :src="notification.post.item2.img" class="notification-image">
+					<img :src="notification.post.item1.img" class="notification-image">
+					<img :src="notification.post.item2.img" class="notification-image">
 					<span class="poll-icon">
 						<img src="~assets/img/poll-arrows.svg" class="poll-image">
 					</span>

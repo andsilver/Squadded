@@ -152,10 +152,6 @@ describe('Post store module', () => {
 
 		await root.dispatch(`${PostStore}/${PostActions.toggleLike}`, post);
 
-		// commited
-		expect(post.likes.count).toBe(count - 1);
-		expect(post.likes.byMe).toBe(false);
-
 		// send ws message
 		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
 			type: 'like',

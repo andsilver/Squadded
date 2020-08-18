@@ -1,10 +1,10 @@
 <template>
 	<div ref="comment-preview-box" class="comment-preview-box">
 		<div v-for="(post, i) in selectedPosts" :key="i" class="comment-preview-item">
-			<v-icon size="20px" :ref="`close-preview-${i}`" class="close-preview" @click="$emit('close', post)">
+			<v-icon :ref="`close-preview-${i}`" size="20px" class="close-preview" @click="$emit('close', post)">
 				mdi-close-circle
 			</v-icon>
-			<img class="comment-preview-image" :src="post.item.img" />
+			<img class="comment-preview-image" :src="post.item.img">
 		</div>
 	</div>
 </template>

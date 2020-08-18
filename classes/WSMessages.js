@@ -216,11 +216,22 @@ export class WSMessages {
 		const mod = (iLike ? 1 : -1);
 		const post = this.store.getters[`${PostStore}/${PostGetters.getPostById}`](postId);
 
-		if (iLike) {
-			this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
-			this.store.commit(`${PostStore}/${PostMutations.addLike}`, { post, user });
+		if (user.guid === this.store.state.user.me.guid) {
+			return;
 		}
+		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, message);
+		this.store.commit(`${PostStore}/${PostMutations.addLike}`, { post, user });
 		this.store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod, post });
+	}
+
+	notifUnlike (message) {
+		const { postId, user } = message;
+		const post = this.store.getters[`${PostStore}/${PostGetters.getPostById}`](postId);
+
+		if (user.guid === this.store.state.user.me.guid) {
+			return;
+		}
+		this.store.dispatch(`${PostStore}/${PostActions.modifyLike}`, { mod: -1, post });
 	}
 
 	notifVote (message) {

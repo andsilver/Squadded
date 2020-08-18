@@ -144,7 +144,7 @@ export default {
 		},
 	},
 	mounted() {
-		this.scrollContainer = document.getElementById('main');
+		this.scrollContainer = document.body;
 		this.storageKey = `saved_post_${this.$route.name}`;
 		this.scrollToPost();
 		this.checkCommentInput();

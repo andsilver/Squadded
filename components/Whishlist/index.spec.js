@@ -45,8 +45,9 @@ describe('Whishlist Component', () => {
 				params,
 			},
 		};
-		global.document.body.addEventListener = jest.fn();
-		global.document.body.removeEventListener = jest.fn();
+		document.body.addEventListener = jest.fn();
+		document.body.scrollTo = jest.fn();
+		document.body.removeEventListener = jest.fn();
 		localStorage.setItem(USER_TOKEN_KEY, 'token');
 		wrapper = shallowMount(Whishlist, {
 			localVue,
@@ -96,11 +97,7 @@ describe('Whishlist Component', () => {
 	it('should emit loadMore event on scroll bottom', () => {
 		Math.max = jest.fn();
 		Math.max.mockReturnValue(0);
-		global.document.body.innerHeight = 100;
-		Object.defineProperty(global.document.documentElement, 'offsetHeight', {
-			get: jest.fn(() => 100),
-			set: jest.fn(),
-		});
+		document.body.scrollTop = 1000;
 		wrapper.vm.$emit = jest.fn();
 		wrapper.vm.fetchWishlist = jest.fn();
 		wrapper.vm.onScroll();
