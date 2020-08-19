@@ -18,7 +18,11 @@ export class WSToken {
 
 	keepAlive() {
 		this._timeoutId = setTimeout(() => {
-			this._ws.send(JSON.stringify({ type: 'ping' }));
+			try {
+				this._ws.send(JSON.stringify({ type: 'ping' }));
+			} catch (err) {
+				location.reload();
+			}
 			this.keepAlive();
 		}, KEEP_ALIVE_INTERVAL_MS);
 	}
