@@ -5,15 +5,15 @@
 			<Tabs />
 			<v-layout column justify-center align-center class="tab-content-section">
 				<EmptyWishlist />
-				<SelectItems ref="select-items" :max-count="2" />
-				<div class="merge-selected OutfitSelected px-3">
+				<SelectItems ref="select-items" :max-count="2" :bottom-height="outfitBoxHeight" />
+				<div ref="outfit-selected" class="merge-selected OutfitSelected px-3">
 					<p v-if="!showError" class="tip-note">
 						{{ $t('tip.pollSelect') }}
 					</p>
 					<p v-if="showError" class="tip-note error-note">
 						{{ $t('tip.pollError') }}
 					</p>
-					<SelectedItems ref="selected-items" is-poll />
+					<SelectedItems ref="selected-items" class="d-flex" is-poll />
 					<Button
 						class="mt-2 next-button"
 						:class="{ disable_btn :!complete}"
@@ -114,6 +114,7 @@ export default {
 		showOutfit: true,
 		showError: false,
 		selectOFItems: {},
+		outfitBoxHeight: 0,
 	}),
 	computed: {
 		...mapGetters([
@@ -129,6 +130,9 @@ export default {
 	},
 	created () {
 		this.$root.$on('selectProducts', data => this.selectProducts(data));
+	},
+	mounted() {
+		this.outfitBoxHeight = this.$refs['outfit-selected'].clientHeight;
 	},
 	methods: {
 		async create () {

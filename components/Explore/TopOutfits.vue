@@ -173,6 +173,4 @@ export default {
 		margin-bottom 0 !important
 	.grid
 		grid-gap 0.3vw
-.grouped-post-item
-	min-height 330px
 </style>

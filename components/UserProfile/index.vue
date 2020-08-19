@@ -23,7 +23,7 @@
 		</section>
 		<ProfileToolbar :user="user" />
 		<v-layout flex-column>
-			<div class="d-flex mt-4">
+			<div class="d-flex mt-4" style="flex: 0 0 100px">
 				<userAvatar align="center" class="user_avatar mr-4" :avatar="user.avatar" />
 				<div class="user-info-section">
 					<userName :name="user.screenName" />

@@ -17,7 +17,7 @@
 			class="choose-items-section"
 			:class="{ is_poll_tab: isPoll }"
 			:style="{
-				'margin-bottom': (selected && selected.length) || maxCount === 2 ? '200px' : '90px'
+				'margin-bottom': marginBottom,
 			}"
 		>
 			<div ref="items" class="choose-items fancy_scroll mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
@@ -75,6 +75,10 @@ export default {
 			type: Array,
 			default: () => [],
 		},
+		bottomHeight: {
+			type: Number,
+			required: false,
+		},
 	},
 	data: () => ({
 		selected: [],
@@ -96,6 +100,9 @@ export default {
 			const ids = new Set(available.map(p => p.item.itemId));
 			available = Array.from(ids).map(id => available.find(p => p.item.itemId === id));
 			return available;
+		},
+		marginBottom() {
+			return this.bottomHeight ? `${this.bottomHeight}px` : (this.selected && this.selected.length) || this.maxCount === 2 ? '200px' : '90px';
 		},
 	},
 	watch: {

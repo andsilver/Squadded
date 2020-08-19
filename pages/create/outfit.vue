@@ -5,15 +5,15 @@
 			<Tabs />
 			<v-layout column justify-center align-center class="tab-content-section">
 				<EmptyWishlist />
-				<SelectItems ref="select-items" :max-count="4" />
-				<div class="merge-selected" :class="{ OutfitSelected: (getSelected.length > 0) }">
+				<SelectItems ref="select-items" :max-count="4" :bottom-height="outfitBoxHeight" />
+				<div ref="outfit-selected" class="merge-selected" :class="{ OutfitSelected: (getSelected.length > 0) }">
 					<p v-if="!showError" class="tip-note">
 						{{ $t('tip.outfitSelect') }}
 					</p>
 					<p v-if="showError" class="tip-note error-note">
 						{{ $t('tip.outfitError') }}
 					</p>
-					<SelectedItems ref="selected-items" />
+					<SelectedItems ref="selected-items" class="d-flex" />
 					<Button
 						ref="done-button"
 						class="mt-2 next-button"
@@ -100,6 +100,7 @@ export default {
 		showOutfit: true,
 		showError: false,
 		selectOFItems: {},
+		outfitBoxHeight: 0,
 	}),
 	computed: {
 		...mapGetters([
@@ -113,8 +114,17 @@ export default {
 			return !!(this.getSelected.length >= 2 && this.getSelected.length <= 4);
 		},
 	},
+	watch: {
+		async getSelected(next) {
+			await this.$nextTick();
+			this.outfitBoxHeight = this.$refs['outfit-selected'].clientHeight;
+		},
+	},
 	created () {
 		this.$root.$on('selectProducts', data => this.selectProducts(data));
+	},
+	mounted() {
+		this.outfitBoxHeight = this.$refs['outfit-selected'].clientHeight;
 	},
 	methods: {
 		async create () {
