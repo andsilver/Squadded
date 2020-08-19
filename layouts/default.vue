@@ -54,7 +54,6 @@ export default {
 		...mapState([
 			'socket',
 			'squad',
-			'reduceLayout',
 		]),
 		...userState([
 			'me',
