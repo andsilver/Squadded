@@ -20,7 +20,7 @@
 				'margin-bottom': marginBottom,
 			}"
 		>
-			<div ref="items" class="choose-items fancy_scroll mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
+			<div ref="items" class="choose-items mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
 				<ProductCard
 					v-for="post in available"
 					ref="item"
@@ -77,7 +77,7 @@ export default {
 		},
 		bottomHeight: {
 			type: Number,
-			required: false,
+			default: 0,
 		},
 	},
 	data: () => ({

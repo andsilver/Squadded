@@ -109,7 +109,7 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import { Base64 } from 'js-base64';
 import { UserStore, UserMutations } from '~/store/user';
-import TopBar from '~/components/common/TopBar.vue';
+import TopBar from '~/components/common/TopBar';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
 import { DEFAULT_LANDING } from '~/store/squad';
 import { FeedActions, FeedGetters, FeedStore, FeedMutations } from '~/store/feed';

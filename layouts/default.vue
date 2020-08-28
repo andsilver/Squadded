@@ -20,8 +20,8 @@
 <script>
 import { mapState, createNamespacedHelpers } from 'vuex';
 import Prompt from '~/components/common/Prompt';
-import TabBar from '~/components/common/TabBar.vue';
-import NotificationsBanner from '~/components/Notifications/Banner.vue';
+import TabBar from '~/components/common/TabBar';
+import NotificationsBanner from '~/components/Notifications/Banner';
 import { SquadStore, SquadMutations } from '~/store/squad';
 import { UserStore } from '~/store/user';
 import { isTouch } from '~/utils/device-input';
@@ -192,7 +192,7 @@ export default {
 .v-main
 	overflow hidden auto
 .reduce-main
-	max-height calc(100vh - 65px)
+	margin-bottom 65px
 .v-main >>> .v-main__wrap,
 .container
 	display flex

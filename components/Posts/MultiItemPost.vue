@@ -38,7 +38,7 @@
 			</CardFrame>
 			<div v-if="!isPaired" class="scroll-section" :class="{ shifted }">
 				<span class="close" @click="fetch"><img src="~assets/img/close-white.svg" class="close-image"></span>
-				<div ref="items" class="scroll-items fancy_scroll" :style="{ 'max-height': maxHeight }">
+				<div ref="items" class="scroll-items" :style="{ 'max-height': maxHeight }">
 					<ProductCard
 						v-for="item in post.items"
 						ref="item"

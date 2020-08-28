@@ -5,7 +5,13 @@
 			<Squadders :users="mysquad" :has-post="!!(items && items.length)" class="squadder-section" />
 			<Preloader v-if="!items" ref="preloader" class="mt-4 mb-4" />
 			<template v-else-if="items.length">
-				<Feed ref="feed-layout" :items="items" :load-new="newPostsAvailable" @loadMore="fetchFeed" @loadNew="() => fetchFeed(true)" />
+				<Feed
+					ref="feed-layout"
+					:items="items"
+					:load-new="newPostsAvailable"
+					@loadMore="fetchFeed"
+					@loadNew="() => fetchFeed(true)"
+				/>
 			</template>
 			<Preloader v-if="items && loading" ref="preloader-more" class="mt-4 mb-4" />
 		</v-layout>

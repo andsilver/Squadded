@@ -6,7 +6,7 @@
 				{{ $t('explore_page.top_gallery.title') }}
 			</h3>
 		</div>
-		<div v-if="items && items.length" class="overflow-x-auto top-gallery-post d-flex pb-2 fancy_scroll">
+		<div v-if="items && items.length" class="overflow-x-auto top-gallery-post d-flex pb-2">
 			<div v-for="(post, index) of items" :key="index" @click="goToLandingPost(post)">
 				<div
 					ref="post-card"

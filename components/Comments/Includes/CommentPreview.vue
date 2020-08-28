@@ -14,6 +14,7 @@
 export default {
 	props: {
 		selectedPosts: {
+			type: Array,
 			required: true,
 		},
 	},

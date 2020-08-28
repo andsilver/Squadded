@@ -6,7 +6,7 @@
 				{{ $t('explore_page.top_items.title') }}
 			</h3>
 		</div>
-		<div v-if="items && items.length" class="overflow-x-auto d-flex fancy_scroll">
+		<div v-if="items && items.length" class="overflow-x-auto d-flex">
 			<div v-for="(post, index) of items" :key="index" class="count_sec top-items" :style="{ 'z-index': 100 - index }" @click="openProduct(post)">
 				<div ref="post-card" class="top-item-post">
 					<span class="count_item">{{ index + 1 }}</span>

@@ -15,7 +15,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import FakeTopBar from '~/components/common/FakeTopBar.vue';
+import FakeTopBar from '~/components/common/FakeTopBar';
 import Feed from '~/components/Feed';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';

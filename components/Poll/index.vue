@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import SelectItem from './SelectItem.vue';
+import SelectItem from './SelectItem';
 import PollItem from '~/components/Posts/Includes/PollItem';
 
 export default {

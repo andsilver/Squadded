@@ -20,8 +20,8 @@
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
-import Preloader from '~/components/Preloader.vue';
-import TopBar from '~/components/common/TopBar.vue';
+import Preloader from '~/components/Preloader';
+import TopBar from '~/components/common/TopBar';
 import { onAuth } from '~/helpers';
 import { HomeStore, HomeActions } from '~/store/home';
 import {

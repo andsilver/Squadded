@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import Digit from './Digit.vue';
+import Digit from './Digit';
 
 const BACKSPACE = 8;
 const LEFT_ARROW = 37;

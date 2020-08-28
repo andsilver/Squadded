@@ -39,7 +39,7 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import WhishlistItem from './item';
 import { discoverItem } from './discoverItem';
-import Preloader from '~/components/Preloader.vue';
+import Preloader from '~/components/Preloader';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 import { onAuth } from '~/helpers';
 import { UserStore } from '~/store/user';

@@ -1,10 +1,12 @@
 <!-- In order to have the ability to use icon, this component has been extracted from: https://github.com/duyanpeng/vue-quick-loadmore -->
 <template>
-	<div class="garen-loadmore" @scroll.passive="handleScroll">
+	<div class="garen-loadmore">
 		<div ref="content" class="garen-loadmore-content">
 			<slot name="top">
 				<div class="garen-loadmore-header">
-					<v-icon v-html="topText" />
+					<v-icon>
+						{{ topText }}
+					</v-icon>
 				</div>
 			</slot>
 			<slot />
@@ -42,22 +44,15 @@ export default {
 		},
 		topChangeText: {
 			type: Object,
-			default() {
-				return {};
-			},
-		},
-		eventScroll: {
-			type: Function,
+			default: () => ({}),
 		},
 	},
-	data() {
-		return {
-			startPositionTop: null,
-			startScreenY: 0,
-			endScreenY: 0,
-			topStatus: TOPSTATUS.wait,
-		};
-	},
+	data: () => ({
+		startPositionTop: null,
+		startScreenY: 0,
+		endScreenY: 0,
+		topStatus: TOPSTATUS.wait,
+	}),
 	computed: {
 		topText() {
 			switch (this.topStatus) {
@@ -83,9 +78,6 @@ export default {
 		this.init();
 	},
 	methods: {
-		handleScroll() {
-			this.eventScroll && this.eventScroll();
-		},
 		getScrollTop() {
 			return this.$el.scrollTop;
 		},
@@ -150,7 +142,7 @@ export default {
 			}
 			if (
 				this.topStatus === TOPSTATUS.pulling ||
-        this.topStatus === TOPSTATUS.limit
+				this.topStatus === TOPSTATUS.limit
 			) {
 				e.stopPropagation();
 				e.preventDefault();
@@ -162,8 +154,7 @@ export default {
 			const screenY = e.changedTouches[0].screenY;
 
 			if (
-				(screenY - this.startScreenY) / this.distanceIndex >=
-        this.topDistance
+				(screenY - this.startScreenY) / this.distanceIndex >= this.topDistance
 			) {
 				this.transformStyle(this.$refs.content, this.topLoadingDistance, true);
 				this.topStatus = TOPSTATUS.loading;
@@ -183,8 +174,7 @@ export default {
 			this.topStatus = TOPSTATUS.complete;
 		},
 		transformStyle(target, moveDistance, transition, timer = 200) {
-			target.style['-webkit-transform'] =
-        'translate3d(0,' + moveDistance + 'px,0)';
+			target.style['-webkit-transform'] = 'translate3d(0,' + moveDistance + 'px,0)';
 			target.style.transform = 'translate3d(0,' + moveDistance + 'px,0)';
 			target.style.transitionDuration = '0ms';
 			if (transition) {

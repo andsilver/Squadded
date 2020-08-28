@@ -1,5 +1,5 @@
 <template>
-	<div v-if="!isPoll" class="selected-items fancy_scroll ma-3">
+	<div v-if="!isPoll" class="selected-items ma-3">
 		<span
 			v-for="post in getSelected"
 			:key="post.item.itemId"

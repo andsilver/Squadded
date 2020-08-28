@@ -41,7 +41,7 @@
 				</ItemImage>
 			</CardFrame>
 			<div v-if="!isPaired" class="scroll-section">
-				<div ref="items" class="scroll-items fancy_scroll">
+				<div ref="items" class="scroll-items">
 					<ProductCard
 						v-for="item in post.items"
 						ref="item"

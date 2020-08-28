@@ -19,7 +19,7 @@
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
-import Preloader from '~/components/Preloader.vue';
+import Preloader from '~/components/Preloader';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 import { tokenExist } from '~/utils/isAuth';
 import { UserStore } from '~/store/user';

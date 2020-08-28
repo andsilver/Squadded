@@ -23,11 +23,6 @@ body
 			min-height 26px
 		&.normal
 			color inherit
-	&::-webkit-scrollbar-thumb
-		background-color #B8B8BA
-		outline 0
-	&::-webkit-scrollbar
-		width 5px
 	.v-text-field > .v-input__control > .v-input__slot
 		cursor pointer
 		input
@@ -57,14 +52,13 @@ input::-webkit-inner-spin-button
 	-webkit-appearance none
 	margin  0
 
-.fancy_scroll
-	-webkit-overflow-scrolling touch
-	&::-webkit-scrollbar-thumb
-		background-color #B8B8BA
-		outline 0
-	&::-webkit-scrollbar
-		width 5px
-		height 5px
+-webkit-overflow-scrolling touch
+::-webkit-scrollbar-thumb
+	background-color #B8B8BA
+	outline 0
+::-webkit-scrollbar
+	width 5px
+	height 5px
 
 /* Firefox */
 input[type=number]

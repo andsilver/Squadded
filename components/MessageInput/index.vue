@@ -93,9 +93,6 @@ export default {
 	data: () => ({
 		textValue: '',
 	}),
-	created () {
-		this.fetchWishlist();
-	},
 	computed: {
 		...userState([
 			'me',
@@ -120,6 +117,9 @@ export default {
 				this.$emit('update:isPanelOpenProps', value);
 			},
 		},
+	},
+	created () {
+		this.fetchWishlist();
 	},
 	mounted () {
 		this.textValue = this.text;

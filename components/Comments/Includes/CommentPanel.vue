@@ -14,7 +14,7 @@
 
 <script lang="js">
 import CommentItemPanel from '~/components/Comments/Includes/CommentItemPanel';
-import Preloader from '~/components/Preloader.vue';
+import Preloader from '~/components/Preloader';
 
 export default {
 	components: {
@@ -23,6 +23,7 @@ export default {
 	},
 	props: {
 		wishlist: {
+			type: Array,
 			required: true,
 			default: null,
 		},
