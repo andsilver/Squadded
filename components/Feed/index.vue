@@ -256,6 +256,11 @@ export default {
 			return 0;
 		},
 		scrollToPost () {
+			// wait until scroll is available
+			if (!this.$store.state.squad.widget.open) {
+				setTimeout(this.scrollToPost.bind(this), 10);
+				return;
+			}
 			const key = this.storageKey;
 			const openedPostId = sessionStorage.getItem(key);
 			sessionStorage.removeItem(key);

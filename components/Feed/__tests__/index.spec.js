@@ -107,6 +107,7 @@ describe('FeedComponent Empty State', () => {
 		const openedPostId = propsData.items[0].postId;
 		sessionStorage.setItem(key, `post_id_${openedPostId}`);
 		global.HTMLElement.prototype.scrollIntoView = jest.fn();
+		store.state.squad.widget.open = true;
 		wrapper = shallowMount(FeedComponent, {
 			localVue,
 			store,
