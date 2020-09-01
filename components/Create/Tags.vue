@@ -15,6 +15,7 @@
 				ref="post-main-image"
 				:item="post"
 				:resquadd="false"
+				:contain="true"
 				@click.native="toggleShifted"
 			>
 				<TagButton
@@ -22,6 +23,8 @@
 					:key="index"
 					class="tag-button"
 					:style="{ top: coord.y + '%', left: coord.x + '%' }"
+					border-width="7px"
+					font-size="10px"
 					@click="() => tagClick(coord)"
 				/>
 			</ItemImage>
@@ -105,6 +108,7 @@ export default {
 				this.$store.state.post.coords_set = this.coords;
 			} else if (this.getSelected.length < 4 && e) {
 				const rect = e.target.getBoundingClientRect();
+				console.log('etar', e.target.nat);
 				const { left, top } = rect;
 				this.coords.push({
 					x: (e.pageX - window.scrollX - left - 12) / e.target.clientWidth * 100,

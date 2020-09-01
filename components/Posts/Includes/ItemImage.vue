@@ -2,6 +2,7 @@
 	<v-img
 		:src="item.img"
 		eager
+		:contain="contain"
 		@click="() => $emit('open')"
 	>
 		<slot />
@@ -30,6 +31,10 @@ export default {
 			default: true,
 		},
 		isPaired: {
+			type: Boolean,
+			default: false,
+		},
+		contain: {
 			type: Boolean,
 			default: false,
 		},
