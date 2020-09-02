@@ -123,7 +123,7 @@
 					/>
 				</v-card-text>
 				<v-card-actions class="d-flex justify-center card-action">
-					<Button class="flex-grow-1" :disabled="disabled" @click.native="reportUser">
+					<Button ref="report-user" class="flex-grow-1" :disabled="disabled" @click.native="reportUser">
 						{{ $t('comment.pop.reportComment.menu') }}
 					</Button>
 					<Button class="flex-grow-1" :active="false" @click.native="hide">
@@ -147,6 +147,7 @@ import Follow from '~/components/common/Follow';
 import RemoveSquad from '~/components/common/RemoveSquad';
 import ShareProfile from '~/components/UserProfile/ShareProfile';
 import { getShortURL } from '~/services/short-url';
+import { UserStore, UserActions } from '~/store/user';
 
 const CANCALED_BY_USER = 20;
 
@@ -216,10 +217,12 @@ export default {
 			if (!this.socket.isAuth) {
 				return this.$router.push('/');
 			}
+			this.$store.dispatch(`${UserStore}/${UserActions.reportUser}`, {
+				user: this.user,
+				reason: this.reason,
+				other: this.other,
+			});
 			this.showReasonDialog = false;
-			/**
-			 * todo - see the same not about reporting User
-			 */
 		},
 		promptReportUser() {
 			this.reason = this.reasons[0];

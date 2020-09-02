@@ -108,7 +108,6 @@ export default {
 				this.$store.state.post.coords_set = this.coords;
 			} else if (this.getSelected.length < 4 && e) {
 				const rect = e.target.getBoundingClientRect();
-				console.log('etar', e.target.nat);
 				const { left, top } = rect;
 				this.coords.push({
 					x: (e.pageX - window.scrollX - left - 12) / e.target.clientWidth * 100,

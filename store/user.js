@@ -74,6 +74,7 @@ export const mutations = {
 
 export const UserActions = {
 	setProfile: 'setProfile',
+	reportUser: 'reportUser',
 };
 
 export const actions = {
@@ -91,6 +92,14 @@ export const actions = {
 				language: user.language,
 				miniAvatar: user.miniAvatar,
 			},
+		});
+	},
+	[UserActions.reportUser]: ({ rootState }, { user, reason, other }) => {
+		rootState.socket.$ws.sendObj({
+			type: 'report',
+			reportUserId: user.userId,
+			reason,
+			other,
 		});
 	},
 };

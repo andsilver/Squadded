@@ -130,4 +130,23 @@ describe('User Store module', () => {
 		expect(root.state.user.me.avatar).toEqual(avatar);
 		expect(root.state.user.me.nameSelected).toEqual(nameSelected);
 	});
+
+	it('report user payload', async () => {
+		const user = userMockBuilder().get();
+		const reason = 'spam';
+		const other = null;
+
+		await root.dispatch(`${UserStore}/${UserActions.reportUser}`, {
+			user,
+			reason,
+			other,
+		});
+
+		expect(root.state.socket.$ws.sendObj).toHaveBeenCalledWith({
+			type: 'report',
+			reportUserId: user.userId,
+			reason,
+			other,
+		});
+	});
 });
