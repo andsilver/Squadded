@@ -107,7 +107,7 @@ describe('Default layout', () => {
 	it('should go to post landing with comments hash', async () => {
 		const postId = 'postid';
 		await store.commit(`${SquadStore}/${SquadMutations.openPost}`, postId);
-		expect($router.push).toHaveBeenCalledWith(`post/${postId}#comments`);
+		expect($router.push).toHaveBeenCalledWith(`/post/${postId}#comments`);
 	});
 
 	describe('Desktop', () => {

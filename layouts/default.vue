@@ -99,7 +99,7 @@ export default {
 					}
 				}
 			} else if (mutation.type === `${SquadStore}/${SquadMutations.openPost}` && mutation.payload) {
-				this.$router.push(`post/${mutation.payload}#comments`);
+				this.$router.push(`/post/${mutation.payload}#comments`);
 			} else if (mutation.type === 'SET_PENDING' && !mutation.payload) {
 				this.rendered();
 			}
