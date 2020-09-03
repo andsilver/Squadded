@@ -23,8 +23,8 @@
 		</section>
 		<ProfileToolbar :user="user" />
 		<v-layout flex-column>
-			<div class="d-flex mt-4" style="flex: 0 0 100px">
-				<userAvatar align="center" class="user_avatar mr-4" :avatar="user.avatar" />
+			<div class="d-flex mt-4">
+				<userAvatar class="user_avatar mr-4" :avatar="user.avatar" />
 				<div class="user-info-section">
 					<userName :name="user.screenName" />
 					<p class="mt-2 user-bio">
@@ -58,7 +58,7 @@
 						<div v-if="meInvited" ref="invite-text" class="invite-text text-center">
 							{{ $t('user.invitation.invited_text') }}
 						</div>
-						<div v-if="showInvitation" class="postion-relative my-4 d-flex align-center pl-1">
+						<div v-if="showInvitation" class="my-4 d-flex align-center pl-1">
 							<Invitation ref="invitation" :user="user" :me="me" @deny="deny" />
 						</div>
 					</template>
