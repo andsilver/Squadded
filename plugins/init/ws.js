@@ -153,7 +153,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			const latestPath = sessionStorage.getItem('latestPath');
 			const latestHash = sessionStorage.getItem('latestHash');
 
-			if (latestPath && latestPath !== '/') {
+			if (latestPath && latestPath !== '/' && latestPath !== '/onboarding') {
 				app.router.push({
 					path: latestPath,
 					hash: latestHash,
@@ -188,8 +188,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 		const { onboarding: { videos } } = state;
 		if (!connecting && videos.length && (!params || !params.invite)) {
 			app.router.push('/onboarding', setPendingFalse);
-		} else {
-			setPendingFalse();
 		}
 	}
 };

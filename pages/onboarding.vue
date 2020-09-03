@@ -34,6 +34,7 @@ import Hammer from 'hammerjs';
 import VideoBackground from 'vue-responsive-video-background-player';
 import { OnboardingStore } from '~/store/onboarding';
 import Button from '~/components/common/Button';
+import { DEFAULT_LANDING } from '~/store/squad';
 
 const { mapState } = createNamespacedHelpers(OnboardingStore);
 
@@ -41,6 +42,11 @@ export default {
 	components: {
 		Button,
 		VideoBackground,
+	},
+	asyncData({ store, redirect }) {
+		if (store.state.socket.isAuth) {
+			redirect(DEFAULT_LANDING);
+		}
 	},
 	data: () => ({
 		current: 0,
