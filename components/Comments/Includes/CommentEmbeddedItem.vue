@@ -37,14 +37,15 @@
 					class="comment-embedded-img"
 					:class="embeddedImageClasse"
 					cover
-					@click="goToReaction"
+					@click="goToReaction(item)"
 				>
 					<div v-if="shouldLimitPreview && i === 2" class="comment-embedded-preview" justify="center" align="center">
 						<div class="comment-embedded-preview-length">
 							+{{ embeddedItemsLength - 2 }}
 						</div>
 					</div>
-					<ReSquaddButton v-if="!forFeed" :item="item" class="comment-embedded-preview-reSquaddButton" />
+					<!-- TODO: WAINTING FOR BACKEND CHANGES -->
+					<!-- <ReSquaddButton v-if="!forFeed" :item="item" class="comment-embedded-preview-reSquaddButton" /> -->
 				</v-img>
 			</div>
 			<span
@@ -62,14 +63,19 @@
 import PopMenu from './PopMenu';
 import CommentShow from './CommentShow';
 import UserLink from '~/components/UserLink';
-import ReSquaddButton from '~/components/ReSquaddButton';
+// import ReSquaddButton from '~/components/ReSquaddButton';
+import { addGAquery } from '~/utils/track-source-link';
+import { OPENED_POST } from '~/consts/keys';
+import { SquadAPI } from '~/services/SquadAPI';
+import { sendGAction } from '~/utils/ga-action';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	components: {
 		UserLink,
 		PopMenu,
 		CommentShow,
-		ReSquaddButton,
+		// ReSquaddButton,
 	},
 	props: {
 		comment: {
@@ -124,9 +130,17 @@ export default {
 		},
 	},
 	methods: {
-		goToReaction() {
+		goToReaction(item) {
 			if (this.forFeed) {
 				this.$router.push(`/post/${this.post.postId}/reactions`);
+			} else {
+				sessionStorage.setItem(OPENED_POST, this.post.postId);
+				// add source on click
+				const currentItem = Object.assign(item, {
+					url: addGAquery(item.url),
+				});
+				SquadAPI.openProduct(currentItem);
+				sendGAction(GA_ACTIONS.CLICK_ITEM);
 			}
 		},
 	},
@@ -199,6 +213,7 @@ export default {
         border-radius: 5px;
         flex: 0 0 35% !important;
         margin-right: 2%;
+		cursor: pointer;
 }
 
 .comment-embedded-img-feed {
