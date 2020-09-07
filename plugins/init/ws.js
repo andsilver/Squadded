@@ -107,11 +107,6 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			window.parent.postMessage(JSON.stringify({
 				type: 'signin',
 			}), '*');
-			window.parent.postMessage(JSON.stringify({
-				type: 'full-story-identity',
-				userId: user.userId,
-				displayName: user.screenName || user.name,
-			}), '*');
 
 			if (window.FS) {
 				window.FS.restart();
