@@ -13,12 +13,10 @@ import { clearLocalStorage } from '~/utils/local-storage';
 
 export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
-	if (!merchantId) {
-		return;
-	}
-
 	const userToken = store.state.user.me.userId;
-	if (!userToken) {
+
+	if (!merchantId || !userToken) {
+		store.commit('SET_PENDING', false);
 		return;
 	}
 	store.commit('SET_PENDING', true);

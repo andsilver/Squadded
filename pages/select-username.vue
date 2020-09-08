@@ -111,7 +111,7 @@ export default {
 	},
 	created () {
 		this.user = Object.assign({}, this.me);
-		const userName = this.user.screenName.split('@');
+		const userName = (this.user.screenName || '').split('@');
 		this.username = userName[0];
 	},
 	methods: {

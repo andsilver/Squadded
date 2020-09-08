@@ -2,7 +2,7 @@
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout column class="px-0 squadder-feed">
-			<Squadders :users="mysquad" :has-post="!!(items && items.length)" class="squadder-section" />
+			<Squadders :users="mysquad" :has-post="!!(items && items.length)" :loading="loading" class="squadder-section" />
 			<Preloader v-if="!items" ref="preloader" class="mt-4 mb-4" />
 			<template v-else-if="items.length">
 				<Feed

@@ -650,7 +650,6 @@ export default {
 	},
 	methods: {
 		signout () {
-			sessionStorage.clear();
 			signOut(this.$store, this.$router);
 		},
 		deleteAccount () {
