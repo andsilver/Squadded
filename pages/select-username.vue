@@ -11,8 +11,9 @@
 					</div>
 					<div ref="pick-username-sec" class="brand-section d-flex flex-column align-center">
 						<div class="user-avatar">
-							<img v-if="user.avatar" ref="user-avatar" :src="userAvatar" class="select-user-icon">
-							<div v-if="!user.avatar" ref="user-avatar" :class="{ dummy_image: !user.avatar }" class="select-user-icon" />
+							<img v-if="compressing" ref="user-avatar" :src="avatarImg" class="select-user-icon">
+							<img v-else-if="user.avatar" ref="user-avatar" :src="userAvatar" class="select-user-icon">
+							<div v-else ref="user-avatar" :class="{ dummy_image: !user.avatar }" class="select-user-icon" />
 							<PopMenu ref="avatar-upload-btn" class="pop-menu" :compressing="compressing" @fileUpload="openFileUpload" />
 						</div>
 						<input
@@ -150,11 +151,16 @@ export default {
 			}
 			const { image } = data;
 			this.compressing = true;
-			[this.user.avatar, this.user.miniAvatar] = await Promise.all([
+			const [avatar, miniAvatar] = await Promise.all([
 				compressImage({ maxWidth: 400, image, store: this.$store }),
 				compressImage({ maxWidth: 50, image, store: this.$store }),
 			]);
 			this.compressing = false;
+			this.$store.dispatch(`${UserStore}/${UserActions.setProfile}`, {
+				...this.me,
+				avatar,
+				miniAvatar,
+			});
 		},
 	},
 	head: () => ({

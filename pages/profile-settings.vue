@@ -64,7 +64,6 @@ export default {
 			if (profile && !profile.user.screenName) {
 				return;
 			}
-
 			profile.editing = false;
 			const user = profile.user;
 
@@ -73,7 +72,6 @@ export default {
 				user.language = general.user.language;
 				this.$root.$i18n.fallbackLocale = user.language;
 			}
-
 			this.$store.dispatch(`${UserStore}/${UserActions.setProfile}`, user);
 			this.$router.push('/me');
 		},

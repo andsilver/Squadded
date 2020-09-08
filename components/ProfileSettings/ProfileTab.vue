@@ -3,7 +3,8 @@
 		<div class="pa-3">
 			<section ref="uploader" class="fixed_profile d-flex justify-center">
 				<v-avatar ref="user-avatar" class="user_avatar" min-width="none">
-					<v-img v-if="user.avatar" :key="user.avatar" :src="user.avatar" />
+					<v-img v-if="compressing" :src="avatarImg" />
+					<v-img v-else-if="user.avatar" :key="user.avatar" :src="user.avatar" />
 					<div v-else ref="user-avatar" class="dummy_image" />
 				</v-avatar>
 				<v-menu
@@ -151,7 +152,7 @@
 <script>
 import { createNamespacedHelpers } from 'vuex';
 import ImageCrop from './ImageCrop';
-import { UserStore } from '~/store/user';
+import { UserStore, UserActions } from '~/store/user';
 import { toBase64 } from '~/utils/toBase64';
 import { compressImage } from '~/utils/compress-image';
 
@@ -219,11 +220,16 @@ export default {
 			}
 			const { image } = data;
 			this.compressing = true;
-			[this.user.avatar, this.user.miniAvatar] = await Promise.all([
+			const [avatar, miniAvatar] = await Promise.all([
 				compressImage({ maxWidth: 400, image, store: this.$store }),
 				compressImage({ maxWidth: 50, image, store: this.$store }),
 			]);
 			this.compressing = false;
+			this.$store.dispatch(`${UserStore}/${UserActions.setProfile}`, {
+				...this.me,
+				avatar,
+				miniAvatar,
+			});
 		},
 	},
 };
