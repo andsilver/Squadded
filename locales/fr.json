@@ -1,4 +1,4 @@
-{	
+{
 	"Activities": "Activités",
 	"AffiliateLinks": "Liens affiliés",
 	"All": "Notifications",
@@ -101,6 +101,7 @@
 		"outfit": "Composition",
 		"photo": "Photo",
 		"poll": "Sondage",
+		"question": "Question",
 		"socialVideo": "Vidéo",
 		"upload": "Galerie",
 		"video": "Vidéo"
@@ -109,9 +110,11 @@
 		"outfit": "Associer 2 à 4 articles pour créer une tenue",
 		"photo": "Publier une photo et identifier les articles",
 		"poll": "Demander aux shoppeurs de voter entre 2 articles",
+		"question": "Posez une question à la communauté",
 		"unsupported_file_format": "Ce format d'image n'est pas pris en charge",
 		"upload": "Identifier des articles dans votre photo ou vidéo",
-		"video": "Ajouter une vidéo et y identifier les articles"
+		"video": "Ajouter une vidéo et y identifier les articles",
+		"what_question": "Quelle est votre question, {user}?"
 	},
 	"create_your_squad": {
 		"description": "Invitez vos amis à rejoindre votre squad. Vous pourrez ainsi partager et réagir à vos wishlists.",
@@ -236,14 +239,16 @@
 		"invite_body": "Rejoins mon squad et fais du shopping avec moi sur {merchant}:",
 		"invite_subject": "On peut faire du shopping en ligne ensemble. Rejoins moi sur Squadded!",
 		"messenger": "Messenger",
+		"no_results": "Aucun résultat pour {text}",
 		"or": "ou",
 		"search_users": "Rechercher des utilisateurs...",
+		"searching": "Recherche de «{key}»…",
 		"share": "Partager votre lien d'invitation:",
 		"title": "Inviter vos amis",
 		"whatsapp": "WhatsApp",
 		"your_friends": "vos amis"
 	},
-	"invited": "Invité",
+	"invited": "En attente",
 	"landing_post": {
 		"interact_with_user": "Faites du shopping avec {user} et partagez votre wishlist.",
 		"sign_in": "Se connecter",
@@ -284,8 +289,8 @@
 		"private_post_off": "Toute la communauté peut désormais voir votre publication",
 		"private_post_on": "Seul votre squad peut désormais voir votre publication",
 		"requestEmpty": "Vous n'avez aucune nouvelle demande",
-		"vote": "a répondu",
-		"squad_connected": "vient de se connecter à {merchant}"
+		"squad_connected": "vient de se connecter à {merchant}",
+		"vote": "a répondu"
 	},
 	"ok": "ok",
 	"or": "ou",
@@ -330,8 +335,8 @@
 		"addedGallary": "a publié une photo avec {0} articles identifiés",
 		"addedItem": "a ajouté cet article à sa wishlist",
 		"addedOutfit": "a publié une composition avec {0} articles",
-		"addedVideo": "a posté une vidéo avec {0} articles identifiés",
 		"addedPoll": "a publié un sondage",
+		"addedVideo": "a publié une vidéo avec {0} articles identifiés",
 		"invited": "Invitation envoyée",
 		"pop": {
 			"deletePost": {
@@ -464,6 +469,9 @@
 		"signin_to_shop_with_your_friend": "Connectez-vous pour faire du shopping avec {name}:",
 		"signin_to_shop_with_your_friends": "Connectez-vous pour faire du shopping entre amis:"
 	},
+	"signin_dialog": {
+		"text": "Connectez-vous pour interagir avec la communauté et faire du du shopping avec vos amis"
+	},
 	"skip": "Plus tard",
 	"spamNote": "Prévoyez jusqu'à 1 minute pour le recevoir. N'oubliez pas de vérifier votre dossier spam/courrier indésirable.",
 	"styleOutfit": "styles dans cette compo",
@@ -558,8 +566,5 @@
 		"postempty": "Votre wishlist est vide. Ajoutez des articles pour publier quelque chose.",
 		"private": "Ce compte est privé\n Seul le squad de @{user}\n peut voir ses publications.",
 		"purchase": "Ajouter"
-	},
-	"signin_dialog": {
-		"text": "Connecte toi pour intéragir avec la communauté et faire du shopping avec tes amis"
 	}
 }

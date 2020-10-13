@@ -101,19 +101,19 @@
 		"outfit": "Outfit ",
 		"photo": "Photo",
 		"poll": "Poll",
+		"question": "Question",
 		"socialVideo": "Video",
 		"upload": "Gallery",
-		"video": "Video",
-		"question": "Question"
+		"video": "Video"
 	},
 	"createDesc": {
 		"outfit": "Pair 2-4 items to create an outfit",
 		"photo": "Add a photo and tag items on it",
 		"poll": "Ask shoppers to vote between 2 items",
+		"question": "Ask the community anything",
 		"unsupported_file_format": "This image format is not supported",
 		"upload": "Tag items in your photo or video",
 		"video": "Add a video link and tag items on it",
-		"question": "Ask the community anything",
 		"what_question": "What is your question, {user}?"
 	},
 	"create_your_squad": {
@@ -239,16 +239,16 @@
 		"invite_body": "Join my squad and shop with me on {merchant}:",
 		"invite_subject": "We can shop online together. Shop with me on Squadded!",
 		"messenger": "Messenger",
+		"no_results": "No results found for {text}",
 		"or": "or",
 		"search_users": "Search users...",
+		"searching": "Searching for \"{key}\"...",
 		"share": "Share your invitation link:",
 		"title": "Invite your friends",
 		"whatsapp": "WhatsApp",
-		"your_friends": "your friends",
-		"searching": "Searching for \"{key}\"...",
-		"no_results": "No results found for {text}"
+		"your_friends": "your friends"
 	},
-	"invited": "invited",
+	"invited": "Pending",
 	"landing_post": {
 		"interact_with_user": "Shop with {user} and share your wishlists.",
 		"sign_in": "Sign in",
@@ -335,8 +335,8 @@
 		"addedGallary": "posted a picture with {0} tagged items",
 		"addedItem": "saved this item",
 		"addedOutfit": "posted a new outfit with {0} items",
-		"addedVideo": "posted a video with {0} tagged items",
 		"addedPoll": "posted a poll",
+		"addedVideo": "posted a video with {0} tagged items",
 		"invited": "Invitation sent",
 		"pop": {
 			"deletePost": {
@@ -469,6 +469,9 @@
 		"signin_to_shop_with_your_friend": "Sign in to shop with {name}:",
 		"signin_to_shop_with_your_friends": "Sign in to shop with your friends:"
 	},
+	"signin_dialog": {
+		"text": "Sign in to interact with the community and to shop with your friends"
+	},
 	"skip": "skip",
 	"spamNote": "Allow up to 1 minute to receive it. Remember to check your spam/junk folder.",
 	"styleOutfit": "style in this outfit",
@@ -563,8 +566,5 @@
 		"postempty": "Your wishlist is empty. Add items to post something.",
 		"private": "This account is private\n Only @{user}'s squad\n can see their posts.",
 		"purchase": "Move to Bag"
-	},
-	"signin_dialog": {
-		"text": "Sign in to interact with the community and to shop with your friends"
 	}
 }
