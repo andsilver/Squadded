@@ -42,8 +42,11 @@ export default {
 	position absolute
 	font-size 2.76vw
 	font-weight 600
-	bottom 20%
+	bottom 15%
+	left 0
 	color #B8B8BA
+	width 100%
+	text-align center
 
 .tab_icon
 	position relative

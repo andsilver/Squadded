@@ -89,7 +89,7 @@ export default {
 		onNoticationPage () {
 		},
 		visibleTab(tabName) {
-			return this.me.userRole === MERCHAND_ADMIN || !this.merchant.hideFeatures.includes(tabName);
+			return this.me.userRole === MERCHAND_ADMIN || (this.merchant.hideFeatures && !this.merchant.hideFeatures.includes(tabName));
 		},
 	},
 };
@@ -103,6 +103,7 @@ export default {
 	.v-tabs
 		>>> .tab_text
 			bottom 6px
+			left unset
 		>>> .tab_icon:before
 			margin-bottom 0
 </style>
