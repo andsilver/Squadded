@@ -6,4 +6,5 @@ export const sendGAction = (action) => {
 		}),
 		'*',
 	);
+	window.FS && window.FS.event(action, {});
 };

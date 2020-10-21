@@ -15,6 +15,8 @@ export const connect = function (store) {
 	const merchantId = store.state.merchant.id;
 	const userToken = store.state.user.me.userId;
 
+	window.FS && window.FS.shutdown();
+
 	if (!merchantId || !userToken) {
 		store.commit('SET_PENDING', false);
 		return;
@@ -46,6 +48,7 @@ export const signOut = (store, router) => {
 	window.parent.postMessage(JSON.stringify({
 		type: 'signout',
 	}), '*');
+	window.FS && window.FS.shutdown();
 	router.push('/');
 	location.reload();
 };
@@ -110,6 +113,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				window.FS.restart();
 				window.FS.identify(user.userId, {
 					displayName: user.screenName || user.name,
+					merchantId: state.merchant.id,
 				});
 			}
 
