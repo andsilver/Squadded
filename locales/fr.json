@@ -237,7 +237,7 @@
 		"copy_link": "Copier Lien",
 		"email": "Email",
 		"invite_body": "Rejoins mon squad et fais du shopping avec moi sur {merchant}:",
-		"invite_subject": "On peut faire du shopping en ligne ensemble. Rejoins moi sur Squadded!",
+		"invite_subject": "On peut faire du shopping en ligne ensemble. Rejoins moi sur {merchant}!",
 		"messenger": "Messenger",
 		"no_results": "Aucun résultat pour {text}",
 		"or": "ou",
@@ -272,7 +272,7 @@
 		"commented": "a commenté",
 		"commentedq": "a commenté:",
 		"emptySquaddedEndText": "Vous n'avez pas encore de notifications",
-		"emptySquaddedText": "Squadded!",
+		"emptySquaddedText": "{merchant}!",
 		"emptyWelcomeText": "Bienvenue sur",
 		"follow": "vous a ajouté a ses inspirations",
 		"invited": "veut rejoindre votre squad",
@@ -383,7 +383,7 @@
 		"share": "Partager la publication",
 		"share_link": {
 			"content": "Regarde ça sur {merchant}",
-			"subject": "Regarde ça sur {merchant} avec Squadded pour faire du shopping avec moi"
+			"subject": "Regarde ça sur {merchant} pour faire du shopping avec moi"
 		},
 		"textPlaceholder": "Ajouter une légende...",
 		"title": {
@@ -410,7 +410,7 @@
 			"second": "et nous expliquer la raison. Notre équipe traitera votre demande et supprimera votre compte."
 		},
 		"feedback": "Signaler un problème",
-		"feedback_warning": "Veuillez ne donner votre avis que sur Squadded et ses fonctionnalités. Tous les signalements sont soumis à nos conditions d'utilisation.",
+		"feedback_warning": "Veuillez ne donner votre avis que sur la plateforme communautaire et ses fonctionnalités. Tous les signalements sont soumis à nos conditions d'utilisation.",
 		"general": "Général",
 		"language": {
 			"description": "How often do you want to get notifications?",
@@ -444,7 +444,7 @@
 		"submit": "Envoyer",
 		"submitted_notification": "Merci. Votre commentaire a été envoyé.",
 		"terms_of_service": {
-			"description": "En utilisant Squadded vous les accepter",
+			"description": "En utilisant cette plateforme vous les acceptez",
 			"title": "Conditions d'utilisations"
 		},
 		"title": "Paramètres",

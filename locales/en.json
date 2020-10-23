@@ -237,7 +237,7 @@
 		"copy_link": "Copy Link",
 		"email": "Email",
 		"invite_body": "Join my squad and shop with me on {merchant}:",
-		"invite_subject": "We can shop online together. Shop with me on Squadded!",
+		"invite_subject": "We can shop online together. Shop with me on {merchant}!",
 		"messenger": "Messenger",
 		"no_results": "No results found for {text}",
 		"or": "or",
@@ -272,7 +272,7 @@
 		"commented": "commented",
 		"commentedq": "commented: ",
 		"emptySquaddedEndText": "You don't have any notifications yet",
-		"emptySquaddedText": "Squadded! ",
+		"emptySquaddedText": "{merchant}! ",
 		"emptyWelcomeText": "Welcome to ",
 		"follow": "is now watching you",
 		"invited": "wants to join your squad",
@@ -383,7 +383,7 @@
 		"share": "Share this link with your friends",
 		"share_link": {
 			"content": "Check this post on {merchant}",
-			"subject": "Check this post on {merchant} with Squadded to shop online with me"
+			"subject": "Check this post on {merchant}  to shop online with me"
 		},
 		"textPlaceholder": "Write a caption...",
 		"title": {
@@ -410,7 +410,7 @@
 			"second": "and let us know why. Our team will process your request and delete your account."
 		},
 		"feedback": "Report a Problem",
-		"feedback_warning": "Please only leave feedback about Squadded and its features. All reports are subject to our terms of use.",
+		"feedback_warning": "Please only leave feedback about the community platform and its features. All reports are subject to our terms of use.",
 		"general": "General",
 		"language": {
 			"description": "How often do you want to get notifications?",
@@ -444,7 +444,7 @@
 		"submit": "submit",
 		"submitted_notification": "Thank you. Your report has been sent.",
 		"terms_of_service": {
-			"description": "By using Squadded you agree to them",
+			"description": "By using this platform you agree to them",
 			"title": "Terms of Use"
 		},
 		"title": "Edit Settings",
