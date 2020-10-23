@@ -13,6 +13,7 @@ module.exports = {
   ],
   globals: {
     "spyOn": true,
+    "jasmine": true,
   },
   // add your custom rules here
   rules: {

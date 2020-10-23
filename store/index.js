@@ -24,6 +24,8 @@ const {
 	squadSLogin = true,
 	brandColor = DEFAULT_COLOR,
 	backgroundColor,
+	inactiveColor,
+	activeColor,
 	isMono = false,
 	native = false,
 	hideFct = '',
@@ -36,6 +38,14 @@ if (brandColor !== DEFAULT_COLOR) {
 
 if (backgroundColor) {
 	document.documentElement.style.setProperty('--bg-color', backgroundColor);
+}
+
+if (inactiveColor) {
+	document.documentElement.style.setProperty('--inactive-color', inactiveColor);
+}
+
+if (activeColor) {
+	document.documentElement.style.setProperty('--active-color', activeColor);
 }
 
 export const state = () => ({
@@ -58,6 +68,8 @@ export const state = () => ({
 		squadSLogin,
 		brandColor,
 		backgroundColor,
+		inactiveColor,
+		activeColor,
 		isMono,
 		native,
 		hideFeatures: hideFct.toLowerCase().split(';'),

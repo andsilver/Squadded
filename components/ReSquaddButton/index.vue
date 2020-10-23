@@ -88,7 +88,7 @@ export default {
 	height 30px
 	border-radius 50%
 	background-color #707070
-	color white
+	color var(--inactive-color, white)
 	text-align center
 	outline none
 	transition background-color .1s ease-in-out 0s,
@@ -107,14 +107,14 @@ export default {
 
 	&.is-resquadded:not(.invert)
 		background-color var(--brand-color)
-		color white
+		color var(--active-color, white)
 		opacity 1
 
 	&.invert
 		background-color var(--bg-color) !important
-		color black
+		color var(--inactive-color, black)
 		&.is-resquadded
-			color var(--brand-color) !important
+			color var(--active-color, --brand-color) !important
 			opacity 1
 
 .remove-button.resquadd.is-resquadded

@@ -88,8 +88,8 @@ sw.*
 # Mac OSX
 .DS_Store
 
-static/lib/*.js
-lib/*.min.js
+static/loader/*.js
+static/Merchant
 
 dev
 *.crt
