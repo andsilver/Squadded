@@ -14,6 +14,7 @@
 	"Edit": "Edit",
 	"EnterUsername": "Enter your username",
 	"Explore": "Explore",
+	"Hi": "Hi",
 	"Home": "Home",
 	"Just": "",
 	"Like": "Like",
@@ -466,8 +467,11 @@
 	"sign_up_later": "Sign up later",
 	"signemail": "Sign in with email",
 	"signin": {
-		"signin_to_shop_with_your_friend": "Sign in to shop with {name}:",
-		"signin_to_shop_with_your_friends": "Sign in to shop with your friends:"
+		"signin_to_shop_with_your_friend": "Sign in to shop with {name}",
+		"signin_to_shop_with_your_friends": "Sign in to join the community",
+		"facebook_signin": "Continue with Facebook",
+		"google_signin": "Continue with Google",
+		"to_you": "to you"
 	},
 	"signin_dialog": {
 		"text": "Sign in to interact with the community and to shop with your friends"
@@ -520,7 +524,7 @@
 			"deny": "deny",
 			"inSquad": "In Squad",
 			"invite": "Invite",
-			"invited_text": "invited you to join their squad",
+			"invited_text": "Sign in to join my shopping squad so we can shop online together!",
 			"pending": "Pending...",
 			"pending_text": "As soon as @{user} confirms,\nyou will appear in each other's squad",
 			"send_invite_link": "Share your invitation link:",

@@ -1,5 +1,5 @@
 <template>
-	<v-container class="flex-grow-1 pd">
+	<v-container class="flex-grow-1 pa-0">
 		<v-layout
 			v-if="!socket.isPendingAuth"
 			column
@@ -28,77 +28,106 @@
 					</v-card>
 				</v-slide-y-transition>
 			</div>
-			<div class="login">
-				<Brand />
-				<Inviter v-if="inviter" :user="inviter" />
-				<div ref="socialstep-one" class="social_step-one" :class="{ active: showstepOne, in_active: !showstepOne}">
-					<div class="text-center pt-6 mt-11 mt-md-0 mb-4 font-weight-bold signin-text">
-						{{ inviter ? $t('signin.signin_to_shop_with_your_friend', { name: inviter.screenName || inviter.name }) : $t('signin.signin_to_shop_with_your_friends') }}
-					</div>
-					<div class="text-center">
+			<div ref="login" class="login">
+				<Brand :merchant-title="merchant.siteTitle" />
+				<div
+					class="login-content pa-3"
+					:class="{'invite-login': !!inviter}"
+				>
+					<Inviter v-if="inviter" :user="inviter" />
+					<div ref="socialstep-one" class="social_step-one" :class="{ active: showstepOne, in_active: !showstepOne}">
+						<div class="signin-text">
+							{{ inviter ? $t('signin.signin_to_shop_with_your_friend', { name: inviter.screenName || inviter.name }) : $t('signin.signin_to_shop_with_your_friends') }}
+						</div>
 						<div class="custom-chk">
 							<div class="form-group">
-								<input id="html" v-model="terms" type="checkbox" @change="changeTerms()">
-								<label class="term-text" :class="{error_terms: terms_error}" for="html"><p class="check_lable" /><p class="terms-text">{{ $t('agree_left') }} <span> <a ref="show-terms" @click="showTerms">  {{ $t('agree_right') }} </a> </span></p></label>
+								<input id="terms-agree" v-model="terms" type="checkbox" @change="changeTerms()">
+								<label class="term-text d-flex" :class="{error_terms: terms_error}" for="terms-agree">
+									<div>
+										<p class="check_lable" />
+									</div>
+									<p class="terms-text">
+										{{ $t('agree_left') }}
+										<span>
+											<a ref="show-terms" @click="showTerms">
+												{{ $t('agree_right') }}
+											</a>
+										</span>
+									</p>
+								</label>
 							</div>
 						</div>
-					</div>
-					<div v-if="merchant.squadSLogin" ref="social-login" class="social-text-section" :class="{ hide_socila: showstepTwo}">
-						<div class="social">
-							<social-btn for="fb" :terms-status="terms" class="facebook-btn social-btn mb-4" @termsError="shwoTermsError" />
-							<social-btn for="google" :terms-status="terms" class="google-btn social-btn elevation-1" @termsError="shwoTermsError" />
-							<!-- <social-btn for="inst" :terms-status="terms" class="instagram-btn social-btn" @termsError="shwoTermsError" /> -->
+						<div ref="social-login" class="social-text-section">
+							<div class="social">
+								<social-btn
+									v-if="merchant.squadSLogin"
+									ref="google-login"
+									for="facebook"
+									:terms-status="terms"
+									class="facebook-btn social-btn mb-3"
+									@termsError="shwoTermsError"
+								/>
+								<social-btn
+									v-if="merchant.squadSLogin"
+									for="google"
+									:terms-status="terms"
+									class="google-btn social-btn mb-3"
+									@termsError="shwoTermsError"
+								/>
+								<social-btn
+									for="email"
+									:terms-status="terms"
+									class="email-btn social-btn"
+									@termsError="shwoTermsError"
+									@click.native="email_link"
+								/>
+								<span v-if="terms_error" class="terms_error_msg">{{ $t('form.rules.terms.valid') }}</span>
+							</div>
+						</div>
+						<div class="signup-letter">
+							<nuxt-link :to="{ path: '/community' }">
+								<div class="skip-btn text-center text-uppercase">
+									{{ $t('skip') }}
+								</div>
+							</nuxt-link>
 						</div>
 					</div>
-					<div class="text-center">
-						<div class="signemail" @click="email_link">
-							{{ $t('signemail') }}
-							<span v-if="terms_error" class="terms_error_msg">{{ $t('form.rules.terms.valid') }}</span>
+					<div ref="step-one" class="sign-step-one" :class="{ active: showstepTwo, in_active: !showstepTwo}">
+						<sign-form ref="signForm" :terms-status="terms" @sendOtp="showStepTwo" @emailback="emailback" />
+					</div>
+					<div ref="step-two" class="sign-step-two" :class="{ active: showstepThree, in_active: !showstepThree}">
+						<h2>
+							<v-btn ref="go-back-btn" icon @click="goBack">
+								<v-icon>
+									sqdi-arrow-pointing-to-left
+								</v-icon>
+							</v-btn>
+							{{ $t('enterCode') }}
+						</h2>
+						<p class="description">
+							{{ $t('spamNote') }}
+						</p>
+						<div>
+							<div class="pin_sec">
+								<Pin ref="pin" :invalid="showDigitError" @enter="validate" @change="pinChange" @complete="pinChange" />
+							</div>
+							<span v-if="showError" ref="error-message" class="error-message">{{ $t('form.rules.pin.valid') }}</span>
+							<span v-if="showOtpError" ref="error-message" class="error-message">{{ $t('form.rules.pin.required') }}</span>
+							<v-btn
+								ref="signup-validate-btn"
+								class="full-width validate-btn"
+								color="primary"
+								large
+								depressed
+								@click="validate"
+							>
+								{{ $t('validate') }}
+							</v-btn>
 						</div>
-					</div>
-					<div class="signup-letter">
-						<nuxt-link :to="{ path: '/community' }">
-							<h5 class="text-center text-capitalize">
-								{{ $t('skip') }}
-							</h5>
-						</nuxt-link>
-					</div>
-				</div>
-				<div ref="step-one" class="sign-step-one" :class="{ active: showstepTwo, in_active: !showstepTwo}">
-					<sign-form ref="signForm" :terms-status="terms" @sendOtp="showStepTwo" @emailback="emailback" />
-				</div>
-				<div ref="step-two" class="sign-step-two" :class="{ active: showstepThree, in_active: !showstepThree}">
-					<h2>
-						<v-btn ref="go-back-btn" icon @click="goBack">
-							<v-icon>
-								sqdi-arrow-pointing-to-left
-							</v-icon>
-						</v-btn>
-						{{ $t('enterCode') }}
-					</h2>
-					<p class="description">
-						{{ $t('spamNote') }}
-					</p>
-					<div>
-						<div class="pin_sec">
-							<Pin ref="pin" :invalid="showDigitError" @enter="validate" @change="pinChange" @complete="pinChange" />
+						<div class="resend-code">
+							{{ $t('can_not_received') }}
+							<span @click="requestOtp"> {{ $t('resend_code') }}</span>
 						</div>
-						<span v-if="showError" ref="error-message" class="error-message">{{ $t('form.rules.pin.valid') }}</span>
-						<span v-if="showOtpError" ref="error-message" class="error-message">{{ $t('form.rules.pin.required') }}</span>
-						<v-btn
-							ref="signup-validate-btn"
-							class="full-width validate-btn"
-							color="primary"
-							large
-							depressed
-							@click="validate"
-						>
-							{{ $t('validate') }}
-						</v-btn>
-					</div>
-					<div class="resend-code">
-						{{ $t('can_not_received') }}
-						<span @click="requestOtp"> {{ $t('resend_code') }}</span>
 					</div>
 				</div>
 			</div>
@@ -170,6 +199,9 @@ export default {
 	},
 	mounted () {
 		this.$root.$emit('guestToolbarHide', {});
+		setTimeout(() => {
+			this.$refs.login.style.background = 'linear-gradient(90deg, rgba(var(--brand-rgb-color), 0.3) 0%, rgba(var(--brand-rgb-color), 0.65) 40%, rgba(var(--brand-rgb-color), 1) 100%)';
+		});
 	},
 	methods: {
 		showStepTwo (email) {
@@ -278,47 +310,15 @@ export default {
 </script>
 
 <style lang="stylus">
-.pd
-	padding 0 !important
-.social
-	display block
-	margin 0 auto
-	span
-		font-size 4.30vw
-		font-weight 600
-		text-transform capitalize
-.brand-section
-	border-radius 4vw
-	.brand-title
-		font-family: 'Montserrat', sans-serif
-		font-weight: 600
-		font-size: 4.61vw
-		line-height: 3.66vw
-		padding-bottom: 3.27vw
-	img.b-logo
-		width 100%
-		height 45.84vw
-.or-section
-	margin-top 11.67vw
-	font-size 3.69vw
-	color #B8B8BA
-	position relative
-	z-index 1
-	text-align center
-	&::before
-		border-top 0.37vw solid rgba(184, 184, 186, .30)
-		content ''
-		margin 0 auto
-		position absolute
-		top 50%
-		left 0
-		right 0
-		bottom 0
-		z-index -1
-	span
-		background #fff
-		padding 0 6.61vw
 .login
+	&-content
+		background white
+		border-top-left-radius 16px
+		border-top-right-radius 16px
+		margin-top 12px
+	.skip-btn
+		font-size 12px
+		color #717171
 	.sign-step-two
 		h2
 			color #000
@@ -364,40 +364,38 @@ export default {
 				color #000000
 				cursor pointer
 	.custom-chk
-			padding-left 8vw
-			padding-right 6.55vw
+		margin-bottom 8vw
 		.form-group
-			display block
-			margin-bottom 15px
-		.form-group input
-			padding 0
-			height initial
-			width initial
-			margin-bottom 0
-			display none
-			cursor pointer
-		.form-group label
-			position relative
-			cursor pointer
-		.form-group label .check_lable
-			position relative
-			margin 0
-			border 2px solid #dbdbdb
-			display inline-block
-			vertical-align top
-			cursor pointer
-			width 26px
-			height 26px
-			border-radius 3.076vw
-		.form-group label .terms-text
-			display inline-block
-			width calc(100% - 26px)
-			margin 0
-			text-align left
-			padding-left 2.36vw
-			line-height 1.6
-		.form-group label.error_terms .check_lable
-			border-color #FD6256 !important
+			input
+				padding 0
+				height initial
+				width initial
+				margin-bottom 0
+				display none
+				cursor pointer
+
+			label
+				position relative
+				cursor pointer
+
+				.check_lable
+					position relative
+					margin 0
+					border 2px solid #dbdbdb
+					display inline-block
+					vertical-align top
+					cursor pointer
+					width 26px
+					height 26px
+					border-radius 3.076vw
+
+				.terms-text
+					padding-left 2.36vw
+					line-height 1.6
+
+				&.error_terms .check_lable
+					border-color #FD6256 !important
+
 		.form-group input:checked + label .check_lable:after
 			content ''
 			display block
@@ -409,11 +407,6 @@ export default {
 			height 18px
 			border-radius 2.076vw
 			background #FD6256
-	.term-section p
-		color #000000
-		font-size 3.69vw
-		font-weight 500
-		line-height 4.92vw
 	label.term-text
 		color #B8B8BA
 		font-size 3.38vw
@@ -422,60 +415,7 @@ export default {
 		&.error_terms
 			&:before
 				border 2px solid #ef6256
-	.signin-main-section
-		position absolute
-		top 20.61vw
-		left 50%
-		background #fff
-		box-shadow 0 6px 40px rgba(0,0,0,0.1)
-		width 62.9vw
-		transform translate(-50%, 0%)
-	.sign-in
-		font-size 7.38vw
-		font-weight 700
-		text-align center
-		text-transform uppercase
-		letter-spacing 2px
-		padding-top 16.46vw
-		padding-bottom 3.07vw
-	.poweredby
-		font-size 2.92vw
-		font-weight 600
-		display flex
-		align-items center
-		justify-content center
-		padding-bottom 8.14vw
-		img.powerdby-image
-			width 22.76vw
-			margin-left 2.15vw
-	.signemail
-		color #FD6256
-		font-weight 600
-		font-size 3.69vw
-		margin-top 8.26vw
-		margin-bottom 12.76vw
-		line-height 5.84vw
-		position relative
-		cursor pointer
-		.terms_error_msg
-			background #fd6256
-			border-radius 1.53vw
-			height 6.76vw
-			font-size 3.38vw
-			color #fff
-			display -webkit-box
-			display flex
-			-webkit-box-align center
-			align-items center
-			-webkit-box-pack center
-			justify-content center
-			font-weight 500
-			line-height 4.61vw
-			position absolute
-			width 90%
-			left 50%
-			transform translateX(-50%)
-			bottom 6.2vw
+
 	.sign-step-two
 		display none
 		transition all 0.2s ease-in-out
@@ -515,11 +455,6 @@ export default {
 	@-moz-keyframes slide-down
 		0% { opacity: 0; }
 		100% { opacity: 1; }
-	.social-text-section
-		transition max-height 0.2s ease-out
-		height auto
-		&.hide_socila
-			max-height 0
 	.otp-field .v-input__control
 		height 10.76vw !important
 		min-height auto !important
@@ -574,5 +509,13 @@ export default {
 	color #000
 	width 58vw
 .signin-text
-	font-size 4.30vw
+	font-weight 600
+	font-size 6.5vw
+	margin 16vw 0 12vw
+	color black
+.invite-login
+	.signin-text
+		margin 8vw 0
+	.custom-chk
+		margin-bottom 4vw
 </style>

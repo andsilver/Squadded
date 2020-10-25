@@ -8,6 +8,7 @@ import pairedItem from './paired-item';
 import explore from './explore';
 import home from './home';
 import onboarding from './onboarding';
+import { hexToRgb } from '~/utils/hex-to-rgb';
 
 const DEFAULT_COLOR = '#000';
 const widgetLocation = location.search || !document.referrer ? new URL(location.href)
@@ -47,6 +48,11 @@ if (inactiveColor) {
 if (activeColor) {
 	document.documentElement.style.setProperty('--active-color', activeColor);
 }
+const rgb = hexToRgb(brandColor);
+document.documentElement.style.setProperty(
+	'--brand-rgb-color',
+	`${rgb.r}, ${rgb.g}, ${rgb.b}`,
+);
 
 export const state = () => ({
 	locales: ['en', 'fr'],
@@ -128,6 +134,11 @@ export const mutations = {
 		if (brandColor !== DEFAULT_COLOR) {
 			document.documentElement.style.setProperty('--brand-color', brandColor);
 		}
+		const rgb = hexToRgb(brandColor);
+		document.documentElement.style.setProperty(
+			'--brand-rgb-color',
+			`${rgb.r}, ${rgb.g}, ${rgb.b}`,
+		);
 	},
 	SET_SOCKET_AUTH (state, flag) {
 		state.socket.isAuth = flag;

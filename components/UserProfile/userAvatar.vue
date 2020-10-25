@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<img v-if="avatar" :src="avatar" alt="user avatar">
+		<img v-if="avatar" :class="size" :src="avatar" alt="user avatar">
 		<div v-else ref="user-avatar" class="dummy_image" />
 	</section>
 </template>
@@ -13,6 +13,10 @@ export default {
 			type: String,
 			required: true,
 		},
+		size: {
+			type: String,
+			default: 'lg',
+		},
 	},
 };
 </script>
@@ -22,11 +26,17 @@ export default {
 		position: relative;
 	}
 	img {
-		width: 23.538vw;
-		height: 23.538vw;
 		border-radius: 50%;
 		border: 2px solid white;
 		box-sizing: content-box;
+	}
+	img.lg {
+		width: 23.538vw;
+		height: 23.538vw;
+	}
+	img.sm {
+		widows: 10vw;
+		height: 10vw;
 	}
 </style>
 <style lang="stylus" scoped>

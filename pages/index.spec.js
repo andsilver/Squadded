@@ -36,7 +36,7 @@ describe('Signup', () => {
 	const GO_BACK_BTN = 'go-back-btn';
 	const VALIDATE_BTN = 'signup-validate-btn';
 	const ERROR_MESSAGE = 'error-message';
-	const SOCIAL_LOGIN = 'social-login';
+	const GOOGLE_LOGIN = 'google-login';
 
 	beforeEach(() => {
 		localVue = createLocalVue();
@@ -200,8 +200,8 @@ describe('Signup', () => {
 		store.commit('SET_SOCKET_AUTH', false);
 		store.commit('SET_PENDING', false);
 
-		expect(wrapper.ref(SOCIAL_LOGIN).exists()).toBe(true);
+		expect(wrapper.ref(GOOGLE_LOGIN).exists()).toBe(true);
 		store.state.merchant.squadSLogin = false;
-		expect(wrapper.ref(SOCIAL_LOGIN).exists()).toBe(false);
+		expect(wrapper.ref(GOOGLE_LOGIN).exists()).toBe(false);
 	});
 });

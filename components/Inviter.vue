@@ -1,12 +1,19 @@
 <template>
-	<div class="d-flex mt-6 px-3">
-		<userAvatar align="center" class="user_avatar mr-4" :avatar="user.avatar" />
-		<div class="user-info-section">
-			<userName :name="user.screenName" />
-			<p class="mt-2 user-bio">
-				{{ user.bio }}
-			</p>
-			<div ref="invite-text" class="invite-text text-center">
+	<div>
+		<div class="d-flex user-info">
+			<userAvatar align="center" class="user-avatar mr-2" size="sm" :avatar="user.avatar" />
+			<div>
+				<userName :name="user.screenName" />
+				<div class="to-you">
+					{{ $t('signin.to_you') }}
+				</div>
+			</div>
+		</div>
+		<div class="user-invite-text pt-2 pb-6 pl-2 pr-2 mt-2">
+			<div>
+				{{ $t('Hi') }}!
+			</div>
+			<div ref="invite-text">
 				{{ $t('user.invitation.invited_text') }}
 			</div>
 		</div>
@@ -31,24 +38,23 @@ export default {
 };
 </script>
 
-<style scoped>
-.invite-text {
-	background: #f5f5f5;
-	padding: 10px 12px;
-	color: black;
+<style scoped lang="scss">
+.user-info {
+	.username {
+		color: #1d1d1d;
+		font-size: 12px;
+		font-weight: 500;
+	}
+
+	.to-you {
+		color: #717171;
+		font-size: 10px;
+	}
+}
+
+.user-invite-text {
 	font-size: 12px;
-	font-weight: 600;
-	border-radius: 16px;
-}
-.user-info-section {
-	margin-top: 1.33vw;
-}
-.user-bio {
-    font-size: 3.84vw;
-    line-height: 4.92vw;
-	overflow: hidden;
-	display: -webkit-box;
-	-webkit-line-clamp: 3;
-	-webkit-box-orient: vertical;
+	background: #f5f5f5;
+	border-radius: 8px;
 }
 </style>

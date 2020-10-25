@@ -1,22 +1,26 @@
 <template>
-	<div class="text-center brand">
-		<img src="~/assets/img/brand.PNG" alt="">
-		<div class="text-uppercase white--text brand-text">
-			{{ $t('shopping_party') }}
-		</div>
+	<div class="white--text brand">
+		<h5 class="font-weight-medium">
+			Welcome to
+		</h5>
+		<h3>
+			{{ merchantTitle }}
+		</h3>
 	</div>
 </template>
 <script>
-export default {};
+export default {
+	props: {
+		merchantTitle: {
+			type: String,
+			required: true,
+		},
+	},
+};
 </script>
 <style lang="scss" scoped>
 .brand {
-	background: black;
-	padding: 10vw 0;
-
-	img {
-		width: 250px;
-	}
+	padding: 16vw 5vw 0;
 
 	&-text {
 		font-weight: 600;

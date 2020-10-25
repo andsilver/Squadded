@@ -1,6 +1,6 @@
 <template>
 	<button @click="login">
-		<span>{{ title }}</span>
+		<span>{{ $t(title) }}</span>
 	</button>
 </template>
 
@@ -9,9 +9,10 @@ import { mapState } from 'vuex';
 import Social from '~/classes/social';
 
 const fullname = {
-	fb: 'facebook',
+	facebook: 'signin.facebook_signin',
 	inst: 'D.C.M Jennyfer',
-	google: 'google',
+	google: 'signin.google_signin',
+	email: 'signemail',
 };
 export default {
 	props: {
@@ -39,6 +40,9 @@ export default {
 			if (!this.termsStatus) {
 				this.$emit('termsError');
 			} else {
+				if (this.for === 'email') {
+					return;
+				}
 				const { userId, postId } = this.$route.query;
 				const params = {
 					merchantId: this.merchant.id,
@@ -52,7 +56,7 @@ export default {
 					params.originPostId = postId;
 					params.origin = 'share';
 				}
-				Social.oauth(fullname[this.for], params);
+				Social.oauth(this.for, params);
 			}
 		},
 	},
@@ -62,9 +66,16 @@ export default {
 <style lang="stylus">
 .social-btn
 	width 100%
-	border-radius 12px
-	border 0.46vw solid #000
-	height 12.30vw
+	border-radius 8px
+	border 1px solid #bdbdbd
+	padding 6px 4px
+	text-align center
+	display block
+	background-position 3%
+	background-size 6vw
+	font-size 4.30vw
+	font-weight 500
+
 	&.instagram-btn
 		background-image url('~assets/img/dcm-logo.svg')
 		background-size 10.84vw
@@ -78,25 +89,11 @@ export default {
 		text-align right
 		padding-right 17.2vw
 	&.facebook-btn
-		background-image url('~assets/img/facebook-logo.svg')
-		background-size 3.84VW
-		background-position 19.23vw center
-		width 84.92vw
-		margin 0 auto
-		display block
-		background-color #1877f2
-		border 3px solid #1877f2
-		color #fff
-		text-align center
+		background-image url('~assets/img/facebook.svg')
+
 	&.google-btn
-		background-image url('~assets/img/Google-Button.svg')
-		background-size 44px
-		background-position 56px center
-		width 84.92vw
-		margin 0 auto
-		display block
-		color black
-		border-color white
-		text-align center
-		box-shadow 0 0.461vw 1.538vw rgba(0,0,0,0.16) !important
+		background-image url('~assets/img/google.svg')
+
+	&.email-btn
+		background-image url('~assets/img/mail.svg')
 </style>
