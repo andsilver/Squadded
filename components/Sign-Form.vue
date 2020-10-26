@@ -142,25 +142,6 @@
 		min-height auto !important
 .email-field.error_email
 	border 0.3vw solid #FD6256
-.terms_error_msg
-	background #fd6256
-	border-radius 1.53vw
-	height 6.76vw
-	font-size 3.38vw
-	color #fff
-	display -webkit-box
-	display flex
-	-webkit-box-align center
-	align-items center
-	-webkit-box-pack center
-	justify-content center
-	font-weight 500
-	line-height 4.61vw
-	position absolute
-	width 90%
-	left 50%
-	transform translateX(-50%)
-	bottom 2.30vw
 .placeholder-fix input:focus::-webkit-input-placeholder
 	color transparent
 .placeholder-fix input:focus::-moz-placeholder

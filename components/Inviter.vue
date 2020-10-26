@@ -54,7 +54,20 @@ export default {
 
 .user-invite-text {
 	font-size: 12px;
-	background: #f5f5f5;
+	background: #efefef;
 	border-radius: 8px;
+	position: relative;
+
+	::before {
+		content: '';
+		position: absolute;
+		width: 0;
+		height: 0;
+		bottom: 98%;
+		left: 6px;
+		border: 10px solid transparent;
+		border-top: none;
+		border-bottom-color: #efefef;
+	}
 }
 </style>

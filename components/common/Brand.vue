@@ -1,9 +1,9 @@
 <template>
 	<div class="white--text brand">
-		<h5 class="font-weight-medium">
+		<h5 class="brand-text">
 			Welcome to
 		</h5>
-		<h3>
+		<h3 class="brand-text">
 			{{ merchantTitle }}
 		</h3>
 	</div>
@@ -24,7 +24,6 @@ export default {
 
 	&-text {
 		font-weight: 600;
-		font-size: 4.615vw;
 	}
 }
 </style>

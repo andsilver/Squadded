@@ -56,6 +56,9 @@
 									</p>
 								</label>
 							</div>
+							<div v-if="terms_error" class="terms-error-msg">
+								{{ $t('form.rules.terms.valid') }}
+							</div>
 						</div>
 						<div ref="social-login" class="social-text-section">
 							<div class="social">
@@ -81,7 +84,6 @@
 									@termsError="shwoTermsError"
 									@click.native="email_link"
 								/>
-								<span v-if="terms_error" class="terms_error_msg">{{ $t('form.rules.terms.valid') }}</span>
 							</div>
 						</div>
 						<div class="signup-letter">
@@ -200,7 +202,7 @@ export default {
 	mounted () {
 		this.$root.$emit('guestToolbarHide', {});
 		setTimeout(() => {
-			this.$refs.login.style.background = 'linear-gradient(90deg, rgba(var(--brand-rgb-color), 0.3) 0%, rgba(var(--brand-rgb-color), 0.65) 40%, rgba(var(--brand-rgb-color), 1) 100%)';
+			this.$refs.login.style.background = 'linear-gradient(270deg, rgba(var(--brand-rgb-color), 0.3) 0%, rgba(var(--brand-rgb-color), 0.65) 40%, rgba(var(--brand-rgb-color), 1) 100%)';
 		});
 	},
 	methods: {
@@ -518,4 +520,12 @@ export default {
 		margin 8vw 0
 	.custom-chk
 		margin-bottom 4vw
+.terms-error-msg
+	background #fd6256
+	border-radius 4px
+	font-size 3.38vw
+	color #fff
+	font-weight 500
+	text-align center
+	padding 3px 0
 </style>
