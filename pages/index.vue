@@ -202,7 +202,12 @@ export default {
 	mounted () {
 		this.$root.$emit('guestToolbarHide', {});
 		setTimeout(() => {
-			this.$refs.login.style.background = 'linear-gradient(270deg, rgba(var(--brand-rgb-color), 0.3) 0%, rgba(var(--brand-rgb-color), 0.65) 40%, rgba(var(--brand-rgb-color), 1) 100%)';
+			const loginEl = this.$refs.login;
+
+			if (!loginEl) {
+				return;
+			}
+			loginEl.style.background = 'linear-gradient(270deg, rgba(var(--brand-rgb-color), 0.3) 0%, rgba(var(--brand-rgb-color), 0.65) 40%, rgba(var(--brand-rgb-color), 1) 100%)';
 		});
 	},
 	methods: {

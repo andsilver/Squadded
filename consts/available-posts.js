@@ -29,9 +29,6 @@ export const availablePosts = [{
 export const visiblePosts = function () {
 	return this.me.userRole === MERCHAND_ADMIN ? availablePosts
 		: availablePosts.filter((item) => {
-			if (item.name === 'question' && !this.merchant.experimental) {
-				return false;
-			}
 			return !this.merchant.hideFeatures.includes(item.name);
 		});
 };

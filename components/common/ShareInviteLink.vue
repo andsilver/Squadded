@@ -130,7 +130,7 @@ export default {
 				setTimeout(() => (method.title = 'copy_link'), 1000);
 				break;
 			case 'email':
-				window.open(`mailTo:?subject=${this.$t('invite_your_friends.invite_subject')}&body=${content}%0A${this.shortURL}`);
+				window.open(`mailTo:?subject=${this.$t('invite_your_friends.invite_subject', { merchant: this.$store.state.merchant.id })}&body=${content}%0A${this.shortURL}`);
 				break;
 			case 'whatsapp':
 				window.open(encodeURI(`https://api.whatsapp.com/send?text=${content}\n${this.shortURL}`));

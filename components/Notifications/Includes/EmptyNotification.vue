@@ -12,7 +12,7 @@
 			<div class="notification-message">
 				<div class="message is_poll">
 					<span>
-						{{ $t('notify.emptyWelcomeText') }} <b> {{ $t('notify.emptySquaddedText') }} </b> {{ $t('notify.emptySquaddedEndText') }}
+						{{ $t('notify.emptyWelcomeText') }} <b> {{ $t('notify.emptySquaddedText', { merchant: $store.state.merchant.id }) }} </b> {{ $t('notify.emptySquaddedEndText') }}
 					</span>
 				</div>
 			</div>
@@ -24,6 +24,7 @@
 
 export default {
 	name: 'PollEnd',
+
 };
 </script>
 
