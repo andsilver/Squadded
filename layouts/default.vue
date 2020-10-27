@@ -92,11 +92,13 @@ export default {
 				if (!tokenExist()) {
 					const { name, params } = this.squad.route;
 
-					if (name === 'user-id') {
-						this.$router.push({ path: '/', query: { userId: params.id } });
-					} else {
-						this.$router.push(this.squad.route);
-					}
+					setTimeout(() => {
+						if (name === 'user-id') {
+							this.$router.push({ path: '/', query: { userId: params.id } });
+						} else {
+							this.$router.push(this.squad.route);
+						}
+					});
 				}
 			} else if (mutation.type === `${SquadStore}/${SquadMutations.openPost}` && mutation.payload) {
 				this.$router.push(`/post/${mutation.payload}#comments`);

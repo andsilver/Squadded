@@ -183,7 +183,8 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 		const connecting = connect(store);
 		const { params } = route;
 		const { onboarding: { videos } } = state;
-		if (!connecting && videos.length && (!params || !params.invite)) {
+
+		if (!connecting && videos.length && (!params || !params.id)) {
 			app.router.push('/onboarding', setPendingFalse);
 		}
 	}
