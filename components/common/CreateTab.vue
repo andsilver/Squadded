@@ -66,7 +66,9 @@ export default {
 	},
 	created() {
 		this.$root.$on('openCreateMenu', () => {
-			this.$refs.createTabBtn && this.$refs.createTabBtn.$el && this.$refs.createTabBtn.$el.click();
+			this.$router.push({ query: { create: true } });
+			this.$refs.createTabBtn && this.$refs.createTabBtn.click();
+			this.$root.$emit('overlayToggle', {});
 		});
 	},
 	methods: {

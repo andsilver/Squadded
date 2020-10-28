@@ -7,7 +7,7 @@
 				<p ref="empty-blog-text" align="center" class="txt">
 					{{ socket.isAuth ? $t('feed.isEmpty') : $t('wishlist.disabled_before_signin') }}
 				</p>
-				<Button v-if="isMe" class="flex-grow-1 wish_btn" @click="createPost">
+				<Button v-if="isMe" class="flex-grow-1 wish_btn" :active="false" @click.native="createPost">
 					{{ $t('feed.create') }}
 				</Button>
 			</div>
@@ -19,6 +19,7 @@
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
+import Button from '~/components/common/Button';
 import Preloader from '~/components/Preloader';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 import { tokenExist } from '~/utils/isAuth';
@@ -36,6 +37,7 @@ export default {
 	components: {
 		Feed,
 		Preloader,
+		Button,
 	},
 	props: {
 		isMe: {
