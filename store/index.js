@@ -25,6 +25,7 @@ const {
 	squadSLogin = true,
 	brandColor = DEFAULT_COLOR,
 	backgroundColor,
+	backgroundActiveColor,
 	inactiveColor,
 	activeColor,
 	isMono = false,
@@ -39,6 +40,10 @@ if (brandColor !== DEFAULT_COLOR) {
 
 if (backgroundColor) {
 	document.documentElement.style.setProperty('--bg-color', backgroundColor);
+}
+
+if (backgroundActiveColor) {
+	document.documentElement.style.setProperty('--bg-active-color', backgroundActiveColor);
 }
 
 if (inactiveColor) {
