@@ -27,6 +27,9 @@ export default {
 			this.$router.push('/feed');
 		},
 	},
+	head: () => ({
+		title: 'Error',
+	}),
 };
 </script>
 

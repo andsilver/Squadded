@@ -111,6 +111,9 @@ export default {
 			this.$router.push(DEFAULT_LANDING);
 		},
 	},
+	head: () => ({
+		title: 'Invite-Friends',
+	}),
 };
 </script>
 

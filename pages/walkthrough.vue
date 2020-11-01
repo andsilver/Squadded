@@ -162,6 +162,9 @@ export default {
 			}
 		},
 	},
+	head: () => ({
+		title: 'Walkthrough',
+	}),
 };
 </script>
 <style lang="scss">

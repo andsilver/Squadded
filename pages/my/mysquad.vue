@@ -14,5 +14,8 @@ export default {
 		MySquad,
 		BackBar,
 	},
+	head: () => ({
+		title: 'MySquadders',
+	}),
 };
 </script>
