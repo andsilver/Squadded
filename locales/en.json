@@ -118,7 +118,7 @@
 		"what_question": "What is your question, {user}?"
 	},
 	"create_your_squad": {
-		"description": "Add your friends to join your squad. Once they join, you will be able to see and interact with each other’s wishlist.",
+		"description": "Invite your friends to join your squad. Once they join, you will be able to interact and shop together",
 		"invited_text": "Do you want {user} to join your squad?",
 		"invited_you": "invited you",
 		"skip_for_now": "skip for now",
@@ -251,7 +251,7 @@
 	},
 	"invited": "Pending",
 	"landing_post": {
-		"interact_with_user": "Shop with {user} and share your wishlists.",
+		"interact_with_user": "Connect to interact and shop with {user}.",
 		"sign_in": "Sign in",
 		"skip": "skip"
 	},
@@ -467,10 +467,10 @@
 	"sign_up_later": "Sign up later",
 	"signemail": "Sign in with email",
 	"signin": {
-		"signin_to_shop_with_your_friend": "Sign in to shop with {name}",
-		"signin_to_shop_with_your_friends": "Sign in to join the community",
 		"facebook_signin": "Continue with Facebook",
 		"google_signin": "Continue with Google",
+		"signin_to_shop_with_your_friend": "Sign in to shop with {name}",
+		"signin_to_shop_with_your_friends": "Sign in to join the community",
 		"to_you": "to you"
 	},
 	"signin_dialog": {

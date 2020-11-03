@@ -14,6 +14,7 @@
 	"Edit": "Modifier",
 	"EnterUsername": "Entrez votre nom d'utilisateur",
 	"Explore": "Explorer",
+	"Hi": "Hi",
 	"Home": "Accueil",
 	"Just": "",
 	"Like": "J'aime",
@@ -117,7 +118,7 @@
 		"what_question": "Quelle est votre question, {user}?"
 	},
 	"create_your_squad": {
-		"description": "Invitez vos amis à rejoindre votre squad. Vous pourrez ainsi partager et réagir à vos wishlists.",
+		"description": "Invitez vos amis à rejoindre votre squad. Vous pourrez ainsi interagir et faire du shopping ensemble.",
 		"invited_text": "Acceptez-vous que {user} rejoigne votre squad?",
 		"invited_you": "vous a invité",
 		"skip_for_now": "Plus tard",
@@ -250,7 +251,7 @@
 	},
 	"invited": "En attente",
 	"landing_post": {
-		"interact_with_user": "Faites du shopping avec {user} et partagez votre wishlist.",
+		"interact_with_user": "Connectez-vous pour interagir et faire du shopping avec {user}.",
 		"sign_in": "Se connecter",
 		"skip": "Plus tard"
 	},
@@ -466,8 +467,11 @@
 	"sign_up_later": "S'inscrire plus tard",
 	"signemail": "S'inscrire avec un email",
 	"signin": {
+		"facebook_signin": "Continuer avec Facebook",
+		"google_signin": "Continuer avec Google",
 		"signin_to_shop_with_your_friend": "Connectez-vous pour faire du shopping avec {name}:",
-		"signin_to_shop_with_your_friends": "Connectez-vous pour faire du shopping entre amis:"
+		"signin_to_shop_with_your_friends": "Connectez-vous pour faire du shopping entre amis:",
+		"to_you": ""
 	},
 	"signin_dialog": {
 		"text": "Connectez-vous pour interagir avec la communauté et faire du du shopping avec vos amis"
