@@ -56,7 +56,7 @@
 					<span class="icon-count">1,459</span>
 				</div>
 				<div class="price-btn-sec">
-					<v-card-text ref="item-price" class="price" @click="openProduct">
+					<v-card-text v-if="price" ref="item-price" class="price" @click="openProduct">
 						{{ price }}
 					</v-card-text>
 					<v-btn

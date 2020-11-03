@@ -25,7 +25,7 @@
 				{{ title }}
 			</div>
 			<v-card-text
-				v-if="!details"
+				v-if="!details && price"
 				ref="item-price"
 				class="post_price px-1"
 				@click="() => $emit('open')"

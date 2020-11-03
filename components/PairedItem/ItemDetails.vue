@@ -4,7 +4,7 @@
 		<div class="flex-grow-1 d-flex flex-column pa-0 justify-space-between item-right-section">
 			<div>
 				<div class="d-flex justify-space-between align-center price-buy-sec">
-					<span ref="item-price" class="item-price">{{ price }}</span>
+					<span v-if="price" ref="item-price" class="item-price">{{ price }}</span>
 					<button ref="buy-button" class="buy_button sqdi-shopping-bag-2 bag_inline" />
 				</div>
 				<div ref="item-title" class="item-title">

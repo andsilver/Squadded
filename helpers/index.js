@@ -32,7 +32,7 @@ export function flushPromises() {
 	return new Promise(resolve => setImmediate(resolve));
 }
 
-export const price = (currency, cents, locale) => `${currency}${(cents / 100).toLocaleString(locale)}`;
+export const price = (currency, cents, locale) => cents ? `${currency}${(cents / 100).toLocaleString(locale)}` : '';
 
 export default {
 	prefetch,
