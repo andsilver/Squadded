@@ -250,8 +250,9 @@ export default {
 			left 3.307vw
 			line-height: 3.7vw
 	>>> .v-image__image--preload
-		padding-bottom 125%
-		position relative
+		&:first-child
+			padding-bottom 125%
+			position relative
 		background #f1f1f1
 		flex-shrink 0
 
