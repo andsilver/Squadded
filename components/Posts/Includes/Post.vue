@@ -7,7 +7,7 @@
 					ref="user-link"
 					class="post_user_link"
 					:user="post.user"
-					:ts="post.ts"
+					:ts="showTS ? post.ts : 0"
 					size="10.76vw"
 				/>
 				<PopMenu :post="post" @edit="toggleTextEditor" />
@@ -76,6 +76,7 @@ export default {
 		visible: false,
 		showTextEditor: false,
 		editPostText: `${PostStore}/${PostActions.editText}`,
+		showTS: false,
 	}),
 	computed: {
 		isTextVisible () {
@@ -84,6 +85,9 @@ export default {
 		isPlaceHolder () {
 			return (this.post.byMe && !this.post.text);
 		},
+	},
+	mounted () {
+		this.showTS = this.$route.name !== 'community' && this.$route.name !== 'all';
 	},
 	methods: {
 		toggleTextEditor () {
