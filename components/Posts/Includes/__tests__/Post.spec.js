@@ -28,6 +28,9 @@ describe('Post', () => {
 			mocks: {
 				$t: msg => msg,
 				$tc: msg => msg,
+				$route: {
+					name: 'all',
+				},
 			},
 			propsData: {
 				post,

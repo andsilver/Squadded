@@ -22,6 +22,9 @@ describe('Message Input', () => {
 
 	const mocks = {
 		$t: msg => msg,
+		$route: {
+			name: 'all',
+		},
 	};
 
 	beforeEach(() => {
