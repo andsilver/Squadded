@@ -153,8 +153,8 @@ export default {
 			margin-bottom 15px
 .card_frame
 	cursor pointer
-	border-radius 0 !important
-	box-shadow rgba(0, 0, 0, 0.1) 0px 0.92vw 6.153vw
+	border-radius 12px !important
+	box-shadow: -2px 3px 11px 0px rgba(0, 0, 0, 0.1	) !important
 
 	.card_bottom
 		margin-top 1%

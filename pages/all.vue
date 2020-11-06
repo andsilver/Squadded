@@ -1,7 +1,7 @@
 <template>
 	<v-container v-if="socket.isAuth" ref="main" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
-		<v-layout column class="px-0">
+		<v-layout column>
 			<Preloader v-if="!posts" ref="preloader" class="mt-8" />
 			<span v-else-if="!posts.length" ref="empty-feed-text">{{ $t('feed.isEmpty') }}</span>
 			<Feed
@@ -91,9 +91,11 @@ export default {
 };
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .container.layout-padding
+	background #ececec
 	padding 40px 0 0 0
+
 	.layout
-		padding 12px
+		padding 8px 2px
 </style>

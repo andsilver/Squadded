@@ -1,5 +1,5 @@
 <template>
-	<v-container class="feed-container">
+	<v-container class="feed-container px-1">
 		<FakeTopBar ref="top-bar" class="topBar" @openSigninDialog="openDialog" />
 		<v-layout>
 			<Feed
@@ -76,5 +76,6 @@ export default {
 
 <style lang="stylus" scoped>
 .container.feed-container
+	background #ececec
 	margin-top 55px
 </style>

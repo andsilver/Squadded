@@ -109,6 +109,10 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.full_post
+	position relative
+	background white
+
 .post-user-sec
 	margin-bottom 2.87vw
 .post_user_link
@@ -122,9 +126,6 @@ export default {
 	font-size .8em
 	font-weight 600
 	margin-left 3%
-
-.full_post
-	position relative
 
 .card_title
 	font-size 3.692vw

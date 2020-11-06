@@ -141,7 +141,10 @@ export default {
 	width 100%
 	background #fff
 	padding-top 2vw
-	border-bottom 1px solid rgba(0,0,0,0.3)
+	border-bottom-left-radius 12px
+	border-bottom-right-radius 20px
+	box-shadow: 6px 6px 20px 0px rgba(0, 0, 0, 0.05)
+
 	.left-sec
 		height 36px
 		position relative

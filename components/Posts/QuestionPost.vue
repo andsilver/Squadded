@@ -1,5 +1,5 @@
 <template>
-	<Post :post="post" hide-caption class="grouped-post">
+	<Post :post="post" hide-caption>
 		<QuestionCard ref="questioncard" :background="post.background" @mounted="setAutosize">
 			<textarea
 				ref="posttext"

@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="user && (user.name || user.screenName)">
+	<v-container v-if="user && (user.name || user.screenName)" class="px-0">
 		<section class="fixed_profile d-flex justify-space-between align-center pa-2" :class="{ slide: isScrolled }">
 			<Menu v-if="user.isMe" ref="menu" small @edit="edit" />
 			<GoBackBtn v-else ref="go-back-btn" />
@@ -21,9 +21,9 @@
 			</div>
 			<Actions v-else :user="user" />
 		</section>
-		<ProfileToolbar :user="user" />
+		<ProfileToolbar class="px-2" :user="user" />
 		<v-layout flex-column>
-			<div class="d-flex mt-4">
+			<div class="d-flex mt-4 px-2">
 				<userAvatar class="user_avatar mr-4" :avatar="user.avatar" />
 				<div class="user-info-section">
 					<userName :name="user.screenName" />
@@ -65,7 +65,7 @@
 				</div>
 			</div>
 
-			<v-tabs v-model="tabs" class="px-1 mt-4 user-profile-tabs" fixed-tabs centered @change="keepTab">
+			<v-tabs v-model="tabs" class="mt-4 user-profile-tabs" fixed-tabs centered @change="keepTab">
 				<v-tab class="tabs pt-3">
 					<span style="text-transform: capitalize;">{{ $t('Posts') }}</span>
 				</v-tab>
@@ -75,10 +75,10 @@
 			</v-tabs>
 			<v-tabs-items v-model="tabs" touchless>
 				<v-tab-item class="mt-3">
-					<Blog :is-me="user.isMe" />
+					<Blog class="user-blog" :is-me="user.isMe" />
 				</v-tab-item>
 				<v-tab-item>
-					<Whishlist :is-me="user.isMe" />
+					<Whishlist class="px-1" :is-me="user.isMe" />
 				</v-tab-item>
 			</v-tabs-items>
 		</v-layout>
@@ -386,4 +386,8 @@ img.my-squad {
 .user-profile-tabs {
 	z-index 1
 }
+
+.user-blog
+	background #ececec
+	padding 0 2px
 </style>

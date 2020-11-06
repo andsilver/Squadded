@@ -10,7 +10,7 @@
 		>
 			<CardFrame
 				ref="multi-item"
-				class="multi-item pa-4"
+				class="multi-item pa-2"
 				:class="{ shifted, moving }"
 				:price="totalPrice"
 				:origin-price="originPrice"

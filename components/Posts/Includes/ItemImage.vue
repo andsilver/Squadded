@@ -43,6 +43,9 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
+.v-image
+	border-radius 12px
+
 .gallery-card .multi-item .v-image
 	height 100.384vw
 

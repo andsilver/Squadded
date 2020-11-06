@@ -10,7 +10,7 @@
 				>
 					<ProductCard
 						ref="product-card"
-						class="mx-auto pa-4 w-78 mb-4 single-item"
+						class="mx-auto pa-2 w-70 mb-4 single-item"
 						:item="item.item"
 						show-refreshicon
 						:loading="!item.guid && !item.error"
@@ -117,8 +117,8 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.w-78
-	width 62.906vw
+.w-70
+	width 70vw
 	margin-right 3.07vw !important
 .items-container
 	display: flex

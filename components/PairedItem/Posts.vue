@@ -1,12 +1,12 @@
 <template>
-	<div ref="itemDetailsSec" class="pa-3 paired-tab">
+	<div ref="itemDetailsSec" class="py-3 paired-tab">
 		<section class="fixed_tabs" :class="{ slide: isScrolled }">
 			<h3 class="d-flex justify-space-between align-center pa-2">
 				<GoBackBtn ref="go-back-btn" />
 				<span class="viewall-title">{{ $t('viewAll') }}</span>
 				<span class="blank-span" />
 			</h3>
-			<div class="pa-3 pt-1 paired-tab">
+			<div class="py-3 pt-1 paired-tab">
 				<v-tabs
 					v-if="isPaired"
 					v-model="tabs"
@@ -167,11 +167,11 @@ export default {
 	width 5px
 	height auto
 .paired-feed
-	margin-right -12px
-	margin-left -12px
-	padding-right 12px
-	padding-left 12px
 	overflow-x hidden
+	padding 0 2px
+
+	>>> .post-container
+		padding 0
 .blank-span
 	width 36px
 	height 36px

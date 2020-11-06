@@ -17,15 +17,22 @@
 				:top-change-text="topChangeText"
 				@top-method="handleTopRefresh"
 			>
-				<div v-for="(post, n) in aggregatedItems" :id="'post_id_' + getId(post)" ref="post" :key="n">
+				<div
+					v-for="(post, n) in aggregatedItems"
+					:id="post.elementId"
+					ref="post"
+					:key="n"
+					class="post-container"
+				>
 					<component
-						:is="getComponent(post)"
+						:is="post.component"
+						v-if="post"
 						ref="component"
 						:is-paired="paired"
 						:post="post"
 					/>
 					<Comments
-						v-if="showComments(post) && !paired"
+						v-if="post.showComments && !paired"
 						ref="comments"
 						:post="post"
 						:show-all="false"
@@ -129,7 +136,14 @@ export default {
 					items[groupsByAuthor[item.userId].index].items.push(item);
 				}
 			}
-			return items;
+			return items.map((p) => {
+				p.elementId = 'post_id_' + (p.postId ? p.postId
+					: p.items ? `${p.items[0].guid}_group`
+					: p.correlationId);
+				p.component = getComponent(p);
+				p.showComments = p.type && p.type !== 'groupedPosts' && !!p.component;
+				return p;
+			});
 		},
 		image () {
 			return this.$store.state.post.uploadingPicture;
@@ -166,19 +180,13 @@ export default {
 				behavior: 'smooth',
 			});
 		},
-		getId(post) {
-			return post.postId ? post.postId
-				: post.items ? `${post.items[0].guid}_group`
-				: post.correlationId;
-		},
-		getComponent,
 		savePosition() {
 			if (!['feed', 'all'].some(item => this.storageKey.includes(item))) {
 				return;
 			}
 			if (this.lastIndex > 2) {
 				const post = this.aggregatedItems[this.lastIndex];
-				sessionStorage.setItem(this.storageKey, `post_id_${this.getId(post)}`);
+				sessionStorage.setItem(this.storageKey, post.elementId);
 			} else {
 				sessionStorage.removeItem(this.storageKey);
 			}
@@ -197,9 +205,6 @@ export default {
 				top: 0,
 				behavior: 'smooth',
 			});
-		},
-		showComments(post) {
-			return post.type && post.type !== 'groupedPosts' && !!this.getComponent(post);
 		},
 		closeViolationDialog() {
 			this.$store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
@@ -305,9 +310,6 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-[id^="post_id_"]:not(:last-child)
-	margin 0 0 7.50vw
-
 .feed
 	position relative
 	width 100%
@@ -345,4 +347,9 @@ export default {
 		margin-top 10px
 		@media screen and (max-width: 280px)
 			margin-top 5px
+.post-container
+	padding 12px
+	border-radius 10px
+	background-color white
+	margin 0 0 8px 0
 </style>

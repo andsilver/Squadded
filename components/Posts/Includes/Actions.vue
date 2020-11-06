@@ -132,12 +132,9 @@ export default {
 .hanger_button
 	display none
 
-.poll_ongoing,
-.poll_expired,
-.grouped-post,
-.single-post
+.grouped-post
 	.post_buttons
-		border-top 1px solid #DBDBDB
+		border-top 1px solid #ececec
 .grouped-post,
 .single-post
 	.counter-icon

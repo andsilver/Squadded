@@ -1,12 +1,11 @@
 <template>
-	<Post :post="post" group-post class="grouped-post single-post">
+	<Post :post="post" class="single-post">
 		<ProductCard
 			ref="product-card"
-			class="mx-auto pa-4 w-78 mb-4 single-item"
+			class="mx-auto pa-2 w-70 mb-4 single-item"
 			:item="post.item"
 			:post="post"
 			show-refreshicon
-			group-post
 			:loading="!post.guid && !post.error"
 			:post-id="post.guid"
 		/>
@@ -34,7 +33,7 @@ export default {
 </script>
 
 <style lang="stylus" scoped>
-.w-78 {
-	width: 62.906vw;
+.w-70 {
+	width: 70vw;
 }
 </style>

@@ -1,12 +1,13 @@
 <template>
 	<v-container v-if="socket.isAuth" class="layout-padding">
 		<TopBar ref="top-bar" class="topBar" />
-		<v-layout column class="px-0 squadder-feed">
+		<v-layout column class="squadder-feed">
 			<Squadders :users="mysquad" :has-post="!!(items && items.length)" :loading="loading" class="squadder-section" />
 			<Preloader v-if="!items" ref="preloader" class="mt-4 mb-4" />
 			<template v-else-if="items.length">
 				<Feed
 					ref="feed-layout"
+					class="feed-posts"
 					:items="items"
 					:load-new="newPostsAvailable"
 					@loadMore="fetchFeed"
@@ -124,11 +125,15 @@ export default {
 };
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .container.layout-padding
 	padding 40px 0 0 0
+	background #ececec
+	min-height 100vh
+
 	.layout
-		padding 12px
 		&.squadder-feed
 			padding-top 0px !important
+		.feed-posts
+			padding 0 2px
 </style>

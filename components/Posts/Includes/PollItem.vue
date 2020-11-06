@@ -2,6 +2,7 @@
 	<div class="poll-item">
 		<CardFrame
 			ref="product-card"
+			class="pa-1"
 			:price="price"
 			:origin-price="originPrice"
 			:title="item.title"
