@@ -11,6 +11,7 @@ Wrapper.prototype.ref = function (id) {
 const mocks = {
 	$t: msg => msg,
 	$tc: msg => msg,
+	$gaAction: jest.fn(),
 };
 
 describe('PollPost', () => {

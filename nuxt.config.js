@@ -58,6 +58,7 @@ if (GTAG_ID) {
 
 const plugins = [
 	'@plugins/i18n',
+	'@plugins/ga-action',
 	'@plugins/messaging',
 	{ src: '@plugins/init/ws', ssr: false },
 	{ src: '@plugins/init/restoreFeed', ssr: false },

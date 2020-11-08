@@ -45,7 +45,7 @@ import Actions from './Actions';
 import { shortNumber } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import { UserStore } from '~/store/user';
-import { MERCHAND_ADMIN } from '~/consts';
+import { MERCHAND_ADMIN, GA_ACTIONS } from '~/consts';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -141,6 +141,7 @@ export default {
 				return;
 			}
 			this.$router.push(`/paired-item?postId=${this.postId}&itemId=${this.item.itemId}&varId=${this.item.varId}`);
+			this.$gaActionPrivate(GA_ACTIONS.POST_PAIREDITEMS);
 		},
 	},
 };

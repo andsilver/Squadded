@@ -77,7 +77,6 @@ import Tabs from '~/components/Create/Tabs';
 import { ActivityStore, ActivityGetters } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions } from '~/store/post';
-import { sendGAction } from '~/utils/ga-action';
 import { GA_ACTIONS } from '~/consts';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
@@ -139,7 +138,7 @@ export default {
 			const post = await this.$store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 			this.$router.push('/feed');
-			sendGAction(GA_ACTIONS.CREATE_POST_OUTFIT);
+			this.$gaAction(GA_ACTIONS.CREATE_POST_OUTFIT);
 		},
 		next () {
 			if (this.getSelected.length < 2) {

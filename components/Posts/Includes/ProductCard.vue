@@ -30,7 +30,6 @@ import { price } from '~/helpers';
 import { OPENED_POST } from '~/consts/keys';
 import { SquadAPI } from '~/services/SquadAPI';
 import { FeedPost } from '~/classes/FeedPost';
-import { sendGAction } from '~/utils/ga-action';
 import { GA_ACTIONS } from '~/consts';
 import { addGAquery } from '~/utils/track-source-link';
 
@@ -114,7 +113,7 @@ export default {
 					url: addGAquery(this.item.url),
 				});
 				SquadAPI.openProduct(this.item);
-				sendGAction(GA_ACTIONS.CLICK_ITEM);
+				this.$gaAction(GA_ACTIONS.CLICK_ITEM);
 			}
 		},
 	},

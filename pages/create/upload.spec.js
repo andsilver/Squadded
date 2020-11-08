@@ -55,6 +55,7 @@ describe('Create Upload', () => {
 				$router,
 				$t: msg => msg,
 				$refs,
+				$gaAction: jest.fn(),
 			},
 		});
 	});

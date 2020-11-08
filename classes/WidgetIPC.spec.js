@@ -23,6 +23,7 @@ describe('Dispatcher', () => {
 	const router = {
 		push: jest.fn(),
 	};
+	const gaActionPrivate = jest.fn();
 
 	beforeEach(() => {
 		localStorage.clear();
@@ -49,7 +50,7 @@ describe('Dispatcher', () => {
 			commit: jest.fn(),
 			dispatch: jest.fn(),
 		};
-		ipc = new WidgetIPC(store, router);
+		ipc = new WidgetIPC(store, router, gaActionPrivate);
 	});
 
 	afterEach(fetchMock.reset);

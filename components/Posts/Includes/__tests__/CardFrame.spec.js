@@ -13,6 +13,7 @@ describe('CardFrame', () => {
 	const TITLE = 'item-title';
 	const MERCHANT_ID = 'merchant-id';
 	let wrapper;
+	const $gaActionPrivate = jest.fn();
 
 	function initLocalVue () {
 		const localVue = createLocalVue();
@@ -27,6 +28,9 @@ describe('CardFrame', () => {
 				title: post.item.title,
 			},
 			store,
+			mocks: {
+				$gaActionPrivate,
+			},
 		});
 	}
 

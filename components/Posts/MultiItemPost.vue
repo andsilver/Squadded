@@ -66,6 +66,7 @@ import { prefetch, price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostMutations } from '~/store/post';
 import MountedEmitter from '~/components/common/MountedEmitter';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	name: 'MultiItemPost',
@@ -141,6 +142,8 @@ export default {
 
 			if (!this.shifted) {
 				this.selectedItem = '';
+			} else {
+				this.$gaActionPrivate(GA_ACTIONS.POST_DETAILITEMS);
 			}
 			this.marginLeft = this.shifted ? -55 : 0;
 			this.moving = false;

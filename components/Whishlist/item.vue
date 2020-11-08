@@ -77,6 +77,7 @@ import ReSquaddButton from '~/components/ReSquaddButton';
 import { price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	name: 'WhishlistItem',
@@ -101,6 +102,7 @@ export default {
 		openProduct () {
 			sessionStorage.setItem(OPENED_POST, this.post.postId);
 			SquadAPI.openProduct(this.post.item);
+			this.$gaActionPrivate(GA_ACTIONS.MOVE_TOBAG);
 		},
 	},
 };

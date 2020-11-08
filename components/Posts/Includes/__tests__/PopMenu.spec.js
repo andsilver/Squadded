@@ -47,6 +47,8 @@ describe('PopMenu', () => {
 	const $router = {
 		push: jest.fn(),
 	};
+	const $gaActionPrivate = jest.fn();
+	const $gaAction = jest.fn();
 
 	const initLocalVue = () => {
 		wrapper = shallowMount(PopMenu, {
@@ -60,6 +62,8 @@ describe('PopMenu', () => {
 				$root,
 				$ws,
 				$router,
+				$gaActionPrivate,
+				$gaAction,
 			},
 		});
 	};

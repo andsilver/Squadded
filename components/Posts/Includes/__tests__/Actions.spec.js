@@ -16,6 +16,7 @@ describe('Post Actions', () => {
 	let post;
 	let store;
 	let wrapper;
+	const $gaActionPrivate = jest.fn();
 
 	function initLocalVue () {
 		localVue = createLocalVue();
@@ -35,6 +36,7 @@ describe('Post Actions', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$gaActionPrivate,
 			},
 		});
 	}

@@ -22,6 +22,7 @@ describe('User component', () => {
 	let store;
 	let $ws;
 	let query = {};
+	const $gaActionPrivate = jest.fn();
 
 	function initLocalVue () {
 		document.getElementById = jest.fn(() => document.createElement('div'));
@@ -62,6 +63,7 @@ describe('User component', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$gaActionPrivate,
 			},
 		});
 
@@ -100,6 +102,7 @@ describe('User component', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$gaActionPrivate,
 			},
 		});
 		fetchUser.mockReturnValue(Promise.resolve({ user }));
@@ -130,6 +133,7 @@ describe('User component', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$gaActionPrivate,
 			},
 		});
 
@@ -152,6 +156,7 @@ describe('User component', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$gaActionPrivate,
 			},
 		});
 
@@ -177,6 +182,7 @@ describe('User component', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$gaActionPrivate,
 			},
 		});
 
@@ -202,6 +208,7 @@ describe('User component', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$gaActionPrivate,
 			},
 		});
 

@@ -31,6 +31,7 @@ describe('Whishlist Item', () => {
 			},
 		},
 	};
+	const $gaActionPrivate = jest.fn();
 
 	function initLocalVue () {
 		SquadAPI.openProduct.mockClear();
@@ -46,6 +47,7 @@ describe('Whishlist Item', () => {
 					locale: 'en',
 				},
 				$store,
+				$gaActionPrivate,
 			},
 			propsData: {
 				post,

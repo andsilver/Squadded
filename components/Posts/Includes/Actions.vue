@@ -47,7 +47,6 @@ import {
 } from './shareMixins';
 import { shortNumber } from '~/helpers';
 import { PostStore, PostActions } from '~/store/post';
-import { sendGAction } from '~/utils/ga-action';
 import { GA_ACTIONS } from '~/consts';
 
 export default {
@@ -67,7 +66,7 @@ export default {
 	},
 	data: () => ({
 		showShare: false,
-		shortURL: null,
+		shortURL: '',
 	}),
 	computed: {
 		commentsCount () {
@@ -83,7 +82,7 @@ export default {
 		toggleLike () {
 			this.$store.dispatch(`${PostStore}/${PostActions.toggleLike}`, this.post);
 			this.$forceUpdate();
-			sendGAction(GA_ACTIONS.LIKE);
+			this.$gaAction(GA_ACTIONS.LIKE);
 		},
 		toggleComments () {
 			this.$emit('toggleComments');

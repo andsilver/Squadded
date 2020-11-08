@@ -46,6 +46,7 @@ import { HomeStore, HomeMutations, HomeActions } from '~/store/home';
 import { FeedStore, FeedMutations, FeedActions } from '~/store/feed';
 import { UserStore, UserMutations } from '~/store/user';
 import { prefetch } from '~/helpers';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	props: {
@@ -79,6 +80,7 @@ export default {
 			this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
 			this.$store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 			prefetch({ type: 'fetchSquadders', store: this.$store });
+			this.$gaActionPrivate(GA_ACTIONS.FRIEND_REMOVE);
 		},
 	},
 };

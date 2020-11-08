@@ -19,12 +19,14 @@ describe('Message Input', () => {
 	let sendComment;
 	let store;
 	let wrapper;
+	const $gaAction = jest.fn();
 
 	const mocks = {
 		$t: msg => msg,
 		$route: {
 			name: 'all',
 		},
+		$gaAction,
 	};
 
 	beforeEach(() => {

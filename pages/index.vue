@@ -87,7 +87,7 @@
 							</div>
 						</div>
 						<div class="signup-letter">
-							<nuxt-link :to="{ path: '/community' }">
+							<nuxt-link :to="{ path: '/community' }" @click.native="skip">
 								<div class="skip-btn text-center text-uppercase">
 									{{ $t('skip') }}
 								</div>
@@ -147,6 +147,7 @@ import { loginWithPIN, requestOtp } from '~/services/otp';
 import Pin from '~/components/Pin';
 import { DEFAULT_LANDING } from '~/store/squad';
 import { fetchUser } from '~/services/user';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	components: {
@@ -220,6 +221,7 @@ export default {
 			if (this.terms) {
 				this.showstepTwo = true;
 				this.showstepOne = false;
+				this.$gaActionPrivate(GA_ACTIONS.SIGN_EMAIL);
 			} else {
 				this.shwoTermsError();
 			}
@@ -272,6 +274,7 @@ export default {
 				params.originPostId = postId;
 				params.origin = 'share';
 			}
+
 			loginWithPIN(+this.pin, this.email, params).then(({ error, token }) => {
 				if (error) {
 					this.showError = true;
@@ -308,6 +311,9 @@ export default {
 			fetchUser(userId).then(({ user }) => {
 				this.inviter = user;
 			});
+		},
+		skip() {
+			this.$gaActionPrivate(GA_ACTIONS.NOSIGN_LATER);
 		},
 	},
 	head: () => ({

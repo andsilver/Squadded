@@ -17,6 +17,7 @@ import { HomeStore, HomeMutations } from '~/store/home';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { isMonoMerchant } from '~/utils/is-mono-merchant';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	name: 'ReSquaddButton',
@@ -61,6 +62,7 @@ export default {
 				userId: this.$store.state.user.me.userId,
 			});
 			this.$forceUpdate();
+			this.$gaActionPrivate(GA_ACTIONS.WISHLIT_ADD);
 		},
 		async unwish () {
 			this.item.squadded = false;
@@ -74,6 +76,7 @@ export default {
 			this.$store.commit(`${HomeStore}/${HomeMutations.unsquadd}`, this.item.itemId);
 			await this.$store.dispatch(`${ActivityStore}/${ActivityActions.unwish}`, this.item);
 			this.$forceUpdate();
+			this.$gaActionPrivate(GA_ACTIONS.WISHLIST_REMOVE);
 		},
 	},
 };

@@ -18,6 +18,7 @@
 <script>
 import FindFriends from '~/components/common/FindFriends';
 import ShareInviteLink from '~/components/common/ShareInviteLink';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	components: {
@@ -39,6 +40,7 @@ export default {
 		},
 		showDialog(value) {
 			if (value) {
+				this.$gaActionPrivate(GA_ACTIONS.FRIEND_ADD);
 				return;
 			}
 			this.$emit('close', value);

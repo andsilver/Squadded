@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import { sendGAction } from '~/utils/ga-action';
 import { GA_ACTIONS } from '~/consts';
 
 export default {
@@ -42,7 +41,7 @@ export default {
 	}),
 	methods: {
 		onTabClick (tab) {
-			sendGAction(tab === 0 ? GA_ACTIONS.CLICK_COMMUNITY : GA_ACTIONS.CLICK_SQUADDED);
+			this.$gaAction(tab === 0 ? GA_ACTIONS.CLICK_COMMUNITY : GA_ACTIONS.CLICK_SQUADDED);
 		},
 	},
 };

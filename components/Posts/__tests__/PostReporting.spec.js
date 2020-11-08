@@ -28,6 +28,7 @@ const factory = (byMe) => {
 
 	const user = userMockBuilder().get();
 	const merchant = merchantMockBuilder().get();
+	const $gaActionPrivate = jest.fn();
 
 	const localVue = createLocalVue();
 	localVue.use(Vuex);
@@ -41,6 +42,7 @@ const factory = (byMe) => {
 		mocks: {
 			...mocks,
 			$ws: ws,
+			$gaActionPrivate,
 		},
 		localVue,
 		propsData: {

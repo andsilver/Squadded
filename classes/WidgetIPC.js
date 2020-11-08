@@ -8,17 +8,18 @@ import { ExploreStore, ExploreMutations } from '~/store/explore';
 import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { OnboardingStore, OnboardingMutations } from '~/store/onboarding';
-import { INTERACTED_KEY } from '~/consts/keys';
+import { INTERACTED_KEY, GA_ACTIONS } from '~/consts';
 import { onAuth } from '~/helpers';
 import { setLocalStorageItem } from '~/utils/local-storage';
 
 export class WidgetIPC {
-	constructor(store, router) {
+	constructor(store, router, gaActionPrivate) {
 		this.store = store;
 		this.router = router;
+		this.gaActionPrivate = gaActionPrivate;
 	}
 
-	dispatch (msg) {
+	dispatch(msg) {
 		const { type } = msg;
 		if (type !== 'dispatch' && this[type]) {
 			this[type](msg);
@@ -28,13 +29,13 @@ export class WidgetIPC {
 		}
 	}
 
-	injectMerchantParams (msg) {
+	injectMerchantParams(msg) {
 		const { story, ...params } = msg;
 		this.store.commit('SET_MERCHANT_PARAMS', params);
 		this.store.commit(`${OnboardingStore}/${OnboardingMutations.setVideos}`, story);
 	}
 
-	injectSquadParams (msg) {
+	injectSquadParams(msg) {
 		const { state, navigate } = msg;
 
 		const squad = msg.squad || localStorage.getItem('squad');
@@ -44,17 +45,20 @@ export class WidgetIPC {
 		this.widgetState(state);
 	}
 
-	loggedIn (msg) {
+	loggedIn(msg) {
 		this.store.commit(`${UserStore}/${UserMutations.setToken}`, msg.userToken);
 		this.store.commit(`${ExploreStore}/${ExploreMutations.setFacebookFriends}`, msg.friends);
 		connect(this.store);
 	}
 
-	async singleItemPost (msg) {
+	async singleItemPost(msg) {
 		if (!localStorage.getItem(INTERACTED_KEY)) {
-			window.parent.postMessage(JSON.stringify({
-				type: 'first-interaction',
-			}), '*');
+			window.parent.postMessage(
+				JSON.stringify({
+					type: 'first-interaction',
+				}),
+				'*',
+			);
 			this.store.commit(`${SquadStore}/${SquadMutations.interaction}`);
 		}
 		setLocalStorageItem(INTERACTED_KEY, Date.now().toString());
@@ -78,6 +82,7 @@ export class WidgetIPC {
 			merchantId: this.store.state.merchant.id,
 			userId: this.store.state.user.me.userId,
 		});
+		this.gaActionPrivate(GA_ACTIONS.WISHLIT_ADD_MERCHANT);
 	}
 
 	removeItem(msg) {
@@ -92,23 +97,29 @@ export class WidgetIPC {
 		this.store.commit(`${PairedItemStore}/${PairedItemMutations.unsquadd}`, itemId);
 	}
 
-	widgetState (msg) {
+	widgetState(msg) {
 		const { open } = msg;
 		this.store.commit(`${SquadStore}/${SquadMutations.setWidgetState}`, open);
+
+		if (open) {
+			this.gaActionPrivate(GA_ACTIONS.OPEN_ASIDE);
+		} else {
+			this.gaActionPrivate(GA_ACTIONS.CLOSE_ASIDE);
+		}
 	}
 
-	async checkout (msg) {
+	async checkout(msg) {
 		await onAuth(this.store);
 		this.store.dispatch(`${SquadStore}/${SquadActions.postCheckout}`, msg);
 	}
 
-	openPost (msg) {
+	openPost(msg) {
 		const { postId } = msg;
 		this.widgetState({ open: true });
 		this.store.commit(`${SquadStore}/${SquadMutations.openPost}`, postId);
 	}
 
-	injectLocalStorageValues (msg) {
+	injectLocalStorageValues(msg) {
 		const { data } = msg;
 
 		for (const pair of data) {

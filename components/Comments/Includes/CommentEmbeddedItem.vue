@@ -67,7 +67,6 @@ import UserLink from '~/components/UserLink';
 import { addGAquery } from '~/utils/track-source-link';
 import { OPENED_POST } from '~/consts/keys';
 import { SquadAPI } from '~/services/SquadAPI';
-import { sendGAction } from '~/utils/ga-action';
 import { GA_ACTIONS } from '~/consts';
 
 export default {
@@ -140,7 +139,7 @@ export default {
 					url: addGAquery(item.url),
 				});
 				SquadAPI.openProduct(currentItem);
-				sendGAction(GA_ACTIONS.CLICK_ITEM);
+				this.$gaAction(GA_ACTIONS.CLICK_ITEM);
 			}
 		},
 	},

@@ -71,6 +71,7 @@ import VideoView from '~/components/common/VideoView';
 import { prefetch, price } from '~/helpers';
 import { FeedPost } from '~/classes/FeedPost';
 import { PostStore, PostMutations } from '~/store/post';
+import { GA_ACTIONS } from '~/consts';
 
 export default {
 	name: 'MultiItemPost',
@@ -137,6 +138,10 @@ export default {
 			this.shifted = tagClicked ? true : !this.shifted;
 			this.marginLeft = this.shifted ? -this.$refs.items.offsetWidth : 0;
 			this.moving = false;
+
+			if (this.shifted) {
+				this.$gaActionPrivate(GA_ACTIONS.POST_DETAILITEMS);
+			}
 		},
 		tagClick (coord) {
 			let index = this.post.items.findIndex(item => item.itemId === coord.id);

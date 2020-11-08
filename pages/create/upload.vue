@@ -101,7 +101,6 @@ import {
 import { compressImage } from '~/utils/compress-image';
 import LargeButton from '~/components/common/LargeButton';
 import { prefetch } from '~/helpers';
-import { sendGAction } from '~/utils/ga-action';
 import { GA_ACTIONS } from '~/consts';
 
 const { mapGetters } = createNamespacedHelpers(ActivityStore);
@@ -197,7 +196,7 @@ export default {
 			this.$router.push({
 				path: '/feed',
 			});
-			sendGAction(GA_ACTIONS.CREATE_POST_GALLERY);
+			this.$gaAction(GA_ACTIONS.CREATE_POST_GALLERY);
 		},
 		preview (data) {
 			if (!data) {

@@ -1,6 +1,7 @@
 import MobileDetect from 'mobile-detect';
 import { Base64 } from 'js-base64';
 import { getShortURL } from '~/services/short-url';
+import { GA_ACTIONS } from '~/consts';
 
 const mobileDetect = new MobileDetect(window.navigator.userAgent);
 const CANCELED_BY_USER = 20;
@@ -33,6 +34,7 @@ export const share = function () {
 		url = this.shortURL;
 	}
 	this.showShareModal(url);
+	this.$gaAction(GA_ACTIONS.SHARE_POST);
 };
 
 export const showShareModal = async function (url) {

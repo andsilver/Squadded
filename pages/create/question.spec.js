@@ -5,15 +5,10 @@ import Store from '~/store';
 import { PostStore, PostActions } from '~/store/post';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { userMockBuilder } from '~/test/user.mock';
-import { sendGAction } from '~/utils/ga-action';
 import { GA_ACTIONS } from '~/consts';
 
 jest.mock('~/utils/compress-image', () => ({
 	compressImage: jest.fn(),
-}));
-
-jest.mock('~/utils/ga-action', () => ({
-	sendGAction: jest.fn(),
 }));
 
 Wrapper.prototype.ref = function(id) {
@@ -42,6 +37,7 @@ describe('Create Question', () => {
 			isPublic: true,
 		},
 	};
+	const $gaAction = jest.fn();
 
 	beforeEach(() => {
 		localVue = createLocalVue();
@@ -56,6 +52,7 @@ describe('Create Question', () => {
 				$router,
 				$t: msg => msg,
 				$refs,
+				$gaAction,
 			},
 		});
 	});
@@ -123,6 +120,6 @@ describe('Create Question', () => {
 
 		expect(store.commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.addItem}`, post);
 		expect($router.push).toHaveBeenCalledWith('/feed');
-		expect(sendGAction).toHaveBeenCalledWith(GA_ACTIONS.CREATE_POST_QUESTION);
+		expect($gaAction).toHaveBeenCalledWith(GA_ACTIONS.CREATE_POST_QUESTION);
 	});
 });

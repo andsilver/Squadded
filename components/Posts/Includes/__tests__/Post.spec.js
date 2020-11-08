@@ -16,6 +16,8 @@ describe('Post', () => {
 	let store;
 	let wrapper;
 
+	const $gaActionPrivate = jest.fn();
+
 	function initLocalVue () {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
@@ -31,6 +33,7 @@ describe('Post', () => {
 				$route: {
 					name: 'all',
 				},
+				$gaActionPrivate,
 			},
 			propsData: {
 				post,

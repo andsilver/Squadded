@@ -51,7 +51,6 @@ import UserLink from '~/components/UserLink';
 import PublicToggle from '~/components/Create/PublicToggle';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { PostStore, PostActions } from '~/store/post';
-import { sendGAction } from '~/utils/ga-action';
 import { GA_ACTIONS } from '~/consts';
 
 export default {
@@ -97,7 +96,7 @@ export default {
 			);
 			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
 			this.$router.push('/feed');
-			sendGAction(GA_ACTIONS.CREATE_POST_QUESTION);
+			this.$gaAction(GA_ACTIONS.CREATE_POST_QUESTION);
 		},
 	},
 	head: () => ({

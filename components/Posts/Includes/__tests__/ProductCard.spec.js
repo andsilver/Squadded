@@ -23,6 +23,8 @@ describe('ProductCard', () => {
 	let post;
 	let wrapper;
 	const $emit = jest.fn();
+	const $gaActionPrivate = jest.fn();
+	const $gaAction = jest.fn();
 
 	function initLocalVue () {
 		sessionStorage.clear();
@@ -42,6 +44,8 @@ describe('ProductCard', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$gaActionPrivate,
+				$gaAction,
 			},
 			store,
 		});

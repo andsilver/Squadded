@@ -45,7 +45,6 @@ import { UserStore } from '~/store/user';
 import CommentInputBox from '~/components/Comments/Includes/CommentInputBox';
 import CommentPanel from '~/components/Comments/Includes/CommentPanel';
 import CommentPreview from '~/components/Comments/Includes/CommentPreview';
-import { sendGAction } from '~/utils/ga-action';
 import { GA_ACTIONS } from '~/consts';
 import { ActivityStore, ActivityActions } from '~/store/activity';
 
@@ -148,10 +147,9 @@ export default {
 					items: selectedItems,
 				};
 			}
-
 			this.$store.dispatch(action, payload);
 			this.$emit('send');
-			sendGAction(GA_ACTIONS.COMMENT);
+			this.$gaAction(GA_ACTIONS.COMMENT);
 			this.resetSelected();
 			this.isPanelOpen = false;
 		},

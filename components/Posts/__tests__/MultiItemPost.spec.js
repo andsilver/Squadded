@@ -12,6 +12,7 @@ describe('MultiItemPost', () => {
 	const MULTI_ITEM = 'multi-item';
 	let post;
 	let wrapper;
+	const $gaActionPrivate = jest.fn();
 
 	function initLocalVue () {
 		const localVue = createLocalVue();
@@ -28,6 +29,7 @@ describe('MultiItemPost', () => {
 				_i18n: {
 					locale: 'en',
 				},
+				$gaActionPrivate,
 			},
 			store,
 		});

@@ -34,6 +34,7 @@ describe('RemoveSquad component', () => {
 		commit: jest.fn(),
 		dispatch: jest.fn(),
 	};
+	const $gaActionPrivate = jest.fn();
 
 	function initLocalVue() {
 		user = userMockBuilder().get();
@@ -43,6 +44,7 @@ describe('RemoveSquad component', () => {
 				$ws,
 				$emit,
 				$store,
+				$gaActionPrivate,
 			},
 			propsData: {
 				user,

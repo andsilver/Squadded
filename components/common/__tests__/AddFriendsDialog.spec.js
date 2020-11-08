@@ -24,6 +24,7 @@ describe('AddFriendsDialog', () => {
 	const user = userMockBuilder().get();
 	const TITLE = 'title';
 	const FIND_FRIENDS = 'find-friends';
+	const $gaActionPrivate = jest.fn();
 
 	beforeEach(() => {
 		const localVue = createLocalVue();
@@ -35,6 +36,7 @@ describe('AddFriendsDialog', () => {
 		wrapper = shallowMount(AddFriendsDialog, {
 			mocks: {
 				$t: msg => msg,
+				$gaActionPrivate,
 			},
 			store,
 			localVue,

@@ -1,10 +1,14 @@
 import { WidgetIPC } from '~/classes/WidgetIPC';
 
-export default function (ctx) {
-	const { store, app: { router } } = ctx;
-	const ipc = new WidgetIPC(store, router);
+export default function(ctx) {
+	const {
+		store,
+		app: { router },
+		$gaActionPrivate,
+	} = ctx;
+	const ipc = new WidgetIPC(store, router, $gaActionPrivate);
 
-	function parseMessage (event) {
+	function parseMessage(event) {
 		let msg;
 		try {
 			msg = JSON.parse(event.data);
@@ -16,4 +20,4 @@ export default function (ctx) {
 
 	window.addEventListener('message', parseMessage);
 	window.parent.postMessage('SquadWidgetIsReady', '*');
-};
+}

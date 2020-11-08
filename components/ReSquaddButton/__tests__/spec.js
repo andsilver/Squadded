@@ -8,6 +8,7 @@ import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { FeedStore, FeedMutations } from '~/store/feed';
 import { HomeStore, HomeMutations } from '~/store/home';
 import { aDefaultSingleItemMsgBuilder } from '~/test/feed.item.mock';
+import { GA_ACTIONS } from '~/consts';
 
 const localVue = createLocalVue();
 localVue.use(Vuex);
@@ -27,6 +28,8 @@ describe('ReSquadd Button', () => {
 	let store;
 	let wrapper;
 
+	const $gaActionPrivate = jest.fn();
+
 	beforeEach(() => {
 		post = aDefaultSingleItemMsgBuilder().withGUID().get();
 		store = new Vuex.Store(Store);
@@ -38,6 +41,9 @@ describe('ReSquadd Button', () => {
 			localVue,
 			propsData: {
 				item: post.item,
+			},
+			mocks: {
+				$gaActionPrivate,
 			},
 		});
 	});
@@ -76,6 +82,7 @@ describe('ReSquadd Button', () => {
 		expect(post.item.squadded).toBe(false);
 		expect(wrapper.vm.item.squadded).toBe(false);
 		expect(resquadd.classes('is-resquadded')).toBe(false);
+		expect($gaActionPrivate).toHaveBeenCalledWith(GA_ACTIONS.WISHLIST_REMOVE);
 
 		done();
 	});

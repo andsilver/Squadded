@@ -24,7 +24,7 @@
 		<ProfileToolbar class="px-2" :user="user" />
 		<v-layout flex-column>
 			<div class="d-flex mt-4 px-2">
-				<userAvatar class="user_avatar mr-4" :avatar="user.avatar" />
+				<userAvatar class="user_avatar mr-4" :avatar="user.avatar || ''" />
 				<div class="user-info-section">
 					<userName :name="user.screenName" />
 					<p class="mt-2 user-bio">
@@ -47,7 +47,7 @@
 									<img src="~assets/img/invited-icon.svg" class="my-squad">
 									<span class="ml-2">{{ $t('invited') }}</span>
 								</OutlineButton>
-								<Button v-else class="ma-0 invite-btn" style="background: #ffffff; height: 9.23vw; min-height: auto; color: #000000;border: 0.46vw solid #000000;font-size: 2.15vw; letter-spacing: 1.5px;border-radius: 2.5vw;" @click.native="sendInvite">
+								<Button v-else class="ma-0 invite-btn" @click.native="sendInvite">
 									<img src="~assets/img/invite-user.svg" class="my-squad">
 									<span class="ml-2">{{ $t('invite') }}</span>
 								</Button>
@@ -106,6 +106,7 @@ import { fetchUser } from '~/services/user';
 import { tokenExist } from '~/utils/isAuth';
 import GoBackBtn from '~/components/common/GoBackBtn';
 import AddFriendsButton from '~/components/common/AddFriendsButton';
+import { GA_ACTIONS } from '~/consts';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -206,6 +207,7 @@ export default {
 		this.userId = this.$route.params.id;
 		this.invite = !!this.$route.query.invite;
 		this.bindScroll();
+		this.$gaActionPrivate(this.userId ? GA_ACTIONS.PROFILE_OTHER : GA_ACTIONS.PROFILE_ME);
 	},
 	methods: {
 		bindScroll() {
@@ -213,6 +215,10 @@ export default {
 		},
 		keepTab() {
 			this.$router.push({ hash: this.tabs ? 'wishlist' : '' });
+
+			if (this.tabs) {
+				this.$gaActionPrivate(GA_ACTIONS.CLICK_WISHLIST);
+			}
 		},
 		scrolled(e) {
 			// TODO calc actual height to tabs instead const
@@ -229,6 +235,7 @@ export default {
 		},
 		edit() {
 			this.$router.push('/profile-settings');
+			this.$gaActionPrivate(GA_ACTIONS.PROFILE_EDIT);
 		},
 		toggleNotification() {
 			this.show_notification = !this.show_notification;
@@ -245,6 +252,7 @@ export default {
 				type: 'inviteSquad',
 				targetUserId: this.user.userId,
 			});
+			this.$gaActionPrivate(GA_ACTIONS.FRIEND_INVITE);
 		},
 		goToMySquad() {
 			this.$router.push('/my/mysquad');
@@ -343,6 +351,17 @@ export default {
 	font-weight: 600;
 	border-radius: 16px;
 }
+
+.invite-btn {
+	background #ffffff !important
+	height 9.23vw
+	color #000000
+	border 0.46vw solid #000000
+	font-size 2.15vw
+	letter-spacing 1.5px
+	border-radius 2.5vw !important
+}
+
 .postion-relative {
 	position: relative;
 }

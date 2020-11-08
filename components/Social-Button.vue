@@ -7,6 +7,7 @@
 <script>
 import { mapState } from 'vuex';
 import Social from '~/classes/social';
+import { GA_ACTIONS } from '~/consts';
 
 const fullname = {
 	facebook: 'signin.facebook_signin',
@@ -57,6 +58,12 @@ export default {
 					params.origin = 'share';
 				}
 				Social.oauth(this.for, params);
+
+				const SIGN_GA_ACTIONS = {
+					google: GA_ACTIONS.SIGN_GOOGLE,
+					facebook: GA_ACTIONS.SIGN_FB,
+				};
+				this.$gaActionPrivate(SIGN_GA_ACTIONS[this.for]);
 			}
 		},
 	},

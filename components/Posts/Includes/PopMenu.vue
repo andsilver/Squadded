@@ -161,7 +161,7 @@ import { HomeStore, HomeMutations } from '~/store/home';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { NotificationStore, NotificationMutations } from '~/store/notification';
-import { UNDO_TIMEOUT } from '~/consts';
+import { UNDO_TIMEOUT, GA_ACTIONS } from '~/consts';
 
 export default {
 	components: {
@@ -233,7 +233,6 @@ export default {
 				this.undoDeleteWatch && this.undoDeleteWatch();
 				this.undoDeleteWatch = null;
 			};
-
 			clear();
 
 			this.deleteTimeout = setTimeout(() => {
@@ -273,6 +272,7 @@ export default {
 				message,
 			);
 			this.hide();
+			this.$gaActionPrivate(GA_ACTIONS.POST_DELETE);
 		},
 		reportPost () {
 			const { postId } = this.post;
@@ -286,6 +286,7 @@ export default {
 			this.$store.commit(`${ActivityStore}/${ActivityMutations.removePost}`, postId);
 			this.$store.commit(`${PairedItemStore}/${PairedItemMutations.removePost}`, postId);
 			this.hide();
+			this.$gaActionPrivate(GA_ACTIONS.REPORT_POST);
 		},
 		togglePrivate () {
 			const clear = () => {
@@ -294,7 +295,6 @@ export default {
 				this.undoPrivacyWatch && this.undoPrivacyWatch();
 				this.undoPrivacyWatch = null;
 			};
-
 			clear();
 
 			this.privacyTimeout = setTimeout(() => {
@@ -322,11 +322,11 @@ export default {
 				ts: Date.now(),
 				_id: Date.now(),
 			};
-
 			this.$store.commit(
 				`${NotificationStore}/${NotificationMutations.add}`,
 				message,
 			);
+			this.$gaActionPrivate(GA_ACTIONS.POST_SETPRIVATE);
 		},
 		promptDelete () {
 			this.showDeleteDialog = true;
@@ -336,7 +336,6 @@ export default {
 			this.reason = this.reasons[0];
 			this.showReasonDialog = true;
 		},
-
 		share,
 		showShareModal,
 		showModal () {
@@ -374,6 +373,7 @@ export default {
 				`${NotificationStore}/${NotificationMutations.add}`,
 				message,
 			);
+			this.$gaActionPrivate(GA_ACTIONS.FRIEND_INVITE);
 		},
 	},
 };
