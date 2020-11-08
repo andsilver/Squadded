@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="socket.isAuth">
+	<v-container>
 		<BackBar ref="goback-button" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">
@@ -38,7 +38,9 @@ export default {
 		...mapState(['socket']),
 	},
 	mounted () {
-		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`, this.newRequests);
+		if (this.socket.isAuth) {
+			this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`, this.newRequests);
+		}
 	},
 	head: () => ({
 		title: 'Notifications-Requests',
@@ -46,9 +48,6 @@ export default {
 };
 </script>
 <style lang="stylus" scoped>
-.layout.nofification-layout
-	margin-left -12px
-	margin-right -12px
 .notification-text
 	color #b8b8ba
 	font-size 3.38vw

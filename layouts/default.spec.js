@@ -31,8 +31,8 @@ describe('Default layout', () => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		$route = {
-			name: 'index',
-			path: '/',
+			name: 'home',
+			path: '/home',
 		};
 		$router = {
 			push: jest.fn(),
@@ -68,16 +68,16 @@ describe('Default layout', () => {
 		expect(wrapper.ref(NOTIFICATIONS).exists()).toBe(true);
 	});
 
-	it('should not display tabs at home', () => {
-		const app = wrapper.ref(APP);
-		expect(app.classes('show-tabs')).toBe(false);
-	});
-
-	it('should display tabs for logged in user', () => {
-		store.state.socket.isAuth = true;
+	it('should display tabs at home', () => {
 		const app = wrapper.ref(APP);
 		expect(app.classes('show-tabs')).toBe(true);
 	});
+
+	// it('should display tabs for logged in user', () => {
+	// 	store.state.socket.isAuth = true;
+	// 	const app = wrapper.ref(APP);
+	// 	expect(app.classes('show-tabs')).toBe(true);
+	// });
 
 	/*
 	 * Commenting before getting solution on checking keyboard open on IOS

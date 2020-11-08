@@ -2,27 +2,32 @@
 	<v-toolbar
 		dense
 		flat
-		height="55"
+		height="40"
 		class="px-3 toolbar"
 	>
 		<v-tabs v-model="tab">
-			<v-tab class="v-tab--active" @click="$emit('openSigninDialog')">
+			<v-tab class="v-tab--active" @click="$emit('open-signin-dialog')">
 				{{ $t('Home') }}
 			</v-tab>
-			<v-tab @click="$emit('openSigninDialog')">
+			<v-tab @click="$emit('open-signin-dialog')">
 				{{ $t('My Squad') }}
 			</v-tab>
 		</v-tabs>
 		<section class="buttons">
 			<Button class="sign_btn" @click="signin">
-				{{ $t('Signin') }}
+				{{ $t('Signin') }} >
 			</Button>
 		</section>
 	</v-toolbar>
 </template>
 
 <script>
+import Button from '~/components/common/Button';
+
 export default {
+	components: {
+		Button,
+	},
 	data: () => ({
 		tab: 1,
 	}),
@@ -40,41 +45,29 @@ export default {
 		top 0
 		width 100%
 		z-index 10
-		margin-left -12px
 
 	.v-tab
 		min-width auto
 		padding 0
 		margin-right 5%
-
-		font-size 3.23vw
+		font-size .75em
 		font-weight 700
 		text-align left !important
 		color #B8B8BA !important
-		border-bottom: 2px solid #ffffff
+		@media screen and (max-width: 280px)
+			font-size 4vw
+	.v-tab--active,
+	>>> .v-tabs-slider
+		color var(--brand-color) !important
 
-	.v-tab--active
-		color black !important
-		position relative
-	.v-tab--active::after
-		position absolute
-		width 100%
-		content ''
-		border 0.45vw solid #000
-		bottom 10px
 	.buttons
 		display flex
 		margin-left auto
 		margin-right -16px
 	button.sign_btn
-		width 28.92vw
-		margin-right 0
-		border 2px solid #000
-		border-radius 10px
-		height 12.30vw
-		font-weight 600
-		font-size 2.76vw
-		margin-top 3.3vw
-		text-transform uppercase
-		letter-spacing 1px
+		font-size: 8px;
+		width: 60px;
+		height: 32px !important;
+		min-height: 32px;
+		border-radius: 10px;
 </style>

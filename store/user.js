@@ -15,6 +15,7 @@ function getUserId(token) {
 const me = new User({
 	isMe: true,
 	userId: getUserId(localStorage.getItem('userToken')),
+	screenName: 'You',
 });
 
 export const state = () => ({

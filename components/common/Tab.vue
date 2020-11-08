@@ -1,8 +1,8 @@
 <template>
 	<v-tab
 		:key="tab.uri"
-		:to="tab.uri"
-		:disabled="!socket.isAuth"
+		:to="isAuth ? tab.uri : null"
+		:link="isAuth"
 		exact
 		class="tab_item"
 	>
@@ -17,19 +17,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-
 export default {
 	props: {
 		tab: {
 			type: Object,
 			required: true,
 		},
-	},
-	computed: {
-		...mapState([
-			'socket',
-		]),
+		isAuth: {
+			type: Boolean,
+			required: true,
+		},
 	},
 };
 </script>

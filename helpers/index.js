@@ -2,7 +2,22 @@ export const isHome = routeName => (routeName === 'index');
 
 export const isOnboarding = routeName => (routeName === 'select-username' || routeName === 'invite-friends');
 
-export const isPublic = routeName => isHome(routeName) || ['community', 'onboarding', 'user-id', 'error', 'post-id', 'signin'].includes(routeName);
+export const isPublic = (routeName) => {
+	if (isHome(routeName)) {
+		return true;
+	}
+	return [
+		'community',
+		'notifications',
+		'me',
+		'onboarding',
+		'user-id',
+		'error',
+		'post-id',
+		'signin',
+		'notifications-requests',
+	].includes(routeName);
+};
 
 export const shortNumber = (number, locale = 'en') => new Intl.NumberFormat(locale, { notation: 'compact', compactDisplay: 'short' }).format(number);
 

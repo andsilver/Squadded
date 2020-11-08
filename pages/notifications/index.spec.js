@@ -26,13 +26,13 @@ describe('Notifications', () => {
 				$t: msg => msg,
 			},
 		});
-		store.commit('SET_SOCKET_AUTH', true);
 	};
 
 	beforeEach(() => {
 		localVue = createLocalVue();
 		localVue.use(Vuex);
 		store = new Vuex.Store(Store);
+		store.commit('SET_SOCKET_AUTH', true);
 	});
 
 	it('should render correct contents', () => {

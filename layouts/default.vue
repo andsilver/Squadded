@@ -14,6 +14,7 @@
 		<div v-if="socket.isPendingAuth" ref="preloader" class="pending d-flex justify-center align-center">
 			<img src="~/assets/img/loading.gif" class="main-loader">
 		</div>
+		<SignInDialog :show-dialog.sync="showSignInDialog" />
 	</v-app>
 </template>
 
@@ -21,6 +22,7 @@
 import { mapState, createNamespacedHelpers } from 'vuex';
 import Prompt from '~/components/common/Prompt';
 import TabBar from '~/components/common/TabBar';
+import SignInDialog from '~/components/SignIn/SignInDialog';
 import NotificationsBanner from '~/components/Notifications/Banner';
 import { SquadStore, SquadMutations } from '~/store/squad';
 import { UserStore } from '~/store/user';
@@ -28,7 +30,7 @@ import { isTouch } from '~/utils/device-input';
 import { tokenExist } from '~/utils/isAuth';
 import { VirtualKeyboardDetector } from '~/utils/virtual-keyboard-detector';
 import { SquadAPI } from '~/services/SquadAPI';
-import { LOADING_TIMEOUT } from '~/consts';
+import { LOADING_TIMEOUT, ROOT_EVENTS } from '~/consts';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -38,6 +40,7 @@ export default {
 		Prompt,
 		TabBar,
 		NotificationsBanner,
+		SignInDialog,
 	},
 	data: () => ({
 		title: 'Squad Widget',
@@ -49,6 +52,7 @@ export default {
 		overlay: false,
 		zIndex: 198,
 		scrollTop: null,
+		showSignInDialog: false,
 	}),
 	computed: {
 		...mapState([
@@ -59,7 +63,9 @@ export default {
 			'me',
 		]),
 		showTabs () {
-			return this.socket.isAuth && ![
+			return ![
+				'index',
+				'onboarding',
 				'select-username',
 				'invite-friends',
 				'walkthrough',
@@ -80,6 +86,10 @@ export default {
 		this.$root.$on('overlayToggle', data => this.overlayToggle(data));
 		this.$root.$on('overlayOpen', data => this.overlayOpen(data));
 		this.$root.$on('overlayClose', data => this.overlayClose(data));
+		this.$root.$on(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, (data) => {
+			this.showSignInDialog = data;
+		});
+
 		this.unsubscribe = this.$store.subscribe((mutation) => {
 			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
 				this.$root.$emit('widget-open');

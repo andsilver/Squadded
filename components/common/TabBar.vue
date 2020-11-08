@@ -3,16 +3,41 @@
 		grow
 		height="65"
 		class="tabs-sec botoom-tab-sec"
-		@click.native="(e) => onTabClick(e)"
 	>
-		<Tab :tab="tabs[0]" :class="{ 'v-tab--active': fakeActiveTab }" @click.native="closeMenu('home')" />
-		<Tab v-if="visibleTab('explore')" :tab="tabs[1]" @click.native="closeMenu('explore')" />
-		<CreateTab v-if="visiblePosts.length > 1" />
-		<Tab v-else :tab="postTab" @click.native="closeMenu" />
-		<Tab :tab="tabs[2]" @click.native="closeMenu('notifications')">
+		<Tab
+			:tab="tabs[0]"
+			:class="{ 'v-tab--active': fakeActiveTab }"
+			:is-auth="socket.isAuth"
+			@click.native="closeMenu('home')"
+		/>
+		<Tab
+			v-if="visibleTab('explore')"
+			:tab="tabs[1]"
+			:is-auth="socket.isAuth"
+			@click.native="closeMenu('explore')"
+		/>
+		<CreateTab
+			v-if="visiblePosts.length > 1"
+			:is-auth="socket.isAuth"
+		/>
+		<Tab
+			v-else
+			:tab="postTab"
+			:is-auth="socket.isAuth"
+			@click.native="closeMenu"
+		/>
+		<Tab
+			:tab="tabs[2]"
+			:is-auth="socket.isAuth"
+			@click.native="closeMenu('notifications')"
+		>
 			<Badge :value="newRequests.length || newNotifications.length" />
 		</Tab>
-		<Tab :tab="tabs[3]" @click.native="closeMenu" />
+		<Tab
+			:tab="tabs[3]"
+			:is-auth="socket.isAuth"
+			@click.native="closeMenu('profile')"
+		/>
 	</v-tabs>
 </template>
 
@@ -28,6 +53,7 @@ import {
 	visiblePosts,
 	MERCHAND_ADMIN,
 	GA_ACTIONS,
+	ROOT_EVENTS,
 } from '~/consts';
 
 const { mapGetters } = createNamespacedHelpers(NotificationStore);
@@ -82,21 +108,34 @@ export default {
 		closeMenu (tab) {
 			switch (tab) {
 			case 'home':
+				if (!this.socket.isAuth) {
+					this.$router.push('/community');
+					this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, false);
+				}
 				this.$gaActionPrivate(GA_ACTIONS.CLICK_HOME);
 				break;
 			case 'explore':
 				this.$gaActionPrivate(GA_ACTIONS.CLICK_EXPLORE);
+
+				if (!this.socket.isAuth) {
+					this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, true);
+				}
 				break;
 			case 'notifications':
+				if (!this.socket.isAuth) {
+					this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, false);
+					this.$router.push('/notifications');
+				}
 				this.$gaActionPrivate(GA_ACTIONS.NOTIFICATIONS);
+				break;
+			case 'profile':
+				if (!this.socket.isAuth) {
+					this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, false);
+					this.$router.push('/me');
+				}
 				break;
 			}
 			this.$root.$emit('overlayClose', { });
-		},
-		onTabClick (e) {
-			if (!this.socket.isAuth) {
-				this.$router.push('/');
-			}
 		},
 		onNoticationPage () {
 		},

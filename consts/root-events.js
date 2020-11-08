@@ -1,0 +1,3 @@
+export const ROOT_EVENTS = {
+	SHOW_SIGNIN_DIALOG: 'SHOW_SIGNIN_DIALOG',
+};

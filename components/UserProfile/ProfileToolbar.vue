@@ -25,6 +25,7 @@
 			ref="add-user-btn"
 			class="profile-add-user"
 			:dark="false"
+			:disabled="!isAuth"
 		/>
 		<v-btn
 			v-if="user.isMe"
@@ -76,6 +77,10 @@ export default {
 	props: {
 		user: {
 			type: Object,
+			required: true,
+		},
+		isAuth: {
+			type: Boolean,
 			required: true,
 		},
 	},

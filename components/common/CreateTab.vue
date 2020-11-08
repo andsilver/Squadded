@@ -1,6 +1,5 @@
 <template>
 	<v-tab
-		:disabled="!socket.isAuth"
 		exact
 		class="tab_item"
 		@click="toggleMenu"
@@ -56,10 +55,15 @@ import { UserStore } from '~/store/user';
 const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
+	props: {
+		isAuth: {
+			type: Boolean,
+			required: true,
+		},
+	},
 	computed: {
 		...userState(['me']),
 		...mapState([
-			'socket',
 			'merchant',
 		]),
 		visiblePosts,

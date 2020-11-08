@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="user && (user.name || user.screenName)" class="px-0">
+	<v-container v-if="user" class="px-0">
 		<section class="fixed_profile d-flex justify-space-between align-center pa-2" :class="{ slide: isScrolled }">
 			<Menu v-if="user.isMe" ref="menu" small @edit="edit" />
 			<GoBackBtn v-else ref="go-back-btn" />
@@ -21,7 +21,7 @@
 			</div>
 			<Actions v-else :user="user" />
 		</section>
-		<ProfileToolbar class="px-2" :user="user" />
+		<ProfileToolbar class="px-2" :user="user" :is-auth="socket.isAuth" />
 		<v-layout flex-column>
 			<div class="d-flex mt-4 px-2">
 				<userAvatar class="user_avatar mr-4" :avatar="user.avatar || ''" />
@@ -32,12 +32,17 @@
 					</p>
 					<div class="d-flex user-actions">
 						<template v-if="user.isMe">
-							<Button class="my-squad-btn ml-0 mr-3" @click.native="goToMySquad">
-								<img src="~assets/img/my-squad-profile.svg" class="my-squad">
-								<span class="ml-1">{{ $t('My Squad') }}</span>
-							</Button>
-							<OutlineButton class="profile-edit" @click="edit">
-								{{ $t('user.edit') }}
+							<template v-if="socket.isAuth">
+								<Button class="my-squad-btn ml-0 mr-3" @click.native="goToMySquad">
+									<img src="~assets/img/my-squad-profile.svg" class="my-squad">
+									<span class="ml-1">{{ $t('My Squad') }}</span>
+								</Button>
+								<OutlineButton class="profile-edit" @click="edit">
+									{{ $t('user.edit') }}
+								</OutlineButton>
+							</template>
+							<OutlineButton v-else class="profile-edit" @click="$router.push('/')">
+								{{ $t('landing_post.sign_in') }}
 							</OutlineButton>
 						</template>
 						<template v-else>
@@ -75,14 +80,14 @@
 			</v-tabs>
 			<v-tabs-items v-model="tabs" touchless>
 				<v-tab-item class="mt-3">
-					<Blog class="user-blog" :is-me="user.isMe" />
+					<Blog :is-me="user.isMe" />
 				</v-tab-item>
 				<v-tab-item>
 					<Whishlist class="px-1" :is-me="user.isMe" />
 				</v-tab-item>
 			</v-tabs-items>
 		</v-layout>
-		<NotSignedInDialog v-if="!socket.isAuth" ref="not-signed-in-dialog" :user="user" />
+		<NotSignedInDialog v-if="!socket.isAuth && !user.isMe" ref="not-signed-in-dialog" :user="user" />
 	</v-container>
 </template>
 
@@ -407,6 +412,5 @@ img.my-squad {
 }
 
 .user-blog
-	background #ececec
 	padding 0 2px
 </style>

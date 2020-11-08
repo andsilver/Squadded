@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="socket.isAuth">
+	<v-container>
 		<BackBar ref="goback-button" class="hide-back" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">
@@ -60,10 +60,12 @@ export default {
 	},
 	created () {
 		this.$root.$emit('notiPageLoad', {});
-		this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
 	},
 	mounted () {
-		this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`, this.newNotifications);
+		if (this.socket.isAuth) {
+			this.$store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
+			this.$store.dispatch(`${NotificationStore}/${NotificationActions.viewNotifications}`, this.newNotifications);
+		}
 	},
 	head: () => ({
 		title: 'Notifications-All',
