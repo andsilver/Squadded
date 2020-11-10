@@ -118,6 +118,10 @@ export default {
 		items() {
 			return this.selection(this.searchText, this.exclude);
 		},
+		allItems() {
+			const { wishlist, lastItems } = this.items;
+			return [...wishlist, ...lastItems];
+		},
 		marginBottom() {
 			return this.bottomHeight ? `${this.bottomHeight}px` : (this.selected && this.selected.length) || this.maxCount === 2 ? '200px' : '90px';
 		},
@@ -137,7 +141,7 @@ export default {
 	},
 	methods: {
 		selectPaired(itemId) {
-			const selectedPairedPost = this.items.find(i => i.item.itemId === itemId);
+			const selectedPairedPost = this.allItems.find(i => i.item.itemId === itemId);
 			if (selectedPairedPost) {
 				this.select(selectedPairedPost);
 			}
@@ -159,8 +163,7 @@ export default {
 			this.$forceUpdate();
 		},
 		tagClick (coord) {
-			const { wishlist, lastItems } = this.items;
-			let index = ([...wishlist, ...lastItems]).findIndex(item => item.postId === coord.id);
+			let index = this.allItems.findIndex(item => item.postId === coord.id);
 
 			if (index === -1) {
 				index = 0;
