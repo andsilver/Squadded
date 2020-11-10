@@ -123,7 +123,7 @@ export default {
 			if (this.isPaired) {
 				return this.$root.$emit('postTaped', this.post.postId);
 			}
-			if (this.fetched || this.post.guid.includes('new')) {
+			if (this.fetched || (this.post.guid && this.post.guid.includes('new'))) {
 				return this.toggleShifted();
 			}
 			prefetch({

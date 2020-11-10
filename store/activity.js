@@ -23,6 +23,11 @@ export const state = () => ({
 	},
 	isPrivate: false,
 	myWishlist: [],
+	lastItems: {
+		items: [],
+		ts: null,
+	},
+	selected: [],
 });
 
 export const ActivityGetters = {
@@ -30,13 +35,47 @@ export const ActivityGetters = {
 	getWishByItemId: 'getWishByItemId',
 	getSelected: 'getSelected',
 	getMyWishByItemId: 'getMyWishByItemId',
+	selection: 'selection',
 };
 
 export const getters = {
-	[ActivityGetters.getSelected]: state => (state.wishlist || []).filter(post => post.selected),
+	[ActivityGetters.getSelected]: state => ([...(state.wishlist || []), ...state.lastItems.items]).filter(post => post.selected),
 	[ActivityGetters.getPostById]: state => id => state.blog && state.blog.find(i => i.guid === id),
-	[ActivityGetters.getWishByItemId]: state => id => state.wishlist && state.wishlist.find(post => post.getItem(id)),
+	[ActivityGetters.getWishByItemId]: state => id =>
+		state.wishlist && state.wishlist.find(post => post.getItem(id)),
 	[ActivityGetters.getMyWishByItemId]: state => id => state.myWishlist.find(post => post.getItem(id)),
+	[ActivityGetters.selection]: state => (term, exclude) => {
+		const filterFunc = (w) => {
+			if (w === exclude) {
+				return false;
+			}
+			if (!term) {
+				return true;
+			}
+			return w.item.title.toLowerCase().includes(term.toLowerCase());
+		};
+		const setSelectedFunc = (w) => {
+			w.selected = state.selected.includes(w);
+			return w;
+		};
+
+		let wishlist = (state.wishlist || [])
+			.filter(filterFunc);
+		const ids = new Set(wishlist.map(p => p.postId));
+		wishlist = Array.from(ids)
+			.map(id => wishlist.find(p => p.postId === id))
+			.map(setSelectedFunc);
+
+		const lastItems = state.lastItems.items
+			.filter(filterFunc)
+			.filter(w1 => !wishlist.find(w2 => w1.postId === w2.postId))
+			.map(setSelectedFunc);
+
+		return {
+			wishlist,
+			lastItems,
+		};
+	},
 };
 
 export const ActivityMutations = {
@@ -50,13 +89,19 @@ export const ActivityMutations = {
 	markAllLoaded: 'markAllLoaded',
 	setLoading: 'setLoading',
 	removeMyWish: 'removeMyWish',
+	lastItems: 'lastItems',
+	selectItem: 'selectItem',
+	unselectAll: 'unselectAll',
 };
 
 const exportWishlistToMerchant = (wishlist) => {
-	window.parent.postMessage(JSON.stringify({
-		type: 'wishlist',
-		wishlist: wishlist.map(w => w.item.itemId),
-	}), '*');
+	window.parent.postMessage(
+		JSON.stringify({
+			type: 'wishlist',
+			wishlist: wishlist.map(w => w.item.itemId),
+		}),
+		'*',
+	);
 };
 
 export const mutations = {
@@ -137,11 +182,30 @@ export const mutations = {
 	[ActivityMutations.setLoading]: (state, { type, loading }) => {
 		state.loading[type] = loading;
 	},
+	[ActivityMutations.lastItems]: (state, items) => {
+		state.lastItems = {
+			items: items || [],
+			ts: Date.now(),
+		};
+	},
+	[ActivityMutations.unselectAll]: (state) => {
+		state.selected.forEach(s => (s.selected = false));
+		state.selected = [];
+	},
+	[ActivityMutations.selectItem]: (state, post) => {
+		if (state.selected.includes(post)) {
+			state.selected = state.selected.filter(s => s !== post);
+		} else {
+			state.selected = [...state.selected, post];
+		}
+		post.selected = !post.selected;
+	},
 };
 
 export const ActivityActions = {
 	unwish: 'unwish',
 	fetchItems: 'fetchItems',
+	fetchLastItems: 'fetchLastItems',
 };
 
 export const actions = {
@@ -200,6 +264,16 @@ export const actions = {
 		rootState.socket.$ws.sendObj(msg);
 		commit(ActivityMutations.setLoading, { type, loading: true });
 		setTimeout(() => commit(ActivityMutations.setLoading, { type, loading: false }), LOADING_TIMEOUT);
+	},
+	[ActivityActions.fetchLastItems]: ({ rootState }) => {
+		const { ts } = rootState.activity.lastItems;
+
+		if (ts && Date.now() - ts < 1000 * 60 * 5) {
+			return;
+		}
+		rootState.socket.$ws.sendObj({
+			type: 'fetchLastitems',
+		});
 	},
 };
 

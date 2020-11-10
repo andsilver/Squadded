@@ -10,7 +10,6 @@
 				:key="index"
 				class="tag-button"
 				:style="{ top: coord.y + '%', left: coord.x + '%' }"
-				@click="() => tagClick(coord)"
 			/>
 		</ItemImage>
 	</div>

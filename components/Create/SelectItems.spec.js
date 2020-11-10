@@ -59,6 +59,14 @@ describe('SelectItems Component', () => {
 		});
 	});
 
+	it('should render wishlist and last items', () => {
+		const wishlistItems = wrapper.ref('wishlist-items');
+		const lastItems = wrapper.ref('last-items');
+
+		expect(wishlistItems.exists()).toBe(true);
+		expect(lastItems.exists()).toBe(true);
+	});
+
 	it('should select on click', () => {
 		const post1 = regularPostBuilder()
 			.withGUID()
@@ -89,7 +97,7 @@ describe('SelectItems Component', () => {
 		posts[0].item.title = searchText;
 		store.state.activity.wishlist = posts;
 		wrapper.setData({ searchText });
-		expect(wrapper.vm.available[0].item.title).toBe(searchText);
+		expect(wrapper.vm.items.wishlist[0].item.title).toBe(searchText);
 	});
 
 	it('should not select if select tags are less than selected items', () => {

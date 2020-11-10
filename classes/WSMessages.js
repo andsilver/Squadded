@@ -30,6 +30,7 @@ async function acceptPost(message) {
 async function activity (message) {
 	const { type, userId } = message;
 	const rawPostsList = message[type];
+
 	if (type === 'wishlist') {
 		if (rawPostsList.private) {
 			this.store.state.activity.isPrivate = true;
@@ -352,5 +353,14 @@ export class WSMessages {
 
 	shortURL(message) {
 		this.store.commit(`${PostStore}/${PostMutations.shortURL}`, message);
+	}
+
+	async lastitems({ lastitems }) {
+		lastitems.forEach(w => (w.guid = w.item.itemId));
+		await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, lastitems);
+		const uniqueIds = new Set(lastitems.map(p => p.guid));
+		const getter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
+		const posts = getter(Array.from(uniqueIds)).sort((a, b) => b.ts - a.ts);
+		this.store.commit(`${ActivityStore}/${ActivityMutations.lastItems}`, posts);
 	}
 };

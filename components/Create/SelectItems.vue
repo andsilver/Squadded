@@ -13,27 +13,50 @@
 				sqdi-magnifying-glass-finder
 			</v-icon>
 		</v-text-field>
-		<div
-			class="choose-items-section"
-			:class="{ is_poll_tab: isPoll }"
-			:style="{
-				'margin-bottom': marginBottom,
-			}"
-		>
-			<div ref="items" class="choose-items mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
-				<ProductCard
-					v-for="post in available"
-					ref="item"
-					:key="post.guid"
-					:class="{ selected: post.selected }"
-					:item="post.item"
-					is-poll-post
-					@click.native="() => select(post)"
-				/>
+		<div>
+			<div class="items-caption mt-2 mb-2">
+				{{ $t('create.select_items.items_from_wishlist') }}
 			</div>
-			<!-- <p v-if="limitError" class="error-message">
-				{{ $t('tip.limitMessage') }}
-			</p> -->
+			<div
+				ref="wishlist-items"
+				class="choose-items-section"
+				:class="{ is_poll_tab: isPoll }"
+			>
+				<div ref="items" class="choose-items mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
+					<ProductCard
+						v-for="post in items.wishlist"
+						ref="item"
+						:key="post.guid"
+						:class="{ selected: post.selected }"
+						:item="post.item"
+						is-poll-post
+						@click.native="() => select(post)"
+					/>
+				</div>
+			</div>
+			<div class="items-caption mt-4 mb-2">
+				{{ $t('create.select_items.last_items_from_merchant') }}
+			</div>
+			<div
+				ref="last-items"
+				class="choose-items-section"
+				:class="{ is_poll_tab: isPoll }"
+				:style="{
+					'margin-bottom': marginBottom,
+				}"
+			>
+				<div ref="items" class="choose-items mt-2 poll-item" :class="{ grid: !narrow && maxCount > 1, no_item_selected: selected.length == 0 }">
+					<ProductCard
+						v-for="post in items.lastItems"
+						ref="item"
+						:key="post.guid"
+						:class="{ selected: post.selected }"
+						:item="post.item"
+						is-poll-post
+						@click.native="() => select(post)"
+					/>
+				</div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -42,7 +65,7 @@
 import { createNamespacedHelpers } from 'vuex';
 import ProductCard from '~/components/Posts/Includes/ProductCard';
 import { prefetch } from '~/helpers';
-import { ActivityStore, ActivityGetters } from '~/store/activity';
+import { ActivityStore, ActivityGetters, ActivityMutations, ActivityActions } from '~/store/activity';
 
 const { mapState, mapGetters } = createNamespacedHelpers(ActivityStore);
 
@@ -81,50 +104,40 @@ export default {
 		},
 	},
 	data: () => ({
-		selected: [],
 		limitError: false,
 		searchText: '',
 	}),
 	computed: {
 		...mapState([
 			'wishlist',
+			'selected',
 		]),
 		...mapGetters([
-			ActivityGetters.getSelected,
+			ActivityGetters.selection,
 		]),
-		available () {
-			let available = (this.wishlist || []).filter(w => w.item !== this.exclude);
-			if (this.searchText) {
-				available = available.filter(w => w.item.title.toLowerCase().includes(this.searchText.toLowerCase()));
-			}
-			const ids = new Set(available.map(p => p.item.itemId));
-			available = Array.from(ids).map(id => available.find(p => p.item.itemId === id));
-			return available;
+		items() {
+			return this.selection(this.searchText, this.exclude);
 		},
 		marginBottom() {
 			return this.bottomHeight ? `${this.bottomHeight}px` : (this.selected && this.selected.length) || this.maxCount === 2 ? '200px' : '90px';
-		},
-	},
-	watch: {
-		getSelected (value) {
-			this.selected = this.selected.filter(c => value.find(s => s.postId === c.postId));
 		},
 	},
 	created () {
 		if (this.$store.state.pairedItem && this.$store.state.pairedItem.item) {
 			this.selectPaired(this.$store.state.pairedItem.item.itemId);
 		}
+		this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchLastItems}`);
 		return prefetch({
 			store: this.$store,
 			type: 'fetchWishlist',
 		});
 	},
 	destroyed () {
-		this.wishlist && this.wishlist.forEach(post => (post.selected = false));
+		this.$store.commit(`${ActivityStore}/${ActivityMutations.unselectAll}`);
 	},
 	methods: {
 		selectPaired(itemId) {
-			const selectedPairedPost = this.available && this.available.find(i => i.item.itemId === itemId);
+			const selectedPairedPost = this.items.find(i => i.item.itemId === itemId);
 			if (selectedPairedPost) {
 				this.select(selectedPairedPost);
 			}
@@ -140,14 +153,15 @@ export default {
 				}
 			}
 			this.limitError = false;
-			post.selected = !post.selected;
-			this.selected = this.available.filter(post => post.selected);
+			this.$store.commit(`${ActivityStore}/${ActivityMutations.selectItem}`, post);
 			this.$emit('select', this.selected.map(post => post.item), post.postId);
 			this.$root.$emit('selectProducts', this.limitError);
 			this.$forceUpdate();
 		},
 		tagClick (coord) {
-			let index = this.available.findIndex(item => item.postId === coord.id);
+			const { wishlist, lastItems } = this.items;
+			let index = ([...wishlist, ...lastItems]).findIndex(item => item.postId === coord.id);
+
 			if (index === -1) {
 				index = 0;
 			}
@@ -167,6 +181,7 @@ export default {
 	background-color: transparent;
 	margin-top: 0px !important;
 	max-height: 100%;
+	padding-bottom 8px
 }
 .show-tabs .outfit-main-sec .choose-items.no_item_selected
 	max-height calc(100vh - 260px)
@@ -234,15 +249,18 @@ export default {
 .selected-item-img.showlimiterror {
 	margin: 0vw 4.615vw 0 0;
 }
-.photo-create .choose-items-section{
-	margin-left: 0px;
-	margin-right: 0px;
-	padding: 18px 18px 0px;
-	overflow: auto;
-}
-.photo-create .error-message{
-	display: none;
-}
+
+.photo-create
+	.choose-items-section
+		margin-left: 0px;
+		margin-right: 0px;
+		padding: 12px 18px 0px;
+		overflow auto
+	.error-message
+		display none
+	.items-caption
+		padding-left 20px
+
 .photo-main-sec .choose-items-section::before, .choose-items-section::after{
 	background: none;
 	height: 0;
@@ -297,5 +315,9 @@ export default {
 }
 .photo-selected {
     overflow-y: auto;
+}
+.items-caption {
+	font-weight 600
+	font-size 10px
 }
 </style>

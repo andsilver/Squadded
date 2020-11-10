@@ -26,6 +26,8 @@ describe('Notifications', () => {
 				$t: msg => msg,
 			},
 		});
+		store.commit('SET_SOCKET_AUTH', true);
+		store.commit('SET_PENDING', false);
 	};
 
 	beforeEach(() => {

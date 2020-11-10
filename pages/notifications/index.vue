@@ -1,5 +1,5 @@
 <template>
-	<v-container>
+	<v-container v-if="!socket.isPendingAuth">
 		<BackBar ref="goback-button" class="hide-back" :title="$t('Notifications')" />
 		<Tabs />
 		<v-layout class="nofification-layout">

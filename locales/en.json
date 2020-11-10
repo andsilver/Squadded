@@ -105,7 +105,11 @@
 		"question": "Question",
 		"socialVideo": "Video",
 		"upload": "Gallery",
-		"video": "Video"
+		"video": "Video",
+		"select_items": {
+			"items_from_wishlist": "Items from your wishlist:",
+			"last_items_from_merchant": "Last Items from merchant:"
+		}
 	},
 	"createDesc": {
 		"outfit": "Pair 2-4 items to create an outfit",

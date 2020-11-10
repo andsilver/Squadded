@@ -1,7 +1,7 @@
 <template>
 	<div v-if="!isPoll" class="selected-items ma-3">
 		<span
-			v-for="post in getSelected"
+			v-for="post in selected"
 			:key="post.item.itemId"
 			class="selected-item-img selected"
 		>
@@ -9,43 +9,43 @@
 				:key="post.item.img"
 				:src="post.item.img"
 			/>
-			<v-icon size="1.84vw" @click.native="post.selected = false">
+			<v-icon size="1.84vw" @click.native="select(post)">
 				sqdi-close-cross
 			</v-icon>
 		</span>
 	</div>
 	<div v-else-if="isPoll" class="selected-items mt-2">
 		<span
-			v-if="getSelected.length > 0"
-			:key="getSelected[0].item.itemId"
+			v-if="selected.length > 0"
+			:key="selected[0].item.itemId"
 			class="selected-item-img selected poll"
 		>
 			<v-img
-				:key="getSelected[0].item.img"
-				:src="getSelected[0].item.img"
+				:key="selected[0].item.img"
+				:src="selected[0].item.img"
 			/>
-			<v-icon size="1.84vw" @click.native="getSelected[0].selected = false">
+			<v-icon size="1.84vw" @click.native="select(selected[0])">
 				sqdi-close-cross
 			</v-icon>
 		</span>
-		<span v-if="isPoll && getSelected.length == 0" class="selected-item-img poll">
+		<span v-if="isPoll && selected.length == 0" class="selected-item-img poll">
 			<v-img />
 		</span>
 		<span class="selected-item-img vs-icon poll">vs</span>
 		<span
-			v-if="getSelected.length == 2"
-			:key="getSelected[1].item.itemId"
+			v-if="selected.length == 2"
+			:key="selected[1].item.itemId"
 			class="selected-item-img selected poll"
 		>
 			<v-img
-				:key="getSelected[1].item.img"
-				:src="getSelected[1].item.img"
+				:key="selected[1].item.img"
+				:src="selected[1].item.img"
 			/>
-			<v-icon size="1.84vw" @click.native="getSelected[1].selected = false">
+			<v-icon size="1.84vw" @click.native="select(selected[1])">
 				sqdi-close-cross
 			</v-icon>
 		</span>
-		<span v-if="isPoll && getSelected.length != 2" class="selected-item-img poll">
+		<span v-if="isPoll && selected.length != 2" class="selected-item-img poll">
 			<v-img />
 		</span>
 	</div>
@@ -53,9 +53,9 @@
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { ActivityStore, ActivityGetters } from '~/store/activity';
+import { ActivityStore, ActivityMutations } from '~/store/activity';
 
-const { mapGetters } = createNamespacedHelpers(ActivityStore);
+const { mapState } = createNamespacedHelpers(ActivityStore);
 
 export default {
 	props: {
@@ -65,9 +65,14 @@ export default {
 		},
 	},
 	computed: {
-		...mapGetters([
-			ActivityGetters.getSelected,
+		...mapState([
+			'selected',
 		]),
+	},
+	methods: {
+		select(post) {
+			this.$store.commit(`${ActivityStore}/${ActivityMutations.selectItem}`, post);
+		},
 	},
 };
 </script>

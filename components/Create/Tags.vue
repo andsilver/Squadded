@@ -56,9 +56,9 @@ import ImageCrop from '~/components/Posts/Includes/ImageCrop';
 import ItemImage from '~/components/Posts/Includes/ItemImage';
 import { FeedPost } from '~/classes/FeedPost';
 import TagButton from '~/components/Posts/Includes/TagButton';
-import { ActivityStore, ActivityGetters } from '~/store/activity';
+import { ActivityStore } from '~/store/activity';
 
-const { mapGetters } = createNamespacedHelpers(ActivityStore);
+const { mapState } = createNamespacedHelpers(ActivityStore);
 
 export default {
 	name: 'MultiItemPost',
@@ -88,12 +88,12 @@ export default {
 		coords: [],
 	}),
 	computed: {
-		...mapGetters([
-			ActivityGetters.getSelected,
+		...mapState([
+			'selected',
 		]),
 	},
 	watch: {
-		getSelected (value) {
+		selected (value) {
 			this.coords = this.coords.filter(c => value.find(s => s.selected && c.id === s.postId));
 		},
 	},
@@ -103,10 +103,11 @@ export default {
 				return;
 			}
 			this.maxHeight = `${(this.$refs['tag-card'].$el.offsetHeight - 40)}px`;
+
 			if (this.shifted) {
 				this.coords = this.coords.filter(c => c.id);
 				this.$store.state.post.coords_set = this.coords;
-			} else if (this.getSelected.length < 4 && e) {
+			} else if (this.selected.length < 4 && e) {
 				const rect = e.target.getBoundingClientRect();
 				const { left, top } = rect;
 				this.coords.push({
@@ -127,9 +128,10 @@ export default {
 			this.toggleShifted();
 		},
 		tagClick(coord) {
+			const container = this.$refs['select-items'];
 			this.shifted = true;
-			const top = this.$refs['select-items'].tagClick(coord);
-			this.$refs.scroll.scrollTo({
+			const top = container.tagClick(coord);
+			container.$el.scrollTo({
 				top,
 				behavior: 'smooth',
 			});
