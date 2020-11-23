@@ -239,6 +239,9 @@ export default {
 			});
 		},
 		edit() {
+			if (this.$isGuest()) {
+				return this.$showSignInDialog();
+			}
 			this.$router.push('/profile-settings');
 			this.$gaActionPrivate(GA_ACTIONS.PROFILE_EDIT);
 		},
@@ -260,6 +263,9 @@ export default {
 			this.$gaActionPrivate(GA_ACTIONS.FRIEND_INVITE);
 		},
 		goToMySquad() {
+			if (this.$isGuest()) {
+				return this.$showSignInDialog();
+			}
 			this.$router.push('/my/mysquad');
 		},
 	},

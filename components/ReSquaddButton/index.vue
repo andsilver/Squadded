@@ -17,6 +17,7 @@ import { HomeStore, HomeMutations } from '~/store/home';
 import { PostStore, PostActions, PostMutations } from '~/store/post';
 import { PairedItemStore, PairedItemMutations } from '~/store/paired-item';
 import { isMonoMerchant } from '~/utils/is-mono-merchant';
+import { checkActionPermission } from '~/utils/isAuth';
 import { GA_ACTIONS } from '~/consts';
 
 export default {
@@ -43,10 +44,18 @@ export default {
 	},
 	methods: {
 		click (e) {
-			this.item.squadded ? this.unwish() : this.reSquaddPost();
 			e.stopPropagation();
 			e.cancelBubble = true;
+			this.performAction();
 			return false;
+		},
+		async performAction() {
+			const allow = await checkActionPermission(this.$store, this.$root);
+
+			if (!allow) {
+				return;
+			}
+			this.item.squadded ? this.unwish() : this.reSquaddPost();
 		},
 		async reSquaddPost () {
 			this.item.squadded = true;

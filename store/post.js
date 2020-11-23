@@ -48,6 +48,7 @@ export const PostMutations = {
 	setUploadingPicture: 'setUploadingPicture',
 	shortURL: 'shortURL',
 	unsquadd: 'unsquadd',
+	reset: 'reset',
 };
 
 function suffix () {
@@ -164,6 +165,9 @@ export const mutations = {
 		state.uploadingPicture = pic;
 	},
 	[PostMutations.shortURL]: () => {},
+	[PostMutations.reset]: (state) => {
+		state.all = [];
+	},
 };
 
 export const PostActions = {
@@ -285,7 +289,6 @@ export const actions = {
 		if (!post.guid) {
 			return;
 		}
-
 		const byMe = !post.likes.byMe;
 		rootState.socket.$ws.sendObj({
 			type: 'like',

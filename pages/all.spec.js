@@ -37,6 +37,7 @@ describe('All', () => {
 		localStorage.setItem(STORAGE_VISITED_KEY, 'true');
 
 		store = new Vuex.Store(Store);
+		store.state.user.me.guid = 'someguid';
 
 		wrapper = shallowMount(All, {
 			store,
@@ -48,7 +49,7 @@ describe('All', () => {
 		});
 	});
 
-	it('should display StartWatchingDialog on first visit', () => {
+	it('should display StartWatchingDialog on first visit', async () => {
 		localStorage.clear();
 		wrapper = shallowMount(All, {
 			store,
@@ -58,6 +59,8 @@ describe('All', () => {
 				$router,
 			},
 		});
+		store.commit('SET_SOCKET_AUTH', true);
+		await Promise.resolve();
 		expect(wrapper.vm.firstVisit).toBe(true);
 		expect($router.push).toHaveBeenCalledWith('/walkthrough');
 	});

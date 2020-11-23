@@ -11,6 +11,7 @@ import { OnboardingStore, OnboardingMutations } from '~/store/onboarding';
 import { INTERACTED_KEY, GA_ACTIONS } from '~/consts';
 import { onAuth } from '~/helpers';
 import { setLocalStorageItem } from '~/utils/local-storage';
+import { guestLogin } from '~/services/user';
 
 export class WidgetIPC {
 	constructor(store, router, gaActionPrivate) {
@@ -48,7 +49,7 @@ export class WidgetIPC {
 	loggedIn(msg) {
 		this.store.commit(`${UserStore}/${UserMutations.setToken}`, msg.userToken);
 		this.store.commit(`${ExploreStore}/${ExploreMutations.setFacebookFriends}`, msg.friends);
-		connect(this.store);
+		connect(this.store, msg.guest);
 	}
 
 	async singleItemPost(msg) {
@@ -62,11 +63,17 @@ export class WidgetIPC {
 			this.store.commit(`${SquadStore}/${SquadMutations.interaction}`);
 		}
 		setLocalStorageItem(INTERACTED_KEY, Date.now().toString());
+
 		if (!this.store.state.socket || !this.store.state.socket.isAuth) {
-			if (this.store.state.onboarding.videos.length) {
+			if (this.store.state.merchant.guest) {
+				if (!await guestLogin(this.store)) {
+					return;
+				}
+			} else if (this.store.state.onboarding.videos.length) {
 				return this.router.push('/onboarding');
+			} else {
+				return;
 			}
-			return;
 		}
 		if (!this.store.state.feed.items || !this.store.state.feed.items.length) {
 			// tmp patch while infinite scroll not ready

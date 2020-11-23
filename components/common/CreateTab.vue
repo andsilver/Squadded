@@ -49,18 +49,13 @@
 
 <script>
 import { createNamespacedHelpers, mapState } from 'vuex';
-import { visiblePosts } from '~/consts';
+import { visiblePosts, ROOT_EVENTS } from '~/consts';
 import { UserStore } from '~/store/user';
+import { checkActionPermission, isGuest } from '~/utils/isAuth';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
 export default {
-	props: {
-		isAuth: {
-			type: Boolean,
-			required: true,
-		},
-	},
 	computed: {
 		...userState(['me']),
 		...mapState([
@@ -85,8 +80,17 @@ export default {
 				this.$root.$emit('overlayToggle', {});
 			}
 		},
-		closeMenu (uri) {
+		async closeMenu (uri) {
+			if (uri === '/create/upload' && isGuest(this.$store)) {
+				return this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, true);
+			}
+			const allow = await checkActionPermission(this.$store, this.$root);
+
+			if (!allow) {
+				return;
+			}
 			const { path } = this.$route;
+
 			if (!path.includes('/create/')) {
 				sessionStorage.setItem('beforeCreatePath', this.$route.path);
 			}

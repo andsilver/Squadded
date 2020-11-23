@@ -29,7 +29,7 @@ async function acceptPost(message) {
 
 async function activity (message) {
 	const { type, userId } = message;
-	const rawPostsList = message[type];
+	let rawPostsList = message[type];
 
 	if (type === 'wishlist') {
 		if (rawPostsList.private) {
@@ -39,7 +39,13 @@ async function activity (message) {
 			this.store.commit(`${ActivityStore}/${ActivityMutations.setLoading}`, { type, loading: false });
 			return;
 		}
-		rawPostsList.forEach(w => (w.guid = w.item.itemId));
+		const current = this.store.state.activity.wishlist || [];
+		rawPostsList = rawPostsList
+			.filter(w1 => !current.find(w2 => w1.item.itemId === w2.item.itemId))
+			.map(w => ({
+				...w,
+				guid: w.item.itemId,
+			}));
 	}
 	await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, rawPostsList);
 	const existingItems = this.store.state.activity[type] || [];
@@ -192,7 +198,7 @@ export class WSMessages {
 	like (message) {
 		const { guid, likes } = message;
 		const post = this.store.getters[`${PostStore}/${PostGetters.getPostById}`](guid);
-		post && this.store.commit(`${PostStore}/${PostMutations.setPostLike}`, { ...likes, post });
+		this.store.commit(`${PostStore}/${PostMutations.setPostLike}`, { ...likes, guid, post });
 	}
 
 	notifComment (message) {
@@ -353,14 +359,5 @@ export class WSMessages {
 
 	shortURL(message) {
 		this.store.commit(`${PostStore}/${PostMutations.shortURL}`, message);
-	}
-
-	async lastitems({ lastitems }) {
-		lastitems.forEach(w => (w.guid = w.item.itemId));
-		await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, lastitems);
-		const uniqueIds = new Set(lastitems.map(p => p.guid));
-		const getter = this.store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
-		const posts = getter(Array.from(uniqueIds)).sort((a, b) => b.ts - a.ts);
-		this.store.commit(`${ActivityStore}/${ActivityMutations.lastItems}`, posts);
 	}
 };

@@ -17,6 +17,10 @@ Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
 
+jest.mock('~/utils/isAuth', () => ({
+	checkActionPermission: jest.fn().mockReturnValue(Promise.resolve(true)),
+}));
+
 describe('ReSquadd Button', () => {
 	const RESQUADD_BUTTON = 'resquadd-button';
 	const reSquaddItem = `${PostStore}/${PostActions.reSquaddItem}`;
@@ -73,9 +77,9 @@ describe('ReSquadd Button', () => {
 		expect(resquadd.classes()).toContain('is-resquadded');
 
 		resquadd.trigger('click');
+		await flushPromises();
 
 		expect(dispatch).toHaveBeenCalledWith(unwish, post.item);
-		await flushPromises();
 		expect(commit).toHaveBeenCalledWith(unsquad, post.item.itemId);
 		expect(commit).toHaveBeenCalledWith(`${FeedStore}/${FeedMutations.unsquadd}`, post.item.itemId);
 		expect(commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.unsquadd}`, post.item.itemId);

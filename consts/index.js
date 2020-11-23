@@ -5,3 +5,4 @@ export * from './time-values';
 export * from './user-roles';
 export * from './ga-actions';
 export * from './root-events';
+export * from './question-colors';

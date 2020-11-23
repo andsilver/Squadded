@@ -44,7 +44,7 @@ export default {
 				if (this.for === 'email') {
 					return;
 				}
-				const { userId, postId } = this.$route.query;
+				const { userId, postId, squaddedToken } = this.$route.query;
 				const params = {
 					merchantId: this.merchant.id,
 					origin: 'normal',
@@ -56,6 +56,10 @@ export default {
 				} else if (postId) {
 					params.originPostId = postId;
 					params.origin = 'share';
+				}
+
+				if (squaddedToken) {
+					params.squaddedToken = squaddedToken;
 				}
 				Social.oauth(this.for, params);
 

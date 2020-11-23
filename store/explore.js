@@ -46,6 +46,7 @@ export const ExploreMutations = {
 	setInvited: 'setInvited',
 	setFacebookFriends: 'setFacebookFriends',
 	setLoading: 'setLoading',
+	reset: 'reset',
 };
 
 export const mutations = {
@@ -81,6 +82,16 @@ export const mutations = {
 	[ExploreMutations.setInvited]: (state, userId) => {
 		const friend = (state.friends || []).find(f => f.userId === userId);
 		friend && (friend.invited = true);
+	},
+	[ExploreMutations.reset]: (currentState) => {
+		const initialState = state();
+		Object.keys(currentState).forEach((key) => {
+			if (typeof initialState[key] === 'object' && initialState[key]) {
+				Object.assign(currentState[key], initialState[key]);
+			} else {
+				currentState[key] = initialState[key];
+			}
+		});
 	},
 };
 

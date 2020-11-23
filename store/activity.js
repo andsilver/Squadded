@@ -1,6 +1,5 @@
 import { postReported } from '~/utils/reportSession';
-import { LOADING_TIMEOUT } from '~/consts/time-values';
-import { WISHLIST_LOADED } from '~/consts/keys';
+import { LOADING_TIMEOUT, WISHLIST_LOADED } from '~/consts';
 import { isMonoMerchant } from '~/utils/is-mono-merchant';
 
 export const ActivityStore = 'activity';
@@ -92,6 +91,7 @@ export const ActivityMutations = {
 	lastItems: 'lastItems',
 	selectItem: 'selectItem',
 	unselectAll: 'unselectAll',
+	reset: 'reset',
 };
 
 const exportWishlistToMerchant = (wishlist) => {
@@ -200,12 +200,21 @@ export const mutations = {
 		}
 		post.selected = !post.selected;
 	},
+	[ActivityMutations.reset]: (currentState) => {
+		const initialState = state();
+		Object.keys(currentState).forEach((key) => {
+			if (typeof initialState[key] === 'object' && initialState[key]) {
+				Object.assign(currentState[key], initialState[key]);
+			} else {
+				currentState[key] = initialState[key];
+			}
+		});
+	},
 };
 
 export const ActivityActions = {
 	unwish: 'unwish',
 	fetchItems: 'fetchItems',
-	fetchLastItems: 'fetchLastItems',
 };
 
 export const actions = {
@@ -230,7 +239,11 @@ export const actions = {
 		commit(ActivityMutations.unsquadd, itemId);
 	},
 	[ActivityActions.fetchItems]: ({ rootState, commit }, { type, guid, loadNew, forMerchant }) => {
+		if (!rootState.socket.isAuth) {
+			return;
+		}
 		const capitalized = type.charAt(0).toUpperCase() + type.slice(1);
+
 		if (guid !== rootState.activity.guid[type]) {
 			commit(ActivityMutations[`clear${capitalized}`]);
 			rootState.activity.guid[type] = guid;
@@ -264,16 +277,6 @@ export const actions = {
 		rootState.socket.$ws.sendObj(msg);
 		commit(ActivityMutations.setLoading, { type, loading: true });
 		setTimeout(() => commit(ActivityMutations.setLoading, { type, loading: false }), LOADING_TIMEOUT);
-	},
-	[ActivityActions.fetchLastItems]: ({ rootState }) => {
-		const { ts } = rootState.activity.lastItems;
-
-		if (ts && Date.now() - ts < 1000 * 60 * 5) {
-			return;
-		}
-		rootState.socket.$ws.sendObj({
-			type: 'fetchLastitems',
-		});
 	},
 };
 

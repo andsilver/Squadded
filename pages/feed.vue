@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="socket.isAuth" class="layout-padding">
+	<v-container v-if="socket.isAuth" class="layout-padding flex-grow-1 pb-2">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout column class="squadder-feed">
 			<Squadders :users="mysquad" :has-post="!!(items && items.length)" :loading="loading" class="squadder-section" />

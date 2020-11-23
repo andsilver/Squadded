@@ -20,6 +20,9 @@ describe('User link', () => {
 	const $ws = {
 		sendObj: jest.fn(),
 	};
+	const $router = {
+		push: jest.fn(),
+	};
 
 	const mocks = {
 		_i18n: {
@@ -28,6 +31,7 @@ describe('User link', () => {
 		$t: msg => msg,
 		$route,
 		$ws,
+		$router,
 	};
 
 	function initLocalVue() {
@@ -38,6 +42,7 @@ describe('User link', () => {
 
 		window.moment = jest.fn();
 		window.moment.locale = jest.fn();
+		store.commit('SET_SOCKET_AUTH', true);
 	}
 
 	beforeEach(initLocalVue);
@@ -58,8 +63,10 @@ describe('User link', () => {
 			props() returns nothing
 			atributes() returns [object Object]
 		*/
-		const userLink = wrapper.vm.$children[0];
-		expect(userLink.$attrs.to).toEqual({
+		const userLink = wrapper.ref('user-link');
+		userLink.trigger('click');
+
+		expect($router.push).toHaveBeenCalledWith({
 			name: 'me',
 		});
 	});
@@ -76,8 +83,9 @@ describe('User link', () => {
 		});
 		store.commit(`${UserStore}/${UserMutations.setMe}`, me);
 
-		const userLink = wrapper.vm.$children[0];
-		expect(userLink.$attrs.to).toEqual({
+		const userLink = wrapper.ref('user-link');
+		userLink.trigger('click');
+		expect($router.push).toHaveBeenCalledWith({
 			name: 'user-id',
 			params: {
 				id: user.userId,

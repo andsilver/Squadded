@@ -52,6 +52,13 @@ export default {
 		TopGallery,
 		UserList,
 	},
+	asyncData ({ $isAuth, $isGuest, redirect }) {
+		if (!$isAuth()) {
+			redirect('/community');
+		} else if ($isGuest()) {
+			redirect('/all');
+		}
+	},
 	data: () => ({
 		searchText: '',
 		typing: false,

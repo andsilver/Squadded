@@ -6,7 +6,7 @@
 			<v-layout column justify-center align-center class="tab-content-section">
 				<EmptyWishlist />
 				<SelectItems ref="select-items" :max-count="4" :bottom-height="outfitBoxHeight" />
-				<div ref="outfit-selected" class="merge-selected" :class="{ OutfitSelected: (getSelected.length > 0) }">
+				<div ref="outfit-selected" class="merge-selected" :class="{ OutfitSelected: (selected.length > 0) }">
 					<p v-if="!showError" class="tip-note">
 						{{ $t('tip.outfitSelect') }}
 					</p>
@@ -35,7 +35,7 @@
 					</v-btn>
 					{{ $t('NewOutfit') }}
 				</h2>
-				<UserInput v-show="getSelected.length > 0" ref="text-field" v-model="text" :placeholder="$t('SelectOutfitName')" class="input-section" />
+				<UserInput v-show="selected.length > 0" ref="text-field" v-model="text" :placeholder="$t('SelectOutfitName')" class="input-section" />
 				<OutfitView
 					v-if="selectOFItems.length > 0"
 					:post="selectOFItems"
@@ -64,7 +64,6 @@
 	</v-container>
 </template>
 <script>
-import { createNamespacedHelpers, mapState } from 'vuex';
 import BackBar from '~/components/Create/BackBar';
 import Button from '~/components/common/Button';
 import UserInput from '~/components/common/UserInput';
@@ -74,12 +73,8 @@ import PublicToggle from '~/components/Create/PublicToggle';
 import SelectItems from '~/components/Create/SelectItems';
 import SelectedItems from '~/components/Create/SelectedItems';
 import Tabs from '~/components/Create/Tabs';
-import { ActivityStore, ActivityGetters } from '~/store/activity';
-import { FeedStore, FeedMutations } from '~/store/feed';
-import { PostStore, PostActions } from '~/store/post';
 import { GA_ACTIONS } from '~/consts';
-
-const { mapGetters } = createNamespacedHelpers(ActivityStore);
+import createPost from '~/mixins/create-post';
 
 export default {
 	components: {
@@ -93,6 +88,7 @@ export default {
 		UserInput,
 		OutfitView,
 	},
+	mixins: [createPost],
 	data: () => ({
 		text: '',
 		isPublic: false,
@@ -102,19 +98,12 @@ export default {
 		outfitBoxHeight: 0,
 	}),
 	computed: {
-		...mapGetters([
-			ActivityGetters.getSelected,
-		]),
-		...mapState([
-			'socket',
-			'user',
-		]),
 		complete () {
-			return !!(this.getSelected.length >= 2 && this.getSelected.length <= 4);
+			return !!(this.selected.length >= 2 && this.selected.length <= 4);
 		},
 	},
 	watch: {
-		async getSelected(next) {
+		async selected(next) {
 			await this.$nextTick();
 			this.outfitBoxHeight = this.$refs['outfit-selected'].clientHeight;
 		},
@@ -126,25 +115,23 @@ export default {
 		this.outfitBoxHeight = this.$refs['outfit-selected'].clientHeight;
 	},
 	methods: {
-		async create () {
+		create () {
 			const { text } = this;
 			const { isPublic } = this.$refs['public-toggle'];
 			const msg = {
-				items: this.getSelected.map(post => post.item),
+				items: this.selected.map(post => post.item),
 				private: !isPublic,
 				text,
 				type: 'outfitPost',
 			};
-			const post = await this.$store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
-			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
-			this.$router.push('/feed');
+			this.createPost(msg);
 			this.$gaAction(GA_ACTIONS.CREATE_POST_OUTFIT);
 		},
 		next () {
-			if (this.getSelected.length < 2) {
+			if (this.selected.length < 2) {
 				this.showError = true;
 			} else {
-				this.selectOFItems = this.getSelected.map(post => post.item);
+				this.selectOFItems = this.selected.map(post => post.item);
 				this.showError = false;
 				this.showOutfit = false;
 			}
@@ -153,7 +140,7 @@ export default {
 			this.showOutfit = true;
 		},
 		selectProducts(options) {
-			if (this.getSelected.length >= 2 && !options) {
+			if (this.selected.length >= 2 && !options) {
 				this.showError = false;
 			} else if (options) {
 				this.showError = true;

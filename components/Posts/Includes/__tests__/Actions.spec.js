@@ -11,12 +11,19 @@ Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
 
+jest.mock('~/utils/isAuth', () => ({
+	checkActionPermission: jest.fn().mockReturnValue(Promise.resolve(true)),
+}));
+
 describe('Post Actions', () => {
 	let localVue;
 	let post;
 	let store;
 	let wrapper;
 	const $gaActionPrivate = jest.fn();
+	const $router = {
+		push: jest.fn(),
+	};
 
 	function initLocalVue () {
 		localVue = createLocalVue();
@@ -37,6 +44,7 @@ describe('Post Actions', () => {
 					locale: 'en',
 				},
 				$gaActionPrivate,
+				$router,
 			},
 		});
 	}
@@ -111,13 +119,15 @@ describe('Post Actions', () => {
 			expect(icon.text()).toBe('sqdi-chat-outlined');
 		});
 
-		it('should follow to comment reactions', () => {
+		it('should follow to comment reactions', async () => {
 			const post = aDefaultSingleItemMsgBuilder().withGUID().withComment().get();
 			wrapper.setProps({ post });
 
 			const link = wrapper.ref(COMMENTS_LINK);
 			expect(link.exists()).toBe(true);
-			expect(link.attributes('to')).toBe(`/post/${post.postId}/reactions`);
+			link.trigger('click');
+			await Promise.resolve();
+			expect($router.push).toHaveBeenCalledWith(`/post/${post.postId}/reactions`);
 		});
 	});
 

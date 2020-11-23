@@ -5,35 +5,32 @@
 		height="40"
 		class="px-3 toolbar"
 	>
-		<v-tabs v-model="tab">
-			<v-tab class="v-tab--active" @click="$emit('open-signin-dialog')">
-				{{ $t('Home') }}
+		<v-tabs :value="tab">
+			<v-tab class="tab-active v-tab--active" @click="() => openSignInDialog(false)">
+				{{ $t('topHome') }}
 			</v-tab>
-			<v-tab @click="$emit('open-signin-dialog')">
+			<v-tab class="tab-inactive" @click="() => openSignInDialog(true)">
 				{{ $t('My Squad') }}
 			</v-tab>
 		</v-tabs>
-		<section class="buttons">
-			<Button class="sign_btn" @click="signin">
-				{{ $t('Signin') }} >
-			</Button>
-		</section>
 	</v-toolbar>
 </template>
 
 <script>
-import Button from '~/components/common/Button';
+import { ROOT_EVENTS } from '~/consts';
 
 export default {
-	components: {
-		Button,
-	},
 	data: () => ({
-		tab: 1,
+		tab: 0,
 	}),
 	methods: {
 		signin () {
 			this.$router.push('/');
+		},
+		openSignInDialog(mysquad = false) {
+			if (!this.$store.state.merchant.guest || mysquad) {
+				this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, true);
+			}
 		},
 	},
 };
@@ -56,9 +53,11 @@ export default {
 		color #B8B8BA !important
 		@media screen and (max-width: 280px)
 			font-size 4vw
-	.v-tab--active,
-	>>> .v-tabs-slider
+	.v-tab--active
 		color var(--brand-color) !important
+
+	>>> .v-tabs-slider
+		color transparent !important
 
 	.buttons
 		display flex
@@ -70,4 +69,10 @@ export default {
 		height: 32px !important;
 		min-height: 32px;
 		border-radius: 10px;
+
+	.tab-active
+		border-bottom 2px solid
+
+	.tab-inactive
+		color #b8b8ba !important
 </style>

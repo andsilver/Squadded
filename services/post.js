@@ -11,11 +11,24 @@ const COMMUNITY_ENDPOINT = `${API_ENDPOINT}/community`;
 export const fetchPost = async (postId) => {
 	try {
 		const response = await fetch(`${COMMUNITY_ENDPOINT}/post/${postId}`);
-		const data = response.json();
+		const data = await response.json();
 		return data;
 	} catch (error) {
 		console.error(error); // eslint-disable-line no-console
 		return null;
+	}
+};
+
+export const fetchLastItems = async (merchantId) => {
+	try {
+		const response = await fetch(
+			`${COMMUNITY_ENDPOINT}/lastitems` + (merchantId ? `?merchantId=${merchantId}` : ''),
+		);
+		const data = await response.json();
+		return data.lastitems;
+	} catch (error) {
+		console.error(error); // eslint-disable-line no-console
+		return [];
 	}
 };
 

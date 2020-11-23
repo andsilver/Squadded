@@ -3,39 +3,35 @@
 		grow
 		height="65"
 		class="tabs-sec botoom-tab-sec"
+		:class="{ community }"
 	>
 		<Tab
+			ref="home-tab"
 			:tab="tabs[0]"
 			:class="{ 'v-tab--active': fakeActiveTab }"
-			:is-auth="socket.isAuth"
 			@click.native="closeMenu('home')"
 		/>
 		<Tab
 			v-if="visibleTab('explore')"
 			:tab="tabs[1]"
-			:is-auth="socket.isAuth"
 			@click.native="closeMenu('explore')"
 		/>
 		<CreateTab
 			v-if="visiblePosts.length > 1"
-			:is-auth="socket.isAuth"
 		/>
 		<Tab
 			v-else
 			:tab="postTab"
-			:is-auth="socket.isAuth"
 			@click.native="closeMenu"
 		/>
 		<Tab
 			:tab="tabs[2]"
-			:is-auth="socket.isAuth"
 			@click.native="closeMenu('notifications')"
 		>
 			<Badge :value="newRequests.length || newNotifications.length" />
 		</Tab>
 		<Tab
 			:tab="tabs[3]"
-			:is-auth="socket.isAuth"
 			@click.native="closeMenu('profile')"
 		/>
 	</v-tabs>
@@ -53,7 +49,6 @@ import {
 	visiblePosts,
 	MERCHAND_ADMIN,
 	GA_ACTIONS,
-	ROOT_EVENTS,
 } from '~/consts';
 
 const { mapGetters } = createNamespacedHelpers(NotificationStore);
@@ -67,23 +62,6 @@ export default {
 	},
 	data: () => ({
 		showCreate: false,
-		tabs: [{
-			uri: '/all',
-			icon: 'sqdi-blank-house',
-			text: 'Home',
-		}, {
-			uri: '/explore',
-			icon: 'sqdi-magnifying-glass-finder',
-			text: 'Explore',
-		}, {
-			uri: '/notifications',
-			icon: 'sqdi-notification',
-			text: 'Messages',
-		}, {
-			uri: '/me',
-			icon: 'sqdi-squadded-icon',
-			text: 'Profile',
-		}],
 	}),
 	computed: {
 		...userState(['me']),
@@ -100,6 +78,28 @@ export default {
 		fakeActiveTab () {
 			return this.$route.path === '/feed';
 		},
+		community () {
+			return this.$route.name === 'community';
+		},
+		tabs() {
+			return [{
+				uri: this.socket.isAuth ? '/all' : '/community',
+				icon: 'sqdi-blank-house',
+				text: 'Home',
+			}, {
+				uri: '/explore',
+				icon: 'sqdi-magnifying-glass-finder',
+				text: 'Explore',
+			}, {
+				uri: '/notifications',
+				icon: 'sqdi-notification',
+				text: 'Messages',
+			}, {
+				uri: '/me',
+				icon: 'sqdi-squadded-icon',
+				text: 'Profile',
+			}];
+		},
 	},
 	created () {
 		this.$root.$on('notiPageLoad', data => this.onNoticationPage());
@@ -108,31 +108,21 @@ export default {
 		closeMenu (tab) {
 			switch (tab) {
 			case 'home':
-				if (!this.socket.isAuth) {
-					this.$router.push('/community');
-					this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, false);
-				}
+				this.$showSignInDialog(false);
 				this.$gaActionPrivate(GA_ACTIONS.CLICK_HOME);
 				break;
 			case 'explore':
-				this.$gaActionPrivate(GA_ACTIONS.CLICK_EXPLORE);
-
-				if (!this.socket.isAuth) {
-					this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, true);
+				if (this.$isGuest() || !this.socket.isAuth) {
+					this.$showSignInDialog();
 				}
+				this.$gaActionPrivate(GA_ACTIONS.CLICK_EXPLORE);
 				break;
 			case 'notifications':
-				if (!this.socket.isAuth) {
-					this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, false);
-					this.$router.push('/notifications');
-				}
+				this.$showSignInDialog(false);
 				this.$gaActionPrivate(GA_ACTIONS.NOTIFICATIONS);
 				break;
 			case 'profile':
-				if (!this.socket.isAuth) {
-					this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, false);
-					this.$router.push('/me');
-				}
+				this.$showSignInDialog(false);
 				break;
 			}
 			this.$root.$emit('overlayClose', { });

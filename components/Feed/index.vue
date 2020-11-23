@@ -50,7 +50,7 @@ import UploadingDone from './UploadingDone';
 import ViolationDialog from './ViolationDialog';
 import { LOADING_TIMEOUT, GROUP_ITEMS_TIME_RANGE } from '~/consts/time-values';
 import Comments from '~/components/Comments';
-import { PostStore, PostMutations } from '~/store/post';
+import { PostStore, PostMutations, PostActions } from '~/store/post';
 
 import { getComponent } from '~/services/post';
 import LoadMore from '~/components/LoadMore';
@@ -85,6 +85,7 @@ export default {
 		lastIndex: null,
 		storageKey: null,
 		scrollContainer: null,
+		postCreateSubscription: null,
 	}),
 	computed: {
 		aggregatedItems() {
@@ -165,11 +166,13 @@ export default {
 		window.addEventListener('beforeunload', this.savePosition);
 
 		this.scrollContainer.addEventListener('scroll', this.onScroll);
+		this.watchMyPostCreate();
 	},
 	destroyed() {
 		this.scrollContainer.removeEventListener('scroll', this.onScroll);
 		window.removeEventListener('beforeunload', this.savePosition);
 		this.savePosition();
+		this.postCreateSubscription && this.postCreateSubscription();
 	},
 	methods: {
 		handleTopRefresh() {
@@ -294,7 +297,6 @@ export default {
 			if (!comment) {
 				return false;
 			}
-
 			const elHasInput = comment.$refs['post-comments'] || comment;
 
 			if (elHasInput.showInput) {
@@ -304,6 +306,14 @@ export default {
 				elHasInput.showInput = true;
 			}, 4000);
 			return true;
+		},
+		watchMyPostCreate() {
+			this.postCreateSubscription = this.$store.subscribeAction((action) => {
+				if (action.type !== `${PostStore}/${PostActions.saveItem}`) {
+					return;
+				}
+				this.scrollContainer.scrollTo(0, 0);
+			});
 		},
 	},
 };

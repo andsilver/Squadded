@@ -38,6 +38,7 @@ export const FeedMutations = {
 	setNewPostsAvailable: 'setNewPostsAvailable',
 	setSquad: 'setSquad',
 	unsquadd: 'unsquadd',
+	reset: 'reset',
 };
 
 export const mutations = {
@@ -101,6 +102,12 @@ export const mutations = {
 				return false;
 			}
 			return true;
+		});
+	},
+	[FeedMutations.reset]: (currentState) => {
+		const initialState = state();
+		Object.keys(currentState).forEach((key) => {
+			currentState[key] = initialState[key];
 		});
 	},
 };

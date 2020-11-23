@@ -11,6 +11,10 @@ Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
 
+jest.mock('~/utils/isAuth', () => ({
+	checkActionPermission: jest.fn().mockReturnValue(Promise.resolve(true)),
+}));
+
 const mocks = {
 	$t: msg => msg,
 	$tc: msg => msg,
@@ -43,6 +47,7 @@ const factory = (byMe) => {
 			...mocks,
 			$ws: ws,
 			$gaActionPrivate,
+			checkActionPermission: jest.fn().mockReturnValue(Promise.resolve(true)),
 		},
 		localVue,
 		propsData: {
@@ -86,9 +91,9 @@ describe('PostReporting, current user IS NOT me', () => {
 		expect(wrapper.findAll('.post-menu-edit').length).toBe(0);
 	});
 
-	it('report link is clicked, it dispatches popup method', () => {
+	it('report link is clicked, it dispatches popup method', async () => {
 		wrapper.find('.post-menu-report').find('v-list-item-title').trigger('click');
-
+		await Promise.resolve();
 		expect(wrapper.vm.prompt).toHaveBeenCalledTimes(0);
 		expect(wrapper.vm.current).toBe('reportPost');
 	});

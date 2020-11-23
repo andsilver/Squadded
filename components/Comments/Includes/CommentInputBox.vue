@@ -1,21 +1,23 @@
 <template>
-	<div ref="comment-input" class="comment-input">
-		<div ref="overlay" class="overlay">
-			<div ref="overlay-content" class="overlay-content" contenteditable />
+	<div ref="comment-input" class="comment-input d-flex ml-2 pt-1">
+		<div class="flex-grow-1 position-relative">
+			<div ref="overlay" class="overlay">
+				<div ref="overlay-content" class="overlay-content" contenteditable />
+			</div>
+			<textarea
+				ref="input"
+				:value="inputValue"
+				class="editor"
+				:maxlength="300"
+				@keydown="onKeyDown"
+				@click="onClick"
+				@blur="onBlur"
+				@input="onInput"
+			/>
 		</div>
-		<textarea
-			ref="input"
-			:value="inputValue"
-			class="editor"
-			:maxlength="300"
-			@keydown="onKeyDown"
-			@click="onClick"
-			@blur="onBlur"
-			@input="onInput"
-		/>
 		<v-icon
 			v-if="showSend"
-			class="message-icon"
+			class="message-icon mx-2"
 			@click="send"
 		>
 			mdi-send
@@ -154,6 +156,9 @@ export default {
 			}
 		},
 		search() {
+			if (!this.squadders) {
+				return;
+			}
 			if (this.currentDataQuery && this.currentDataQuery.length) {
 				this.showSquaddersList();
 				const results = this.squadders.filter(s =>
@@ -325,6 +330,7 @@ export default {
 				return;
 			}
 			this.$emit('send', text);
+			this.elmInputBox.style.height = '30px';
 			this.resetInput('');
 		},
 		showSquaddersList() {
@@ -335,14 +341,12 @@ export default {
 	},
 };
 </script>
-<style lang="scss" scoped>
-.comment-input {
-	position: relative;
-	border-bottom-right-radius: 3.07vw;
-	border-top-right-radius: 3.07vw;
-	border-top-left-radius: 0px;
-	border-bottom-left-radius: 0px;
 
+<style lang="scss" scoped>
+.position-relative {
+	position: relative;
+}
+.comment-input {
 	.overlay {
 		position: absolute;
 		width: 100%;
@@ -360,6 +364,7 @@ export default {
 }
 .editor {
 	position: relative;
+	display: block;
 	background: transparent;
 	width: 100%;
 	color: transparent;
@@ -373,9 +378,7 @@ export default {
 	height: 30px;
 }
 .editor, .overlay {
-    padding: 7px 12px 0;
-	padding-right: 42px;
-	font-size: 3.23vw;
+	font-size: 12px;
 	line-height: 20px;
     font-weight: 500;
 }
@@ -403,7 +406,7 @@ export default {
 	&:hover {
 		background: #ececec;
 	}
-	font-size: 3.5vw;
+	font-size: 12px;
 	font-weight: 600;
 	color: black;
 }
@@ -413,26 +416,15 @@ export default {
 .active {
 	background: #ececec;
 }
-@media only screen and (max-width: 280px){
-	.editor{
-		height: 27px;
-	}
-}
 .add-item {
 	width: 7.3vw;
     height: 7.3vw;
-    position: absolute;
-    top: 6px;
-	right: 10px;
 }
 </style>
 <style lang="stylus" scoped>
 body .v-application .message-icon
 	width 7.3vw
 	height 7.3vw
-	position absolute
-	top 8px
-	right 10px
 	background-color #000
 	border-radius 50%
 	&::before

@@ -10,6 +10,10 @@ Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
 
+jest.mock('~/utils/isAuth', () => ({
+	checkActionPermission: jest.fn().mockReturnValue(Promise.resolve(true)),
+}));
+
 const chance = new Chance();
 
 describe('Message Input', () => {
@@ -70,11 +74,12 @@ describe('Message Input', () => {
 		expect(wrapper.vm.textValue).toBe(text);
 	});
 
-	it('should dispatch action with text from input', () => {
+	it('should dispatch action with text from input', async () => {
 		const textValue = chance.sentence();
 		const ref = wrapper.ref('comment-input-box');
 		expect(ref.exists()).toBe(true);
 		ref.vm.$emit('send', textValue);
+		await Promise.resolve();
 		expect(store.dispatch).toHaveBeenCalledWith(sendComment, { post, text: textValue });
 	});
 

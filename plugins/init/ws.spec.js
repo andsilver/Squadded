@@ -5,7 +5,7 @@ import { PostActions, PostStore } from '~/store/post';
 import { FeedStore, FeedGetters } from '~/store/feed';
 import { isHome, isOnboarding, prefetch } from '~/helpers';
 import { UserStore, UserMutations } from '~/store/user';
-import { DEFAULT_LANDING } from '~/store/squad';
+import { SquadStore, SquadMutations, DEFAULT_LANDING } from '~/store/squad';
 
 jest.mock('~/helpers', () => ({
 	prefetch: jest.fn(),
@@ -28,7 +28,9 @@ describe('WS Plugin', () => {
 				id: null,
 			},
 			user: {
-				me: {},
+				me: {
+					active: true,
+				},
 			},
 			squad: {
 				route: { path: '/default' },
@@ -145,7 +147,7 @@ describe('WS Plugin', () => {
 				};
 				route.name = 'not-home';
 
-				prefetch.mockReturnValue(Promise.resolve({}));
+				prefetch.mockReturnValue(Promise.resolve({ active: true }));
 
 				mutationDispatcher(mutation, state);
 
@@ -228,7 +230,7 @@ describe('WS Plugin', () => {
 				};
 
 				state.squad.route.name = 'someroute';
-				prefetch.mockReturnValue(Promise.resolve({}));
+				prefetch.mockReturnValue(Promise.resolve({ active: true }));
 
 				mutationDispatcher(mutation, state);
 				await Promise.resolve();
@@ -244,7 +246,7 @@ describe('WS Plugin', () => {
 				};
 
 				state.squad.route.name = '';
-				prefetch.mockReturnValue(Promise.resolve({ nameSelected: false }));
+				prefetch.mockReturnValue(Promise.resolve({ active: true, nameSelected: false }));
 
 				mutationDispatcher(mutation, state);
 				await Promise.resolve();
@@ -260,7 +262,7 @@ describe('WS Plugin', () => {
 				};
 
 				state.squad.route.name = '';
-				prefetch.mockReturnValue(Promise.resolve({ nameSelected: true, squadderCount: 0 }));
+				prefetch.mockReturnValue(Promise.resolve({ active: true, nameSelected: true, squadderCount: 0 }));
 
 				mutationDispatcher(mutation, state);
 				await Promise.resolve();
@@ -277,7 +279,7 @@ describe('WS Plugin', () => {
 				const latestPath = '/path';
 				const latestHash = 'hash';
 				state.squad.route.name = '';
-				prefetch.mockReturnValue(Promise.resolve({ nameSelected: true, squaddersCount: 2 }));
+				prefetch.mockReturnValue(Promise.resolve({ active: true, nameSelected: true, squaddersCount: 2 }));
 				isOnboarding.mockReturnValue(true);
 				sessionStorage.setItem('latestPath', latestPath);
 				sessionStorage.setItem('latestHash', latestHash);
@@ -300,7 +302,7 @@ describe('WS Plugin', () => {
 				};
 
 				state.squad.route.name = '';
-				prefetch.mockReturnValue(Promise.resolve({ nameSelected: true, squaddersCount: 2 }));
+				prefetch.mockReturnValue(Promise.resolve({ active: true, nameSelected: true, squaddersCount: 2 }));
 				isOnboarding.mockReturnValue(true);
 
 				mutationDispatcher(mutation, state);
@@ -317,7 +319,7 @@ describe('WS Plugin', () => {
 				};
 
 				state.squad.route.name = '';
-				prefetch.mockReturnValue(Promise.resolve({ nameSelected: true, squaddersCount: 2 }));
+				prefetch.mockReturnValue(Promise.resolve({ active: true, nameSelected: true, squaddersCount: 2 }));
 				isOnboarding.mockReturnValue(false);
 				isHome.mockReturnValue(false);
 
@@ -339,6 +341,16 @@ describe('WS Plugin', () => {
 
 				expect(ctx.app.router.push).toHaveBeenCalledTimes(1);
 				expect(ctx.app.router.push).toHaveBeenCalledWith('/');
+			});
+
+			it('should go to post landing with comments hash', () => {
+				const postId = 'postid';
+				const mutation = {
+					type: `${SquadStore}/${SquadMutations.openPost}`,
+					payload: postId,
+				};
+				mutationDispatcher(mutation, state);
+				expect(ctx.app.router.push).toHaveBeenCalledWith(`/post/${postId}#comments`);
 			});
 		});
 	});

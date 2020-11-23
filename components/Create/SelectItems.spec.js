@@ -4,10 +4,15 @@ import SelectItems from './SelectItems.vue';
 import { flushPromises } from '~/helpers';
 import Store from '~/store';
 import { regularPostBuilder } from '~/test/post.mock';
+import { fetchLastItems } from '~/services/post';
 
 Wrapper.prototype.ref = function (id) {
 	return this.find({ ref: id });
 };
+
+jest.mock('~/services/post', () => ({
+	fetchLastItems: jest.fn(),
+}));
 
 describe('SelectItems Component', () => {
 	const ITEM = 'item';
@@ -34,6 +39,7 @@ describe('SelectItems Component', () => {
 		mocks = {
 			$t: msg => msg,
 		};
+		fetchLastItems.mockReturnValue([]);
 		wrapper = shallowMount(SelectItems, {
 			localVue,
 			store,
@@ -48,7 +54,7 @@ describe('SelectItems Component', () => {
 		});
 	});
 
-	it('should fetchWishlist on create', async () => {
+	it('should fetchWishlist and fetchLastItems on create', async () => {
 		expect(wrapper.vm.wishlist).toBe(null);
 
 		store.commit('SET_SOCKET_AUTH', true);
@@ -57,6 +63,7 @@ describe('SelectItems Component', () => {
 		expect(ws.sendObj).toHaveBeenCalledWith({
 			type: 'fetchWishlist',
 		});
+		expect(fetchLastItems).toHaveBeenCalled();
 	});
 
 	it('should render wishlist and last items', () => {

@@ -216,7 +216,7 @@ describe('WSMessages dispatch', () => {
 		store.getters[`${PostStore}/${PostGetters.getPostById}`] = jest.fn().mockReturnValue(post);
 
 		wsMessages.dispatch(msg);
-		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPostLike}`, { byMe, count, post });
+		expect(store.commit).toHaveBeenCalledWith(`${PostStore}/${PostMutations.setPostLike}`, { byMe, count, post, guid });
 	});
 
 	it('should increment likes counter on notifLike', () => {
@@ -479,24 +479,5 @@ describe('WSMessages dispatch', () => {
 		};
 		wsMessages.dispatch(msg);
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, msg);
-	});
-
-	it('should commit lastitems', async () => {
-		const item = {
-			itemId: 'some-item-id',
-		};
-		const lastitems = [{ item }];
-		const type = 'lastitems';
-		const msg = {
-			type,
-			lastitems,
-		};
-		const posts = [{ item, guid: item.itemId }];
-		store.getters[`${PostStore}/${PostGetters.getPostByIdList}`] = jest.fn().mockReturnValue(posts);
-
-		wsMessages.dispatch(msg);
-		expect(store.dispatch).toHaveBeenCalledWith(`${PostStore}/${PostActions.receiveBulk}`, posts);
-		await flushPromises();
-		expect(store.commit).toHaveBeenCalledWith(`${ActivityStore}/${ActivityMutations.lastItems}`, posts);
 	});
 });

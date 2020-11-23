@@ -20,7 +20,6 @@
 </template>
 
 <script>
-import { createNamespacedHelpers, mapState } from 'vuex';
 import BackBar from '~/components/Create/BackBar';
 import StepBack from '~/components/common/StepBack';
 import InputVideo from '~/components/Create/Steps/InputVideo';
@@ -28,32 +27,7 @@ import Items from '~/components/Create/Steps/Items';
 import PostSettings from '~/components/Create/Steps/PostSettings';
 import EmptyWishlist from '~/components/Create/EmptyWishlist';
 import { FeedPost } from '~/classes/FeedPost';
-import { ActivityStore, ActivityGetters } from '~/store/activity';
-import { FeedStore, FeedMutations } from '~/store/feed';
-import {
-	PostStore,
-	PostActions,
-} from '~/store/post';
-
-const { mapGetters } = createNamespacedHelpers(ActivityStore);
-
-const createPost = async ({ store, text, isPublic, selected, videoLink }) => {
-	try {
-		const msg = {
-			items: selected.map(post => post.item),
-			private: !isPublic,
-			text,
-			type: 'videoPost',
-			videoLink,
-		};
-		const post = await store.dispatch(`${PostStore}/${PostActions.saveItem}`, msg);
-		post.ts = Date.now();
-		post.guid = `new-${Date.now()}`;
-		store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
-	} catch (err) {
-		//
-	}
-};
+import createPost from '~/mixins/create-post';
 
 const INPUT_LINK = 0;
 
@@ -66,6 +40,7 @@ export default {
 		Items,
 		PostSettings,
 	},
+	mixins: [createPost],
 	data: () => ({
 		step: INPUT_LINK,
 		post: new FeedPost({
@@ -75,30 +50,22 @@ export default {
 		videoLink: '',
 	}),
 	computed: {
-		...mapGetters([
-			ActivityGetters.getSelected,
-		]),
-		...mapState([
-			'socket',
-			'user',
-		]),
 		complete () {
-			return this.getSelected.length;
+			return this.selected.length;
 		},
 	},
 	methods: {
-		create (data) {
+		async create (data) {
 			const { text, isPublic } = data;
-			createPost({
-				store: this.$store,
+			const p = await this.createPost({
+				type: 'videoPost',
 				text,
-				isPublic,
-				selected: this.getSelected,
+				private: !isPublic,
+				items: this.selected.map(post => post.item),
 				videoLink: this.videoLink,
 			});
-			this.$router.push({
-				path: '/feed',
-			});
+			p.ts = Date.now();
+			p.guid = `new-${Date.now()}`;
 		},
 		edit() {
 			this.step = 0;

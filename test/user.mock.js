@@ -2,7 +2,7 @@ import { Chance } from 'chance';
 
 const chance = new Chance();
 
-export const userMockBuilder = (isMe = false, influencer = false) => {
+export const userMockBuilder = (isMe = false, influencer = false, guest = false, active = true) => {
 	const userId = chance.guid();
 	const name = chance.name();
 	const user = {
@@ -27,6 +27,8 @@ export const userMockBuilder = (isMe = false, influencer = false) => {
 		private: chance.bool(),
 		squaddersCount: chance.natural({ max: 10e6 }),
 		nameSelected: chance.bool(),
+		guest,
+		active,
 	};
 
 	const builder = {

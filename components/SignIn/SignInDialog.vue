@@ -1,6 +1,6 @@
 <template>
 	<v-dialog v-model="dialog" content-class="signin-dialog">
-		<div class="signin-dialog-layout">
+		<div class="signin-dialog-layout d-flex flex-column align-center justify-space-around">
 			<div>
 				<img class="signin-dialog-img" src="~assets/img/logo-circled.svg">
 			</div>
@@ -12,12 +12,18 @@
 					{{ $t('Signin') }}
 				</Button>
 			</div>
+			<v-btn icon class="close-btn" @click="dialog = false">
+				<v-icon>mdi-close</v-icon>
+			</v-btn>
 		</div>
 	</v-dialog>
 </template>
 
 <script>
 import Button from '~/components/common/Button';
+import { signOut } from '~/plugins/init/ws';
+import { USER_TOKEN_KEY } from '~/consts';
+
 export default {
 	components: {
 		Button,
@@ -28,7 +34,6 @@ export default {
 			default: false,
 		},
 	},
-	data: () => ({}),
 	computed: {
 		dialog: {
 			get() {
@@ -42,6 +47,11 @@ export default {
 	methods: {
 		goToSignin() {
 			this.dialog = false;
+
+			if (this.$store.state.socket.isAuth) {
+				const squaddedToken = localStorage.getItem(USER_TOKEN_KEY);
+				return signOut(this.$store, this.$router, { path: '/', query: { squaddedToken } });
+			}
 			this.$router.push('/');
 		},
 	},
@@ -51,11 +61,8 @@ export default {
 <style lang="scss" scoped>
 .signin-dialog-layout {
 	height: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
 	text-align: center;
-	align-items: center;
+	position: relative;
 
 	.signin-dialog-img {
 		height: 8vh;
@@ -67,6 +74,12 @@ export default {
 
 	.signin-button {
 		width: 120px;
+	}
+
+	.close-btn {
+		position: absolute;
+		top: -24px;
+		right: -24px;
 	}
 }
 </style>

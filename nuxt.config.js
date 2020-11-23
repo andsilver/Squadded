@@ -66,6 +66,7 @@ const plugins = [
 	'@plugins/touch-events',
 	'@plugins/image-uploader',
 	'@plugins/anime',
+	'@plugins/global-mixins',
 ];
 
 if (SENTRY_KEY && SENTRY_PROJECT_ID) {

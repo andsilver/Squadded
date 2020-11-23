@@ -25,6 +25,8 @@ export const HomeMutations = {
 	follow: 'follow',
 	setSquad: 'setSquad',
 	unsquadd: 'unsquadd',
+	addItem: 'addItem',
+	reset: 'reset',
 };
 
 export const mutations = {
@@ -93,6 +95,16 @@ export const mutations = {
 			if (p.type === 'singleItemPost' && p.byMe) {
 				state.posts.splice(index, 1);
 			}
+		});
+	},
+	[HomeMutations.addItem]: (state, post) => {
+		!state.posts && (state.posts = []);
+		state.posts.unshift(post);
+	},
+	[HomeMutations.reset]: (currentState) => {
+		const initialState = state();
+		Object.keys(currentState).forEach((key) => {
+			currentState[key] = initialState[key];
 		});
 	},
 };

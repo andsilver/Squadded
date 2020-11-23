@@ -3,13 +3,13 @@
 		grow
 		height="65"
 	>
-		<Tab :tab="tabs[0]" :class="{ 'v-tab--active': fakeActiveTab }" />
-		<Tab :tab="tabs[1]" />
-		<CreateTab />
-		<Tab :tab="tabs[2]">
+		<Tab :tab="tabs[0]" :is-auth="true" :class="{ 'v-tab--active': fakeActiveTab }" />
+		<Tab :tab="tabs[1]" :is-auth="true" />
+		<CreateTab :is-auth="true" />
+		<Tab :tab="tabs[2]" :is-auth="true">
 			<Badge class="badge" :value="10" />
 		</Tab>
-		<Tab :tab="tabs[3]" />
+		<Tab :tab="tabs[3]" :is-auth="true" />
 	</v-tabs>
 </template>
 

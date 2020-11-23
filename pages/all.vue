@@ -1,5 +1,5 @@
 <template>
-	<v-container v-if="socket.isAuth" ref="main" class="layout-padding">
+	<v-container v-if="socket.isAuth" ref="main" class="layout-padding flex-grow-1 pb-3">
 		<TopBar ref="top-bar" class="topBar" />
 		<v-layout column>
 			<Preloader v-if="!posts" ref="preloader" class="mt-8" />
@@ -22,8 +22,9 @@ import { createNamespacedHelpers, mapState } from 'vuex';
 import Feed from '~/components/Feed';
 import Preloader from '~/components/Preloader';
 import TopBar from '~/components/common/TopBar';
-import { onAuth } from '~/helpers';
+import { onAuth, onStoreMutation } from '~/helpers';
 import { HomeStore, HomeActions } from '~/store/home';
+import { UserStore, UserMutations } from '~/store/user';
 import {
 	HOME_NEW_POSTS_INTERVAL,
 	NEW_POSTS_DISAPPEAR_TIMEOUT,
@@ -58,11 +59,17 @@ export default {
 	},
 	methods: {
 		async init() {
-			if (!this.$store.state.user.me.nameSelected) {
+			await onAuth(this.$store);
+
+			if (!this.user.me.guid) {
+				await onStoreMutation(this.$store, `${UserStore}/${UserMutations.setMe}`);
+			}
+
+			if (!this.user.me.nameSelected && !this.user.me.guest) {
 				this.firstVisit = true;
 				return this.$router.push('/walkthrough');
 			}
-			await onAuth(this.$store);
+
 			if (this.posts && this.posts.length) {
 				return;
 			}

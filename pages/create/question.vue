@@ -40,7 +40,6 @@
 	</v-container>
 </template>
 <script>
-import { mapState } from 'vuex';
 import autosize from 'autosize';
 import QuestionCard from '~/components/Posts/Includes/QuestionCard';
 import QuestionColorSelect from '~/components/Posts/Includes/QuestionColorSelect';
@@ -49,9 +48,8 @@ import BackBar from '~/components/Create/BackBar';
 import Button from '~/components/common/Button';
 import UserLink from '~/components/UserLink';
 import PublicToggle from '~/components/Create/PublicToggle';
-import { FeedStore, FeedMutations } from '~/store/feed';
-import { PostStore, PostActions } from '~/store/post';
 import { GA_ACTIONS } from '~/consts';
+import createPost from '~/mixins/create-post';
 
 export default {
 	name: 'NewQuestionPage',
@@ -64,6 +62,7 @@ export default {
 		QuestionCard,
 		QuestionColorSelect,
 	},
+	mixins: [createPost],
 	data: () => ({
 		text: '',
 		isPublic: false,
@@ -74,14 +73,11 @@ export default {
 			border: 'black',
 		},
 	}),
-	computed: {
-		...mapState(['socket', 'user']),
-	},
 	mounted() {
 		autosize(this.$refs['question-input']);
 	},
 	methods: {
-		async create() {
+		create() {
 			const { isPublic } = this.$refs['public-toggle'];
 			const msg = {
 				private: !isPublic,
@@ -90,12 +86,7 @@ export default {
 				color: this.pane.color,
 				type: 'questionPost',
 			};
-			const post = await this.$store.dispatch(
-				`${PostStore}/${PostActions.saveItem}`,
-				msg,
-			);
-			this.$store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
-			this.$router.push('/feed');
+			this.createPost(msg);
 			this.$gaAction(GA_ACTIONS.CREATE_POST_QUESTION);
 		},
 	},

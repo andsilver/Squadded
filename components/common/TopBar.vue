@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import { GA_ACTIONS } from '~/consts';
+import { GA_ACTIONS, ROOT_EVENTS } from '~/consts';
+import { isGuest } from '~/utils/isAuth';
 
 export default {
 	props: {
@@ -42,6 +43,10 @@ export default {
 	methods: {
 		onTabClick (tab) {
 			this.$gaAction(tab === 0 ? GA_ACTIONS.CLICK_COMMUNITY : GA_ACTIONS.CLICK_SQUADDED);
+
+			if (isGuest(this.$store) && tab === 1) {
+				this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, true);
+			}
 		},
 	},
 };

@@ -12,12 +12,20 @@ describe('Sign in dialog', () => {
 	const $router = {
 		push: jest.fn(),
 	};
+	const $store = {
+		state: {
+			socket: {
+				isAuth: false,
+			},
+		},
+	};
 
 	beforeEach(() => {
 		wrapper = shallowMount(SignInDialog, {
 			mocks: {
 				$t: msg => msg,
 				$router,
+				$store,
 			},
 		});
 	});

@@ -1,5 +1,5 @@
 <template>
-	<nuxt-link v-if="user" ref="user-link" :to="getUserLink()">
+	<div v-if="user" ref="user-link" style="cursor: pointer" @click="navigate">
 		<v-list-item v-if="!hideAvatar" class="pa-0 user_link_header">
 			<v-list-item-avatar class="mr-3" :size="size">
 				<img
@@ -9,26 +9,6 @@
 					@error="isError = true"
 				>
 				<img v-else ref="user-avatar" class="dummy_image pa-1" src="~assets/img/dummy_avater.svg">
-				<v-btn
-					v-if="showFollow"
-					ref="watch-btn"
-					class="follow"
-					:class="{ highlight: showPopover, following: user.followed }"
-					dark
-					icon
-					outlined
-					size="35%"
-					width="60%"
-					height="60%"
-					@click="goFollow"
-				>
-					<v-icon v-if="!user.followed" ref="watch-icon" :size="`${sizeValue * 0.2571}${sizeLength}`">
-						mdi-eye-outline
-					</v-icon>
-					<v-icon v-else ref="watching-icon" :size="`${sizeValue * 0.2571}${sizeLength}`" color="black">
-						mdi-check
-					</v-icon>
-				</v-btn>
 				<div
 					v-if="showPopover"
 					ref="popover"
@@ -41,18 +21,13 @@
 			</v-list-item-avatar>
 			<v-list-item-content v-if="!hideName">
 				<v-list-item-title class="user_name">
-					<span class="user-screenname">{{ user.screenName || user.name }}</span>
+					<span class="user-screenname">{{ (user.screenName || user.name || '') + ' ' + (user.guest && user.isMe ? $t('you') : '') }}</span>
 					<div class="squad-username">
 						{{ user.name || 'Name' }}
 					</div>
 					<div v-if="showScreenName && (user.screenName || user.name)" class="invite-user-screenname" style="color: #b8b8ba">
 						{{ user.screenName || user.name }}
 					</div>
-					<template v-if="showFollow">
-						<span class="mx-1">-</span>
-						<span v-if="!user.followed" ref="watch-text" style="color: #fd6256">{{ $t('user.Follow') }}</span>
-						<span v-else ref="watching-text" style="color: #00000099">{{ $t('user.Following') }}</span>
-					</template>
 				</v-list-item-title>
 				<v-list-item-subtitle v-if="ts" class="user_timestamp">
 					{{ timeString }}
@@ -62,14 +37,15 @@
 		<span v-else class="user_name">
 			{{ user.screenName }}
 		</span>
-	</nuxt-link>
+	</div>
 </template>
 
 <script>
 import { createNamespacedHelpers } from 'vuex';
-import { UserStore, UserMutations } from '~/store/user';
+import { UserStore } from '~/store/user';
 import { HomeStore, HomeMutations } from '~/store/home';
-import { FeedStore, FeedMutations } from '~/store/feed';
+import { isAuth, isGuest } from '~/utils/isAuth';
+import { ROOT_EVENTS } from '~/consts';
 
 const { mapState } = createNamespacedHelpers(UserStore);
 
@@ -88,10 +64,6 @@ export default {
 			type: String,
 			default: '40',
 		},
-		follow: {
-			type: Boolean,
-			default: false,
-		},
 		ts: {
 			type: Number,
 			default: 0,
@@ -108,7 +80,6 @@ export default {
 	data: () => ({
 		isError: false,
 		showPopover: false,
-		isFeedHome: false,
 	}),
 	computed: {
 		...mapState([
@@ -126,20 +97,13 @@ export default {
 			const match = this.size.match(/[^\d]+$/);
 			return (match && match[0]) || 'px';
 		},
-		showFollow () {
-			return this.user.guid !== this.me.userId &&
-				this.isFeedHome &&
-				!this.user.mysquad &&
-				!this.hideName &&
-				!this.hideAvatar;
-		},
 	},
 	mounted() {
 		if (!this.user) {
 			return;
 		}
 		this.showPopover = !!this.user.showPopover;
-		this.isFeedHome = false; // this.$route.name === 'all';
+
 		if (this.showPopover) {
 			document.addEventListener('click', () => {
 				this.showPopover = false;
@@ -148,23 +112,15 @@ export default {
 		}
 	},
 	methods: {
-		getUserLink() {
+		navigate() {
+			if (!isAuth(this.$store) || isGuest(this.$store)) {
+				return this.$root.$emit(ROOT_EVENTS.SHOW_SIGNIN_DIALOG, true);
+			}
 			const userId = (this.user.guid || this.user.userId);
-			return (userId === this.me.userId ? { name: 'me' }
+			const route = (userId === this.me.userId ? { name: 'me' }
 				: { name: 'user-id', params: { id: userId } }
 			);
-		},
-		goFollow (e) {
-			e.stopPropagation();
-			e.preventDefault();
-			this.$ws.sendObj({
-				type: 'follow',
-				guid: this.user.guid,
-				follow: !this.user.followed,
-			});
-			this.$store.commit(`${FeedStore}/${FeedMutations.clear}`);
-			this.$store.commit(`${UserStore}/${UserMutations.setFollow}`, { follow: !this.user.followed, user: this.user });
-			this.$store.commit(`${HomeStore}/${HomeMutations.follow}`, this.user);
+			this.$router.push(route);
 		},
 	},
 };
@@ -232,12 +188,6 @@ export default {
 	.user_name
 		font-size 3.23vw
 		line-height 3.69vw
-.for-feed .message-user-image
-	background-color #FFFFFF
-	border-top-left-radius 3.07vw
-	border-bottom-left-radius 3.07vw
-	border 0.307vw solid #DBDBDB
-	border-right 0
 .pop-over
 	position absolute
 	box-shadow 0px 3px 16px 0px #00000036

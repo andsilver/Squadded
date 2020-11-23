@@ -2,7 +2,6 @@ import { Wrapper, shallowMount, createLocalVue } from '@vue/test-utils';
 import Vuex from 'vuex';
 import Default from './default.vue';
 import Store from '~/store';
-import { SquadStore, SquadMutations } from '~/store/squad';
 import * as Device from '~/utils/device-input';
 
 jest.mock('~/utils/device-input', () => ({
@@ -102,12 +101,6 @@ describe('Default layout', () => {
 
 		const main = wrapper.ref(MAIN);
 		expect(main.exists()).toBe(true);
-	});
-
-	it('should go to post landing with comments hash', async () => {
-		const postId = 'postid';
-		await store.commit(`${SquadStore}/${SquadMutations.openPost}`, postId);
-		expect($router.push).toHaveBeenCalledWith(`/post/${postId}#comments`);
 	});
 
 	describe('Desktop', () => {

@@ -14,7 +14,7 @@
 				/>
 				<EmptyWishlist />
 				<Tags v-if="dataImg" ref="tagsComponent" :post="post" :crop-active="cropActive" @doneCrop="doneCrop" />
-				<p v-if="showError && getSelected.length === 0" class="tip-note error-note">
+				<p v-if="showError && selected.length === 0" class="tip-note error-note">
 					{{ $t('tip.photoError') }}
 				</p>
 				<p v-if="LimitshowError" class="tip-note error-note">
@@ -79,7 +79,6 @@
 </template>
 
 <script>
-import { createNamespacedHelpers, mapState } from 'vuex';
 import BackBar from '~/components/Create/BackBar';
 import Browse from '~/components/Create/Browse';
 import Button from '~/components/common/Button';
@@ -91,8 +90,8 @@ import Tags from '~/components/Create/Tags';
 import UserInput from '~/components/common/UserInput';
 import PhotoView from '~/components/common/PhotoView';
 import { FeedPost } from '~/classes/FeedPost';
-import { ActivityStore, ActivityGetters } from '~/store/activity';
 import { FeedStore, FeedMutations } from '~/store/feed';
+import { HomeStore, HomeMutations } from '~/store/home';
 import {
 	PostStore,
 	PostActions,
@@ -102,8 +101,7 @@ import { compressImage } from '~/utils/compress-image';
 import LargeButton from '~/components/common/LargeButton';
 import { prefetch } from '~/helpers';
 import { GA_ACTIONS } from '~/consts';
-
-const { mapGetters } = createNamespacedHelpers(ActivityStore);
+import createPostMixin from '~/mixins/create-post';
 
 const createPost = async ({ store, text, isPublic, selected, image, coords, needCompress }) => {
 	try {
@@ -121,6 +119,10 @@ const createPost = async ({ store, text, isPublic, selected, image, coords, need
 		post.ts = Date.now();
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
 		store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
+
+		if (!post.private) {
+			store.commit(`${HomeStore}/${HomeMutations.addItem}`, post);
+		}
 	} catch (err) {
 		store.commit(`${PostStore}/${PostMutations.setUploadingPicture}`, null);
 	}
@@ -139,6 +141,13 @@ export default {
 		UserInput,
 		PhotoView,
 		LargeButton,
+	},
+	mixins: [createPostMixin],
+	asyncData({ app, $isGuest, $showSignInDialog, redirect }) {
+		if ($isGuest()) {
+			$showSignInDialog(true);
+			redirect('/all');
+		}
 	},
 	data: () => ({
 		dataImg: null,
@@ -160,15 +169,8 @@ export default {
 		coords: [],
 	}),
 	computed: {
-		...mapGetters([
-			ActivityGetters.getSelected,
-		]),
-		...mapState([
-			'socket',
-			'user',
-		]),
 		complete () {
-			return !!(this.getSelected.length);
+			return !!(this.selected.length);
 		},
 	},
 	created () {
@@ -188,7 +190,7 @@ export default {
 				store: this.$store,
 				text: this.text,
 				isPublic: this.$refs['public-toggle'].isPublic,
-				selected: this.getSelected,
+				selected: this.selected,
 				image: this.dataImg,
 				coords,
 				needCompress: this.needCompress,
@@ -223,10 +225,10 @@ export default {
 		},
 		next () {
 			this.coords = this.$store.state.post.coords_set;
-			if (this.dataImg && this.getSelected.length === 0) {
+			if (this.dataImg && this.selected.length === 0) {
 				this.showError = true;
 				this.$refs.tagsComponent.toggleShifted();
-			} else if (this.dataImg && this.getSelected.length) {
+			} else if (this.dataImg && this.selected.length) {
 				this.showError = false;
 				this.showPhoto = false;
 			}
@@ -235,7 +237,7 @@ export default {
 			this.showPhoto = true;
 		},
 		selectProducts(options) {
-			if (this.getSelected.length >= 2 && !options) {
+			if (this.selected.length >= 2 && !options) {
 				this.LimitshowError = false;
 			} else if (options) {
 				this.LimitshowError = true;

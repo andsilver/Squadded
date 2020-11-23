@@ -65,6 +65,7 @@
 	"agree_right": "terms and conditions.",
 	"an outfit": "an outfit",
 	"can_not_received": "Still not receiving it?",
+	"you": "you",
 	"comment": {
 		"pop": {
 			"Action": "Action",
@@ -475,7 +476,8 @@
 		"google_signin": "Continue with Google",
 		"signin_to_shop_with_your_friend": "Sign in to shop with {name}",
 		"signin_to_shop_with_your_friends": "Sign in to join the community",
-		"to_you": "to you"
+		"to_you": "to you",
+		"banned_user": "Your profile has been banned, you cannot sign in, please contact privacy@squadded.co if necessary"
 	},
 	"signin_dialog": {
 		"text": "Sign in to interact with the community and to shop with your friends"
@@ -574,5 +576,7 @@
 		"postempty": "Your wishlist is empty. Add items to post something.",
 		"private": "This account is private\n Only @{user}'s squad\n can see their posts.",
 		"purchase": "Move to Bag"
-	}
+	},
+	"quick_question": "Ask a question here...",
+	"quick_question_popover": "Type here to send your question"
 }

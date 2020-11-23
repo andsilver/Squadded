@@ -11,12 +11,12 @@ export class WSToken {
 		if (_jwt) {
 			const { error, userId, _jwt, ...clean } = data;
 			this._ws.sendObj(clean);
-			this.stop();
 			this.keepAlive();
 		}
 	}
 
 	keepAlive() {
+		this.stop();
 		this._timeoutId = setTimeout(() => {
 			try {
 				this._ws.send(JSON.stringify({ type: 'ping' }));

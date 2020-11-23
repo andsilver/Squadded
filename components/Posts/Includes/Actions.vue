@@ -11,7 +11,7 @@
 			</v-icon>
 			<span v-if="post.likes.count" ref="likes-count" class="count" :class="{liked : post.likes.byMe }">{{ short(post.likes.count) }}</span>
 		</v-btn>
-		<v-btn ref="comments-link" nuxt :to="`/post/${post.postId}/reactions`" class="counter-icon comments_button">
+		<v-btn ref="comments-link" class="counter-icon comments_button" @click="toggleComments">
 			<v-icon ref="comments-icon" class="buttons_icon" size="6.33vw">
 				sqdi-chat-outlined
 			</v-icon>
@@ -46,6 +46,7 @@ import {
 	target,
 } from './shareMixins';
 import { shortNumber } from '~/helpers';
+import { checkActionPermission } from '~/utils/isAuth';
 import { PostStore, PostActions } from '~/store/post';
 import { GA_ACTIONS } from '~/consts';
 
@@ -79,12 +80,23 @@ export default {
 		short(number) {
 			return shortNumber(number, this._i18n.locale);
 		},
-		toggleLike () {
+		async toggleLike () {
+			const allow = await checkActionPermission(this.$store, this.$root);
+
+			if (!allow) {
+				return;
+			}
 			this.$store.dispatch(`${PostStore}/${PostActions.toggleLike}`, this.post);
 			this.$forceUpdate();
 			this.$gaAction(GA_ACTIONS.LIKE);
 		},
-		toggleComments () {
+		async toggleComments () {
+			const allow = await checkActionPermission(this.$store, this.$root);
+
+			if (!allow) {
+				return;
+			}
+			this.$router.push(`/post/${this.post.postId}/reactions`);
 			this.$emit('toggleComments');
 		},
 		share,

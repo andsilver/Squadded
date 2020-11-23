@@ -114,7 +114,7 @@ describe('Create Upload', () => {
 
 		wrapper.setData({ file });
 		post.selected = true;
-		store.state.activity.wishlist = [post];
+		store.state.activity.selected = [post];
 		store.dispatch = jest.fn();
 		store.commit = jest.fn();
 

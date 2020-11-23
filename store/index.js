@@ -1,12 +1,12 @@
-import activity from './activity';
-import feed from './feed';
-import notification from './notification';
-import post from './post';
+import activity, { ActivityMutations, ActivityStore } from './activity';
+import feed, { FeedMutations, FeedStore } from './feed';
+import notification, { NotificationMutations, NotificationStore } from './notification';
+import post, { PostMutations, PostStore } from './post';
 import squad from './squad';
-import user from './user';
+import user, { UserMutations, UserStore } from './user';
 import pairedItem from './paired-item';
-import explore from './explore';
-import home from './home';
+import explore, { ExploreMutations, ExploreStore } from './explore';
+import home, { HomeMutations, HomeStore } from './home';
 import onboarding from './onboarding';
 import { hexToRgb } from '~/utils/hex-to-rgb';
 
@@ -32,6 +32,8 @@ const {
 	native = false,
 	hideFct = '',
 	experimental = false,
+	guest = false,
+	askbar = false,
 } = Object.fromEntries(widgetLocation.searchParams.entries());
 
 if (brandColor !== DEFAULT_COLOR) {
@@ -85,8 +87,11 @@ export const state = () => ({
 		native,
 		hideFeatures: hideFct.toLowerCase().split(';'),
 		experimental,
+		guest,
+		askbar,
 	},
 	monoMerchants: [],
+	banned: false,
 });
 
 export const mutations = {
@@ -123,6 +128,8 @@ export const mutations = {
 			native = false,
 			hideFct,
 			experimental,
+			guest = false,
+			askbar = false,
 		} = msg;
 		state.merchant.id = merchantId;
 		state.merchant.siteUrl = siteUrl;
@@ -131,6 +138,8 @@ export const mutations = {
 		state.merchant.brandColor = brandColor;
 		state.merchant.native = native === 'true' || native === true;
 		state.merchant.experimental = !!experimental;
+		state.merchant.guest = !!guest;
+		state.merchant.askbar = !!askbar;
 
 		if (hideFct && hideFct.length) {
 			state.merchant.hideFeatures = hideFct.toLowerCase().split(';');
@@ -153,6 +162,29 @@ export const mutations = {
 	},
 };
 
+export const actions = {
+	RESET_STATE: ({ rootState, commit }) => {
+		/** socket reset */
+		rootState.socket.isAuth = false;
+		rootState.socket.isPendingAuth = false;
+		rootState.socket.isConnected = false;
+		/** activity reset */
+		commit(`${ActivityStore}/${ActivityMutations.reset}`, null, { root: true });
+		/** user reset */
+		commit(`${UserStore}/${UserMutations.reset}`, null, { root: true });
+		/** home reset  */
+		commit(`${HomeStore}/${HomeMutations.reset}`, null, { root: true });
+		/** feed reset */
+		commit(`${FeedStore}/${FeedMutations.reset}`, null, { root: true });
+		/** notifications reset */
+		commit(`${NotificationStore}/${NotificationMutations.reset}`, null, { root: true });
+		/** post reset */
+		commit(`${PostStore}/${PostMutations.reset}`, null, { root: true });
+		/** explore reset */
+		commit(`${ExploreStore}/${ExploreMutations.reset}`, null, { root: true });
+	},
+};
+
 export const modules = {
 	activity,
 	feed,
@@ -170,5 +202,6 @@ export default {
 	state,
 	mutations,
 	modules,
+	actions,
 	strict: false,
 };

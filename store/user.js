@@ -38,6 +38,7 @@ export const UserMutations = {
 	setOther: 'setOther',
 	setUserList: 'setUserList',
 	setToken: 'setToken',
+	reset: 'reset',
 };
 
 export const mutations = {
@@ -70,6 +71,16 @@ export const mutations = {
 	[UserMutations.setToken]: (state, token) => {
 		setLocalStorageItem('userToken', token);
 		state.me.userId = getUserId(token);
+	},
+	[UserMutations.reset]: (state) => {
+		const me = new User({
+			isMe: true,
+			userId: getUserId(localStorage.getItem('userToken')),
+			screenName: 'You',
+		});
+		state.all = [me];
+		state.me = me;
+		state.other = null;
 	},
 };
 

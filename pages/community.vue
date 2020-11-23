@@ -1,10 +1,10 @@
 <template>
 	<v-container class="feed-container px-1">
-		<FakeTopBar ref="top-bar" class="topBar" @open-signin-dialog="openDialog" />
+		<FakeTopBar ref="top-bar" class="topBar" />
 		<v-layout>
 			<Feed
 				ref="street-layout"
-				:items="items"
+				:items="showHome ? posts : items"
 				@mousedown.native="openDialog"
 				@click.native="openDialog"
 			/>
@@ -14,13 +14,19 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { createNamespacedHelpers, mapState } from 'vuex';
 import FakeTopBar from '~/components/common/FakeTopBar';
 import Feed from '~/components/Feed';
 import { FeedPost } from '~/classes/FeedPost';
 import { SquadAPI } from '~/services/SquadAPI';
 import { DEFAULT_LANDING } from '~/store/squad';
+import { HomeStore, HomeActions } from '~/store/home';
 import SignInDialog from '~/components/SignIn/SignInDialog';
+import { UserStore } from '~/store/user';
+import { PostStore, PostMutations } from '~/store/post';
+
+const userState = createNamespacedHelpers(UserStore).mapState;
+const homeState = createNamespacedHelpers(HomeStore).mapState;
 
 export default {
 	components: {
@@ -28,11 +34,22 @@ export default {
 		Feed,
 		SignInDialog,
 	},
+	asyncData({ store, redirect }) {
+		if (store.state.socket.isAuth) {
+			if (store.state.user.me.guest) {
+				redirect('/all');
+			} else {
+				redirect(DEFAULT_LANDING);
+			}
+		}
+	},
 	data: () => ({
 		items: null,
 		unsubscribe: null,
 		showStartWatchingDialog: false,
 		showDialog: false,
+		showHome: false,
+		subscription: null,
 	}),
 	computed: {
 		...mapState([
@@ -40,22 +57,59 @@ export default {
 			'socket',
 			'squad',
 		]),
+		...userState([
+			'me',
+		]),
+		...homeState([
+			'posts',
+		]),
 	},
 	created () {
+		this.subscription = this.$store.subscribe((mutation, state) => {
+			switch (mutation.type) {
+			case `${PostStore}/${PostMutations.setPostLike}`: {
+				setTimeout(() => {
+					const { guid, ...likes } = mutation.payload;
+					const index = this.items.findIndex(item => item.guid === guid);
+
+					if (index > -1) {
+						this.items[index].likes = likes;
+						this.refreshItems();
+					}
+				});
+				break;
+			}
+			case `${PostStore}/${PostMutations.incrementVote}`: {
+				setTimeout(() => {
+					const { post } = mutation.payload;
+					const index = this.items.findIndex(item => item.guid === post.guid);
+
+					if (index > -1) {
+						this.items[index] = post;
+						this.refreshItems();
+					}
+				});
+				break;
+			}
+			}
+		});
+
 		if (this.squad.widget.open) {
 			this.updateStreet();
 			return;
 		}
 		this.$root.$once('widget-open', () => this.updateStreet());
-	},
-	mounted () {
-		if (this.socket.isAuth) {
-			this.$router.push(DEFAULT_LANDING);
+
+		if (this.socket.isAuth && this.me.guest) {
+			this.fetchHome();
 		}
+	},
+	destroyed () {
+		this.subscription && this.subscription();
 	},
 	methods: {
 		openDialog() {
-			if (!this.socket.isAuth) {
+			if (!this.socket.isAuth && !this.merchant.guest) {
 				this.showDialog = true;
 			}
 		},
@@ -66,6 +120,20 @@ export default {
 				return;
 			}
 			this.items = publicFeed.map(post => new FeedPost(post));
+		},
+		fetchHome() {
+			this.showHome = true;
+			this.$store.dispatch(`${HomeStore}/${HomeActions.fetch}`, true);
+		},
+		refreshItems () {
+			this.items = this.items.map((item) => {
+				item.byMe = item.userId === this.me.userId;
+				item.item && (item.item.squadded = false);
+				item.item1 && (item.item1.squadded = false);
+				item.item2 && (item.item2.squadded = false);
+				item.items && item.items.forEach(it => (it.squadded = false));
+				return new FeedPost(item);
+			});
 		},
 	},
 	head: () => ({

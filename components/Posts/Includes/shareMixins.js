@@ -22,7 +22,10 @@ export const postLink = function () {
 	return `${API_ENDPOINT}/community/post?t=${Base64.encode(target)}&utm_source=squadded&utm_medium=share&utm_campaign=squadded`;
 };
 
-export const share = function () {
+export const share = async function () {
+	if (!await this.checkActionPermission(false)) {
+		return;
+	}
 	this.showShare = false;
 	let url = '';
 	if (!this.shortURL) {
@@ -48,7 +51,7 @@ export const showShareModal = async function (url) {
 			url,
 		};
 		await navigator.share(toShare).catch(function(error) {
-			console.log('navite share', error);
+			console.log('navite share', error); // eslint-disable-line no-console
 			if (error.code !== CANCELED_BY_USER) {
 				this.showModal();
 			}

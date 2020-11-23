@@ -4,14 +4,16 @@ import { WSMessages } from '~/classes/WSMessages';
 import { WSToken } from '~/classes/WSToken';
 import { prefetch } from '~/helpers';
 import { NotificationStore, NotificationActions } from '~/store/notification';
+import { SquadStore, SquadMutations, DEFAULT_LANDING } from '~/store/squad';
 import { UserStore, UserMutations } from '~/store/user';
-import { WS_LINK } from '~/config';
 import { ActivityStore, ActivityActions } from '~/store/activity';
-import { VISITED_INVITE_FRIENDS_KEY } from '~/consts/keys';
-import { DEFAULT_LANDING } from '~/store/squad';
+import { WS_LINK } from '~/config';
+import { VISITED_INVITE_FRIENDS_KEY, LOADING_TIMEOUT } from '~/consts';
 import { clearLocalStorage } from '~/utils/local-storage';
+import { tokenExist } from '~/utils/isAuth';
+import { SquadAPI } from '~/services/SquadAPI';
 
-export const connect = function (store) {
+export const connect = function (store, guest = false) {
 	const merchantId = store.state.merchant.id;
 	const userToken = store.state.user.me.userId;
 
@@ -19,9 +21,11 @@ export const connect = function (store) {
 
 	if (!merchantId || !userToken) {
 		store.commit('SET_PENDING', false);
-		return;
+		return false;
 	}
-	store.commit('SET_PENDING', true);
+	if (!guest) {
+		store.commit('SET_PENDING', true);
+	}
 	Vue.prototype.$connect();
 	return true;
 };
@@ -37,10 +41,11 @@ export const initSocket = (link, store) => {
 	});
 };
 
-export const signOut = (store, router) => {
+export const signOut = (store, router, route = '/') => {
 	store.commit('SET_SOCKET_AUTH', false);
 	store.commit('SET_PENDING', false);
 	Vue.prototype.$disconnect();
+	Vue.prototype.$ws && Vue.prototype.$ws.stop();
 	delete Vue.prototype.$ws;
 	store.commit('jSocket', null);
 	clearLocalStorage();
@@ -49,43 +54,42 @@ export const signOut = (store, router) => {
 		type: 'signout',
 	}), '*');
 	window.FS && window.FS.shutdown();
-	router.push('/');
-	location.reload();
+	store.dispatch('RESET_STATE');
+	route && router.push(route);
+};
+
+const setPendingFalse = store => store.commit('SET_PENDING', false);
+
+const goToLatestRoute = (router, store, guest = false) => {
+	const latestPath = sessionStorage.getItem('latestPath');
+	const latestHash = sessionStorage.getItem('latestHash');
+
+	if (latestPath && latestPath !== '/' && latestPath !== '/onboarding' && latestPath !== '/community') {
+		router.push({
+			path: latestPath,
+			hash: latestHash,
+		}, () => setPendingFalse(store));
+	} else {
+		router.push(guest ? '/all' : DEFAULT_LANDING, () => setPendingFalse(store));
+	}
 };
 
 export const mutationListener = ctx => async function mutationDispatcher (mutation, state) {
 	const { app, store, wsMessages } = ctx;
-
-	const fetchNotifications = () => {
-		store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
-	};
-
-	const fetchWishlist = () => {
-		store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
-			type: 'wishlist',
-			forMerchant: true,
-		});
-	};
-
-	const fetchSquadders = () => {
-		prefetch({
-			type: 'fetchSquadders',
-			store,
-		});
-	};
-
+	const $root = app.router && app.router.app && app.router.app.$root;
 	const { route } = state.squad;
-	const setPendingFalse = () => store.commit('SET_PENDING', false);
 
-	if (mutation.type === 'SOCKET_ONOPEN') {
+	switch (mutation.type) {
+	case 'SOCKET_ONOPEN': {
 		const $ws = new WSToken(state.socket._ws);
 		Vue.prototype.$ws = $ws; // to be used in components
 		store.commit('jSocket', $ws);
 		return;
 	}
 
-	if (mutation.type === 'SOCKET_ONMESSAGE') {
+	case 'SOCKET_ONMESSAGE': {
 		const message = mutation.payload;
+
 		if (message.type === 'authRequest') {
 			state.socket._ws.sendObj({
 				type: 'authResponse',
@@ -94,7 +98,11 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			});
 			return;
 		} else if (message.type === 'authOk') {
-			fetchWishlist();
+			/** fetch wishlist */
+			store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
+				type: 'wishlist',
+				forMerchant: true,
+			});
 			store.commit('SET_SOCKET_AUTH', true);
 			state.socket.$ws.keepAlive();
 			const user = await prefetch({
@@ -102,8 +110,26 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				store,
 				type: 'fetchUser',
 			});
-			fetchNotifications();
-			fetchSquadders();
+
+			if (user.active === false) {
+				signOut(store, app.router, '');
+				app.router.push('/', () => {
+					store.state.banned = true;
+					setPendingFalse(store);
+				});
+				return;
+			}
+
+			if (user.guest) {
+				if (state.socket.isPendingAuth) {
+					return app.router.push('/all', () => setPendingFalse(store));
+				}
+				return setPendingFalse(store);
+			}
+			/** fetch notifications */
+			store.dispatch(`${NotificationStore}/${NotificationActions.fetchNotifications}`);
+			/** fetch squadders */
+			prefetch({ type: 'fetchSquadders', store });
 
 			window.parent.postMessage(JSON.stringify({
 				type: 'signin',
@@ -132,61 +158,108 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			if (user.origin === 'invitation') {
 				// TODO What is it for? It is same as two below.
 				if (!user.squaddersCount && !visitedInviteFriends) {
-					return app.router.push('/invite-friends', setPendingFalse);
+					return app.router.push('/invite-friends', () => setPendingFalse(store));
 				} else if (route.params && user.originUserId === route.params.id) {
-					return app.router.push(DEFAULT_LANDING, setPendingFalse);
+					return app.router.push(DEFAULT_LANDING, () => setPendingFalse(store));
 				}
 			}
 			if (route.name) {
-				setTimeout(() => setPendingFalse(), 2000);
+				setTimeout(() => setPendingFalse(store), 2000);
 				return app.router.push(route);
 			}
 			if (!user.nameSelected) {
-				return app.router.push('/select-username', setPendingFalse);
+				return app.router.push('/select-username', () => setPendingFalse(store));
 			}
 			if (!user.squaddersCount && !visitedInviteFriends) {
-				return app.router.push('/invite-friends', setPendingFalse);
+				return app.router.push('/invite-friends', () => setPendingFalse(store));
 			}
-			const latestPath = sessionStorage.getItem('latestPath');
-			const latestHash = sessionStorage.getItem('latestHash');
-
-			if (latestPath && latestPath !== '/' && latestPath !== '/onboarding') {
-				app.router.push({
-					path: latestPath,
-					hash: latestHash,
-				}, setPendingFalse);
-			} else {
-				app.router.push(DEFAULT_LANDING, setPendingFalse);
-			}
+			return goToLatestRoute(app.router, store);
 		}
 
 		if (!state.socket.isAuth) {
 			return;
 		}
-
-		wsMessages.dispatch(message);
-		return;
+		return wsMessages.dispatch(message);
 	}
 
-	if (mutation.type === 'SOCKET_ONCLOSE') {
+	case 'SOCKET_ONCLOSE':
 		if (!state.socket.$ws) {
 			return;
 		}
-		state.socket.$ws.stop();
+
 		if (mutation.payload.reason) {
 			signOut(store, app.router);
 		}
 		return;
-	}
 
-	if (mutation.type === 'SET_MERCHANT_PARAMS') {
+	case 'SET_MERCHANT_PARAMS': {
 		const connecting = connect(store);
 		const { params } = route;
-		const { onboarding: { videos } } = state;
+		const { onboarding: { videos }, merchant: { guest } } = state;
 
-		if (!connecting && videos.length && (!params || !params.id)) {
-			app.router.push('/onboarding', setPendingFalse);
+		if (!connecting) {
+			if ((params && params.id) || guest) {
+				return;
+			}
+			if (videos.length) {
+				app.router.push('/onboarding', () => setPendingFalse(store));
+			}
 		}
+		return;
+	}
+
+	case 'SET_PENDING': {
+		if (!mutation.payload) {
+			return;
+		}
+		const { name } = ctx.route;
+
+		if (name === 'feed' || name === 'all') {
+			setTimeout(SquadAPI.rendered, LOADING_TIMEOUT);
+		} else {
+			SquadAPI.rendered();
+		}
+		return;
+	}
+
+	case `${SquadStore}/${SquadMutations.interaction}`:
+		if (!tokenExist()) {
+			app.router.push('/signin');
+		}
+		return;
+
+	case `${SquadStore}/${SquadMutations.setSquadParams}`: {
+		if (!mutation.payload) {
+			return;
+		}
+		if (state.socket.isAuth) {
+			app.router.push(state.squad.route);
+		}
+		const { name, params } = state.squad.route;
+
+		if (!tokenExist() && name) {
+			setTimeout(() => {
+				if (name === 'user-id') {
+					app.router.push({ path: '/', query: { userId: params.id } });
+				} else {
+					app.router.push(state.squad.route);
+				}
+			});
+		}
+		return;
+	}
+
+	case `${SquadStore}/${SquadMutations.openPost}`:
+		if (!mutation.payload) {
+			return;
+		}
+		return app.router.push(`/post/${mutation.payload}#comments`);
+
+	case `${SquadStore}/${SquadMutations.setWidgetState}`:
+		if (mutation.payload !== true) {
+			return;
+		}
+		return $root && $root.$emit('widget-open');
 	}
 };
 

@@ -5,8 +5,8 @@
 			:selected-posts="selectedPosts"
 			@close="post => handleSelectEmbeddedItem(post)"
 		/>
-		<div class="row-input-box">
-			<UserLink v-if="userLink" size="7.69vw" :user="me" hide-name class="message-user-image" />
+		<div class="row-input-box d-flex">
+			<UserLink v-if="userLink" size="26px" :user="me" hide-name class="message-user-image" />
 			<CommentInputBox
 				ref="comment-input-box"
 				class="comment-input-box"
@@ -26,7 +26,6 @@
 				class="add-item"
 				@click="isPanelOpen = !isPanelOpenProps"
 			>
-			</img>
 		</div>
 		<v-divider v-if="isPanelOpen" class="divider-panel" />
 		<CommentPanel
@@ -47,6 +46,7 @@ import CommentPanel from '~/components/Comments/Includes/CommentPanel';
 import CommentPreview from '~/components/Comments/Includes/CommentPreview';
 import { GA_ACTIONS } from '~/consts';
 import { ActivityStore, ActivityActions } from '~/store/activity';
+import { checkActionPermission } from '~/utils/isAuth';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 const activityState = createNamespacedHelpers(ActivityStore).mapState;
@@ -133,7 +133,12 @@ export default {
 				guid: undefined,
 			});
 		},
-		send (textValue) {
+		async send (textValue) {
+			const allow = await checkActionPermission(this.$store, this.$root);
+
+			if (!allow) {
+				return;
+			}
 			const { action, post, selectedItems } = this;
 
 			let payload = {
@@ -179,20 +184,15 @@ export default {
 
 <style lang="stylus" scoped>
 .row-input-box
-	display flex
-	align-items center
-.message-user-image
-	background-color #F4F4F5
-	border-top-left-radius 3.07vw
-	border-bottom-left-radius 3.07vw
-.for-feed
-	border 0.307vw solid #DBDBDB
-	border-left 0
-	background white !important
-.comment-input-box
-	height calc(7.69vw + 5px)
-	width 100%
 	background #F4F4F5
+	border-radius 12px
+	margin-right 18px
+.for-feed .row-input-box
+	background white
+	border 1px solid #dbdbdb
+	margin-right 0
+.comment-input-box
+	width 100%
 .divider-panel
 	margin 8px 0
 .card-panel-box
@@ -200,7 +200,9 @@ export default {
 	height: calc(37vh - 57px);
 	width 90%
 .add-item
-	margin-left	10px
+	position absolute
 	cursor pointer
 	width 16px
+	top 12px
+	right 7px
 </style>

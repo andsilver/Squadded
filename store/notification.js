@@ -40,6 +40,7 @@ export const NotificationMutations = {
 	view: 'view',
 	setAcceptedSquad: 'setAcceptedSquad',
 	undo: 'undo',
+	reset: 'reset',
 };
 
 const contain = state => ntf => state.notifications.find(n => ntf._id === n._id);
@@ -134,6 +135,9 @@ export const mutations = {
 		const notification = state.notifications.find(n => n._id === _id);
 		notification && (notification.showBanner = false);
 		updateCache(state);
+	},
+	[NotificationMutations.reset]: (state) => {
+		state.notifications = [];
 	},
 };
 

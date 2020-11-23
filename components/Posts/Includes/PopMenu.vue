@@ -288,7 +288,11 @@ export default {
 			this.hide();
 			this.$gaActionPrivate(GA_ACTIONS.REPORT_POST);
 		},
-		togglePrivate () {
+		async togglePrivate () {
+			if (!await this.checkActionPermission(false)) {
+				return;
+			}
+
 			const clear = () => {
 				this.privacyTimeout && clearTimeout(this.privacyTimeout);
 				this.privacyTimeout = null;
@@ -331,7 +335,10 @@ export default {
 		promptDelete () {
 			this.showDeleteDialog = true;
 		},
-		promptReportPost() {
+		async promptReportPost() {
+			if (!await this.checkActionPermission(false)) {
+				return;
+			}
 			this.current = 'reportPost';
 			this.reason = this.reasons[0];
 			this.showReasonDialog = true;
@@ -354,9 +361,9 @@ export default {
 		removeSquad () {
 			this.$refs['remove-squad'].$refs['remove-trigger'].$el.click();
 		},
-		invite () {
-			if (!this.socket.isAuth) {
-				return this.$router.push('/');
+		async invite () {
+			if (!await this.checkActionPermission(false)) {
+				return;
 			}
 			this.$ws.sendObj({
 				type: 'inviteSquad',

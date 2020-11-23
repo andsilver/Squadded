@@ -20,6 +20,10 @@ jest.mock('~/services/short-url', () => ({
 	getShortURL: jest.fn(),
 }));
 
+jest.mock('~/utils/isAuth', () => ({
+	checkActionPermission: jest.fn().mockReturnValue(Promise.resolve(true)),
+}));
+
 describe('PopMenu', () => {
 	const CLOSE = 'close';
 	const SHARELINK = 'sharelink';
@@ -64,6 +68,7 @@ describe('PopMenu', () => {
 				$router,
 				$gaActionPrivate,
 				$gaAction,
+				checkActionPermission: jest.fn().mockReturnValue(Promise.resolve(true)),
 			},
 		});
 	};
@@ -107,6 +112,7 @@ describe('PopMenu', () => {
 		const url = 'url';
 		getShortURL.mockReturnValue(Promise.resolve(url));
 		wrapper.ref(SHARELINK).trigger('click');
+		await Promise.resolve();
 		expect(getShortURL).toHaveBeenCalledWith(wrapper.vm.postLink, store);
 		expect(wrapper.ref(SHARE_POST_MODAL).exists()).toBe(true);
 		global.navigator.share = jest.fn();
@@ -126,15 +132,17 @@ describe('PopMenu', () => {
 		});
 	});
 
-	it('should render report dialog and perform correct actions', () => {
+	it('should render report dialog and perform correct actions', async () => {
 		post.byMe = false;
 		post.postId = 'anyId';
 		initLocalVue();
 		wrapper.ref(REPORT).trigger('click');
+		await Promise.resolve();
 		expect(wrapper.vm.showReasonDialog).toBe(true);
 		wrapper.ref(CLOSE_ICON_BTN_REPORT_DIALOG).trigger('click');
 		expect(wrapper.vm.showReasonDialog).toBe(false);
 		wrapper.ref(REPORT).trigger('click');
+		await Promise.resolve();
 		expect(wrapper.vm.showReasonDialog).toBe(true);
 		wrapper.ref(CLOSE_BTN_REPORT_DIALOG).trigger('click');
 		expect(wrapper.vm.showReasonDialog).toBe(false);
@@ -150,12 +158,13 @@ describe('PopMenu', () => {
 		expect(store.commit).toHaveBeenCalledWith(`${HomeStore}/${HomeMutations.removePost}`, post.postId);
 	});
 
-	it('should toggle private', () => {
+	it('should toggle private', async () => {
 		post.private = false;
 		post.byMe = true;
 		initLocalVue();
 		jest.useFakeTimers();
 		wrapper.ref(TOGGLE).trigger('click');
+		await Promise.resolve();
 		jest.advanceTimersByTime(UNDO_TIMEOUT);
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, {
 			type: 'notifAlert',
@@ -202,12 +211,13 @@ describe('PopMenu', () => {
 		});
 	});
 
-	it('should send invite to the user', () => {
+	it('should send invite to the user', async () => {
 		post.user.mysquad = false;
 		post.byMe = false;
 		initLocalVue();
 		store.state.socket.isAuth = true;
 		wrapper.ref(ADD).trigger('click');
+		await Promise.resolve();
 		expect($ws.sendObj).toHaveBeenCalledWith({
 			type: 'inviteSquad',
 			targetUserId: post.user.guid || post.user.userId,

@@ -124,6 +124,7 @@ describe('Activity store module', () => {
 			$ws = { sendObj: jest.fn() };
 			root = new Vuex.Store(store);
 			root.state.socket.isConnected = true;
+			root.state.socket.isAuth = true;
 			root.state.merchant.id = aDummyMerchantId;
 			root.state.socket.$ws = $ws;
 			root.state.commit = jest.fn();

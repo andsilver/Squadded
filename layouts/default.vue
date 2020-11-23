@@ -2,13 +2,20 @@
 	<v-app ref="app" :class="{ isTouch, 'show-tabs': showTabs }">
 		<NotificationsBanner ref="notifications" />
 		<v-overlay :absolute="absolute" :opacity="opacity" :value="overlay" :z-index="zIndex" @click.native="overlayClose" />
-		<v-main id="main" :class="{'reduce-main': showTabs}" class="d-flex">
+		<v-main
+			id="main"
+			:style="{
+				'margin-bottom': showTabs ? ( showActionBar ? '100px' : '60px' ) : 0,
+			}"
+			class="d-flex"
+		>
 			<nuxt ref="main-content" />
 			<v-dialog v-if="promptOptions" v-model="showPrompt">
 				<Prompt :text="promptOptions.text" @confirm="confirm" @decline="hide" />
 			</v-dialog>
 		</v-main>
-		<v-bottom-navigation v-if="showTabs" class="bottom-tab-section" height="65">
+		<v-bottom-navigation v-if="showTabs" class="bottom-tab-section flex-column">
+			<QuickActionBar v-if="showActionBar" :pending="socket.isPendingAuth" :open="squad.widget.open" />
 			<TabBar ref="tab-bar" class="tab-bar-section" />
 		</v-bottom-navigation>
 		<div v-if="socket.isPendingAuth" ref="preloader" class="pending d-flex justify-center align-center">
@@ -24,13 +31,12 @@ import Prompt from '~/components/common/Prompt';
 import TabBar from '~/components/common/TabBar';
 import SignInDialog from '~/components/SignIn/SignInDialog';
 import NotificationsBanner from '~/components/Notifications/Banner';
-import { SquadStore, SquadMutations } from '~/store/squad';
+import QuickActionBar from '~/components/common/QuickActionBar';
 import { UserStore } from '~/store/user';
 import { isTouch } from '~/utils/device-input';
-import { tokenExist } from '~/utils/isAuth';
 import { VirtualKeyboardDetector } from '~/utils/virtual-keyboard-detector';
 import { SquadAPI } from '~/services/SquadAPI';
-import { LOADING_TIMEOUT, ROOT_EVENTS } from '~/consts';
+import { ROOT_EVENTS } from '~/consts';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
 
@@ -41,6 +47,7 @@ export default {
 		TabBar,
 		NotificationsBanner,
 		SignInDialog,
+		QuickActionBar,
 	},
 	data: () => ({
 		title: 'Squad Widget',
@@ -79,6 +86,9 @@ export default {
 				'my-mysquad',
 			].includes(this.$route.name);
 		},
+		showActionBar() {
+			return this.$store.state.merchant.askbar && ['feed', 'community', 'all'].includes(this.$route.name);
+		},
 		isTouch,
 	},
 	created () {
@@ -90,32 +100,6 @@ export default {
 			this.showSignInDialog = data;
 		});
 
-		this.unsubscribe = this.$store.subscribe((mutation) => {
-			if (mutation.type === `${SquadStore}/${SquadMutations.setWidgetState}` && mutation.payload === true) {
-				this.$root.$emit('widget-open');
-			} else if (mutation.type === `${SquadStore}/${SquadMutations.interaction}` && !tokenExist()) {
-				this.$router.push('/signin');
-			} else if (mutation.type === `${SquadStore}/${SquadMutations.setSquadParams}` && mutation.payload) {
-				if (this.socket.isAuth) {
-					this.$router.push(this.squad.route);
-				}
-				if (!tokenExist()) {
-					const { name, params } = this.squad.route;
-
-					setTimeout(() => {
-						if (name === 'user-id') {
-							this.$router.push({ path: '/', query: { userId: params.id } });
-						} else {
-							this.$router.push(this.squad.route);
-						}
-					});
-				}
-			} else if (mutation.type === `${SquadStore}/${SquadMutations.openPost}` && mutation.payload) {
-				this.$router.push(`/post/${mutation.payload}#comments`);
-			} else if (mutation.type === 'SET_PENDING' && !mutation.payload) {
-				this.rendered();
-			}
-		});
 		if (this.isTouch) {
 			const vkdetector = new VirtualKeyboardDetector();
 			vkdetector.on('virtualKeyboardVisible', () => {
@@ -164,14 +148,6 @@ export default {
 			this.promptOptions = options;
 			this.showPrompt = true;
 		},
-		rendered () {
-			const { name } = this.$route;
-			if (name === 'feed' || name === 'all') {
-				setTimeout(SquadAPI.rendered, LOADING_TIMEOUT);
-			} else {
-				SquadAPI.rendered();
-			}
-		},
 		toggleKeyboard (state) {
 			this.squad.virtualKeyboard = state;
 		},
@@ -203,8 +179,6 @@ export default {
 <style lang="stylus" scoped>
 .v-main
 	overflow hidden auto
-.reduce-main
-	margin-bottom 65px
 .v-main >>> .v-main__wrap,
 .container
 	display flex
@@ -213,9 +187,10 @@ export default {
 .v-bottom-navigation
 	position fixed
 	bottom 0
-	z-index 201
+	z-index 99
 	transition-property bottom
 	transition-duration 0.1s
+	height unset !important
 	.v-application:not(.show-tabs) &
 		bottom -65px
 
@@ -229,10 +204,7 @@ export default {
 	z-index 999
 
 .bottom-tab-section
-	z-index 210
 	background-color rgba(255,255,255,0.96) !important
-	@media screen and (max-width 280px)
-			height 60px !important
 .tab-bar-section
 	background-color transparent
 .main-loader

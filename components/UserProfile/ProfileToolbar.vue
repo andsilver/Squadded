@@ -25,7 +25,7 @@
 			ref="add-user-btn"
 			class="profile-add-user"
 			:dark="false"
-			:disabled="!isAuth"
+			:disabled="!isAuth || user.guest"
 		/>
 		<v-btn
 			v-if="user.isMe"
@@ -134,6 +134,9 @@ export default {
 			this.$forceUpdate();
 		},
 		edit () {
+			if (this.$isGuest()) {
+				return this.$showSignInDialog();
+			}
 			this.$router.push('/profile-settings');
 		},
 		hideShare () {

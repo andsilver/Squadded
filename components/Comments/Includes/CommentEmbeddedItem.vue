@@ -178,6 +178,7 @@ export default {
                 font-weight: 400;
                 font-size: 3.23vw;
                 line-height: 3.69vw;
+				overflow-wrap: anywhere;
             }
 
             .comment_user_name {

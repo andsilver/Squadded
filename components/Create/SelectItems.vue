@@ -65,7 +65,9 @@
 import { createNamespacedHelpers } from 'vuex';
 import ProductCard from '~/components/Posts/Includes/ProductCard';
 import { prefetch } from '~/helpers';
-import { ActivityStore, ActivityGetters, ActivityMutations, ActivityActions } from '~/store/activity';
+import { ActivityStore, ActivityGetters, ActivityMutations } from '~/store/activity';
+import { fetchLastItems } from '~/services/post';
+import { PostStore, PostActions, PostGetters } from '~/store/post';
 
 const { mapState, mapGetters } = createNamespacedHelpers(ActivityStore);
 
@@ -111,6 +113,7 @@ export default {
 		...mapState([
 			'wishlist',
 			'selected',
+			'lastItems',
 		]),
 		...mapGetters([
 			ActivityGetters.selection,
@@ -130,7 +133,7 @@ export default {
 		if (this.$store.state.pairedItem && this.$store.state.pairedItem.item) {
 			this.selectPaired(this.$store.state.pairedItem.item.itemId);
 		}
-		this.$store.dispatch(`${ActivityStore}/${ActivityActions.fetchLastItems}`);
+		this.fetchLastItems();
 		return prefetch({
 			store: this.$store,
 			type: 'fetchWishlist',
@@ -140,6 +143,33 @@ export default {
 		this.$store.commit(`${ActivityStore}/${ActivityMutations.unselectAll}`);
 	},
 	methods: {
+		async fetchLastItems() {
+			if (this.lastItems.ts && (Date.now() - this.lastItems.ts < 5 * 60 * 1000)) {
+				return;
+			}
+			let lastitems = await fetchLastItems(this.$store.state.merchant.id);
+			lastitems = lastitems.map(({
+				merchantId,
+				userId,
+				creationTs,
+				ts,
+				_id: id,
+				...item
+			}) => ({
+				item,
+				merchantId,
+				userId,
+				creationTs,
+				ts,
+				id,
+				guid: item.itemId,
+			}));
+			await this.$store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, lastitems);
+			const uniqueIds = new Set(lastitems.map(p => p.guid));
+			const getter = this.$store.getters[`${PostStore}/${PostGetters.getPostByIdList}`];
+			const posts = getter(Array.from(uniqueIds)).sort((a, b) => b.ts - a.ts);
+			await this.$store.commit(`${ActivityStore}/${ActivityMutations.lastItems}`, posts);
+		},
 		selectPaired(itemId) {
 			const selectedPairedPost = this.allItems.find(i => i.item.itemId === itemId);
 			if (selectedPairedPost) {

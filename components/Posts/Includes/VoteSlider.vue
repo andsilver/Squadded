@@ -85,6 +85,7 @@
 
 <script>
 import { FeedPost } from '~/classes/FeedPost';
+import { checkActionPermission } from '~/utils/isAuth';
 
 export default {
 	props: {
@@ -153,13 +154,23 @@ export default {
 			const total = this.post.item1.votes + this.post.item2.votes;
 			return Math.round((100 * (first ? this.post.item1.votes : this.post.item2.votes)) / total);
 		},
-		voteOnFirst() {
+		async voteOnFirst() {
+			const allow = await checkActionPermission(this.$store, this.$root);
+
+			if (!allow) {
+				return;
+			}
 			if (this.meVoted || this.post.closed) {
 				return this.toDetailsPage();
 			}
 			this.$emit('vote', 1);
 		},
-		voteOnSecond() {
+		async voteOnSecond() {
+			const allow = await checkActionPermission(this.$store, this.$root);
+
+			if (!allow) {
+				return;
+			}
 			if (this.meVoted || this.post.closed) {
 				return this.toDetailsPage();
 			}

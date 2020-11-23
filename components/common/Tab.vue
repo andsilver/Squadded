@@ -1,8 +1,7 @@
 <template>
 	<v-tab
 		:key="tab.uri"
-		:to="isAuth ? tab.uri : null"
-		:link="isAuth"
+		:to="tab.uri"
 		exact
 		class="tab_item"
 	>
@@ -21,10 +20,6 @@ export default {
 	props: {
 		tab: {
 			type: Object,
-			required: true,
-		},
-		isAuth: {
-			type: Boolean,
 			required: true,
 		},
 	},

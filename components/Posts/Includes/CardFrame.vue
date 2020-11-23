@@ -43,6 +43,7 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Actions from './Actions';
 import { shortNumber } from '~/helpers';
+import { checkActionPermission } from '~/utils/isAuth';
 import { FeedPost } from '~/classes/FeedPost';
 import { UserStore } from '~/store/user';
 import { MERCHAND_ADMIN, GA_ACTIONS } from '~/consts';
@@ -135,9 +136,14 @@ export default {
 		short(number) {
 			return number ? shortNumber(number, this._i18n.locale) : 0;
 		},
-		navigateToPairedItemPage(e) {
+		async navigateToPairedItemPage(e) {
 			e.stopPropagation();
 			if (!this.item.itemId || !this.postId) {
+				return;
+			}
+			const allow = await checkActionPermission(this.$store, this.$root);
+
+			if (!allow) {
 				return;
 			}
 			this.$router.push(`/paired-item?postId=${this.postId}&itemId=${this.item.itemId}&varId=${this.item.varId}`);

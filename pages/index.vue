@@ -34,6 +34,9 @@
 					class="login-content pa-3"
 					:class="{'invite-login': !!inviter}"
 				>
+					<v-btn icon class="close-btn" @click="skip">
+						<v-icon>mdi-close</v-icon>
+					</v-btn>
 					<Inviter v-if="inviter" :user="inviter" />
 					<div ref="socialstep-one" class="social_step-one" :class="{ active: showstepOne, in_active: !showstepOne}">
 						<div class="signin-text">
@@ -87,11 +90,11 @@
 							</div>
 						</div>
 						<div class="signup-letter">
-							<nuxt-link :to="{ path: '/community' }" @click.native="skip">
+							<a @click="skip">
 								<div class="skip-btn text-center text-uppercase">
 									{{ $t('skip') }}
 								</div>
-							</nuxt-link>
+							</a>
 						</div>
 					</div>
 					<div ref="step-one" class="sign-step-one" :class="{ active: showstepTwo, in_active: !showstepTwo}">
@@ -134,6 +137,20 @@
 				</div>
 			</div>
 		</v-layout>
+		<v-dialog v-if="banned" v-model="banned" content-class="banned-user-dialog">
+			<v-card>
+				<v-card-title />
+				<v-card-text>
+					{{ $t('signin.banned_user') }}
+				</v-card-text>
+				<v-card-actions>
+					<v-spacer />
+					<v-btn text @click.native="$store.state.banned = false">
+						{{ $t('ok') }}
+					</v-btn>
+				</v-card-actions>
+			</v-card>
+		</v-dialog>
 	</v-container>
 </template>
 
@@ -181,6 +198,7 @@ export default {
 			'socket',
 			'merchant',
 			'squad',
+			'banned',
 		]),
 	},
 	watch: {
@@ -199,9 +217,13 @@ export default {
 				}
 			},
 		},
+		banned () {
+			this.goBack();
+			this.showstepTwo = false;
+			this.showstepOne = true;
+		},
 	},
 	mounted () {
-		this.$root.$emit('guestToolbarHide', {});
 		setTimeout(() => {
 			const loginEl = this.$refs.login;
 
@@ -261,18 +283,23 @@ export default {
 				this.showOtpError = false;
 				this.showDigitError = false;
 			}
-			const { userId, postId } = this.$route.query;
+			const { userId, postId, squaddedToken } = this.$route.query;
 			const params = {
 				merchantId: this.merchant.id,
 				origin: 'normal',
 				language: this.$root.$i18n.fallbackLocale,
 			};
+
 			if (userId) {
 				params.originUserId = userId;
 				params.origin = 'invitation';
 			} else if (postId) {
 				params.originPostId = postId;
 				params.origin = 'share';
+			}
+
+			if (squaddedToken) {
+				params.squaddedToken = squaddedToken;
 			}
 
 			loginWithPIN(+this.pin, this.email, params).then(({ error, token }) => {
@@ -313,6 +340,17 @@ export default {
 			});
 		},
 		skip() {
+			if (this.$route.query.squaddedToken) {
+				window.postMessage(JSON.stringify({
+					type: 'loggedIn',
+					userToken: this.$route.query.squaddedToken,
+				}), window.origin);
+				setTimeout(() => {
+					this.$router.push('/all');
+				});
+			} else {
+				this.$router.push('/community');
+			}
 			this.$gaActionPrivate(GA_ACTIONS.NOSIGN_LATER);
 		},
 	},
@@ -329,6 +367,12 @@ export default {
 		border-top-left-radius 16px
 		border-top-right-radius 16px
 		margin-top 12px
+		position relative
+
+		.close-btn
+			position absolute
+			top 4px
+			right 4px
 	.skip-btn
 		font-size 12px
 		color #717171

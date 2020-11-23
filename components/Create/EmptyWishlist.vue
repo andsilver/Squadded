@@ -18,9 +18,11 @@
 import { createNamespacedHelpers, mapState } from 'vuex';
 import Button from '~/components/common/Button';
 import { discoverItem } from '~/components/Whishlist/discoverItem';
+import { ActivityStore, ActivityGetters } from '~/store/activity';
 import { UserStore } from '~/store/user';
 
 const userState = createNamespacedHelpers(UserStore).mapState;
+const mapGetters = createNamespacedHelpers(ActivityStore).mapGetters;
 
 export default {
 	components: {
@@ -31,9 +33,12 @@ export default {
 		...mapState([
 			'merchant',
 		]),
+		...mapGetters([
+			ActivityGetters.selection,
+		]),
 		isWishlistHasItems () {
-			const { wishlist } = this.$store.state.activity;
-			return wishlist && wishlist.length;
+			const { wishlist, lastItems } = this.selection();
+			return !![...wishlist, ...lastItems].length;
 		},
 	},
 	methods: {
