@@ -16,12 +16,14 @@ async function acceptPost(message) {
 	if (isMonoMerchant(this.store.state) && items.some(item => item && item.merchantId !== id)) {
 		return;
 	}
+
 	if (!this.store.state.feed.items || !this.store.state.feed.items.length) {
 		// tmp patch while infinite scroll not ready
 		this.store.dispatch(`${FeedStore}/${FeedActions.fetch}`);
 	}
 	const post = await this.store.dispatch(`${PostStore}/${PostActions.receiveItem}`, message);
 	post && this.store.commit(`${FeedStore}/${FeedMutations.addItem}`, post);
+
 	if (message.mysquad) {
 		this.store.commit(`${FeedStore}/${FeedMutations.setNewPostsAvailable}`, true);
 	}
@@ -178,7 +180,7 @@ export class WSMessages {
 		interactions = interactions.filter(i => !home.interactions.find(ip => ip.post.guid === i.post.guid));
 
 		const interactionPosts = (interactions || []).map(p => p.post);
-		const newPosts = [...watchers, ...publicPosts, ...interactionPosts];
+		const newPosts = [...watchers, ...publicPosts, ...interactionPosts].filter(p => !(home.posts || []).find(op => p.guid === op.guid));
 
 		await this.store.dispatch(`${PostStore}/${PostActions.receiveBulk}`, newPosts);
 		const postsGetter = this.store.getters[`${PostStore}/${PostGetters.getPostsByIds}`];

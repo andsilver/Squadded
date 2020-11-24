@@ -111,7 +111,7 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 				type: 'fetchUser',
 			});
 
-			if (user.active === false) {
+			if (user.banned) {
 				signOut(store, app.router, '');
 				app.router.push('/', () => {
 					store.state.banned = true;

@@ -29,7 +29,7 @@ export class User {
 			miniAvatar,
 			userRole,
 			guest,
-			active,
+			banned,
 		} = props;
 
 		this.avatar = avatar;
@@ -55,7 +55,7 @@ export class User {
 		this.originPostId = originPostId;
 		this.miniAvatar = miniAvatar;
 		this.guest = !!guest;
-		this.active = !!active;
+		this.banned = !!banned;
 		userRole && (this.userRole = userRole);
 	}
 
