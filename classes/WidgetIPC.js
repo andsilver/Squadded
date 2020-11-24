@@ -126,6 +126,10 @@ export class WidgetIPC {
 		this.store.commit(`${SquadStore}/${SquadMutations.openPost}`, postId);
 	}
 
+	openWishlist() {
+		this.router.push('/user#wishlist');
+	}
+
 	injectLocalStorageValues(msg) {
 		const { data } = msg;
 
