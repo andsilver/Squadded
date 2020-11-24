@@ -126,8 +126,8 @@ export default {
 		background-color var(--bg-color) !important
 		color var(--inactive-color, black)
 		&.is-resquadded
-			background-color var(--bg-active-color, --bg-color) !important
-			color var(--active-color, --brand-color) !important
+			background-color var(--bg-active-color, var(--bg-color)) !important
+			color var(--active-color, var(--brand-color)) !important
 			opacity 1
 
 .remove-button.resquadd.is-resquadded
