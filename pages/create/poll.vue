@@ -56,7 +56,7 @@
 					</Button>
 					<div class="bottom-post-sec hide_section">
 						<ExpirationPicker v-show="selected.length > 0" ref="expiration" class="poll-expiration" />
-						<PublicToggle ref="public-toggle" :public="!user.me.private" />
+						<PublicToggle v-if="!$isGuest()" ref="public-toggle" />
 					</div>
 				</v-layout>
 				<div class="public-right-section">
@@ -125,7 +125,6 @@ export default {
 	methods: {
 		create () {
 			const { text } = this;
-			const { isPublic } = this.$refs['public-toggle'];
 			const expires = this.$refs.expiration.expiration + Date.now();
 			const items = this.selected.map(post => post.item);
 			const item1 = items[0];
@@ -133,7 +132,7 @@ export default {
 			const msg = {
 				item1,
 				item2,
-				private: !isPublic,
+				private: this.$isGuest() ? false : !this.$refs['public-toggle'].isPublic,
 				text,
 				expires,
 				type: 'pollPost',

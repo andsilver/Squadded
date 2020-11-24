@@ -53,6 +53,7 @@ describe('Create Question', () => {
 				$t: msg => msg,
 				$refs,
 				$gaAction,
+				$isGuest: jest.fn().mockReturnValue(false),
 			},
 		});
 	});

@@ -48,7 +48,7 @@
 					{{ $t('Edit') }}
 				</Button>
 				<div class="bottom-post-sec hide_section">
-					<PublicToggle ref="public-toggle" :public="!user.me.private" />
+					<PublicToggle v-if="!$isGuest()" ref="public-toggle" />
 				</div>
 				<div class="public-right-section">
 					<Button
@@ -117,10 +117,9 @@ export default {
 	methods: {
 		create () {
 			const { text } = this;
-			const { isPublic } = this.$refs['public-toggle'];
 			const msg = {
 				items: this.selected.map(post => post.item),
-				private: !isPublic,
+				private: this.$isGuest() ? false : !this.$refs['public-toggle'].isPublic,
 				text,
 				type: 'outfitPost',
 			};

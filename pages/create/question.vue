@@ -22,7 +22,7 @@
 					</QuestionCard>
 					<QuestionColorSelect ref="color-select" :selected="background" @select="(v) => pane = v" />
 					<div class="bottom-post-sec hide_section mt-8">
-						<PublicToggle ref="public-toggle" :public="!user.me.private" />
+						<PublicToggle v-if="!$isGuest()" ref="public-toggle" :public="true" />
 					</div>
 				</v-layout>
 				<div class="public-right-section">
@@ -78,9 +78,8 @@ export default {
 	},
 	methods: {
 		create() {
-			const { isPublic } = this.$refs['public-toggle'];
 			const msg = {
-				private: !isPublic,
+				private: this.$isGuest() ? false : !this.$refs['public-toggle'].isPublic,
 				text: this.text,
 				background: this.pane.background,
 				color: this.pane.color,

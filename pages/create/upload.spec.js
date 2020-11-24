@@ -56,6 +56,7 @@ describe('Create Upload', () => {
 				$t: msg => msg,
 				$refs,
 				$gaAction: jest.fn(),
+				$isGuest: jest.fn().mockReturnValue(false),
 			},
 		});
 	});

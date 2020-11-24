@@ -39,7 +39,7 @@ export default {
 	props: {
 		public: {
 			type: Boolean,
-			default: false,
+			default: true,
 		},
 	},
 	data: () => ({

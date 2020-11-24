@@ -60,7 +60,7 @@
 						{{ $t('Edit') }}
 					</Button>
 					<div class="controls bottom-post-sec">
-						<PublicToggle ref="public-toggle" :public="!user.me.private" />
+						<PublicToggle v-if="!$isGuest()" ref="public-toggle" />
 						<div class="bottom-fix button-section">
 							<Button
 								ref="done-button"
@@ -189,7 +189,7 @@ export default {
 			createPost({
 				store: this.$store,
 				text: this.text,
-				isPublic: this.$refs['public-toggle'].isPublic,
+				isPublic: this.$isGuest() ? true : this.$refs['public-toggle'].isPublic,
 				selected: this.selected,
 				image: this.dataImg,
 				coords,
