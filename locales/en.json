@@ -65,7 +65,6 @@
 	"agree_right": "terms and conditions.",
 	"an outfit": "an outfit",
 	"can_not_received": "Still not receiving it?",
-	"you": "you",
 	"comment": {
 		"pop": {
 			"Action": "Action",
@@ -104,13 +103,13 @@
 		"photo": "Photo",
 		"poll": "Poll",
 		"question": "Question",
+		"select_items": {
+			"items_from_wishlist": "Your wishlist:",
+			"last_items_from_merchant": "Trending items:"
+		},
 		"socialVideo": "Video",
 		"upload": "Gallery",
-		"video": "Video",
-		"select_items": {
-			"items_from_wishlist": "Items from your wishlist:",
-			"last_items_from_merchant": "Last Items from merchant:"
-		}
+		"video": "Video"
 	},
 	"createDesc": {
 		"outfit": "Pair 2-4 items to create an outfit",
@@ -462,6 +461,8 @@
 		"forPrivate": "Private posts are only visible to your squad",
 		"toggle": "toggle"
 	},
+	"quick_question": "Ask a question here...",
+	"quick_question_popover": "Type here to send your question",
 	"resendNotify": "New code has been sent",
 	"resend_code": "Resend code",
 	"select_username": {
@@ -472,12 +473,12 @@
 	"sign_up_later": "Sign up later",
 	"signemail": "Sign in with email",
 	"signin": {
+		"banned_user": "Your profile has been blocked. You cannot sign in, please contact privacy@squadded.co for more details.",
 		"facebook_signin": "Continue with Facebook",
 		"google_signin": "Continue with Google",
 		"signin_to_shop_with_your_friend": "Sign in to shop with {name}",
 		"signin_to_shop_with_your_friends": "Sign in to join the community",
-		"to_you": "to you",
-		"banned_user": "Your profile has been banned, you cannot sign in, please contact privacy@squadded.co if necessary"
+		"to_you": "to you"
 	},
 	"signin_dialog": {
 		"text": "Sign in to interact with the community and to shop with your friends"
@@ -577,6 +578,5 @@
 		"private": "This account is private\n Only @{user}'s squad\n can see their posts.",
 		"purchase": "Move to Bag"
 	},
-	"quick_question": "Ask a question here...",
-	"quick_question_popover": "Type here to send your question"
+	"you": "(you)"
 }
