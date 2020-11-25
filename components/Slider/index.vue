@@ -11,11 +11,11 @@
 			v-for="(item, index) of post.items"
 			ref="item"
 			:key="index"
-			class="item"
+			class="item d-flex"
 		>
 			<ProductCard
 				ref="product-card"
-				class="mx-auto pa-4 w-78 mb-4 single-item"
+				class="mx-auto pa-2 w-78 mb-4 single-item"
 				:item="item.item"
 				show-refreshicon
 				:loading="!item.guid && !item.error"

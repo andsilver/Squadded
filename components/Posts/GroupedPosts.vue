@@ -162,6 +162,13 @@ export default {
 		margin-right 15.5vw !important
 	.single-item:first-child
 		margin-left 15.5vw !important
+	>>> .card_frame
+		display flex
+		flex-direction column
+
+		.v-image
+			flex-grow: 1
+
 .isTouch .grouped-post
 	.prev-item,
 	.next-item
