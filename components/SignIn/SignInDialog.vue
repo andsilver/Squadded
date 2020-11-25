@@ -65,21 +65,21 @@ export default {
 	position: relative;
 
 	.signin-dialog-img {
-		height: 8vh;
+		height: 18vw;
 	}
 
 	.signin-dialog-text {
-		font-size: 14px;
+		font-size: 4vw;
 	}
 
 	.signin-button {
-		width: 120px;
+		width: 30vw;
 	}
 
 	.close-btn {
 		position: absolute;
-		top: -24px;
-		right: -24px;
+		top: -6vw;
+		right: -5.5vw;
 	}
 }
 </style>
