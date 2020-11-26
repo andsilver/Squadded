@@ -98,12 +98,12 @@ export const mutationListener = ctx => async function mutationDispatcher (mutati
 			});
 			return;
 		} else if (message.type === 'authOk') {
+			store.commit('SET_SOCKET_AUTH', true);
 			/** fetch wishlist */
 			store.dispatch(`${ActivityStore}/${ActivityActions.fetchItems}`, {
 				type: 'wishlist',
 				forMerchant: true,
 			});
-			store.commit('SET_SOCKET_AUTH', true);
 			state.socket.$ws.keepAlive();
 			const user = await prefetch({
 				mutation: `${UserStore}/${UserMutations.setMe}`,
