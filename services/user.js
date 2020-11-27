@@ -18,13 +18,21 @@ export const guestLogin = async (store) => {
 	try {
 		const response = await fetch(`${API_ENDPOINT}/auth/guest`, {
 			method: 'POST',
+			body: JSON.stringify({
+				origin: 'normal',
+				merchantId: store.state.merchant.id,
+				language: store.state.locale,
+			}),
 		});
 		const { token } = await response.json();
-		window.postMessage(JSON.stringify({
-			type: 'loggedIn',
-			userToken: token,
-			guest: true,
-		}), window.origin);
+		window.postMessage(
+			JSON.stringify({
+				type: 'loggedIn',
+				userToken: token,
+				guest: true,
+			}),
+			window.origin,
+		);
 		await onAuth(store);
 		return true;
 	} catch (error) {

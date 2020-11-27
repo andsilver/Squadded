@@ -14,15 +14,18 @@ export const requestOtp = (email) => {
 	});
 };
 
-export const loginWithPIN = (pin, email, params) => {
-	return fetch(`${AUTH_ENDPOINT}/email/signup`, {
-		method: 'POST',
-		body: JSON.stringify({
-			pin,
-			email,
-			...params,
-		}),
-	})
-		.then(res => res.json())
-		.catch(() => ({ error: true }));
+export const loginWithPIN = async (pin, email, params) => {
+	try {
+		const res = await fetch(`${AUTH_ENDPOINT}/email/signup`, {
+			method: 'POST',
+			body: JSON.stringify({
+				pin,
+				email,
+				...params,
+			}),
+		});
+		return await res.json();
+	} catch (e) {
+		return { error: true };
+	}
 };
