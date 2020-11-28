@@ -5,7 +5,7 @@
 			:selected-posts="selectedPosts"
 			@close="post => handleSelectEmbeddedItem(post)"
 		/>
-		<div class="row-input-box d-flex">
+		<div class="row-input-box d-flex py-1">
 			<UserLink v-if="userLink" size="26px" :user="me" hide-name class="message-user-image" />
 			<CommentInputBox
 				ref="comment-input-box"
@@ -184,6 +184,7 @@ export default {
 
 <style lang="stylus" scoped>
 .row-input-box
+	position relative
 	background #F4F4F5
 	border-radius 12px
 	margin-right 18px
@@ -198,11 +199,11 @@ export default {
 .card-panel-box
 	position absolute
 	height: calc(37vh - 57px);
-	width 90%
+	width 95.5vw
 .add-item
 	position absolute
 	cursor pointer
 	width 16px
-	top 12px
-	right 7px
+	top 8px
+	right -24px
 </style>

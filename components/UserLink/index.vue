@@ -162,8 +162,8 @@ export default {
 		background-color transparent
 	.v-list-item__avatar
 		margin-bottom 0px
-		margin-top 5px
-		margin-left 1.53vw
+		margin-top 0px
+		margin-left 4px
 		margin-right 0px !important
 .comment
 	.comment_user_name

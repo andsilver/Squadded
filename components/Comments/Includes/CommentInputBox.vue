@@ -1,5 +1,5 @@
 <template>
-	<div ref="comment-input" class="comment-input d-flex ml-2 pt-1">
+	<div ref="comment-input" class="comment-input d-flex align-center ml-2">
 		<div class="flex-grow-1 position-relative">
 			<div ref="overlay" class="overlay">
 				<div ref="overlay-content" class="overlay-content" contenteditable />
@@ -9,6 +9,7 @@
 				:value="inputValue"
 				class="editor"
 				:maxlength="300"
+				:rows="1"
 				@keydown="onKeyDown"
 				@click="onClick"
 				@blur="onBlur"
@@ -17,7 +18,7 @@
 		</div>
 		<v-icon
 			v-if="showSend"
-			class="message-icon mx-2"
+			class="message-icon align-self-start mx-1"
 			@click="send"
 		>
 			mdi-send
@@ -263,6 +264,7 @@ export default {
 
 			this.messageText = syntaxMessage;
 			this.elmMentionsOverlay.innerHTML = mentionText;
+			setTimeout(() => autosize.update(this.elmInputBox));
 		},
 		updateMentionsCollection() {
 			const inputText = this.getInputBoxValue();
@@ -330,7 +332,6 @@ export default {
 				return;
 			}
 			this.$emit('send', text);
-			this.elmInputBox.style.height = '30px';
 			this.resetInput('');
 		},
 		showSquaddersList() {
@@ -351,7 +352,6 @@ export default {
 		position: absolute;
 		width: 100%;
 		top: 0;
-		bottom: 3px;
 		color: rgba(0,0,0,.87);
 		max-width: 100%;
 	}
@@ -374,9 +374,6 @@ export default {
 		outline: none;
 	}
 }
-.editor {
-	height: 30px;
-}
 .editor, .overlay {
 	font-size: 12px;
 	line-height: 20px;
@@ -384,7 +381,7 @@ export default {
 }
 .squadders {
 	box-shadow: -1px -7px 20px 0px rgba(0, 0, 0, 0.22);
-	left: calc(-4.61vw - 1.53vw - 7.69vw);
+	left: -17px;
 	border-top: 1px solid #ddd;
 	bottom: calc(100% + 4px);
 	position: absolute;
@@ -410,31 +407,24 @@ export default {
 	font-weight: 600;
 	color: black;
 }
-.overflowed {
-	direction: rtl;
-}
 .active {
 	background: #ececec;
-}
-.add-item {
-	width: 7.3vw;
-    height: 7.3vw;
 }
 </style>
 <style lang="stylus" scoped>
 body .v-application .message-icon
-	width 7.3vw
-	height 7.3vw
+	width 24px
+	height 24px
 	background-color #000
 	border-radius 50%
 	&::before
 		content ''
 		background-image url('~assets/img/submit-plane.svg')
-		width: 7.3vw
-		height: 7.3vw
+		width: 24px
+		height: 24px
 		background-repeat no-repeat
 		background-position 4px
-		background-size 4.35vw
+		background-size 14px
 .dummy_image
 	background-image url('~assets/img/dummy_avater.svg')
 	background-position center

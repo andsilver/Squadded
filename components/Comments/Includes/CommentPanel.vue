@@ -1,5 +1,5 @@
 <template>
-	<div ref="comment-panel-box" class="comment-panel-box">
+	<div ref="comment-panel-box" class="comment-panel-box d-flex flex-wrap">
 		<Preloader v-if="!wishlist" ref="preloader" class="mt-8" />
 		<CommentItemPanel
 			v-for="(post, n) in wishlist"
@@ -33,9 +33,6 @@ export default {
 
 <style lang="scss" scoped>
 .comment-panel-box {
-	display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
 	overflow: auto;
 	background: white;
 }

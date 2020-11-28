@@ -53,6 +53,9 @@ export default {
 };
 </script>
 <style>
+.comment-show {
+	word-break: break-word;
+}
 .mentioned-link {
 	color: #fd6256 !important;
 	background-color: #fefeff;

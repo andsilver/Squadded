@@ -1,8 +1,14 @@
 <template>
 	<div class="quick-action-bar">
-		<div class="quick-action-bar-content d-flex align-items-center">
-			<UserLink :user="user" size="7.69vw" hide-name />
-			<textarea ref="question" v-model="question" class="flex-grow-1 mr-7" :placeholder="$t('quick_question')" />
+		<div class="quick-action-bar-content d-flex align-center">
+			<UserLink :user="user" size="26px" hide-name />
+			<textarea
+				ref="question"
+				v-model="question"
+				class="flex-grow-1 mr-7"
+				:placeholder="$t('quick_question')"
+				:rows="1"
+			/>
 			<v-icon
 				v-if="question"
 				class="message-icon"
@@ -81,7 +87,7 @@ export default {
 			this.createPost(msg, '/all');
 			this.$gaAction(GA_ACTIONS.CREATE_POST_QUESTION);
 			this.question = '';
-			this.$refs.question.style.height = '36px';
+			setTimeout(() => autosize.update(this.$refs.question));
 		},
 		setHidePopover () {
 			if (sessionStorage.getItem(HIDE_QUICK_QUESTION_POPOVER)) {
@@ -110,23 +116,24 @@ export default {
 	&-content
 		border 1px solid #dbdbdb
 		border-radius 10px
-		padding-left 6px
+		padding-left 4px
 
 		textarea
-			padding-top 8px
 			font-size 12px
-			height 36px
+			line-height 20px
+			font-weight 500
 
 			&:focus
 				outline none
 
 	>>> .v-list-item__avatar
-		margin-top 6px
-		margin-bottom 5px
+		margin-top 4px
+		margin-bottom 4px
+		margin-right 8px !important
 
 	.message-icon
-		width 7.3vw
-		height 7.3vw
+		width 24px
+		height 24px
 		position absolute
 		top 15px
 		right 18px
@@ -135,11 +142,11 @@ export default {
 		&::before
 			content ''
 			background-image url('~assets/img/submit-plane.svg')
-			width: 7.3vw
-			height: 7.3vw
+			width: 24px
+			height: 24px
 			background-repeat no-repeat
-			background-position 3px
-			background-size 4.35vw
+			background-position 4px
+			background-size 14px
 
 .pop-over
 	position absolute
