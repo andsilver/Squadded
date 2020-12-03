@@ -8,26 +8,25 @@
 			hide-name
 			follow
 		/>
-		<p class="comment_text_row">
-			<UserLink
-				ref="comment-author-name-user-link"
-				class="comment_user_name"
-				:user="comment.author"
-				hide-avatar
-			/>
-			<CommentShow
-				ref="comment-text"
-				class="comment_text"
-				:comment="comment.text"
-				:post="post"
-			/>
-			<span
-				v-if="!forFeed"
-				class="message-time"
-			>
+		<div class="comment_text_row align-self-center flex-grow-1">
+			<div>
+				<UserLink
+					ref="comment-author-name-user-link"
+					class="comment_user_name d-inline-block"
+					:user="comment.author"
+					hide-avatar
+				/>
+				<CommentShow
+					ref="comment-text"
+					class="comment_text"
+					:comment="comment.text"
+					:post="post"
+				/>
+			</div>
+			<span v-if="!forFeed" class="message-time">
 				{{ timeString }}
 			</span>
-		</p>
+		</div>
 		<!--Since at this moment we don't have any functionality in PopMenu for User->ME, we are not displaying it for such User at all-->
 		<PopMenu v-if="!forFeed" :comment="comment" :post="post" />
 	</section>
@@ -59,7 +58,7 @@ export default {
 		},
 	},
 	computed: {
-		timeString () {
+		timeString() {
 			const timestring = {
 				future: 'in %s',
 				past: '%s ago',
@@ -76,47 +75,64 @@ export default {
 				y: '1y',
 				yy: '%dy',
 			};
-			window.moment.locale(this._i18n.locale, { relativeTime: timestring });
-			return this.comment.ts && window.moment(this.comment.ts).fromNow(true);
+			window.moment.locale(this._i18n.locale, {
+				relativeTime: timestring,
+			});
+			return (
+				this.comment.ts && window.moment(this.comment.ts).fromNow(true)
+			);
 		},
 	},
 };
 </script>
 
 <style lang="stylus">
-	.comment
-		display flex
-		margin-bottom 6.153vw
-		position relative
-		padding 0 1.53vw
-	.comment_user_name
-		font-weight 500
-	.comment_user_name span
-		color black
-	.comment_text_row
-		width calc(100% - 36px)
-		font-size 3.23vw
-		line-height 4VW
-		margin-bottom 0 !important
-		margin-right -5px
-		align-self center
-	.comment_text
-		color #000000
-		font-weight 400
-		font-size 3.23vw
-		line-height 3.69vw
-	.comment_like_button
-		width 36px
-		position relative
-	.comment_buttons_icon
-		position absolute
-		left 7px
-		top 50%
-		margin-top -25%
-	span.message-time
-		display block
-		margin-top 1vw
-		font-size 3.23vw
-		font-weight 600
-		color #B8B8BA
+.comment {
+	display: flex;
+	margin-bottom: 6.153vw;
+	position: relative;
+	padding: 0 1.53vw;
+}
+
+.comment_user_name {
+	font-weight: 500;
+}
+
+.comment_user_name span {
+	color: black;
+}
+
+.comment_text_row {
+	font-size: 3.23vw;
+	line-height: 4VW;
+	margin-bottom: 0 !important;
+	margin-right: -5px;
+}
+
+.comment_text {
+	color: #000000;
+	font-weight: 400;
+	font-size: 3.23vw;
+	line-height: 3.69vw;
+}
+
+.comment_like_button {
+	width: 36px;
+	position: relative;
+}
+
+.comment_buttons_icon {
+	position: absolute;
+	left: 7px;
+	top: 50%;
+	margin-top: -25%;
+}
+
+span.message-time {
+	display: block;
+	margin-top: 1vw;
+	font-size: 3.23vw;
+	font-weight: 600;
+	color: #B8B8BA;
+}
 </style>

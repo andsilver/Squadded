@@ -21,9 +21,9 @@ export default {
 
 <style lang="scss" scoped>
 .item-panel-image {
-    border-radius: 5px;
-	flex: 0 0 31%;
-	margin: 1%;
+    border-radius: 8px;
+	flex: 0 0 31.5%;
+	margin: 0.5%;
 	height: 140px;
 
 	.selected-image-box {

@@ -9,7 +9,7 @@
 				class="notification-image"
 				:class="{
 					setprivate: notification.alertType == 'setprivate',
-					setpublic: notification.alertType=='setpublic'
+					setpublic: notification.alertType == 'setpublic'
 				}"
 			/>
 		</div>

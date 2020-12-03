@@ -1,5 +1,8 @@
 <template>
-	<section class="embedded-comment-box" :class="forFeed ? 'for-feed-comment' : 'for-reaction-comment'">
+	<section
+		class="embedded-comment-box"
+		:class="forFeed ? 'for-feed-comment' : 'for-reaction-comment'"
+	>
 		<div class="header-comment-box">
 			<div class="subheader-comment-box">
 				<UserLink
@@ -14,7 +17,7 @@
 				<span>
 					<UserLink
 						ref="comment-author-name-user-link"
-						class="comment_user_name"
+						class="comment_user_name d-inline-block"
 						:user="comment.author"
 						hide-avatar
 					/>
@@ -39,7 +42,12 @@
 					cover
 					@click="goToReaction(item)"
 				>
-					<div v-if="shouldLimitPreview && i === 2" class="comment-embedded-preview" justify="center" align="center">
+					<div
+						v-if="shouldLimitPreview && i === 2"
+						class="comment-embedded-preview"
+						justify="center"
+						align="center"
+					>
 						<div class="comment-embedded-preview-length">
 							+{{ embeddedItemsLength - 2 }}
 						</div>
@@ -48,10 +56,7 @@
 					<!-- <ReSquaddButton v-if="!forFeed" :item="item" class="comment-embedded-preview-reSquaddButton" /> -->
 				</v-img>
 			</div>
-			<span
-				v-if="!forFeed"
-				class="message-time"
-			>
+			<span v-if="!forFeed" class="message-time">
 				{{ timeString }}
 			</span>
 		</div>
@@ -59,7 +64,6 @@
 </template>
 
 <script>
-
 import PopMenu from './PopMenu';
 import CommentShow from './CommentShow';
 import UserLink from '~/components/UserLink';
@@ -91,7 +95,7 @@ export default {
 		},
 	},
 	computed: {
-		timeString () {
+		timeString() {
 			const timestring = {
 				future: 'in %s',
 				past: '%s ago',
@@ -108,8 +112,12 @@ export default {
 				y: '1y',
 				yy: '%dy',
 			};
-			window.moment.locale(this._i18n.locale, { relativeTime: timestring });
-			return this.comment.ts && window.moment(this.comment.ts).fromNow(true);
+			window.moment.locale(this._i18n.locale, {
+				relativeTime: timestring,
+			});
+			return (
+				this.comment.ts && window.moment(this.comment.ts).fromNow(true)
+			);
 		},
 		embeddedItemsLength() {
 			return this.comment.items.length;
@@ -118,7 +126,9 @@ export default {
 			return this.forFeed && this.embeddedItemsLength > 3;
 		},
 		embeddedItems() {
-			return this.shouldLimitPreview ? this.comment.items.slice(0, 3) : this.comment.items;
+			return this.shouldLimitPreview
+				? this.comment.items.slice(0, 3)
+				: this.comment.items;
 		},
 		embeddedImageClasse() {
 			return {
@@ -148,7 +158,7 @@ export default {
 
 <style lang="scss" scoped>
 .for-reaction-comment {
-    margin-bottom: 6.153vw;
+	margin-bottom: 6.153vw;
 }
 
 .for-feed-comment {
@@ -156,97 +166,94 @@ export default {
 }
 
 .embedded-comment-box {
-    padding: 0 1.53vw;
+	padding: 0 1.53vw;
 
-    .header-comment-box {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        font-size: 3.23vw;
-        line-height: 4VW;
+	.header-comment-box {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		font-size: 3.23vw;
+		line-height: 4vw;
 
-        .subheader-comment-box {
-            display: flex;
-            align-items: center;
+		.subheader-comment-box {
+			display: flex;
+			align-items: center;
 
-            .avatar-user-link {
-                align-self: flex-start
-            }
+			.avatar-user-link {
+				align-self: flex-start;
+			}
 
-            .comment_text {
-                color: #000000;
-                font-weight: 400;
-                font-size: 3.23vw;
-                line-height: 3.69vw;
+			.comment_text {
+				color: #000000;
+				font-weight: 400;
+				font-size: 3.23vw;
+				line-height: 3.69vw;
 				overflow-wrap: anywhere;
-            }
+			}
 
-            .comment_user_name {
-                font-weight: 500;
-                color: black;
-                margin-right: 3px;
-            }
-        }
-
-    }
-
-.comment-embedded-box {
-  display: flex;
-  overflow-x: auto;
-  margin-top: 1vw;
-  padding-bottom: 10px;
-
-	&::-webkit-scrollbar {
-		height: 3px;
+			.comment_user_name {
+				font-weight: 500;
+				color: black;
+				margin-right: 3px;
+			}
+		}
 	}
 
-	&::-webkit-scrollbar-track {
-		background-color: rgba(0, 0, 0, 0.1);
+	.comment-embedded-box {
+		display: flex;
+		overflow-x: auto;
+		margin-top: 2vw;
+		padding-bottom: 10px;
+
+		&::-webkit-scrollbar {
+			height: 3px;
+		}
+
+		&::-webkit-scrollbar-track {
+			background-color: rgba(0, 0, 0, 0.1);
+		}
+
+		&::-webkit-scrollbar-thumb {
+			background-color: #717171;
+			border-radius: 8px;
+		}
+
+		.comment-embedded-img {
+			border-radius: 8px;
+			flex: 0 0 35% !important;
+			margin-right: 1%;
+			cursor: pointer;
+		}
+
+		.comment-embedded-img-feed {
+			flex: 0 0 44px !important;
+			height: 56px;
+		}
+		.comment-embedded-img-reaction {
+			flex: 0 0 108px !important;
+			height: 140px;
+		}
+		.comment-embedded-preview {
+			display: flex;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5);
+			justify-content: center;
+			align-items: center;
+		}
+		.comment-embedded-preview-length {
+			color: #fff;
+			font-size: 6vw;
+			font-weight: 600;
+		}
+		.comment-embedded-preview-reSquaddButton {
+			top: 1vw !important;
+			right: 1vw !important;
+			width: 24px !important;
+			height: 24px !important;
+			font-size: 13px;
+			line-height: unset;
+		}
 	}
-
-	&::-webkit-scrollbar-thumb {
-		background-color: #717171;
-		border-radius: 5px;
-	}
-
-    .comment-embedded-img {
-        border-radius: 5px;
-        flex: 0 0 35% !important;
-        margin-right: 2%;
-		cursor: pointer;
 }
-
-.comment-embedded-img-feed {
-  flex: 0 0 44px !important;
-  height: 56px;
-}
-.comment-embedded-img-reaction {
-  flex: 0 0 108px !important;
-  height: 140px;
-}
-.comment-embedded-preview {
-  display: flex;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  justify-content: center;
-  align-items: center;
-}
-.comment-embedded-preview-length {
-  color: #fff;
-  font-size: 6vw;
-  font-weight: 600;
-}
-.comment-embedded-preview-reSquaddButton {
-  top: 1vw !important;
-  right: 1vw !important;
-  width: 24px !important;
-   height: 24px !important;
-   font-size: 13px;
-   line-height: unset;
-}
-}
-
-}
-
 </style>

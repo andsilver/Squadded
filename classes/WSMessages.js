@@ -5,9 +5,10 @@ import { PostStore, PostActions, PostGetters, PostMutations } from '~/store/post
 import { UserStore, UserMutations } from '~/store/user';
 import { PairedItemStore, PairedItemActions } from '~/store/paired-item';
 import { ExploreStore, ExploreMutations } from '~/store/explore';
-import { HomeStore, HomeMutations } from '~/store/home';
+import { HomeStore, HomeMutations, HomeActions } from '~/store/home';
 import { prefetch } from '~/helpers';
 import { isMonoMerchant } from '~/utils/is-mono-merchant';
+import { NOTIFICATIONS } from '~/consts/notifications';
 
 async function acceptPost(message) {
 	const { id } = this.store.state.merchant;
@@ -361,5 +362,14 @@ export class WSMessages {
 
 	shortURL(message) {
 		this.store.commit(`${PostStore}/${PostMutations.shortURL}`, message);
+	}
+
+	refreshCommunity() {
+		this.store.dispatch(`${HomeStore}/${HomeActions.fetch}`, true);
+		this.store.commit(`${NotificationStore}/${NotificationMutations.add}`, {
+			type: NOTIFICATIONS.NEW_INTERACTION,
+			text: 'New Interaction',
+			ts: Date.now(),
+		});
 	}
 };

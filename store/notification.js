@@ -17,6 +17,13 @@ export const NotificationGetters = {
 	oldNotifications: 'oldNotifications',
 };
 
+const ONLY_BANNER_LIST = [
+	NOTIFICATIONS.ALERT,
+	NOTIFICATIONS.SQUAD_CONNECTED,
+	NOTIFICATIONS.INVITE_SQUAD,
+	NOTIFICATIONS.NEW_INTERACTION,
+];
+
 export const getters = {
 	[NotificationGetters.notify]: state => state.notifications.filter(n => !n.viewed),
 	[NotificationGetters.newRequests]: state => state.notifications.filter(
@@ -26,10 +33,10 @@ export const getters = {
 		n => (n.type === NOTIFICATIONS.INVITE_SQUAD && (!n.denied && !n.accepted)),
 	),
 	[NotificationGetters.newNotifications]: state => state.notifications.filter(
-		n => !n.viewed && ![NOTIFICATIONS.ALERT, NOTIFICATIONS.SQUAD_CONNECTED, NOTIFICATIONS.INVITE_SQUAD].includes(n.type),
+		n => !n.viewed && !ONLY_BANNER_LIST.includes(n.type),
 	),
 	[NotificationGetters.oldNotifications]: state => state.notifications.filter(
-		n => n.viewed && ![NOTIFICATIONS.ALERT, NOTIFICATIONS.SQUAD_CONNECTED, NOTIFICATIONS.INVITE_SQUAD].includes(n.type),
+		n => n.viewed && !ONLY_BANNER_LIST.includes(n.type),
 	),
 };
 

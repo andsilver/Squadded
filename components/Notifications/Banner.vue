@@ -1,13 +1,23 @@
 <template>
 	<div class="notifications-container">
 		<template v-for="(item, n) of notify">
-			<v-slide-y-transition v-if="!item.viewed && item.showBanner && getComponent(item)" :key="n">
+			<v-slide-y-transition v-if="!item.viewed && item.showBanner" :key="n">
 				<v-card
 					class="d-flex w-100 justify-space-between align-center notification-message"
 					:elevation="5"
 					transition="scroll-y-transition"
 				>
-					<component :is="getComponent(item)" class="mr-0" :notification="item" :banner="true" @closeNotif="() => viewItem(item)" />
+					<component
+						:is="getComponent(item)"
+						v-if="getComponent(item)"
+						class="mr-0"
+						:notification="item"
+						:banner="true"
+						@closeNotif="() => viewItem(item)"
+					/>
+					<div v-else>
+						{{ item.text }}
+					</div>
 					<v-icon color="#B8B8BA" x-small @click="viewItem(item)">
 						sqdi-close-cross
 					</v-icon>

@@ -1,4 +1,5 @@
 import { Chance } from 'chance';
+import { NOTIFICATIONS } from '../consts/notifications';
 import { flushPromises } from '~/helpers';
 import { WSMessages } from '~/classes/WSMessages';
 import { ActivityStore, ActivityMutations } from '~/store/activity';
@@ -11,7 +12,7 @@ import { userMockBuilder } from '~/test/user.mock';
 import TestPoll from '~/test/testpool.json';
 import TestAcceptSquad from '~/test/test-accept-squad.json';
 import { notifyVote } from '~/test/notifications.mock';
-import { HomeStore, HomeMutations } from '~/store/home';
+import { HomeStore, HomeMutations, HomeActions } from '~/store/home';
 
 const chance = new Chance();
 
@@ -479,5 +480,21 @@ describe('WSMessages dispatch', () => {
 		};
 		wsMessages.dispatch(msg);
 		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, msg);
+	});
+
+	it('should dispatch home fetch action', () => {
+		const msg = {
+			type: 'refreshCommunity',
+		};
+		global.Date = {
+			now: jest.fn().mockReturnValue(123456789),
+		};
+		wsMessages.dispatch(msg);
+		expect(store.dispatch).toHaveBeenCalledWith(`${HomeStore}/${HomeActions.fetch}`, true);
+		expect(store.commit).toHaveBeenCalledWith(`${NotificationStore}/${NotificationMutations.add}`, {
+			type: NOTIFICATIONS.NEW_INTERACTION,
+			text: 'New Interaction',
+			ts: 123456789,
+		});
 	});
 });
